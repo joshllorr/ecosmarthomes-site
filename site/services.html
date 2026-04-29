@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSmartHome | Services</title>
+    <meta name="description" content="Independent retrofit guidance, BER analysis, SEAI grant navigation, retrofit planning and ventilation strategy for Irish homes.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #0b0f12;
+            color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 4rem;
+        }
+
+        h1, h2, h3 {
+            margin: 0;
+        }
+
+        /* HEADER */
+        .services-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .services-header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .services-header p {
+            max-width: 640px;
+            color: #c3c7cc;
+            line-height: 1.6;
+        }
+
+        /* GRID */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.75rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: #141a1f;
+            border-radius: 12px;
+            border: 1px solid #222a31;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .service-card:hover {
+            border-color: #7fd38a;
+            box-shadow: 0 8px 24px rgba(127, 211, 138, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .service-content {
+            padding: 1.5rem 1.6rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-number {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #7f8b96;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 1.25rem;
+            margin: 0 0 0.4rem;
+        }
+
+        .service-card p {
+            color: #c3c7cc;
+            line-height: 1.6;
+            margin-bottom: 0.9rem;
+            flex-grow: 1;
+        }
+
+        .learn-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.95rem;
+            color: #7fd38a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: gap 0.2s ease;
+        }
+
+        .learn-more:hover {
+            gap: 0.6rem;
+        }
+
+        /* DETAILS SECTION */
+        .details-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #222a31;
+        }
+
+        .details-block {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #222a31;
+        }
+
+        .details-block h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .details-block p {
+            color: #c3c7cc;
+            line-height: 1.7;
+        }
+
+        .details-block ul {
+            margin: 0.8rem 0 1.2rem;
+            padding-left: 1.2rem;
+        }
+
+        .details-block li {
+            margin-bottom: 0.35rem;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="services-header">
+        <h1>Independent Retrofit Services for Irish Homes</h1>
+        <p>
+            EcoSmartHome provides independent, homeowner‑first guidance. No sales agenda, no contractor bias — just clear,
+            strategic advice on how to improve your home, maximise SEAI grants, and plan upgrades in the right order.
+        </p>
+    </header>
+
+    <!-- SERVICE GRID -->
+    <section class="services-grid">
+
+        <article class="service-card">
+            <img src="images/What is a Building Energy Rating.png" alt="BER Energy Performance Chart" class="service-image">
+            <div class="service-content">
+                <span class="service-number">01</span>
+                <h3>BER Assessment Analysis</h3>
+                <p>Understand your home's current energy performance with a clear, independent breakdown of your BER rating and what it really means for you.</p>
+                <a href="#ber-details" class="learn-more">Learn more →</a>
+            </div>
+        </article>
+
+        <article class="service-card">
+            <img src="images/seai-grant-navigation.png" alt="SEAI Grant Navigation" class="service-image">
+            <div class="service-content">
+                <span class="service-number">02</span>
+                <h3>SEAI Grant Navigation</h3>
+                <p>See exactly which SEAI grants you qualify for, how much support is available, and how to time your applications for maximum benefit.</p>
+                <a href="#seai-details" class="learn-more">Learn more →</a>
+            </div>
+        </article>
+
+        <article class="service-card">
+            <img src="images/Renovation Feasibility Study.jpg" alt="Retrofit Planning" class="service-image">
+            <div class="service-content">
+                <span class="service-number">03</span>
+                <h3>Retrofit Planning</h3>
+                <p>Get a clear, staged roadmap for upgrading your home — focused on comfort, savings, and long‑term value.</p>
+                <a href="#retrofit-details" class="learn-more">Learn more →</a>
+            </div>
+        </article>
+
+        <article class="service-card">
+            <img src="images/ventilation-strategy.png" alt="Ventilation Strategy" class="service-image">
+            <div class="service-content">
+                <span class="service-number">04</span>
+                <h3>Ventilation Strategy</h3>
+                <p>Protect your home's air quality and fabric with a ventilation approach that works alongside insulation and airtightness.</p>
+                <a href="#ventilation-details" class="learn-more">Learn more →</a>
+            </div>
+        </article>
+
+    </section>
+
+    <!-- DETAILS SECTION -->
+    <section class="details-section">
+
+        <div id="ber-details" class="details-block">
+            <h3>BER Assessment Analysis</h3>
+            <p>Your BER is more than a letter — it’s the clearest snapshot of how your home is performing today. We translate your BER into plain English so you understand what’s working, what’s wasting energy, and where your money will make the biggest impact.</p>
+            <ul>
+                <li>Where heat is being lost in your home</li>
+                <li>Clear upgrade priorities based on comfort and cost</li>
+                <li>Independent advice with no sales agenda</li>
+                <li>Expected improvements from each upgrade</li>
+                <li>A realistic path to raising your BER rating</li>
+            </ul>
+        </div>
+
+        <div id="seai-details" class="details-block">
+            <h3>SEAI Grant Navigation</h3>
+            <p>The SEAI grant system can feel like a maze. We simplify it by showing you exactly what funding you qualify for and how to structure your upgrades to maximise support.</p>
+            <ul>
+                <li>All grants available for your home type</li>
+                <li>How much funding you can realistically expect</li>
+                <li>How to combine grants without breaking SEAI rules</li>
+                <li>Best timing for applications</li>
+                <li>A clear, step‑by‑step plan tailored to your home</li>
+            </ul>
+        </div>
+
+        <div id="retrofit-details" class="details-block">
+            <h3>Retrofit Planning</h3>
+            <p>A successful retrofit isn’t about doing everything at once — it’s about doing the right upgrades in the right order. We build a personalised roadmap that protects your budget and maximises long‑term comfort.</p>
+            <ul>
+                <li>A clear sequence of recommended upgrades</li>
+                <li>Estimated costs and realistic savings</li>
+                <li>Grant opportunities at each stage</li>
+                <li>Impact of each upgrade on comfort and BER</li>
+                <li>A timeline that fits your budget and lifestyle</li>
+            </ul>
+        </div>
+
+        <div id="ventilation-details" class="details-block">
+            <h3>Ventilation Strategy</h3>
+            <p>Good insulation needs good ventilation. Without it, moisture builds up, air quality drops, and your energy savings disappear. We design a ventilation approach that keeps your home healthy, dry, and efficient.</p>
+            <ul>
+                <li>How air currently moves through your home</li>
+                <li>Moisture risks and condensation hotspots</li>
+                <li>Options for natural, demand‑controlled, or MVHR systems</li>
+                <li>How ventilation supports airtightness</li>
+                <li>Solutions that improve comfort without wasting heat</li>
+            </ul>
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>

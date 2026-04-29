@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240" height="220" viewBox="0 0 240 220" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="220" fill="#f5f5f5" rx="10"/>
+  
+  <!-- House body -->
+  <rect x="30" y="90" width="180" height="90" fill="#c9a961" stroke="#333" stroke-width="2"/>
+  
+  <!-- Roof (pitched) -->
+  <polygon points="30,90 120,20 210,90" fill="#a0522d" stroke="#333" stroke-width="2"/>
+  
+  <!-- Front door -->
+  <rect x="100" y="140" width="40" height="40" fill="#8b4513" stroke="#333" stroke-width="2"/>
+  <circle cx="137" cy="160" r="2.5" fill="#ffd700"/>
+  
+  <!-- Left window -->
+  <rect x="50" y="110" width="25" height="25" fill="#87ceeb" stroke="#333" stroke-width="1.5"/>
+  <line x1="62.5" y1="110" x2="62.5" y2="135" stroke="#333" stroke-width="1"/>
+  <line x1="50" y1="122.5" x2="75" y2="122.5" stroke="#333" stroke-width="1"/>
+  
+  <!-- Right window -->
+  <rect x="165" y="110" width="25" height="25" fill="#87ceeb" stroke="#333" stroke-width="1.5"/>
+  <line x1="177.5" y1="110" x2="177.5" y2="135" stroke="#333" stroke-width="1"/>
+  <line x1="165" y1="122.5" x2="190" y2="122.5" stroke="#333" stroke-width="1"/>
+  
+  <!-- Left side windows -->
+  <rect x="50" y="155" width="20" height="20" fill="#87ceeb" stroke="#333" stroke-width="1.5"/>
+  <rect x="165" y="155" width="20" height="20" fill="#87ceeb" stroke="#333" stroke-width="1.5"/>
+  
+  <!-- Insulation indicator (green glow) -->
+  <rect x="30" y="90" width="180" height="90" fill="none" stroke="#2ecc71" stroke-width="1" stroke-dasharray="5,5" opacity="0.5"/>
+  
+  <text x="120" y="205" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Irish Retrofit Home</text>
+</svg>

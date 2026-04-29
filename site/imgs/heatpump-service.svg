@@ -1,0 +1,25 @@
+<svg width="400" height="220" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220">
+  <defs>
+    <linearGradient id="serviceGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8f5e9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c8e6c9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="220" fill="url(#serviceGrad3)"/>
+  
+  <!-- House -->
+  <polygon points="200,50 100,130 100,190 300,190 300,130" fill="#D2691E" stroke="#003f2d" stroke-width="2"/>
+  <polygon points="100,130 200,60 300,130" fill="#8B4513" stroke="#003f2d" stroke-width="2"/>
+  
+  <!-- Windows -->
+  <rect x="130" y="100" width="25" height="25" fill="#87CEEB" stroke="#003f2d" stroke-width="1"/>
+  <rect x="245" y="100" width="25" height="25" fill="#87CEEB" stroke="#003f2d" stroke-width="1"/>
+  
+  <!-- Door -->
+  <rect x="185" y="140" width="30" height="50" fill="#1A3A3A" stroke="#003f2d" stroke-width="1"/>
+  <circle cx="212" cy="165" r="3" fill="#FFD700"/>
+  
+  <!-- Heat Pump indicator -->
+  <circle cx="200" cy="40" r="18" fill="#ff6b9d" stroke="#003f2d" stroke-width="2"/>
+  <text x="200" y="47" font-family="Arial" font-size="24" text-anchor="middle" fill="white">♨</text>
+</svg>

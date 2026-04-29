@@ -1,0 +1,36 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#003f2d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00a86b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="300" height="200" fill="#f9f9f9"/>
+  
+  <!-- Benefits grid -->
+  <!-- Savings Icon -->
+  <circle cx="60" cy="60" r="35" fill="url(#grad4)"/>
+  <text x="60" y="65" font-family="Arial, sans-serif" font-size="28" text-anchor="middle" fill="white">💰</text>
+  <text x="60" y="125" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#003f2d">Lower Bills</text>
+  
+  <!-- Home Value Icon -->
+  <circle cx="150" cy="60" r="35" fill="url(#grad4)"/>
+  <text x="150" y="65" font-family="Arial, sans-serif" font-size="28" text-anchor="middle" fill="white">🏡</text>
+  <text x="150" y="125" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#003f2d">Home Value</text>
+  
+  <!-- Comfort Icon -->
+  <circle cx="240" cy="60" r="35" fill="url(#grad4)"/>
+  <text x="240" y="65" font-family="Arial, sans-serif" font-size="28" text-anchor="middle" fill="white">🌡️</text>
+  <text x="240" y="125" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#003f2d">Comfort</text>
+  
+  <!-- Environment Icon -->
+  <circle cx="105" cy="160" r="35" fill="url(#grad4)"/>
+  <text x="105" y="165" font-family="Arial, sans-serif" font-size="28" text-anchor="middle" fill="white">🌍</text>
+  <text x="105" y="185" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#003f2d">Environment</text>
+  
+  <!-- Health Icon -->
+  <circle cx="195" cy="160" r="35" fill="url(#grad4)"/>
+  <text x="195" y="165" font-family="Arial, sans-serif" font-size="28" text-anchor="middle" fill="white">❤️</text>
+  <text x="195" y="185" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#003f2d">Health</text>
+</svg>

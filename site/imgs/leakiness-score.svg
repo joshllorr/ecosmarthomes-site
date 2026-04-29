@@ -1,0 +1,37 @@
+<svg width="400" height="220" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220">
+  <defs>
+    <linearGradient id="serviceGrad7" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8f5e9" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#c8e6c9" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="220" fill="url(#serviceGrad7)"/>
+  
+  <!-- House -->
+  <polygon points="200,50 100,130 100,190 300,190 300,130" fill="#003f2d" opacity="0.2"/>
+  <polygon points="100,130 200,60 300,130" fill="#003f2d" opacity="0.3"/>
+  
+  <!-- Heat loss arrows (leaks) -->
+  <g stroke="#ff6b6b" stroke-width="3" stroke-linecap="round" opacity="0.8">
+    <line x1="80" y1="120" x2="60" y2="100"/>
+    <line x1="80" y1="130" x2="60" y2="130"/>
+    <line x1="80" y1="140" x2="60" y2="160"/>
+    
+    <line x1="320" y1="120" x2="340" y2="100"/>
+    <line x1="320" y1="130" x2="340" y2="130"/>
+    <line x1="320" y1="140" x2="340" y2="160"/>
+    
+    <line x1="180" y1="60" x2="180" y2="40"/>
+    <line x1="200" y1="60" x2="200" y2="35"/>
+    <line x1="220" y1="60" x2="220" y2="40"/>
+  </g>
+  
+  <!-- Score badge -->
+  <circle cx="200" cy="110" r="35" fill="#00a86b"/>
+  <text x="200" y="118" font-family="Arial" font-size="28" text-anchor="middle" fill="white" font-weight="bold">A1</text>
+  
+  <!-- Thermometer -->
+  <rect x="340" y="80" width="15" height="80" rx="7.5" fill="none" stroke="#003f2d" stroke-width="3"/>
+  <circle cx="347.5" cy="145" r="12" fill="#ff6b6b"/>
+  <rect x="342.5" y="90" width="10" height="55" rx="5" fill="#ff6b6b" opacity="0.5"/>
+</svg>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="250" height="200" viewBox="0 0 250 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="250" height="200" fill="#f5f5f5" rx="10"/>
+  <text x="125" y="25" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Grant Flow</text>
+  
+  <!-- Step 1 -->
+  <rect x="15" y="50" width="40" height="40" fill="#3498db" rx="5"/>
+  <text x="35" y="78" font-size="14" font-weight="bold" text-anchor="middle" fill="white">1</text>
+  
+  <!-- Arrow 1 -->
+  <line x1="55" y1="70" x2="80" y2="70" stroke="#333" stroke-width="2"/>
+  <polygon points="80,70 75,67 75,73" fill="#333"/>
+  
+  <!-- Step 2 -->
+  <rect x="80" y="50" width="40" height="40" fill="#2ecc71" rx="5"/>
+  <text x="100" y="78" font-size="14" font-weight="bold" text-anchor="middle" fill="white">2</text>
+  
+  <!-- Arrow 2 -->
+  <line x1="120" y1="70" x2="145" y2="70" stroke="#333" stroke-width="2"/>
+  <polygon points="145,70 140,67 140,73" fill="#333"/>
+  
+  <!-- Step 3 -->
+  <rect x="145" y="50" width="40" height="40" fill="#f39c12" rx="5"/>
+  <text x="165" y="78" font-size="14" font-weight="bold" text-anchor="middle" fill="white">3</text>
+  
+  <!-- Arrow down -->
+  <line x1="165" y1="90" x2="165" y2="115" stroke="#333" stroke-width="2"/>
+  <polygon points="165,115 162,110 168,110" fill="#333"/>
+  
+  <!-- Step 4 -->
+  <rect x="145" y="115" width="40" height="40" fill="#27ae60" rx="5"/>
+  <text x="165" y="143" font-size="14" font-weight="bold" text-anchor="middle" fill="white">✓</text>
+  
+  <!-- Labels -->
+  <text x="35" y="120" font-size="9" text-anchor="middle" fill="#666">Apply</text>
+  <text x="100" y="120" font-size="9" text-anchor="middle" fill="#666">Assess</text>
+  <text x="165" y="120" font-size="9" text-anchor="middle" fill="#666">Approve</text>
+  <text x="165" y="175" font-size="9" text-anchor="middle" fill="#666">Fund</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg width="400" height="220" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220">
+  <defs>
+    <linearGradient id="serviceGrad9" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8f5e9" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#c8e6c9" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="220" fill="url(#serviceGrad9)"/>
+  
+  <!-- House outline -->
+  <polygon points="200,50 100,130 100,190 300,190 300,130" fill="none" stroke="#003f2d" stroke-width="3" opacity="0.5"/>
+  
+  <!-- Document / Checklist inside the house -->
+  <rect x="150" y="90" width="80" height="100" fill="#ffffff" stroke="#003f2d" stroke-width="3" rx="4"/>
+  
+  <!-- Checkmarks on the document -->
+  <!-- Line 1 -->
+  <line x1="170" y1="110" x2="215" y2="110" stroke="#003f2d" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 155 110 L 160 115 L 165 105" fill="none" stroke="#00a86b" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Line 2 -->
+  <line x1="170" y1="130" x2="215" y2="130" stroke="#003f2d" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 155 130 L 160 135 L 165 125" fill="none" stroke="#00a86b" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Line 3 -->
+  <line x1="170" y1="150" x2="215" y2="150" stroke="#003f2d" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 155 150 L 160 155 L 165 145" fill="none" stroke="#00a86b" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Line 4 -->
+  <line x1="170" y1="170" x2="200" y2="170" stroke="#003f2d" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- A big green checkmark stamp of approval overlay -->
+  <circle cx="235" cy="160" r="30" fill="#00a86b" stroke="#ffffff" stroke-width="3" opacity="0.95"/>
+  <path d="M 220 160 L 230 170 L 250 150" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Euro symbol to represent grant money -->
+  <circle cx="260" cy="100" r="18" fill="#ffd700" stroke="#d4af37" stroke-width="2"/>
+  <text x="260" y="106" font-family="Arial" font-size="18" text-anchor="middle" fill="#003f2d" font-weight="bold">€</text>
+  
+  <!-- Sparkles -->
+  <path d="M 270 70 L 273 77 L 280 80 L 273 83 L 270 90 L 267 83 L 260 80 L 267 77 Z" fill="#ffd700" opacity="0.9"/>
+  <path d="M 240 80 L 242 84 L 246 86 L 242 88 L 240 92 L 238 88 L 234 86 L 238 84 Z" fill="#ffd700" opacity="0.8"/>
+</svg>
