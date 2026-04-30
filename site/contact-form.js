@@ -14,10 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
+      // Convert FormData to JSON object
+      const jsonData = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        topic: formData.get('topic'),
+        message: formData.get('message')
+      };
+
       try {
         const response = await fetch('https://ecosmarthomes.ie/api/contact', {
           method: 'POST',
-          body: formData
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonData)
         });
 
         if (response.ok) {
