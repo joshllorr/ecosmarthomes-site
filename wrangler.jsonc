@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ecosmarthomes-site",
+  "name": "ecosmarthome",
   "compatibility_date": "2026-04-30",
   "observability": {
     "enabled": true
