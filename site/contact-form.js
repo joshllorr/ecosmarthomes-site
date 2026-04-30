@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       try {
         console.log('Sending contact form to:', 'https://ecosmarthomes.ie/api/contact');
+        console.log('Sending data:', jsonData);
+        
         const response = await fetch('https://ecosmarthomes.ie/api/contact', {
           method: 'POST',
           headers: {
@@ -35,17 +37,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         console.log('Response status:', response.status);
-        const responseData = await response.json();
-        console.log('Response data:', responseData);
+        console.log('Response headers:', response.headers);
+        
+        let responseData;
+        try {
+          responseData = await response.json();
+          console.log('Response data:', responseData);
+        } catch (parseErr) {
+          console.error('Failed to parse response as JSON:', parseErr);
+          responseData = { error: 'Invalid response from server' };
+        }
 
         if (response.ok) {
           showMessage('Thank you! We'll be in touch within 24 hours.', 'success');
           contactForm.reset();
         } else {
-          showMessage(responseData.error || 'An error occurred. Please try again.', 'error');
+          const errorMsg = responseData.error || responseData.details || 'An error occurred. Please try again.';
+          showMessage(errorMsg, 'error');
         }
       } catch (error) {
         console.error('Contact form error:', error);
+        console.error('Error type:', error.name);
+        console.error('Error message:', error.message);
         showMessage('Connection error. Please check your internet and try again.', 'error');
       }
     });

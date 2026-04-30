@@ -17,15 +17,47 @@ router.options('*', () => {
 });
 
 // Contact form endpoint
-router.post('/api/contact', async (request: Request) => {
+router.post('/api/contact', async (request: Request, env: any) => {
   try {
-    // Parse the JSON body
-    const data = await request.json();
+    let data;
+    
+    // Try to parse the JSON body
+    try {
+      const text = await request.text();
+      console.log('Received body:', text);
+      
+      if (!text) {
+        return new Response(
+          JSON.stringify({ error: 'Empty request body' }),
+          {
+            status: 400,
+            headers: {
+              'Content-Type': 'application/json',
+              ...corsHeaders
+            }
+          }
+        );
+      }
+      
+      data = JSON.parse(text);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      return new Response(
+        JSON.stringify({ error: 'Invalid JSON in request body' }),
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        }
+      );
+    }
 
     // Validate required fields
     if (!data.name || !data.email || !data.message) {
       return new Response(
-        JSON.stringify({ error: 'Missing required fields' }),
+        JSON.stringify({ error: 'Missing required fields: name, email, and message are required' }),
         {
           status: 400,
           headers: {
@@ -40,8 +72,8 @@ router.post('/api/contact', async (request: Request) => {
     console.log('Contact form submission:', {
       name: data.name,
       email: data.email,
-      phone: data.phone,
-      topic: data.topic,
+      phone: data.phone || 'N/A',
+      topic: data.topic || 'N/A',
       message: data.message,
       timestamp: new Date().toISOString()
     });
@@ -68,11 +100,15 @@ router.post('/api/contact', async (request: Request) => {
       }
     );
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Contact form error:', error);
+    console.error('Error message:', error?.message);
+    console.error('Error stack:', error?.stack);
+    
     return new Response(
       JSON.stringify({ 
-        error: 'An error occurred processing your request. Please try again later.'
+        error: 'An error occurred processing your request. Please try again later.',
+        details: error?.message || 'Unknown error'
       }),
       {
         status: 500,
