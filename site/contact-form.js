@@ -24,24 +24,29 @@ document.addEventListener('DOMContentLoaded', function() {
       };
 
       try {
+        console.log('Sending contact form to:', 'https://ecosmarthomes.ie/api/contact');
         const response = await fetch('https://ecosmarthomes.ie/api/contact', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
           body: JSON.stringify(jsonData)
         });
 
+        console.log('Response status:', response.status);
+        const responseData = await response.json();
+        console.log('Response data:', responseData);
+
         if (response.ok) {
-          showMessage('Thank you! We’ll be in touch within 24 hours.', 'success');
+          showMessage('Thank you! We'll be in touch within 24 hours.', 'success');
           contactForm.reset();
         } else {
-          const text = await response.text();
-          showMessage(text || 'An error occurred. Please try again.', 'error');
+          showMessage(responseData.error || 'An error occurred. Please try again.', 'error');
         }
       } catch (error) {
-        console.error('Error:', error);
-        showMessage('An error occurred. Please try again later.', 'error');
+        console.error('Contact form error:', error);
+        showMessage('Connection error. Please check your internet and try again.', 'error');
       }
     });
   }
