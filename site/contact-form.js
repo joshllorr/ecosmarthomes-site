@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       try {
-        const response = await fetch('/api/contact', {
+        const response = await fetch('https://ecosmarthomes.ie/api/contact', {
           method: 'POST',
           body: formData
         });
