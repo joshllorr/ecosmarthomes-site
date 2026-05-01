@@ -14,52 +14,27 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      // Convert FormData to JSON object
-      const jsonData = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        topic: formData.get('topic'),
-        message: formData.get('message')
-      };
-
       try {
-        console.log('Sending contact form to:', 'https://ecosmarthomes.ie/api/contact');
-        console.log('Sending data:', jsonData);
+        const data = Object.fromEntries(formData.entries());
         
-        const response = await fetch('https://ecosmarthomes.ie/api/contact', {
+        const response = await fetch('/api/contact', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(jsonData)
+          body: JSON.stringify(data)
         });
 
-        console.log('Response status:', response.status);
-        console.log('Response headers:', response.headers);
-        
-        let responseData;
-        try {
-          responseData = await response.json();
-          console.log('Response data:', responseData);
-        } catch (parseErr) {
-          console.error('Failed to parse response as JSON:', parseErr);
-          responseData = { error: 'Invalid response from server' };
-        }
-
         if (response.ok) {
-          showMessage('Thank you! We'll be in touch within 24 hours.', 'success');
+          showMessage('Thank you! We’ll be in touch within 24 hours.', 'success');
           contactForm.reset();
         } else {
-          const errorMsg = responseData.error || responseData.details || 'An error occurred. Please try again.';
-          showMessage(errorMsg, 'error');
+          const text = await response.text();
+          showMessage(text || 'An error occurred. Please try again.', 'error');
         }
       } catch (error) {
-        console.error('Contact form error:', error);
-        console.error('Error type:', error.name);
-        console.error('Error message:', error.message);
-        showMessage('Connection error. Please check your internet and try again.', 'error');
+        console.error('Error:', error);
+        showMessage('An error occurred. Please try again later.', 'error');
       }
     });
   }
