@@ -10,20 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
     // Enhanced smooth scrolling for service details
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -45,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 2000);
             }
         });
-    });
     });
 
     // Close popup
@@ -82,14 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         }
-    });
-});
-            
-            // Open clicked item if it wasn't active
-            if (!isActive) {
-                item.classList.add('active');
-            }
-        });
     });
 
     // Form submission
