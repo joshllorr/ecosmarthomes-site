@@ -246,14 +246,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // Observe all fade-in elements
-    document.querySelectorAll('.fade-in').forEach(el => {
-        observer.observe(el);
-    });
-
-    // Add fade-in class to elements that should animate
+    // Select all elements that should fade in
     const animateElements = document.querySelectorAll(
-        '.problem-header, .problem-card, .services-header, .service-card, ' +
+        '.fade-in, .problem-header, .problem-card, .services-header, .service-card, ' +
         '.process-header, .process-step, .independence-content, .independence-image, ' +
         '.testimonials-header, .testimonial-card, .faq-header, .faq-item, ' +
         '.cta-content'
@@ -261,6 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     animateElements.forEach(el => {
         el.classList.add('fade-in');
+        observer.observe(el);
     });
 });
 
