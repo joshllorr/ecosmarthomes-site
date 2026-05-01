@@ -46,44 +46,58 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    });
 
     // Close popup
-    function closePopup() {
-        popupOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupClose = document.getElementById('popupClose');
+    const popupContent = document.getElementById('popupContent');
+
+    if (popupOverlay && popupClose && popupContent) {
+        function closePopup() {
+            popupOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        popupClose.addEventListener('click', closePopup);
+
+        popupOverlay.addEventListener('click', function(e) {
+            if (e.target === popupOverlay) {
+                closePopup();
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && popupOverlay.classList.contains('active')) {
+                closePopup();
+            }
+        });
+
+        // Handle contact navigation from popup
+        popupContent.addEventListener('click', function(e) {
+            if (e.target.matches('.popup-actions a')) {
+                e.preventDefault();
+                closePopup();
+                const target = e.target.getAttribute('href');
+                if (target && document.querySelector(target)) {
+                    document.querySelector(target).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
     }
 
-    popupClose.addEventListener('click', closePopup);
+    // FAQ Accordion Logic
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
 
-    popupOverlay.addEventListener('click', function(e) {
-        if (e.target === popupOverlay) {
-            closePopup();
-        }
-    });
-
-    // Close popup with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && popupOverlay.classList.contains('active')) {
-            closePopup();
-        }
-    });
-
-    // Handle contact navigation from popup
-    popupContent.addEventListener('click', function(e) {
-        if (e.target.matches('.popup-actions a')) {
-            e.preventDefault();
-            closePopup();
-            const target = e.target.getAttribute('href');
-            if (target && document.querySelector(target)) {
-                document.querySelector(target).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-    });
-});
+            // Close all items
+            document.querySelectorAll('.faq-item').forEach(otherItem => {
+                otherItem.classList.remove('active');
+            });
             
             // Open clicked item if it wasn't active
             if (!isActive) {
