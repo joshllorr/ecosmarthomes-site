@@ -78,14 +78,43 @@ router.post('/api/contact', async (request: Request, env: any) => {
       timestamp: new Date().toISOString()
     });
 
-    // TODO: Send email notification here
-    // You can integrate with services like:
-    // - SendGrid API
-    // - Mailgun API
-    // - Resend API
-    // - Or store in a database (D1, etc.)
-    
-    // For now, just log and return success
+    // Send email notification using Resend API
+    if (env.RESEND_API_KEY && env.NOTIFY_EMAIL) {
+      try {
+        const resendResponse = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: 'Contact Form <onboarding@resend.dev>',
+            to: env.NOTIFY_EMAIL,
+            subject: `New Contact Form Submission: ${data.topic || 'General Inquiry'}`,
+            html: `
+              <h2>New Contact Form Submission</h2>
+              <p><strong>Name:</strong> ${data.name}</p>
+              <p><strong>Email:</strong> ${data.email}</p>
+              <p><strong>Phone:</strong> ${data.phone || 'N/A'}</p>
+              <p><strong>Topic:</strong> ${data.topic || 'N/A'}</p>
+              <p><strong>Message:</strong></p>
+              <p>${data.message}</p>
+            `
+          })
+        });
+
+        if (!resendResponse.ok) {
+          const errorText = await resendResponse.text();
+          console.error('Failed to send email notification:', resendResponse.status, errorText);
+        } else {
+          console.log('Email notification sent successfully');
+        }
+      } catch (emailError) {
+        console.error('Error sending email notification:', emailError);
+      }
+    } else {
+      console.warn('Skipping email notification: RESEND_API_KEY or NOTIFY_EMAIL environment variables are not set.');
+    }
     return new Response(
       JSON.stringify({ 
         success: true, 
