@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    });
 
     // Close popup
     function closePopup() {
@@ -83,11 +82,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-});
             
+    // FAQ Accordion
+    document.querySelectorAll('.faq-item h3').forEach(item => {
+        item.addEventListener('click', function() {
+            const isActive = this.parentElement.classList.contains('active');
+
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
             // Open clicked item if it wasn't active
             if (!isActive) {
-                item.classList.add('active');
+                this.parentElement.classList.add('active');
             }
         });
     });
