@@ -6,13 +6,15 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler publish"
+    "deploy": "wrangler publish",
+    "test": "vitest run"
   },
   "dependencies": {
     "itty-router": "^4.0.0"
   },
   "devDependencies": {
-    "wrangler": "^3.0.0",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20.19.39",
+    "vitest": "^4.1.5",
+    "wrangler": "^3.0.0"
   }
 }
