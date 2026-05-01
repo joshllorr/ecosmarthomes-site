@@ -2,20 +2,6 @@ import { Router } from 'itty-router';
 
 const router = Router();
 
-// CORS headers
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-};
-
-// Handle CORS preflight requests
-router.options('*', () => {
-  return new Response(null, {
-    headers: corsHeaders
-  });
-});
-
 // Contact form endpoint
 router.post('/api/contact', async (request: Request, env: any) => {
   try {
@@ -32,8 +18,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
           {
             status: 400,
             headers: {
-              'Content-Type': 'application/json',
-              ...corsHeaders
+              'Content-Type': 'application/json'
             }
           }
         );
@@ -47,8 +32,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
         {
           status: 400,
           headers: {
-            'Content-Type': 'application/json',
-            ...corsHeaders
+            'Content-Type': 'application/json'
           }
         }
       );
@@ -61,8 +45,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
         {
           status: 400,
           headers: {
-            'Content-Type': 'application/json',
-            ...corsHeaders
+            'Content-Type': 'application/json'
           }
         }
       );
@@ -94,8 +77,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json',
-          ...corsHeaders
+          'Content-Type': 'application/json'
         }
       }
     );
@@ -113,8 +95,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
       {
         status: 500,
         headers: {
-          'Content-Type': 'application/json',
-          ...corsHeaders
+          'Content-Type': 'application/json'
         }
       }
     );
