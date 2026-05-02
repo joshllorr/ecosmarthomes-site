@@ -213,16 +213,36 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const stars = '★'.repeat(testimonial.rating) + '☆'.repeat(5 - testimonial.rating);
         
-        card.innerHTML = `
-            <div class="testimonial-content">
-                <div class="testimonial-text">"${testimonial.testimonial}"</div>
-                <div class="testimonial-rating">${stars}</div>
-                <div class="testimonial-author">
-                    <div class="author-name">${testimonial.name}</div>
-                    <div class="author-location">${testimonial.location}</div>
-                </div>
-            </div>
-        `;
+        const content = document.createElement('div');
+        content.className = 'testimonial-content';
+
+        const text = document.createElement('div');
+        text.className = 'testimonial-text';
+        text.textContent = `"${testimonial.testimonial}"`;
+
+        const rating = document.createElement('div');
+        rating.className = 'testimonial-rating';
+        rating.textContent = stars;
+
+        const author = document.createElement('div');
+        author.className = 'testimonial-author';
+
+        const name = document.createElement('div');
+        name.className = 'author-name';
+        name.textContent = testimonial.name;
+
+        const location = document.createElement('div');
+        location.className = 'author-location';
+        location.textContent = testimonial.location;
+
+        author.appendChild(name);
+        author.appendChild(location);
+
+        content.appendChild(text);
+        content.appendChild(rating);
+        content.appendChild(author);
+
+        card.appendChild(content);
         
         return card;
     }
