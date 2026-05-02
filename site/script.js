@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (target) {
                 e.preventDefault();
                 const offset = 80; // Account for fixed header
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
                 
                 window.scrollTo({
                     top: targetPosition,
