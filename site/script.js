@@ -1,12 +1,21 @@
 // Navigation scroll effect
 document.addEventListener('DOMContentLoaded', function() {
-    const nav = document.getElementById('nav');
-    
+    const nav = document.querySelector('.nav');
+    let ticking = false;
+
     window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                if (nav) {
+                    if (window.scrollY > 50) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
     });
 
@@ -46,44 +55,64 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    });
 
-    // Close popup
+    // Popup management
+    const popupOverlay = document.querySelector('.popup-overlay');
+    const popupClose = document.querySelector('.popup-close');
+    const popupContent = document.querySelector('.popup-content');
+
     function closePopup() {
-        popupOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+        if (popupOverlay) {
+            popupOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     }
 
-    popupClose.addEventListener('click', closePopup);
+    if (popupClose) {
+        popupClose.addEventListener('click', closePopup);
+    }
 
-    popupOverlay.addEventListener('click', function(e) {
-        if (e.target === popupOverlay) {
-            closePopup();
-        }
-    });
+    if (popupOverlay) {
+        popupOverlay.addEventListener('click', function(e) {
+            if (e.target === popupOverlay) {
+                closePopup();
+            }
+        });
+    }
 
     // Close popup with Escape key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && popupOverlay.classList.contains('active')) {
+        if (e.key === 'Escape' && popupOverlay && popupOverlay.classList.contains('active')) {
             closePopup();
         }
     });
 
     // Handle contact navigation from popup
-    popupContent.addEventListener('click', function(e) {
-        if (e.target.matches('.popup-actions a')) {
-            e.preventDefault();
-            closePopup();
-            const target = e.target.getAttribute('href');
-            if (target && document.querySelector(target)) {
-                document.querySelector(target).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+    if (popupContent) {
+        popupContent.addEventListener('click', function(e) {
+            if (e.target.matches('.popup-actions a')) {
+                e.preventDefault();
+                closePopup();
+                const target = e.target.getAttribute('href');
+                if (target && document.querySelector(target)) {
+                    document.querySelector(target).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             }
-        }
-    });
-});
+        });
+    }
+
+    // FAQ Accordion logic
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+
+            // Close other items
+            document.querySelectorAll('.faq-item').forEach(otherItem => {
+                otherItem.classList.remove('active');
+            });
             
             // Open clicked item if it wasn't active
             if (!isActive) {
