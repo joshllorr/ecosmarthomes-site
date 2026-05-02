@@ -1,18 +1,27 @@
 import { describe, it, expect, vi } from "vitest";
 import worker from "./index";
 
-describe("Cloudflare Worker", () => {
+describe("Contact Form API", () => {
+  const mockEnv = {
+    ASSETS: {
+      fetch: vi.fn().mockResolvedValue(new Response("Asset Content", { status: 200 }))
+    },
+    RESEND_API_KEY: 'test_key',
+    EMAIL_FROM: 'from@example.com',
+    EMAIL_TO: 'to@example.com'
+  };
+
   it("handles CORS preflight requests", async () => {
     const request = new Request("http://localhost/api/contact", {
       method: "OPTIONS",
     });
-    const response = await worker.fetch(request, {});
+    const response = await worker.fetch(request, mockEnv);
 
     expect(response.status).toBe(200);
     expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
   });
 
-  it("handles contact form submission with empty body", async () => {
+  it("should return 400 if request body is empty", async () => {
     const request = new Request("http://localhost/api/contact", {
       method: "POST",
       body: "",
@@ -20,14 +29,14 @@ describe("Cloudflare Worker", () => {
         "Content-Type": "application/json"
       }
     });
-    const response = await worker.fetch(request, {});
+    const response = await worker.fetch(request, mockEnv);
 
     expect(response.status).toBe(400);
     const data = await response.json();
     expect(data.error).toBe("Empty request body");
   });
 
-  it("handles contact form submission with invalid json", async () => {
+  it("should return 400 if request body contains invalid JSON", async () => {
     const request = new Request("http://localhost/api/contact", {
       method: "POST",
       body: "{ invalid json }",
@@ -35,14 +44,14 @@ describe("Cloudflare Worker", () => {
         "Content-Type": "application/json"
       }
     });
-    const response = await worker.fetch(request, {});
+    const response = await worker.fetch(request, mockEnv);
 
     expect(response.status).toBe(400);
     const data = await response.json();
-    expect(data.error).toBe("Invalid JSON in request body");
+    expect(data.error).toBe("Invalid request body format");
   });
 
-  it("handles contact form submission with missing fields", async () => {
+  it("should return 400 if required fields are missing", async () => {
     const request = new Request("http://localhost/api/contact", {
       method: "POST",
       body: JSON.stringify({}),
@@ -50,14 +59,18 @@ describe("Cloudflare Worker", () => {
         "Content-Type": "application/json"
       }
     });
-    const response = await worker.fetch(request, {});
+    const response = await worker.fetch(request, mockEnv);
 
     expect(response.status).toBe(400);
     const data = await response.json();
     expect(data.error).toBe("Missing required fields: name, email, and message are required");
   });
 
-  it("handles valid contact form submission", async () => {
+  it("handles valid contact form delivery", async () => {
+    // Mock global fetch for Resend API call
+    const globalFetch = global.fetch;
+    global.fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ id: '123' }), { status: 200 }));
+
     const request = new Request("http://localhost/api/contact", {
       method: "POST",
       body: JSON.stringify({
@@ -69,20 +82,16 @@ describe("Cloudflare Worker", () => {
         "Content-Type": "application/json"
       }
     });
-    const response = await worker.fetch(request, {});
+    const response = await worker.fetch(request, mockEnv);
 
     expect(response.status).toBe(200);
     const data = await response.json();
     expect(data.success).toBe(true);
+    
+    global.fetch = globalFetch; // Restore
   });
 
   it("serves static assets", async () => {
-      const mockEnv = {
-          ASSETS: {
-              fetch: vi.fn().mockResolvedValue(new Response("Asset Content", { status: 200 }))
-          }
-      };
-
       const request = new Request("http://localhost/some-asset.png");
       const response = await worker.fetch(request, mockEnv);
 
