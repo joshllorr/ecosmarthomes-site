@@ -80,6 +80,16 @@ router.post('/api/contact', async (request: Request, env: any) => {
     const contentType = request.headers.get('Content-Type') || '';
 
     try {
+      const text = await request.text();
+      console.log('Received body:', text);
+      
+      if (!text) {
+        return new Response(
+          JSON.stringify({ error: 'Empty request body' }),
+          {
+            status: 400,
+            headers: {
+              'Content-Type': 'application/json'
       if (contentType.includes('application/json')) {
         data = await request.json();
       } else if (contentType.includes('multipart/form-data') || contentType.includes('application/x-www-form-urlencoded')) {
@@ -111,8 +121,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
         {
           status: 400,
           headers: {
-            'Content-Type': 'application/json',
-            ...corsHeaders
+            'Content-Type': 'application/json'
           }
         }
       );
@@ -125,8 +134,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
         {
           status: 400,
           headers: {
-            'Content-Type': 'application/json',
-            ...corsHeaders
+            'Content-Type': 'application/json'
           }
         }
       );
@@ -194,8 +202,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json',
-          ...corsHeaders
+          'Content-Type': 'application/json'
         }
       }
     );
@@ -211,8 +218,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
       {
         status: 500,
         headers: {
-          'Content-Type': 'application/json',
-          ...corsHeaders
+          'Content-Type': 'application/json'
         }
       }
     );
