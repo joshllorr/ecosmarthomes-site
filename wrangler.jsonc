@@ -1,15 +1,8 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ecosmarthome",
-  "compatibility_date": "2026-04-30",
-  "observability": {
-    "enabled": true
-  },
-  "main": "src/index.ts",
-  "assets": {
-    "directory": "site"
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
-}
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+node_modules/
+coverage/
