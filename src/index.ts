@@ -132,14 +132,13 @@ router.post('/api/contact', async (request: Request, env: any) => {
       );
     }
 
-    // Log the contact form submission
-    console.log('Contact form submission:', {
-      name: data.name,
-      email: data.email,
-      phone: data.phone || 'N/A',
+    // Log the contact form submission (PII redacted for security)
+    console.log('Contact form submission received:', {
       topic: data.topic || 'N/A',
-      message: data.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      name: data.name ? '[REDACTED]' : 'N/A',
+      email: data.email ? '[REDACTED]' : 'N/A',
+      phone: data.phone ? '[REDACTED]' : 'N/A',
     });
 
     // Send email notification
@@ -147,7 +146,6 @@ router.post('/api/contact', async (request: Request, env: any) => {
       await sendEmailNotification(data, env);
     } catch (emailError) {
       // We catch errors but don't fail the request to ensure the user gets a success message
-      // as the submission was already logged.
       console.error('Failed to send email notification:', emailError);
     }
     
@@ -167,8 +165,6 @@ router.post('/api/contact', async (request: Request, env: any) => {
 
   } catch (error: any) {
     console.error('Contact form error:', error);
-    console.error('Error message:', error?.message);
-    console.error('Error stack:', error?.stack);
     
     return new Response(
       JSON.stringify({ 
