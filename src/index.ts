@@ -21,25 +21,23 @@ router.post('/api/contact', async (request: Request, env: any) => {
   try {
     let data;
     
+    // Check for empty body
+    if (!request.body || request.headers.get('content-length') === '0') {
+      return new Response(
+        JSON.stringify({ error: 'Empty request body' }),
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        }
+      );
+    }
+
     // Try to parse the JSON body
     try {
-      const text = await request.text();
-      console.log('Received body:', text);
-      
-      if (!text) {
-        return new Response(
-          JSON.stringify({ error: 'Empty request body' }),
-          {
-            status: 400,
-            headers: {
-              'Content-Type': 'application/json',
-              ...corsHeaders
-            }
-          }
-        );
-      }
-      
-      data = JSON.parse(text);
+      data = await request.json();
     } catch (parseError) {
       console.error('JSON parse error:', parseError);
       return new Response(
