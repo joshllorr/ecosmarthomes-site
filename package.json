@@ -6,13 +6,35 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler publish"
+    "deploy": "wrangler publish",
+    "test": "vitest run"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "vitest"
   },
   "dependencies": {
     "itty-router": "^4.0.0"
   },
   "devDependencies": {
-    "wrangler": "^3.0.0",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20.19.39",
+    "vitest": "^4.1.5",
+    "@types/node": "^20.0.0",
+    "typescript": "^6.0.3",
+    "@vitest/coverage-v8": "^4.1.5",
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.5",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.3",
+    "@testing-library/dom": "^10.4.1",
+    "@types/node": "^20.0.0",
+    "babel-jest": "^30.3.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "@cloudflare/workers-types": "^4.20260501.1",
+    "@types/node": "^20.0.0",
+    "typescript": "^6.0.3",
+    "@types/node": "^20.0.0",
+    "vitest": "^1.5.0",
+    "vitest-environment-miniflare": "^2.14.4",
+    "wrangler": "^3.0.0"
   }
 }
