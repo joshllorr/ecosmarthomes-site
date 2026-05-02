@@ -24,7 +24,6 @@ router.post('/api/contact', async (request: Request, env: any) => {
     // Try to parse the JSON body
     try {
       const text = await request.text();
-      console.log('Received body:', text);
       
       if (!text) {
         return new Response(
@@ -69,13 +68,13 @@ router.post('/api/contact', async (request: Request, env: any) => {
     }
 
     // Log the contact form submission
-    console.log('Contact form submission:', {
-      name: data.name,
-      email: data.email,
-      phone: data.phone || 'N/A',
+    console.log('Contact form submission received:', {
       topic: data.topic || 'N/A',
-      message: data.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      // PII redacted
+      name: data.name ? '[REDACTED]' : 'N/A',
+      email: data.email ? '[REDACTED]' : 'N/A',
+      phone: data.phone ? '[REDACTED]' : 'N/A',
     });
 
     // TODO: Send email notification here
