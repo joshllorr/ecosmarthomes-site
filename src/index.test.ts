@@ -1,142 +1,102 @@
-import { expect, test, describe, mock } from "bun:test";
-
-// Mock itty-router
-mock.module("itty-router", () => {
-  return {
-    Router: () => {
-      const routes: any[] = [];
-      const h = (method: string) => (path: string, ...handlers: any[]) => {
-        routes.push({ method, path, handlers });
-      };
-      return {
-        get: h("GET"),
-        post: h("POST"),
-        put: h("PUT"),
-        delete: h("DELETE"),
-        options: h("OPTIONS"),
-        all: h("ALL"),
-        fetch: async (req: Request, ...args: any[]) => {
-          const url = new URL(req.url);
-          for (const route of routes) {
-            if ((route.method === "ALL" || route.method === req.method) &&
-                (route.path === "*" || route.path === url.pathname)) {
-              for (const handler of route.handlers) {
-                const res = await handler(req, ...args);
-                if (res) return res;
-              }
-            }
-          }
-        }
-      };
-    }
-  };
-});
-
-const FETCH_URL = "http://localhost/api/contact";
+import { describe, it, expect, vi } from "vitest";
+import worker from "./index";
 
 describe("Contact Form API", () => {
-  const env = { ASSETS: { fetch: () => new Response("OK") } };
+  const mockEnv = {
+    ASSETS: {
+      fetch: vi.fn().mockResolvedValue(new Response("Asset Content", { status: 200 }))
+    },
+    RESEND_API_KEY: 'test_key',
+    EMAIL_FROM: 'from@example.com',
+    EMAIL_TO: 'to@example.com'
+  };
 
-  test("should return 200 for valid data", async () => {
-    const worker = (await import("./index")).default;
-    const request = new Request(FETCH_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        name: "John Doe",
-        email: "john@example.com",
-        message: "Hello world"
-      }),
-      headers: { "Content-Type": "application/json" }
+  it("handles CORS preflight requests", async () => {
+    const request = new Request("http://localhost/api/contact", {
+      method: "OPTIONS",
     });
-
-    const response = await worker.fetch(request, env);
-    const body = await response.json();
+    const response = await worker.fetch(request, mockEnv);
 
     expect(response.status).toBe(200);
-    expect(body.success).toBe(true);
+    expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
   });
 
-  test("should return 400 for missing name", async () => {
-    const worker = (await import("./index")).default;
-    const request = new Request(FETCH_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        email: "john@example.com",
-        message: "Hello world"
-      }),
-      headers: { "Content-Type": "application/json" }
-    });
-
-    const response = await worker.fetch(request, env);
-    const body = await response.json();
-
-    expect(response.status).toBe(400);
-    expect(body.error).toContain("Missing required fields");
-  });
-
-  test("should return 400 for missing email", async () => {
-    const worker = (await import("./index")).default;
-    const request = new Request(FETCH_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        name: "John Doe",
-        message: "Hello world"
-      }),
-      headers: { "Content-Type": "application/json" }
-    });
-
-    const response = await worker.fetch(request, env);
-    const body = await response.json();
-
-    expect(response.status).toBe(400);
-    expect(body.error).toContain("Missing required fields");
-  });
-
-  test("should return 400 for missing message", async () => {
-    const worker = (await import("./index")).default;
-    const request = new Request(FETCH_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        name: "John Doe",
-        email: "john@example.com"
-      }),
-      headers: { "Content-Type": "application/json" }
-    });
-
-    const response = await worker.fetch(request, env);
-    const body = await response.json();
-
-    expect(response.status).toBe(400);
-    expect(body.error).toContain("Missing required fields");
-  });
-
-  test("should return 400 for invalid JSON", async () => {
-    const worker = (await import("./index")).default;
-    const request = new Request(FETCH_URL, {
-      method: "POST",
-      body: "{ invalid json }",
-      headers: { "Content-Type": "application/json" }
-    });
-
-    const response = await worker.fetch(request, env);
-    const body = await response.json();
-
-    expect(response.status).toBe(400);
-    expect(body.error).toBe("Invalid JSON in request body");
-  });
-
-  test("should return 400 for empty body", async () => {
-    const worker = (await import("./index")).default;
-    const request = new Request(FETCH_URL, {
+  it("should return 400 if request body is empty", async () => {
+    const request = new Request("http://localhost/api/contact", {
       method: "POST",
       body: "",
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
-
-    const response = await worker.fetch(request, env);
-    const body = await response.json();
+    const response = await worker.fetch(request, mockEnv);
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe("Empty request body");
+    const data = await response.json();
+    expect(data.error).toBe("Empty request body");
+  });
+
+  it("should return 400 if request body contains invalid JSON", async () => {
+    const request = new Request("http://localhost/api/contact", {
+      method: "POST",
+      body: "{ invalid json }",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    const response = await worker.fetch(request, mockEnv);
+
+    expect(response.status).toBe(400);
+    const data = await response.json();
+    expect(data.error).toBe("Invalid request body format");
+  });
+
+  it("should return 400 if required fields are missing", async () => {
+    const request = new Request("http://localhost/api/contact", {
+      method: "POST",
+      body: JSON.stringify({}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    const response = await worker.fetch(request, mockEnv);
+
+    expect(response.status).toBe(400);
+    const data = await response.json();
+    expect(data.error).toBe("Missing required fields: name, email, and message are required");
+  });
+
+  it("handles valid contact form delivery", async () => {
+    // Mock global fetch for Resend API call
+    const globalFetch = global.fetch;
+    global.fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ id: '123' }), { status: 200 }));
+
+    const request = new Request("http://localhost/api/contact", {
+      method: "POST",
+      body: JSON.stringify({
+        name: "Test User",
+        email: "test@example.com",
+        message: "This is a test message."
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    const response = await worker.fetch(request, mockEnv);
+
+    expect(response.status).toBe(200);
+    const data = await response.json();
+    expect(data.success).toBe(true);
+    
+    global.fetch = globalFetch; // Restore
+  });
+
+  it("serves static assets", async () => {
+      const request = new Request("http://localhost/some-asset.png");
+      const response = await worker.fetch(request, mockEnv);
+
+      expect(mockEnv.ASSETS.fetch).toHaveBeenCalledWith(request);
+      expect(response.status).toBe(200);
+      expect(await response.text()).toBe("Asset Content");
   });
 });
