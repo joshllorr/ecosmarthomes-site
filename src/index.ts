@@ -74,6 +74,11 @@ router.post('/api/contact', async (request: Request, env: any) => {
       phone: data.phone ? '[REDACTED]' : 'N/A',
       topic: data.topic || 'N/A',
       message: data.message ? '[REDACTED]' : 'N/A',
+      name: data.name,
+      email: data.email,
+      phone: data.phone || 'N/A',
+      topic: data.topic || 'N/A',
+      message: data.message,
       timestamp: new Date().toISOString()
     });
 
