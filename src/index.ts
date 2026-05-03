@@ -77,10 +77,23 @@ router.options('*', () => {
 // Contact form endpoint
 router.post('/api/contact', async (request: Request, env: any) => {
   try {
+    let data;
     let data: any = {};
     const contentType = request.headers.get('Content-Type') || '';
 
+    // Try to parse the JSON body
     try {
+      const text = await request.text();
+      console.log('Received body:', text);
+
+      if (!text) {
+        return new Response(
+          JSON.stringify({ error: 'Empty request body' }),
+          {
+            status: 400,
+            headers: {
+              'Content-Type': 'application/json',
+              ...corsHeaders
       if (contentType.includes('application/json')) {
         data = await request.json();
       } else if (contentType.includes('multipart/form-data') || contentType.includes('application/x-www-form-urlencoded')) {
@@ -100,14 +113,15 @@ router.post('/api/contact', async (request: Request, env: any) => {
                 ...corsHeaders
               }
             }
-          );
-        }
-        data = JSON.parse(text);
+          }
+        );
       }
+
+      data = JSON.parse(text);
     } catch (parseError) {
-      console.error('Request parsing error:', parseError);
+      console.error('JSON parse error:', parseError);
       return new Response(
-        JSON.stringify({ error: 'Invalid request body format' }),
+        JSON.stringify({ error: 'Invalid JSON in request body' }),
         {
           status: 400,
           headers: {
@@ -132,6 +146,22 @@ router.post('/api/contact', async (request: Request, env: any) => {
       );
     }
 
+    // Log the contact form submission
+    console.log('Contact form submission:', {
+      name: data.name,
+      email: data.email,
+      phone: data.phone || 'N/A',
+      topic: data.topic || 'N/A',
+      message: data.message,
+      timestamp: new Date().toISOString()
+    });
+
+    // TODO: Send email notification here
+    // You can integrate with services like:
+    // - SendGrid API
+    // - Mailgun API
+    // - Resend API
+    // - Or store in a database (D1, etc.)
     // Log the contact form submission (redacting PII for privacy)
     console.log('Contact form submission received:', {
       name: data.name ? '[REDACTED]' : 'N/A',
@@ -150,6 +180,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
       console.error('Failed to send email notification:', emailError);
     }
     
+    // For now, just log and return success
     return new Response(
       JSON.stringify({ 
         success: true, 
