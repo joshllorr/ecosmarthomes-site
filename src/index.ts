@@ -168,6 +168,16 @@ router.post('/api/contact', async (request: Request, env: any) => {
       email: data.email ? '[REDACTED]' : 'N/A',
       phone: data.phone ? '[REDACTED]' : 'N/A',
       topic: data.topic || 'N/A',
+      message: data.message ? '[REDACTED]' : 'N/A',
+      timestamp: new Date().toISOString()
+    });
+
+    // TODO: Send email notification here
+    // You can integrate with services like:
+    // - SendGrid API
+    // - Mailgun API
+    // - Resend API
+    // - Or store in a database (D1, etc.)
       timestamp: new Date().toISOString()
     });
 
