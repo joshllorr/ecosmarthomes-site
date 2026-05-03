@@ -84,49 +84,6 @@ router.post('/api/contact', async (request: Request, env: any) => {
     // - Mailgun API
     // - Resend API
     // - Or store in a database (D1, etc.)
-    });
-
-    // TODO: Send email notification here
-    // You can integrate with services like:
-    // - SendGrid API
-    // - Mailgun API
-    // - Resend API
-    // - Or store in a database (D1, etc.)
-    });
-
-    // TODO: Send email notification here
-    // You can integrate with services like:
-    // - SendGrid API
-    // - Mailgun API
-    // - Resend API
-    // - Or store in a database (D1, etc.)
-    // Log the contact form submission (redacting PII for privacy)
-    console.log('Contact form submission received:', {
-      name: data.name ? '[REDACTED]' : 'N/A',
-      email: data.email ? '[REDACTED]' : 'N/A',
-      phone: data.phone ? '[REDACTED]' : 'N/A',
-      topic: data.topic || 'N/A',
-      message: data.message ? '[REDACTED]' : 'N/A',
-      timestamp: new Date().toISOString()
-    });
-
-    // TODO: Send email notification here
-    // You can integrate with services like:
-    // - SendGrid API
-    // - Mailgun API
-    // - Resend API
-    // - Or store in a database (D1, etc.)
-      timestamp: new Date().toISOString()
-    });
-
-    // Send email notification
-    try {
-      await sendEmailNotification(data, env);
-    } catch (emailError) {
-      // We catch errors but don't fail the request to ensure the user gets a success message
-      // as the submission was already logged.
-      console.error('Failed to send email notification:', emailError);
-    }
     
     // For now, just log and return success
     return new Response(

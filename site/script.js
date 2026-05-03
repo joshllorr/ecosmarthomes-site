@@ -38,50 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (err) {
                 // Ignore invalid selectors
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-    });
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
             }
         });
-    });
-
-    // Enhanced smooth scrolling for service details
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                e.preventDefault();
-                const offset = 80; // Account for fixed header
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // Add highlight effect to the target
-                target.classList.add('highlighted');
-                setTimeout(() => {
-                    target.classList.remove('highlighted');
-                }, 2000);
-            }
-        });
-    });
     });
 
     // Popup management
@@ -93,23 +51,24 @@ document.addEventListener('DOMContentLoaded', function() {
         if (popupOverlay) {
             popupOverlay.classList.remove('active');
         }
-    // Close popup
-    function closePopup() {
-        popupOverlay.classList.remove('active');
         document.body.style.overflow = '';
     }
 
-    popupClose.addEventListener('click', closePopup);
+    if (popupClose) {
+        popupClose.addEventListener('click', closePopup);
+    }
 
-    popupOverlay.addEventListener('click', function(e) {
-        if (e.target === popupOverlay) {
-            closePopup();
-        }
-    });
+    if (popupOverlay) {
+        popupOverlay.addEventListener('click', function(e) {
+            if (e.target === popupOverlay) {
+                closePopup();
+            }
+        });
+    }
 
     // Close popup with Escape key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && popupOverlay.classList.contains('active')) {
+        if (e.key === 'Escape' && popupOverlay && popupOverlay.classList.contains('active')) {
             closePopup();
         }
     });
@@ -139,27 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    popupContent.addEventListener('click', function(e) {
-        if (e.target.matches('.popup-actions a')) {
-            e.preventDefault();
-            closePopup();
-            const target = e.target.getAttribute('href');
-            if (target && document.querySelector(target)) {
-                document.querySelector(target).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-    });
-});
-            
-            // Open clicked item if it wasn't active
-            if (!isActive) {
-                item.classList.add('active');
-            }
-        });
-    });
 
     // Form submission
     const form = document.getElementById('retrofit-form');
@@ -337,18 +275,6 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // Add fade-in class to elements that should animate
-    const animateElements = document.querySelectorAll(
-        '.problem-header, .problem-card, .services-header, .service-card, ' +
-        '.process-header, .process-step, .independence-content, .independence-image, ' +
-        '.testimonials-header, .testimonial-card, .faq-header, .faq-item, ' +
-        '.cta-content'
-    );
-    
-    animateElements.forEach(el => {
-        el.classList.add('fade-in');
-    });
-
     // Add mobile menu styles dynamically
     const mobileStyles = document.createElement('style');
     mobileStyles.textContent = `
@@ -387,6 +313,3 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(mobileStyles);
 });
-    }
-`;
-document.head.appendChild(mobileStyles);
