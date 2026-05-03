@@ -170,6 +170,14 @@ router.post('/api/contact', async (request: Request, env: any) => {
     // - Mailgun API
     // - Resend API
     // - Or store in a database (D1, etc.)
+    });
+
+    // TODO: Send email notification here
+    // You can integrate with services like:
+    // - SendGrid API
+    // - Mailgun API
+    // - Resend API
+    // - Or store in a database (D1, etc.)
     // Log the contact form submission (redacting PII for privacy)
     console.log('Contact form submission received:', {
       name: data.name ? '[REDACTED]' : 'N/A',

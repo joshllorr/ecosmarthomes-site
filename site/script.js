@@ -2,6 +2,42 @@
 document.addEventListener('DOMContentLoaded', function() {
     const nav = document.getElementById('nav');
 
+    if (nav) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    }
+
+    // Enhanced smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === '#') return;
+
+            try {
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    const offset = 80; // Account for fixed header
+                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Add highlight effect to the target
+                    target.classList.add('highlighted');
+                    setTimeout(() => {
+                        target.classList.remove('highlighted');
+                    }, 2000);
+                }
+            } catch (err) {
+                // Ignore invalid selectors
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
             nav.classList.add('scrolled');
@@ -48,6 +84,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     });
 
+    // Popup management
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupClose = document.getElementById('popupClose');
+    const popupContent = document.getElementById('popupContent');
+
+    function closePopup() {
+        if (popupOverlay) {
+            popupOverlay.classList.remove('active');
+        }
     // Close popup
     function closePopup() {
         popupOverlay.classList.remove('active');
@@ -70,6 +115,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle contact navigation from popup
+    if (popupContent) {
+        popupContent.addEventListener('click', function(e) {
+            if (e.target.matches('.popup-actions a')) {
+                e.preventDefault();
+                closePopup();
+                const href = e.target.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    try {
+                        const target = document.querySelector(href);
+                        if (target) {
+                            const offset = 80;
+                            const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    } catch (err) {
+                        // Ignore
+                    }
+                }
+            }
+        });
+    }
     popupContent.addEventListener('click', function(e) {
         if (e.target.matches('.popup-actions a')) {
             e.preventDefault();
@@ -100,8 +169,8 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             const submitButton = form.querySelector('.form-submit');
-            const originalText = submitButton.textContent;
-            const originalBg = submitButton.style.backgroundColor;
+            const originalText = submitButton ? submitButton.textContent : 'Submit';
+            const originalBg = submitButton ? submitButton.style.backgroundColor : '';
             
             try {
                 // Get form data
@@ -117,9 +186,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
                 
                 // Show loading state
-                submitButton.textContent = 'Submitting...';
-                submitButton.disabled = true;
-                submitButton.style.backgroundColor = '#666';
+                if (submitButton) {
+                    submitButton.textContent = 'Submitting...';
+                    submitButton.disabled = true;
+                    submitButton.style.backgroundColor = '#666';
+                }
                 
                 // Send data to API
                 const response = await fetch('/backend/api/consultations', {
@@ -134,15 +205,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (result.success) {
                     // Success message
-                    submitButton.textContent = '✓ Thank you! We\'ll be in touch soon.';
-                    submitButton.style.backgroundColor = '#4A7C5B';
+                    if (submitButton) {
+                        submitButton.textContent = '✓ Thank you! We\'ll be in touch soon.';
+                        submitButton.style.backgroundColor = '#4A7C5B';
+                    }
                     
                     // Reset form after 3 seconds
                     setTimeout(() => {
                         form.reset();
-                        submitButton.textContent = originalText;
-                        submitButton.style.backgroundColor = originalBg;
-                        submitButton.disabled = false;
+                        if (submitButton) {
+                            submitButton.textContent = originalText;
+                            submitButton.style.backgroundColor = originalBg;
+                            submitButton.disabled = false;
+                        }
                     }, 3000);
                     
                     // Track submission event (analytics)
@@ -160,15 +235,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Form submission error:', error);
                 
                 // Show error message
-                submitButton.textContent = '✗ Error. Please try again.';
-                submitButton.style.backgroundColor = '#dc3545';
-                
-                // Reset after 3 seconds
-                setTimeout(() => {
-                    submitButton.textContent = originalText;
-                    submitButton.style.backgroundColor = originalBg;
-                    submitButton.disabled = false;
-                }, 3000);
+                if (submitButton) {
+                    submitButton.textContent = '✗ Error. Please try again.';
+                    submitButton.style.backgroundColor = '#dc3545';
+
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        submitButton.textContent = originalText;
+                        submitButton.style.backgroundColor = originalBg;
+                        submitButton.disabled = false;
+                    }, 3000);
+                }
             }
         });
     }
@@ -178,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelector('.nav-links');
     const navCta = document.querySelector('.nav-cta');
     
-    if (mobileMenuBtn) {
+    if (mobileMenuBtn && navLinks && navCta) {
         mobileMenuBtn.addEventListener('click', function() {
             navLinks.classList.toggle('mobile-open');
             navCta.classList.toggle('mobile-open');
@@ -187,20 +264,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load testimonials from API
     async function loadTestimonials() {
+        const testimonialsContainer = document.querySelector('.testimonials-grid');
+        if (!testimonialsContainer) return;
+
         try {
             const response = await fetch('/backend/api/testimonials?limit=6');
             const result = await response.json();
             
             if (result.success && result.testimonials) {
-                const testimonialsContainer = document.querySelector('.testimonials-grid');
-                if (testimonialsContainer) {
-                    testimonialsContainer.innerHTML = '';
-                    
-                    result.testimonials.forEach(testimonial => {
-                        const testimonialCard = createTestimonialCard(testimonial);
-                        testimonialsContainer.appendChild(testimonialCard);
-                    });
-                }
+                testimonialsContainer.innerHTML = '';
+
+                result.testimonials.forEach(testimonial => {
+                    const testimonialCard = createTestimonialCard(testimonial);
+                    testimonialsContainer.appendChild(testimonialCard);
+                });
             }
         } catch (error) {
             console.error('Error loading testimonials:', error);
@@ -228,11 +305,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Load testimonials on page load
-    if (document.querySelector('.testimonials-grid')) {
-        loadTestimonials();
-    }
+    loadTestimonials();
 
     // Intersection Observer for fade-in animations
+    const animateElements = document.querySelectorAll(
+        '.problem-header, .problem-card, .services-header, .service-card, ' +
+        '.process-header, .process-step, .independence-content, .independence-image, ' +
+        '.testimonials-header, .testimonial-card, .faq-header, .faq-item, ' +
+        '.cta-content'
+    );
+
+    animateElements.forEach(el => {
+        el.classList.add('fade-in');
+    });
+
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -262,42 +348,45 @@ document.addEventListener('DOMContentLoaded', function() {
     animateElements.forEach(el => {
         el.classList.add('fade-in');
     });
-});
 
-// Add mobile menu styles dynamically
-const mobileStyles = document.createElement('style');
-mobileStyles.textContent = `
-    @media (max-width: 768px) {
-        .nav-links.mobile-open {
-            display: flex !important;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            flex-direction: column;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    // Add mobile menu styles dynamically
+    const mobileStyles = document.createElement('style');
+    mobileStyles.textContent = `
+        @media (max-width: 768px) {
+            .nav-links.mobile-open {
+                display: flex !important;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-cta.mobile-open {
+                display: block !important;
+                position: absolute;
+                top: 140px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .nav.scrolled .nav-links.mobile-open {
+                background: rgba(255, 255, 255, 0.98);
+            }
+
+            .nav-links.mobile-open a {
+                color: var(--neutral-dark) !important;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
         }
-        
-        .nav-cta.mobile-open {
-            display: block !important;
-            position: absolute;
-            top: 140px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .nav.scrolled .nav-links.mobile-open {
-            background: rgba(255, 255, 255, 0.98);
-        }
-        
-        .nav-links.mobile-open a {
-            color: var(--neutral-dark) !important;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
+    `;
+    document.head.appendChild(mobileStyles);
+});
     }
 `;
 document.head.appendChild(mobileStyles);
