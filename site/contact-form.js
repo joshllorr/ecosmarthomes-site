@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const formData = new FormData(contactForm);
 
+      // Validate required fields
       if (!formData.get('name') || !formData.get('email') || !formData.get('message')) {
         showMessage('Please fill in all required fields', 'error');
         return;
@@ -47,3 +48,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 5000);
   }
 });
+
