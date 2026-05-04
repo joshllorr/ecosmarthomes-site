@@ -14,9 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       try {
+        const data = Object.fromEntries(formData.entries());
+        
         const response = await fetch('/api/contact', {
           method: 'POST',
-          body: formData
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
         });
 
         if (response.ok) {
