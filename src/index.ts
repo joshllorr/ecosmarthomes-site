@@ -78,12 +78,38 @@ router.post('/api/contact', async (request: Request, env: any) => {
       timestamp: new Date().toISOString()
     });
 
-    // TODO: Send email notification here
-    // You can integrate with services like:
-    // - SendGrid API
-    // - Mailgun API
-    // - Resend API
-    // - Or store in a database (D1, etc.)
+    // Send email using Resend
+    const resendApiKey = env.RESEND_API_KEY;
+    
+    if (resendApiKey) {
+      const emailResponse = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'EcoSmartHome Contact <noreply@ecosmarthomes.ie>', // Using your verified domain!
+          to: 'askjoe@ecosmarthomes.ie', // Changed to your Outlook 365 address
+          reply_to: data.email, // This makes it so hitting "Reply" in Gmail replies directly to the visitor!
+          subject: `New Enquiry from ${data.name}`,
+          html: `
+            <h3>New Contact Form Submission</h3>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Phone:</strong> ${data.phone || 'N/A'}</p>
+            <p><strong>Topic:</strong> ${data.topic || 'N/A'}</p>
+            <p><strong>Message:</strong><br/>${data.message.replace(/\n/g, '<br/>')}</p>
+          `
+        })
+      });
+
+      if (!emailResponse.ok) {
+        console.error('Failed to send email:', await emailResponse.text());
+      }
+    } else {
+      console.warn('RESEND_API_KEY is not set. Email was not sent.');
+    }
     
     // For now, just log and return success
     return new Response(
