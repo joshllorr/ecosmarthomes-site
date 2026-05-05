@@ -105,10 +105,36 @@ router.post('/api/contact', async (request: Request, env: any) => {
       });
 
       if (!emailResponse.ok) {
-        console.error('Failed to send email:', await emailResponse.text());
+        const errorText = await emailResponse.text();
+        console.error('Failed to send email:', errorText);
+        return new Response(
+          JSON.stringify({ 
+            error: 'Email service error. Please try again.',
+            details: errorText
+          }),
+          {
+            status: 500,
+            headers: {
+              'Content-Type': 'application/json',
+              ...corsHeaders
+            }
+          }
+        );
       }
     } else {
       console.warn('RESEND_API_KEY is not set. Email was not sent.');
+      return new Response(
+          JSON.stringify({ 
+            error: 'Email configuration missing. Please contact support.'
+          }),
+          {
+            status: 500,
+            headers: {
+              'Content-Type': 'application/json',
+              ...corsHeaders
+            }
+          }
+        );
     }
     
     // For now, just log and return success
