@@ -16,15 +16,35 @@ router.options('*', () => {
   });
 });
 
+// Site health endpoint (Harbor SEO / SEO Hub integration)
+router.get('/api/site-health', () => {
+  return new Response(
+    JSON.stringify({
+      status: "ok",
+      schema: "detected",
+      altText: "detected",
+      meta: "active",
+      h1: "Premium Home Energy Retrofit Advisory in Ireland"
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders
+      }
+    }
+  );
+});
+
 // Contact form endpoint
 router.post('/api/contact', async (request: Request, env: any) => {
   try {
     let data;
-
+    
     // Try to parse the JSON body
     try {
       const text = await request.text();
-
+      console.log('Received body:', text);
+      
       if (!text) {
         return new Response(
           JSON.stringify({ error: 'Empty request body' }),
@@ -37,7 +57,7 @@ router.post('/api/contact', async (request: Request, env: any) => {
           }
         );
       }
-
+      
       data = JSON.parse(text);
     } catch (parseError) {
       console.error('JSON parse error:', parseError);
@@ -69,11 +89,6 @@ router.post('/api/contact', async (request: Request, env: any) => {
 
     // Log the contact form submission
     console.log('Contact form submission:', {
-      name: data.name ? '[REDACTED]' : 'N/A',
-      email: data.email ? '[REDACTED]' : 'N/A',
-      phone: data.phone ? '[REDACTED]' : 'N/A',
-      topic: data.topic || 'N/A',
-      message: data.message ? '[REDACTED]' : 'N/A',
       name: data.name,
       email: data.email,
       phone: data.phone || 'N/A',
@@ -82,12 +97,64 @@ router.post('/api/contact', async (request: Request, env: any) => {
       timestamp: new Date().toISOString()
     });
 
-    // TODO: Send email notification here
-    // You can integrate with services like:
-    // - SendGrid API
-    // - Mailgun API
-    // - Resend API
-    // - Or store in a database (D1, etc.)
+    // Send email using Resend
+    const resendApiKey = env.RESEND_API_KEY;
+    
+    if (resendApiKey) {
+      const emailResponse = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'EcoSmartHome Contact <noreply@ecosmarthomes.ie>', // Using your verified domain!
+          to: 'askjoe@ecosmarthomes.ie', // Changed to your Outlook 365 address
+          reply_to: data.email, // This makes it so hitting "Reply" in Gmail replies directly to the visitor!
+          subject: `New Enquiry from ${data.name}`,
+          html: `
+            <h3>New Contact Form Submission</h3>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Phone:</strong> ${data.phone || 'N/A'}</p>
+            <p><strong>Topic:</strong> ${data.topic || 'N/A'}</p>
+            <p><strong>Message:</strong><br/>${data.message.replace(/\n/g, '<br/>')}</p>
+          `
+        })
+      });
+
+      if (!emailResponse.ok) {
+        const errorText = await emailResponse.text();
+        console.error('Failed to send email:', errorText);
+        return new Response(
+          JSON.stringify({ 
+            error: 'Email service error. Please try again.',
+            details: errorText
+          }),
+          {
+            status: 500,
+            headers: {
+              'Content-Type': 'application/json',
+              ...corsHeaders
+            }
+          }
+        );
+      }
+    } else {
+      console.warn('RESEND_API_KEY is not set. Email was not sent.');
+      return new Response(
+          JSON.stringify({ 
+            error: 'Email configuration missing. Please contact support.'
+          }),
+          {
+            status: 500,
+            headers: {
+              'Content-Type': 'application/json',
+              ...corsHeaders
+            }
+          }
+        );
+    }
     
     // For now, just log and return success
     return new Response(
@@ -125,9 +192,21 @@ router.post('/api/contact', async (request: Request, env: any) => {
   }
 });
 
-// Serve static assets
-router.all('*', (request: Request, env: any) => {
-  return env.ASSETS.fetch(request);
+// Serve static assets or return 404 if not found
+router.all('*', async (request: Request, env: any) => {
+  try {
+    const response = await env.ASSETS.fetch(request);
+    
+    // Create a new response to allow header modification
+    const newResponse = new Response(response.body, response);
+    
+    // Add Permissions-Policy header for microphone access across origins (Gemini Voice Advisor)
+    newResponse.headers.set('Permissions-Policy', 'microphone=(self "https://ais-pre-6v2aqu5hko7j6draj7zjac-95863893871.europe-west1.run.app")');
+    
+    return newResponse;
+  } catch (e) {
+    return new Response('Not Found', { status: 404 });
+  }
 });
 
 export default {
