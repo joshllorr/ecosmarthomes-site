@@ -58,6 +58,9 @@ describe("Cloudflare Worker", () => {
   });
 
   it("handles valid contact form submission", async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify({ id: "mock-id" }), { status: 200 }));
+
     const request = new Request("http://localhost/api/contact", {
       method: "POST",
       body: JSON.stringify({
@@ -69,11 +72,13 @@ describe("Cloudflare Worker", () => {
         "Content-Type": "application/json"
       }
     });
-    const response = await worker.fetch(request, {});
+    const response = await worker.fetch(request, { RESEND_API_KEY: "mock-key" });
 
     expect(response.status).toBe(200);
     const data = await response.json();
     expect(data.success).toBe(true);
+
+    globalThis.fetch = originalFetch;
   });
 
   it("serves static assets", async () => {

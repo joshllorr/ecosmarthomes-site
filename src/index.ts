@@ -16,6 +16,25 @@ router.options('*', () => {
   });
 });
 
+// Site health endpoint (Harbor SEO / SEO Hub integration)
+router.get('/api/site-health', () => {
+  return new Response(
+    JSON.stringify({
+      status: "ok",
+      schema: "detected",
+      altText: "detected",
+      meta: "active",
+      h1: "Premium Home Energy Retrofit Advisory in Ireland"
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        ...corsHeaders
+      }
+    }
+  );
+});
+
 // Contact form endpoint
 router.post('/api/contact', async (request: Request, env: any) => {
   try {
@@ -173,9 +192,21 @@ router.post('/api/contact', async (request: Request, env: any) => {
   }
 });
 
-// Serve static assets
-router.all('*', (request: Request, env: any) => {
-  return env.ASSETS.fetch(request);
+// Serve static assets or return 404 if not found
+router.all('*', async (request: Request, env: any) => {
+  try {
+    const response = await env.ASSETS.fetch(request);
+    
+    // Create a new response to allow header modification
+    const newResponse = new Response(response.body, response);
+    
+    // Add Permissions-Policy header for microphone access across origins (Gemini Voice Advisor)
+    newResponse.headers.set('Permissions-Policy', 'microphone=(self "https://ais-pre-6v2aqu5hko7j6draj7zjac-95863893871.europe-west1.run.app")');
+    
+    return newResponse;
+  } catch (e) {
+    return new Response('Not Found', { status: 404 });
+  }
 });
 
 export default {

@@ -1,4 +1,4 @@
-<svg width="300" height="80" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+<svg width="340" height="80" viewBox="0 0 340 80" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#00a86b"/>
@@ -14,6 +14,6 @@
   </g>
   
   <!-- Text -->
-  <text x="70" y="48" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="url(#logoGrad)">EcoSmart</text>
-  <text x="208" y="48" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#003f2d">Home</text>
+  <text x="70" y="48" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#ffffff">EcoSmart</text>
+  <text x="208" y="48" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#ffffff">Homes</text>
 </svg>
