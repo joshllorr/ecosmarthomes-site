@@ -309,6 +309,14 @@ export default {
 
     // 2. Private Developer Portal (/ai/dev/*) — requires valid, active, non-revoked developer token
     if (url.pathname.startsWith('/ai/dev')) {
+      // Explicit fail-safe check for /ai/dev/endpoints.html
+      if (url.pathname === '/ai/dev/endpoints.html' || url.pathname === '/ai/dev/endpoints') {
+        if (!isDevAuthorized) {
+          const landingUrl = new URL('/ai/', request.url).toString();
+          return Response.redirect(landingUrl, 302);
+        }
+      }
+
       if (!isDevAuthorized) {
         const landingUrl = new URL('/ai/', request.url).toString();
         return Response.redirect(landingUrl, 302);
