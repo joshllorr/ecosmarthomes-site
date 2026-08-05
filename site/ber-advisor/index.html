@@ -49,65 +49,73 @@
       justify-content: space-between;
     }
     
-    .ber-band-list {
+    .ber-scale {
+      width: 100%;
+      margin: 0.5rem 0;
+      border-radius: 12px;
+      overflow: hidden;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      box-shadow: 0 4px 16px rgba(0, 63, 45, 0.08);
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 2px;
     }
-    
-    .ber-band-row {
+
+    .ber-row {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      height: 28px;
-      border-radius: 4px;
-      color: white;
-      font-weight: 700;
-      font-size: 0.85rem;
-      padding-left: 12px;
-      position: relative;
+      padding: 9px 14px;
+      font-size: 0.92rem;
+      color: #fff;
+      font-weight: 600;
       transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
     }
-    
-    .ber-band-row:hover {
+
+    .ber-row:hover {
       transform: translateX(4px);
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
-    
-    .ber-band-row.active-current {
+
+    .ber-row.active-current {
       outline: 3px solid #10b981;
-      outline-offset: 1px;
+      outline-offset: -2px;
       z-index: 5;
     }
-    
-    .ber-band-row.active-target {
+
+    .ber-row.active-target {
       outline: 3px solid #003f2d;
-      outline-offset: 1px;
+      outline-offset: -2px;
       z-index: 5;
     }
-    
-    .ber-band-row .band-kwh {
-      margin-left: auto;
-      margin-right: 12px;
-      font-size: 0.72rem;
+
+    .ber-row span:last-child {
+      opacity: 0.95;
       font-weight: 500;
-      opacity: 0.9;
+      font-size: 0.85rem;
     }
-    
-    /* Dynamic Colors for Official Irish BER Bands */
-    .band-A1 { background: #00703C; width: 45%; }
-    .band-A2 { background: #008542; width: 49%; }
-    .band-A3 { background: #009E49; width: 53%; }
-    .band-B1 { background: #50B848; width: 57%; }
-    .band-B2 { background: #78C944; width: 61%; }
-    .band-B3 { background: #99D546; width: 65%; }
-    .band-C1 { background: #FFF200; color: #111; width: 69%; }
-    .band-C2 { background: #FDB913; color: #111; width: 73%; }
-    .band-C3 { background: #F8971D; width: 77%; }
-    .band-D1 { background: #F37023; width: 81%; }
-    .band-D2 { background: #EE4326; width: 85%; }
-    .band-E1 { background: #E41B23; width: 89%; }
-    .band-E2 { background: #BD1622; width: 93%; }
+
+    /* Updated 2026 BER colours */
+    .ber-a1 { background: #0a8f3c; }
+    .ber-a2 { background: #1ca64a; }
+    .ber-a3 { background: #2fbd58; }
+
+    .ber-b1 { background: #7cc242; }
+    .ber-b2 { background: #a8cf3a; }
+    .ber-b3 { background: #c8d92f; }
+
+    .ber-c1 { background: #f2e627; color: #111; }
+    .ber-c2 { background: #f7d21c; color: #111; }
+
+    .ber-d1 { background: #f5b318; }
+    .ber-d2 { background: #f29a15; }
+
+    .ber-e1 { background: #ef7f12; }
+    .ber-e2 { background: #eb5f0f; }
+
+    .ber-f  { background: #e63c0c; }
+    .ber-g  { background: #d91e0a; }
     .band-F  { background: #8E0E17; width: 97%; }
     .band-G  { background: #5C060B; width: 100%; }
 
@@ -291,22 +299,26 @@
         <small style="color:var(--text-muted); font-size:0.75rem;">kWh/m²·yr</small>
       </div>
 
-      <div class="ber-band-list">
-        <div class="ber-band-row band-A1" id="band-A1">A1 <span class="band-kwh">&lt; 25</span></div>
-        <div class="ber-band-row band-A2" id="band-A2">A2 <span class="band-kwh">25 - 50</span></div>
-        <div class="ber-band-row band-A3" id="band-A3">A3 <span class="band-kwh">51 - 75</span></div>
-        <div class="ber-band-row band-B1" id="band-B1">B1 <span class="band-kwh">76 - 100</span></div>
-        <div class="ber-band-row band-B2 active-target" id="band-B2">B2 <span class="band-kwh">101 - 125</span> ★ Target</div>
-        <div class="ber-band-row band-B3" id="band-B3">B3 <span class="band-kwh">126 - 150</span></div>
-        <div class="ber-band-row band-C1" id="band-C1">C1 <span class="band-kwh">151 - 175</span></div>
-        <div class="ber-band-row band-C2" id="band-C2">C2 <span class="band-kwh">176 - 200</span></div>
-        <div class="ber-band-row band-C3" id="band-C3">C3 <span class="band-kwh">201 - 225</span></div>
-        <div class="ber-band-row band-D1" id="band-D1">D1 <span class="band-kwh">226 - 260</span></div>
-        <div class="ber-band-row band-D2" id="band-D2">D2 <span class="band-kwh">261 - 300</span></div>
-        <div class="ber-band-row band-E1" id="band-E1">E1 <span class="band-kwh">301 - 340</span></div>
-        <div class="ber-band-row band-E2" id="band-E2">E2 <span class="band-kwh">341 - 380</span></div>
-        <div class="ber-band-row band-F"  id="band-F">F <span class="band-kwh">381 - 450</span></div>
-        <div class="ber-band-row band-G active-current"  id="band-G">G <span class="band-kwh">&gt; 450</span> 👈 Current</div>
+      <div class="ber-scale">
+        <div class="ber-row ber-a1" id="band-A1"><span>A1</span><span>&lt; 25 kWh/m²·yr</span></div>
+        <div class="ber-row ber-a2" id="band-A2"><span>A2</span><span>25 – 50 kWh/m²·yr</span></div>
+        <div class="ber-row ber-a3" id="band-A3"><span>A3</span><span>50 – 75 kWh/m²·yr</span></div>
+
+        <div class="ber-row ber-b1" id="band-B1"><span>B1</span><span>75 – 100 kWh/m²·yr</span></div>
+        <div class="ber-row ber-b2 active-target" id="band-B2"><span>B2 ★ Target</span><span>100 – 150 kWh/m²·yr</span></div>
+        <div class="ber-row ber-b3" id="band-B3"><span>B3</span><span>150 – 175 kWh/m²·yr</span></div>
+
+        <div class="ber-row ber-c1" id="band-C1"><span>C1</span><span>175 – 200 kWh/m²·yr</span></div>
+        <div class="ber-row ber-c2" id="band-C2"><span>C2</span><span>200 – 225 kWh/m²·yr</span></div>
+
+        <div class="ber-row ber-d1" id="band-D1"><span>D1</span><span>225 – 250 kWh/m²·yr</span></div>
+        <div class="ber-row ber-d2" id="band-D2"><span>D2</span><span>250 – 275 kWh/m²·yr</span></div>
+
+        <div class="ber-row ber-e1" id="band-E1"><span>E1</span><span>275 – 300 kWh/m²·yr</span></div>
+        <div class="ber-row ber-e2" id="band-E2"><span>E2</span><span>300 – 325 kWh/m²·yr</span></div>
+
+        <div class="ber-row ber-f"  id="band-F"><span>F</span><span>325 – 450 kWh/m²·yr</span></div>
+        <div class="ber-row ber-g active-current" id="band-G"><span>G 👈 Current</span><span>&gt; 450 kWh/m²·yr</span></div>
       </div>
     </div>
 
@@ -425,7 +437,7 @@ function simulateBER() {
   document.getElementById('berValueOut').textContent = valueBoost;
 
   // Highlight Bands
-  document.querySelectorAll('.ber-band-row').forEach(row => {
+  document.querySelectorAll('.ber-row').forEach(row => {
     row.classList.remove('active-current', 'active-target');
   });
 
