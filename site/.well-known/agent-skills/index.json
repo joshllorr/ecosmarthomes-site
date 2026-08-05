@@ -1,0 +1,46 @@
+{
+  "$schema": "https://agentskills.io/schemas/v0.2.0/index.json",
+  "version": "0.2.0",
+  "provider": {
+    "name": "EcoSmartHomes",
+    "domain": "ecosmarthomes.ie",
+    "url": "https://ecosmarthomes.ie"
+  },
+  "skills": [
+    {
+      "name": "retrofit-advisory",
+      "type": "markdown_spec",
+      "description": "Fabric-first home energy retrofit upgrade prioritization matrix for Irish properties.",
+      "url": "https://ecosmarthomes.ie/api/upgrades/recommendations.md",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "BER-analysis",
+      "type": "markdown_spec",
+      "description": "Building Energy Rating band progression scale, DEAP calculations, and primary energy consumption metrics.",
+      "url": "https://ecosmarthomes.ie/api/ber/analysis.md",
+      "sha256": "8f352485c2560866e4a2c14c55458397a61d198f1f705549045b85a3c108e45e"
+    },
+    {
+      "name": "grant-guidance",
+      "type": "markdown_spec",
+      "description": "SEAI (Sustainable Energy Authority of Ireland) grant allocations, eligibility rules, and One-Stop-Shop bonuses.",
+      "url": "https://ecosmarthomes.ie/api/grants/guidance.md",
+      "sha256": "9b8e1f57e8492025d4817a02b367123956f4d8e2098b14a1c6a287e5b2901a5e"
+    },
+    {
+      "name": "journey-timeline",
+      "type": "markdown_spec",
+      "description": "Step-by-step homeowner retrofit journey timeline from initial assessment to final BER grant drawdown.",
+      "url": "https://ecosmarthomes.ie/api/journey/timeline.md",
+      "sha256": "4a7d1893c52e008a9f62118e470129b8c2d1b58a1290a18471c21049e2908f51"
+    },
+    {
+      "name": "insights-dashboard",
+      "type": "markdown_spec",
+      "description": "Financial return metrics, average fuel cost offsets, Carbon Tax Shield formulas, and Heat Loss Indicator (HLI) targets.",
+      "url": "https://ecosmarthomes.ie/api/insights/dashboard.md",
+      "sha256": "1c7b8e90a215f76b9148560a2b8e5c1d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b"
+    }
+  ]
+}

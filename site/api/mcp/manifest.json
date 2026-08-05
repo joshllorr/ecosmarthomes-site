@@ -1,0 +1,142 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/mcp.json",
+  "protocolVersion": "2024-11-05",
+  "serverInfo": {
+    "name": "ecosmarthomes-mcp-server",
+    "version": "1.0.0"
+  },
+  "capabilities": {
+    "tools": {},
+    "resources": {},
+    "prompts": {}
+  },
+  "tools": [
+    {
+      "name": "get_ber_analysis",
+      "description": "Calculates targeted BER improvement band, primary energy reduction, and carbon emission reductions for a home in Ireland.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "current_ber": {
+            "type": "string",
+            "enum": ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "E1", "E2", "F", "G"],
+            "description": "Current BER Rating of the building."
+          },
+          "target_ber": {
+            "type": "string",
+            "enum": ["A1", "A2", "A3", "B1", "B2"],
+            "description": "Target BER Rating after retrofit upgrades."
+          },
+          "floor_area_sqm": {
+            "type": "number",
+            "description": "Total internal floor area in square meters."
+          }
+        },
+        "required": ["current_ber", "target_ber"]
+      }
+    },
+    {
+      "name": "get_retrofit_recommendations",
+      "description": "Provides step-by-step home energy retrofit upgrades tailored to Irish building regulations (NZEB & SEAI criteria).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "building_year": {
+            "type": "integer",
+            "description": "Year of building construction."
+          },
+          "wall_type": {
+            "type": "string",
+            "enum": ["cavity_brick", "solid_masonry", "timber_frame", "hollow_block"],
+            "description": "External wall structural type."
+          },
+          "existing_heating": {
+            "type": "string",
+            "enum": ["oil_boiler", "gas_boiler", "electric_storage", "solid_fuel"],
+            "description": "Primary existing space heating fuel/system."
+          }
+        },
+        "required": ["building_year", "wall_type"]
+      }
+    },
+    {
+      "name": "calculate_seai_grants",
+      "description": "Computes current SEAI (Sustainable Energy Authority of Ireland) grant support for heat pumps, insulation, solar PV, and bonus packages.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "selected_measures": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "heat_pump_air_to_water",
+                "heat_pump_ground_source",
+                "attic_insulation",
+                "cavity_wall_insulation",
+                "external_wall_insulation",
+                "solar_pv",
+                "heating_controls",
+                "solar_thermal"
+              ]
+            },
+            "description": "List of energy efficiency measures planned."
+          }
+        },
+        "required": ["selected_measures"]
+      }
+    },
+    {
+      "name": "get_journey_timeline",
+      "description": "Provides the complete step-by-step Retrofit Roadmap timeline from initial assessment to grant claim completion.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project_scope": {
+            "type": "string",
+            "enum": ["shallow_upgrade", "medium_upgrade", "deep_retrofit"],
+            "description": "Scope of the planned home upgrade."
+          }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "ecosmarthomes://api/upgrades/recommendations.md",
+      "name": "Retrofit Upgrade Recommendations Data Sheet",
+      "mimeType": "text/markdown",
+      "description": "Structured markdown guide on measures, costs, heat loss index target, and grant options."
+    },
+    {
+      "uri": "ecosmarthomes://api/ber/analysis.md",
+      "name": "BER Rating Scale and Primary Energy Calculations",
+      "mimeType": "text/markdown",
+      "description": "Comprehensive reference data for BER bands G through A1."
+    },
+    {
+      "uri": "ecosmarthomes://api/grants/guidance.md",
+      "name": "SEAI Grant Schemes and Bonus Allowances",
+      "mimeType": "text/markdown",
+      "description": "Detailed grant allocations and eligibility rules for Irish property retrofits."
+    }
+  ],
+  "prompts": [
+    {
+      "name": "ber_retrofit_consultation",
+      "description": "Prompt template for guiding an Irish homeowner through a BER improvement consultation.",
+      "arguments": [
+        {
+          "name": "property_type",
+          "description": "Detached, Semi-detached, Terraced, Apartment",
+          "required": true
+        },
+        {
+          "name": "budget_range",
+          "description": "Estimated budget in EUR",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

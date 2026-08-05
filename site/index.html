@@ -14,6 +14,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Premium home energy retrofit advisory for Irish homeowners, including BER assessments, insulation upgrades, and heat‑pump guidance." />
   <title>EcoSmartHome | Premium Home Energy Retrofit Advisory in Ireland</title>
+  <link rel="canonical" href="https://ecosmarthomes.ie/" />
+
+  <!-- AI Agent & MCP Readiness Manifests -->
+  <meta name="ai-agent-readiness" content="enabled" />
+  <meta name="ai-agent-manifest" content="https://ecosmarthomes.ie/ai/manifest.json" />
+  <link rel="agent-manifest" type="application/json" href="/ai/manifest.json" />
+  <link rel="ai-plugin" type="application/json" href="/.well-known/ai-plugin.json" />
+  <link rel="mcp-manifest" type="application/json" href="/api/mcp/manifest.json" />
+  <link rel="alternate" type="text/markdown" href="/api/upgrades/recommendations.md" title="EcoSmartHomes Upgrade Recommendations (Markdown)" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -60,6 +69,7 @@
   <script data-harbor-site="nd7d6rtk4d1dcz0q1ha3ppx77x8ap9zc" src="https://outgoing-oyster-428.convex.site/api/harbor-seo.js?siteId=nd7d6rtk4d1dcz0q1ha3ppx77b8ap9zc" async></script>
   <link rel="stylesheet" href="css/styles.css?v=2" />
   <script src="js/contact-form.js" defer></script>
+  <script src="js/webmcp-init.js" defer></script>
 
   <!-- ANIMATION CSS -->
   <style>
@@ -213,6 +223,7 @@
         <li><a href="#roadmap">Roadmap</a></li>
         <li><a href="#heatpump">Heat Pump Test</a></li>
         <li><a href="#grants">Grant Assessment</a></li>
+        <li><a href="agent-skills.html" style="color: #10b981; font-weight: 600;">🤖 Agent Skills</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -1084,7 +1095,11 @@
     <div class="footer-section">
       <h4>Know more. Save more.</h4>
       <a href="#contact" class="btn-primary">Get in Touch</a>
-      <p class="footer-privacy-wrapper"><a href="privacy-policy.html" class="footer-privacy-link">Privacy Policy</a></p>
+      <p class="footer-privacy-wrapper">
+        <a href="privacy-policy.html" class="footer-privacy-link">Privacy Policy</a> • 
+        <a href="agent-skills.html" class="footer-privacy-link" style="color: #10b981;">🤖 Agent Skills</a> • 
+        <a href="ai/manifest.json" target="_blank" class="footer-privacy-link">AI Manifest</a>
+      </p>
     </div>
 
   </div>

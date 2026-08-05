@@ -1,0 +1,92 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "EcoSmartHomes AI Agent API",
+    "description": "API endpoints providing markdown data, BER rating calculations, and SEAI grant breakdowns for AI Agents.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "EcoSmartHomes Advisory",
+      "url": "https://ecosmarthomes.ie/contact"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ecosmarthomes.ie",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/api/upgrades/recommendations.md": {
+      "get": {
+        "summary": "Get Retrofit Upgrade Recommendations in Markdown",
+        "operationId": "getUpgradeRecommendationsMarkdown",
+        "responses": {
+          "200": {
+            "description": "Structured Markdown document containing energy upgrade recommendations.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ber/analysis.md": {
+      "get": {
+        "summary": "Get BER Scale and Analysis Breakdown in Markdown",
+        "operationId": "getBERAnalysisMarkdown",
+        "responses": {
+          "200": {
+            "description": "Structured Markdown document outlining BER band targets and energy metrics.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/grants/guidance.md": {
+      "get": {
+        "summary": "Get SEAI Grant Rules and Calculations in Markdown",
+        "operationId": "getGrantGuidanceMarkdown",
+        "responses": {
+          "200": {
+            "description": "Structured Markdown document detailing SEAI grant allocations.",
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/manifest.json": {
+      "get": {
+        "summary": "Get Site AI Agent Manifest",
+        "operationId": "getAIManifest",
+        "responses": {
+          "200": {
+            "description": "JSON Manifest describing site skills and endpoints.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

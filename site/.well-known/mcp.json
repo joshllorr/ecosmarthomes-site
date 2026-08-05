@@ -1,0 +1,12 @@
+{
+  "mcp_version": "1.0",
+  "name": "EcoSmartHomes MCP Server",
+  "description": "Model Context Protocol interface for EcoSmartHomes Irish Retrofit Advisory",
+  "endpoint": "https://ecosmarthomes.ie/api/mcp/manifest.json",
+  "protocol": "https",
+  "capabilities": {
+    "tools": true,
+    "prompts": true,
+    "resources": true
+  }
+}

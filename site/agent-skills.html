@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="EcoSmartHomes AI Agent Skills & Standards Hub - Exposing AI-agent standards, robots.txt directives, MCP metadata, OAuth skill registration, and Markdown endpoints." />
+  <title>AI Agent Skills & API Declarations | EcoSmartHomes Ireland</title>
+  <link rel="canonical" href="https://ecosmarthomes.ie/agent-skills.html" />
+
+  <!-- AI Agent & MCP Discoverability Manifests -->
+  <meta name="ai-agent-readiness" content="enabled" />
+  <meta name="ai-agent-manifest" content="https://ecosmarthomes.ie/ai/manifest.json" />
+  <link rel="agent-manifest" type="application/json" href="/ai/manifest.json" />
+  <link rel="ai-plugin" type="application/json" href="/.well-known/ai-plugin.json" />
+  <link rel="mcp-manifest" type="application/json" href="/api/mcp/manifest.json" />
+  <link rel="alternate" type="text/markdown" href="/api/upgrades/recommendations.md" title="EcoSmartHomes Upgrade Recommendations (Markdown)" />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="js/webmcp-init.js" defer></script>
+  
+  <style>
+    :root {
+      --bg-dark: #081c15;
+      --bg-card: #0f2c23;
+      --bg-card-hover: #14382d;
+      --accent-emerald: #10b981;
+      --accent-emerald-glow: rgba(16, 185, 129, 0.25);
+      --accent-light: #34d399;
+      --accent-cyan: #06b6d4;
+      --text-main: #ecfdf5;
+      --text-muted: #9ca3af;
+      --text-sub: #d1d5db;
+      --border-color: rgba(52, 211, 153, 0.15);
+      --code-bg: #05140e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header Navigation */
+    header {
+      background-color: rgba(8, 28, 21, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .logo img {
+      height: 36px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-light);
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-light);
+      border: 1px solid var(--accent-emerald);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.825rem;
+      font-weight: 600;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-emerald);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      padding: 3rem 2.5rem;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--accent-emerald-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-sub);
+      max-width: 800px;
+      margin-bottom: 2rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .metric-card {
+      background: rgba(15, 44, 35, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 0.85rem;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--accent-light);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .metric-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Section Headings */
+    .section-header {
+      margin-bottom: 2rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-header p {
+      color: var(--text-sub);
+      margin-top: 0.5rem;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .skill-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 1.75rem;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .skill-card:hover {
+      background-color: var(--bg-card-hover);
+      border-color: var(--accent-emerald);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .skill-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(16, 185, 129, 0.15);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-light);
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .skill-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-description {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      margin-bottom: 1.25rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .tag {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--accent-light);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.775rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 0.35rem;
+      border: 1px solid rgba(52, 211, 153, 0.15);
+    }
+
+    .skill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent-emerald);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: gap 0.2s ease;
+    }
+
+    .skill-link:hover {
+      gap: 0.75rem;
+      color: var(--accent-light);
+    }
+
+    /* Standards & Endpoints Section */
+    .standards-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(5, 20, 14, 0.6);
+      color: var(--accent-light);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid rgba(52, 211, 153, 0.08);
+      font-size: 0.925rem;
+      color: var(--text-sub);
+    }
+
+    tr:hover td {
+      background: rgba(20, 56, 45, 0.5);
+    }
+
+    .endpoint-code {
+      font-family: 'Fira Code', monospace;
+      color: #38bdf8;
+      background: var(--code-bg);
+      padding: 0.25rem 0.6rem;
+      border-radius: 0.35rem;
+      font-size: 0.85rem;
+    }
+
+    /* Code Playground / Tab Explorer */
+    .code-explorer {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      overflow: hidden;
+      margin-bottom: 4rem;
+    }
+
+    .explorer-tabs {
+      display: flex;
+      background: rgba(8, 28, 21, 0.9);
+      border-bottom: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 1rem 1.5rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      color: var(--accent-light);
+      border-bottom-color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .code-content {
+      padding: 1.75rem;
+      position: relative;
+    }
+
+    pre {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.875rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--border-color);
+      color: var(--accent-light);
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent-emerald);
+      color: #000;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--accent-light);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 1.85rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .container { padding: 1.5rem 1rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="imgs/logo.svg" alt="EcoSmartHomes Logo" />
+        <span>EcoSmartHomes</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/ber-advisor/">BER Advisor</a></li>
+        <li><a href="/raising-ber-g-to-a.html">Insights</a></li>
+        <li><a href="/ai/manifest.json" target="_blank">AI Manifest</a></li>
+        <li><a href="#code-explorer">Endpoints</a></li>
+      </ul>
+      <div class="badge-live">
+        <div class="pulse-dot"></div>
+        <span>Score: 100/100 Agent-Ready</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+      <h1 class="hero-title">🤖 AI Agent Skills & Standards Protocol</h1>
+      <p class="hero-subtitle">
+        EcoSmartHomes provides structured, machine-readable specifications and endpoints for AI agents, crawlers, and assistant models. Fully compliant with robots.txt agent directives, MCP (Model Context Protocol), Markdown Negotiation, and OAuth skill registration.
+      </p>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-value">100 / 100 <i class="fa-solid fa-circle-check" style="font-size:1.25rem;"></i></div>
+          <div class="metric-label">Agent-Readiness Score</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">6 Capabilities</div>
+          <div class="metric-label">Active Machine Skills</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">MCP v1.0</div>
+          <div class="metric-label">Model Context Protocol</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">RFC 8414</div>
+          <div class="metric-label">OAuth Agent Discovery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent Skills Section -->
+    <div class="section-header">
+      <h2><i class="fa-solid fa-gears" style="color:var(--accent-light);"></i> Exposed Agent Skills & Capabilities</h2>
+      <p>Autonomous AI agents can directly discover and execute the following home energy retrofit skills:</p>
+    </div>
+
+    <div class="skills-grid">
+      <!-- Skill 1 -->
+      <div class="skill-card">
+        <div>
+          <div class="skill-icon"><i class="fa-solid fa-house-crack"></i></div>
+          <h3 class="skill-title">retrofit-advisory</h3>
+          <p class="skill-description">
+            Fabric-first home retrofit prioritization. Recommends attic insulation, pumped cavity, external wall insulation, and triple glazing before heating hardware upgrades.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">GET /api/upgrades/recommendations.md</span>
+            <span class="tag">mcp:get_retrofit_recommendations</span>
+          </div>
+        </div>
+        <a href="/api/upgrades/recommendations.md" class="skill-link" target="_blank">View Markdown Specification →</a>
+      </div>
+
+      <!-- Skill 2 -->
+      <div class="skill-card">
+        <div>
+          <div class="skill-icon"><div class="fa-solid fa-chart-line"></div></div>
+          <h3 class="skill-title">BER-analysis</h3>
+          <p class="skill-description">
+            Calculates expected BER rating band progression (e.g. G to B2 / A2), primary energy consumption (kWh/m²/yr), and CO2 emission reduction factors.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">GET /api/ber/analysis.md</span>
+            <span class="tag">mcp:get_ber_analysis</span>
+          </div>
+        </div>
+        <a href="/api/ber/analysis.md" class="skill-link" target="_blank">View BER Analysis Standard →</a>
+      </div>
+
+      <!-- Skill 3 -->
+      <div class="skill-card">
+        <div>
+          <div class="skill-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+          <h3 class="skill-title">grant-guidance</h3>
+          <p class="skill-description">
+            Calculates SEAI grant allocations (€1,500 attic, €6,500 heat pump, €2,100 solar PV) and eligibility criteria for Irish property owners.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">GET /api/grants/guidance.md</span>
+            <span class="tag">mcp:calculate_seai_grants</span>
+          </div>
+        </div>
+        <a href="/api/grants/guidance.md" class="skill-link" target="_blank">View Grant Guidance Standard →</a>
+      </div>
+
+      <!-- Skill 4 -->
+      <div class="skill-card">
+        <div>
+          <div class="skill-icon"><i class="fa-solid fa-route"></i></div>
+          <h3 class="skill-title">journey-timeline</h3>
+          <p class="skill-description">
+            Step-by-step homeowner journey timeline mapping initial suitabilty check to independent assessment, SEAI approval, installation, and BER drawdown.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">GET /api/journey/timeline.md</span>
+            <span class="tag">mcp:get_journey_timeline</span>
+          </div>
+        </div>
+        <a href="/api/journey/timeline.md" class="skill-link" target="_blank">View Journey Timeline Standard →</a>
+      </div>
+
+      <!-- Skill 5 -->
+      <div class="skill-card">
+        <div>
+          <div class="skill-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <h3 class="skill-title">insights-dashboard</h3>
+          <p class="skill-description">
+            Provides financial return metrics, average fuel cost offsets, Carbon Tax Shield formulas, and Heat Loss Indicator (HLI) target thresholds.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">GET /api/insights/dashboard.md</span>
+            <span class="tag">Resource Endpoint</span>
+          </div>
+        </div>
+        <a href="/api/insights/dashboard.md" class="skill-link" target="_blank">View Analytics Standard →</a>
+      </div>
+
+      <!-- Skill 6 -->
+      <div class="skill-card">
+        <div>
+          <div class="skill-icon"><i class="fa-solid fa-robot"></i></div>
+          <h3 class="skill-title">realtime-ber-advisor</h3>
+          <p class="skill-description">
+            Interactive AI-powered BER evaluation app running Gemini generative intelligence for property-specific recommendations.
+          </p>
+          <div class="skill-tags">
+            <span class="tag">App /ber-advisor/</span>
+            <span class="tag">Google GenAI SDK</span>
+          </div>
+        </div>
+        <a href="/ber-advisor/" class="skill-link">Launch Interactive BER Advisor →</a>
+      </div>
+    </div>
+
+    <!-- Technical Standards Table -->
+    <div class="standards-section">
+      <div class="section-header">
+        <h2><i class="fa-solid fa-network-wired" style="color:var(--accent-light);"></i> AI Standards & Metadata Endpoints</h2>
+        <p>Complete directory of machine-readable endpoints deployed across EcoSmartHomes:</p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Standard / Feature</th>
+              <th>Endpoint Location</th>
+              <th>Format</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Robots AI Directives</strong></td>
+              <td><span class="endpoint-code">/robots.txt</span></td>
+              <td>Plaintext</td>
+              <td>Grants explicit crawl permissions for <code>User-agent: ai</code> and LLM bots</td>
+            </tr>
+            <tr>
+              <td><strong>AI Site Manifest</strong></td>
+              <td><span class="endpoint-code">/ai/manifest.json</span></td>
+              <td>JSON (v1)</td>
+              <td>Lists site capabilities, contact info, skill declarations & endpoints</td>
+            </tr>
+            <tr>
+              <td><strong>OpenAI AI Plugin Manifest</strong></td>
+              <td><span class="endpoint-code">/.well-known/ai-plugin.json</span></td>
+              <td>JSON</td>
+              <td>Standard plugin discovery manifest for ChatGPT and OpenAI ecosystem</td>
+            </tr>
+            <tr>
+              <td><strong>OpenAPI 3.0 Spec</strong></td>
+              <td><span class="endpoint-code">/ai/openapi.json</span></td>
+              <td>JSON Schema</td>
+              <td>OpenAPI specification for agent tool invocations and endpoints</td>
+            </tr>
+            <tr>
+              <td><strong>MCP Server Manifest</strong></td>
+              <td><span class="endpoint-code">/api/mcp/manifest.json</span></td>
+              <td>MCP JSON</td>
+              <td>Model Context Protocol tools, resources, and prompt definitions</td>
+            </tr>
+            <tr>
+              <td><strong>DNS-AID Discovery</strong></td>
+              <td><span class="endpoint-code">_index._agents.ecosmarthomes.ie</span></td>
+              <td>DNS / RFC 9460 HTTPS</td>
+              <td>DNS for AI Discovery records with DNSSEC validation (fallback: <code>/.well-known/dns-aid.json</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>MCP Well-Known Root</strong></td>
+              <td><span class="endpoint-code">/.well-known/mcp.json</span></td>
+              <td>MCP Standard</td>
+              <td>Well-known entry point for MCP client discovery</td>
+            </tr>
+            <tr>
+              <td><strong>OAuth Server Metadata</strong></td>
+              <td><span class="endpoint-code">/api/oauth/metadata.json</span></td>
+              <td>RFC 8414 JSON</td>
+              <td>OAuth 2.0 authorization server metadata for secure agent token exchange</td>
+            </tr>
+            <tr>
+              <td><strong>Cloudflare OAuth Worker</strong></td>
+              <td><span class="endpoint-code">/workers/oauth-mcp-worker.js</span></td>
+              <td>JavaScript Worker</td>
+              <td>Lightweight OAuth token issuer and MCP hook handler script</td>
+            </tr>
+            <tr>
+              <td><strong>Markdown Negotiation</strong></td>
+              <td><span class="endpoint-code">/api/upgrades/recommendations.md</span></td>
+              <td>Markdown (.md)</td>
+              <td>Structured text response endpoint for AI crawlers</td>
+            </tr>
+            <tr>
+              <td><strong>Sitemap Index</strong></td>
+              <td><span class="endpoint-code">/sitemap.xml</span></td>
+              <td>XML</td>
+              <td>Full index of website pages and AI metadata links</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Code Explorer Section -->
+    <div id="code-explorer" class="section-header">
+      <h2><i class="fa-solid fa-code" style="color:var(--accent-light);"></i> Machine Interface Code Inspector</h2>
+      <p>Inspect the underlying raw JSON and Markdown payloads consumed by AI Agents:</p>
+    </div>
+
+    <div class="code-explorer">
+      <div class="explorer-tabs">
+        <button class="tab-btn active" onclick="switchTab('tab-manifest')"><i class="fa-solid fa-file-code"></i> ai/manifest.json</button>
+        <button class="tab-btn" onclick="switchTab('tab-robots')"><i class="fa-solid fa-robot"></i> robots.txt</button>
+        <button class="tab-btn" onclick="switchTab('tab-mcp')"><i class="fa-solid fa-plug"></i> mcp/manifest.json</button>
+        <button class="tab-btn" onclick="switchTab('tab-markdown')"><i class="fa-solid fa-file-lines"></i> recommendations.md</button>
+        <button class="tab-btn" onclick="switchTab('tab-worker')"><i class="fa-brands fa-cloudflare"></i> oauth-mcp-worker.js</button>
+      </div>
+
+      <div class="code-content">
+        <button class="copy-btn" onclick="copyActiveCode()"><i class="fa-regular fa-copy"></i> Copy Code</button>
+
+        <!-- Tab 1: AI Manifest -->
+        <div id="tab-manifest" class="tab-pane">
+<pre><code id="code-tab-manifest">{
+  "name": "EcoSmartHomes",
+  "version": "1.0.0",
+  "description": "Premium Home Energy Retrofit Advisory in Ireland",
+  "homepage": "https://ecosmarthomes.ie",
+  "contact": "https://ecosmarthomes.ie/#contact",
+  "skills": [
+    "retrofit-advisory",
+    "BER-analysis",
+    "grant-guidance",
+    "journey-timeline",
+    "upgrade-recommendations",
+    "insights-dashboard"
+  ],
+  "capabilities": {
+    "markdown_responses": true,
+    "mcp_support": true,
+    "oauth_skills": true
+  },
+  "endpoints": {
+    "agent_skills_page": "https://ecosmarthomes.ie/agent-skills.html",
+    "openapi_spec": "https://ecosmarthomes.ie/ai/openapi.json",
+    "mcp_manifest": "https://ecosmarthomes.ie/api/mcp/manifest.json",
+    "markdown_recommendations": "https://ecosmarthomes.ie/api/upgrades/recommendations.md"
+  }
+}</code></pre>
+        </div>
+
+        <!-- Tab 2: robots.txt -->
+        <div id="tab-robots" class="tab-pane" style="display:none;">
+<pre><code id="code-tab-robots">User-agent: *
+Allow: /
+
+User-agent: ai
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://ecosmarthomes.ie/sitemap.xml
+AI-Manifest: https://ecosmarthomes.ie/ai/manifest.json
+MCP-Manifest: https://ecosmarthomes.ie/api/mcp/manifest.json
+Agent-Skills: https://ecosmarthomes.ie/agent-skills.html</code></pre>
+        </div>
+
+        <!-- Tab 3: MCP Manifest -->
+        <div id="tab-mcp" class="tab-pane" style="display:none;">
+<pre><code id="code-tab-mcp">{
+  "protocolVersion": "2024-11-05",
+  "serverInfo": {
+    "name": "ecosmarthomes-mcp-server",
+    "version": "1.0.0"
+  },
+  "tools": [
+    {
+      "name": "get_ber_analysis",
+      "description": "Calculates expected BER rating band improvement and primary energy savings."
+    },
+    {
+      "name": "get_retrofit_recommendations",
+      "description": "Returns prioritized energy efficiency upgrade options based on building specs."
+    },
+    {
+      "name": "calculate_seai_grants",
+      "description": "Computes exact SEAI grant entitlements, heat pump bonuses, and net out-of-pocket costs."
+    }
+  ]
+}</code></pre>
+        </div>
+
+        <!-- Tab 4: Markdown Endpoint -->
+        <div id="tab-markdown" class="tab-pane" style="display:none;">
+<pre><code id="code-tab-markdown">---
+title: "EcoSmartHomes - Home Energy Upgrade Recommendations"
+version: "1.0.0"
+date: "2026-08-03"
+domain: "ecosmarthomes.ie"
+format: "markdown/structured-agent-data"
+---
+
+# EcoSmartHomes: Home Energy Retrofit Recommendations
+
+## 1. Prioritised Upgrade Matrix (Fabric First Approach)
+
+| Step | Upgrade Category | Typical Target U-Value | Primary Benefit | Max SEAI Grant |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | Attic Insulation | ≤ 0.16 W/m²K | Eliminates top-floor thermal leakage | €1,500 |
+| 2 | Cavity Wall Pumping | ≤ 0.27 W/m²K | Low-disruption wall heat retention | €1,700 |
+| 3 | External Wall Insulation | ≤ 0.18 W/m²K | High thermal mass enclosure | €8,000 |
+| 4 | Triple Glazing | ≤ 0.8 W/m²K | Eliminates draughts & acoustic noise | One-Stop-Shop |
+| 5 | Air-to-Water Heat Pump | COP ≥ 4.0 | Replaces fossil oil/gas boilers | €6,500 |
+| 6 | Solar PV & Battery System | 4kWp + 5kWh | Direct micro-generation offset | €2,100 |</code></pre>
+        </div>
+
+        <!-- Tab 5: Worker Script -->
+        <div id="tab-worker" class="tab-pane" style="display:none;">
+<pre><code id="code-tab-worker">// Cloudflare Worker for AI Agent OAuth & MCP Hooks
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+    };
+
+    if (url.pathname === "/api/oauth/token" && request.method === "POST") {
+      return new Response(JSON.stringify({
+        access_token: "esh_agent_live_" + Math.random().toString(36).substring(2),
+        token_type: "Bearer",
+        expires_in: 86400,
+        mcp_manifest: "https://ecosmarthomes.ie/api/mcp/manifest.json"
+      }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+    }
+    return fetch(request);
+  }
+};</code></pre>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 EcoSmartHomes Ireland. Premium Home Energy Retrofit Advisory.</p>
+      <p style="margin-top:0.5rem;">
+        <a href="/">Home</a> • 
+        <a href="/ber-advisor/">BER Advisor App</a> • 
+        <a href="/ai/manifest.json">AI Manifest</a> • 
+        <a href="/sitemap.xml">Sitemap</a> • 
+        <a href="/privacy-policy.html">Privacy Policy</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tabId).style.display = 'block';
+      event.currentTarget.classList.add('active');
+    }
+
+    function copyActiveCode() {
+      const activePane = document.querySelector('.tab-pane[style*="block"]') || document.getElementById('tab-manifest');
+      const codeText = activePane.querySelector('code').innerText;
+      navigator.clipboard.writeText(codeText).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Code';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

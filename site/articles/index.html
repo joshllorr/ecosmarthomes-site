@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Articles | EcoSmartHomes</title>
+  <meta name="description" content="Latest retrofit, solar, insulation and energy-saving articles from EcoSmartHomes.">
+  <link rel="stylesheet" href="/css/styles.css?v=2">
+  <style>
+    .articles-hero {
+      background: linear-gradient(135deg, #003f2d 0%, #002d20 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .articles-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+    .articles-hero p {
+      font-size: 1.1rem;
+      color: #7fd38a;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .articles-layout {
+      max-width: 1100px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+    .articles-grid {
+      display: grid;
+      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .article-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 30px;
+      text-align: left;
+      border-left: 5px solid #00a86b;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .article-card h2 {
+      color: #003f2d;
+      margin: 0 0 15px 0;
+      font-size: 1.3rem;
+      line-height: 1.4;
+    }
+    .article-card .meta {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .article-card .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 15px;
+    }
+    .tag-badge {
+      background: #e6f4ef;
+      color: #007f50;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="/index.html">
+        <img src="/imgs/logo.svg" alt="EcoSmartHomes" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="/index.html#hero">Home</a></li>
+        <li><a href="/index.html#services">Services</a></li>
+        <li><a href="/index.html#process">Process</a></li>
+        <li><a href="/index.html#independence">Independence</a></li>
+        <li><a href="/index.html#ber">BER Protection</a></li>
+        <li><a href="/index.html#roadmap">Roadmap</a></li>
+        <li><a href="/index.html#heatpump">Heat Pump Test</a></li>
+        <li><a href="/index.html#grants">Grant Assessment</a></li>
+        <li><a href="/index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="articles-hero">
+  <h1>Latest Insights & Guidance</h1>
+  <p>Clear, conflict-free advice on home retrofits, SEAI grants, carbon tax mitigation, and heat pump readiness.</p>
+</div>
+
+<div class="articles-layout">
+  <div id="articles" class="articles-grid">
+    <!-- Articles will be loaded here dynamically -->
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-col">
+      <h3>EcoSmartHomes</h3>
+      <p>Independent, conflict-free retrofit guidance protecting your home and your wallet.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="/index.html#hero">Home</a></li>
+        <li><a href="/index.html#services">Services</a></li>
+        <li><a href="/index.html#process">Process</a></li>
+        <li><a href="/index.html#independence">Independence</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>Limerick, Ireland</p>
+      <p>Serving all of Ireland</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+async function loadArticles() {
+  try {
+    const res = await fetch('/api/articles');
+    const articles = await res.json();
+
+    const container = document.getElementById('articles');
+    container.innerHTML = articles.map(a => {
+      let tagsList = [];
+      try {
+        tagsList = typeof a.tags === 'string' ? JSON.parse(a.tags) : a.tags;
+      } catch(e) {
+        tagsList = [a.tags];
+      }
+      
+      return `
+        <a href="/articles/${a.slug}.html" class="article-card">
+          <h2>${a.title}</h2>
+          <div class="meta">Published: ${new Date(a.created_at).toLocaleDateString('en-IE')}</div>
+          <div class="tags">
+            ${tagsList.map(tag => `<span class="tag-badge">${tag}</span>`).join('')}
+          </div>
+        </a>
+      `;
+    }).join('');
+  } catch (error) {
+    console.error('Error loading articles:', error);
+    document.getElementById('articles').innerHTML = '<p>Unable to load articles at this time. Please check back later.</p>';
+  }
+}
+
+loadArticles();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/server-card.json",
+  "serverInfo": {
+    "name": "EcoSmartHomes MCP Server",
+    "version": "1.0.0",
+    "description": "Model Context Protocol Server for Irish Home Energy Retrofits, BER Ratings & SEAI Grants",
+    "vendor": "EcoSmartHomes Ireland",
+    "homepage": "https://ecosmarthomes.ie"
+  },
+  "transport": {
+    "type": "https",
+    "endpoint": "https://ecosmarthomes.ie/api/mcp/invoke",
+    "manifest": "https://ecosmarthomes.ie/api/mcp/manifest.json"
+  },
+  "capabilities": {
+    "tools": {
+      "count": 4,
+      "list": [
+        "get_ber_analysis",
+        "get_retrofit_recommendations",
+        "calculate_seai_grants",
+        "get_journey_timeline"
+      ]
+    },
+    "resources": {
+      "count": 3,
+      "list": [
+        "ecosmarthomes://api/upgrades/recommendations.md",
+        "ecosmarthomes://api/ber/analysis.md",
+        "ecosmarthomes://api/grants/guidance.md"
+      ]
+    },
+    "prompts": {
+      "count": 1,
+      "list": [
+        "ber_retrofit_consultation"
+      ]
+    }
+  },
+  "authentication": {
+    "type": "oauth2",
+    "discovery": "https://ecosmarthomes.ie/.well-known/oauth-authorization-server"
+  }
+}

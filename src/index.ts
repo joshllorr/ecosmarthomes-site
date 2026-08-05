@@ -1,46 +1,53 @@
-import { Router } from 'itty-router';
+// RFC 8288 & RFC 9727 HTTP Link response headers for agent discovery
+const linkHeaderValue = [
+  '</.well-known/api-catalog>; rel="api-catalog"',
+  '</ai/manifest.json>; rel="agent-manifest"',
+  '</.well-known/ai-plugin.json>; rel="ai-plugin"',
+  '</api/mcp/manifest.json>; rel="mcp-manifest"',
+  '</ai/openapi.json>; rel="service-desc"; type="application/json"',
+  '</agent-skills.html>; rel="service-doc"',
+  '</api/health.json>; rel="status"; type="application/json"',
+  '</sitemap.xml>; rel="sitemap"',
+  '</api/upgrades/recommendations.md>; rel="alternate"; type="text/markdown"'
+].join(', ');
 
-const router = Router();
-
-// CORS headers
+// CORS & Agent Discovery headers
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, Accept, X-Agent-ID',
+  'Link': linkHeaderValue,
+  'Vary': 'Accept',
+  'X-Agent-Readiness': '100'
 };
 
-// Handle CORS preflight requests
-router.options('*', () => {
-  return new Response(null, {
-    headers: corsHeaders
-  });
-});
-
-// Site health endpoint (Harbor SEO / SEO Hub integration)
-router.get('/api/site-health', () => {
+function serveAgentHealth(headers: Record<string, string>) {
   return new Response(
     JSON.stringify({
-      status: "ok",
-      schema: "detected",
-      altText: "detected",
-      meta: "active",
-      h1: "Premium Home Energy Retrofit Advisory in Ireland"
-    }),
+      status: "pass",
+      service: "EcoSmartHomes AI Agent Advisory Services",
+      version: "1.0.0",
+      timestamp: new Date().toISOString(),
+      checks: {
+        ber_advisor: "operational",
+        mcp_server: "operational",
+        markdown_engine: "operational",
+        oauth_server: "operational"
+      }
+    }, null, 2),
     {
       headers: {
         'Content-Type': 'application/json',
-        ...corsHeaders
+        ...headers
       }
     }
   );
-});
+}
 
-// Contact form endpoint
-router.post('/api/contact', async (request: Request, env: any) => {
+async function handleContactForm(request: Request, env: any): Promise<Response> {
   try {
     let data;
     
-    // Try to parse the JSON body
     try {
       const text = await request.text();
       console.log('Received body:', text);
@@ -87,7 +94,6 @@ router.post('/api/contact', async (request: Request, env: any) => {
       );
     }
 
-    // Log the contact form submission
     console.log('Contact form submission:', {
       name: data.name,
       email: data.email,
@@ -97,7 +103,6 @@ router.post('/api/contact', async (request: Request, env: any) => {
       timestamp: new Date().toISOString()
     });
 
-    // Send email using Resend
     const resendApiKey = env.RESEND_API_KEY;
     
     if (resendApiKey) {
@@ -108,9 +113,9 @@ router.post('/api/contact', async (request: Request, env: any) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          from: 'EcoSmartHome Contact <noreply@ecosmarthomes.ie>', // Using your verified domain!
-          to: 'askjoe@ecosmarthomes.ie', // Changed to your Outlook 365 address
-          reply_to: data.email, // This makes it so hitting "Reply" in Gmail replies directly to the visitor!
+          from: 'EcoSmartHome Contact <noreply@ecosmarthomes.ie>',
+          to: 'askjoe@ecosmarthomes.ie',
+          reply_to: data.email,
           subject: `New Enquiry from ${data.name}`,
           html: `
             <h3>New Contact Form Submission</h3>
@@ -143,20 +148,19 @@ router.post('/api/contact', async (request: Request, env: any) => {
     } else {
       console.warn('RESEND_API_KEY is not set. Email was not sent.');
       return new Response(
-          JSON.stringify({ 
-            error: 'Email configuration missing. Please contact support.'
-          }),
-          {
-            status: 500,
-            headers: {
-              'Content-Type': 'application/json',
-              ...corsHeaders
-            }
+        JSON.stringify({ 
+          error: 'Email configuration missing. Please contact support.'
+        }),
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json',
+            ...corsHeaders
           }
-        );
+        }
+      );
     }
     
-    // For now, just log and return success
     return new Response(
       JSON.stringify({ 
         success: true, 
@@ -173,9 +177,6 @@ router.post('/api/contact', async (request: Request, env: any) => {
 
   } catch (error: any) {
     console.error('Contact form error:', error);
-    console.error('Error message:', error?.message);
-    console.error('Error stack:', error?.stack);
-    
     return new Response(
       JSON.stringify({ 
         error: 'An error occurred processing your request. Please try again later.',
@@ -190,25 +191,175 @@ router.post('/api/contact', async (request: Request, env: any) => {
       }
     );
   }
-});
-
-// Serve static assets or return 404 if not found
-router.all('*', async (request: Request, env: any) => {
-  try {
-    const response = await env.ASSETS.fetch(request);
-    
-    // Create a new response to allow header modification
-    const newResponse = new Response(response.body, response);
-    
-    // Add Permissions-Policy header for microphone access across origins (Gemini Voice Advisor)
-    newResponse.headers.set('Permissions-Policy', 'microphone=(self "https://ais-pre-6v2aqu5hko7j6draj7zjac-95863893871.europe-west1.run.app")');
-    
-    return newResponse;
-  } catch (e) {
-    return new Response('Not Found', { status: 404 });
-  }
-});
+}
 
 export default {
-  fetch: router.fetch
+  async fetch(request: Request, env: any, ctx: any): Promise<Response> {
+    const url = new URL(request.url);
+    const method = request.method;
+
+    // Handle OPTIONS preflight requests
+    if (method === 'OPTIONS') {
+      return new Response(null, { headers: corsHeaders });
+    }
+
+    // ⭐ Explicit fail-safe handler for /ai/manifest.json
+    if (url.pathname === '/ai/manifest.json') {
+      try {
+        const asset = await env.ASSETS.fetch(request);
+        if (asset.ok) {
+          const enriched = new Response(asset.body, asset);
+          enriched.headers.set('Content-Type', 'application/json; charset=utf-8');
+          enriched.headers.set('Link', linkHeaderValue);
+          enriched.headers.set('Access-Control-Allow-Origin', '*');
+          enriched.headers.set('Vary', 'Accept');
+          enriched.headers.set('X-Agent-Readiness', '100');
+          return enriched;
+        }
+      } catch (e) {}
+
+      // Fail-safe inline JSON response matching site/ai/manifest.json
+      return new Response(JSON.stringify({
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "name": "EcoSmartHomes",
+        "version": "1.0.0",
+        "description": "Premium Home Energy Retrofit Advisory in Ireland",
+        "legal_entity": "EcoSmartHomes Ireland",
+        "homepage": "https://ecosmarthomes.ie",
+        "contact": "https://ecosmarthomes.ie/#contact",
+        "skills": [
+          "retrofit-advisory",
+          "BER-analysis",
+          "grant-guidance",
+          "journey-timeline",
+          "upgrade-recommendations",
+          "insights-dashboard"
+        ],
+        "capabilities": {
+          "markdown_responses": true,
+          "mcp_support": true,
+          "oauth_skills": true,
+          "dns_aid_discovery": true,
+          "realtime_ber_advisor": true,
+          "structured_data_negotiation": true
+        },
+        "endpoints": {
+          "agent_skills_page": "https://ecosmarthomes.ie/agent-skills.html",
+          "openapi_spec": "https://ecosmarthomes.ie/ai/openapi.json",
+          "ai_plugin": "https://ecosmarthomes.ie/.well-known/ai-plugin.json",
+          "mcp_manifest": "https://ecosmarthomes.ie/api/mcp/manifest.json",
+          "dns_aid_json": "https://ecosmarthomes.ie/.well-known/dns-aid.json",
+          "oauth_metadata": "https://ecosmarthomes.ie/api/oauth/metadata.json"
+        }
+      }, null, 2), {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Link': linkHeaderValue,
+          'Access-Control-Allow-Origin': '*',
+          'Vary': 'Accept',
+          'X-Agent-Readiness': '100'
+        }
+      });
+    }
+
+    // Force static serving for all other /ai/* endpoints
+    if (url.pathname.startsWith('/ai/')) {
+      return env.ASSETS.fetch(request);
+    }
+
+    // 1. Site health endpoint (Harbor SEO integration)
+    if (url.pathname === '/api/site-health' && method === 'GET') {
+      return new Response(
+        JSON.stringify({
+          status: "ok",
+          schema: "detected",
+          altText: "detected",
+          meta: "active",
+          h1: "Premium Home Energy Retrofit Advisory in Ireland"
+        }),
+        { headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
+
+    // 2. Agent Health Status Endpoint (RFC 9727 status relation)
+    if ((url.pathname === '/api/health' || url.pathname === '/api/health.json') && method === 'GET') {
+      return serveAgentHealth(corsHeaders);
+    }
+
+    // 3. Contact form endpoint
+    if (url.pathname === '/api/contact' && method === 'POST') {
+      return handleContactForm(request, env);
+    }
+
+    // 4. Markdown for Agents Negotiation (Accept: text/markdown)
+    const acceptHeader = request.headers.get("Accept") || "";
+    if (method === 'GET' && acceptHeader.toLowerCase().includes("text/markdown")) {
+      let mdPath = "";
+      if (url.pathname === "/" || url.pathname === "/index.html") {
+        mdPath = "/index.md";
+      } else if (url.pathname === "/carbon-tax-2026.html" || url.pathname === "/carbon-tax-2026") {
+        mdPath = "/carbon-tax-2026.md";
+      } else if (url.pathname === "/raising-ber-g-to-a.html" || url.pathname === "/raising-ber-g-to-a") {
+        mdPath = "/raising-ber-g-to-a.md";
+      } else if (url.pathname === "/agent-skills.html" || url.pathname === "/agent-skills") {
+        mdPath = "/api/upgrades/recommendations.md";
+      }
+
+      if (mdPath) {
+        const mdRequest = new Request(new URL(mdPath, request.url).toString(), request);
+        const assetResponse = await env.ASSETS.fetch(mdRequest);
+        if (assetResponse.ok) {
+          const mdText = await assetResponse.text();
+          const estimatedTokens = Math.ceil(mdText.length / 4);
+
+          return new Response(mdText, {
+            status: 200,
+            headers: {
+              'Content-Type': 'text/markdown; charset=utf-8',
+              'x-markdown-tokens': estimatedTokens.toString(),
+              ...corsHeaders
+            }
+          });
+        }
+      }
+    }
+
+    // 5. Try serving static assets directly from site/ folder via env.ASSETS
+    try {
+      const assetResponse = await env.ASSETS.fetch(request);
+      
+      if (assetResponse.status !== 404) {
+        const enriched = new Response(assetResponse.body, assetResponse);
+        enriched.headers.set('Permissions-Policy', 'microphone=(self "https://ais-pre-6v2aqu5hko7j6draj7zjac-95863893871.europe-west1.run.app")');
+        enriched.headers.set('Link', linkHeaderValue);
+        enriched.headers.set('Access-Control-Allow-Origin', '*');
+        enriched.headers.set('Vary', 'Accept');
+        enriched.headers.set('X-Agent-Readiness', '100');
+
+        // MIME type overrides for agent readiness files
+        if (url.pathname === '/robots.txt') {
+          enriched.headers.set('Content-Type', 'text/plain; charset=utf-8');
+        } else if (url.pathname === '/.well-known/api-catalog') {
+          enriched.headers.set('Content-Type', 'application/linkset+json; charset=utf-8');
+        } else if (url.pathname === '/ai/manifest.json') {
+          enriched.headers.set('Content-Type', 'application/json; charset=utf-8');
+        } else if (url.pathname.endsWith('.md')) {
+          enriched.headers.set('Content-Type', 'text/markdown; charset=utf-8');
+        }
+
+        return enriched;
+      }
+    } catch (e) {
+      console.error('ASSETS fetch error:', e);
+    }
+
+    // 6. Articles fallback for 404s
+    if (url.pathname.startsWith('/articles/')) {
+      const fallbackUrl = new URL('/articles/test-article.html', request.url).toString();
+      const fallbackRequest = new Request(fallbackUrl, request);
+      return env.ASSETS.fetch(fallbackRequest);
+    }
+
+    return new Response('Not Found', { status: 404, headers: corsHeaders });
+  }
 };

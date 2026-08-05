@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "EcoSmartHomes Retrofit Advisory",
+  "name_for_model": "ecosmarthomes_advisor",
+  "description_for_human": "Independent home energy retrofit guidance, BER analysis, and SEAI grant calculations in Ireland.",
+  "description_for_model": "Plugin for querying Irish home retrofit recommendations, BER rating jump analysis, heat pump readiness tests, SEAI grant entitlements, and carbon tax shield plans.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://ecosmarthomes.ie/ai/openapi.json"
+  },
+  "logo_url": "https://ecosmarthomes.ie/imgs/logo.svg",
+  "contact_email": "support@ecosmarthomes.ie",
+  "legal_info_url": "https://ecosmarthomes.ie/privacy-policy.html"
+}

@@ -1,0 +1,51 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://ecosmarthomes.ie/api/",
+      "service-desc": [
+        {
+          "href": "https://ecosmarthomes.ie/ai/openapi.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://ecosmarthomes.ie/agent-skills.html",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://ecosmarthomes.ie/api/health.json",
+          "type": "application/json"
+        }
+      ],
+      "agent-manifest": [
+        {
+          "href": "https://ecosmarthomes.ie/ai/manifest.json",
+          "type": "application/json"
+        }
+      ],
+      "mcp-manifest": [
+        {
+          "href": "https://ecosmarthomes.ie/api/mcp/manifest.json",
+          "type": "application/json"
+        }
+      ],
+      "alternate": [
+        {
+          "href": "https://ecosmarthomes.ie/api/upgrades/recommendations.md",
+          "type": "text/markdown"
+        },
+        {
+          "href": "https://ecosmarthomes.ie/api/ber/analysis.md",
+          "type": "text/markdown"
+        },
+        {
+          "href": "https://ecosmarthomes.ie/api/grants/guidance.md",
+          "type": "text/markdown"
+        }
+      ]
+    }
+  ]
+}

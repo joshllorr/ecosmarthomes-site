@@ -1,0 +1,40 @@
+{
+  "$schema": "https://datatracker.ietf.org/doc/draft-mozleywilliams-dnsop-dnsaid/",
+  "domain": "ecosmarthomes.ie",
+  "dns_aid": {
+    "version": "1.0",
+    "dnssec_enabled": true,
+    "records": [
+      {
+        "rr_type": "HTTPS",
+        "name": "_index._agents.ecosmarthomes.ie",
+        "target": "ecosmarthomes.ie",
+        "params": {
+          "alpn": ["h2", "h3"],
+          "port": 443,
+          "path": "/ai/manifest.json"
+        }
+      },
+      {
+        "rr_type": "HTTPS",
+        "name": "_a2a._agents.ecosmarthomes.ie",
+        "target": "ecosmarthomes.ie",
+        "params": {
+          "alpn": ["h2", "h3"],
+          "port": 443,
+          "path": "/api/mcp/manifest.json"
+        }
+      },
+      {
+        "rr_type": "HTTPS",
+        "name": "_openapi._agents.ecosmarthomes.ie",
+        "target": "ecosmarthomes.ie",
+        "params": {
+          "alpn": ["h2", "h3"],
+          "port": 443,
+          "path": "/ai/openapi.json"
+        }
+      }
+    ]
+  }
+}

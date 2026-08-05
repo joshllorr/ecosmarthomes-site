@@ -1,0 +1,44 @@
+# EcoSmartHomes - Server Configuration for AI Agent Readiness & API Catalog (RFC 9727)
+
+<IfModule mod_headers.c>
+    # Enable CORS for AI Agents, LLM crawlers, and MCP Clients
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, Accept, X-Agent-ID"
+
+    # RFC 8288 / RFC 9727 HTTP Link Response Headers for Agent Discovery & API Catalog
+    Header set Link "</.well-known/api-catalog>; rel=\"api-catalog\", </ai/manifest.json>; rel=\"agent-manifest\", </.well-known/ai-plugin.json>; rel=\"ai-plugin\", </api/mcp/manifest.json>; rel=\"mcp-manifest\", </ai/openapi.json>; rel=\"service-desc\"; type=\"application/json\", </agent-skills.html>; rel=\"service-doc\", </api/health.json>; rel=\"status\"; type=\"application/json\", </sitemap.xml>; rel=\"sitemap\", </api/upgrades/recommendations.md>; rel=\"alternate\"; type=\"text/markdown\""
+    Header merge Vary "Accept"
+    Header set X-Agent-Readiness "100"
+</IfModule>
+
+<IfModule mod_mime.c>
+    # Serve Markdown, Linkset JSON, Plaintext, and JSON with proper character sets
+    AddType text/plain .txt
+    AddType text/markdown .md
+    AddType application/json .json
+    AddType application/linkset+json .linkset
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Clean URL routing for /agent-skills
+    RewriteRule ^agent-skills/?$ /agent-skills.html [L,R=301]
+
+    # Markdown Negotiation (Cloudflare & Agent standard: Accept: text/markdown)
+    RewriteCond %{HTTP:Accept} text/markdown [NC]
+    RewriteCond %{REQUEST_URI} ^/$ [OR]
+    RewriteCond %{REQUEST_URI} ^/index\.html$ [NC]
+    RewriteRule ^ /index.md [L]
+
+    RewriteCond %{HTTP:Accept} text/markdown [NC]
+    RewriteCond %{REQUEST_URI} ^/carbon-tax-2026\.html$ [OR]
+    RewriteCond %{REQUEST_URI} ^/carbon-tax-2026$ [NC]
+    RewriteRule ^ /carbon-tax-2026.md [L]
+
+    RewriteCond %{HTTP:Accept} text/markdown [NC]
+    RewriteCond %{REQUEST_URI} ^/raising-ber-g-to-a\.html$ [OR]
+    RewriteCond %{REQUEST_URI} ^/raising-ber-g-to-a$ [NC]
+    RewriteRule ^ /raising-ber-g-to-a.md [L]
+</IfModule>

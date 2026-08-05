@@ -1,0 +1,33 @@
+{
+  "issuer": "https://ecosmarthomes.ie",
+  "authorization_endpoint": "https://ecosmarthomes.ie/api/oauth/authorize",
+  "token_endpoint": "https://ecosmarthomes.ie/api/oauth/token",
+  "registration_endpoint": "https://ecosmarthomes.ie/api/oauth/register",
+  "mcp_endpoint": "https://ecosmarthomes.ie/api/mcp/manifest.json",
+  "scopes_supported": [
+    "openid",
+    "profile",
+    "read:retrofit_plans",
+    "read:ber_analysis",
+    "read:grant_guidance",
+    "execute:skills"
+  ],
+  "response_types_supported": [
+    "code",
+    "token"
+  ],
+  "grant_types_supported": [
+    "authorization_code",
+    "client_credentials",
+    "urn:ietf:params:oauth:grant-type:token-exchange"
+  ],
+  "token_endpoint_auth_methods_supported": [
+    "client_secret_basic",
+    "client_secret_post",
+    "none"
+  ],
+  "service_documentation": "https://ecosmarthomes.ie/agent-skills.html",
+  "ui_locales_supported": [
+    "en-IE"
+  ]
+}

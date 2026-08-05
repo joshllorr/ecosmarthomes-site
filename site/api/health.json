@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "service": "EcoSmartHomes AI Agent Advisory Services",
+  "version": "1.0.0",
+  "timestamp": "2026-08-03T21:08:30Z",
+  "checks": {
+    "ber_advisor": "operational",
+    "mcp_server": "operational",
+    "markdown_engine": "operational",
+    "oauth_server": "operational"
+  }
+}

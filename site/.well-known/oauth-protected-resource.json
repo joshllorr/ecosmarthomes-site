@@ -1,0 +1,18 @@
+{
+  "resource": "https://ecosmarthomes.ie/api/",
+  "authorization_servers": [
+    "https://ecosmarthomes.ie"
+  ],
+  "scopes_supported": [
+    "openid",
+    "profile",
+    "read:retrofit_plans",
+    "read:ber_analysis",
+    "read:grant_guidance",
+    "execute:skills"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_documentation": "https://ecosmarthomes.ie/agent-skills.html"
+}

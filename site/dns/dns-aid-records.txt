@@ -1,0 +1,49 @@
+; ==============================================================================
+; EcoSmartHomes Ireland - DNS for AI Discovery (DNS-AID) Zone Records
+; Compliant with draft-mozleywilliams-dnsop-dnsaid & RFC 9460 (SVCB / HTTPS RRs)
+; ==============================================================================
+
+$ORIGIN ecosmarthomes.ie.
+$TTL 3600
+
+; ------------------------------------------------------------------------------
+; 1. DNS-AID Index Discovery Record (_index._agents.ecosmarthomes.ie)
+; Directs AI agents to the site's AI Manifest and Agent Skills specification
+; ------------------------------------------------------------------------------
+_index._agents IN HTTPS 1 ecosmarthomes.ie. (
+    alpn="h2,h3"
+    port="443"
+    ipv4hint=104.21.32.1
+    ipv6hint=2606:4700:3038::6815:2001
+    key7="/ai/manifest.json"
+)
+
+; ------------------------------------------------------------------------------
+; 2. DNS-AID Agent-to-Agent (A2A) MCP Discovery Record (_a2a._agents.ecosmarthomes.ie)
+; Directs MCP Clients & Assistant Agents to the Model Context Protocol endpoint
+; ------------------------------------------------------------------------------
+_a2a._agents IN HTTPS 1 ecosmarthomes.ie. (
+    alpn="h2,h3"
+    port="443"
+    ipv4hint=104.21.32.1
+    ipv6hint=2606:4700:3038::6815:2001
+    key7="/api/mcp/manifest.json"
+)
+
+; ------------------------------------------------------------------------------
+; 3. DNS-AID OpenAPI Service Description Record (_openapi._agents.ecosmarthomes.ie)
+; Directs agentic orchestrators to the OpenAPI 3.0 specification
+; ------------------------------------------------------------------------------
+_openapi._agents IN HTTPS 1 ecosmarthomes.ie. (
+    alpn="h2,h3"
+    port="443"
+    key7="/ai/openapi.json"
+)
+
+; ------------------------------------------------------------------------------
+; 4. DNSSEC Zone Signing Instructions
+; DNSSEC ensures validating DNS resolvers receive authenticated, tamper-proof data.
+; ------------------------------------------------------------------------------
+; Algorithm: 13 (ECDSA Curve P-256 with SHA-256)
+; DS Record format:
+; ecosmarthomes.ie. IN DS 2371 13 2 4b1c78e90a215f76b9148560a2b8e5c1d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9
