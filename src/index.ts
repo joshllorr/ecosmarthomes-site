@@ -330,7 +330,17 @@ export default {
     }
 
     // 4. Protect all JSON & MD endpoints (/ai/manifest.json, /ai/openapi.json, /api/mcp/manifest.json, /api/upgrades/recommendations.md, /api/oauth/metadata.json)
-    if ((url.pathname.endsWith(".json") || url.pathname.endsWith(".md")) && !url.pathname.startsWith("/.well-known/")) {
+    const aiEndpoints = [
+      "/robots.txt",
+      "/ai/manifest.json",
+      "/ai/openapi.json",
+      "/api/mcp/manifest.json",
+      "/api/upgrades/recommendations.md",
+      "/api/oauth/metadata.json",
+      "/sitemap.xml"
+    ];
+
+    if (aiEndpoints.includes(url.pathname) || ((url.pathname.endsWith(".json") || url.pathname.endsWith(".md")) && !url.pathname.startsWith("/.well-known/"))) {
       const isAgent = ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot") || ua.includes("BingAI") || ua.includes("Google-Extended");
       if (isBrowser && !isDevAuthorized && !isAgent) {
         const landingUrl = new URL("/ai/", request.url).toString();
