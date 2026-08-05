@@ -509,6 +509,36 @@
       background: rgba(0,255,128,0.1);
       color: #00ff80;
     }
+
+    /* Copy Markdown Button */
+    #copyMarkdownBtn {
+      background: rgba(0,255,128,0.1);
+      color: #00ff80;
+      border: 1px solid #00ff80;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #copyMarkdownBtn:hover:enabled {
+      background: rgba(0,255,128,0.25);
+      box-shadow: 0 0 10px rgba(0, 255, 128, 0.4);
+    }
+
+    #copyMarkdownBtn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      border-color: #64748b;
+      color: #94a3b8;
+      background: rgba(255,255,255,0.05);
+    }
       background: rgba(16, 185, 129, 0.15);
       border-radius: 0.75rem;
       display: flex;
@@ -1006,6 +1036,11 @@
   <div id="endpointModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
+      <div style="margin-bottom: 12px;">
+        <button id="copyMarkdownBtn" disabled title="Developer access required">
+          <i class="fa-regular fa-copy"></i> Copy Markdown
+        </button>
+      </div>
       <div id="modalRender"></div>
     </div>
   </div>
@@ -1025,6 +1060,24 @@
           // Render Markdown to rich HTML using marked.js
           const html = typeof marked !== 'undefined' ? marked.parse(text) : text;
           document.getElementById('modalRender').innerHTML = html;
+
+          // Store raw Markdown for copy use
+          const btn = document.getElementById('copyMarkdownBtn');
+          btn.dataset.raw = text;
+
+          // Check developer token from localStorage or URL query params
+          const urlParams = new URLSearchParams(window.location.search);
+          const token = localStorage.getItem('ecosmart-dev-token') || urlParams.get('token') || '';
+
+          if (token && (token.startsWith('dev-') || token.includes('.'))) {
+            btn.disabled = false;
+            btn.title = 'Copy Markdown to clipboard';
+          } else {
+            btn.disabled = true;
+            btn.title = 'Developer access required';
+          }
+
+          // Show modal
           document.getElementById('endpointModal').style.display = 'block';
         } catch (err) {
           console.error('Failed to fetch endpoint preview:', err);
@@ -1032,6 +1085,22 @@
           document.getElementById('endpointModal').style.display = 'block';
         }
       });
+    });
+
+    // Copy Markdown securely
+    document.getElementById('copyMarkdownBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('copyMarkdownBtn');
+      if (btn.disabled) return;
+      const raw = btn.dataset.raw || '';
+      try {
+        await navigator.clipboard.writeText(raw);
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Markdown';
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy markdown:', err);
+      }
     });
 
     document.querySelector('.close').onclick = () =>
