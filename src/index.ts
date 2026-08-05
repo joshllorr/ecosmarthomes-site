@@ -203,8 +203,15 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // ⭐ Explicit fail-safe handler for /ai/manifest.json
+    // ⭐ Content Negotiation & Access Control for /ai/manifest.json
     if (url.pathname === '/ai/manifest.json') {
+      const accept = request.headers.get('Accept') || '';
+      // If a human visitor clicks this link in a browser expecting HTML, redirect to friendly /ai/ landing page
+      if (accept.includes('text/html') && !accept.includes('application/json')) {
+        const landingUrl = new URL('/ai/', request.url).toString();
+        return Response.redirect(landingUrl, 302);
+      }
+
       try {
         const asset = await env.ASSETS.fetch(request);
         if (asset.ok) {
