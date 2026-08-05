@@ -532,5 +532,39 @@ export default {
     }
 
     return new Response('Not Found', { status: 404, headers: corsHeaders });
+  },
+
+  async scheduled(event: any, env: any, ctx: any) {
+    ctx.waitUntil(rotateAuditLogs(env));
   }
 };
+
+async function rotateAuditLogs(env: any) {
+  try {
+    const now = Math.floor(Date.now() / 1000);
+    const THIRTY_DAYS = 30 * 24 * 60 * 60;
+
+    const res = await fetch("https://www.ecosmarthomes.ie/data/dev-audit.json");
+    const current = res.ok ? await res.json() : [];
+
+    const recent = current.filter((e: any) => now - e.timestamp <= THIRTY_DAYS);
+    const archive = current.filter((e: any) => now - e.timestamp > THIRTY_DAYS);
+
+    if (env?.DEV_AUDIT_LOG && typeof env.DEV_AUDIT_LOG.put === 'function') {
+      await env.DEV_AUDIT_LOG.put("dev-audit.json", JSON.stringify(recent, null, 2));
+    }
+
+    if (archive.length > 0 && env?.DEV_AUDIT_ARCHIVE && typeof env.DEV_AUDIT_ARCHIVE.put === 'function') {
+      const monthKey = new Date().toISOString().slice(0, 7);
+      const archiveName = `dev-audit-${monthKey}.json`;
+
+      const existingArchive = await env.DEV_AUDIT_ARCHIVE.get(archiveName);
+      const archiveData = existingArchive ? JSON.parse(existingArchive) : [];
+      archiveData.push(...archive);
+
+      await env.DEV_AUDIT_ARCHIVE.put(archiveName, JSON.stringify(archiveData, null, 2));
+    }
+  } catch (err) {
+    console.error("Audit rotation failed:", err);
+  }
+}
