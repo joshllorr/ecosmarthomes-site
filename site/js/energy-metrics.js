@@ -1,8 +1,8 @@
-/* EcoSmartHomes Shared Energy Metrics & Grants Module (March 28, 2026 National Benchmarks) */
+/* EcoSmartHomes Shared Energy Metrics & Grants Module (May 2026 Revision: Simplified BER A0-G) */
 window.ECOSMART_METRICS = window.ECOSMART_METRICS || {};
 
-window.ECOSMART_METRICS.version = "March 28 2026 Revision";
-window.ECOSMART_METRICS.effectiveDate = "2026-03-28";
+window.ECOSMART_METRICS.version = "May 2026 Revision";
+window.ECOSMART_METRICS.effectiveDate = "2026-05-01";
 
 window.ECOSMART_METRICS.grants = {
   heat_pump: { amount: 12500, label: "Heat pump grant", category: "Heating", scheme: "SEAI Home Energy Grants", updated: "2026-03-28" },
@@ -21,21 +21,16 @@ window.ECOSMART_METRICS.grants = {
   solar_export_payments: { amount_min: 222, amount_max: 350, label: "Solar export payments (ongoing income)", category: "Microgeneration", scheme: "Clean Export Guarantee", note: "Typical annual export income range", updated: "2026-03-28" }
 };
 
-window.ECOSMART_METRICS.berScale = {
-  'A1': { min: 0,   max: 25,  co2: 0.3, color: '#0a8f3c' },
-  'A2': { min: 25,  max: 50,  co2: 0.8, color: '#1ca64a' },
-  'A3': { min: 50,  max: 75,  co2: 1.2, color: '#2fbd58' },
-  'B1': { min: 75,  max: 100, co2: 1.6, color: '#7cc242' },
-  'B2': { min: 100, max: 150, co2: 2.0, color: '#a8cf3a' },
-  'B3': { min: 150, max: 175, co2: 2.4, color: '#c8d92f' },
-  'C1': { min: 175, max: 200, co2: 2.8, color: '#f2e627' },
-  'C2': { min: 200, max: 225, co2: 3.2, color: '#f7d21c' },
-  'D1': { min: 225, max: 250, co2: 4.1, color: '#f5b318' },
-  'D2': { min: 250, max: 275, co2: 4.7, color: '#f29a15' },
-  'E1': { min: 275, max: 300, co2: 5.3, color: '#ef7f12' },
-  'E2': { min: 300, max: 325, co2: 5.9, color: '#eb5f0f' },
-  'F':  { min: 325, max: 450, co2: 6.7, color: '#e63c0c' },
-  'G':  { min: 450, max: 600, co2: 8.0, color: '#d91e0a' }
+// Simplified May 2026 BER Scale (A0 - G)
+window.ECOSMART_METRICS.ber_scale = {
+  'A0': { label: 'A0', desc: 'Zero-emission, fossil fuel-free', co2: 0.0, color: '#0a8f3c', kwh: 0 },
+  'A':  { label: 'A',  desc: 'High efficiency',               co2: 0.8, color: '#1ca64a', kwh: 50 },
+  'B':  { label: 'B',  desc: 'Efficient home',                co2: 2.0, color: '#7cc242', kwh: 125 },
+  'C':  { label: 'C',  desc: 'Moderate efficiency',           co2: 3.2, color: '#f2e627', kwh: 185 },
+  'D':  { label: 'D',  desc: 'Below average',                 co2: 4.7, color: '#f5b318', kwh: 260 },
+  'E':  { label: 'E',  desc: 'Poor efficiency',               co2: 5.9, color: '#ef7f12', kwh: 340 },
+  'F':  { label: 'F',  desc: 'Very poor efficiency',          co2: 6.7, color: '#e63c0c', kwh: 415 },
+  'G':  { label: 'G',  desc: 'Least efficient',               co2: 8.0, color: '#d91e0a', kwh: 480 }
 };
 
 window.ECOSMART_METRICS.calcNetCost = function(grossCost, measures) {

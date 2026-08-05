@@ -1,6 +1,6 @@
 {
-  "version": "March 28 2026 Revision",
-  "effectiveDate": "2026-03-28",
+  "version": "May 2026 Revision (Simplified A0-G)",
+  "effectiveDate": "2026-05-01",
   "currency": "EUR",
   "grants": {
     "heat_pump": {
@@ -106,21 +106,15 @@
       "updated": "2026-03-28"
     }
   },
-  "berScale2026": {
-    "A1": { "minKwh": 0, "maxKwh": 25, "label": "A1", "co2Factor": 0.3, "color": "#0a8f3c" },
-    "A2": { "minKwh": 25, "maxKwh": 50, "label": "A2", "co2Factor": 0.8, "color": "#1ca64a" },
-    "A3": { "minKwh": 50, "maxKwh": 75, "label": "A3", "co2Factor": 1.2, "color": "#2fbd58" },
-    "B1": { "minKwh": 75, "maxKwh": 100, "label": "B1", "co2Factor": 1.6, "color": "#7cc242" },
-    "B2": { "minKwh": 100, "maxKwh": 150, "label": "B2", "co2Factor": 2.0, "color": "#a8cf3a" },
-    "B3": { "minKwh": 150, "maxKwh": 175, "label": "B3", "co2Factor": 2.4, "color": "#c8d92f" },
-    "C1": { "minKwh": 175, "maxKwh": 200, "label": "C1", "co2Factor": 2.8, "color": "#f2e627" },
-    "C2": { "minKwh": 200, "maxKwh": 225, "label": "C2", "co2Factor": 3.2, "color": "#f7d21c" },
-    "D1": { "minKwh": 225, "maxKwh": 250, "label": "D1", "co2Factor": 4.1, "color": "#f5b318" },
-    "D2": { "minKwh": 250, "maxKwh": 275, "label": "D2", "co2Factor": 4.7, "color": "#f29a15" },
-    "E1": { "minKwh": 275, "maxKwh": 300, "label": "E1", "co2Factor": 5.3, "color": "#ef7f12" },
-    "E2": { "minKwh": 300, "maxKwh": 325, "label": "E2", "co2Factor": 5.9, "color": "#eb5f0f" },
-    "F":  { "minKwh": 325, "maxKwh": 450, "label": "F",  "co2Factor": 6.7, "color": "#e63c0c" },
-    "G":  { "minKwh": 450, "maxKwh": 600, "label": "G",  "co2Factor": 8.0, "color": "#d91e0a" }
+  "ber_scale": {
+    "A0": { "label": "A0", "description": "Zero-emission, fossil fuel-free", "co2Factor": 0.0, "color": "#0a8f3c", "mappedKwh": 0 },
+    "A":  { "label": "A",  "description": "High efficiency", "co2Factor": 0.8, "color": "#1ca64a", "mappedKwh": 50 },
+    "B":  { "label": "B",  "description": "Efficient home", "co2Factor": 2.0, "color": "#7cc242", "mappedKwh": 125 },
+    "C":  { "label": "C",  "description": "Moderate efficiency", "co2Factor": 3.2, "color": "#f2e627", "mappedKwh": 185 },
+    "D":  { "label": "D",  "description": "Below average", "co2Factor": 4.7, "color": "#f5b318", "mappedKwh": 260 },
+    "E":  { "label": "E",  "description": "Poor efficiency", "co2Factor": 5.9, "color": "#ef7f12", "mappedKwh": 340 },
+    "F":  { "label": "F",  "description": "Very poor efficiency", "co2Factor": 6.7, "color": "#e63c0c", "mappedKwh": 415 },
+    "G":  { "label": "G",  "description": "Least efficient", "co2Factor": 8.0, "color": "#d91e0a", "mappedKwh": 480 }
   },
   "fuelPrices2026": {
     "heatingOilPerLitre": 1.20,

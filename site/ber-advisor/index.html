@@ -96,28 +96,15 @@
       font-size: 0.85rem;
     }
 
-    /* Updated 2026 BER colours */
-    .ber-a1 { background: #0a8f3c; }
-    .ber-a2 { background: #1ca64a; }
-    .ber-a3 { background: #2fbd58; }
-
-    .ber-b1 { background: #7cc242; }
-    .ber-b2 { background: #a8cf3a; }
-    .ber-b3 { background: #c8d92f; }
-
-    .ber-c1 { background: #f2e627; color: #111; }
-    .ber-c2 { background: #f7d21c; color: #111; }
-
-    .ber-d1 { background: #f5b318; }
-    .ber-d2 { background: #f29a15; }
-
-    .ber-e1 { background: #ef7f12; }
-    .ber-e2 { background: #eb5f0f; }
-
+    /* New simplified May 2026 BER colours */
+    .ber-a0 { background: #0a8f3c; }   /* Zero-emission */
+    .ber-a  { background: #1ca64a; }
+    .ber-b  { background: #7cc242; }
+    .ber-c  { background: #f2e627; color: #111; }
+    .ber-d  { background: #f5b318; }
+    .ber-e  { background: #ef7f12; }
     .ber-f  { background: #e63c0c; }
     .ber-g  { background: #d91e0a; }
-    .band-F  { background: #8E0E17; width: 97%; }
-    .band-G  { background: #5C060B; width: 100%; }
 
     /* Advisory Cards Grid */
     .advisory-grid {
@@ -240,20 +227,20 @@
         <div class="input-group">
           <label for="currentBER">Select Current BER Rating:</label>
           <select id="currentBER" onchange="simulateBER()" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; font-size:1rem;">
-            <option value="G" selected>G Rating (375+ kWh/m²·yr)</option>
-            <option value="F">F Rating (300 kWh/m²·yr)</option>
-            <option value="E2">E2 Rating (260 kWh/m²·yr)</option>
-            <option value="D2">D2 Rating (220 kWh/m²·yr)</option>
-            <option value="C3">C3 Rating (175 kWh/m²·yr)</option>
+            <option value="G" selected>G Rating (Least efficient)</option>
+            <option value="F">F Rating (Very poor efficiency)</option>
+            <option value="E">E Rating (Poor efficiency)</option>
+            <option value="D">D Rating (Below average)</option>
+            <option value="C">C Rating (Moderate efficiency)</option>
           </select>
         </div>
 
         <div class="input-group">
           <label for="targetBER">Select Target Retrofit BER:</label>
           <select id="targetBER" onchange="simulateBER()" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; font-size:1rem;">
-            <option value="B2" selected>B2 Rating (100 kWh/m²·yr) — SEAI Standard</option>
-            <option value="A2">A2 Rating (50 kWh/m²·yr) — Deep Retrofit Peak</option>
-            <option value="A1">A1 Rating (25 kWh/m²·yr) — Nearly Zero Energy (NZEB)</option>
+            <option value="B" selected>B Rating (Efficient home — SEAI Standard)</option>
+            <option value="A">A Rating (High efficiency — Deep Retrofit)</option>
+            <option value="A0">A0 Rating (Zero-emission, fossil fuel-free)</option>
           </select>
         </div>
       </div>
@@ -292,33 +279,22 @@
   <!-- SECTION: BER SCALE GRAPHIC & ADVISORY CARDS -->
   <div class="ber-layout-grid">
     
-    <!-- LEFT COLUMN: Official Irish BER Scale Band Graphic -->
+    <!-- LEFT COLUMN: Official Irish BER Scale Band Graphic (Simplified May 2026) -->
     <div class="ber-scale-card">
       <div class="ber-scale-title">
-        <span>BER Scale (A1–G)</span>
-        <small style="color:var(--text-muted); font-size:0.75rem;">kWh/m²·yr</small>
+        <span>Simplified BER Scale (A0–G)</span>
+        <small style="color:var(--text-muted); font-size:0.75rem;">Effective May 2026</small>
       </div>
 
       <div class="ber-scale">
-        <div class="ber-row ber-a1" id="band-A1"><span>A1</span><span>&lt; 25 kWh/m²·yr</span></div>
-        <div class="ber-row ber-a2" id="band-A2"><span>A2</span><span>25 – 50 kWh/m²·yr</span></div>
-        <div class="ber-row ber-a3" id="band-A3"><span>A3</span><span>50 – 75 kWh/m²·yr</span></div>
-
-        <div class="ber-row ber-b1" id="band-B1"><span>B1</span><span>75 – 100 kWh/m²·yr</span></div>
-        <div class="ber-row ber-b2 active-target" id="band-B2"><span>B2 ★ Target</span><span>100 – 150 kWh/m²·yr</span></div>
-        <div class="ber-row ber-b3" id="band-B3"><span>B3</span><span>150 – 175 kWh/m²·yr</span></div>
-
-        <div class="ber-row ber-c1" id="band-C1"><span>C1</span><span>175 – 200 kWh/m²·yr</span></div>
-        <div class="ber-row ber-c2" id="band-C2"><span>C2</span><span>200 – 225 kWh/m²·yr</span></div>
-
-        <div class="ber-row ber-d1" id="band-D1"><span>D1</span><span>225 – 250 kWh/m²·yr</span></div>
-        <div class="ber-row ber-d2" id="band-D2"><span>D2</span><span>250 – 275 kWh/m²·yr</span></div>
-
-        <div class="ber-row ber-e1" id="band-E1"><span>E1</span><span>275 – 300 kWh/m²·yr</span></div>
-        <div class="ber-row ber-e2" id="band-E2"><span>E2</span><span>300 – 325 kWh/m²·yr</span></div>
-
-        <div class="ber-row ber-f"  id="band-F"><span>F</span><span>325 – 450 kWh/m²·yr</span></div>
-        <div class="ber-row ber-g active-current" id="band-G"><span>G 👈 Current</span><span>&gt; 450 kWh/m²·yr</span></div>
+        <div class="ber-row ber-a0" id="band-A0"><span>A0</span><span>Zero-emission, fossil fuel-free</span></div>
+        <div class="ber-row ber-a"  id="band-A"><span>A</span><span>High efficiency</span></div>
+        <div class="ber-row ber-b active-target" id="band-B"><span>B ★ Target</span><span>Efficient home</span></div>
+        <div class="ber-row ber-c"  id="band-C"><span>C</span><span>Moderate efficiency</span></div>
+        <div class="ber-row ber-d"  id="band-D"><span>D</span><span>Below average</span></div>
+        <div class="ber-row ber-e"  id="band-E"><span>E</span><span>Poor efficiency</span></div>
+        <div class="ber-row ber-f"  id="band-F"><span>F</span><span>Very poor efficiency</span></div>
+        <div class="ber-row ber-g active-current" id="band-G"><span>G 👈 Current</span><span>Least efficient</span></div>
       </div>
     </div>
 
@@ -396,24 +372,24 @@
 </footer>
 
 <script>
-// Dynamic BER Simulator Logic using March 28, 2026 Benchmarks
-const berData = (window.ECOSMART_METRICS && window.ECOSMART_METRICS.berScale) ? {
-  'G':  { kwh: 450, co2: 8.0, label: 'G Rating' },
-  'F':  { kwh: 380, co2: 6.7, label: 'F Rating' },
-  'E2': { kwh: 340, co2: 5.9, label: 'E2 Rating' },
-  'D2': { kwh: 260, co2: 4.7, label: 'D2 Rating' },
-  'C3': { kwh: 200, co2: 3.6, label: 'C3 Rating' },
-  'B2': { kwh: 100, co2: 2.0, label: 'B2 Rating' },
-  'A2': { kwh: 50,  co2: 0.8, label: 'A2 Rating' },
-  'A1': { kwh: 25,  co2: 0.3, label: 'A1 Rating' }
-} : {};
+// Dynamic BER Simulator Logic using May 2026 Simplified A0-G Benchmarks
+const berData = (window.ECOSMART_METRICS && window.ECOSMART_METRICS.ber_scale) ? window.ECOSMART_METRICS.ber_scale : {
+  'A0': { kwh: 0,   co2: 0.0, label: 'A0 Rating' },
+  'A':  { kwh: 50,  co2: 0.8, label: 'A Rating' },
+  'B':  { kwh: 125, co2: 2.0, label: 'B Rating' },
+  'C':  { kwh: 185, co2: 3.2, label: 'C Rating' },
+  'D':  { kwh: 260, co2: 4.7, label: 'D Rating' },
+  'E':  { kwh: 340, co2: 5.9, label: 'E Rating' },
+  'F':  { kwh: 415, co2: 6.7, label: 'F Rating' },
+  'G':  { kwh: 480, co2: 8.0, label: 'G Rating' }
+};
 
 function simulateBER() {
   const currentKey = document.getElementById('currentBER').value;
   const targetKey  = document.getElementById('targetBER').value;
   
-  const cur = berData[currentKey] || { kwh: 450, co2: 8.0 };
-  const tar = berData[targetKey] || { kwh: 100, co2: 2.0 };
+  const cur = berData[currentKey] || { kwh: 480, co2: 8.0 };
+  const tar = berData[targetKey] || { kwh: 125, co2: 2.0 };
 
   const kwhSaved = Math.max(0, cur.kwh - tar.kwh);
   const co2Saved = Math.max(0, (cur.co2 - tar.co2)).toFixed(1);
@@ -421,15 +397,15 @@ function simulateBER() {
   // 120m² typical house, blend tariff ~€0.075 / kWh
   const annualSavings = Math.round(120 * kwhSaved * 0.075);
   
-  // March 2026 SEAI Grant estimation caps
-  let grantEst = "€8,000 Max (Heat Pump + Controls)";
-  if (targetKey === 'A2') grantEst = "€10,500 Max (Deep Retrofit)";
-  if (targetKey === 'A1') grantEst = "€12,500 Max (NZEB Rank)";
+  // May 2026 SEAI Grant estimation caps
+  let grantEst = "€12,500 Heat Pump Grant";
+  if (targetKey === 'A') grantEst = "€26,000 One Stop Shop Cap";
+  if (targetKey === 'A0') grantEst = "€26,000+ Zero-Emission Cap";
   
   // Value boost
   let valueBoost = "+10% to +14%";
-  if (currentKey === 'G' && targetKey === 'B2') valueBoost = "+12% to +16%";
-  if (targetKey === 'A2' || targetKey === 'A1') valueBoost = "+15% to +20%";
+  if (currentKey === 'G' && targetKey === 'B') valueBoost = "+12% to +16%";
+  if (targetKey === 'A' || targetKey === 'A0') valueBoost = "+15% to +22%";
 
   document.getElementById('berSavingsOut').textContent = '€' + annualSavings.toLocaleString() + ' / yr';
   document.getElementById('berCO2Out').textContent = co2Saved + ' Tonnes/yr';
