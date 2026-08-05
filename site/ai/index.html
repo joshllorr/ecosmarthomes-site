@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agent Protocol & Standards Manifest | EcoSmartHomes Ireland</title>
+  <meta name="description" content="EcoSmartHomes AI Agent Protocol & Standards Hub: Model Context Protocol (MCP v1.0), RFC 8414 OAuth discovery, agent readiness specs, and structured API endpoints.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+
+  <style>
+    /* Data Blocks Table Styling */
+    .endpoint-table-container {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-top: 20px;
+    }
+
+    .endpoint-row {
+      display: grid;
+      grid-template-columns: 240px 1fr 140px;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-color);
+      gap: 16px;
+      transition: background 0.2s;
+    }
+
+    .endpoint-row:last-child {
+      border-bottom: none;
+    }
+
+    .endpoint-row:hover {
+      background: #f8fafc;
+    }
+
+    @media (max-width: 768px) {
+      .endpoint-row { grid-template-columns: 1fr; gap: 8px; }
+    }
+
+    .endpoint-path {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #0284c7;
+      background: #f0f9ff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      word-break: break-all;
+    }
+
+    .endpoint-desc {
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    .endpoint-status {
+      text-align: right;
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #dcfce7;
+      color: #15803d;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../index.html">
+        <img src="../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../index.html#hero">Home</a></li>
+        <li><a href="../index.html#services">Services</a></li>
+        <li><a href="../index.html#process">Process</a></li>
+        <li><a href="../index.html#ber">BER Protection</a></li>
+        <li><a href="../articles/">Articles</a></li>
+        <li><a href="../ber-advisor/">BER Advisor</a></li>
+        <li><a href="../dashboard.html">📊 Dashboard</a></li>
+        <li><a href="index.html" style="color: #10b981; font-weight: 700;">🤖 AI Manifest</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper">
+    <div class="dashboard-logo-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+      </svg>
+    </div>
+    <h1>EcoSmartHomes AI Agent Skills & Standards Protocol</h1>
+    <p class="tagline">Machine-readable endpoints, MCP tools, and RFC 8414 agent discoverability</p>
+  </div>
+</section>
+
+<!-- MAIN MANIFEST CONTAINER -->
+<main class="dashboard-container">
+
+  <!-- SECTION 1: CAPABILITY CARDS -->
+  <section id="capabilities-section">
+    <div class="section-title-wrapper">
+      <span class="section-badge">Protocol Features</span>
+      <h2>Agent Capability Architecture</h2>
+    </div>
+
+    <div class="kpi-grid">
+
+      <!-- CARD 1: Agent Readiness Score -->
+      <div class="kpi-card">
+        <div class="kpi-icon-header">
+          <div class="kpi-icon">🤖</div>
+          <div class="kpi-tooltip-trigger" title="Details">?</div>
+          <div class="tooltip-popup">
+            <strong>100% Agent-Ready:</strong><br>
+            Fully compliant with machine-readable metadata schemas, structured JSON-LD, and LLM tool call manifests.
+          </div>
+        </div>
+        <div class="kpi-title">Agent-Readiness Score</div>
+        <div class="kpi-metric">100%</div>
+        <div class="kpi-metric-sub">Validated Protocol</div>
+        <div class="kpi-description">
+          Exposes structured JSON & Markdown declarations for autonomous agent ingestion and execution.
+        </div>
+      </div>
+
+      <!-- CARD 2: Model Context Protocol (MCP v1.0) -->
+      <div class="kpi-card">
+        <div class="kpi-icon-header">
+          <div class="kpi-icon">🔌</div>
+          <div class="kpi-tooltip-trigger" title="Details">?</div>
+          <div class="tooltip-popup">
+            <strong>Model Context Protocol (MCP):</strong><br>
+            Supports stdio, SSE HTTP, and WebMCP client connections for prompt execution & tool calling.
+          </div>
+        </div>
+        <div class="kpi-title">Model Context Protocol</div>
+        <div class="kpi-metric">MCP v1.0</div>
+        <div class="kpi-metric-sub">SSE & WebMCP Active</div>
+        <div class="kpi-description">
+          Enables AI agents to query BER calculation tools, grant calculators, and advisory logic directly.
+        </div>
+      </div>
+
+      <!-- CARD 3: RFC 8414 OAuth Discovery -->
+      <div class="kpi-card">
+        <div class="kpi-icon-header">
+          <div class="kpi-icon">🛡️</div>
+          <div class="kpi-tooltip-trigger" title="Details">?</div>
+          <div class="tooltip-popup">
+            <strong>OAuth 2.0 Authorization Discovery:</strong><br>
+            Implements RFC 8414 discovery at /.well-known/oauth-authorization-server for secure agent login.
+          </div>
+        </div>
+        <div class="kpi-title">OAuth Discovery</div>
+        <div class="kpi-metric">RFC 8414</div>
+        <div class="kpi-metric-sub">Secure Registration</div>
+        <div class="kpi-description">
+          Standardized OAuth discovery endpoints allowing verified AI clients to register and authorize.
+        </div>
+      </div>
+
+      <!-- CARD 4: Semantic WebMCP & Markdown -->
+      <div class="kpi-card">
+        <div class="kpi-icon-header">
+          <div class="kpi-icon">📄</div>
+          <div class="kpi-tooltip-trigger" title="Details">?</div>
+          <div class="tooltip-popup">
+            <strong>LLM-Friendly Formats:</strong><br>
+            All endpoints support both structured JSON payloads and raw Markdown specifications for clean context windows.
+          </div>
+        </div>
+        <div class="kpi-title">Semantic Data Standards</div>
+        <div class="kpi-metric">JSON + MD</div>
+        <div class="kpi-metric-sub">LLM Optimized</div>
+        <div class="kpi-description">
+          Provides deterministic inputs and outputs for prompt context formatting and tool execution.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 2: ENDPOINT REGISTRY TABLE -->
+  <section id="endpoints-section" style="margin-top: 50px;">
+    <div class="section-title-wrapper">
+      <span class="section-badge">API Registry</span>
+      <h2>Structured Agent Endpoints</h2>
+    </div>
+
+    <div class="endpoint-table-container">
+
+      <!-- Endpoint 1 -->
+      <div class="endpoint-row">
+        <div>
+          <a href="manifest.json" target="_blank" class="endpoint-path">/ai/manifest.json</a>
+        </div>
+        <div class="endpoint-desc">
+          <strong>AI Plugin & Agent Manifest:</strong> Core manifest defining AI capabilities, system instructions, and schema entry points.
+        </div>
+        <div class="endpoint-status">
+          <span class="status-badge">Active</span>
+        </div>
+      </div>
+
+      <!-- Endpoint 2 -->
+      <div class="endpoint-row">
+        <div>
+          <a href="/api/mcp/manifest.json" target="_blank" class="endpoint-path">/api/mcp/manifest.json</a>
+        </div>
+        <div class="endpoint-desc">
+          <strong>MCP Tool Manifest:</strong> Exposes Model Context Protocol tool definitions, input parameters, and schemas.
+        </div>
+        <div class="endpoint-status">
+          <span class="status-badge">Active</span>
+        </div>
+      </div>
+
+      <!-- Endpoint 3 -->
+      <div class="endpoint-row">
+        <div>
+          <a href="/.well-known/oauth-authorization-server" target="_blank" class="endpoint-path">/.well-known/oauth-...</a>
+        </div>
+        <div class="endpoint-desc">
+          <strong>RFC 8414 OAuth Metadata:</strong> Authorization server discovery document for AI agent client registration.
+        </div>
+        <div class="endpoint-status">
+          <span class="status-badge">Active</span>
+        </div>
+      </div>
+
+      <!-- Endpoint 4 -->
+      <div class="endpoint-row">
+        <div>
+          <a href="/api/upgrades/recommendations.md" target="_blank" class="endpoint-path">/api/upgrades/rec.md</a>
+        </div>
+        <div class="endpoint-desc">
+          <strong>Markdown Advisory Spec:</strong> Clean LLM context document detailing Irish retrofit sequence rules.
+        </div>
+        <div class="endpoint-status">
+          <span class="status-badge">Active</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">⚡ Compliant with robots.txt agent directives and OAuth skill registration.</p>
+    <div class="dashboard-footer-links">
+      <a href="../index.html">Home</a> •
+      <a href="../ber-advisor/">BER Advisor</a> •
+      <a href="../dashboard.html">Dashboard</a> •
+      <a href="manifest.json" target="_blank">AI Manifest</a> •
+      <a href="../articles/">Articles</a> •
+      <a href="../agent-skills.html" style="color: #10b981;">🤖 Agent Skills</a> •
+      <a href="../privacy-policy.html">Privacy Policy</a>
+    </div>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. AI Agent Protocol v1.0 specifications.</small></p>
+  </div>
+</footer>
+
+</body>
+</html>

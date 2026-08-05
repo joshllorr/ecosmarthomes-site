@@ -1,40 +1,435 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EcoSmartHomes - BER Advisor</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BER Advisor & Retrofit Upgrade Path | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Understand your home's Building Energy Rating (BER A-G), simulate rating jumps (G to B2/A2), calculate annual energy savings, and explore SEAI grant options.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  
+  <style>
+    /* BER Specific Scale & Layout Styles */
+    .ber-layout-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 32px;
+      margin-top: 30px;
+    }
     
-    <!-- Harbor SEO Snippet -->
-    <script data-harbor-site="nd7d6rtk4d1dcz0q1ha3ppx77x8ap9zc" src="https://outgoing-oyster-428.convex.site/api/harbor-seo.js?siteId=nd7d6rtk4d1dcz0q1ha3ppx77b8ap9zc" async></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-      body { font-family: 'Inter', sans-serif; }
-      @keyframes pulse-ring {
-        0% { transform: scale(0.33); opacity: 1; }
-        80%, 100% { opacity: 0; }
-      }
-      .pulse-active {
-        animation: pulse-ring 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
-      }
-    </style>
+    @media (max-width: 900px) {
+      .ber-layout-grid { grid-template-columns: 1fr; }
+    }
+    
+    /* BER Rating Scale Graphic */
+    .ber-scale-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 16px rgba(0, 63, 45, 0.06);
+    }
+    
+    .ber-scale-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-deep);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .ber-band-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .ber-band-row {
+      display: flex;
+      align-items: center;
+      height: 28px;
+      border-radius: 4px;
+      color: white;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding-left: 12px;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    
+    .ber-band-row:hover {
+      transform: translateX(4px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .ber-band-row.active-current {
+      outline: 3px solid #10b981;
+      outline-offset: 1px;
+      z-index: 5;
+    }
+    
+    .ber-band-row.active-target {
+      outline: 3px solid #003f2d;
+      outline-offset: 1px;
+      z-index: 5;
+    }
+    
+    .ber-band-row .band-kwh {
+      margin-left: auto;
+      margin-right: 12px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+    
+    /* Dynamic Colors for Official Irish BER Bands */
+    .band-A1 { background: #00703C; width: 45%; }
+    .band-A2 { background: #008542; width: 49%; }
+    .band-A3 { background: #009E49; width: 53%; }
+    .band-B1 { background: #50B848; width: 57%; }
+    .band-B2 { background: #78C944; width: 61%; }
+    .band-B3 { background: #99D546; width: 65%; }
+    .band-C1 { background: #FFF200; color: #111; width: 69%; }
+    .band-C2 { background: #FDB913; color: #111; width: 73%; }
+    .band-C3 { background: #F8971D; width: 77%; }
+    .band-D1 { background: #F37023; width: 81%; }
+    .band-D2 { background: #EE4326; width: 85%; }
+    .band-E1 { background: #E41B23; width: 89%; }
+    .band-E2 { background: #BD1622; width: 93%; }
+    .band-F  { background: #8E0E17; width: 97%; }
+    .band-G  { background: #5C060B; width: 100%; }
 
-  <script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3"
-  }
-}
-</script>
-  <script type="module" crossorigin src="/ber-advisor/assets/index-Btp9158v.js"></script>
+    /* Advisory Cards Grid */
+    .advisory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .advisory-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .advisory-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(0, 63, 45, 0.08);
+      border-color: var(--accent-emerald);
+    }
+
+    .advisory-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .advisory-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #ecfdf5;
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .advisory-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      margin: 0;
+      color: var(--primary-deep);
+    }
+
+    .advisory-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .advisory-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: var(--accent-light);
+      color: var(--primary-deep);
+    }
+  </style>
 </head>
-  <body class="bg-gray-50 text-gray-900 overflow-x-hidden">
-    <div id="root"></div>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../index.html">
+        <img src="../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../index.html#hero">Home</a></li>
+        <li><a href="../index.html#services">Services</a></li>
+        <li><a href="../index.html#process">Process</a></li>
+        <li><a href="../index.html#ber">BER Protection</a></li>
+        <li><a href="../articles/">Articles</a></li>
+        <li><a href="index.html" style="color: #10b981; font-weight: 700;">🏡 BER Advisor</a></li>
+        <li><a href="../dashboard.html">📊 Dashboard</a></li>
+        <li><a href="../agent-skills.html">🤖 Agent Skills</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO SECTION -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper">
+    <div class="dashboard-logo-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    </div>
+    <h1>Understand Your Home's BER Score & Upgrade Path</h1>
+    <p class="tagline">Independent retrofit guidance for a warmer, greener, higher-value home</p>
+  </div>
+</section>
+
+<!-- MAIN ADVISOR CONTAINER -->
+<main class="dashboard-container">
+
+  <!-- INTERACTIVE BER SIMULATOR PANEL -->
+  <section style="margin-top: 10px;">
+    <div class="section-title-wrapper">
+      <span class="section-badge">Interactive Tool</span>
+      <h2>BER Jump & Savings Simulator</h2>
+    </div>
+
+    <div class="accordion-panel open" style="padding: 24px;">
+      <div class="payback-grid">
+        <div class="input-group">
+          <label for="currentBER">Select Current BER Rating:</label>
+          <select id="currentBER" onchange="simulateBER()" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; font-size:1rem;">
+            <option value="G" selected>G Rating (375+ kWh/m²·yr)</option>
+            <option value="F">F Rating (300 kWh/m²·yr)</option>
+            <option value="E2">E2 Rating (260 kWh/m²·yr)</option>
+            <option value="D2">D2 Rating (220 kWh/m²·yr)</option>
+            <option value="C3">C3 Rating (175 kWh/m²·yr)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="targetBER">Select Target Retrofit BER:</label>
+          <select id="targetBER" onchange="simulateBER()" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; font-size:1rem;">
+            <option value="B2" selected>B2 Rating (100 kWh/m²·yr) — SEAI Standard</option>
+            <option value="A2">A2 Rating (50 kWh/m²·yr) — Deep Retrofit Peak</option>
+            <option value="A1">A1 Rating (25 kWh/m²·yr) — Nearly Zero Energy (NZEB)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Live Readout Cards -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px;">
+        <div style="background:#ecfdf5; border:1px solid #a7f3d0; padding:16px; border-radius:12px; text-align:center;">
+          <small style="color:#047857; font-weight:600;">PROJECTED ANNUAL SAVINGS</small>
+          <div id="berSavingsOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#003f2d;">€2,160 / yr</div>
+        </div>
+
+        <div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:16px; border-radius:12px; text-align:center;">
+          <small style="color:#15803d; font-weight:600;">CO₂ EMISSIONS REDUCTION</small>
+          <div id="berCO2Out" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#16a34a;">4.2 Tonnes/yr</div>
+        </div>
+
+        <div style="background:#eff6ff; border:1px solid #bfdbfe; padding:16px; border-radius:12px; text-align:center;">
+          <small style="color:#1d4ed8; font-weight:600;">ESTIMATED SEAI GRANTS</small>
+          <div id="berGrantOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#1e40af;">€8,500 Max</div>
+        </div>
+
+        <div style="background:#faf5ff; border:1px solid #e9d5ff; padding:16px; border-radius:12px; text-align:center;">
+          <small style="color:#6b21a8; font-weight:600;">EST. PROPERTY VALUE BOOST</small>
+          <div id="berValueOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#7e22ce;">+10% to +14%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: BER SCALE GRAPHIC & ADVISORY CARDS -->
+  <div class="ber-layout-grid">
+    
+    <!-- LEFT COLUMN: Official Irish BER Scale Band Graphic -->
+    <div class="ber-scale-card">
+      <div class="ber-scale-title">
+        <span>BER Scale (A1–G)</span>
+        <small style="color:var(--text-muted); font-size:0.75rem;">kWh/m²·yr</small>
+      </div>
+
+      <div class="ber-band-list">
+        <div class="ber-band-row band-A1" id="band-A1">A1 <span class="band-kwh">&lt; 25</span></div>
+        <div class="ber-band-row band-A2" id="band-A2">A2 <span class="band-kwh">25 - 50</span></div>
+        <div class="ber-band-row band-A3" id="band-A3">A3 <span class="band-kwh">51 - 75</span></div>
+        <div class="ber-band-row band-B1" id="band-B1">B1 <span class="band-kwh">76 - 100</span></div>
+        <div class="ber-band-row band-B2 active-target" id="band-B2">B2 <span class="band-kwh">101 - 125</span> ★ Target</div>
+        <div class="ber-band-row band-B3" id="band-B3">B3 <span class="band-kwh">126 - 150</span></div>
+        <div class="ber-band-row band-C1" id="band-C1">C1 <span class="band-kwh">151 - 175</span></div>
+        <div class="ber-band-row band-C2" id="band-C2">C2 <span class="band-kwh">176 - 200</span></div>
+        <div class="ber-band-row band-C3" id="band-C3">C3 <span class="band-kwh">201 - 225</span></div>
+        <div class="ber-band-row band-D1" id="band-D1">D1 <span class="band-kwh">226 - 260</span></div>
+        <div class="ber-band-row band-D2" id="band-D2">D2 <span class="band-kwh">261 - 300</span></div>
+        <div class="ber-band-row band-E1" id="band-E1">E1 <span class="band-kwh">301 - 340</span></div>
+        <div class="ber-band-row band-E2" id="band-E2">E2 <span class="band-kwh">341 - 380</span></div>
+        <div class="ber-band-row band-F"  id="band-F">F <span class="band-kwh">381 - 450</span></div>
+        <div class="ber-band-row band-G active-current"  id="band-G">G <span class="band-kwh">&gt; 450</span> 👈 Current</div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Advisory Cards Grid -->
+    <div>
+      <div class="section-title-wrapper" style="margin-top:0;">
+        <span class="section-badge">Advisory Steps</span>
+        <h2>Fabric-First Upgrade Strategy</h2>
+      </div>
+
+      <div class="advisory-grid">
+
+        <!-- Advisory 1: Fabric-First Insulation -->
+        <div class="advisory-card">
+          <div class="advisory-header">
+            <div class="advisory-icon">🧱</div>
+            <h3>1. Fabric-First Insulation</h3>
+          </div>
+          <p>Seal thermal leaks before upgrading heating equipment. Attic insulation and cavity wall insulation deliver the highest return per euro spent.</p>
+          <span class="advisory-badge">Step 1 • Immediate Payback</span>
+        </div>
+
+        <!-- Advisory 2: Renewable Heating -->
+        <div class="advisory-card">
+          <div class="advisory-header">
+            <div class="advisory-icon">🔥</div>
+            <h3>2. Heat Pump & Controls</h3>
+          </div>
+          <p>Replace old oil or gas boilers with an Air-to-Water Heat Pump once your home passes the HLI heat loss test (&lt; 2.0 W/K·m²).</p>
+          <span class="advisory-badge">Step 2 • Up to €6,500 Grant</span>
+        </div>
+
+        <!-- Advisory 3: Solar PV Generation -->
+        <div class="advisory-card">
+          <div class="advisory-header">
+            <div class="advisory-icon">☀️</div>
+            <h3>3. Solar PV Microgeneration</h3>
+          </div>
+          <p>Generate clean electricity on-site to offset day-rate power costs and export surplus back to the grid under the Clean Export Guarantee.</p>
+          <span class="advisory-badge">Step 3 • Up to €2,100 Grant</span>
+        </div>
+
+        <!-- Advisory 4: SEAI Grant Navigation -->
+        <div class="advisory-card">
+          <div class="advisory-header">
+            <div class="advisory-icon">💶</div>
+            <h3>4. SEAI Grant Navigation</h3>
+          </div>
+          <p>Navigate Individual Energy Upgrade Grants (Step-by-step) or One-Stop-Shop Deep Retrofits without compliance pitfalls or paperwork delays.</p>
+          <span class="advisory-badge">Step 4 • Conflict-Free Guidance</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">⚡ Powered by EcoSmartHomes Retrofit Advisor v1.0</p>
+    <div class="dashboard-footer-links">
+      <a href="../index.html">Home</a> •
+      <a href="index.html">BER Advisor</a> •
+      <a href="../dashboard.html">Dashboard</a> •
+      <a href="../ai/manifest.json" target="_blank">AI Manifest</a> •
+      <a href="../articles/">Articles</a> •
+      <a href="../agent-skills.html" style="color: #10b981;">🤖 Agent Skills</a> •
+      <a href="../privacy-policy.html">Privacy Policy</a>
+    </div>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. Independent Building Energy Rating guidance for Irish homeowners.</small></p>
+  </div>
+</footer>
+
+<script>
+// Dynamic BER Simulator Logic
+const berData = {
+  'G':  { kwh: 400, co2: 6.8, label: 'G Rating' },
+  'F':  { kwh: 320, co2: 5.4, label: 'F Rating' },
+  'E2': { kwh: 260, co2: 4.3, label: 'E2 Rating' },
+  'D2': { kwh: 220, co2: 3.7, label: 'D2 Rating' },
+  'C3': { kwh: 175, co2: 2.9, label: 'C3 Rating' },
+  'B2': { kwh: 100, co2: 1.6, label: 'B2 Rating' },
+  'A2': { kwh: 50,  co2: 0.8, label: 'A2 Rating' },
+  'A1': { kwh: 25,  co2: 0.3, label: 'A1 Rating' }
+};
+
+function simulateBER() {
+  const currentKey = document.getElementById('currentBER').value;
+  const targetKey  = document.getElementById('targetBER').value;
+  
+  const cur = berData[currentKey] || berData['G'];
+  const tar = berData[targetKey] || berData['B2'];
+
+  const kwhSaved = Math.max(0, cur.kwh - tar.kwh);
+  const co2Saved = Math.max(0, (cur.co2 - tar.co2)).toFixed(1);
+  
+  // 120m² typical house, blend tariff ~€0.075 / kWh
+  const annualSavings = Math.round(120 * kwhSaved * 0.075);
+  
+  // Grant estimation
+  let grantEst = "€8,500 Max";
+  if (targetKey === 'A2') grantEst = "€10,500 Max";
+  if (targetKey === 'A1') grantEst = "€12,000 Max";
+  
+  // Value boost
+  let valueBoost = "+10% to +14%";
+  if (currentKey === 'G' && targetKey === 'B2') valueBoost = "+12% to +16%";
+  if (targetKey === 'A2' || targetKey === 'A1') valueBoost = "+15% to +20%";
+
+  document.getElementById('berSavingsOut').textContent = '€' + annualSavings.toLocaleString() + ' / yr';
+  document.getElementById('berCO2Out').textContent = co2Saved + ' Tonnes/yr';
+  document.getElementById('berGrantOut').textContent = grantEst;
+  document.getElementById('berValueOut').textContent = valueBoost;
+
+  // Highlight Bands
+  document.querySelectorAll('.ber-band-row').forEach(row => {
+    row.classList.remove('active-current', 'active-target');
+  });
+
+  const curRow = document.getElementById('band-' + currentKey);
+  const tarRow = document.getElementById('band-' + targetKey);
+  if (curRow) curRow.classList.add('active-current');
+  if (tarRow) tarRow.classList.add('active-target');
+}
+
+// Initial Run
+simulateBER();
+</script>
+
 </body>
 </html>
