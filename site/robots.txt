@@ -6,6 +6,11 @@
 User-agent: *
 Allow: /
 Disallow: /scratch/
+Disallow: /ai/manifest.json
+Disallow: /api/
+Disallow: /schema/
+Disallow: /data/
+Disallow: /.well-known/
 
 # Directives for AI Agents and LLM Crawlers
 User-agent: ai

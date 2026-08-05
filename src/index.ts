@@ -203,16 +203,30 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // ⭐ Content Negotiation & Access Control for /ai/manifest.json
-    if (url.pathname === '/ai/manifest.json') {
-      const accept = request.headers.get('Accept') || '';
-      // If a human visitor clicks this link in a browser expecting HTML, redirect to friendly /ai/ landing page
-      if (accept.includes('text/html') && !accept.includes('application/json')) {
-        const landingUrl = new URL('/ai/', request.url).toString();
+    // 🟢 EcoSmartHomes Master Access Control & Redirect Rules
+    const accept = request.headers.get("Accept") || "";
+
+    // Rule 1: Protect all JSON files except .well-known from human browsers
+    if (url.pathname.endsWith(".json") && !url.pathname.includes(".well-known")) {
+      const isHumanBrowser = accept.includes("text/html") && !accept.includes("application/json");
+      if (isHumanBrowser) {
+        const landingUrl = new URL("/ai/", request.url).toString();
         return Response.redirect(landingUrl, 302);
       }
+    }
 
-      try {
+    // Rule 2: Protect schema, api data, and internal data directories from direct browser navigation
+    if ((url.pathname.startsWith("/schema/") || url.pathname.startsWith("/api/") || url.pathname.startsWith("/data/")) && method === "GET") {
+      // Exclude public API endpoints like /api/site-health or /api/health if called by API clients
+      const isHumanBrowser = accept.includes("text/html") && !accept.includes("application/json");
+      if (isHumanBrowser) {
+        const homeUrl = new URL("/", request.url).toString();
+        return Response.redirect(homeUrl, 302);
+      }
+    }
+
+    // ⭐ Explicit fail-safe handler for /ai/manifest.json
+    if (url.pathname === '/ai/manifest.json') {
         const asset = await env.ASSETS.fetch(request);
         if (asset.ok) {
           const enriched = new Response(asset.body, asset);
