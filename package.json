@@ -1,0 +1,8 @@
+{
+  "name": "ecosmarthomes-site",
+  "private": true,
+  "scripts": {
+    "preview": "powershell -ExecutionPolicy Bypass -File ./start-preview.ps1",
+    "dev": "npm run preview"
+  }
+}
