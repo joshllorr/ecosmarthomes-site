@@ -234,6 +234,13 @@ async function verifyDevToken(tokenStr: string, secretStr: string): Promise<bool
     if (payload.role !== 'developer') return false;
     if (Array.isArray(payload.scope) && !payload.scope.includes('ai.dev')) return false;
 
+    // Revocation & Activation Registry Checks
+    const revokedTokenIds = ['dev-2025-04'];
+    if (payload.id && revokedTokenIds.includes(payload.id)) {
+      console.warn(`Token [${payload.id}] has been revoked.`);
+      return false;
+    }
+
     return true;
   } catch (err) {
     console.error('Token verification error:', err);
