@@ -196,10 +196,13 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
 /**
  * Web Crypto HMAC-SHA256 Token Verification Helper for Cloudflare Workers
  */
-async function verifyDevToken(tokenStr: string, secretStr: string): Promise<boolean> {
-  if (!tokenStr || typeof tokenStr !== 'string') return false;
+/**
+ * Web Crypto HMAC-SHA256 Token Verification Helper returning decoded payload or null
+ */
+async function verifyDevTokenPayload(tokenStr: string, secretStr: string): Promise<{ id?: string; role?: string; scope?: string[]; expires?: number } | null> {
+  if (!tokenStr || typeof tokenStr !== 'string') return null;
   const parts = tokenStr.split('.');
-  if (parts.length !== 2) return false;
+  if (parts.length !== 2) return null;
 
   const [payloadB64, sigB64] = parts;
 
@@ -224,28 +227,41 @@ async function verifyDevToken(tokenStr: string, secretStr: string): Promise<bool
       dataBytes
     );
 
-    if (!isValidSig) return false;
+    if (!isValidSig) return null;
 
     const jsonText = new TextDecoder().decode(base64UrlToBytes(payloadB64));
     const payload = JSON.parse(jsonText);
 
     const now = Math.floor(Date.now() / 1000);
-    if (payload.expires && payload.expires < now) return false;
-    if (payload.role !== 'developer') return false;
-    if (Array.isArray(payload.scope) && !payload.scope.includes('ai.dev')) return false;
+    if (payload.expires && payload.expires < now) return null;
+    if (payload.role !== 'developer') return null;
+    if (Array.isArray(payload.scope) && !payload.scope.includes('ai.dev')) return null;
 
-    // Revocation & Activation Registry Checks
-    const revokedTokenIds = ['dev-2025-04'];
-    if (payload.id && revokedTokenIds.includes(payload.id)) {
-      console.warn(`Token [${payload.id}] has been revoked.`);
-      return false;
-    }
-
-    return true;
+    return payload;
   } catch (err) {
     console.error('Token verification error:', err);
-    return false;
+    return null;
   }
+}
+
+async function fetchTokenRegistry(env: any, request: Request): Promise<{ active: { id: string }[]; revoked: { id: string }[] }> {
+  try {
+    const regUrl = new URL('/data/dev-tokens.json', request.url).toString();
+    const regReq = new Request(regUrl, request);
+    const res = await env.ASSETS.fetch(regReq);
+    if (!res.ok) return { active: [{ id: 'dev-2026-01' }], revoked: [{ id: 'dev-2025-04' }] };
+    return await res.json();
+  } catch (e) {
+    return { active: [{ id: 'dev-2026-01' }], revoked: [{ id: 'dev-2025-04' }] };
+  }
+}
+
+function isTokenActive(id: string | undefined, registry: { active: { id: string }[]; revoked: { id: string }[] }): boolean {
+  if (!id) return true; // Default fallback for un-identified tokens if signature passed
+  const isRevoked = registry.revoked.some(t => t.id === id);
+  if (isRevoked) return false;
+  const isActive = registry.active.some(t => t.id === id);
+  return isActive;
 }
 
 function base64UrlToBytes(b64url: string): Uint8Array {
@@ -274,16 +290,24 @@ export default {
     const isBrowser = ua.includes("Mozilla") || ua.includes("Chrome") || ua.includes("Safari") || accept.includes("text/html");
 
     // Extract Developer Token from header or query param
-    const devToken = request.headers.get("ecosmart-dev-token") || url.searchParams.get("token") || "";
+    const token = request.headers.get("ecosmart-dev-token") || url.searchParams.get("token") || "";
     const secret = env?.DEV_TOKEN_SECRET || 'ecosmart-dev-secret-2026-key';
-    const isDevAuthorized = devToken ? await verifyDevToken(devToken, secret) : false;
+    
+    let isDevAuthorized = false;
+    if (token) {
+      const payload = await verifyDevTokenPayload(token, secret);
+      if (payload) {
+        const registry = await fetchTokenRegistry(env, request);
+        isDevAuthorized = isTokenActive(payload.id, registry);
+      }
+    }
 
     // 1. Public AI overview page always allowed
     if (url.pathname === '/ai' || url.pathname === '/ai/') {
       return env.ASSETS.fetch(request);
     }
 
-    // 2. Private Developer Portal (/ai/dev/*) — requires valid developer token
+    // 2. Private Developer Portal (/ai/dev/*) — requires valid, active, non-revoked developer token
     if (url.pathname.startsWith('/ai/dev')) {
       if (!isDevAuthorized) {
         const landingUrl = new URL('/ai/', request.url).toString();
