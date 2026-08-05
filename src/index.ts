@@ -293,12 +293,35 @@ export default {
     const token = request.headers.get("ecosmart-dev-token") || url.searchParams.get("token") || "";
     const secret = env?.DEV_TOKEN_SECRET || 'ecosmart-dev-secret-2026-key';
     
+    let devPayload: any = null;
     let isDevAuthorized = false;
     if (token) {
-      const payload = await verifyDevTokenPayload(token, secret);
-      if (payload) {
+      devPayload = await verifyDevTokenPayload(token, secret);
+      if (devPayload) {
         const registry = await fetchTokenRegistry(env, request);
-        isDevAuthorized = isTokenActive(payload.id, registry);
+        isDevAuthorized = isTokenActive(devPayload.id, registry);
+      }
+    }
+
+    // Helper: Audit Logging Hook
+    async function logAuditEvent(endpoint: string, result: string) {
+      try {
+        const entry = {
+          timestamp: Math.floor(Date.now() / 1000),
+          token_id: devPayload?.id || (isBrowser ? "anonymous-browser" : "anonymous-agent"),
+          endpoint,
+          result,
+          user_agent: (ua || "").substring(0, 120)
+        };
+
+        if (env?.DEV_AUDIT_LOG && typeof env.DEV_AUDIT_LOG.put === 'function') {
+          const res = await fetch("https://www.ecosmarthomes.ie/data/dev-audit.json");
+          const current = res.ok ? await res.json() : [];
+          current.unshift(entry);
+          await env.DEV_AUDIT_LOG.put("dev-audit.json", JSON.stringify(current.slice(0, 500), null, 2));
+        }
+      } catch (err) {
+        console.error("Audit logging failed:", err);
       }
     }
 
@@ -309,18 +332,13 @@ export default {
 
     // 2. Private Developer Portal (/ai/dev/*) — requires valid, active, non-revoked developer token
     if (url.pathname.startsWith('/ai/dev')) {
-      // Explicit fail-safe check for /ai/dev/endpoints.html
-      if (url.pathname === '/ai/dev/endpoints.html' || url.pathname === '/ai/dev/endpoints') {
-        if (!isDevAuthorized) {
-          const landingUrl = new URL('/ai/', request.url).toString();
-          return Response.redirect(landingUrl, 302);
-        }
-      }
-
       if (!isDevAuthorized) {
+        ctx?.waitUntil?.(logAuditEvent(url.pathname, "403 Unauthorized"));
         const landingUrl = new URL('/ai/', request.url).toString();
         return Response.redirect(landingUrl, 302);
       }
+
+      ctx?.waitUntil?.(logAuditEvent(url.pathname, "200 Authorized"));
       return env.ASSETS.fetch(request);
     }
 
