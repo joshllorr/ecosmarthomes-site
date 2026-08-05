@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issue New Developer Token | EcoSmartHomes Private Console</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../../../css/styles.css">
+  <link rel="stylesheet" href="../../../css/dashboard.css">
+
+  <style>
+    .token-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-bottom: 32px;
+      padding: 24px;
+    }
+
+    .form-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .form-group input {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      min-width: 260px;
+    }
+
+    .snippet {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 16px 20px;
+      border-radius: 10px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin-top: 14px;
+      border: 1px solid #1e293b;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../../../index.html">
+        <img src="../../../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../ber-advisor/">BER Advisor</a></li>
+        <li><a href="../../../dashboard.html">Dashboard</a></li>
+        <li><a href="../../index.html">AI Advisory</a></li>
+        <li><a href="../index.html">🔐 Dev Portal</a></li>
+        <li><a href="index.html" style="color: #10b981; font-weight: 700;">🔑 Tokens</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="dashboard-logo-icon" style="margin: 0 auto 16px auto;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+      </svg>
+    </div>
+    <h1>Issue New Developer Token</h1>
+    <p class="tagline">Create and register a new developer access token for EcoSmartHomes AI Developer Portal</p>
+  </div>
+</section>
+
+<!-- MAIN CONTAINER -->
+<main class="dashboard-container">
+
+  <!-- INSTRUCTIONS PANEL -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge">Workflow Guide</span>
+      <h2>How Token Issuance Works</h2>
+    </div>
+    <p style="color:var(--text-main); line-height:1.6;">
+      Tokens are generated using your Node utility script <code style="font-family:'Fira Code',monospace;">scripts/generate-dev-token.js</code> and registered in
+      <code style="font-family:'Fira Code',monospace;">site/data/dev-tokens.json</code>. This UI provides a guided workflow.
+    </p>
+  </section>
+
+  <!-- GENERATE TOKEN FORM PANEL -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge" style="background:#dcfce7; color:#15803d;">Issuance Form</span>
+      <h2>Generate New Token</h2>
+    </div>
+    <p style="color:var(--text-main); line-height:1.6;">Enter a unique Token ID and click generate to inspect CLI issuance commands and JSON registry snippets.</p>
+
+    <div class="form-group">
+      <label for="new-id" style="font-weight:600;">New Token ID:</label>
+      <input id="new-id" type="text" placeholder="dev-2026-02">
+      <button id="generate-btn" class="btn-primary" style="padding:10px 20px;">Generate Token Snippet</button>
+    </div>
+  </section>
+
+  <!-- POST GENERATION SNIPPET PANEL -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge">Registry Payload</span>
+      <h2>Register Token Payload</h2>
+    </div>
+    <p style="color:var(--text-main); line-height:1.6;">After generating the token via CLI, add the following entry to the <strong>active</strong> array in <code style="font-family:'Fira Code',monospace;">site/data/dev-tokens.json</code>:</p>
+
+    <pre id="registry-snippet" class="snippet">{
+  "id": "dev-2026-02",
+  "label": "Partner Token (dev-2026-02)",
+  "issued": 1785955000,
+  "expires": 1817491000
+}</pre>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">🔒 EcoSmartHomes Private Developer Console — Token Issuance Module</p>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. All rights reserved.</small></p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('generate-btn').onclick = () => {
+    const id = document.getElementById('new-id').value.trim();
+    if (!id) {
+      alert("Enter a token ID first.");
+      return;
+    }
+
+    const issued = Math.floor(Date.now() / 1000);
+    const expires = issued + (365 * 24 * 60 * 60); // 1 year expiry
+
+    alert(
+      `Run this CLI command to generate the signed token:\n\n` +
+      `node scripts/generate-dev-token.js ${id}\n\n` +
+      `Then copy the generated token payload into your partner documentation.\n\n` +
+      `The script automatically syncs ${id} into the active registry in site/data/dev-tokens.json!`
+    );
+
+    const snippet = JSON.stringify({
+      id: id,
+      label: `Partner Token (${id})`,
+      issued: issued,
+      expires: expires
+    }, null, 2);
+
+    document.getElementById('registry-snippet').textContent = snippet;
+  };
+</script>
+
+</body>
+</html>
