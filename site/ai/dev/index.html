@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoSmartHomes AI Developer Portal | Structured Endpoints</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+
+  <style>
+    .endpoint-table-container {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-top: 20px;
+    }
+
+    .endpoint-row {
+      display: grid;
+      grid-template-columns: 260px 1fr 120px;
+      align-items: center;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-color);
+      gap: 16px;
+    }
+
+    .endpoint-row:last-child {
+      border-bottom: none;
+    }
+
+    .endpoint-path {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #0284c7;
+      background: #f0f9ff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      word-break: break-all;
+    }
+
+    .endpoint-desc {
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    .status-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #dcfce7;
+      color: #15803d;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../../index.html">
+        <img src="../../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../ber-advisor/">BER Advisor</a></li>
+        <li><a href="../../dashboard.html">Dashboard</a></li>
+        <li><a href="../index.html">AI Advisory</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="dashboard-logo-icon" style="margin: 0 auto 16px auto;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+      </svg>
+    </div>
+    <h1>EcoSmartHomes AI Developer Portal</h1>
+    <p class="tagline">Internal registry of structured agent endpoints, MCP tools, and RFC 8414 specifications</p>
+  </div>
+</section>
+
+<!-- MAIN CONTAINER -->
+<main class="dashboard-container">
+
+  <section>
+    <div class="section-title-wrapper">
+      <span class="section-badge">API Registry</span>
+      <h2>Structured Agent Endpoints</h2>
+    </div>
+
+    <div class="endpoint-table-container">
+
+      <!-- Endpoint 1 -->
+      <div class="endpoint-row">
+        <div>
+          <span class="endpoint-path">/ai/manifest.json</span>
+        </div>
+        <div class="endpoint-desc">
+          <strong>AI Plugin & Agent Manifest:</strong> Core manifest defining AI capabilities, system instructions, and schema entry points.
+        </div>
+        <div>
+          <span class="status-badge">Active</span>
+        </div>
+      </div>
+
+      <!-- Endpoint 2 -->
+      <div class="endpoint-row">
+        <div>
+          <span class="endpoint-path">/api/mcp/manifest.json</span>
+        </div>
+        <div class="endpoint-desc">
+          <strong>MCP Tool Manifest:</strong> Model Context Protocol tools, input parameters, and executable schemas.
+        </div>
+        <div>
+          <span class="status-badge">Active</span>
+        </div>
+      </div>
+
+      <!-- Endpoint 3 -->
+      <div class="endpoint-row">
+        <div>
+          <span class="endpoint-path">/.well-known/oauth-...</span>
+        </div>
+        <div class="endpoint-desc">
+          <strong>RFC 8414 OAuth Metadata:</strong> Authorization server discovery document for AI agent client registration.
+        </div>
+        <div>
+          <span class="status-badge">Active</span>
+        </div>
+      </div>
+
+      <!-- Endpoint 4 -->
+      <div class="endpoint-row">
+        <div>
+          <span class="endpoint-path">/api/upgrades/rec.md</span>
+        </div>
+        <div class="endpoint-desc">
+          <strong>Markdown Advisory Spec:</strong> Clean LLM context document detailing Irish retrofit sequence rules.
+        </div>
+        <div>
+          <span class="status-badge">Active</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">🔒 EcoSmartHomes Private Developer Registry — Internal Specification Protocol</p>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. All rights reserved.</small></p>
+  </div>
+</footer>
+
+</body>
+</html>

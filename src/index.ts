@@ -205,11 +205,12 @@ export default {
 
     // 🟢 EcoSmartHomes Master Access Control & Redirect Rules
     const accept = request.headers.get("Accept") || "";
+    const ua = request.headers.get("User-Agent") || "";
+    const isBrowser = ua.includes("Mozilla") || ua.includes("Chrome") || ua.includes("Safari") || accept.includes("text/html");
 
-    // Rule 1: Protect all JSON files except .well-known from human browsers
+    // Rule 1: Protect all JSON files (including /api/mcp/manifest.json & /ai/manifest.json) except .well-known from human browsers
     if (url.pathname.endsWith(".json") && !url.pathname.includes(".well-known")) {
-      const isHumanBrowser = accept.includes("text/html") && !accept.includes("application/json");
-      if (isHumanBrowser) {
+      if (isBrowser && !ua.includes("GPTBot") && !ua.includes("ClaudeBot") && !ua.includes("PerplexityBot")) {
         const landingUrl = new URL("/ai/", request.url).toString();
         return Response.redirect(landingUrl, 302);
       }
@@ -217,9 +218,7 @@ export default {
 
     // Rule 2: Protect schema, api data, and internal data directories from direct browser navigation
     if ((url.pathname.startsWith("/schema/") || url.pathname.startsWith("/api/") || url.pathname.startsWith("/data/")) && method === "GET") {
-      // Exclude public API endpoints like /api/site-health or /api/health if called by API clients
-      const isHumanBrowser = accept.includes("text/html") && !accept.includes("application/json");
-      if (isHumanBrowser) {
+      if (isBrowser && !ua.includes("GPTBot") && !ua.includes("ClaudeBot") && !ua.includes("PerplexityBot")) {
         const homeUrl = new URL("/", request.url).toString();
         return Response.redirect(homeUrl, 302);
       }
