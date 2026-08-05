@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Token Audit Log | EcoSmartHomes Private Console</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../../../css/styles.css">
+  <link rel="stylesheet" href="../../../css/dashboard.css">
+
+  <style>
+    .token-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-bottom: 32px;
+      padding: 24px;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 0.92rem;
+    }
+
+    .token-table th {
+      background: #f8fafc;
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border-color);
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .token-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .token-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .token-id {
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      color: #0284c7;
+      background: #f0f9ff;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .badge-ok {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .badge-denied {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .badge-redirect {
+      background: #fef3c7;
+      color: #b45309;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group input {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      min-width: 220px;
+    }
+
+    .endpoint-code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #0369a1;
+    }
+
+    .ua-code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: #64748b;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../../../index.html">
+        <img src="../../../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../ber-advisor/">BER Advisor</a></li>
+        <li><a href="../../../dashboard.html">Dashboard</a></li>
+        <li><a href="../../index.html">AI Advisory</a></li>
+        <li><a href="../index.html">🔐 Dev Portal</a></li>
+        <li><a href="index.html" style="color: #10b981; font-weight: 700;">🔑 Tokens</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="dashboard-logo-icon" style="margin: 0 auto 16px auto;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+    </div>
+    <h1>Developer Token Audit Log</h1>
+    <p class="tagline">View and filter recent developer token requests across EcoSmartHomes AI endpoints</p>
+  </div>
+</section>
+
+<!-- MAIN CONTAINER -->
+<main class="dashboard-container">
+
+  <!-- FILTERS PANEL -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge">Audit Controls</span>
+      <h2>Log Filters</h2>
+    </div>
+
+    <div class="filter-group">
+      <div>
+        <label for="filter-id" style="font-weight:600; display:block; margin-bottom:4px;">Filter by Token ID:</label>
+        <input id="filter-id" type="text" placeholder="dev-2026-01">
+      </div>
+      <div>
+        <label for="filter-endpoint" style="font-weight:600; display:block; margin-bottom:4px;">Filter by Endpoint:</label>
+        <input id="filter-endpoint" type="text" placeholder="/ai/dev/">
+      </div>
+      <div style="align-self:flex-end;">
+        <button id="apply-filters" class="btn-primary" style="padding:10px 20px;">Apply Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIT TABLE PANEL -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge" style="background:#dcfce7; color:#15803d;">Live Activity Stream</span>
+      <h2>Recent Activity</h2>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Token ID</th>
+            <th>Endpoint</th>
+            <th>Result</th>
+            <th>User-Agent</th>
+          </tr>
+        </thead>
+        <tbody id="audit-rows">
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">🔒 EcoSmartHomes Private Developer Console — Security Audit Trail</p>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. All rights reserved.</small></p>
+  </div>
+</footer>
+
+<script>
+  let auditData = [];
+
+  async function loadAudit() {
+    try {
+      const res = await fetch('../../data/dev-audit.json');
+      auditData = await res.json();
+      renderAudit(auditData);
+    } catch (e) {
+      console.error('Failed to load audit trail:', e);
+    }
+  }
+
+  function renderAudit(rows) {
+    const body = document.getElementById('audit-rows');
+    body.innerHTML = '';
+
+    if (!rows || rows.length === 0) {
+      body.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#64748b;">No matching audit entries found.</td></tr>';
+      return;
+    }
+
+    rows.forEach(entry => {
+      const row = document.createElement('tr');
+      
+      let badgeClass = 'badge-ok';
+      if (entry.result.includes('403') || entry.result.includes('Denied')) {
+        badgeClass = 'badge-denied';
+      } else if (entry.result.includes('302') || entry.result.includes('Redirect')) {
+        badgeClass = 'badge-redirect';
+      }
+
+      row.innerHTML = `
+        <td>${new Date(entry.timestamp * 1000).toLocaleString()}</td>
+        <td><span class="token-id">${entry.token_id}</span></td>
+        <td><span class="endpoint-code">${entry.endpoint}</span></td>
+        <td><span class="${badgeClass}">${entry.result}</span></td>
+        <td><span class="ua-code" title="${entry.user_agent}">${entry.user_agent}</span></td>
+      `;
+      body.appendChild(row);
+    });
+  }
+
+  document.getElementById('apply-filters').onclick = () => {
+    const id = document.getElementById('filter-id').value.trim().toLowerCase();
+    const endpoint = document.getElementById('filter-endpoint').value.trim().toLowerCase();
+
+    const filtered = auditData.filter(entry => {
+      const matchId = !id || entry.token_id.toLowerCase().includes(id);
+      const matchEndpoint = !endpoint || entry.endpoint.toLowerCase().includes(endpoint);
+      return matchId && matchEndpoint;
+    });
+
+    renderAudit(filtered);
+  };
+
+  loadAudit();
+</script>
+
+</body>
+</html>

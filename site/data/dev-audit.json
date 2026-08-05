@@ -1,0 +1,30 @@
+[
+  {
+    "timestamp": 1785955200,
+    "token_id": "dev-2026-01",
+    "endpoint": "/ai/dev/tokens/audit.html",
+    "result": "200 OK",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) PartnerConsole/1.0"
+  },
+  {
+    "timestamp": 1785955039,
+    "token_id": "dev-2026-01",
+    "endpoint": "/ai/dev/",
+    "result": "200 OK",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple-WebKit/537.36"
+  },
+  {
+    "timestamp": 1785954900,
+    "token_id": "dev-2025-04",
+    "endpoint": "/ai/manifest.json",
+    "result": "403 Revoked",
+    "user_agent": "curl/7.88.1"
+  },
+  {
+    "timestamp": 1785954000,
+    "token_id": "unauthorized",
+    "endpoint": "/api/mcp/manifest.json",
+    "result": "302 Redirect (/ai/)",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+  }
+]
