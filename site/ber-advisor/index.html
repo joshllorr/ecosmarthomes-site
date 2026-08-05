@@ -14,6 +14,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/dashboard.css">
+  <script src="../js/energy-metrics.js"></script>
   
   <style>
     /* BER Specific Scale & Layout Styles */
@@ -383,24 +384,24 @@
 </footer>
 
 <script>
-// Dynamic BER Simulator Logic
-const berData = {
-  'G':  { kwh: 400, co2: 6.8, label: 'G Rating' },
-  'F':  { kwh: 320, co2: 5.4, label: 'F Rating' },
-  'E2': { kwh: 260, co2: 4.3, label: 'E2 Rating' },
-  'D2': { kwh: 220, co2: 3.7, label: 'D2 Rating' },
-  'C3': { kwh: 175, co2: 2.9, label: 'C3 Rating' },
-  'B2': { kwh: 100, co2: 1.6, label: 'B2 Rating' },
+// Dynamic BER Simulator Logic using March 28, 2026 Benchmarks
+const berData = (window.ECOSMART_METRICS && window.ECOSMART_METRICS.berScale) ? {
+  'G':  { kwh: 450, co2: 8.0, label: 'G Rating' },
+  'F':  { kwh: 380, co2: 6.7, label: 'F Rating' },
+  'E2': { kwh: 340, co2: 5.9, label: 'E2 Rating' },
+  'D2': { kwh: 260, co2: 4.7, label: 'D2 Rating' },
+  'C3': { kwh: 200, co2: 3.6, label: 'C3 Rating' },
+  'B2': { kwh: 100, co2: 2.0, label: 'B2 Rating' },
   'A2': { kwh: 50,  co2: 0.8, label: 'A2 Rating' },
   'A1': { kwh: 25,  co2: 0.3, label: 'A1 Rating' }
-};
+} : {};
 
 function simulateBER() {
   const currentKey = document.getElementById('currentBER').value;
   const targetKey  = document.getElementById('targetBER').value;
   
-  const cur = berData[currentKey] || berData['G'];
-  const tar = berData[targetKey] || berData['B2'];
+  const cur = berData[currentKey] || { kwh: 450, co2: 8.0 };
+  const tar = berData[targetKey] || { kwh: 100, co2: 2.0 };
 
   const kwhSaved = Math.max(0, cur.kwh - tar.kwh);
   const co2Saved = Math.max(0, (cur.co2 - tar.co2)).toFixed(1);
@@ -408,10 +409,10 @@ function simulateBER() {
   // 120m² typical house, blend tariff ~€0.075 / kWh
   const annualSavings = Math.round(120 * kwhSaved * 0.075);
   
-  // Grant estimation
-  let grantEst = "€8,500 Max";
-  if (targetKey === 'A2') grantEst = "€10,500 Max";
-  if (targetKey === 'A1') grantEst = "€12,000 Max";
+  // March 2026 SEAI Grant estimation caps
+  let grantEst = "€8,000 Max (Heat Pump + Controls)";
+  if (targetKey === 'A2') grantEst = "€10,500 Max (Deep Retrofit)";
+  if (targetKey === 'A1') grantEst = "€12,500 Max (NZEB Rank)";
   
   // Value boost
   let valueBoost = "+10% to +14%";

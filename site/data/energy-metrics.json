@@ -1,0 +1,77 @@
+{
+  "version": "March 28 2026 Revision",
+  "effectiveDate": "2026-03-28",
+  "currency": "EUR",
+  "seaiGrants": {
+    "heatPump": {
+      "airToWater": 6500,
+      "groundSource": 6500,
+      "heatingControls": 1500,
+      "totalMax": 8000,
+      "unit": "EUR"
+    },
+    "atticInsulation": {
+      "standard": 1500,
+      "detached": 1700,
+      "unit": "EUR"
+    },
+    "cavityWallInsulation": {
+      "apartment": 800,
+      "midTerrace": 1200,
+      "semiDetached": 1700,
+      "detached": 1700,
+      "unit": "EUR"
+    },
+    "externalWallInsulation": {
+      "apartment": 3000,
+      "midTerrace": 4500,
+      "semiDetached": 6000,
+      "detached": 8000,
+      "unit": "EUR"
+    },
+    "internalWallInsulation": {
+      "apartment": 1700,
+      "midTerrace": 2500,
+      "semiDetached": 3500,
+      "detached": 4500,
+      "unit": "EUR"
+    },
+    "solarPV": {
+      "base": 2100,
+      "max": 2400,
+      "unit": "EUR"
+    },
+    "solarThermal": {
+      "standard": 1200,
+      "unit": "EUR"
+    },
+    "deepRetrofitBonus": {
+      "bonusB2": 2000,
+      "unit": "EUR"
+    }
+  },
+  "berScale2026": {
+    "A1": { "minKwh": 0, "maxKwh": 25, "label": "A1", "co2Factor": 0.3, "color": "#00703C" },
+    "A2": { "minKwh": 25, "maxKwh": 50, "label": "A2", "co2Factor": 0.8, "color": "#008542" },
+    "A3": { "minKwh": 50, "maxKwh": 75, "label": "A3", "co2Factor": 1.2, "color": "#009E49" },
+    "B1": { "minKwh": 75, "maxKwh": 100, "label": "B1", "co2Factor": 1.6, "color": "#50B848" },
+    "B2": { "minKwh": 100, "maxKwh": 125, "label": "B2", "co2Factor": 2.0, "color": "#78C944" },
+    "B3": { "minKwh": 125, "maxKwh": 150, "label": "B3", "co2Factor": 2.4, "color": "#99D546" },
+    "C1": { "minKwh": 150, "maxKwh": 175, "label": "C1", "co2Factor": 2.8, "color": "#FFF200" },
+    "C2": { "minKwh": 175, "maxKwh": 200, "label": "C2", "co2Factor": 3.2, "color": "#FDB913" },
+    "C3": { "minKwh": 200, "maxKwh": 225, "label": "C3", "co2Factor": 3.6, "color": "#F8971D" },
+    "D1": { "minKwh": 225, "maxKwh": 260, "label": "D1", "co2Factor": 4.1, "color": "#F37023" },
+    "D2": { "minKwh": 260, "maxKwh": 300, "label": "D2", "co2Factor": 4.7, "color": "#EE4326" },
+    "E1": { "minKwh": 300, "maxKwh": 340, "label": "E1", "co2Factor": 5.3, "color": "#E41B23" },
+    "E2": { "minKwh": 340, "maxKwh": 380, "label": "E2", "co2Factor": 5.9, "color": "#BD1622" },
+    "F":  { "minKwh": 380, "maxKwh": 450, "label": "F",  "co2Factor": 6.7, "color": "#8E0E17" },
+    "G":  { "minKwh": 450, "maxKwh": 600, "label": "G",  "co2Factor": 8.0, "color": "#5C060B" }
+  },
+  "fuelPrices2026": {
+    "heatingOilPerLitre": 1.20,
+    "electricityPerKwhDay": 0.38,
+    "electricityPerKwhNight": 0.19,
+    "carbonTaxPerTonne2026": 64.50,
+    "carbonTaxPerTonne2030": 100.00
+  }
+}
