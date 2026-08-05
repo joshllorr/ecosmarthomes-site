@@ -316,18 +316,23 @@ export default {
       return env.ASSETS.fetch(request);
     }
 
-    // 3. Protect all JSON files (including /api/mcp/manifest.json & /ai/manifest.json) except .well-known
-    if (url.pathname.endsWith(".json") && !url.pathname.includes(".well-known")) {
-      const isAgent = ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot");
+    // 3. Allow /.well-known/* for everyone (AI discovery)
+    if (url.pathname.startsWith("/.well-known/")) {
+      return env.ASSETS.fetch(request);
+    }
+
+    // 4. Protect all JSON & MD endpoints (/ai/manifest.json, /ai/openapi.json, /api/mcp/manifest.json, /api/upgrades/recommendations.md, /api/oauth/metadata.json)
+    if ((url.pathname.endsWith(".json") || url.pathname.endsWith(".md")) && !url.pathname.startsWith("/.well-known/")) {
+      const isAgent = ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot") || ua.includes("BingAI") || ua.includes("Google-Extended");
       if (isBrowser && !isDevAuthorized && !isAgent) {
         const landingUrl = new URL("/ai/", request.url).toString();
         return Response.redirect(landingUrl, 302);
       }
     }
 
-    // 4. Protect schema, api data, and internal data directories from unauthorized direct browser navigation
+    // 5. Protect schema, api data, and internal data directories from unauthorized direct browser navigation
     if ((url.pathname.startsWith("/schema/") || url.pathname.startsWith("/api/") || url.pathname.startsWith("/data/")) && method === "GET") {
-      const isAgent = ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot");
+      const isAgent = ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot") || ua.includes("BingAI") || ua.includes("Google-Extended");
       if (isBrowser && !isDevAuthorized && !isAgent) {
         const homeUrl = new URL("/", request.url).toString();
         return Response.redirect(homeUrl, 302);
