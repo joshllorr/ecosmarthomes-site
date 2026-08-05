@@ -455,6 +455,60 @@
     .close:hover {
       transform: scale(1.2);
     }
+
+    /* Rendered Markdown Styling */
+    #modalRender {
+      font-family: 'Inter', sans-serif;
+      color: #e8f5e9;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    #modalRender h1, #modalRender h2, #modalRender h3 {
+      color: #00ff80;
+      margin-top: 1.2em;
+      margin-bottom: 0.4em;
+    }
+
+    #modalRender p, #modalRender li {
+      margin-bottom: 0.6em;
+    }
+
+    #modalRender code {
+      background: rgba(0,255,128,0.1);
+      color: #00ff80;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+    }
+
+    #modalRender pre {
+      background: rgba(0,0,0,0.3);
+      color: #38bdf8;
+      border-radius: 8px;
+      padding: 14px;
+      overflow-x: auto;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    #modalRender table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+
+    #modalRender th, #modalRender td {
+      border: 1px solid rgba(0,255,128,0.2);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    #modalRender th {
+      background: rgba(0,255,128,0.1);
+      color: #00ff80;
+    }
       background: rgba(16, 185, 129, 0.15);
       border-radius: 0.75rem;
       display: flex;
@@ -952,10 +1006,12 @@
   <div id="endpointModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h3 style="color:#00ff80; margin-bottom:12px; font-size:1.2rem;">📄 Machine Specification Preview</h3>
-      <pre id="modalText"></pre>
+      <div id="modalRender"></div>
     </div>
   </div>
+
+  <!-- marked.js Markdown Parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <script>
     document.querySelectorAll('.open-modal').forEach(link => {
@@ -965,11 +1021,14 @@
         try {
           const res = await fetch(endpoint);
           const text = await res.text();
-          document.getElementById('modalText').textContent = text;
+          
+          // Render Markdown to rich HTML using marked.js
+          const html = typeof marked !== 'undefined' ? marked.parse(text) : text;
+          document.getElementById('modalRender').innerHTML = html;
           document.getElementById('endpointModal').style.display = 'block';
         } catch (err) {
           console.error('Failed to fetch endpoint preview:', err);
-          document.getElementById('modalText').textContent = 'Failed to load specification endpoint preview.';
+          document.getElementById('modalRender').innerHTML = '<p style="color:#ef4444;">Failed to load specification endpoint preview.</p>';
           document.getElementById('endpointModal').style.display = 'block';
         }
       });
