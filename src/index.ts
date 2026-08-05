@@ -193,6 +193,65 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
   }
 }
 
+/**
+ * Web Crypto HMAC-SHA256 Token Verification Helper for Cloudflare Workers
+ */
+async function verifyDevToken(tokenStr: string, secretStr: string): Promise<boolean> {
+  if (!tokenStr || typeof tokenStr !== 'string') return false;
+  const parts = tokenStr.split('.');
+  if (parts.length !== 2) return false;
+
+  const [payloadB64, sigB64] = parts;
+
+  try {
+    const encoder = new TextEncoder();
+    const keyData = encoder.encode(secretStr);
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw',
+      keyData,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['verify']
+    );
+
+    const signatureBytes = base64UrlToBytes(sigB64);
+    const dataBytes = encoder.encode(payloadB64);
+
+    const isValidSig = await crypto.subtle.verify(
+      'HMAC',
+      cryptoKey,
+      signatureBytes,
+      dataBytes
+    );
+
+    if (!isValidSig) return false;
+
+    const jsonText = new TextDecoder().decode(base64UrlToBytes(payloadB64));
+    const payload = JSON.parse(jsonText);
+
+    const now = Math.floor(Date.now() / 1000);
+    if (payload.expires && payload.expires < now) return false;
+    if (payload.role !== 'developer') return false;
+    if (Array.isArray(payload.scope) && !payload.scope.includes('ai.dev')) return false;
+
+    return true;
+  } catch (err) {
+    console.error('Token verification error:', err);
+    return false;
+  }
+}
+
+function base64UrlToBytes(b64url: string): Uint8Array {
+  let b64 = b64url.replace(/-/g, '+').replace(/_/g, '/');
+  while (b64.length % 4) b64 += '=';
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
+}
+
 export default {
   async fetch(request: Request, env: any, ctx: any): Promise<Response> {
     const url = new URL(request.url);
@@ -203,22 +262,42 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // 🟢 EcoSmartHomes Master Access Control & Redirect Rules
     const accept = request.headers.get("Accept") || "";
     const ua = request.headers.get("User-Agent") || "";
     const isBrowser = ua.includes("Mozilla") || ua.includes("Chrome") || ua.includes("Safari") || accept.includes("text/html");
 
-    // Rule 1: Protect all JSON files (including /api/mcp/manifest.json & /ai/manifest.json) except .well-known from human browsers
+    // Extract Developer Token from header or query param
+    const devToken = request.headers.get("ecosmart-dev-token") || url.searchParams.get("token") || "";
+    const secret = env?.DEV_TOKEN_SECRET || 'ecosmart-dev-secret-2026-key';
+    const isDevAuthorized = devToken ? await verifyDevToken(devToken, secret) : false;
+
+    // 1. Public AI overview page always allowed
+    if (url.pathname === '/ai' || url.pathname === '/ai/') {
+      return env.ASSETS.fetch(request);
+    }
+
+    // 2. Private Developer Portal (/ai/dev/*) — requires valid developer token
+    if (url.pathname.startsWith('/ai/dev')) {
+      if (!isDevAuthorized) {
+        const landingUrl = new URL('/ai/', request.url).toString();
+        return Response.redirect(landingUrl, 302);
+      }
+      return env.ASSETS.fetch(request);
+    }
+
+    // 3. Protect all JSON files (including /api/mcp/manifest.json & /ai/manifest.json) except .well-known
     if (url.pathname.endsWith(".json") && !url.pathname.includes(".well-known")) {
-      if (isBrowser && !ua.includes("GPTBot") && !ua.includes("ClaudeBot") && !ua.includes("PerplexityBot")) {
+      const isAgent = ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot");
+      if (isBrowser && !isDevAuthorized && !isAgent) {
         const landingUrl = new URL("/ai/", request.url).toString();
         return Response.redirect(landingUrl, 302);
       }
     }
 
-    // Rule 2: Protect schema, api data, and internal data directories from direct browser navigation
+    // 4. Protect schema, api data, and internal data directories from unauthorized direct browser navigation
     if ((url.pathname.startsWith("/schema/") || url.pathname.startsWith("/api/") || url.pathname.startsWith("/data/")) && method === "GET") {
-      if (isBrowser && !ua.includes("GPTBot") && !ua.includes("ClaudeBot") && !ua.includes("PerplexityBot")) {
+      const isAgent = ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot");
+      if (isBrowser && !isDevAuthorized && !isAgent) {
         const homeUrl = new URL("/", request.url).toString();
         return Response.redirect(homeUrl, 302);
       }
