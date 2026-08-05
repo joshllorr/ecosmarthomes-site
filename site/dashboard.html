@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy & Financial Insights Dashboard | EcoSmartHomes</title>
+  <meta name="description" content="EcoSmartHomes Energy & Financial Insights Dashboard: Independent ROI data, BER jump cost efficiency, carbon tax projections, and agent decision formulas for Irish homeowners.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="index.html">
+        <img src="imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html#hero">Home</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#process">Process</a></li>
+        <li><a href="index.html#ber">BER Protection</a></li>
+        <li><a href="articles/">Articles</a></li>
+        <li><a href="ber-advisor/">BER Advisor</a></li>
+        <li><a href="dashboard.html" style="color: #10b981; font-weight: 700;">📊 Dashboard</a></li>
+        <li><a href="agent-skills.html" style="color: #10b981; font-weight: 600;">🤖 Agent Skills</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- DASHBOARD HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper">
+    <div class="dashboard-logo-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <h1>Energy & Financial Insights Dashboard</h1>
+    <p class="tagline">Independent retrofit guidance for a warmer, greener home</p>
+  </div>
+</section>
+
+<!-- MAIN DASHBOARD CONTENT -->
+<main class="dashboard-container">
+
+  <!-- SECTION 1: KEY PERFORMANCE INDICATORS -->
+  <section id="kpi-section">
+    <div class="section-title-wrapper">
+      <span class="section-badge">Section 1</span>
+      <h2>Key Performance Indicators</h2>
+    </div>
+
+    <div class="kpi-grid">
+
+      <!-- KPI 1: Heating Bill Reduction -->
+      <div class="kpi-card">
+        <div class="kpi-icon-header">
+          <div class="kpi-icon">💡</div>
+          <div class="kpi-tooltip-trigger" title="Click for details">?</div>
+          <div class="tooltip-popup">
+            <strong>Calculation Method:</strong><br>
+            Calculated on a standard 120m² Irish home upgrading from BER G to B2.<br>
+            • Home Heating Oil: €1.20 / Litre<br>
+            • Day-rate Electricity: €0.38 / kWh<br>
+            • Thermal Demand Drop: ~65%
+          </div>
+        </div>
+        <div class="kpi-title">Heating Bill Reduction</div>
+        <div class="kpi-metric">€2,100 <span style="font-size: 1.1rem; font-weight: 500;">/ yr</span></div>
+        <div class="kpi-metric-sub">Based on G → B2 Upgrade</div>
+        <div class="kpi-description">
+          Estimated annual fuel savings when following recommended fabric-first insulation + heat pump roadmap.
+        </div>
+      </div>
+
+      <!-- KPI 2: Carbon Tax Impact -->
+      <div class="kpi-card">
+        <div class="kpi-icon-header">
+          <div class="kpi-icon">🌍</div>
+          <div class="kpi-tooltip-trigger" title="Click for details">?</div>
+          <div class="tooltip-popup">
+            <strong>Irish Carbon Tax Schedule:</strong><br>
+            • 2026: €64.50 / tonne CO₂<br>
+            • 2028: €80.00 / tonne CO₂<br>
+            • 2030: €100.00 / tonne CO₂<br>
+            Un-retrofitted homes face compounding annual fuel tax increases.
+          </div>
+        </div>
+        <div class="kpi-title">Carbon Tax Impact (2026–2030)</div>
+        <div class="kpi-metric" style="color: #dc2626;">+€480</div>
+        <div class="kpi-metric-sub" style="background: #fef2f2; color: #dc2626;">Cumulative Avoided Tax</div>
+        <div class="kpi-description">
+          Projected cumulative Irish carbon tax liability saved over 5 years by executing a deep retrofit shield.
+        </div>
+      </div>
+
+      <!-- KPI 3: BER Jump Cost Efficiency -->
+      <div class="kpi-card">
+        <div class="kpi-icon-header">
+          <div class="kpi-icon">🧱</div>
+          <div class="kpi-tooltip-trigger" title="Click for details">?</div>
+          <div class="tooltip-popup">
+            <strong>Cost per Energy Saved:</strong><br>
+            • Attic: €1.20 / m² · yr<br>
+            • Pumped Cavity: €1.80 / m² · yr<br>
+            • Heat Pump: €4.50 / kWh · yr<br>
+            • Solar PV: €2,100 net cost ≈ €750 / yr offset
+          </div>
+        </div>
+        <div class="kpi-title">BER Jump Cost Efficiency</div>
+        <div class="kpi-metric" style="font-size: 1.6rem;">Attic €1.20</div>
+        <div class="kpi-metric-sub">🏆 ROI Leader (/m²·yr saved)</div>
+        <div class="kpi-description">
+          Pumped Cavity €1.80/m²·yr • Heat Pump €4.50/kWh·yr • Solar PV €2,100 net cost ≈ €750/yr offset.
+        </div>
+      </div>
+
+      <!-- KPI 4: ROI Highlights (Bar Chart) -->
+      <div class="kpi-card">
+        <div class="kpi-icon-header">
+          <div class="kpi-icon">📈</div>
+          <div class="kpi-tooltip-trigger" title="Click for details">?</div>
+          <div class="tooltip-popup">
+            <strong>Simple Payback Period:</strong><br>
+            Compares net out-of-pocket investment (after SEAI grants) divided by annual energy savings.
+          </div>
+        </div>
+        <div class="kpi-title">ROI Highlights (Payback)</div>
+        
+        <div class="roi-chart-container">
+          <div class="roi-chart-row">
+            <div class="roi-chart-label"><span>Solar PV (3.8 yrs)</span> <span>90%</span></div>
+            <div class="roi-bar-bg"><div class="roi-bar-fill" style="width: 90%;"></div></div>
+          </div>
+          <div class="roi-chart-row">
+            <div class="roi-chart-label"><span>Attic Insulation (4.2 yrs)</span> <span>82%</span></div>
+            <div class="roi-bar-bg"><div class="roi-bar-fill" style="width: 82%;"></div></div>
+          </div>
+          <div class="roi-chart-row">
+            <div class="roi-chart-label"><span>Cavity Wall (5.5 yrs)</span> <span>68%</span></div>
+            <div class="roi-bar-bg"><div class="roi-bar-fill" style="width: 68%;"></div></div>
+          </div>
+          <div class="roi-chart-row">
+            <div class="roi-chart-label"><span>Heat Pump (8.1 yrs)</span> <span>45%</span></div>
+            <div class="roi-bar-bg"><div class="roi-bar-fill" style="width: 45%;"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 2: AGENT DECISION FORMULAS -->
+  <section id="formulas-section" style="margin-top: 50px;">
+    <div class="section-title-wrapper">
+      <span class="section-badge">Section 2</span>
+      <h2>Agent Decision Formulas</h2>
+    </div>
+
+    <div class="accordion-wrapper">
+
+      <!-- PANEL 1: Net Out of Pocket Cost -->
+      <div class="accordion-panel open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-title-group">
+            <div class="accordion-number">1</div>
+            <h3>Net Out-of-Pocket Cost Formula</h3>
+          </div>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-inner">
+            <div class="code-box">
+              <span class="code-var">NetCost</span> = <span class="code-var">TotalContractCost</span> <span class="code-op">-</span> <span class="code-func">SEAI_Grants</span>(<span class="code-var">Measures</span>) <span class="code-op">-</span> <span class="code-func">TaxCredits</span>(<span class="code-var">Year</span>)
+            </div>
+            <div class="formula-explainer">
+              <strong>Explainer:</strong> The AI Agent calculates your net investment by deducting eligible SEAI grant caps (e.g. €1,500 attic, €1,700 cavity wall, €6,500 heat pump, €2,100 solar PV) plus applicable Home Renovation Incentive or green tax relief from the gross installer quote.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2: Annual Energy Savings Simulator -->
+      <div class="accordion-panel open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-title-group">
+            <div class="accordion-number">2</div>
+            <h3>Annual Energy Savings Formula & Interactive Simulator</h3>
+          </div>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-inner">
+            <div class="code-box">
+              <span class="code-var">AnnualSavings</span> = <span class="code-var">FloorArea_m2</span> <span class="code-op">*</span> (<span class="code-var">BER_Baseline_kWh</span> <span class="code-op">-</span> <span class="code-var">BER_Target_kWh</span>) <span class="code-op">*</span> <span class="code-var">FuelTariff_Euro_kWh</span>
+            </div>
+            
+            <div class="sim-container">
+              <div class="sim-slider-group">
+                <div class="sim-slider-label">
+                  <span>Simulate Home Floor Area:</span>
+                  <span id="areaDisplay" style="color: var(--accent-green);">120 m²</span>
+                </div>
+                <input type="range" id="areaSlider" class="sim-slider" min="50" max="250" value="120" oninput="updateSavingsSim()">
+              </div>
+
+              <div class="sim-result-box">
+                <div>
+                  <div class="sim-result-title">Projected Annual Savings:</div>
+                  <small style="color: #64748b;">Based on upgrading G-rating (350 kWh/m²) to B2-rating (100 kWh/m²)</small>
+                </div>
+                <div class="sim-result-value" id="simSavingsOutput">€2,160 / yr</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: Simple Payback Calculator -->
+      <div class="accordion-panel open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-title-group">
+            <div class="accordion-number">3</div>
+            <h3>Simple Payback Calculator</h3>
+          </div>
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-inner">
+            <div class="code-box">
+              <span class="code-var">PaybackYears</span> = <span class="code-var">NetCost</span> <span class="code-op">/</span> <span class="code-var">AnnualSavings</span>
+            </div>
+
+            <div class="sim-container">
+              <div class="payback-grid">
+                <div class="input-group">
+                  <label for="paybackCost">Net Out-of-Pocket Cost (€):</label>
+                  <input type="number" id="paybackCost" value="8500" oninput="updatePaybackCalc()">
+                </div>
+                <div class="input-group">
+                  <label for="paybackSavings">Annual Energy Savings (€/yr):</label>
+                  <input type="number" id="paybackSavings" value="2100" oninput="updatePaybackCalc()">
+                </div>
+              </div>
+
+              <div class="sim-result-box">
+                <div>
+                  <div class="sim-result-title">Simple Payback Period:</div>
+                  <div id="paybackRating" class="payback-badge" style="margin-top: 4px;">🚀 High Efficiency ROI</div>
+                </div>
+                <div class="sim-result-value" id="paybackYearsOutput">4.0 Years</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">⚡ Powered by EcoSmartHomes AI Agent Protocol v1.0</p>
+    <div class="dashboard-footer-links">
+      <a href="index.html">Home</a> •
+      <a href="ber-advisor/">BER Advisor</a> •
+      <a href="ai/manifest.json" target="_blank">AI Manifest</a> •
+      <a href="articles/">Articles</a> •
+      <a href="agent-skills.html" style="color: #10b981;">🤖 Agent Skills</a> •
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </div>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. Independent energy & retrofit advisory for Irish homeowners.</small></p>
+  </div>
+</footer>
+
+<script>
+// Accordion Toggle Function
+function toggleAccordion(headerElement) {
+  const panel = headerElement.parentElement;
+  panel.classList.toggle('open');
+}
+
+// Slider Simulation Function
+function updateSavingsSim() {
+  const area = document.getElementById('areaSlider').value;
+  document.getElementById('areaDisplay').textContent = area + ' m²';
+  
+  // Baseline G: 350 kWh/m², Target B2: 100 kWh/m² => 250 kWh/m² saved
+  // Tariff: ~€0.072 per kWh effective blend
+  const kwhSaved = 250;
+  const blendRate = 0.072;
+  const annualSavings = Math.round(area * kwhSaved * blendRate);
+  
+  document.getElementById('simSavingsOutput').textContent = '€' + annualSavings.toLocaleString() + ' / yr';
+}
+
+// Payback Calculator Function
+function updatePaybackCalc() {
+  const cost = parseFloat(document.getElementById('paybackCost').value) || 0;
+  const savings = parseFloat(document.getElementById('paybackSavings').value) || 0;
+  const output = document.getElementById('paybackYearsOutput');
+  const rating = document.getElementById('paybackRating');
+  
+  if (savings <= 0) {
+    output.textContent = 'N/A';
+    rating.textContent = 'Invalid Savings Input';
+    rating.style.background = '#fee2e2';
+    rating.style.color = '#991b1b';
+    return;
+  }
+  
+  const years = (cost / savings).toFixed(1);
+  output.textContent = years + ' Years';
+  
+  if (years <= 4.5) {
+    rating.textContent = '🚀 Excellent ROI (Fast Payback)';
+    rating.style.background = '#dcfce7';
+    rating.style.color = '#166534';
+  } else if (years <= 8.5) {
+    rating.textContent = '👍 Balanced Long-Term Investment';
+    rating.style.background = '#e0f2fe';
+    rating.style.color = '#075985';
+  } else {
+    rating.textContent = '⚠️ Long Payback (Focus on Comfort & BER)';
+    rating.style.background = '#fef3c7';
+    rating.style.color = '#92400e';
+  }
+}
+
+// Tooltip Click Handler for Mobile
+document.querySelectorAll('.kpi-tooltip-trigger').forEach(trigger => {
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const tooltip = trigger.nextElementSibling;
+    if (tooltip) {
+      tooltip.classList.toggle('active');
+    }
+  });
+});
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.tooltip-popup').forEach(tp => tp.classList.remove('active'));
+});
+</script>
+
+</body>
+</html>
