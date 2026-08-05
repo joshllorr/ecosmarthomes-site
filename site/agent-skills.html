@@ -406,6 +406,55 @@
       font-size: 0.85rem;
       font-family: 'Fira Code', monospace;
     }
+
+    /* Modal Preview Overlay */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+    }
+    .modal-content {
+      background: linear-gradient(145deg, #0b2e1f, #0f3a28);
+      color: #e8f5e9;
+      margin: 8% auto;
+      padding: 28px;
+      border-radius: 16px;
+      width: 85%;
+      max-width: 800px;
+      max-height: 75vh;
+      overflow-y: auto;
+      box-shadow: 0 0 30px rgba(0,255,128,0.3);
+      border: 1px solid rgba(0,255,128,0.3);
+      position: relative;
+    }
+    .modal-content pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #38bdf8;
+      background: rgba(0,0,0,0.3);
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 16px;
+    }
+    .close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #00ff80;
+      transition: transform 0.2s;
+    }
+    .close:hover {
+      transform: scale(1.2);
+    }
       background: rgba(16, 185, 129, 0.15);
       border-radius: 0.75rem;
       display: flex;
@@ -690,7 +739,7 @@
           <code>GET /api/upgrades/recommendations.md</code>
           <code>mcp:get_retrofit_recommendations</code>
         </div>
-        <a href="/api/upgrades/recommendations.md" class="skill-link">View Markdown Specification →</a>
+        <a href="#" class="skill-link open-modal" data-endpoint="/api/upgrades/recommendations.md">View Markdown Specification →</a>
       </div>
 
       <!-- BER-analysis -->
@@ -707,7 +756,7 @@
           <code>GET /api/ber/analysis.md</code>
           <code>mcp:get_ber_analysis</code>
         </div>
-        <a href="/api/ber/analysis.md" class="skill-link">View BER Analysis Standard →</a>
+        <a href="#" class="skill-link open-modal" data-endpoint="/api/ber/analysis.md">View BER Analysis Standard →</a>
       </div>
 
       <!-- grant-guidance -->
@@ -724,7 +773,7 @@
           <code>GET /api/grants/guidance.md</code>
           <code>mcp:calculate_seai_grants</code>
         </div>
-        <a href="/api/grants/guidance.md" class="skill-link">View Grant Guidance Standard →</a>
+        <a href="#" class="skill-link open-modal" data-endpoint="/api/grants/guidance.md">View Grant Guidance Standard →</a>
       </div>
 
       <!-- journey-timeline -->
@@ -754,7 +803,7 @@
           <code>GET /api/journey/timeline.md</code>
           <code>mcp:get_journey_timeline</code>
         </div>
-        <a href="/api/journey/timeline.md" class="skill-link">View Journey Timeline Standard →</a>
+        <a href="#" class="skill-link open-modal" data-endpoint="/api/journey/timeline.md">View Journey Timeline Standard →</a>
       </div>
 
       <!-- insights-dashboard -->
@@ -772,7 +821,7 @@
           <code>GET /api/insights/dashboard.md</code>
           <code>mcp:get_insights_dashboard</code>
         </div>
-        <a href="/api/insights/dashboard.md" class="skill-link">View Analytics Standard →</a>
+        <a href="#" class="skill-link open-modal" data-endpoint="/api/insights/dashboard.md">View Analytics Standard →</a>
       </div>
 
       <!-- realtime-ber-advisor -->
@@ -899,26 +948,40 @@
     </div>
   </footer>
 
-  <script>
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      
-      document.getElementById(tabId).style.display = 'block';
-      event.currentTarget.classList.add('active');
-    }
+  <!-- Modal Container -->
+  <div id="endpointModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 style="color:#00ff80; margin-bottom:12px; font-size:1.2rem;">📄 Machine Specification Preview</h3>
+      <pre id="modalText"></pre>
+    </div>
+  </div>
 
-    function copyActiveCode() {
-      const activePane = document.querySelector('.tab-pane[style*="block"]') || document.getElementById('tab-manifest');
-      const codeText = activePane.querySelector('code').innerText;
-      navigator.clipboard.writeText(codeText).then(() => {
-        const btn = document.querySelector('.copy-btn');
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-        setTimeout(() => {
-          btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Code';
-        }, 2000);
+  <script>
+    document.querySelectorAll('.open-modal').forEach(link => {
+      link.addEventListener('click', async e => {
+        e.preventDefault();
+        const endpoint = link.dataset.endpoint;
+        try {
+          const res = await fetch(endpoint);
+          const text = await res.text();
+          document.getElementById('modalText').textContent = text;
+          document.getElementById('endpointModal').style.display = 'block';
+        } catch (err) {
+          console.error('Failed to fetch endpoint preview:', err);
+          document.getElementById('modalText').textContent = 'Failed to load specification endpoint preview.';
+          document.getElementById('endpointModal').style.display = 'block';
+        }
       });
-    }
+    });
+
+    document.querySelector('.close').onclick = () =>
+      document.getElementById('endpointModal').style.display = 'none';
+
+    window.onclick = e => {
+      if (e.target.id === 'endpointModal')
+        document.getElementById('endpointModal').style.display = 'none';
+    };
   </script>
 </body>
 </html>
