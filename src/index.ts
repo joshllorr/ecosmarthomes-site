@@ -261,8 +261,8 @@ export default {
     const url = new URL(request.url);
     const method = request.method;
 
-    // Helper to get active KV binding (ARTICLES_FEED, ARTICLES_FEED_KV, or KV_BINDING)
-    const kv = env.ARTICLES_FEED || env.ARTICLES_FEED_KV || env.KV_BINDING || null;
+    // Helper to get active KV binding (KV_BINDING, ARTICLES_FEED, or ARTICLES_FEED_KV)
+    const kv = env.KV_BINDING || env.ARTICLES_FEED || env.ARTICLES_FEED_KV || null;
 
     // Handle OPTIONS preflight requests
     if (method === 'OPTIONS') {
