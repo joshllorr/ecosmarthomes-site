@@ -115,6 +115,43 @@
       font-size: 1.1rem;
       color: #00a86b;
     }
+    .autocomplete-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1px solid rgba(0,168,107,0.3);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      z-index: 100;
+      display: none;
+      overflow: hidden;
+    }
+    .autocomplete-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.15s ease;
+    }
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+    .autocomplete-item:hover {
+      background: #e6f4ef;
+    }
+    .autocomplete-title {
+      font-weight: 700;
+      color: #003f2d;
+      font-size: 0.95rem;
+    }
+    .autocomplete-meta {
+      font-size: 0.78rem;
+      color: #00a86b;
+      margin-top: 4px;
+    }
     .tag-filter-bar {
       display: flex;
       flex-wrap: wrap;
@@ -200,7 +237,8 @@
   <!-- Search Bar -->
   <div class="article-search-box">
     <span class="search-icon-inside">🔍</span>
-    <input id="search-input" type="text" placeholder="Search articles by title, summary, or topic tag...">
+    <input id="search-input" type="text" placeholder="Search articles by title, summary, or topic tag..." autocomplete="off">
+    <div id="autocomplete" class="autocomplete-dropdown"></div>
   </div>
 
   <!-- Tag Filter Bar -->
@@ -350,18 +388,73 @@ function resetFilters() {
   loadArticles(1);
 }
 
-// Instant search input listener
-let debounceTimer;
-document.getElementById('search-input').addEventListener('input', (e) => {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    currentSearch = e.target.value.trim();
-    if (currentSearch) {
-      currentTag = "";
-      document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
+// Autocomplete Suggestion Logic
+const autocomplete = document.getElementById('autocomplete');
+const searchInput = document.getElementById('search-input');
+
+let suggestTimer;
+searchInput.addEventListener('input', (e) => {
+  const q = e.target.value.trim();
+  clearTimeout(suggestTimer);
+
+  if (!q) {
+    autocomplete.style.display = 'none';
+    autocomplete.innerHTML = '';
+    currentSearch = "";
+    loadArticles(1);
+    return;
+  }
+
+  suggestTimer = setTimeout(async () => {
+    try {
+      const res = await fetch(`/api/articles-suggest?q=${encodeURIComponent(q)}`);
+      if (!res.ok) {
+        autocomplete.style.display = 'none';
+        return;
+      }
+      const suggestions = await res.json();
+
+      if (!suggestions || suggestions.length === 0) {
+        autocomplete.style.display = 'none';
+        autocomplete.innerHTML = '';
+        return;
+      }
+
+      autocomplete.innerHTML = suggestions.map(s => `
+        <div class="autocomplete-item" data-slug="${s.slug}">
+          <div class="autocomplete-title">${s.title}</div>
+          <div class="autocomplete-meta">Tags: ${(s.tags || []).join(', ')}</div>
+        </div>
+      `).join('');
+
+      autocomplete.style.display = 'block';
+    } catch (err) {
+      console.error('Autocomplete fetch error:', err);
+      autocomplete.style.display = 'none';
     }
+
+    currentSearch = q;
+    currentTag = "";
+    document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
     loadArticles(1);
   }, 200);
+});
+
+// Click handler for autocomplete suggestions
+autocomplete.addEventListener('click', (e) => {
+  const item = e.target.closest('.autocomplete-item');
+  if (!item) return;
+
+  const slug = item.dataset.slug;
+  const targetLink = slug === 'raising-ber-g-to-a' || slug === 'carbon-tax-2026' ? `/${slug}.html` : `/articles/${slug}.html`;
+  window.location.href = targetLink;
+});
+
+// Hide autocomplete when clicking outside
+document.addEventListener('click', (e) => {
+  if (!autocomplete.contains(e.target) && e.target !== searchInput) {
+    autocomplete.style.display = 'none';
+  }
 });
 
 // Tag filter button listener
@@ -372,6 +465,7 @@ document.getElementById('tag-filter').addEventListener('click', (e) => {
     currentTag = e.target.dataset.tag;
     currentSearch = "";
     document.getElementById('search-input').value = "";
+    autocomplete.style.display = 'none';
     loadArticles(1);
   }
 });
