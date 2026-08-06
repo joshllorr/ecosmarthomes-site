@@ -397,55 +397,62 @@ export default {
       return serveAgentHealth(corsHeaders);
     }
 
-    // 7. Articles Feed Endpoint (JSON KV Backed)
+    // 7. Articles Feed Endpoint (JSON KV Backed + Tag Filtering)
     if ((url.pathname === '/api/articles-feed' || url.pathname === '/api/articles') && method === 'GET') {
+      let articles: any[] = [];
       if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.get === 'function') {
         try {
           const stored = await env.ARTICLES_FEED.get("articles.json");
           if (stored) {
-            return new Response(stored, {
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                ...corsHeaders
-              }
-            });
+            articles = JSON.parse(stored);
           }
         } catch (e) {
           console.error("Error reading ARTICLES_FEED from KV:", e);
         }
       }
 
-      const defaultArticles = [
-        {
-          title: "Raising BER from G to A",
-          slug: "raising-ber-g-to-a",
-          summary: "A practical roadmap for Irish homeowners upgrading from BER G to A.",
-          date: "2026-08-01",
-          hero: "/imgs/ber-improvements-visual.svg",
-          tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"],
-          created_at: "2026-08-01T10:00:00Z"
-        },
-        {
-          title: "Carbon Tax 2026 Explained",
-          slug: "carbon-tax-2026",
-          summary: "What Irish homeowners need to know about the 2026 carbon tax changes.",
-          date: "2026-07-20",
-          hero: "/imgs/Grant Eligibility & Readiness Audit.jpg",
-          tags: ["Carbon Tax", "Energy Costs", "Grants"],
-          created_at: "2026-07-20T10:00:00Z"
-        },
-        {
-          title: "Full Retrofit Roadmap",
-          slug: "retrofit-roadmap",
-          summary: "How to plan, budget, and execute a full home energy retrofit.",
-          date: "2026-07-10",
-          hero: "/imgs/Full Retrofit Roadmap.png",
-          tags: ["Retrofit Roadmap", "Heat Pump", "Solar PV"],
-          created_at: "2026-07-10T10:00:00Z"
-        }
-      ];
+      if (!articles || articles.length === 0) {
+        articles = [
+          {
+            title: "Raising BER from G to A",
+            slug: "raising-ber-g-to-a",
+            summary: "A practical roadmap for Irish homeowners upgrading from BER G to A.",
+            date: "2026-08-01",
+            hero: "/imgs/ber-improvements-visual.svg",
+            tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"],
+            created_at: "2026-08-01T10:00:00Z"
+          },
+          {
+            title: "Carbon Tax 2026 Explained",
+            slug: "carbon-tax-2026",
+            summary: "What Irish homeowners need to know about the 2026 carbon tax changes.",
+            date: "2026-07-20",
+            hero: "/imgs/Grant Eligibility & Readiness Audit.jpg",
+            tags: ["Carbon Tax", "Energy Costs", "Grants"],
+            created_at: "2026-07-20T10:00:00Z"
+          },
+          {
+            title: "Full Retrofit Roadmap",
+            slug: "retrofit-roadmap",
+            summary: "How to plan, budget, and execute a full home energy retrofit.",
+            date: "2026-07-10",
+            hero: "/imgs/Full Retrofit Roadmap.png",
+            tags: ["Retrofit Roadmap", "Heat Pump", "Solar PV"],
+            created_at: "2026-07-10T10:00:00Z"
+          }
+        ];
+      }
 
-      return new Response(JSON.stringify(defaultArticles, null, 2), {
+      // Tag Filtering
+      const tagParam = url.searchParams.get("tag");
+      if (tagParam) {
+        const queryTag = tagParam.toLowerCase();
+        articles = articles.filter(a =>
+          a.tags && Array.isArray(a.tags) && a.tags.some((t: string) => t.toLowerCase() === queryTag || t.toLowerCase().includes(queryTag))
+        );
+      }
+
+      return new Response(JSON.stringify(articles, null, 2), {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           ...corsHeaders

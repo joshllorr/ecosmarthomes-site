@@ -86,6 +86,30 @@
       border-radius: 6px;
       margin-bottom: 15px;
     }
+    .tag-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .tag-filter-btn {
+      background: #e6f4ef;
+      color: #007f50;
+      border: 1px solid rgba(0,168,107,0.3);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tag-filter-btn:hover, .tag-filter-btn.active {
+      background: #00a86b;
+      color: #ffffff;
+      border-color: #00a86b;
+      box-shadow: 0 4px 10px rgba(0,168,107,0.2);
+    }
   </style>
 </head>
 <body>
@@ -119,6 +143,16 @@
 </div>
 
 <div class="articles-layout">
+  <!-- Tag Filter Bar -->
+  <div id="tag-filter" class="tag-filter-bar">
+    <button class="tag-filter-btn active" data-tag="">All</button>
+    <button class="tag-filter-btn" data-tag="BER Rating">BER Rating</button>
+    <button class="tag-filter-btn" data-tag="Retrofit Roadmap">Retrofit Roadmap</button>
+    <button class="tag-filter-btn" data-tag="SEAI Grants">SEAI Grants</button>
+    <button class="tag-filter-btn" data-tag="Carbon Tax">Carbon Tax</button>
+    <button class="tag-filter-btn" data-tag="Heat Pump">Heat Pump</button>
+  </div>
+
   <div id="articles" class="articles-grid">
     <!-- Dynamic live articles feed loaded here -->
   </div>
@@ -148,14 +182,24 @@
 </footer>
 
 <script>
-async function loadArticles() {
+async function loadArticles(tag = "") {
   const container = document.getElementById('articles');
   try {
-    let res = await fetch('/api/articles-feed');
+    const url = tag ? `/api/articles-feed?tag=${encodeURIComponent(tag)}` : `/api/articles-feed`;
+    let res = await fetch(url);
     if (!res.ok) {
       res = await fetch('/data/articles-feed.json');
     }
-    const articles = await res.json();
+    let articles = await res.json();
+
+    if (tag && articles.length > 0) {
+      articles = articles.filter(a => a.tags && Array.isArray(a.tags) && a.tags.some(t => t.toLowerCase().includes(tag.toLowerCase())));
+    }
+
+    if (articles.length === 0) {
+      container.innerHTML = `<p style="grid-column:1/-1; text-align:center; padding:40px; color:#666;">No articles found under tag <strong>"${tag}"</strong>.</p>`;
+      return;
+    }
 
     container.innerHTML = articles.map(a => {
       let tagsList = Array.isArray(a.tags) ? a.tags : ['Retrofit', 'BER'];
@@ -168,7 +212,7 @@ async function loadArticles() {
           <p style="color:#555; font-size:0.95rem; margin-bottom:12px; line-height:1.5;">${a.summary}</p>
           <div class="meta" style="font-size:0.82rem; color:#777;">Published: ${a.date || new Date().toLocaleDateString('en-IE')}</div>
           <div class="tags" style="margin-bottom:15px;">
-            ${tagsList.map(tag => `<span class="tag-badge">${tag}</span>`).join('')}
+            ${tagsList.map(t => `<span class="tag-badge">${t}</span>`).join('')}
           </div>
           <a href="${articleLink}" style="color:#00a86b; font-weight:700; text-decoration:none; margin-top:auto;">Read Article →</a>
         </div>
@@ -179,6 +223,15 @@ async function loadArticles() {
     container.innerHTML = '<p>Unable to load live articles feed at this time.</p>';
   }
 }
+
+// Tag filter button event delegation
+document.getElementById('tag-filter').addEventListener('click', (e) => {
+  if (e.target.classList.contains('tag-filter-btn')) {
+    document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
+    e.target.classList.add('active');
+    loadArticles(e.target.dataset.tag);
+  }
+});
 
 loadArticles();
 </script>
