@@ -902,6 +902,60 @@ graph LR
     </div>
   </section>
 
+  <!-- AI AGENT FLOW SEQUENCE DIAGRAM (MERMAID) -->
+  <section id="aiSequenceDiagramPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🎬 AI Agent End-to-End Execution Sequence Diagram</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Interaction Sequence</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+sequenceDiagram
+    autonumber
+
+    participant Agent as AI Agent (ChatGPT/Gemini/Claude)
+    participant User as Homeowner/User
+    participant Router as Internal Skill Router (/ai/dev/route-skill)
+    participant Token as Dev Token Validator (/ai/dev/validate-token)
+    participant PublicAPI as Public AI Skill APIs (/api/ai/*)
+    participant Telemetry as AI Crawler Telemetry (/ai/dev/cf-ai-telemetry)
+    participant Logs as Manifest & Unauthorized Logs
+    participant CF as Cloudflare AI Shield Pro
+
+    %% === USER INTENT ===
+    User->>Agent: Ask question (retrofit, BER, grants, timeline, insights)
+
+    %% === AGENT INTERPRETS INTENT ===
+    Agent->>Router: Send intent (retrofit/BER/grants/etc.)
+
+    %% === DEV TOKEN CHECK (IF DEVELOPER CONTEXT) ===
+    Router->>Token: Validate dev token
+    Token-->>Router: Token valid OR public mode
+
+    %% === ROUTING TO CORRECT SKILL ===
+    Router->>PublicAPI: Call correct skill endpoint<br/>(e.g., /api/ai/retrofit-advice)
+
+    %% === SKILL EXECUTION ===
+    PublicAPI-->>Router: Return structured result<br/>(upgrade plan, BER insights, grant eligibility, etc.)
+
+    %% === TELEMETRY & LOGGING ===
+    Router->>Logs: Record manifest access
+    Router->>Logs: Record unauthorized attempts (if any)
+    Router->>Telemetry: Request crawler telemetry
+
+    %% === CLOUDLFARE TELEMETRY ===
+    Telemetry->>CF: Fetch AI crawler data
+    CF-->>Telemetry: Allowed/blocked bots, HTML MB, referrals
+
+    %% === RESPONSE TO AGENT ===
+    Router-->>Agent: Return final structured response
+
+    %% === AGENT RESPONDS TO USER ===
+    Agent-->>User: Provide answer (retrofit plan, BER guidance, grants, timeline, insights)
+      </div>
+    </div>
+  </section>
+
   <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
   <section class="audit-charts">
     <h2>📊 Real-Time Access Analytics</h2>
