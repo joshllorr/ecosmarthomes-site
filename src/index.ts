@@ -391,6 +391,41 @@ export default {
       }
     }
 
+    // 🔹 Cloudflare AI Telemetry Endpoint (/ai/dev/cf-ai-telemetry)
+    if (url.pathname === "/ai/dev/cf-ai-telemetry" && request.method === "GET") {
+      if (!isDevAuthorized) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: corsHeaders });
+      }
+
+      try {
+        if (env?.CF_ZONE_ID && env?.CF_API_TOKEN) {
+          const cfRes = await fetch(
+            `https://api.cloudflare.com/client/v4/zones/${env.CF_ZONE_ID}/ai/crawl_control/overview`,
+            {
+              headers: {
+                "Authorization": `Bearer ${env.CF_API_TOKEN}`,
+                "Content-Type": "application/json"
+              }
+            }
+          );
+          if (cfRes.ok) {
+            const data = await cfRes.json();
+            return new Response(JSON.stringify(data), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+          }
+        }
+
+        // Serve local telemetry dataset fallback
+        const localRes = await env.ASSETS.fetch(new Request(new URL('/data/cf-ai-telemetry.json', request.url)));
+        if (localRes.ok) {
+          return new Response(localRes.body, { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+        }
+      } catch (err) {
+        console.error("CF AI telemetry fetch error:", err);
+      }
+
+      return new Response(JSON.stringify({ error: "Telemetry unavailable" }), { status: 500, headers: corsHeaders });
+    }
+
     if (url.pathname.startsWith('/ai/dev')) {
       if (!isDevAuthorized) {
         ctx?.waitUntil?.(logAuditEvent(url.pathname, "403 Unauthorized"));

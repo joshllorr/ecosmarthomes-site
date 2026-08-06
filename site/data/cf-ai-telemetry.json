@@ -1,0 +1,22 @@
+{
+  "zone_id": "ecosmarthomes-ie-zone-2026",
+  "period": "last_24h",
+  "crawlers": [
+    { "name": "GPTBot (OpenAI Training)", "allowed": 1420, "blocked": 0, "html_mb": 42.8, "referrals": 185 },
+    { "name": "OAI-SearchBot (ChatGPT Search)", "allowed": 2150, "blocked": 0, "html_mb": 68.4, "referrals": 412 },
+    { "name": "ClaudeBot (Anthropic)", "allowed": 980, "blocked": 0, "html_mb": 29.1, "referrals": 94 },
+    { "name": "Google-Extended (Gemini)", "allowed": 3120, "blocked": 0, "html_mb": 94.6, "referrals": 620 },
+    { "name": "PerplexityBot (Search Engine)", "allowed": 1840, "blocked": 0, "html_mb": 51.2, "referrals": 310 },
+    { "name": "BingBot / BingAI (Copilot)", "allowed": 1650, "blocked": 0, "html_mb": 48.0, "referrals": 240 },
+    { "name": "Applebot-Extended", "allowed": 640, "blocked": 0, "html_mb": 18.5, "referrals": 45 },
+    { "name": "CommonCrawl (Scraper)", "allowed": 0, "blocked": 450, "html_mb": 0.0, "referrals": 0 },
+    { "name": "ByteDance / PetalBot", "allowed": 0, "blocked": 310, "html_mb": 0.0, "referrals": 0 }
+  ],
+  "summary": {
+    "total_requests": 12250,
+    "allowed_requests": 11490,
+    "blocked_requests": 760,
+    "total_html_mb": 352.6,
+    "total_referrals": 1906
+  }
+}

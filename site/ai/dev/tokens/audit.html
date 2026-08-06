@@ -305,6 +305,41 @@
       50% { transform: scale(1.4); opacity: 0.6; }
       100% { transform: scale(1); opacity: 1; }
     }
+
+    /* AI Crawler Telemetry Panel (Cloudflare AI Shield Pro) */
+    .ai-crawler-panel {
+      margin-top: 32px;
+      padding: 24px;
+      background: linear-gradient(145deg, #0b2e1f, #0f3a28);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.2);
+      border: 1px solid rgba(0, 255, 128, 0.3);
+      color: #e8f5e9;
+    }
+
+    .ai-crawler-panel h3 {
+      color: #00ff80;
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    #aiCrawlerTable {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    #aiCrawlerTable th {
+      color: #00ff80;
+      background: rgba(0, 255, 128, 0.1);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    #aiCrawlerTable td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0, 255, 128, 0.15);
+    }
   </style>
 </head>
 <body>
@@ -463,6 +498,27 @@
     </div>
   </section>
 
+  <!-- CLOUDFLARE AI CRAWLER TELEMETRY PANEL -->
+  <section id="aiCrawlerPanel" class="ai-crawler-panel">
+    <h3>🤖 AI Crawler Telemetry (Cloudflare AI Shield Pro)</h3>
+    <div style="overflow-x: auto;">
+      <table id="aiCrawlerTable">
+        <thead>
+          <tr>
+            <th>Crawler Identity</th>
+            <th>Allowed Requests</th>
+            <th>Blocked Requests</th>
+            <th>HTML MB Consumed</th>
+            <th>Search Referrals</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
   <section class="audit-charts">
     <h2>📊 Real-Time Access Analytics</h2>
@@ -552,6 +608,56 @@
     });
   }
 
+  async function loadAICrawlerTelemetry() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = localStorage.getItem('ecosmart-dev-token') || urlParams.get('token') || '';
+
+      const res = await fetch('/ai/dev/cf-ai-telemetry', {
+        headers: { "ecosmart-dev-token": token }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        renderAICrawlerTelemetry(data);
+      } else {
+        const fallbackRes = await fetch('../../data/cf-ai-telemetry.json');
+        if (fallbackRes.ok) {
+          const fallbackData = await fallbackRes.json();
+          renderAICrawlerTelemetry(fallbackData);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load Cloudflare AI telemetry:', e);
+    }
+  }
+
+  function renderAICrawlerTelemetry(data) {
+    const tbody = document.querySelector("#aiCrawlerTable tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    const crawlers = data.crawlers || [];
+    if (crawlers.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#64748b;">No AI crawler telemetry recorded.</td></tr>';
+      return;
+    }
+
+    crawlers.forEach(c => {
+      const row = document.createElement("tr");
+      const isBlocked = (c.blocked || 0) > 0 && (c.allowed || 0) === 0;
+      row.className = isBlocked ? "row-denied" : "row-ai-agent";
+
+      row.innerHTML = `
+        <td><strong>${c.name}</strong></td>
+        <td><span class="badge-ok">${(c.allowed || 0).toLocaleString()}</span></td>
+        <td><span class="${c.blocked > 0 ? 'badge-denied' : 'badge-ok'}">${(c.blocked || 0).toLocaleString()}</span></td>
+        <td><span class="endpoint-code">${(c.html_mb || 0).toFixed(2)} MB</span></td>
+        <td><span class="badge-ai">${(c.referrals || 0).toLocaleString()}</span></td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
   async function loadSessions() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -607,6 +713,7 @@
       updateCharts(auditData);
       updateDeveloperOnlineIndicator(auditData);
       loadSessions();
+      loadAICrawlerTelemetry();
     } catch (e) {
       console.error('Failed to load audit trail:', e);
     }
@@ -823,7 +930,9 @@
   document.getElementById('filter-type').onchange = applyCurrentFilters;
 
   loadAudit();
+  loadAICrawlerTelemetry();
   setInterval(loadAudit, 5000);
+  setInterval(loadAICrawlerTelemetry, 10000);
 </script>
 
 </body>
