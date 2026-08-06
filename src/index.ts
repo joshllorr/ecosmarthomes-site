@@ -845,6 +845,169 @@ export default {
           });
         }
       }
+    // 16. Server-rendered tag pages: /articles/tag/<tag>
+    if (url.pathname.startsWith('/articles/tag/') && method === 'GET') {
+      const targetTag = decodeURIComponent(url.pathname.replace('/articles/tag/', '')).trim();
+
+      let feed: any[] = [];
+      if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.get === 'function') {
+        try {
+          const stored = await env.ARTICLES_FEED.get("articles.json");
+          if (stored) feed = JSON.parse(stored);
+        } catch (e) {}
+      }
+      if (!feed || feed.length === 0) {
+        feed = [
+          {
+            title: "Raising BER from G to A",
+            slug: "raising-ber-g-to-a",
+            summary: "A practical roadmap for Irish homeowners upgrading from BER G to A.",
+            date: "2026-08-01",
+            hero: "/imgs/ber-improvements-visual.svg",
+            tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"]
+          },
+          {
+            title: "Carbon Tax 2026 Explained",
+            slug: "carbon-tax-2026",
+            summary: "What Irish homeowners need to know about the 2026 carbon tax changes.",
+            date: "2026-07-20",
+            hero: "/imgs/Grant Eligibility & Readiness Audit.jpg",
+            tags: ["Carbon Tax", "Energy Costs", "Grants"]
+          },
+          {
+            title: "Full Retrofit Roadmap",
+            slug: "retrofit-roadmap",
+            summary: "How to plan, budget, and execute a full home energy retrofit.",
+            date: "2026-07-10",
+            hero: "/imgs/Full Retrofit Roadmap.png",
+            tags: ["Retrofit Roadmap", "Heat Pump", "Solar PV"]
+          }
+        ];
+      }
+
+      const tagged = feed.filter((a: any) =>
+        a.tags && Array.isArray(a.tags) && a.tags.some((t: string) => t.toLowerCase() === targetTag.toLowerCase() || t.toLowerCase().includes(targetTag.toLowerCase()))
+      );
+
+      const canonicalUrl = `https://ecosmarthomes.ie/articles/tag/${encodeURIComponent(targetTag)}`;
+
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Articles Tagged "${targetTag}" | EcoSmartHomes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore home energy retrofit articles and guidance tagged with ${targetTag} from EcoSmartHomes Ireland.">
+  <link rel="canonical" href="${canonicalUrl}">
+
+  <meta property="og:title" content="Articles Tagged '${targetTag}' | EcoSmartHomes">
+  <meta property="og:description" content="Explore home energy retrofit articles tagged with ${targetTag}.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="${canonicalUrl}">
+  <meta property="og:image" content="https://ecosmarthomes.ie/imgs/hero_home.svg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Articles Tagged ${targetTag}">
+  <meta name="twitter:description" content="Explore home energy retrofit articles tagged with ${targetTag}.">
+  <meta name="twitter:image" content="https://ecosmarthomes.ie/imgs/hero_home.svg">
+
+  <link rel="stylesheet" href="/css/styles.css?v=2">
+  <style>
+    .tag-hero {
+      background: linear-gradient(135deg, #003f2d 0%, #002d20 100%);
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .tag-hero h1 { color: #fff; font-size: 2.2rem; margin-bottom: 10px; }
+    .tag-hero p { color: #00ff80; font-size: 1.1rem; }
+    .tag-articles-grid {
+      max-width: 1100px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+      display: grid;
+      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .tag-article-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 24px;
+      border-left: 5px solid #00a86b;
+      display: flex;
+      flex-direction: column;
+    }
+    .tag-article-hero { width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 14px; }
+    .tag-article-card h2 { color: #003f2d; margin: 0 0 12px; font-size: 1.3rem; }
+    .tag-article-card p { color: #555; font-size: 0.95rem; line-height: 1.5; margin-bottom: 12px; }
+    .tag-badge {
+      background: #e6f4ef;
+      color: #007f50;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .tag-badge:hover { background: #00a86b; color: #fff; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container nav-container">
+      <div class="logo"><a href="/index.html"><img src="/imgs/logo.svg" alt="EcoSmartHomes" /></a></div>
+      <nav class="nav">
+        <ul>
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/articles">All Articles</a></li>
+          <li><a href="/index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="tag-hero">
+    <h1>Articles Tagged "${targetTag}"</h1>
+    <p>Showing ${tagged.length} article${tagged.length === 1 ? '' : 's'} topic-matched to ${targetTag}</p>
+  </div>
+
+  <main class="tag-articles-grid">
+    ${tagged.length > 0 ? tagged.map((a: any) => {
+      const articleLink = a.slug === 'raising-ber-g-to-a' || a.slug === 'carbon-tax-2026' ? `/${a.slug}.html` : `/articles/${a.slug}.html`;
+      return `
+        <article class="tag-article-card">
+          ${a.hero ? `<img src="${a.hero}" alt="${a.title}" class="tag-article-hero">` : ''}
+          <h2>${a.title}</h2>
+          <p>${a.summary}</p>
+          <div style="margin-bottom:14px;">
+            ${(a.tags || []).map((t: string) => `<a href="/articles/tag/${encodeURIComponent(t)}" class="tag-badge">${t}</a>`).join('')}
+          </div>
+          <a href="${articleLink}" style="color:#00a86b; font-weight:700; text-decoration:none; margin-top:auto;">Read Article →</a>
+        </article>
+      `;
+    }).join('') : `<p style="grid-column:1/-1; text-align:center; color:#666;">No articles found tagged with "${targetTag}". <a href="/articles">View all articles →</a></p>`}
+  </main>
+
+  <footer class="footer">
+    <div class="container" style="text-align:center; padding:30px 20px; color:#fff;">
+      &copy; ${new Date().getFullYear()} EcoSmartHomes Ireland — Premium Home Energy Advisory
+    </div>
+  </footer>
+</body>
+</html>`;
+
+      return new Response(html, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          ...corsHeaders
+        }
+      });
     }
 
     // 5. Try serving static assets directly from site/ folder via env.ASSETS
