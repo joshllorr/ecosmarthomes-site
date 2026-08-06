@@ -274,6 +274,88 @@ export default {
       ua.includes("Safari") ||
       accept.includes("text/html");
 
+    // 15. Server-rendered homepage with latest articles: / or /index.html
+    if ((url.pathname === '/' || url.pathname === '/index.html') && method === 'GET') {
+      let feed: any[] = [];
+      if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.get === 'function') {
+        try {
+          const stored = await env.ARTICLES_FEED.get("articles.json");
+          if (stored) feed = JSON.parse(stored);
+        } catch (e) {}
+      }
+      if (!feed || feed.length === 0) {
+        feed = [
+          {
+            title: "Raising BER from G to A",
+            slug: "raising-ber-g-to-a",
+            summary: "A practical roadmap for Irish homeowners upgrading from BER G to A.",
+            date: "2026-08-01",
+            hero: "/imgs/ber-improvements-visual.svg",
+            tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"]
+          },
+          {
+            title: "Carbon Tax 2026 Explained",
+            slug: "carbon-tax-2026",
+            summary: "What Irish homeowners need to know about the 2026 carbon tax changes.",
+            date: "2026-07-20",
+            hero: "/imgs/Grant Eligibility & Readiness Audit.jpg",
+            tags: ["Carbon Tax", "Energy Costs", "Grants"]
+          },
+          {
+            title: "Full Retrofit Roadmap",
+            slug: "retrofit-roadmap",
+            summary: "How to plan, budget, and execute a full home energy retrofit.",
+            date: "2026-07-10",
+            hero: "/imgs/Full Retrofit Roadmap.png",
+            tags: ["Retrofit Roadmap", "Heat Pump", "Solar PV"]
+          }
+        ];
+      }
+
+      const latest = feed
+        .sort((a: any, b: any) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime())
+        .slice(0, 4);
+
+      try {
+        const homeReq = new Request(new URL('/index.html', request.url).toString(), request);
+        const homeRes = await env.ASSETS.fetch(homeReq);
+        if (homeRes.ok) {
+          let homeHtml = await homeRes.text();
+
+          const previewsHtml = latest.map((a: any) => {
+            const aLink = a.slug === 'raising-ber-g-to-a' || a.slug === 'carbon-tax-2026' ? `/${a.slug}.html` : `/articles/${a.slug}.html`;
+            return `
+              <div class="home-article-card">
+                ${a.hero ? `<img src="${a.hero}" alt="${a.title}" class="home-article-hero">` : ''}
+                <h3>${a.title}</h3>
+                <p>${a.summary}</p>
+                <div style="margin-bottom:12px;">
+                  ${(a.tags || []).map((t: string) => `<span class="tag-badge">${t}</span>`).join('')}
+                </div>
+                <a href="${aLink}" class="home-article-link">Read Article →</a>
+              </div>
+            `;
+          }).join('');
+
+          homeHtml = homeHtml.replace('<!--LATEST_ARTICLES-->', previewsHtml);
+
+          return new Response(homeHtml, {
+            status: 200,
+            headers: {
+              'Content-Type': 'text/html; charset=utf-8',
+              'Permissions-Policy': 'microphone=(self "https://ais-pre-6v2aqu5hko7j6draj7zjac-95863893871.europe-west1.run.app")',
+              'Link': linkHeaderValue,
+              'Access-Control-Allow-Origin': '*',
+              'Vary': 'Accept',
+              'X-Agent-Readiness': '100'
+            }
+          });
+        }
+      } catch (e) {
+        console.error("Homepage SSR error:", e);
+      }
+    }
+
     // 1. Public AI overview page always allowed
     if (url.pathname === '/ai' || url.pathname === '/ai/') {
       return env.ASSETS.fetch(request);
