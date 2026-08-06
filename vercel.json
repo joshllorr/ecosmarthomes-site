@@ -1,22 +1,5 @@
 {
-  "redirects": [
-    {
-      "source": "/ai/manifest.json",
-      "has": [{ "type": "header", "key": "Accept", "value": ".*text/html.*" }],
-      "destination": "/ai/",
-      "statusCode": 302
-    },
-    {
-      "source": "/api/:path*",
-      "has": [{ "type": "header", "key": "Accept", "value": ".*text/html.*" }],
-      "destination": "/",
-      "statusCode": 302
-    },
-    {
-      "source": "/data/:path*",
-      "has": [{ "type": "header", "key": "Accept", "value": ".*text/html.*" }],
-      "destination": "/",
-      "statusCode": 302
-    }
+  "rewrites": [
+    { "source": "/articles/tag/(.*)", "destination": "/articles/index.html" }
   ]
 }

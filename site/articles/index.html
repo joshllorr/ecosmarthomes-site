@@ -470,6 +470,21 @@ document.getElementById('tag-filter').addEventListener('click', (e) => {
   }
 });
 
+// Detect path-based tag route e.g. /articles/tag/BER%20Rating (for Vercel rewrites)
+if (window.location.pathname.startsWith('/articles/tag/')) {
+  const pathTag = decodeURIComponent(window.location.pathname.replace('/articles/tag/', '')).trim();
+  if (pathTag) {
+    currentTag = pathTag;
+    document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+      if (btn.dataset.tag.toLowerCase() === pathTag.toLowerCase()) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+}
+
 loadArticles(1);
 </script>
 
