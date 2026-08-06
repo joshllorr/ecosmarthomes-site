@@ -133,11 +133,36 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    .tag-filter-btn:hover, .tag-filter-btn.active {
+    .pagination-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 40px;
+    }
+    .pagination-btn {
+      background: #e6f4ef;
+      color: #007f50;
+      border: 1px solid rgba(0,168,107,0.3);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pagination-btn:hover:not(:disabled) {
       background: #00a86b;
       color: #ffffff;
-      border-color: #00a86b;
-      box-shadow: 0 4px 10px rgba(0,168,107,0.2);
+    }
+    .pagination-btn.active {
+      background: #003f2d;
+      color: #00ff80;
+      border-color: #003f2d;
+    }
+    .pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   </style>
 </head>
@@ -191,6 +216,9 @@
   <div id="articles" class="articles-grid">
     <!-- Dynamic live articles feed loaded here -->
   </div>
+
+  <!-- Pagination Controls Bar -->
+  <div id="pagination" class="pagination-bar"></div>
 </div>
 
 <footer class="footer">
@@ -219,37 +247,44 @@
 <script>
 let currentTag = "";
 let currentSearch = "";
+let currentPage = 1;
 
-async function loadArticles() {
+async function loadArticles(page = 1) {
+  currentPage = page;
   const container = document.getElementById('articles');
   try {
-    let url = '/api/articles-feed';
-    if (currentSearch) {
-      url = `/api/articles-search?q=${encodeURIComponent(currentSearch)}`;
-    } else if (currentTag) {
-      url = `/api/articles-feed?tag=${encodeURIComponent(currentTag)}`;
-    }
+    let baseUrl = currentSearch ? '/api/articles-search' : '/api/articles-feed';
+    let params = [`page=${page}`, `pageSize=6`];
+    if (currentSearch) params.push(`q=${encodeURIComponent(currentSearch)}`);
+    if (currentTag) params.push(`tag=${encodeURIComponent(currentTag)}`);
 
+    let url = `${baseUrl}?${params.join('&')}`;
     let res = await fetch(url);
     if (!res.ok) {
       res = await fetch('/data/articles-feed.json');
     }
-    let articles = await res.json();
+    let data = await res.json();
 
-    if (currentSearch && !url.includes('/api/articles-search')) {
-      const q = currentSearch.toLowerCase();
-      articles = articles.filter(a =>
-        (a.title || "").toLowerCase().includes(q) ||
-        (a.summary || "").toLowerCase().includes(q) ||
-        (a.tags || []).some(t => t.toLowerCase().includes(q))
-      );
-    } else if (currentTag && !url.includes('tag=')) {
-      articles = articles.filter(a => a.tags && Array.isArray(a.tags) && a.tags.some(t => t.toLowerCase().includes(currentTag.toLowerCase())));
+    let articles = Array.isArray(data) ? data : (data.items || []);
+    let totalPages = data.totalPages || 1;
+    let pageNum = data.page || page;
+
+    if (Array.isArray(data)) {
+      if (currentSearch) {
+        const q = currentSearch.toLowerCase();
+        articles = articles.filter(a => (a.title || "").toLowerCase().includes(q) || (a.summary || "").toLowerCase().includes(q) || (a.tags || []).some(t => t.toLowerCase().includes(q)));
+      } else if (currentTag) {
+        articles = articles.filter(a => a.tags && Array.isArray(a.tags) && a.tags.some(t => t.toLowerCase().includes(currentTag.toLowerCase())));
+      }
+      totalPages = Math.ceil(articles.length / 6) || 1;
+      const start = (page - 1) * 6;
+      articles = articles.slice(start, start + 6);
     }
 
     if (articles.length === 0) {
       const term = currentSearch || currentTag;
-      container.innerHTML = `<p style="grid-column:1/-1; text-align:center; padding:40px; color:#666;">No articles found matching <strong>"${term}"</strong>. <button onclick="resetFilters()" style="color:#00a86b; border:none; background:none; text-decoration:underline; cursor:pointer; font-weight:bold;">Clear filters</button></p>`;
+      container.innerHTML = `<p style="grid-column:1/-1; text-align:center; padding:40px; color:#666;">No articles found matching <strong>"${term || 'your request'}"</strong>. <button onclick="resetFilters()" style="color:#00a86b; border:none; background:none; text-decoration:underline; cursor:pointer; font-weight:bold;">Clear filters</button></p>`;
+      renderPagination(1, 1);
       return;
     }
 
@@ -270,10 +305,40 @@ async function loadArticles() {
         </div>
       `;
     }).join('');
+
+    renderPagination(pageNum, totalPages);
   } catch (error) {
     console.error('Error loading articles feed:', error);
     container.innerHTML = '<p>Unable to load live articles feed at this time.</p>';
   }
+}
+
+function renderPagination(page, totalPages) {
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'pagination-btn';
+  prevBtn.innerHTML = '← Previous';
+  prevBtn.disabled = page <= 1;
+  prevBtn.onclick = () => loadArticles(page - 1);
+  pagination.appendChild(prevBtn);
+
+  for (let i = 1; i <= totalPages; i++) {
+    const pBtn = document.createElement('button');
+    pBtn.className = `pagination-btn ${i === page ? 'active' : ''}`;
+    pBtn.textContent = i;
+    pBtn.onclick = () => loadArticles(i);
+    pagination.appendChild(pBtn);
+  }
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'pagination-btn';
+  nextBtn.innerHTML = 'Next →';
+  nextBtn.disabled = page >= totalPages;
+  nextBtn.onclick = () => loadArticles(page + 1);
+  pagination.appendChild(nextBtn);
 }
 
 function resetFilters() {
@@ -282,7 +347,7 @@ function resetFilters() {
   document.getElementById('search-input').value = "";
   document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelector('.tag-filter-btn[data-tag=""]').classList.add('active');
-  loadArticles();
+  loadArticles(1);
 }
 
 // Instant search input listener
@@ -295,7 +360,7 @@ document.getElementById('search-input').addEventListener('input', (e) => {
       currentTag = "";
       document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
     }
-    loadArticles();
+    loadArticles(1);
   }, 200);
 });
 
@@ -307,11 +372,11 @@ document.getElementById('tag-filter').addEventListener('click', (e) => {
     currentTag = e.target.dataset.tag;
     currentSearch = "";
     document.getElementById('search-input').value = "";
-    loadArticles();
+    loadArticles(1);
   }
 });
 
-loadArticles();
+loadArticles(1);
 </script>
 
 </body>

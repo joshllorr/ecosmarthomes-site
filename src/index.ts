@@ -452,6 +452,29 @@ export default {
         );
       }
 
+      // Pagination Envelope
+      const hasPageParam = url.searchParams.has("page") || url.searchParams.has("pageSize");
+      const page = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10));
+      const pageSize = Math.max(1, parseInt(url.searchParams.get("pageSize") || "6", 10));
+
+      if (hasPageParam) {
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const paginated = articles.slice(start, end);
+
+        const payload = {
+          page,
+          pageSize,
+          total: articles.length,
+          totalPages: Math.ceil(articles.length / pageSize) || 1,
+          items: paginated
+        };
+
+        return new Response(JSON.stringify(payload, null, 2), {
+          headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders }
+        });
+      }
+
       return new Response(JSON.stringify(articles, null, 2), {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -500,19 +523,39 @@ export default {
         ];
       }
 
-      if (!q) {
-        return new Response(JSON.stringify(articles, null, 2), {
-          headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders }
+      let results = articles;
+      if (q) {
+        results = articles.filter((a: any) => {
+          const title = (a.title || "").toLowerCase();
+          const summary = (a.summary || "").toLowerCase();
+          const tags = (a.tags || []).map((t: string) => t.toLowerCase());
+
+          return title.includes(q) || summary.includes(q) || tags.some((t: string) => t.includes(q));
         });
       }
 
-      const results = articles.filter((a: any) => {
-        const title = (a.title || "").toLowerCase();
-        const summary = (a.summary || "").toLowerCase();
-        const tags = (a.tags || []).map((t: string) => t.toLowerCase());
+      // Pagination Envelope for search
+      const hasPageParam = url.searchParams.has("page") || url.searchParams.has("pageSize");
+      const page = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10));
+      const pageSize = Math.max(1, parseInt(url.searchParams.get("pageSize") || "6", 10));
 
-        return title.includes(q) || summary.includes(q) || tags.some((t: string) => t.includes(q));
-      });
+      if (hasPageParam) {
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const paginated = results.slice(start, end);
+
+        const payload = {
+          page,
+          pageSize,
+          total: results.length,
+          totalPages: Math.ceil(results.length / pageSize) || 1,
+          items: paginated
+        };
+
+        return new Response(JSON.stringify(payload, null, 2), {
+          headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders }
+        });
+      }
 
       return new Response(JSON.stringify(results, null, 2), {
         headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders }
