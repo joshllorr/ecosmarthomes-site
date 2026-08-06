@@ -1131,6 +1131,26 @@
         document.getElementById('endpointModal').style.display = 'none';
     };
 
+    // Generate Non-PII Developer Session Fingerprint
+    async function generateFingerprint() {
+      try {
+        const data = [
+          navigator.userAgent,
+          navigator.platform,
+          screen.width + "x" + screen.height,
+          Intl.DateTimeFormat().resolvedOptions().timeZone,
+          Math.random().toString(36).substring(2)
+        ].join("|");
+
+        const encoder = new TextEncoder();
+        const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(data));
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+      } catch (err) {
+        return "none";
+      }
+    }
+
     // Frontend Visibility Control — Hide AI Standards section for public visitors
     const devToken = localStorage.getItem('ecosmart-dev-token') || new URLSearchParams(window.location.search).get('token');
     const aiStandardsSec = document.querySelector('.ai-standards-section');
@@ -1142,8 +1162,8 @@
         if (!document.querySelector('.dev-badge')) {
           document.body.insertAdjacentHTML('beforeend', '<div class="dev-badge">🔒 Internal Developer View</div>');
           
-          // Log developer badge view event to audit trail
-          try {
+          // Generate fingerprint & log developer badge view event to audit trail
+          generateFingerprint().then(fp => {
             fetch('/ai/dev/log-badge-view', {
               method: 'POST',
               headers: {
@@ -1152,10 +1172,11 @@
               },
               body: JSON.stringify({
                 event: 'developer_badge_visible',
-                page: 'agent-skills.html'
+                page: 'agent-skills.html',
+                fingerprint: fp
               })
             }).catch(err => console.error('Badge audit log fetch failed:', err));
-          } catch (e) {}
+          });
         }
       }
     }

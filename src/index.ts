@@ -304,13 +304,14 @@ export default {
     }
 
     // Helper: Audit Logging Hook
-    async function logAuditEvent(endpoint: string, result: string) {
+    async function logAuditEvent(endpoint: string, result: string, fingerprint: string = "none") {
       try {
         const entry = {
           timestamp: Math.floor(Date.now() / 1000),
           token_id: devPayload?.id || (isBrowser ? "anonymous-browser" : "anonymous-agent"),
           endpoint,
           result,
+          fingerprint,
           user_agent: (ua || "").substring(0, 120)
         };
 
@@ -340,8 +341,9 @@ export default {
         const body = await request.json() as any;
         const eventName = body.event || "developer_badge_visible";
         const pageName = body.page || "agent-skills.html";
+        const fp = body.fingerprint || "none";
 
-        ctx?.waitUntil?.(logAuditEvent(`/${pageName} (${eventName})`, "200 Authorized (Badge View)"));
+        ctx?.waitUntil?.(logAuditEvent(`/${pageName} (${eventName})`, "200 Authorized (Badge View)", fp));
         return new Response(JSON.stringify({ status: "Logged" }), { status: 200, headers: corsHeaders });
       } catch (err) {
         return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400, headers: corsHeaders });

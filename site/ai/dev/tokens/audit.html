@@ -247,6 +247,7 @@
           <option value="all">All Events</option>
           <option value="manifest">Manifest Access Only</option>
           <option value="badge">Developer Badge Views</option>
+          <option value="sessions">Developer Sessions (Fingerprinted)</option>
           <option value="ai">AI Agents Only</option>
           <option value="developer">Developer Access Only</option>
           <option value="unauthorized">Unauthorized Attempts Only</option>
@@ -287,6 +288,7 @@
             <th>Token ID</th>
             <th>Endpoint</th>
             <th>Result</th>
+            <th>Fingerprint</th>
             <th>User-Agent</th>
           </tr>
         </thead>
@@ -386,11 +388,13 @@
       }
 
       row.className = rowClass;
+      const fp = entry.fingerprint && entry.fingerprint !== 'none' ? entry.fingerprint.substring(0, 12) + '...' : '—';
       row.innerHTML = `
         <td>${new Date(entry.timestamp * 1000).toLocaleString()}</td>
         <td><span class="token-id">${entry.token_id}</span></td>
         <td><span class="endpoint-code">${entry.endpoint}</span></td>
         <td><span class="${badgeClass}">${entry.result}</span></td>
+        <td><span class="token-id" style="font-size:0.75rem; background:#f1f5f9; color:#475569;" title="${entry.fingerprint || 'none'}">${fp}</span></td>
         <td><span class="ua-code" title="${ua}">${ua}</span></td>
       `;
       body.appendChild(row);
@@ -413,6 +417,8 @@
         matchType = entry.endpoint.includes('manifest');
       } else if (filterType === 'badge') {
         matchType = entry.endpoint.includes('badge') || entry.result.includes('Badge View');
+      } else if (filterType === 'sessions') {
+        matchType = entry.fingerprint && entry.fingerprint !== 'none';
       } else if (filterType === 'ai') {
         matchType = isAI;
       } else if (filterType === 'developer') {
