@@ -1383,6 +1383,62 @@ flowchart TD
     </div>
   </section>
 
+  <!-- AI AGENT INTEROPERABILITY SPECIFICATION PANEL -->
+  <section id="aiInteroperabilitySpecPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">📄 AI Agent Interoperability Specification (SSOT)</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Single Source of Truth</span>
+    </div>
+
+    <div style="font-size:0.9rem; color:#d1d5db; line-height:1.6;">
+      <p>Official interop contract mapping public skills for <strong>OpenAI GPT-4o</strong>, <strong>Google Gemini</strong>, <strong>Anthropic Claude</strong>, <strong>Perplexity AI</strong>, and <strong>BingAI / Copilot</strong>.</p>
+      
+      <div style="margin-top:16px; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+        <h4 style="color:#34d399; margin-top:0;">OpenAI / Anthropic Tool Schema (JSON Sample)</h4>
+        <pre style="background:#020b08; padding:14px; border-radius:8px; overflow-x:auto; font-family:'Fira Code',monospace; font-size:0.8rem; color:#a7f3d0; margin:0;">[
+  {
+    "name": "GetRetrofitAdvice",
+    "description": "Returns retrofit upgrade recommendations based on home type, BER rating, and homeowner goals.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "homeType": { "type": "string" },
+        "berRating": { "type": "string" },
+        "goals": { "type": "string" }
+      },
+      "required": ["homeType", "berRating"]
+    },
+    "endpoint": "https://www.ecosmarthomes.ie/api/ai/retrofit-advice",
+    "method": "POST"
+  }
+]</pre>
+      </div>
+
+      <div style="margin-top:16px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+        <div style="padding:14px; background:#05140e; border-radius:10px; border:1px solid rgba(0,255,128,0.15);">
+          <h4 style="color:#60a5fa; margin-top:0;">Gemini Intent Mapping</h4>
+          <ul style="padding-left:18px; margin:0; font-size:0.84rem; color:#93c5fd;">
+            <li><code>retrofit.plan</code> ➔ GetRetrofitAdvice</li>
+            <li><code>ber.explain</code> ➔ AnalyzeBER</li>
+            <li><code>grant.check</code> ➔ GetGrantGuidance</li>
+            <li><code>timeline.generate</code> ➔ GenerateTimeline</li>
+            <li><code>insights.energy</code> ➔ GetEnergyInsights</li>
+            <li><code>ber.realtime</code> ➔ RealtimeBERAdvice</li>
+          </ul>
+        </div>
+
+        <div style="padding:14px; background:#05140e; border-radius:10px; border:1px solid rgba(0,255,128,0.15);">
+          <h4 style="color:#f472b6; margin-top:0;">Claude & Perplexity Contract</h4>
+          <ul style="padding-left:18px; margin:0; font-size:0.84rem; color:#fbcfe8;">
+            <li><strong>Public Skills Only</strong>: Strict access to 6 public APIs</li>
+            <li><strong>Dev Endpoints Blocked</strong>: 403 on <code>/ai/dev/*</code></li>
+            <li><strong>Standard Payload</strong>: <code>summary</code>, <code>details</code>, <code>confidence</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
   <section class="audit-charts">
     <h2>📊 Real-Time Access Analytics</h2>
