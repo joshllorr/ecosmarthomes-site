@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Raising BER from G to A",
+    "slug": "raising-ber-g-to-a",
+    "summary": "A practical roadmap for Irish homeowners upgrading from BER G to A.",
+    "date": "2026-08-01",
+    "hero": "/imgs/ber-improvements-visual.svg",
+    "tags": ["BER Rating", "Retrofit Roadmap", "SEAI Grants"]
+  },
+  {
+    "title": "Carbon Tax 2026 Explained",
+    "slug": "carbon-tax-2026",
+    "summary": "What Irish homeowners need to know about the 2026 carbon tax changes.",
+    "date": "2026-07-20",
+    "hero": "/imgs/Grant Eligibility & Readiness Audit.jpg",
+    "tags": ["Carbon Tax", "Energy Costs", "Grants"]
+  },
+  {
+    "title": "Full Retrofit Roadmap",
+    "slug": "retrofit-roadmap",
+    "summary": "How to plan, budget, and execute a full home energy retrofit.",
+    "date": "2026-07-10",
+    "hero": "/imgs/Full Retrofit Roadmap.png",
+    "tags": ["Retrofit Roadmap", "Heat Pump", "Solar PV"]
+  }
+]

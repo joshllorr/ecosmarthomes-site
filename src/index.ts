@@ -225,6 +225,9 @@ export default {
     if ((url.pathname.startsWith("/schema/") ||
          url.pathname.startsWith("/api/") ||
          url.pathname.startsWith("/data/")) &&
+        !url.pathname.startsWith("/api/articles") &&
+        !url.pathname.startsWith("/api/site-health") &&
+        !url.pathname.startsWith("/api/health") &&
         method === "GET") {
       const isAgent =
         ua.includes("GPTBot") ||
@@ -358,6 +361,46 @@ export default {
     // 2. Agent Health Status Endpoint (RFC 9727 status relation)
     if ((url.pathname === '/api/health' || url.pathname === '/api/health.json') && method === 'GET') {
       return serveAgentHealth(corsHeaders);
+    }
+
+    // 7. Articles Feed Endpoint (JSON)
+    if ((url.pathname === '/api/articles-feed' || url.pathname === '/api/articles') && method === 'GET') {
+      const articles = [
+        {
+          title: "Raising BER from G to A",
+          slug: "raising-ber-g-to-a",
+          summary: "A practical roadmap for Irish homeowners upgrading from BER G to A.",
+          date: "2026-08-01",
+          hero: "/imgs/ber-improvements-visual.svg",
+          tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"],
+          created_at: "2026-08-01T10:00:00Z"
+        },
+        {
+          title: "Carbon Tax 2026 Explained",
+          slug: "carbon-tax-2026",
+          summary: "What Irish homeowners need to know about the 2026 carbon tax changes.",
+          date: "2026-07-20",
+          hero: "/imgs/Grant Eligibility & Readiness Audit.jpg",
+          tags: ["Carbon Tax", "Energy Costs", "Grants"],
+          created_at: "2026-07-20T10:00:00Z"
+        },
+        {
+          title: "Full Retrofit Roadmap",
+          slug: "retrofit-roadmap",
+          summary: "How to plan, budget, and execute a full home energy retrofit.",
+          date: "2026-07-10",
+          hero: "/imgs/Full Retrofit Roadmap.png",
+          tags: ["Retrofit Roadmap", "Heat Pump", "Solar PV"],
+          created_at: "2026-07-10T10:00:00Z"
+        }
+      ];
+
+      return new Response(JSON.stringify(articles, null, 2), {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          ...corsHeaders
+        }
+      });
     }
 
     // 3. Contact form endpoint

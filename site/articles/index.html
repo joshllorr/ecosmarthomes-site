@@ -79,6 +79,13 @@
       border-radius: 20px;
       text-transform: uppercase;
     }
+    .article-hero-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
@@ -113,7 +120,7 @@
 
 <div class="articles-layout">
   <div id="articles" class="articles-grid">
-    <!-- Articles will be loaded here dynamically -->
+    <!-- Dynamic live articles feed loaded here -->
   </div>
 </div>
 
@@ -142,32 +149,34 @@
 
 <script>
 async function loadArticles() {
+  const container = document.getElementById('articles');
   try {
-    const res = await fetch('/api/articles');
+    let res = await fetch('/api/articles-feed');
+    if (!res.ok) {
+      res = await fetch('/data/articles-feed.json');
+    }
     const articles = await res.json();
 
-    const container = document.getElementById('articles');
     container.innerHTML = articles.map(a => {
-      let tagsList = [];
-      try {
-        tagsList = typeof a.tags === 'string' ? JSON.parse(a.tags) : a.tags;
-      } catch(e) {
-        tagsList = [a.tags];
-      }
-      
+      let tagsList = Array.isArray(a.tags) ? a.tags : ['Retrofit', 'BER'];
+      const articleLink = a.slug === 'raising-ber-g-to-a' || a.slug === 'carbon-tax-2026' ? `/${a.slug}.html` : `/articles/${a.slug}.html`;
+
       return `
-        <a href="/articles/${a.slug}.html" class="article-card">
+        <div class="article-card">
+          ${a.hero ? `<img src="${a.hero}" alt="${a.title}" class="article-hero-img">` : ''}
           <h2>${a.title}</h2>
-          <div class="meta">Published: ${new Date(a.created_at).toLocaleDateString('en-IE')}</div>
-          <div class="tags">
+          <p style="color:#555; font-size:0.95rem; margin-bottom:12px; line-height:1.5;">${a.summary}</p>
+          <div class="meta" style="font-size:0.82rem; color:#777;">Published: ${a.date || new Date().toLocaleDateString('en-IE')}</div>
+          <div class="tags" style="margin-bottom:15px;">
             ${tagsList.map(tag => `<span class="tag-badge">${tag}</span>`).join('')}
           </div>
-        </a>
+          <a href="${articleLink}" style="color:#00a86b; font-weight:700; text-decoration:none; margin-top:auto;">Read Article →</a>
+        </div>
       `;
     }).join('');
   } catch (error) {
-    console.error('Error loading articles:', error);
-    document.getElementById('articles').innerHTML = '<p>Unable to load articles at this time. Please check back later.</p>';
+    console.error('Error loading articles feed:', error);
+    container.innerHTML = '<p>Unable to load live articles feed at this time.</p>';
   }
 }
 
