@@ -254,6 +254,57 @@
       padding: 12px 14px;
       border-bottom: 1px solid rgba(0, 255, 128, 0.15);
     }
+
+    /* Who's Online Now Panel */
+    .who-online-panel {
+      margin-top: 32px;
+      padding: 24px;
+      background: linear-gradient(145deg, #0b2e1f, #0f3a28);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.2);
+      border: 1px solid rgba(0, 255, 128, 0.3);
+      color: #e8f5e9;
+    }
+
+    .who-online-panel h3 {
+      color: #00ff80;
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    #whoOnlineTable {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    #whoOnlineTable th {
+      color: #00ff80;
+      background: rgba(0, 255, 128, 0.1);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    #whoOnlineTable td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0, 255, 128, 0.15);
+    }
+
+    .online-dot {
+      width: 10px;
+      height: 10px;
+      background: #00ff80;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px #00ff80;
+      animation: pulseOnline 1.5s infinite;
+    }
+
+    @keyframes pulseOnline {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -369,6 +420,28 @@
     </div>
   </section>
 
+  <!-- WHO'S ONLINE NOW PANEL -->
+  <section id="whoOnlinePanel" class="who-online-panel">
+    <h3>🟢 Who’s Online Now</h3>
+    <div style="overflow-x: auto;">
+      <table id="whoOnlineTable">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Token ID</th>
+            <th>Fingerprint</th>
+            <th>Started</th>
+            <th>Last Seen</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- DEVELOPER SESSION DURATION PANEL -->
   <section id="sessionDurationPanel" class="session-duration-panel">
     <h3>⏱️ Active Developer Session Durations</h3>
@@ -447,6 +520,38 @@
     if (countEl) countEl.textContent = uniqueSessions.size;
   }
 
+  function updateWhoOnlineList(sessions) {
+    const tbody = document.querySelector("#whoOnlineTable tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    const now = Math.floor(Date.now() / 1000);
+    const sessionList = Object.values(sessions || {}).filter(s => (now - s.last_seen) <= 40);
+
+    if (sessionList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#64748b;">No active developers currently online.</td></tr>';
+      return;
+    }
+
+    sessionList.forEach(s => {
+      const durationSec = Math.max(0, s.last_seen - s.start_time);
+      const duration = new Date(durationSec * 1000).toISOString().substr(11, 8);
+      const fp = s.fingerprint && s.fingerprint !== 'none' ? s.fingerprint.substring(0, 12) + '...' : '—';
+
+      const row = document.createElement("tr");
+      row.className = "row-authorized";
+      row.innerHTML = `
+        <td><span class="online-dot"></span></td>
+        <td><span class="token-id">${s.token_id}</span></td>
+        <td><span class="token-id" style="font-size:0.75rem; background:#f1f5f9; color:#475569;" title="${s.fingerprint || 'none'}">${fp}</span></td>
+        <td>${new Date(s.start_time * 1000).toLocaleTimeString()}</td>
+        <td>${new Date(s.last_seen * 1000).toLocaleTimeString()}</td>
+        <td><span class="badge-ok" style="font-family:'Fira Code',monospace;">${duration}</span></td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
   async function loadSessions() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -456,6 +561,7 @@
       if (res.ok) {
         const sessions = await res.json();
         updateSessionDurationDisplay(sessions);
+        updateWhoOnlineList(sessions);
       }
     } catch (e) {
       console.error('Failed to load session store:', e);
