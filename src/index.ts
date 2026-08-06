@@ -274,6 +274,32 @@ export default {
       ua.includes("Safari") ||
       accept.includes("text/html");
 
+    // 8. Status endpoint: /status
+    if (url.pathname === '/status' && method === 'GET') {
+      let kvStatus = "empty";
+      if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.get === 'function') {
+        try {
+          const kvCheck = await env.ARTICLES_FEED.get("articles.json");
+          if (kvCheck) kvStatus = "connected";
+        } catch (e) {}
+      }
+
+      const payload = {
+        status: "ok",
+        workerVersion: "2026.08.06",
+        kvFeed: kvStatus,
+        rewriteRouting: "active",
+        timestamp: new Date().toISOString()
+      };
+
+      return new Response(JSON.stringify(payload, null, 2), {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          ...corsHeaders
+        }
+      });
+    }
+
     // 15. Server-rendered homepage with latest articles: / or /index.html
     if ((url.pathname === '/' || url.pathname === '/index.html') && method === 'GET') {
       let feed: any[] = [];
