@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Developer Token Audit Log | EcoSmartHomes Private Console</title>
+  <title>Developer Token & Manifest Audit Log | EcoSmartHomes Private Console</title>
   <meta name="robots" content="noindex, nofollow">
   
   <!-- Fonts -->
@@ -48,8 +48,8 @@
       color: var(--text-main);
     }
 
-    .token-table tr:last-child td {
-      border-bottom: none;
+    .token-table tr:hover {
+      background: #f8fafc;
     }
 
     .token-id {
@@ -64,6 +64,15 @@
     .badge-ok {
       background: #dcfce7;
       color: #15803d;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .badge-ai {
+      background: #e0f2fe;
+      color: #0369a1;
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 0.78rem;
@@ -96,13 +105,13 @@
       flex-wrap: wrap;
     }
 
-    .filter-group input {
+    .filter-group input, .filter-group select {
       padding: 10px 14px;
       border-radius: 8px;
       border: 1px solid #cbd5e1;
       font-family: 'Fira Code', monospace;
       font-size: 0.9rem;
-      min-width: 220px;
+      min-width: 200px;
     }
 
     .endpoint-code {
@@ -115,11 +124,24 @@
       font-family: 'Fira Code', monospace;
       font-size: 0.78rem;
       color: #64748b;
-      max-width: 300px;
+      max-width: 280px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       display: block;
+    }
+
+    /* Color Coded Rows */
+    tr.row-authorized td {
+      background: rgba(220, 252, 231, 0.2);
+    }
+
+    tr.row-ai-agent td {
+      background: rgba(224, 242, 254, 0.25);
+    }
+
+    tr.row-denied td {
+      background: rgba(254, 226, 226, 0.2);
     }
   </style>
 </head>
@@ -157,8 +179,8 @@
         <polyline points="10 9 9 9 8 9"></polyline>
       </svg>
     </div>
-    <h1>Developer Token Audit Log</h1>
-    <p class="tagline">View and filter recent developer token requests across EcoSmartHomes AI endpoints</p>
+    <h1>Developer & Manifest Access Audit Log</h1>
+    <p class="tagline">Real-time developer & AI agent access stream across EcoSmartHomes manifests & endpoints</p>
   </div>
 </section>
 
@@ -169,17 +191,27 @@
   <section class="token-card">
     <div class="section-title-wrapper" style="margin-top:0;">
       <span class="section-badge">Audit Controls</span>
-      <h2>Log Filters</h2>
+      <h2>Filter Audit Events</h2>
     </div>
 
     <div class="filter-group">
+      <div>
+        <label for="filter-type" style="font-weight:600; display:block; margin-bottom:4px;">Filter by Type:</label>
+        <select id="filter-type">
+          <option value="all">All Events</option>
+          <option value="manifest">Manifest Access Only</option>
+          <option value="ai">AI Agents Only</option>
+          <option value="developer">Developer Access Only</option>
+          <option value="unauthorized">Unauthorized Attempts Only</option>
+        </select>
+      </div>
       <div>
         <label for="filter-id" style="font-weight:600; display:block; margin-bottom:4px;">Filter by Token ID:</label>
         <input id="filter-id" type="text" placeholder="dev-2026-01">
       </div>
       <div>
         <label for="filter-endpoint" style="font-weight:600; display:block; margin-bottom:4px;">Filter by Endpoint:</label>
-        <input id="filter-endpoint" type="text" placeholder="/ai/dev/">
+        <input id="filter-endpoint" type="text" placeholder="/ai/manifest.json">
       </div>
       <div style="align-self:flex-end;">
         <button id="apply-filters" class="btn-primary" style="padding:10px 20px;">Apply Filters</button>
@@ -187,11 +219,17 @@
     </div>
   </section>
 
-  <!-- AUDIT TABLE PANEL -->
+  <!-- AUDIT STREAM TABLE PANEL -->
   <section class="token-card">
-    <div class="section-title-wrapper" style="margin-top:0;">
-      <span class="section-badge" style="background:#dcfce7; color:#15803d;">Live Activity Stream</span>
-      <h2>Recent Activity</h2>
+    <div class="section-title-wrapper" style="margin-top:0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <span class="section-badge" style="background:#dcfce7; color:#15803d;">Live Stream</span>
+        <h2>Recent Activity Stream</h2>
+      </div>
+      <div style="font-size:0.82rem; color:#64748b;">
+        <span id="live-indicator" style="display:inline-block; width:8px; height:8px; background:#10b981; border-radius:50%; margin-right:6px;"></span>
+        Auto-refreshing every 5s
+      </div>
     </div>
 
     <div style="overflow-x: auto;">
@@ -217,7 +255,7 @@
 <!-- FOOTER -->
 <footer class="dashboard-footer">
   <div class="container">
-    <p class="protocol">🔒 EcoSmartHomes Private Developer Console — Security Audit Trail</p>
+    <p class="protocol">🔒 EcoSmartHomes Private Developer Console — Manifest & Security Audit Trail</p>
     <p><small style="color: #64748b;">© 2026 EcoSmartHomes. All rights reserved.</small></p>
   </div>
 </footer>
@@ -227,9 +265,12 @@
 
   async function loadAudit() {
     try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = localStorage.getItem('ecosmart-dev-token') || urlParams.get('token') || '';
+
       const res = await fetch('../../data/dev-audit.json');
       auditData = await res.json();
-      renderAudit(auditData);
+      applyCurrentFilters();
     } catch (e) {
       console.error('Failed to load audit trail:', e);
     }
@@ -246,39 +287,72 @@
 
     rows.forEach(entry => {
       const row = document.createElement('tr');
-      
+      const ua = entry.user_agent || '';
+      const isAI = ua.includes('GPTBot') || ua.includes('ClaudeBot') || ua.includes('PerplexityBot') || ua.includes('Gemini') || ua.includes('ChatGPT') || ua.includes('BingAI');
+      const isDenied = entry.result.includes('403') || entry.result.includes('Denied') || entry.result.includes('Unauthorized');
+
       let badgeClass = 'badge-ok';
-      if (entry.result.includes('403') || entry.result.includes('Denied')) {
+      let rowClass = 'row-authorized';
+
+      if (isDenied) {
         badgeClass = 'badge-denied';
+        rowClass = 'row-denied';
+      } else if (isAI) {
+        badgeClass = 'badge-ai';
+        rowClass = 'row-ai-agent';
       } else if (entry.result.includes('302') || entry.result.includes('Redirect')) {
         badgeClass = 'badge-redirect';
+        rowClass = 'row-denied';
       }
 
+      row.className = rowClass;
       row.innerHTML = `
         <td>${new Date(entry.timestamp * 1000).toLocaleString()}</td>
         <td><span class="token-id">${entry.token_id}</span></td>
         <td><span class="endpoint-code">${entry.endpoint}</span></td>
         <td><span class="${badgeClass}">${entry.result}</span></td>
-        <td><span class="ua-code" title="${entry.user_agent}">${entry.user_agent}</span></td>
+        <td><span class="ua-code" title="${ua}">${ua}</span></td>
       `;
       body.appendChild(row);
     });
   }
 
-  document.getElementById('apply-filters').onclick = () => {
+  function applyCurrentFilters() {
+    const filterType = document.getElementById('filter-type').value;
     const id = document.getElementById('filter-id').value.trim().toLowerCase();
     const endpoint = document.getElementById('filter-endpoint').value.trim().toLowerCase();
 
     const filtered = auditData.filter(entry => {
+      const ua = (entry.user_agent || '').toLowerCase();
+      const isAI = ua.includes('gptbot') || ua.includes('claudebot') || ua.includes('perplexitybot') || ua.includes('gemini') || ua.includes('chatgpt') || ua.includes('bingai');
+      const isDenied = entry.result.includes('403') || entry.result.includes('Denied') || entry.result.includes('Unauthorized');
+      const isDev = !isAI && !isDenied && entry.token_id.startsWith('dev-');
+
+      let matchType = true;
+      if (filterType === 'manifest') {
+        matchType = entry.endpoint.includes('manifest');
+      } else if (filterType === 'ai') {
+        matchType = isAI;
+      } else if (filterType === 'developer') {
+        matchType = isDev;
+      } else if (filterType === 'unauthorized') {
+        matchType = isDenied;
+      }
+
       const matchId = !id || entry.token_id.toLowerCase().includes(id);
       const matchEndpoint = !endpoint || entry.endpoint.toLowerCase().includes(endpoint);
-      return matchId && matchEndpoint;
+
+      return matchType && matchId && matchEndpoint;
     });
 
     renderAudit(filtered);
-  };
+  }
+
+  document.getElementById('apply-filters').onclick = applyCurrentFilters;
+  document.getElementById('filter-type').onchange = applyCurrentFilters;
 
   loadAudit();
+  setInterval(loadAudit, 5000);
 </script>
 
 </body>
