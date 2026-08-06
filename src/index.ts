@@ -987,27 +987,31 @@ export default {
       });
     }
 
-    // 8. Article Markdown → HTML rendering with rich per-article SEO metadata
+    // 8. Server-Rendered Article Engine (SSR Markdown → HTML with rich SEO & JSON-LD)
     if (url.pathname.startsWith('/articles/') && method === 'GET') {
       const rawSlug = url.pathname.replace('/articles/', '').replace('.html', '');
 
-      let mdPath = '';
-      if (rawSlug === 'carbon-tax-2026') {
-        mdPath = '/carbon-tax-2026.md';
-      } else if (rawSlug === 'raising-ber-g-to-a') {
-        mdPath = '/raising-ber-g-to-a.md';
-      } else if (rawSlug === 'retrofit-roadmap') {
-        mdPath = '/api/upgrades/recommendations.md';
-      }
+      let mdText = '';
+      const candidatePaths = [
+        `/articles-md/${rawSlug}.md`,
+        `/${rawSlug}.md`,
+        rawSlug === 'retrofit-roadmap' ? '/api/upgrades/recommendations.md' : ''
+      ].filter(Boolean);
 
-      if (mdPath) {
+      for (const mdPath of candidatePaths) {
         try {
           const mdRequest = new Request(new URL(mdPath, request.url).toString(), request);
           const assetResponse = await env.ASSETS.fetch(mdRequest);
-
           if (assetResponse.ok) {
-            const mdText = await assetResponse.text();
-            const htmlBody = renderMarkdownToHtml(mdText);
+            mdText = await assetResponse.text();
+            break;
+          }
+        } catch (e) {}
+      }
+
+      if (mdText) {
+        try {
+          const htmlBody = renderMarkdownToHtml(mdText);
 
             // Fetch article feed metadata for rich SEO tags
             let feed: any[] = [];
