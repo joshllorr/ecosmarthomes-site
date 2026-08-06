@@ -86,6 +86,35 @@
       border-radius: 6px;
       margin-bottom: 15px;
     }
+    .article-search-box {
+      max-width: 600px;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+    #search-input {
+      width: 100%;
+      padding: 14px 20px 14px 44px;
+      font-size: 1rem;
+      border-radius: 30px;
+      border: 2px solid #e6f4ef;
+      background: #ffffff;
+      color: #003f2d;
+      outline: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    #search-input:focus {
+      border-color: #00a86b;
+      box-shadow: 0 4px 16px rgba(0,168,107,0.2);
+    }
+    .search-icon-inside {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: #00a86b;
+    }
     .tag-filter-bar {
       display: flex;
       flex-wrap: wrap;
@@ -143,6 +172,12 @@
 </div>
 
 <div class="articles-layout">
+  <!-- Search Bar -->
+  <div class="article-search-box">
+    <span class="search-icon-inside">🔍</span>
+    <input id="search-input" type="text" placeholder="Search articles by title, summary, or topic tag...">
+  </div>
+
   <!-- Tag Filter Bar -->
   <div id="tag-filter" class="tag-filter-bar">
     <button class="tag-filter-btn active" data-tag="">All</button>
@@ -182,22 +217,39 @@
 </footer>
 
 <script>
-async function loadArticles(tag = "") {
+let currentTag = "";
+let currentSearch = "";
+
+async function loadArticles() {
   const container = document.getElementById('articles');
   try {
-    const url = tag ? `/api/articles-feed?tag=${encodeURIComponent(tag)}` : `/api/articles-feed`;
+    let url = '/api/articles-feed';
+    if (currentSearch) {
+      url = `/api/articles-search?q=${encodeURIComponent(currentSearch)}`;
+    } else if (currentTag) {
+      url = `/api/articles-feed?tag=${encodeURIComponent(currentTag)}`;
+    }
+
     let res = await fetch(url);
     if (!res.ok) {
       res = await fetch('/data/articles-feed.json');
     }
     let articles = await res.json();
 
-    if (tag && articles.length > 0) {
-      articles = articles.filter(a => a.tags && Array.isArray(a.tags) && a.tags.some(t => t.toLowerCase().includes(tag.toLowerCase())));
+    if (currentSearch && !url.includes('/api/articles-search')) {
+      const q = currentSearch.toLowerCase();
+      articles = articles.filter(a =>
+        (a.title || "").toLowerCase().includes(q) ||
+        (a.summary || "").toLowerCase().includes(q) ||
+        (a.tags || []).some(t => t.toLowerCase().includes(q))
+      );
+    } else if (currentTag && !url.includes('tag=')) {
+      articles = articles.filter(a => a.tags && Array.isArray(a.tags) && a.tags.some(t => t.toLowerCase().includes(currentTag.toLowerCase())));
     }
 
     if (articles.length === 0) {
-      container.innerHTML = `<p style="grid-column:1/-1; text-align:center; padding:40px; color:#666;">No articles found under tag <strong>"${tag}"</strong>.</p>`;
+      const term = currentSearch || currentTag;
+      container.innerHTML = `<p style="grid-column:1/-1; text-align:center; padding:40px; color:#666;">No articles found matching <strong>"${term}"</strong>. <button onclick="resetFilters()" style="color:#00a86b; border:none; background:none; text-decoration:underline; cursor:pointer; font-weight:bold;">Clear filters</button></p>`;
       return;
     }
 
@@ -224,12 +276,38 @@ async function loadArticles(tag = "") {
   }
 }
 
-// Tag filter button event delegation
+function resetFilters() {
+  currentTag = "";
+  currentSearch = "";
+  document.getElementById('search-input').value = "";
+  document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector('.tag-filter-btn[data-tag=""]').classList.add('active');
+  loadArticles();
+}
+
+// Instant search input listener
+let debounceTimer;
+document.getElementById('search-input').addEventListener('input', (e) => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    currentSearch = e.target.value.trim();
+    if (currentSearch) {
+      currentTag = "";
+      document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
+    }
+    loadArticles();
+  }, 200);
+});
+
+// Tag filter button listener
 document.getElementById('tag-filter').addEventListener('click', (e) => {
   if (e.target.classList.contains('tag-filter-btn')) {
     document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
     e.target.classList.add('active');
-    loadArticles(e.target.dataset.tag);
+    currentTag = e.target.dataset.tag;
+    currentSearch = "";
+    document.getElementById('search-input').value = "";
+    loadArticles();
   }
 });
 

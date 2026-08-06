@@ -460,6 +460,65 @@ export default {
       });
     }
 
+    // 11. Article Full-Text Search Endpoint: /api/articles-search?q=...
+    if (url.pathname === '/api/articles-search' && method === 'GET') {
+      const q = (url.searchParams.get("q") || "").toLowerCase().trim();
+
+      let articles: any[] = [];
+      if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.get === 'function') {
+        try {
+          const stored = await env.ARTICLES_FEED.get("articles.json");
+          if (stored) articles = JSON.parse(stored);
+        } catch (e) {}
+      }
+      if (!articles || articles.length === 0) {
+        articles = [
+          {
+            title: "Raising BER from G to A",
+            slug: "raising-ber-g-to-a",
+            summary: "A practical roadmap for Irish homeowners upgrading from BER G to A.",
+            date: "2026-08-01",
+            hero: "/imgs/ber-improvements-visual.svg",
+            tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"]
+          },
+          {
+            title: "Carbon Tax 2026 Explained",
+            slug: "carbon-tax-2026",
+            summary: "What Irish homeowners need to know about the 2026 carbon tax changes.",
+            date: "2026-07-20",
+            hero: "/imgs/Grant Eligibility & Readiness Audit.jpg",
+            tags: ["Carbon Tax", "Energy Costs", "Grants"]
+          },
+          {
+            title: "Full Retrofit Roadmap",
+            slug: "retrofit-roadmap",
+            summary: "How to plan, budget, and execute a full home energy retrofit.",
+            date: "2026-07-10",
+            hero: "/imgs/Full Retrofit Roadmap.png",
+            tags: ["Retrofit Roadmap", "Heat Pump", "Solar PV"]
+          }
+        ];
+      }
+
+      if (!q) {
+        return new Response(JSON.stringify(articles, null, 2), {
+          headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders }
+        });
+      }
+
+      const results = articles.filter((a: any) => {
+        const title = (a.title || "").toLowerCase();
+        const summary = (a.summary || "").toLowerCase();
+        const tags = (a.tags || []).map((t: string) => t.toLowerCase());
+
+        return title.includes(q) || summary.includes(q) || tags.some((t: string) => t.includes(q));
+      });
+
+      return new Response(JSON.stringify(results, null, 2), {
+        headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders }
+      });
+    }
+
     // 3. Contact form endpoint
     if (url.pathname === '/api/contact' && method === 'POST') {
       return handleContactForm(request, env);
