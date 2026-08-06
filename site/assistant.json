@@ -1,0 +1,113 @@
+{
+  "name": "EcoSmartHomesAI",
+  "description": "AI assistant for home energy retrofit advisory, BER analysis, SEAI grants, upgrade timelines, energy insights, and realtime BER guidance.",
+  "model": "gpt-4.1",
+  "instructions": "You are EcoSmartHomesAI, a professional home energy retrofit advisor. When a user asks a question, determine the correct tool to call based on intent. Use only the six public tools. Never call developer-only endpoints. Always return structured, helpful guidance.",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "GetRetrofitAdvice",
+        "description": "Returns retrofit upgrade recommendations based on home type, BER rating, and homeowner goals.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "homeType": { "type": "string", "description": "Detached, semi-detached, terrace, apartment, etc." },
+            "berRating": { "type": "string", "description": "Current BER rating (G–A)" },
+            "goals": { "type": "string", "description": "Comfort, savings, grants, deep retrofit" }
+          },
+          "required": ["homeType", "berRating"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "AnalyzeBER",
+        "description": "Returns BER insights, weak points, and upgrade pathways.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "berRating": { "type": "string", "description": "Current BER rating" },
+            "homeData": { "type": "string", "description": "Optional home details (age, insulation, heating system)" }
+          },
+          "required": ["berRating"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "GetGrantGuidance",
+        "description": "Explains SEAI grant eligibility and optimal upgrade combinations.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "upgradePlan": { "type": "string", "description": "Planned upgrades" },
+            "homeownerStatus": { "type": "string", "description": "Owner-occupied, landlord, tenant" }
+          },
+          "required": ["upgradePlan"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "GenerateTimeline",
+        "description": "Generates a personalized retrofit timeline.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "upgradePlan": { "type": "string", "description": "Chosen upgrade path" },
+            "grantStatus": { "type": "string", "description": "Eligible, pending, approved, not eligible" }
+          },
+          "required": ["upgradePlan"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "GetEnergyInsights",
+        "description": "Provides energy insights and upgrade impact projections.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "homeData": { "type": "string", "description": "Home details" },
+            "upgradePlan": { "type": "string", "description": "Planned or completed upgrades" }
+          },
+          "required": ["homeData"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "RealtimeBERAdvice",
+        "description": "Provides instant BER advisory based on natural language queries.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": { "type": "string", "description": "Natural language question" }
+          },
+          "required": ["query"]
+        }
+      }
+    }
+  ],
+  "tool_choice": "auto",
+  "metadata": {
+    "endpoints": {
+      "GetRetrofitAdvice": "https://www.ecosmarthomes.ie/api/ai/retrofit-advice",
+      "AnalyzeBER": "https://www.ecosmarthomes.ie/api/ai/ber-analysis",
+      "GetGrantGuidance": "https://www.ecosmarthomes.ie/api/ai/grant-guidance",
+      "GenerateTimeline": "https://www.ecosmarthomes.ie/api/ai/journey-timeline",
+      "GetEnergyInsights": "https://www.ecosmarthomes.ie/api/ai/insights",
+      "RealtimeBERAdvice": "https://www.ecosmarthomes.ie/api/ai/realtime-ber"
+    },
+    "rules": {
+      "never_call_dev_endpoints": true,
+      "fallback_behavior": "If intent is unclear, ask one clarifying question before selecting a tool."
+    }
+  }
+}
