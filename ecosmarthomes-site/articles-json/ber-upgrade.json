@@ -1,0 +1,27 @@
+{
+  "title": "Raising BER from G to A: Comprehensive Irish Retrofit Guide",
+  "slug": "raising-ber-g-to-a",
+  "summary": "A practical step-by-step roadmap for Irish homeowners upgrading older properties from BER G to A rating using SEAI grants.",
+  "category": "BER Rating",
+  "tags": ["BER Rating", "Retrofit Roadmap", "SEAI Grants"],
+  "date": "2026-08-01",
+  "sections": [
+    {
+      "heading": "Step 1: Fabric First Insulation",
+      "body": [
+        "Before installing high-efficiency heat pumps or solar arrays, seal your thermal envelope. External wall insulation, attic insulation, and floor insulation prevent up to 40% of heat loss."
+      ],
+      "pullquote": "Insulate first, then generate.",
+      "cta": {
+        "label": "Calculate SEAI Insulation Grants",
+        "url": "/grant-calculator.html"
+      }
+    },
+    {
+      "heading": "Step 2: Heat Pump Integration",
+      "body": [
+        "Replacing oil or gas boilers with a modern air-to-water heat pump dramatically boosts efficiency, lowering SCOP energy usage and qualifying for maximum SEAI grant support."
+      ]
+    }
+  ]
+}
