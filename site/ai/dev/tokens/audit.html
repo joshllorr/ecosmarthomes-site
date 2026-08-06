@@ -1105,6 +1105,85 @@ flowchart TD
     </div>
   </section>
 
+  <!-- AI ASSISTANT INTENT TAXONOMY HIERARCHY (MERMAID) -->
+  <section id="aiIntentTaxonomyPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🧠 AI Assistant Intent Taxonomy Hierarchy</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Capability Hierarchy</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+flowchart TD
+
+    %% ROOT INTENT
+    IntentRoot["AI Assistant Intent Taxonomy"]
+
+    %% === TOP-LEVEL DOMAINS ===
+    RetrofitDomain["Retrofit Planning Intents"]
+    BERDomain["BER Rating Intents"]
+    GrantDomain["SEAI Grant Intents"]
+    TimelineDomain["Upgrade Timeline Intents"]
+    InsightsDomain["Energy Insights Intents"]
+    RealtimeDomain["Realtime Advisory Intents"]
+    DevDomain["Developer-Only Intents"]
+
+    %% ROOT CONNECTIONS
+    IntentRoot --> RetrofitDomain
+    IntentRoot --> BERDomain
+    IntentRoot --> GrantDomain
+    IntentRoot --> TimelineDomain
+    IntentRoot --> InsightsDomain
+    IntentRoot --> RealtimeDomain
+    IntentRoot --> DevDomain
+
+    %% === RETROFIT INTENTS ===
+    RetrofitDomain --> R1["Plan Retrofit Path"]
+    RetrofitDomain --> R2["Compare Upgrade Options"]
+    RetrofitDomain --> R3["Estimate Costs"]
+    RetrofitDomain --> R4["Assess Home Type"]
+    RetrofitDomain --> R5["Recommend Upgrade Bundle"]
+
+    %% === BER INTENTS ===
+    BERDomain --> B1["Explain BER Rating"]
+    BERDomain --> B2["Identify BER Weak Points"]
+    BERDomain --> B3["Estimate BER Improvement"]
+    BERDomain --> B4["Map BER to Retrofit Plan"]
+
+    %% === GRANT INTENTS ===
+    GrantDomain --> G1["Check SEAI Eligibility"]
+    GrantDomain --> G2["Calculate Grant Amount"]
+    GrantDomain --> G3["Match Grants to Upgrades"]
+    GrantDomain --> G4["Explain SEAI Rules"]
+
+    %% === TIMELINE INTENTS ===
+    TimelineDomain --> T1["Generate Retrofit Timeline"]
+    TimelineDomain --> T2["Sequence Upgrade Steps"]
+    TimelineDomain --> T3["Estimate Project Duration"]
+    TimelineDomain --> T4["Identify Dependencies"]
+
+    %% === INSIGHTS INTENTS ===
+    InsightsDomain --> I1["Energy Usage Insights"]
+    InsightsDomain --> I2["Upgrade Impact Projection"]
+    InsightsDomain --> I3["Efficiency Score"]
+    InsightsDomain --> I4["Home Data Interpretation"]
+
+    %% === REALTIME ADVISORY INTENTS ===
+    RealtimeDomain --> RT1["Realtime BER Advice"]
+    RealtimeDomain --> RT2["Realtime Retrofit Q&A"]
+    RealtimeDomain --> RT3["Realtime Grant Q&A"]
+    RealtimeDomain --> RT4["Natural Language Guidance"]
+
+    %% === DEVELOPER-ONLY INTENTS ===
+    DevDomain --> D1["Route Internal Skill"]
+    DevDomain --> D2["Validate Dev Token"]
+    DevDomain --> D3["Record Heartbeat"]
+    DevDomain --> D4["Fetch AI Telemetry"]
+    DevDomain --> D5["Log Manifest Access"]
+    DevDomain --> D6["Log Unauthorized Access"]
+      </div>
+    </div>
+  </section>
+
   <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
   <section class="audit-charts">
     <h2>📊 Real-Time Access Analytics</h2>
