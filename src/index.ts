@@ -845,6 +845,65 @@ export default {
           });
         }
       }
+    // 18. Dynamic OpenGraph SVG Image Generator for Tag Pages: /og/tag/<TAG>
+    if (url.pathname.startsWith('/og/tag/') && method === 'GET') {
+      const tag = decodeURIComponent(url.pathname.replace('/og/tag/', '')).trim();
+
+      const colors: Record<string, string> = {
+        "Heat Pump": "#003f2d",
+        "Retrofit Roadmap": "#004aad",
+        "BER Rating": "#007f50",
+        "SEAI Grants": "#00a86b",
+        "Carbon Tax": "#005f73"
+      };
+      const bg = colors[tag] || "#003f2d";
+
+      const svg = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${bg}" />
+      <stop offset="100%" stop-color="#001a13" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)" />
+
+  <!-- Decorative Accent Bar -->
+  <rect x="60" y="70" width="8" height="490" fill="#00ff80" rx="4" />
+
+  <!-- EcoSmartHomes Brand Header -->
+  <text x="95" y="140" font-size="52" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#ffffff" font-weight="800" letter-spacing="1">
+    EcoSmartHomes Ireland
+  </text>
+  <text x="95" y="185" font-size="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#00ff80" font-weight="600" letter-spacing="2">
+    INDEPENDENT HOME ENERGY ADVISORY
+  </text>
+
+  <!-- Tag Title Card -->
+  <text x="95" y="320" font-size="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#ffffff" font-weight="700">
+    ${tag} Insights &amp; Guidance
+  </text>
+  <text x="95" y="390" font-size="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#e6f4ef" font-weight="400">
+    Expert Advisory, SEAI Grant Eligibility &amp; BER Upgrade Sequencing
+  </text>
+
+  <!-- Footer Badge -->
+  <rect x="95" y="475" width="420" height="54" rx="27" fill="rgba(255,255,255,0.12)" />
+  <text x="135" y="510" font-size="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#00ff80" font-weight="700">
+    🌐 www.ecosmarthomes.ie
+  </text>
+</svg>`;
+
+      return new Response(svg, {
+        headers: {
+          'Content-Type': 'image/svg+xml; charset=utf-8',
+          'Cache-Control': 'public, max-age=86400',
+          ...corsHeaders
+        }
+      });
+    }
+
     // 16. Server-rendered tag pages: /articles/tag/<tag>
     if (url.pathname.startsWith('/articles/tag/') && method === 'GET') {
       const targetTag = decodeURIComponent(url.pathname.replace('/articles/tag/', '')).trim();
@@ -890,6 +949,7 @@ export default {
       );
 
       const canonicalUrl = `https://ecosmarthomes.ie/articles/tag/${encodeURIComponent(targetTag)}`;
+      const ogImageUrl = `https://ecosmarthomes.ie/og/tag/${encodeURIComponent(targetTag)}`;
 
       const html = `<!DOCTYPE html>
 <html lang="en">
@@ -904,12 +964,12 @@ export default {
   <meta property="og:description" content="Explore home energy retrofit articles tagged with ${targetTag}.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="${canonicalUrl}">
-  <meta property="og:image" content="https://ecosmarthomes.ie/imgs/hero_home.svg">
+  <meta property="og:image" content="${ogImageUrl}">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Articles Tagged ${targetTag}">
   <meta name="twitter:description" content="Explore home energy retrofit articles tagged with ${targetTag}.">
-  <meta name="twitter:image" content="https://ecosmarthomes.ie/imgs/hero_home.svg">
+  <meta name="twitter:image" content="${ogImageUrl}">
 
   <link rel="stylesheet" href="/css/styles.css?v=2">
   <style>
