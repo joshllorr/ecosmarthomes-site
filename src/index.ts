@@ -358,11 +358,18 @@ export default {
       "/sitemap.xml"
     ];
 
+    const isAI = ua.includes("AI") || ua.includes("LLM") || ua.includes("ChatGPT") || ua.includes("Gemini") || ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot") || ua.includes("BingAI") || ua.includes("Google-Extended");
+
     if (aiEndpoints.includes(url.pathname) || ((url.pathname.endsWith(".json") || url.pathname.endsWith(".md")) && !url.pathname.startsWith("/.well-known/"))) {
-      const isAgent = ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot") || ua.includes("BingAI") || ua.includes("Google-Extended");
-      if (isBrowser && !isDevAuthorized && !isAgent) {
+      if (isBrowser && !isDevAuthorized && !isAI) {
+        ctx?.waitUntil?.(logAuditEvent(url.pathname, "403 Unauthorized (Browser Redirect)"));
         const landingUrl = new URL("/ai/", request.url).toString();
         return Response.redirect(landingUrl, 302);
+      }
+
+      // Log authorized AI agent or developer manifest access
+      if (url.pathname === "/ai/manifest.json" || url.pathname === "/api/mcp/manifest.json" || url.pathname === "/ai/openapi.json") {
+        ctx?.waitUntil?.(logAuditEvent(url.pathname, isDevAuthorized ? "200 Authorized (Dev Token)" : "200 Authorized (AI Agent)"));
       }
     }
 
@@ -507,15 +514,19 @@ export default {
         enriched.headers.set('Vary', 'Accept');
         enriched.headers.set('X-Agent-Readiness', '100');
 
-        // MIME type overrides for agent readiness files
+        // MIME type & privacy overrides for agent readiness files
         if (url.pathname === '/robots.txt') {
           enriched.headers.set('Content-Type', 'text/plain; charset=utf-8');
         } else if (url.pathname === '/.well-known/api-catalog') {
           enriched.headers.set('Content-Type', 'application/linkset+json; charset=utf-8');
-        } else if (url.pathname === '/ai/manifest.json') {
+        } else if (url.pathname === '/ai/manifest.json' || url.pathname === '/api/mcp/manifest.json' || url.pathname === '/ai/openapi.json') {
           enriched.headers.set('Content-Type', 'application/json; charset=utf-8');
+          enriched.headers.set('X-EcoSmart-Access', 'Restricted');
+          enriched.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
         } else if (url.pathname.endsWith('.md')) {
           enriched.headers.set('Content-Type', 'text/markdown; charset=utf-8');
+          enriched.headers.set('X-EcoSmart-Access', 'Restricted');
+          enriched.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
         }
 
         return enriched;
