@@ -1,0 +1,93 @@
+{
+  "tools": [
+    {
+      "name": "GetRetrofitAdvice",
+      "description": "Returns retrofit upgrade recommendations based on home type, BER rating, and homeowner goals.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "homeType": { "type": "string", "description": "Detached, semi-detached, terrace, apartment, etc." },
+          "berRating": { "type": "string", "description": "Current BER rating (e.g., G, F, E, D, C, B, A)" },
+          "goals": { "type": "string", "description": "Homeowner goals (comfort, savings, grants, deep retrofit)" }
+        },
+        "required": ["homeType", "berRating"]
+      },
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/retrofit-advice",
+      "method": "POST"
+    },
+
+    {
+      "name": "AnalyzeBER",
+      "description": "Returns BER insights, weak points, and upgrade pathways based on current BER rating and home characteristics.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "berRating": { "type": "string", "description": "Current BER rating" },
+          "homeData": { "type": "string", "description": "Optional home details (age, insulation, heating system)" }
+        },
+        "required": ["berRating"]
+      },
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/ber-analysis",
+      "method": "POST"
+    },
+
+    {
+      "name": "GetGrantGuidance",
+      "description": "Explains SEAI grant eligibility, documentation requirements, and optimal upgrade combinations.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "upgradePlan": { "type": "string", "description": "Planned upgrades (insulation, heat pump, solar PV)" },
+          "homeownerStatus": { "type": "string", "description": "Owner-occupied, landlord, private tenant, etc." }
+        },
+        "required": ["upgradePlan"]
+      },
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/grant-guidance",
+      "method": "POST"
+    },
+
+    {
+      "name": "GenerateTimeline",
+      "description": "Generates a personalized retrofit timeline from assessment to BER certification.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "upgradePlan": { "type": "string", "description": "Chosen upgrade path" },
+          "grantStatus": { "type": "string", "description": "Eligible, pending, approved, or not eligible" }
+        },
+        "required": ["upgradePlan"]
+      },
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/journey-timeline",
+      "method": "POST"
+    },
+
+    {
+      "name": "GetEnergyInsights",
+      "description": "Provides real-time home energy insights, upgrade impact projections, and efficiency recommendations.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "homeData": { "type": "string", "description": "Home details (age, insulation, heating system)" },
+          "upgradePlan": { "type": "string", "description": "Planned or completed upgrades" }
+        },
+        "required": ["homeData"]
+      },
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/insights",
+      "method": "POST"
+    },
+
+    {
+      "name": "RealtimeBERAdvice",
+      "description": "Provides instant BER advisory and upgrade decision support based on natural language queries.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Natural language question from the user" }
+        },
+        "required": ["query"]
+      },
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/realtime-ber",
+      "method": "POST"
+    }
+  ]
+}
