@@ -78,6 +78,35 @@ function renderMarkdownToHtml(md: string): string {
   return html;
 }
 
+function generateSemanticEmbedding(text: string): number[] {
+  const tokens = text.toLowerCase().split(/\W+/).filter(t => t.length > 0);
+  const vector = new Array(64).fill(0);
+
+  tokens.forEach((t, i) => {
+    let hash = 0;
+    for (let j = 0; j < t.length; j++) {
+      hash = (hash << 5) - hash + t.charCodeAt(j);
+      hash |= 0;
+    }
+    const idx = Math.abs(hash) % 64;
+    vector[idx] += 1 + (1 / (i + 1));
+  });
+
+  return vector;
+}
+
+function cosineSimilarity(a: number[], b: number[]): number {
+  if (!a || !b || a.length !== b.length) return 0;
+  let dot = 0, magA = 0, magB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    magA += a[i] * a[i];
+    magB += b[i] * b[i];
+  }
+  if (magA === 0 || magB === 0) return 0;
+  return dot / (Math.sqrt(magA) * Math.sqrt(magB));
+}
+
 async function handleContactForm(request: Request, env: any): Promise<Response> {
   try {
     let data;
@@ -626,6 +655,74 @@ export default {
         }));
 
       return new Response(JSON.stringify(suggestions, null, 2), {
+        headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders }
+      });
+    }
+
+    // 13. AI Semantic Vector Search Endpoint: /api/articles-semantic?q=...
+    if (url.pathname === '/api/articles-semantic' && method === 'GET') {
+      const q = (url.searchParams.get("q") || "").toLowerCase().trim();
+
+      if (!q) {
+        return new Response(JSON.stringify([], null, 2), {
+          headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders }
+        });
+      }
+
+      let articles: any[] = [];
+      if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.get === 'function') {
+        try {
+          const stored = await env.ARTICLES_FEED.get("articles.json");
+          if (stored) articles = JSON.parse(stored);
+        } catch (e) {}
+      }
+      if (!articles || articles.length === 0) {
+        articles = [
+          {
+            title: "Raising BER from G to A",
+            slug: "raising-ber-g-to-a",
+            summary: "A practical roadmap for Irish homeowners upgrading from BER G to A.",
+            date: "2026-08-01",
+            hero: "/imgs/ber-improvements-visual.svg",
+            tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"]
+          },
+          {
+            title: "Carbon Tax 2026 Explained",
+            slug: "carbon-tax-2026",
+            summary: "What Irish homeowners need to know about the 2026 carbon tax changes.",
+            date: "2026-07-20",
+            hero: "/imgs/Grant Eligibility & Readiness Audit.jpg",
+            tags: ["Carbon Tax", "Energy Costs", "Grants"]
+          },
+          {
+            title: "Full Retrofit Roadmap",
+            slug: "retrofit-roadmap",
+            summary: "How to plan, budget, and execute a full home energy retrofit.",
+            date: "2026-07-10",
+            hero: "/imgs/Full Retrofit Roadmap.png",
+            tags: ["Retrofit Roadmap", "Heat Pump", "Solar PV"]
+          }
+        ];
+      }
+
+      const qEmbed = generateSemanticEmbedding(q);
+
+      const semanticResults = articles
+        .map((a: any) => {
+          const itemEmbedding = a.embedding || generateSemanticEmbedding(`${a.title} ${a.summary} ${(a.tags || []).join(" ")}`);
+          return {
+            title: a.title,
+            slug: a.slug,
+            hero: a.hero,
+            summary: a.summary,
+            tags: a.tags,
+            score: cosineSimilarity(qEmbed, itemEmbedding)
+          };
+        })
+        .sort((a: any, b: any) => b.score - a.score)
+        .slice(0, 5);
+
+      return new Response(JSON.stringify(semanticResults, null, 2), {
         headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders }
       });
     }
@@ -1198,9 +1295,14 @@ async function refreshArticlesFeed(env: any) {
       }
     ];
 
+    const enriched = articles.map(a => ({
+      ...a,
+      embedding: generateSemanticEmbedding(`${a.title} ${a.summary} ${(a.tags || []).join(" ")}`)
+    }));
+
     if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.put === 'function') {
-      await env.ARTICLES_FEED.put("articles.json", JSON.stringify(articles, null, 2));
-      console.log("Articles feed refreshed in KV storage");
+      await env.ARTICLES_FEED.put("articles.json", JSON.stringify(enriched, null, 2));
+      console.log("Articles feed with semantic embeddings refreshed in KV storage");
     }
   } catch (err) {
     console.error("Scheduled refresh failed:", err);

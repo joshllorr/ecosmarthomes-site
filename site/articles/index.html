@@ -407,7 +407,7 @@ searchInput.addEventListener('input', (e) => {
 
   suggestTimer = setTimeout(async () => {
     try {
-      const res = await fetch(`/api/articles-suggest?q=${encodeURIComponent(q)}`);
+      const res = await fetch(`/api/articles-semantic?q=${encodeURIComponent(q)}`);
       if (!res.ok) {
         autocomplete.style.display = 'none';
         return;
