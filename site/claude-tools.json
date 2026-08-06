@@ -1,0 +1,106 @@
+{
+  "name": "EcoSmartHomesAI",
+  "description": "Home energy retrofit advisory, BER analysis, SEAI grants, timelines, insights, and realtime BER guidance.",
+  "tools": [
+    {
+      "name": "GetRetrofitAdvice",
+      "description": "Returns retrofit upgrade recommendations based on home type, BER rating, and homeowner goals.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "homeType": { "type": "string", "description": "Detached, semi-detached, terrace, apartment, etc." },
+          "berRating": { "type": "string", "description": "Current BER rating (G–A)" },
+          "goals": { "type": "string", "description": "Comfort, savings, grants, deep retrofit" }
+        },
+        "required": ["homeType", "berRating"]
+      },
+      "metadata": {
+        "endpoint": "https://www.ecosmarthomes.ie/api/ai/retrofit-advice",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "AnalyzeBER",
+      "description": "Returns BER insights, weak points, and upgrade pathways.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "berRating": { "type": "string", "description": "Current BER rating" },
+          "homeData": { "type": "string", "description": "Optional home details (age, insulation, heating system)" }
+        },
+        "required": ["berRating"]
+      },
+      "metadata": {
+        "endpoint": "https://www.ecosmarthomes.ie/api/ai/ber-analysis",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "GetGrantGuidance",
+      "description": "Explains SEAI grant eligibility and optimal upgrade combinations.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "upgradePlan": { "type": "string", "description": "Planned upgrades (insulation, heat pump, solar PV)" },
+          "homeownerStatus": { "type": "string", "description": "Owner-occupied, landlord, tenant" }
+        },
+        "required": ["upgradePlan"]
+      },
+      "metadata": {
+        "endpoint": "https://www.ecosmarthomes.ie/api/ai/grant-guidance",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "GenerateTimeline",
+      "description": "Generates a personalized retrofit timeline from assessment to BER certification.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "upgradePlan": { "type": "string", "description": "Chosen upgrade path" },
+          "grantStatus": { "type": "string", "description": "Eligible, pending, approved, not eligible" }
+        },
+        "required": ["upgradePlan"]
+      },
+      "metadata": {
+        "endpoint": "https://www.ecosmarthomes.ie/api/ai/journey-timeline",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "GetEnergyInsights",
+      "description": "Provides energy insights, upgrade impact projections, and efficiency recommendations.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "homeData": { "type": "string", "description": "Home details (age, insulation, heating system)" },
+          "upgradePlan": { "type": "string", "description": "Planned or completed upgrades" }
+        },
+        "required": ["homeData"]
+      },
+      "metadata": {
+        "endpoint": "https://www.ecosmarthomes.ie/api/ai/insights",
+        "method": "POST"
+      }
+    },
+    {
+      "name": "RealtimeBERAdvice",
+      "description": "Provides instant BER advisory and upgrade decision support based on natural language queries.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Natural language question from the user" }
+        },
+        "required": ["query"]
+      },
+      "metadata": {
+        "endpoint": "https://www.ecosmarthomes.ie/api/ai/realtime-ber",
+        "method": "POST"
+      }
+    }
+  ],
+  "rules": {
+    "never_call_dev_endpoints": true,
+    "fallback_behavior": "If intent is unclear, ask one clarifying question before selecting a tool."
+  }
+}
