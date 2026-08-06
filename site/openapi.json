@@ -1,0 +1,191 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "EcoSmartHomes AI Public Skills API",
+    "description": "Public AI Skills API for home energy retrofit advisory, BER assessments, SEAI grant guidance, upgrade timelines, energy insights, and realtime BER decision support in Ireland.",
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://www.ecosmarthomes.ie",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/api/ai/retrofit-advice": {
+      "post": {
+        "summary": "Get Retrofit Advice",
+        "operationId": "GetRetrofitAdvice",
+        "description": "Returns retrofit upgrade recommendations based on home type, BER rating, and homeowner goals.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "homeType": { "type": "string", "example": "Semi-detached" },
+                  "berRating": { "type": "string", "example": "E1" },
+                  "goals": { "type": "string", "example": "Deep retrofit to B2 with heat pump" }
+                },
+                "required": ["homeType", "berRating"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful retrofit advice response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "summary": { "type": "string" },
+                    "upgradePlan": { "type": "array", "items": { "type": "string" } },
+                    "estimatedSavings": { "type": "string" },
+                    "confidence": { "type": "number" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ai/ber-analysis": {
+      "post": {
+        "summary": "Analyze BER Rating",
+        "operationId": "AnalyzeBER",
+        "description": "Returns BER insights, rating weak points, and upgrade pathways.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "berRating": { "type": "string", "example": "D2" },
+                  "homeData": { "type": "string", "example": "Built 1985, cavity walls, oil boiler" }
+                },
+                "required": ["berRating"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful BER analysis response"
+          }
+        }
+      }
+    },
+    "/api/ai/grant-guidance": {
+      "post": {
+        "summary": "Get SEAI Grant Guidance",
+        "operationId": "GetGrantGuidance",
+        "description": "Explains SEAI grant eligibility and optimal upgrade combinations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "upgradePlan": { "type": "string", "example": "Attic insulation and heat pump" },
+                  "homeownerStatus": { "type": "string", "example": "Owner-occupied" }
+                },
+                "required": ["upgradePlan"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful SEAI grant guidance response"
+          }
+        }
+      }
+    },
+    "/api/ai/journey-timeline": {
+      "post": {
+        "summary": "Generate Retrofit Timeline",
+        "operationId": "GenerateTimeline",
+        "description": "Generates a personalized retrofit project timeline.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "upgradePlan": { "type": "string", "example": "Heat pump and solar PV" },
+                  "grantStatus": { "type": "string", "example": "Eligible" }
+                },
+                "required": ["upgradePlan"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful timeline response"
+          }
+        }
+      }
+    },
+    "/api/ai/insights": {
+      "post": {
+        "summary": "Get Energy Insights",
+        "operationId": "GetEnergyInsights",
+        "description": "Provides energy insights and upgrade impact projections.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "homeData": { "type": "string", "example": "Single glazing, solid walls" },
+                  "upgradePlan": { "type": "string", "example": "Triple glazing, external insulation" }
+                },
+                "required": ["homeData"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful energy insights response"
+          }
+        }
+      }
+    },
+    "/api/ai/realtime-ber": {
+      "post": {
+        "summary": "Realtime BER Advice",
+        "operationId": "RealtimeBERAdvice",
+        "description": "Provides instant BER advisory based on natural language queries.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": { "type": "string", "example": "What is the best way to move from F to B2 in Limerick?" }
+                },
+                "required": ["query"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful realtime BER guidance response"
+          }
+        }
+      }
+    }
+  }
+}

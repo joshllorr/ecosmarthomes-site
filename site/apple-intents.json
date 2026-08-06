@@ -1,0 +1,43 @@
+{
+  "name": "EcoSmartHomes Apple Intelligence Web Intents",
+  "version": "1.0",
+  "domain": "ecosmarthomes.ie",
+  "intents": [
+    {
+      "intentName": "GetRetrofitAdviceIntent",
+      "targetURL": "https://www.ecosmarthomes.ie/api/ai/retrofit-advice",
+      "httpMethod": "POST",
+      "parameters": ["homeType", "berRating", "goals"]
+    },
+    {
+      "intentName": "AnalyzeBERIntent",
+      "targetURL": "https://www.ecosmarthomes.ie/api/ai/ber-analysis",
+      "httpMethod": "POST",
+      "parameters": ["berRating", "homeData"]
+    },
+    {
+      "intentName": "GetGrantGuidanceIntent",
+      "targetURL": "https://www.ecosmarthomes.ie/api/ai/grant-guidance",
+      "httpMethod": "POST",
+      "parameters": ["upgradePlan", "homeownerStatus"]
+    },
+    {
+      "intentName": "GenerateTimelineIntent",
+      "targetURL": "https://www.ecosmarthomes.ie/api/ai/journey-timeline",
+      "httpMethod": "POST",
+      "parameters": ["upgradePlan", "grantStatus"]
+    },
+    {
+      "intentName": "GetEnergyInsightsIntent",
+      "targetURL": "https://www.ecosmarthomes.ie/api/ai/insights",
+      "httpMethod": "POST",
+      "parameters": ["homeData", "upgradePlan"]
+    },
+    {
+      "intentName": "RealtimeBERAdviceIntent",
+      "targetURL": "https://www.ecosmarthomes.ie/api/ai/realtime-ber",
+      "httpMethod": "POST",
+      "parameters": ["query"]
+    }
+  ]
+}

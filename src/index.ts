@@ -47,11 +47,11 @@ function serveAgentHealth(headers: Record<string, string>) {
 async function handleContactForm(request: Request, env: any): Promise<Response> {
   try {
     let data;
-    
+
     try {
       const text = await request.text();
       console.log('Received body:', text);
-      
+
       if (!text) {
         return new Response(
           JSON.stringify({ error: 'Empty request body' }),
@@ -64,7 +64,7 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
           }
         );
       }
-      
+
       data = JSON.parse(text);
     } catch (parseError) {
       console.error('JSON parse error:', parseError);
@@ -104,7 +104,7 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
     });
 
     const resendApiKey = env.RESEND_API_KEY;
-    
+
     if (resendApiKey) {
       const emailResponse = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -121,7 +121,7 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
             <h3>New Contact Form Submission</h3>
             <p><strong>Name:</strong> ${data.name}</p>
             <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Phone:</strong> ${data.phone || 'N/A'}</p>
+            <p><strongPhone:</strong> ${data.phone || 'N/A'}</p>
             <p><strong>Topic:</strong> ${data.topic || 'N/A'}</p>
             <p><strong>Message:</strong><br/>${data.message.replace(/\n/g, '<br/>')}</p>
           `
@@ -132,7 +132,7 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
         const errorText = await emailResponse.text();
         console.error('Failed to send email:', errorText);
         return new Response(
-          JSON.stringify({ 
+          JSON.stringify({
             error: 'Email service error. Please try again.',
             details: errorText
           }),
@@ -148,7 +148,7 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
     } else {
       console.warn('RESEND_API_KEY is not set. Email was not sent.');
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: 'Email configuration missing. Please contact support.'
         }),
         {
@@ -160,10 +160,10 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
         }
       );
     }
-    
+
     return new Response(
-      JSON.stringify({ 
-        success: true, 
+      JSON.stringify({
+        success: true,
         message: 'Thank you! We received your enquiry and will get back to you within 24 hours.'
       }),
       {
@@ -178,7 +178,7 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
   } catch (error: any) {
     console.error('Contact form error:', error);
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         error: 'An error occurred processing your request. Please try again later.',
         details: error?.message || 'Unknown error'
       }),
@@ -193,88 +193,6 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
   }
 }
 
-/**
- * Web Crypto HMAC-SHA256 Token Verification Helper for Cloudflare Workers
- */
-/**
- * Web Crypto HMAC-SHA256 Token Verification Helper returning decoded payload or null
- */
-async function verifyDevTokenPayload(tokenStr: string, secretStr: string): Promise<{ id?: string; role?: string; scope?: string[]; expires?: number } | null> {
-  if (!tokenStr || typeof tokenStr !== 'string') return null;
-  const parts = tokenStr.split('.');
-  if (parts.length !== 2) return null;
-
-  const [payloadB64, sigB64] = parts;
-
-  try {
-    const encoder = new TextEncoder();
-    const keyData = encoder.encode(secretStr);
-    const cryptoKey = await crypto.subtle.importKey(
-      'raw',
-      keyData,
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['verify']
-    );
-
-    const signatureBytes = base64UrlToBytes(sigB64);
-    const dataBytes = encoder.encode(payloadB64);
-
-    const isValidSig = await crypto.subtle.verify(
-      'HMAC',
-      cryptoKey,
-      signatureBytes,
-      dataBytes
-    );
-
-    if (!isValidSig) return null;
-
-    const jsonText = new TextDecoder().decode(base64UrlToBytes(payloadB64));
-    const payload = JSON.parse(jsonText);
-
-    const now = Math.floor(Date.now() / 1000);
-    if (payload.expires && payload.expires < now) return null;
-    if (payload.role !== 'developer') return null;
-    if (Array.isArray(payload.scope) && !payload.scope.includes('ai.dev')) return null;
-
-    return payload;
-  } catch (err) {
-    console.error('Token verification error:', err);
-    return null;
-  }
-}
-
-async function fetchTokenRegistry(env: any, request: Request): Promise<{ active: { id: string }[]; revoked: { id: string }[] }> {
-  try {
-    const regUrl = new URL('/data/dev-tokens.json', request.url).toString();
-    const regReq = new Request(regUrl, request);
-    const res = await env.ASSETS.fetch(regReq);
-    if (!res.ok) return { active: [{ id: 'dev-2026-01' }], revoked: [{ id: 'dev-2025-04' }] };
-    return await res.json();
-  } catch (e) {
-    return { active: [{ id: 'dev-2026-01' }], revoked: [{ id: 'dev-2025-04' }] };
-  }
-}
-
-function isTokenActive(id: string | undefined, registry: { active: { id: string }[]; revoked: { id: string }[] }): boolean {
-  if (!id) return true; // Default fallback for un-identified tokens if signature passed
-  const isRevoked = registry.revoked.some(t => t.id === id);
-  if (isRevoked) return false;
-  const isActive = registry.active.some(t => t.id === id);
-  return isActive;
-}
-
-function base64UrlToBytes(b64url: string): Uint8Array {
-  let b64 = b64url.replace(/-/g, '+').replace(/_/g, '/');
-  while (b64.length % 4) b64 += '=';
-  const binary = atob(b64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-  return bytes;
-}
-
 export default {
   async fetch(request: Request, env: any, ctx: any): Promise<Response> {
     const url = new URL(request.url);
@@ -287,162 +205,40 @@ export default {
 
     const accept = request.headers.get("Accept") || "";
     const ua = request.headers.get("User-Agent") || "";
-    const isBrowser = ua.includes("Mozilla") || ua.includes("Chrome") || ua.includes("Safari") || accept.includes("text/html");
-
-    // Extract Developer Token from header or query param
-    const token = request.headers.get("ecosmart-dev-token") || url.searchParams.get("token") || "";
-    const secret = env?.DEV_TOKEN_SECRET || 'ecosmart-dev-secret-2026-key';
-    
-    let devPayload: any = null;
-    let isDevAuthorized = false;
-    if (token) {
-      devPayload = await verifyDevTokenPayload(token, secret);
-      if (devPayload) {
-        const registry = await fetchTokenRegistry(env, request);
-        isDevAuthorized = isTokenActive(devPayload.id, registry);
-      }
-    }
-
-    // Helper: Audit Logging Hook
-    async function logAuditEvent(endpoint: string, result: string, fingerprint: string = "none") {
-      try {
-        const entry = {
-          timestamp: Math.floor(Date.now() / 1000),
-          token_id: devPayload?.id || (isBrowser ? "anonymous-browser" : "anonymous-agent"),
-          endpoint,
-          result,
-          fingerprint,
-          user_agent: (ua || "").substring(0, 120)
-        };
-
-        if (env?.DEV_AUDIT_LOG && typeof env.DEV_AUDIT_LOG.put === 'function') {
-          const res = await fetch("https://www.ecosmarthomes.ie/data/dev-audit.json");
-          const current = res.ok ? await res.json() : [];
-          current.unshift(entry);
-          await env.DEV_AUDIT_LOG.put("dev-audit.json", JSON.stringify(current.slice(0, 500), null, 2));
-        }
-      } catch (err) {
-        console.error("Audit logging failed:", err);
-      }
-    }
+    const isBrowser =
+      ua.includes("Mozilla") ||
+      ua.includes("Chrome") ||
+      ua.includes("Safari") ||
+      accept.includes("text/html");
 
     // 1. Public AI overview page always allowed
     if (url.pathname === '/ai' || url.pathname === '/ai/') {
       return env.ASSETS.fetch(request);
     }
 
-    // 2. Private Developer Portal (/ai/dev/*) — requires valid, active, non-revoked developer token
-    if (url.pathname === "/ai/dev/log-badge-view" && request.method === "POST") {
-      if (!isDevAuthorized) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: corsHeaders });
-      }
-
-      try {
-        const body = await request.json() as any;
-        const eventName = body.event || "developer_badge_visible";
-        const pageName = body.page || "agent-skills.html";
-        const fp = body.fingerprint || "none";
-
-        ctx?.waitUntil?.(logAuditEvent(`/${pageName} (${eventName})`, "200 Authorized (Badge View)", fp));
-        return new Response(JSON.stringify({ status: "Logged" }), { status: 200, headers: corsHeaders });
-    if (url.pathname === "/ai/dev/heartbeat" && request.method === "POST") {
-      if (!isDevAuthorized) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: corsHeaders });
-      }
-
-      try {
-        const body = await request.json() as any;
-        const pageName = body.page || "agent-skills.html";
-        const fp = body.fingerprint || "none";
-        const now = Math.floor(Date.now() / 1000);
-
-        ctx?.waitUntil?.(logAuditEvent(`/${pageName} (developer_heartbeat)`, "200 Authorized (Heartbeat)", fp));
-
-        // Session Duration Store Update
-        ctx?.waitUntil?.((async () => {
-          try {
-            if (env?.DEV_AUDIT_LOG && typeof env.DEV_AUDIT_LOG.put === 'function') {
-              const res = await fetch("https://www.ecosmarthomes.ie/data/dev-sessions.json");
-              const sessions = res.ok ? await res.json() : {};
-              const sessionKey = `${devPayload?.id || 'dev-anon'}:${fp}`;
-
-              if (!sessions[sessionKey]) {
-                sessions[sessionKey] = {
-                  token_id: devPayload?.id || "dev-anon",
-                  fingerprint: fp,
-                  start_time: now,
-                  last_seen: now,
-                  user_agent: (ua || "").substring(0, 120)
-                };
-              } else {
-                sessions[sessionKey].last_seen = now;
-              }
-
-              await env.DEV_AUDIT_LOG.put("dev-sessions.json", JSON.stringify(sessions, null, 2));
-            }
-          } catch (err) {
-            console.error("Session store update failed:", err);
-          }
-        })());
-
-        return new Response(JSON.stringify({ status: "Logged" }), { status: 200, headers: corsHeaders });
-      } catch (err) {
-        return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400, headers: corsHeaders });
-      }
-    }
-
-    // 🔹 Cloudflare AI Telemetry Endpoint (/ai/dev/cf-ai-telemetry)
-    if (url.pathname === "/ai/dev/cf-ai-telemetry" && request.method === "GET") {
-      if (!isDevAuthorized) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: corsHeaders });
-      }
-
-      try {
-        if (env?.CF_ZONE_ID && env?.CF_API_TOKEN) {
-          const cfRes = await fetch(
-            `https://api.cloudflare.com/client/v4/zones/${env.CF_ZONE_ID}/ai/crawl_control/overview`,
-            {
-              headers: {
-                "Authorization": `Bearer ${env.CF_API_TOKEN}`,
-                "Content-Type": "application/json"
-              }
-            }
-          );
-          if (cfRes.ok) {
-            const data = await cfRes.json();
-            return new Response(JSON.stringify(data), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
-          }
-        }
-
-        // Serve local telemetry dataset fallback
-        const localRes = await env.ASSETS.fetch(new Request(new URL('/data/cf-ai-telemetry.json', request.url)));
-        if (localRes.ok) {
-          return new Response(localRes.body, { headers: { ...corsHeaders, "Content-Type": "application/json" } });
-        }
-      } catch (err) {
-        console.error("CF AI telemetry fetch error:", err);
-      }
-
-      return new Response(JSON.stringify({ error: "Telemetry unavailable" }), { status: 500, headers: corsHeaders });
-    }
-
-    if (url.pathname.startsWith('/ai/dev')) {
-      if (!isDevAuthorized) {
-        ctx?.waitUntil?.(logAuditEvent(url.pathname, "403 Unauthorized"));
-        const landingUrl = new URL('/ai/', request.url).toString();
-        return Response.redirect(landingUrl, 302);
-      }
-
-      ctx?.waitUntil?.(logAuditEvent(url.pathname, "200 Authorized"));
-      return env.ASSETS.fetch(request);
-    }
-
-    // 3. Allow /.well-known/* for everyone (AI discovery)
+    // 2. Allow /.well-known/* for everyone (AI discovery)
     if (url.pathname.startsWith("/.well-known/")) {
       return env.ASSETS.fetch(request);
     }
 
-    // 4. Protect all JSON & MD endpoints (/ai/manifest.json, /ai/openapi.json, /api/mcp/manifest.json, /api/upgrades/recommendations.md, /api/oauth/metadata.json)
+    // 3. Protect schema, api data, and internal data directories from unauthorized direct browser navigation
+    if ((url.pathname.startsWith("/schema/") ||
+         url.pathname.startsWith("/api/") ||
+         url.pathname.startsWith("/data/")) &&
+        method === "GET") {
+      const isAgent =
+        ua.includes("GPTBot") ||
+        ua.includes("ClaudeBot") ||
+        ua.includes("PerplexityBot") ||
+        ua.includes("BingAI") ||
+        ua.includes("Google-Extended");
+      if (isBrowser && !isAgent) {
+        const homeUrl = new URL("/", request.url).toString();
+        return Response.redirect(homeUrl, 302);
+      }
+    }
+
+    // 4. AI-related endpoints and discovery
     const aiEndpoints = [
       "/robots.txt",
       "/ai/manifest.json",
@@ -453,32 +249,32 @@ export default {
       "/sitemap.xml"
     ];
 
-    const isAI = ua.includes("AI") || ua.includes("LLM") || ua.includes("ChatGPT") || ua.includes("Gemini") || ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot") || ua.includes("BingAI") || ua.includes("Google-Extended");
+    const isAI =
+      ua.includes("AI") ||
+      ua.includes("LLM") ||
+      ua.includes("ChatGPT") ||
+      ua.includes("Gemini") ||
+      ua.includes("GPTBot") ||
+      ua.includes("ClaudeBot") ||
+      ua.includes("PerplexityBot") ||
+      ua.includes("BingAI") ||
+      ua.includes("Google-Extended");
 
-    if (aiEndpoints.includes(url.pathname) || ((url.pathname.endsWith(".json") || url.pathname.endsWith(".md")) && !url.pathname.startsWith("/.well-known/"))) {
-      if (isBrowser && !isDevAuthorized && !isAI) {
-        ctx?.waitUntil?.(logAuditEvent(url.pathname, "403 Unauthorized (Browser Redirect)"));
+    if (
+      aiEndpoints.includes(url.pathname) ||
+      ((url.pathname.endsWith(".json") || url.pathname.endsWith(".md")) &&
+        !url.pathname.startsWith("/.well-known/"))
+    ) {
+      // For browsers hitting AI JSON/MD directly, gently redirect to /ai
+      if (isBrowser && !isAI) {
         const landingUrl = new URL("/ai/", request.url).toString();
         return Response.redirect(landingUrl, 302);
-      }
-
-      // Log authorized AI agent or developer manifest access
-      if (url.pathname === "/ai/manifest.json" || url.pathname === "/api/mcp/manifest.json" || url.pathname === "/ai/openapi.json") {
-        ctx?.waitUntil?.(logAuditEvent(url.pathname, isDevAuthorized ? "200 Authorized (Dev Token)" : "200 Authorized (AI Agent)"));
-      }
-    }
-
-    // 5. Protect schema, api data, and internal data directories from unauthorized direct browser navigation
-    if ((url.pathname.startsWith("/schema/") || url.pathname.startsWith("/api/") || url.pathname.startsWith("/data/")) && method === "GET") {
-      const isAgent = ua.includes("GPTBot") || ua.includes("ClaudeBot") || ua.includes("PerplexityBot") || ua.includes("BingAI") || ua.includes("Google-Extended");
-      if (isBrowser && !isDevAuthorized && !isAgent) {
-        const homeUrl = new URL("/", request.url).toString();
-        return Response.redirect(homeUrl, 302);
       }
     }
 
     // ⭐ Explicit fail-safe handler for /ai/manifest.json
     if (url.pathname === '/ai/manifest.json') {
+      try {
         const asset = await env.ASSETS.fetch(request);
         if (asset.ok) {
           const enriched = new Response(asset.body, asset);
@@ -489,50 +285,55 @@ export default {
           enriched.headers.set('X-Agent-Readiness', '100');
           return enriched;
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error('Manifest asset fetch error, using inline fallback:', e);
+      }
 
       // Fail-safe inline JSON response matching site/ai/manifest.json
-      return new Response(JSON.stringify({
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "name": "EcoSmartHomes",
-        "version": "1.0.0",
-        "description": "Premium Home Energy Retrofit Advisory in Ireland",
-        "legal_entity": "EcoSmartHomes Ireland",
-        "homepage": "https://ecosmarthomes.ie",
-        "contact": "https://ecosmarthomes.ie/#contact",
-        "skills": [
-          "retrofit-advisory",
-          "BER-analysis",
-          "grant-guidance",
-          "journey-timeline",
-          "upgrade-recommendations",
-          "insights-dashboard"
-        ],
-        "capabilities": {
-          "markdown_responses": true,
-          "mcp_support": true,
-          "oauth_skills": true,
-          "dns_aid_discovery": true,
-          "realtime_ber_advisor": true,
-          "structured_data_negotiation": true
-        },
-        "endpoints": {
-          "agent_skills_page": "https://ecosmarthomes.ie/agent-skills.html",
-          "openapi_spec": "https://ecosmarthomes.ie/ai/openapi.json",
-          "ai_plugin": "https://ecosmarthomes.ie/.well-known/ai-plugin.json",
-          "mcp_manifest": "https://ecosmarthomes.ie/api/mcp/manifest.json",
-          "dns_aid_json": "https://ecosmarthomes.ie/.well-known/dns-aid.json",
-          "oauth_metadata": "https://ecosmarthomes.ie/api/oauth/metadata.json"
+      return new Response(
+        JSON.stringify({
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "name": "EcoSmartHomes",
+          "version": "1.0.0",
+          "description": "Premium Home Energy Retrofit Advisory in Ireland",
+          "legal_entity": "EcoSmartHomes Ireland",
+          "homepage": "https://ecosmarthomes.ie",
+          "contact": "https://ecosmarthomes.ie/#contact",
+          "skills": [
+            "retrofit-advisory",
+            "BER-analysis",
+            "grant-guidance",
+            "journey-timeline",
+            "upgrade-recommendations",
+            "insights-dashboard"
+          ],
+          "capabilities": {
+            "markdown_responses": true,
+            "mcp_support": true,
+            "oauth_skills": true,
+            "dns_aid_discovery": true,
+            "realtime_ber_advisor": true,
+            "structured_data_negotiation": true
+          },
+          "endpoints": {
+            "agent_skills_page": "https://ecosmarthomes.ie/agent-skills.html",
+            "openapi_spec": "https://ecosmarthomes.ie/ai/openapi.json",
+            "ai_plugin": "https://ecosmarthomes.ie/.well-known/ai-plugin.json",
+            "mcp_manifest": "https://ecosmarthomes.ie/api/mcp/manifest.json",
+            "dns_aid_json": "https://ecosmarthomes.ie/.well-known/dns-aid.json",
+            "oauth_metadata": "https://ecosmarthomes.ie/api/oauth/metadata.json"
+          }
+        }, null, 2),
+        {
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Link': linkHeaderValue,
+            'Access-Control-Allow-Origin': '*',
+            'Vary': 'Accept',
+            'X-Agent-Readiness': '100'
+          }
         }
-      }, null, 2), {
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Link': linkHeaderValue,
-          'Access-Control-Allow-Origin': '*',
-          'Vary': 'Accept',
-          'X-Agent-Readiness': '100'
-        }
-      });
+      );
     }
 
     // Force static serving for all other /ai/* endpoints
@@ -600,12 +401,15 @@ export default {
     // 5. Try serving static assets directly from site/ folder via env.ASSETS
     try {
       const assetResponse = await env.ASSETS.fetch(request);
-      
+
       if (assetResponse.status !== 404) {
         // Server-Side Sanitization for Public Browsers on /agent-skills.html
-        if (url.pathname === '/agent-skills.html' && isBrowser && !isDevAuthorized) {
+        if (url.pathname === '/agent-skills.html' && isBrowser) {
           const htmlText = await assetResponse.text();
-          const sanitizedHtml = htmlText.replace(/<div class="standards-section ai-standards-section">[\s\S]*?<\/table>\s*<\/div>\s*<\/div>/i, '');
+          const sanitizedHtml = htmlText.replace(
+            /<div class="standards-section ai-standards-section">[\s\S]*?<\/table>\s*<\/div>\s*<\/div>/i,
+            ''
+          );
           const sanitizedResponse = new Response(sanitizedHtml, {
             status: assetResponse.status,
             headers: assetResponse.headers
@@ -631,7 +435,11 @@ export default {
           enriched.headers.set('Content-Type', 'text/plain; charset=utf-8');
         } else if (url.pathname === '/.well-known/api-catalog') {
           enriched.headers.set('Content-Type', 'application/linkset+json; charset=utf-8');
-        } else if (url.pathname === '/ai/manifest.json' || url.pathname === '/api/mcp/manifest.json' || url.pathname === '/ai/openapi.json') {
+        } else if (
+          url.pathname === '/ai/manifest.json' ||
+          url.pathname === '/api/mcp/manifest.json' ||
+          url.pathname === '/ai/openapi.json'
+        ) {
           enriched.headers.set('Content-Type', 'application/json; charset=utf-8');
           enriched.headers.set('X-EcoSmart-Access', 'Restricted');
           enriched.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
@@ -655,39 +463,5 @@ export default {
     }
 
     return new Response('Not Found', { status: 404, headers: corsHeaders });
-  },
-
-  async scheduled(event: any, env: any, ctx: any) {
-    ctx.waitUntil(rotateAuditLogs(env));
   }
 };
-
-async function rotateAuditLogs(env: any) {
-  try {
-    const now = Math.floor(Date.now() / 1000);
-    const THIRTY_DAYS = 30 * 24 * 60 * 60;
-
-    const res = await fetch("https://www.ecosmarthomes.ie/data/dev-audit.json");
-    const current = res.ok ? await res.json() : [];
-
-    const recent = current.filter((e: any) => now - e.timestamp <= THIRTY_DAYS);
-    const archive = current.filter((e: any) => now - e.timestamp > THIRTY_DAYS);
-
-    if (env?.DEV_AUDIT_LOG && typeof env.DEV_AUDIT_LOG.put === 'function') {
-      await env.DEV_AUDIT_LOG.put("dev-audit.json", JSON.stringify(recent, null, 2));
-    }
-
-    if (archive.length > 0 && env?.DEV_AUDIT_ARCHIVE && typeof env.DEV_AUDIT_ARCHIVE.put === 'function') {
-      const monthKey = new Date().toISOString().slice(0, 7);
-      const archiveName = `dev-audit-${monthKey}.json`;
-
-      const existingArchive = await env.DEV_AUDIT_ARCHIVE.get(archiveName);
-      const archiveData = existingArchive ? JSON.parse(existingArchive) : [];
-      archiveData.push(...archive);
-
-      await env.DEV_AUDIT_ARCHIVE.put(archiveName, JSON.stringify(archiveData, null, 2));
-    }
-  } catch (err) {
-    console.error("Audit rotation failed:", err);
-  }
-}

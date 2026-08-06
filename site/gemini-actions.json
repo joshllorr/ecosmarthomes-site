@@ -1,0 +1,72 @@
+{
+  "name": "EcoSmartHomesAI",
+  "description": "Google Gemini Actions configuration for EcoSmartHomes home energy retrofit advisory, BER analysis, SEAI grants, upgrade timelines, energy insights, and realtime BER guidance.",
+  "actions": [
+    {
+      "intent": "retrofit.plan",
+      "action_name": "GetRetrofitAdvice",
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/retrofit-advice",
+      "method": "POST",
+      "parameters": {
+        "homeType": { "type": "STRING", "description": "Detached, semi-detached, terrace, apartment, etc." },
+        "berRating": { "type": "STRING", "description": "Current BER rating (G-A)" },
+        "goals": { "type": "STRING", "description": "Comfort, savings, grants, deep retrofit" }
+      },
+      "required": ["homeType", "berRating"]
+    },
+    {
+      "intent": "ber.explain",
+      "action_name": "AnalyzeBER",
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/ber-analysis",
+      "method": "POST",
+      "parameters": {
+        "berRating": { "type": "STRING", "description": "Current BER rating" },
+        "homeData": { "type": "STRING", "description": "Optional home details (age, insulation, heating system)" }
+      },
+      "required": ["berRating"]
+    },
+    {
+      "intent": "grant.check",
+      "action_name": "GetGrantGuidance",
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/grant-guidance",
+      "method": "POST",
+      "parameters": {
+        "upgradePlan": { "type": "STRING", "description": "Planned upgrades" },
+        "homeownerStatus": { "type": "STRING", "description": "Owner-occupied, landlord, tenant" }
+      },
+      "required": ["upgradePlan"]
+    },
+    {
+      "intent": "timeline.generate",
+      "action_name": "GenerateTimeline",
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/journey-timeline",
+      "method": "POST",
+      "parameters": {
+        "upgradePlan": { "type": "STRING", "description": "Chosen upgrade path" },
+        "grantStatus": { "type": "STRING", "description": "Eligible, pending, approved, not eligible" }
+      },
+      "required": ["upgradePlan"]
+    },
+    {
+      "intent": "insights.energy",
+      "action_name": "GetEnergyInsights",
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/insights",
+      "method": "POST",
+      "parameters": {
+        "homeData": { "type": "STRING", "description": "Home details" },
+        "upgradePlan": { "type": "STRING", "description": "Planned or completed upgrades" }
+      },
+      "required": ["homeData"]
+    },
+    {
+      "intent": "ber.realtime",
+      "action_name": "RealtimeBERAdvice",
+      "endpoint": "https://www.ecosmarthomes.ie/api/ai/realtime-ber",
+      "method": "POST",
+      "parameters": {
+        "query": { "type": "STRING", "description": "Natural language question from the user" }
+      },
+      "required": ["query"]
+    }
+  ]
+}
