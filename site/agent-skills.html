@@ -15,6 +15,112 @@
   <link rel="mcp-manifest" type="application/json" href="/api/mcp/manifest.json" />
   <link rel="alternate" type="text/markdown" href="/api/upgrades/recommendations.md" title="EcoSmartHomes Upgrade Recommendations (Markdown)" />
 
+  <!-- EcoSmartHomes — AI Skill Manifest JSON-LD (Public, Safe) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebAPI",
+        "name": "Retrofit Advisory Skill",
+        "description": "AI skill providing tailored retrofit guidance including insulation, heat pumps, solar PV, and upgrade pathways.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "EcoSmartHomes",
+          "url": "https://www.ecosmarthomes.ie"
+        },
+        "documentation": "https://www.ecosmarthomes.ie/agent-skills#retrofit-advisory",
+        "potentialAction": {
+          "@type": "Action",
+          "name": "GetRetrofitAdvice",
+          "description": "Returns retrofit upgrade recommendations based on home type, BER rating, and homeowner goals.",
+          "target": "https://www.ecosmarthomes.ie/api/ai/retrofit-advice"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "BER Analysis Skill",
+        "description": "AI skill that interprets BER ratings, identifies upgrade opportunities, and estimates BER improvements.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "EcoSmartHomes"
+        },
+        "documentation": "https://www.ecosmarthomes.ie/agent-skills#ber-analysis",
+        "potentialAction": {
+          "@type": "Action",
+          "name": "AnalyzeBER",
+          "description": "Returns BER insights and upgrade pathways based on current BER rating and home characteristics.",
+          "target": "https://www.ecosmarthomes.ie/api/ai/ber-analysis"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "Grant Guidance Skill",
+        "description": "AI skill that explains SEAI grants, eligibility, documentation, and optimal upgrade combinations.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "EcoSmartHomes"
+        },
+        "documentation": "https://www.ecosmarthomes.ie/agent-skills#grant-guidance",
+        "potentialAction": {
+          "@type": "Action",
+          "name": "GetGrantGuidance",
+          "description": "Returns SEAI grant eligibility and recommended upgrade bundles.",
+          "target": "https://www.ecosmarthomes.ie/api/ai/grant-guidance"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "Journey Timeline Skill",
+        "description": "AI skill that generates a personalized retrofit timeline from assessment to BER certification.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "EcoSmartHomes"
+        },
+        "documentation": "https://www.ecosmarthomes.ie/agent-skills#journey-timeline",
+        "potentialAction": {
+          "@type": "Action",
+          "name": "GenerateTimeline",
+          "description": "Returns a step-by-step retrofit timeline based on homeowner goals and upgrade plan.",
+          "target": "https://www.ecosmarthomes.ie/api/ai/journey-timeline"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "Insights Dashboard Skill",
+        "description": "AI skill providing real-time home energy insights, upgrade impact projections, and efficiency recommendations.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "EcoSmartHomes"
+        },
+        "documentation": "https://www.ecosmarthomes.ie/agent-skills#insights-dashboard",
+        "potentialAction": {
+          "@type": "Action",
+          "name": "GetEnergyInsights",
+          "description": "Returns energy insights and upgrade impact projections.",
+          "target": "https://www.ecosmarthomes.ie/api/ai/insights"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "Realtime BER Advisor Skill",
+        "description": "AI skill offering instant BER advisory and upgrade decision support.",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "EcoSmartHomes"
+        },
+        "documentation": "https://www.ecosmarthomes.ie/agent-skills#realtime-ber-advisor",
+        "potentialAction": {
+          "@type": "Action",
+          "name": "RealtimeBERAdvice",
+          "description": "Returns real-time BER advisory based on homeowner questions.",
+          "target": "https://www.ecosmarthomes.ie/api/ai/realtime-ber"
+        }
+      }
+    ]
+  }
+  </script>
+
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
