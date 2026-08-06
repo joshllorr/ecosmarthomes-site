@@ -956,6 +956,80 @@ sequenceDiagram
     </div>
   </section>
 
+  <!-- AI ECOSYSTEM HEATMAP (MERMAID) -->
+  <section id="aiEcosystemHeatmapPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🔥 AI Ecosystem Activity Heatmap</h2>
+      <div style="display:flex; gap:8px; font-size:0.8rem;">
+        <span class="badge-ok" style="background:#ff4d4d; color:#fff;">Hot</span>
+        <span class="badge-ok" style="background:#ffa64d; color:#fff;">Warm</span>
+        <span class="badge-ok" style="background:#4da6ff; color:#fff;">Cool</span>
+        <span class="badge-ok" style="background:#7f7f7f; color:#fff;">Cold</span>
+      </div>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+flowchart TB
+
+    classDef hot fill:#ff4d4d,stroke:#b30000,color:#fff
+    classDef warm fill:#ffa64d,stroke:#cc7a00,color:#fff
+    classDef cool fill:#4da6ff,stroke:#0059b3,color:#fff
+    classDef cold fill:#7f7f7f,stroke:#404040,color:#fff
+
+    subgraph Public_Skills["Public AI Skills (User & Agent Facing)"]
+        Retrofit["Retrofit Advisory Skill"]
+        BER["BER Analysis Skill"]
+        Grants["Grant Guidance Skill"]
+        Timeline["Journey Timeline Skill"]
+        Insights["Insights Dashboard Skill"]
+        RealtimeBER["Realtime BER Advisor Skill"]
+    end
+
+    subgraph Dev_APIs["Developer-Only Worker APIs"]
+        DevRouter["/ai/dev/route-skill"]
+        DevToken["/ai/dev/validate-token"]
+        DevHeartbeat["/ai/dev/heartbeat"]
+        AITelemetry["/ai/dev/cf-ai-telemetry"]
+        ManifestLog["/ai/dev/log-manifest-access"]
+        UnauthorizedLog["/ai/dev/log-unauthorized"]
+    end
+
+    subgraph Cloudflare["Cloudflare AI Shield Pro"]
+        CFAllowed["Allowed Bots"]
+        CFBlocked["Blocked Bots"]
+        CFHTML["HTML MB"]
+        CFReferrals["Referrals"]
+    end
+
+    subgraph Data["Local Telemetry Dataset"]
+        LocalTelemetry["cf-ai-telemetry.json"]
+    end
+
+    %% Heatmap Activity Levels
+    class Retrofit hot
+    class BER warm
+    class Grants warm
+    class Timeline warm
+    class Insights warm
+    class RealtimeBER hot
+
+    class DevRouter hot
+    class DevToken warm
+    class DevHeartbeat warm
+    class AITelemetry hot
+    class ManifestLog warm
+    class UnauthorizedLog cool
+
+    class CFAllowed warm
+    class CFBlocked cool
+    class CFHTML warm
+    class CFReferrals cool
+
+    class LocalTelemetry cold
+      </div>
+    </div>
+  </section>
+
   <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
   <section class="audit-charts">
     <h2>📊 Real-Time Access Analytics</h2>
