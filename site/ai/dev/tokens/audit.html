@@ -246,6 +246,7 @@
         <select id="filter-type">
           <option value="all">All Events</option>
           <option value="manifest">Manifest Access Only</option>
+          <option value="badge">Developer Badge Views</option>
           <option value="ai">AI Agents Only</option>
           <option value="developer">Developer Access Only</option>
           <option value="unauthorized">Unauthorized Attempts Only</option>
@@ -410,6 +411,8 @@
       let matchType = true;
       if (filterType === 'manifest') {
         matchType = entry.endpoint.includes('manifest');
+      } else if (filterType === 'badge') {
+        matchType = entry.endpoint.includes('badge') || entry.result.includes('Badge View');
       } else if (filterType === 'ai') {
         matchType = isAI;
       } else if (filterType === 'developer') {

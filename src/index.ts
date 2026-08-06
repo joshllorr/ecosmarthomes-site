@@ -331,6 +331,23 @@ export default {
     }
 
     // 2. Private Developer Portal (/ai/dev/*) — requires valid, active, non-revoked developer token
+    if (url.pathname === "/ai/dev/log-badge-view" && request.method === "POST") {
+      if (!isDevAuthorized) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: corsHeaders });
+      }
+
+      try {
+        const body = await request.json() as any;
+        const eventName = body.event || "developer_badge_visible";
+        const pageName = body.page || "agent-skills.html";
+
+        ctx?.waitUntil?.(logAuditEvent(`/${pageName} (${eventName})`, "200 Authorized (Badge View)"));
+        return new Response(JSON.stringify({ status: "Logged" }), { status: 200, headers: corsHeaders });
+      } catch (err) {
+        return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400, headers: corsHeaders });
+      }
+    }
+
     if (url.pathname.startsWith('/ai/dev')) {
       if (!isDevAuthorized) {
         ctx?.waitUntil?.(logAuditEvent(url.pathname, "403 Unauthorized"));

@@ -1141,6 +1141,21 @@
         aiStandardsSec.style.display = 'block';
         if (!document.querySelector('.dev-badge')) {
           document.body.insertAdjacentHTML('beforeend', '<div class="dev-badge">🔒 Internal Developer View</div>');
+          
+          // Log developer badge view event to audit trail
+          try {
+            fetch('/ai/dev/log-badge-view', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'ecosmart-dev-token': devToken
+              },
+              body: JSON.stringify({
+                event: 'developer_badge_visible',
+                page: 'agent-skills.html'
+              })
+            }).catch(err => console.error('Badge audit log fetch failed:', err));
+          } catch (e) {}
         }
       }
     }
