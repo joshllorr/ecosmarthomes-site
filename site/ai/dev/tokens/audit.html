@@ -833,6 +833,75 @@ classDiagram
     </div>
   </section>
 
+  <!-- AI WORKER ENDPOINT MAP NETWORK DIAGRAM (MERMAID) -->
+  <section id="aiWorkerEndpointMapPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🕸️ AI Worker Endpoint Network Map & Telemetry Flow</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Worker Topology</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+graph LR
+
+    %% === PUBLIC AI ENDPOINTS ===
+    subgraph Public_APIs["Public AI Skill APIs"]
+        RetrofitAPI["POST /api/ai/retrofit-advice"]
+        BERAPI["POST /api/ai/ber-analysis"]
+        GrantAPI["POST /api/ai/grant-guidance"]
+        TimelineAPI["POST /api/ai/journey-timeline"]
+        InsightsAPI["POST /api/ai/insights"]
+        RealtimeBERAPI["POST /api/ai/realtime-ber"]
+    end
+
+    %% === INTERNAL DEV ENDPOINTS ===
+    subgraph Dev_APIs["Developer-Only Worker APIs"]
+        DevRouter["POST /ai/dev/route-skill"]
+        DevToken["POST /ai/dev/validate-token"]
+        DevHeartbeat["POST /ai/dev/heartbeat"]
+        AITelemetry["GET /ai/dev/cf-ai-telemetry"]
+        ManifestLog["POST /ai/dev/log-manifest-access"]
+        UnauthorizedLog["POST /ai/dev/log-unauthorized"]
+    end
+
+    %% === DATA SOURCES ===
+    subgraph DataSources["Telemetry Sources"]
+        CFShield["Cloudflare AI Shield Pro API"]
+        LocalTelemetry["cf-ai-telemetry.json (local fallback)"]
+    end
+
+    %% === ROUTING FLOW ===
+    UserIntent["User / AI Agent Intent"]
+    UserIntent --> RetrofitAPI
+    UserIntent --> BERAPI
+    UserIntent --> GrantAPI
+    UserIntent --> TimelineAPI
+    UserIntent --> InsightsAPI
+    UserIntent --> RealtimeBERAPI
+
+    %% Internal routing
+    UserIntent --> DevRouter
+    DevRouter --> RetrofitAPI
+    DevRouter --> BERAPI
+    DevRouter --> GrantAPI
+    DevRouter --> TimelineAPI
+    DevRouter --> InsightsAPI
+    DevRouter --> RealtimeBERAPI
+
+    %% Token gate
+    DevRouter --> DevToken
+
+    %% Telemetry + logs
+    DevRouter --> ManifestLog
+    DevRouter --> UnauthorizedLog
+    DevHeartbeat --> DevRouter
+
+    %% Cloudflare telemetry ingestion
+    AITelemetry --> CFShield
+    AITelemetry --> LocalTelemetry
+      </div>
+    </div>
+  </section>
+
   <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
   <section class="audit-charts">
     <h2>📊 Real-Time Access Analytics</h2>
