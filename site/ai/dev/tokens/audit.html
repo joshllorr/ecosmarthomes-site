@@ -18,6 +18,16 @@
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  <!-- Mermaid.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof mermaid !== "undefined") {
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+      }
+    });
+  </script>
+
   <!-- 🔒 Private JSON-LD Manifest (Full Bundle - Developer-Only) -->
   <script id="private-ai-manifest" type="application/ld+json">
   {
@@ -620,6 +630,80 @@
           <!-- Populated dynamically -->
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- COMPACT AI AGENT ROUTING GRAPH (MERMAID) -->
+  <section id="aiRoutingGraphPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🗺️ AI Agent Routing Graph & Orchestration Topology</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Compact & Drop-In Ready</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+graph TD
+    %% Entry Points
+    UserIntent["User / AI Agent Intent"]
+    WebUI["Web UI (agent-skills, ber-advisor, ai assistant)"]
+    PublicAPI["Public AI Skill APIs"]
+
+    %% Public Skills
+    Retrofit["Retrofit Advisory Skill"]
+    BER["BER Analysis Skill"]
+    Grants["Grant Guidance Skill"]
+    Timeline["Journey Timeline Skill"]
+    Insights["Insights Dashboard Skill"]
+    RealtimeBER["Realtime BER Advisor Skill"]
+
+    %% Internal Dev APIs
+    DevRouter["Internal Skill Router (/ai/dev/route-skill)"]
+    DevToken["Dev Token Validation (/ai/dev/validate-token)"]
+    DevHeartbeat["Developer Heartbeat (/ai/dev/heartbeat)"]
+    AITelemetry["AI Crawler Telemetry (/ai/dev/cf-ai-telemetry)"]
+    ManifestLog["Manifest Access Log (/ai/dev/log-manifest-access)"]
+    UnauthorizedLog["Unauthorized Access Log (/ai/dev/log-unauthorized)"]
+
+    %% Data Sources
+    CFShield["Cloudflare AI Shield Pro"]
+    LocalTelemetry["Local Telemetry Dataset (cf-ai-telemetry.json)"]
+
+    %% Entry Flow
+    UserIntent --> WebUI
+    UserIntent --> PublicAPI
+
+    %% Public API Routing
+    PublicAPI --> Retrofit
+    PublicAPI --> BER
+    PublicAPI --> Grants
+    PublicAPI --> Timeline
+    PublicAPI --> Insights
+    PublicAPI --> RealtimeBER
+
+    %% Internal Routing (Dev Only)
+    UserIntent --> DevRouter
+    DevRouter --> Retrofit
+    DevRouter --> BER
+    DevRouter --> Grants
+    DevRouter --> Timeline
+    DevRouter --> Insights
+    DevRouter --> RealtimeBER
+
+    %% Dev Token Gate
+    DevRouter --> DevToken
+
+    %% Telemetry & Logging
+    DevRouter --> ManifestLog
+    DevRouter --> UnauthorizedLog
+    DevHeartbeat --> DevRouter
+
+    %% AI Crawler Telemetry
+    AITelemetry --> CFShield
+    AITelemetry --> LocalTelemetry
+
+    %% Dashboard
+    DevRouter --> AITelemetry
+    DevRouter --> DevHeartbeat
+      </div>
     </div>
   </section>
 
