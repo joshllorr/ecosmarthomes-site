@@ -219,6 +219,41 @@
       width: 100%;
       max-height: 260px;
     }
+
+    /* Session Duration Panel */
+    .session-duration-panel {
+      margin-top: 32px;
+      padding: 24px;
+      background: linear-gradient(145deg, #0b2e1f, #0f3a28);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.2);
+      border: 1px solid rgba(0, 255, 128, 0.3);
+      color: #e8f5e9;
+    }
+
+    .session-duration-panel h3 {
+      color: #00ff80;
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    #sessionDurationTable {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    #sessionDurationTable th {
+      color: #00ff80;
+      background: rgba(0, 255, 128, 0.1);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    #sessionDurationTable td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0, 255, 128, 0.15);
+    }
   </style>
 </head>
 <body>
@@ -334,6 +369,27 @@
     </div>
   </section>
 
+  <!-- DEVELOPER SESSION DURATION PANEL -->
+  <section id="sessionDurationPanel" class="session-duration-panel">
+    <h3>⏱️ Active Developer Session Durations</h3>
+    <div style="overflow-x: auto;">
+      <table id="sessionDurationTable">
+        <thead>
+          <tr>
+            <th>Token ID</th>
+            <th>Fingerprint</th>
+            <th>Started</th>
+            <th>Last Seen</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
   <section class="audit-charts">
     <h2>📊 Real-Time Access Analytics</h2>
@@ -391,6 +447,49 @@
     if (countEl) countEl.textContent = uniqueSessions.size;
   }
 
+  async function loadSessions() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = localStorage.getItem('ecosmart-dev-token') || urlParams.get('token') || '';
+
+      const res = await fetch('../../data/dev-sessions.json');
+      if (res.ok) {
+        const sessions = await res.json();
+        updateSessionDurationDisplay(sessions);
+      }
+    } catch (e) {
+      console.error('Failed to load session store:', e);
+    }
+  }
+
+  function updateSessionDurationDisplay(sessions) {
+    const tbody = document.querySelector("#sessionDurationTable tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    const sessionList = Object.values(sessions || {});
+    if (sessionList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#64748b;">No active developer sessions tracked yet.</td></tr>';
+      return;
+    }
+
+    sessionList.forEach(s => {
+      const durationSec = Math.max(0, s.last_seen - s.start_time);
+      const duration = new Date(durationSec * 1000).toISOString().substr(11, 8);
+      const fp = s.fingerprint && s.fingerprint !== 'none' ? s.fingerprint.substring(0, 12) + '...' : '—';
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><span class="token-id">${s.token_id}</span></td>
+        <td><span class="token-id" style="font-size:0.75rem; background:#f1f5f9; color:#475569;" title="${s.fingerprint || 'none'}">${fp}</span></td>
+        <td>${new Date(s.start_time * 1000).toLocaleTimeString()}</td>
+        <td>${new Date(s.last_seen * 1000).toLocaleTimeString()}</td>
+        <td><span class="badge-ok" style="font-family:'Fira Code',monospace;">${duration}</span></td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
   async function loadAudit() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -401,6 +500,7 @@
       applyCurrentFilters();
       updateCharts(auditData);
       updateDeveloperOnlineIndicator(auditData);
+      loadSessions();
     } catch (e) {
       console.error('Failed to load audit trail:', e);
     }

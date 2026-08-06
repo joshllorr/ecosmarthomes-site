@@ -354,8 +354,37 @@ export default {
         const body = await request.json() as any;
         const pageName = body.page || "agent-skills.html";
         const fp = body.fingerprint || "none";
+        const now = Math.floor(Date.now() / 1000);
 
         ctx?.waitUntil?.(logAuditEvent(`/${pageName} (developer_heartbeat)`, "200 Authorized (Heartbeat)", fp));
+
+        // Session Duration Store Update
+        ctx?.waitUntil?.((async () => {
+          try {
+            if (env?.DEV_AUDIT_LOG && typeof env.DEV_AUDIT_LOG.put === 'function') {
+              const res = await fetch("https://www.ecosmarthomes.ie/data/dev-sessions.json");
+              const sessions = res.ok ? await res.json() : {};
+              const sessionKey = `${devPayload?.id || 'dev-anon'}:${fp}`;
+
+              if (!sessions[sessionKey]) {
+                sessions[sessionKey] = {
+                  token_id: devPayload?.id || "dev-anon",
+                  fingerprint: fp,
+                  start_time: now,
+                  last_seen: now,
+                  user_agent: (ua || "").substring(0, 120)
+                };
+              } else {
+                sessions[sessionKey].last_seen = now;
+              }
+
+              await env.DEV_AUDIT_LOG.put("dev-sessions.json", JSON.stringify(sessions, null, 2));
+            }
+          } catch (err) {
+            console.error("Session store update failed:", err);
+          }
+        })());
+
         return new Response(JSON.stringify({ status: "Logged" }), { status: 200, headers: corsHeaders });
       } catch (err) {
         return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400, headers: corsHeaders });
