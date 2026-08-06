@@ -26,6 +26,12 @@
       "id": "834d32b368064d139c657cbd28e12933"
     }
   ],
+  "r2_buckets": [
+    {
+      "binding": "MY_SEARCH",
+      "bucket_name": "ecosmart-articles"
+    }
+  ],
   "triggers": {
     "crons": ["0 3 * * *"]
   }
