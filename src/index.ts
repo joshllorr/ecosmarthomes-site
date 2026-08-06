@@ -548,7 +548,7 @@ export default {
       console.error('ASSETS fetch error:', e);
     }
 
-    // 8. Article Markdown → HTML rendering
+    // 8. Article Markdown → HTML rendering with rich per-article SEO metadata
     if (url.pathname.startsWith('/articles/') && method === 'GET') {
       const rawSlug = url.pathname.replace('/articles/', '').replace('.html', '');
 
@@ -569,7 +569,77 @@ export default {
           if (assetResponse.ok) {
             const mdText = await assetResponse.text();
             const htmlBody = renderMarkdownToHtml(mdText);
-            const titleFormatted = rawSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+            // Fetch article feed metadata for rich SEO tags
+            let feed: any[] = [];
+            if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.get === 'function') {
+              try {
+                const stored = await env.ARTICLES_FEED.get("articles.json");
+                if (stored) feed = JSON.parse(stored);
+              } catch (e) {}
+            }
+            if (!feed || feed.length === 0) {
+              feed = [
+                {
+                  title: "Raising BER from G to A",
+                  slug: "raising-ber-g-to-a",
+                  summary: "A practical roadmap for Irish homeowners upgrading from BER G to A.",
+                  date: "2026-08-01",
+                  hero: "/imgs/ber-improvements-visual.svg",
+                  tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"]
+                },
+                {
+                  title: "Carbon Tax 2026 Explained",
+                  slug: "carbon-tax-2026",
+                  summary: "What Irish homeowners need to know about the 2026 carbon tax changes.",
+                  date: "2026-07-20",
+                  hero: "/imgs/Grant Eligibility & Readiness Audit.jpg",
+                  tags: ["Carbon Tax", "Energy Costs", "Grants"]
+                },
+                {
+                  title: "Full Retrofit Roadmap",
+                  slug: "retrofit-roadmap",
+                  summary: "How to plan, budget, and execute a full home energy retrofit.",
+                  date: "2026-07-10",
+                  hero: "/imgs/Full Retrofit Roadmap.png",
+                  tags: ["Retrofit Roadmap", "Heat Pump", "Solar PV"]
+                }
+              ];
+            }
+
+            const article = feed.find((a: any) => a.slug === rawSlug);
+            const titleFormatted = article?.title || rawSlug.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            const summaryText = article?.summary || "Comprehensive home energy retrofit guidance from EcoSmartHomes Ireland.";
+            const heroImage = article?.hero || "/imgs/hero_home.svg";
+            const pubDate = article?.date || "2026-08-01";
+            const canonicalUrl = `https://ecosmarthomes.ie/articles/${rawSlug}.html`;
+            const fullHeroUrl = heroImage.startsWith("http") ? heroImage : `https://ecosmarthomes.ie${heroImage}`;
+
+            const articleJsonLd = {
+              "@context": "https://schema.org",
+              "@type": "Article",
+              "headline": titleFormatted,
+              "description": summaryText,
+              "image": fullHeroUrl,
+              "datePublished": pubDate,
+              "author": {
+                "@type": "Organization",
+                "name": "EcoSmartHomes Ireland",
+                "url": "https://ecosmarthomes.ie"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "EcoSmartHomes Ireland",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://ecosmarthomes.ie/imgs/logo.svg"
+                }
+              },
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": canonicalUrl
+              }
+            };
 
             const fullHtml = `<!DOCTYPE html>
 <html lang="en">
@@ -577,6 +647,27 @@ export default {
   <meta charset="utf-8">
   <title>${titleFormatted} | EcoSmartHomes Articles</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="${summaryText}">
+  <link rel="canonical" href="${canonicalUrl}">
+
+  <!-- OpenGraph Meta Tags -->
+  <meta property="og:title" content="${titleFormatted}">
+  <meta property="og:description" content="${summaryText}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="${canonicalUrl}">
+  <meta property="og:image" content="${fullHeroUrl}">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${titleFormatted}">
+  <meta name="twitter:description" content="${summaryText}">
+  <meta name="twitter:image" content="${fullHeroUrl}">
+
+  <!-- JSON-LD Article Schema -->
+  <script type="application/ld+json">
+  ${JSON.stringify(articleJsonLd, null, 2)}
+  </script>
+
   <link rel="stylesheet" href="/css/styles.css?v=2">
   <style>
     .article-container {
@@ -598,6 +689,14 @@ export default {
       text-decoration: none;
       font-weight: 600;
     }
+    .article-hero-banner {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
     .article-body h1 { color: #003f2d; font-size: 2.2rem; margin-top: 20px; }
     .article-body h2 { color: #007f50; font-size: 1.6rem; margin-top: 30px; border-bottom: 2px solid #e6f4ef; padding-bottom: 6px; }
     .article-body h3 { color: #003f2d; font-size: 1.3rem; margin-top: 24px; }
@@ -614,6 +713,7 @@ export default {
     <a href="/index.html">EcoSmartHomes Home</a>
   </nav>
   <main class="article-container article-body">
+    ${heroImage ? `<img src="${heroImage}" alt="${titleFormatted}" class="article-hero-banner">` : ''}
     ${htmlBody}
   </main>
   <footer style="background:#002d20; color:#fff; text-align:center; padding:30px 20px; font-size:0.9rem;">
