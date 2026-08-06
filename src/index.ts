@@ -363,9 +363,25 @@ export default {
       return serveAgentHealth(corsHeaders);
     }
 
-    // 7. Articles Feed Endpoint (JSON)
+    // 7. Articles Feed Endpoint (JSON KV Backed)
     if ((url.pathname === '/api/articles-feed' || url.pathname === '/api/articles') && method === 'GET') {
-      const articles = [
+      if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.get === 'function') {
+        try {
+          const stored = await env.ARTICLES_FEED.get("articles.json");
+          if (stored) {
+            return new Response(stored, {
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+                ...corsHeaders
+              }
+            });
+          }
+        } catch (e) {
+          console.error("Error reading ARTICLES_FEED from KV:", e);
+        }
+      }
+
+      const defaultArticles = [
         {
           title: "Raising BER from G to A",
           slug: "raising-ber-g-to-a",
@@ -395,7 +411,7 @@ export default {
         }
       ];
 
-      return new Response(JSON.stringify(articles, null, 2), {
+      return new Response(JSON.stringify(defaultArticles, null, 2), {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           ...corsHeaders
@@ -506,5 +522,50 @@ export default {
     }
 
     return new Response('Not Found', { status: 404, headers: corsHeaders });
+  },
+
+  async scheduled(event: any, env: any, ctx: any): Promise<void> {
+    ctx.waitUntil(refreshArticlesFeed(env));
   }
 };
+
+async function refreshArticlesFeed(env: any) {
+  try {
+    const articles = [
+      {
+        title: "Raising BER from G to A",
+        slug: "raising-ber-g-to-a",
+        summary: "A practical roadmap for Irish homeowners upgrading from BER G to A.",
+        date: new Date().toISOString().split('T')[0],
+        hero: "/imgs/ber-improvements-visual.svg",
+        tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"],
+        created_at: new Date().toISOString()
+      },
+      {
+        title: "Carbon Tax 2026 Explained",
+        slug: "carbon-tax-2026",
+        summary: "What Irish homeowners need to know about the 2026 carbon tax changes.",
+        date: new Date().toISOString().split('T')[0],
+        hero: "/imgs/Grant Eligibility & Readiness Audit.jpg",
+        tags: ["Carbon Tax", "Energy Costs", "Grants"],
+        created_at: new Date().toISOString()
+      },
+      {
+        title: "Full Retrofit Roadmap",
+        slug: "retrofit-roadmap",
+        summary: "How to plan, budget, and execute a full home energy retrofit.",
+        date: new Date().toISOString().split('T')[0],
+        hero: "/imgs/Full Retrofit Roadmap.png",
+        tags: ["Retrofit Roadmap", "Heat Pump", "Solar PV"],
+        created_at: new Date().toISOString()
+      }
+    ];
+
+    if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.put === 'function') {
+      await env.ARTICLES_FEED.put("articles.json", JSON.stringify(articles, null, 2));
+      console.log("Articles feed refreshed in KV storage");
+    }
+  } catch (err) {
+    console.error("Scheduled refresh failed:", err);
+  }
+}

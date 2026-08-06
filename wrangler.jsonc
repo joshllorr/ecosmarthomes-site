@@ -11,5 +11,14 @@
   },
   "compatibility_flags": [
     "nodejs_compat"
-  ]
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "ARTICLES_FEED",
+      "id": "ARTICLES_FEED_KV_ID"
+    }
+  ],
+  "triggers": {
+    "crons": ["0 3 * * *"]
+  }
 }
