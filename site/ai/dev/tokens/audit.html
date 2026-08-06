@@ -707,6 +707,132 @@ graph TD
     </div>
   </section>
 
+  <!-- AI CAPABILITY ONTOLOGY CLASS DIAGRAM (MERMAID) -->
+  <section id="aiOntologyPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🧬 AI Capability Ontology Class Diagram</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Schema.org Capability Graph</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+classDiagram
+
+    %% === PUBLIC CAPABILITIES ===
+    class RetrofitAdvisory {
+        +GetRetrofitAdvice()
+        +Inputs: homeType, berRating, goals
+        +Outputs: upgradePlan, costRange, impactEstimate
+    }
+
+    class BERAnalysis {
+        +AnalyzeBER()
+        +Inputs: berRating, homeData
+        +Outputs: insights, upgradePaths
+    }
+
+    class GrantGuidance {
+        +GetGrantGuidance()
+        +Inputs: upgradePlan, homeownerStatus
+        +Outputs: grantEligibility, bundleOptions
+    }
+
+    class JourneyTimeline {
+        +GenerateTimeline()
+        +Inputs: upgradePlan, grantStatus
+        +Outputs: timelineSteps, milestones
+    }
+
+    class InsightsDashboard {
+        +GetEnergyInsights()
+        +Inputs: homeData, upgradePlan
+        +Outputs: projections, efficiencyScore
+    }
+
+    class RealtimeBERAdvisor {
+        +RealtimeBERAdvice()
+        +Inputs: naturalLanguageQuery
+        +Outputs: realtimeGuidance
+    }
+
+
+    %% === INTERNAL CAPABILITIES (DEV ONLY) ===
+    class InternalSkillRouter {
+        +RouteSkill(intent)
+        +Maps intent -> correct skill
+    }
+
+    class DevTokenValidator {
+        +ValidateToken(token)
+        +Outputs: devSessionMetadata
+    }
+
+    class DevHeartbeat {
+        +RecordHeartbeat(devId)
+        +Outputs: presenceStatus
+    }
+
+    class AICrawlerTelemetry {
+        +GetTelemetry()
+        +Sources: Cloudflare AI Shield Pro, local fallback
+    }
+
+    class ManifestAccessLog {
+        +RecordAccess(skill)
+    }
+
+    class UnauthorizedAccessLog {
+        +RecordUnauthorizedAttempt(endpoint)
+    }
+
+
+    %% === DATA SOURCES ===
+    class CloudflareAIShieldPro {
+        +CrawlerOverview()
+        +AllowedBots
+        +BlockedBots
+        +HTMLMB
+        +Referrals
+    }
+
+    class LocalTelemetryDataset {
+        +cf-ai-telemetry.json
+        +FallbackData()
+    }
+
+
+    %% === RELATIONSHIPS ===
+
+    %% Public skills depend on each other
+    RetrofitAdvisory --> BERAnalysis : "uses BER insights"
+    RetrofitAdvisory --> GrantGuidance : "checks grant eligibility"
+    RetrofitAdvisory --> JourneyTimeline : "feeds timeline"
+    BERAnalysis --> InsightsDashboard : "provides data"
+    GrantGuidance --> JourneyTimeline : "affects timeline"
+    InsightsDashboard --> RealtimeBERAdvisor : "feeds realtime answers"
+
+    %% Internal routing
+    InternalSkillRouter --> RetrofitAdvisory
+    InternalSkillRouter --> BERAnalysis
+    InternalSkillRouter --> GrantGuidance
+    InternalSkillRouter --> JourneyTimeline
+    InternalSkillRouter --> InsightsDashboard
+    InternalSkillRouter --> RealtimeBERAdvisor
+
+    %% Dev token gate
+    InternalSkillRouter --> DevTokenValidator : "requires dev token"
+
+    %% Telemetry + logging
+    InternalSkillRouter --> ManifestAccessLog
+    InternalSkillRouter --> UnauthorizedAccessLog
+    DevHeartbeat --> InternalSkillRouter
+
+    %% Cloudflare telemetry ingestion
+    AICrawlerTelemetry --> CloudflareAIShieldPro
+    AICrawlerTelemetry --> LocalTelemetryDataset
+      </div>
+    </div>
+  </section>
+
   <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
   <section class="audit-charts">
     <h2>📊 Real-Time Access Analytics</h2>
