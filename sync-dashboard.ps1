@@ -1,7 +1,10 @@
 Add-Type -AssemblyName PresentationFramework
 
 # Endpoints
-$workerUrl = "https://ecosmarthomes-site.joehr4838.workers.dev/status"
+$workerUrls = @(
+    "https://ecosmarthomes-site.joehr4838.workers.dev/status",
+    "https://ecosmarthomes-site.joshllorr.workers.dev/status"
+)
 $prodUrl   = "https://www.ecosmarthomes.ie/status"
 
 # XAML UI
@@ -78,10 +81,18 @@ function Get-StatusJson($url) {
     }
 }
 
+function Get-WorkerStatusJson {
+    foreach ($url in $workerUrls) {
+        $raw, $obj = Get-StatusJson $url
+        if ($obj) { return $raw, $obj }
+    }
+    return $null, $null
+}
+
 function Run-SyncCheck {
     $timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
 
-    $workerRaw, $worker = Get-StatusJson $workerUrl
+    $workerRaw, $worker = Get-WorkerStatusJson
     $prodRaw,   $prod   = Get-StatusJson $prodUrl
 
     if (-not $worker) {
