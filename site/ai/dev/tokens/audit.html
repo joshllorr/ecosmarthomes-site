@@ -15,6 +15,9 @@
   <link rel="stylesheet" href="../../../css/styles.css">
   <link rel="stylesheet" href="../../../css/dashboard.css">
 
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     .token-card {
       background: #ffffff;
@@ -143,6 +146,49 @@
     tr.row-denied td {
       background: rgba(254, 226, 226, 0.2);
     }
+
+    /* Analytics Chart Dashboard (Emerald Dark Theme) */
+    .audit-charts {
+      margin-top: 32px;
+      padding: 28px;
+      background: linear-gradient(145deg, #0b2e1f, #0f3a28);
+      border-radius: 16px;
+      box-shadow: 0 0 24px rgba(0, 255, 128, 0.2);
+      border: 1px solid rgba(0, 255, 128, 0.3);
+      color: #e8f5e9;
+    }
+
+    .audit-charts h2 {
+      color: #00ff80;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .chart-block {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(0, 255, 128, 0.15);
+    }
+
+    .chart-block h3 {
+      color: #00ff80;
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+    }
+
+    .chart-container-wrapper {
+      position: relative;
+      width: 100%;
+      max-height: 260px;
+    }
   </style>
 </head>
 <body>
@@ -250,6 +296,37 @@
     </div>
   </section>
 
+  <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
+  <section class="audit-charts">
+    <h2>📊 Real-Time Access Analytics</h2>
+
+    <div class="charts-grid">
+      <!-- AI vs Developer vs Unauthorized Doughnut -->
+      <div class="chart-block">
+        <h3>AI vs Developer vs Unauthorized</h3>
+        <div class="chart-container-wrapper">
+          <canvas id="accessTypeChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Endpoint Heatmap Bar Chart -->
+      <div class="chart-block">
+        <h3>Endpoint Heatmap</h3>
+        <div class="chart-container-wrapper">
+          <canvas id="endpointChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Access Frequency Over Time Line Chart -->
+      <div class="chart-block" style="grid-column: 1 / -1;">
+        <h3>Access Frequency Over Time</h3>
+        <div class="chart-container-wrapper" style="max-height:220px;">
+          <canvas id="timelineChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- FOOTER -->
@@ -262,6 +339,7 @@
 
 <script>
   let auditData = [];
+  let accessTypeChart, endpointChart, timelineChart;
 
   async function loadAudit() {
     try {
@@ -271,6 +349,7 @@
       const res = await fetch('../../data/dev-audit.json');
       auditData = await res.json();
       applyCurrentFilters();
+      updateCharts(auditData);
     } catch (e) {
       console.error('Failed to load audit trail:', e);
     }
@@ -346,6 +425,135 @@
     });
 
     renderAudit(filtered);
+  }
+
+  function updateCharts(data) {
+    if (typeof Chart === 'undefined') return;
+
+    // Filter manifest & API events
+    const events = data || [];
+
+    // Count categories
+    let aiCount = 0;
+    let devCount = 0;
+    let deniedCount = 0;
+
+    events.forEach(e => {
+      const ua = e.user_agent || '';
+      const isAI = ua.includes('GPTBot') || ua.includes('ClaudeBot') || ua.includes('PerplexityBot') || ua.includes('Gemini') || ua.includes('ChatGPT') || ua.includes('BingAI');
+      const isDenied = e.result.includes('403') || e.result.includes('Denied') || e.result.includes('Unauthorized') || e.result.includes('302');
+
+      if (isDenied) {
+        deniedCount++;
+      } else if (isAI) {
+        aiCount++;
+      } else {
+        devCount++;
+      }
+    });
+
+    // Endpoint heatmap counts
+    const endpointCounts = {};
+    events.forEach(e => {
+      endpointCounts[e.endpoint] = (endpointCounts[e.endpoint] || 0) + 1;
+    });
+
+    // Timeline data
+    const sortedEvents = [...events].sort((a, b) => a.timestamp - b.timestamp);
+    const timelineLabels = sortedEvents.map(e => new Date(e.timestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    const timelineValues = sortedEvents.map((_, idx) => idx + 1);
+
+    // 1. AI vs Developer vs Unauthorized (Doughnut)
+    if (!accessTypeChart) {
+      accessTypeChart = new Chart(document.getElementById("accessTypeChart"), {
+        type: "doughnut",
+        data: {
+          labels: ["AI Agents", "Developers", "Unauthorized"],
+          datasets: [{
+            data: [aiCount, devCount, deniedCount],
+            backgroundColor: ["#00e0ff", "#00ff80", "#ff4d4d"],
+            borderColor: "#0b2e1f",
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: "#e8f5e9" }
+            }
+          }
+        }
+      });
+    } else {
+      accessTypeChart.data.datasets[0].data = [aiCount, devCount, deniedCount];
+      accessTypeChart.update();
+    }
+
+    // 2. Endpoint Heatmap (Bar)
+    if (!endpointChart) {
+      endpointChart = new Chart(document.getElementById("endpointChart"), {
+        type: "bar",
+        data: {
+          labels: Object.keys(endpointCounts),
+          datasets: [{
+            label: "Access Count",
+            data: Object.values(endpointCounts),
+            backgroundColor: "#00ff80",
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: "#e8f5e9" } }
+          },
+          scales: {
+            x: { ticks: { color: "#00ff80" }, grid: { color: "rgba(255,255,255,0.05)" } },
+            y: { ticks: { color: "#e8f5e9" }, grid: { color: "rgba(255,255,255,0.1)" } }
+          }
+        }
+      });
+    } else {
+      endpointChart.data.labels = Object.keys(endpointCounts);
+      endpointChart.data.datasets[0].data = Object.values(endpointCounts);
+      endpointChart.update();
+    }
+
+    // 3. Access Frequency Over Time (Line)
+    if (!timelineChart) {
+      timelineChart = new Chart(document.getElementById("timelineChart"), {
+        type: "line",
+        data: {
+          labels: timelineLabels,
+          datasets: [{
+            label: "Cumulative Access Events",
+            data: timelineValues,
+            borderColor: "#00ff80",
+            backgroundColor: "rgba(0,255,128,0.15)",
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: "#e8f5e9" } }
+          },
+          scales: {
+            x: { ticks: { color: "#e8f5e9" }, grid: { color: "rgba(255,255,255,0.05)" } },
+            y: { ticks: { color: "#e8f5e9" }, grid: { color: "rgba(255,255,255,0.1)" } }
+          }
+        }
+      });
+    } else {
+      timelineChart.data.labels = timelineLabels;
+      timelineChart.data.datasets[0].data = timelineValues;
+      timelineChart.update();
+    }
   }
 
   document.getElementById('apply-filters').onclick = applyCurrentFilters;
