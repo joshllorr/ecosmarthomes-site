@@ -454,6 +454,65 @@
       padding: 12px 14px;
       border-bottom: 1px solid rgba(0, 255, 128, 0.15);
     }
+
+    /* AI Capability Cards Grid */
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .capability-card {
+      border-radius: 14px;
+      padding: 20px;
+      background: #05140e;
+      border: 1px solid rgba(0, 255, 128, 0.2);
+      color: #e8f5e9;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .capability-card:hover {
+      transform: translateY(-2px);
+      border-color: #00ff80;
+    }
+
+    .capability-card.public {
+      border-left: 6px solid #10b981;
+    }
+
+    .capability-card.dev {
+      border-left: 6px solid #3b82f6;
+    }
+
+    .capability-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.15rem;
+      color: #00ff80;
+    }
+
+    .capability-card.dev h3 {
+      color: #60a5fa;
+    }
+
+    .capability-card p {
+      margin: 0 0 14px;
+      font-size: 0.88rem;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    .capability-card ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.85rem;
+      color: #d1d5db;
+    }
+
+    .capability-card li {
+      margin-bottom: 6px;
+    }
   </style>
 </head>
 <body>
@@ -1180,6 +1239,146 @@ flowchart TD
     DevDomain --> D4["Fetch AI Telemetry"]
     DevDomain --> D5["Log Manifest Access"]
     DevDomain --> D6["Log Unauthorized Access"]
+      </div>
+    </div>
+  </section>
+
+  <!-- AI CAPABILITY CARDS UI COMPONENTS PANEL -->
+  <section id="aiCapabilityCardsPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🎴 AI Ecosystem Capability Cards Component Library</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Modular UI Components</span>
+    </div>
+
+    <!-- PUBLIC SKILL CARDS -->
+    <h3 style="color:#10b981; font-size:1.1rem; margin-top:20px; border-bottom:1px solid rgba(16,185,129,0.3); padding-bottom:8px;">🔥 Public AI Skill Capabilities (Declared JSON-LD)</h3>
+    <div class="capability-grid">
+      <div class="capability-card public">
+        <h3>Retrofit Advisory Skill</h3>
+        <p>Provides tailored retrofit guidance including insulation, heat pumps, solar PV, and upgrade pathways.</p>
+        <ul>
+          <li><strong>Action:</strong> GetRetrofitAdvice</li>
+          <li><strong>Endpoint:</strong> /api/ai/retrofit-advice</li>
+          <li><strong>Inputs:</strong> homeType, berRating, goals</li>
+          <li><strong>Outputs:</strong> upgradePlan, costRange, impactEstimate</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>BER Analysis Skill</h3>
+        <p>Interprets BER ratings, identifies upgrade opportunities, and estimates BER improvements.</p>
+        <ul>
+          <li><strong>Action:</strong> AnalyzeBER</li>
+          <li><strong>Endpoint:</strong> /api/ai/ber-analysis</li>
+          <li><strong>Inputs:</strong> berRating, homeData</li>
+          <li><strong>Outputs:</strong> insights, upgradePaths</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>Grant Guidance Skill</h3>
+        <p>Explains SEAI grants, eligibility, documentation, and optimal upgrade combinations.</p>
+        <ul>
+          <li><strong>Action:</strong> GetGrantGuidance</li>
+          <li><strong>Endpoint:</strong> /api/ai/grant-guidance</li>
+          <li><strong>Inputs:</strong> upgradePlan, homeownerStatus</li>
+          <li><strong>Outputs:</strong> grantEligibility, bundleOptions</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>Journey Timeline Skill</h3>
+        <p>Generates a personalized retrofit timeline from assessment to BER certification.</p>
+        <ul>
+          <li><strong>Action:</strong> GenerateTimeline</li>
+          <li><strong>Endpoint:</strong> /api/ai/journey-timeline</li>
+          <li><strong>Inputs:</strong> upgradePlan, grantStatus</li>
+          <li><strong>Outputs:</strong> timelineSteps, milestones</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>Insights Dashboard Skill</h3>
+        <p>Provides real-time home energy insights, upgrade impact projections, and efficiency recommendations.</p>
+        <ul>
+          <li><strong>Action:</strong> GetEnergyInsights</li>
+          <li><strong>Endpoint:</strong> /api/ai/insights</li>
+          <li><strong>Inputs:</strong> homeData, upgradePlan</li>
+          <li><strong>Outputs:</strong> projections, efficiencyScore</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>Realtime BER Advisor Skill</h3>
+        <p>Offers instant BER advisory and upgrade decision support.</p>
+        <ul>
+          <li><strong>Action:</strong> RealtimeBERAdvice</li>
+          <li><strong>Endpoint:</strong> /api/ai/realtime-ber</li>
+          <li><strong>Inputs:</strong> naturalLanguageQuery</li>
+          <li><strong>Outputs:</strong> realtimeGuidance</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DEVELOPER-ONLY CARDS -->
+    <h3 style="color:#60a5fa; font-size:1.1rem; margin-top:32px; border-bottom:1px solid rgba(96,165,250,0.3); padding-bottom:8px;">🔒 Developer-Only Internal Worker Capabilities</h3>
+    <div class="capability-grid">
+      <div class="capability-card dev">
+        <h3>Internal Skill Router</h3>
+        <p>Routes intents to the correct public skill or internal capability.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/route-skill</li>
+          <li><strong>Role:</strong> Orchestration brain</li>
+          <li><strong>Requires Token:</strong> Yes</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>Developer Token Validator</h3>
+        <p>Validates developer tokens and returns session metadata.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/validate-token</li>
+          <li><strong>Role:</strong> Security gate</li>
+          <li><strong>Requires Token:</strong> Yes</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>Developer Heartbeat</h3>
+        <p>Tracks developer presence and session activity.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/heartbeat</li>
+          <li><strong>Role:</strong> Presence telemetry</li>
+          <li><strong>Requires Token:</strong> Yes</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>AI Crawler Telemetry</h3>
+        <p>Fetches Cloudflare AI Shield Pro crawler analytics.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/cf-ai-telemetry</li>
+          <li><strong>Role:</strong> Crawler analytics</li>
+          <li><strong>Fallback:</strong> cf-ai-telemetry.json</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>Manifest Access Log</h3>
+        <p>Records access attempts to the AI skill manifest.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/log-manifest-access</li>
+          <li><strong>Role:</strong> Audit trail</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>Unauthorized Access Log</h3>
+        <p>Records unauthorized attempts to access developer-only endpoints.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/log-unauthorized</li>
+          <li><strong>Role:</strong> Security monitoring</li>
+        </ul>
       </div>
     </div>
   </section>
