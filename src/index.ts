@@ -345,6 +345,18 @@ export default {
 
         ctx?.waitUntil?.(logAuditEvent(`/${pageName} (${eventName})`, "200 Authorized (Badge View)", fp));
         return new Response(JSON.stringify({ status: "Logged" }), { status: 200, headers: corsHeaders });
+    if (url.pathname === "/ai/dev/heartbeat" && request.method === "POST") {
+      if (!isDevAuthorized) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: corsHeaders });
+      }
+
+      try {
+        const body = await request.json() as any;
+        const pageName = body.page || "agent-skills.html";
+        const fp = body.fingerprint || "none";
+
+        ctx?.waitUntil?.(logAuditEvent(`/${pageName} (developer_heartbeat)`, "200 Authorized (Heartbeat)", fp));
+        return new Response(JSON.stringify({ status: "Logged" }), { status: 200, headers: corsHeaders });
       } catch (err) {
         return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400, headers: corsHeaders });
       }

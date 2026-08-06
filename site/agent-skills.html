@@ -1178,6 +1178,29 @@
             }).catch(err => console.error('Badge audit log fetch failed:', err));
           });
         }
+
+        // Developer Session Heartbeat Engine (Every 20 seconds)
+        async function sendHeartbeat() {
+          if (!devToken || (!devToken.startsWith('dev-') && !devToken.includes('.'))) return;
+          try {
+            const fingerprint = await generateFingerprint();
+            fetch('/ai/dev/heartbeat', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'ecosmart-dev-token': devToken
+              },
+              body: JSON.stringify({
+                event: 'developer_heartbeat',
+                page: 'agent-skills.html',
+                fingerprint
+              })
+            }).catch(err => console.error('Heartbeat fetch error:', err));
+          } catch (e) {}
+        }
+
+        sendHeartbeat();
+        setInterval(sendHeartbeat, 20000);
       }
     }
   </script>

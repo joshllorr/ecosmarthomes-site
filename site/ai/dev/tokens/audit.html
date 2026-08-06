@@ -184,6 +184,36 @@
       margin-bottom: 14px;
     }
 
+    /* Developer Online Presence Indicator */
+    .dev-online-indicator {
+      background: rgba(0, 255, 128, 0.12);
+      border: 1px solid #00ff80;
+      color: #00ff80;
+      padding: 8px 16px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(0, 255, 128, 0.2);
+    }
+
+    .dev-online-indicator .dot {
+      width: 10px;
+      height: 10px;
+      background: #00ff80;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00ff80;
+      animation: pulsePulse 1.5s infinite;
+    }
+
+    @keyframes pulsePulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
     .chart-container-wrapper {
       position: relative;
       width: 100%;
@@ -274,9 +304,14 @@
         <span class="section-badge" style="background:#dcfce7; color:#15803d;">Live Stream</span>
         <h2>Recent Activity Stream</h2>
       </div>
-      <div style="font-size:0.82rem; color:#64748b;">
-        <span id="live-indicator" style="display:inline-block; width:8px; height:8px; background:#10b981; border-radius:50%; margin-right:6px;"></span>
-        Auto-refreshing every 5s
+      <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+        <div id="devOnlineIndicator" class="dev-online-indicator">
+          <span class="dot"></span> Developers Online: <span id="devOnlineCount">0</span>
+        </div>
+        <div style="font-size:0.82rem; color:#64748b;">
+          <span id="live-indicator" style="display:inline-block; width:8px; height:8px; background:#10b981; border-radius:50%; margin-right:6px;"></span>
+          Auto-refreshing every 5s
+        </div>
       </div>
     </div>
 
@@ -344,6 +379,18 @@
   let auditData = [];
   let accessTypeChart, endpointChart, timelineChart;
 
+  function updateDeveloperOnlineIndicator(data) {
+    if (!data) return;
+    const now = Math.floor(Date.now() / 1000);
+    const active = data.filter(e =>
+      (e.result.includes('Heartbeat') || e.result.includes('Badge View') || (e.endpoint && e.endpoint.includes('heartbeat'))) &&
+      now - e.timestamp <= 40
+    );
+    const uniqueSessions = new Set(active.map(e => e.fingerprint || e.token_id));
+    const countEl = document.getElementById('devOnlineCount');
+    if (countEl) countEl.textContent = uniqueSessions.size;
+  }
+
   async function loadAudit() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -353,6 +400,7 @@
       auditData = await res.json();
       applyCurrentFilters();
       updateCharts(auditData);
+      updateDeveloperOnlineIndicator(auditData);
     } catch (e) {
       console.error('Failed to load audit trail:', e);
     }
