@@ -18,6 +18,110 @@
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  <!-- 🔒 Private JSON-LD Manifest (Full Bundle - Developer-Only) -->
+  <script id="private-ai-manifest" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebAPI",
+        "name": "Developer Presence API",
+        "description": "Internal API for developer heartbeat, session tracking, and presence telemetry.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "RecordDeveloperHeartbeat",
+          "target": "/ai/dev/heartbeat"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Crawler Telemetry API",
+        "description": "Internal API exposing Cloudflare AI Shield Pro crawler telemetry.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "GetAICrawlerTelemetry",
+          "target": "/ai/dev/cf-ai-telemetry"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Manifest Access Log API",
+        "description": "Internal API logging AI agent manifest access attempts.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "RecordManifestAccess",
+          "target": "/ai/dev/log-manifest-access"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Unauthorized Access Log API",
+        "description": "Internal API logging unauthorized access attempts to developer-only endpoints.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "RecordUnauthorizedAccess",
+          "target": "/ai/dev/log-unauthorized"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Developer Token Validation API",
+        "description": "Internal API validating developer tokens and returning session metadata.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "ValidateDeveloperToken",
+          "target": "/ai/dev/validate-token"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Internal Skill Routing API",
+        "description": "Internal routing layer for developer-only AI skills and orchestration.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "RouteInternalSkill",
+          "target": "/ai/dev/route-skill"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script>
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = localStorage.getItem('ecosmart-dev-token') || urlParams.get('token') || '';
+      const privateManifest = document.getElementById("private-ai-manifest");
+      if (!token || (!token.startsWith("dev-") && !token.includes("."))) {
+        if (privateManifest) privateManifest.remove();
+      }
+    })();
+  </script>
+
   <style>
     .token-card {
       background: #ffffff;
