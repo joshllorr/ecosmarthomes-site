@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/articles/tag/(.*)", "destination": "/articles/index.html" }
+    { "source": "/articles/tag/(.*)", "destination": "/articles/index.html" },
+    { "source": "/articles/(.*)", "destination": "/articles/index.html" }
   ]
 }
