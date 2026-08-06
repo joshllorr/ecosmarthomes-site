@@ -44,6 +44,40 @@ function serveAgentHealth(headers: Record<string, string>) {
   );
 }
 
+function renderMarkdownToHtml(md: string): string {
+  let html = md;
+
+  // Code blocks ``` ... ```
+  html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+  // Headings
+  html = html.replace(/^###### (.*)$/gm, '<h6>$1</h6>');
+  html = html.replace(/^##### (.*)$/gm, '<h5>$1</h5>');
+  html = html.replace(/^#### (.*)$/gm, '<h4>$1</h4>');
+  html = html.replace(/^### (.*)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.*)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.*)$/gm, '<h1>$1</h1>');
+
+  // Bold and italic
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  // Links: [text](url)
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+
+  // Unordered lists
+  html = html.replace(/^\s*-\s+(.*)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>\s*)+/gm, match => `<ul>${match}</ul>`);
+
+  // Blockquotes
+  html = html.replace(/^>\s+(.*)$/gm, '<blockquote>$1</blockquote>');
+
+  // Paragraphs (naive wrap for lines not starting with HTML tags)
+  html = html.replace(/^(?!<h\d|<ul|<li|<p|<blockquote|<pre|<code|<\/ul|<\/li)(.+)$/gm, '<p>$1</p>');
+
+  return html;
+}
+
 async function handleContactForm(request: Request, env: any): Promise<Response> {
   try {
     let data;
@@ -514,8 +548,94 @@ export default {
       console.error('ASSETS fetch error:', e);
     }
 
-    // 6. Articles fallback for 404s
-    if (url.pathname.startsWith('/articles/')) {
+    // 8. Article Markdown → HTML rendering
+    if (url.pathname.startsWith('/articles/') && method === 'GET') {
+      const rawSlug = url.pathname.replace('/articles/', '').replace('.html', '');
+
+      let mdPath = '';
+      if (rawSlug === 'carbon-tax-2026') {
+        mdPath = '/carbon-tax-2026.md';
+      } else if (rawSlug === 'raising-ber-g-to-a') {
+        mdPath = '/raising-ber-g-to-a.md';
+      } else if (rawSlug === 'retrofit-roadmap') {
+        mdPath = '/api/upgrades/recommendations.md';
+      }
+
+      if (mdPath) {
+        try {
+          const mdRequest = new Request(new URL(mdPath, request.url).toString(), request);
+          const assetResponse = await env.ASSETS.fetch(mdRequest);
+
+          if (assetResponse.ok) {
+            const mdText = await assetResponse.text();
+            const htmlBody = renderMarkdownToHtml(mdText);
+            const titleFormatted = rawSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+            const fullHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>${titleFormatted} | EcoSmartHomes Articles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/styles.css?v=2">
+  <style>
+    .article-container {
+      max-width: 800px;
+      margin: 40px auto 60px;
+      padding: 0 20px;
+      line-height: 1.7;
+      color: #2c3e50;
+    }
+    .article-nav {
+      background: #003f2d;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .article-nav a {
+      color: #00ff80;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .article-body h1 { color: #003f2d; font-size: 2.2rem; margin-top: 20px; }
+    .article-body h2 { color: #007f50; font-size: 1.6rem; margin-top: 30px; border-bottom: 2px solid #e6f4ef; padding-bottom: 6px; }
+    .article-body h3 { color: #003f2d; font-size: 1.3rem; margin-top: 24px; }
+    .article-body p { margin-bottom: 16px; font-size: 1.05rem; }
+    .article-body ul { padding-left: 24px; margin-bottom: 20px; }
+    .article-body li { margin-bottom: 8px; }
+    .article-body blockquote { background: #e6f4ef; border-left: 5px solid #00a86b; padding: 14px 20px; margin: 20px 0; font-style: italic; }
+    .article-body code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <nav class="article-nav">
+    <a href="/articles">← Back to Articles</a>
+    <a href="/index.html">EcoSmartHomes Home</a>
+  </nav>
+  <main class="article-container article-body">
+    ${htmlBody}
+  </main>
+  <footer style="background:#002d20; color:#fff; text-align:center; padding:30px 20px; font-size:0.9rem;">
+    &copy; ${new Date().getFullYear()} EcoSmartHomes Ireland — Premium Home Energy Advisory
+  </footer>
+</body>
+</html>`;
+
+            return new Response(fullHtml, {
+              status: 200,
+              headers: {
+                'Content-Type': 'text/html; charset=utf-8',
+                ...corsHeaders
+              }
+            });
+          }
+        } catch (e) {
+          console.error("Markdown rendering error:", e);
+        }
+      }
+
+      // If no mapping or markdown missing, fall back to static template
       const fallbackUrl = new URL('/articles/test-article.html', request.url).toString();
       const fallbackRequest = new Request(fallbackUrl, request);
       return env.ASSETS.fetch(fallbackRequest);
