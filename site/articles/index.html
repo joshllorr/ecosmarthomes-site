@@ -212,7 +212,7 @@ async function loadArticles(tag = "") {
           <p style="color:#555; font-size:0.95rem; margin-bottom:12px; line-height:1.5;">${a.summary}</p>
           <div class="meta" style="font-size:0.82rem; color:#777;">Published: ${a.date || new Date().toLocaleDateString('en-IE')}</div>
           <div class="tags" style="margin-bottom:15px;">
-            ${tagsList.map(t => `<span class="tag-badge">${t}</span>`).join('')}
+            ${tagsList.map(t => `<a href="/articles/tag/${encodeURIComponent(t)}" class="tag-badge" style="text-decoration:none;">${t}</a>`).join('')}
           </div>
           <a href="${articleLink}" style="color:#00a86b; font-weight:700; text-decoration:none; margin-top:auto;">Read Article →</a>
         </div>
