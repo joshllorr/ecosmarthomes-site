@@ -507,6 +507,23 @@ export default {
       const assetResponse = await env.ASSETS.fetch(request);
       
       if (assetResponse.status !== 404) {
+        // Server-Side Sanitization for Public Browsers on /agent-skills.html
+        if (url.pathname === '/agent-skills.html' && isBrowser && !isDevAuthorized) {
+          const htmlText = await assetResponse.text();
+          const sanitizedHtml = htmlText.replace(/<div class="standards-section ai-standards-section">[\s\S]*?<\/table>\s*<\/div>\s*<\/div>/i, '');
+          const sanitizedResponse = new Response(sanitizedHtml, {
+            status: assetResponse.status,
+            headers: assetResponse.headers
+          });
+          sanitizedResponse.headers.set('Content-Type', 'text/html; charset=utf-8');
+          sanitizedResponse.headers.set('Permissions-Policy', 'microphone=(self "https://ais-pre-6v2aqu5hko7j6draj7zjac-95863893871.europe-west1.run.app")');
+          sanitizedResponse.headers.set('Link', linkHeaderValue);
+          sanitizedResponse.headers.set('Access-Control-Allow-Origin', '*');
+          sanitizedResponse.headers.set('Vary', 'Accept');
+          sanitizedResponse.headers.set('X-Agent-Readiness', '100');
+          return sanitizedResponse;
+        }
+
         const enriched = new Response(assetResponse.body, assetResponse);
         enriched.headers.set('Permissions-Policy', 'microphone=(self "https://ais-pre-6v2aqu5hko7j6draj7zjac-95863893871.europe-west1.run.app")');
         enriched.headers.set('Link', linkHeaderValue);

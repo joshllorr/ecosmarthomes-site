@@ -927,8 +927,8 @@
 
     </section>
 
-    <!-- Technical Standards Table -->
-    <div class="standards-section">
+    <!-- Technical Standards Table (Developer Token Restricted) -->
+    <div class="standards-section ai-standards-section">
       <div class="section-header">
         <h2><i class="fa-solid fa-network-wired" style="color:var(--accent-light);"></i> AI Standards & Metadata Endpoints</h2>
         <p>Complete directory of machine-readable endpoints deployed across EcoSmartHomes:</p>
@@ -1110,6 +1110,17 @@
       if (e.target.id === 'endpointModal')
         document.getElementById('endpointModal').style.display = 'none';
     };
+
+    // Frontend Visibility Control — Hide AI Standards section for public visitors
+    const devToken = localStorage.getItem('ecosmart-dev-token') || new URLSearchParams(window.location.search).get('token');
+    const aiStandardsSec = document.querySelector('.ai-standards-section');
+    if (aiStandardsSec) {
+      if (!devToken || (!devToken.startsWith('dev-') && !devToken.includes('.'))) {
+        aiStandardsSec.style.display = 'none';
+      } else {
+        aiStandardsSec.style.display = 'block';
+      }
+    }
   </script>
 </body>
 </html>
