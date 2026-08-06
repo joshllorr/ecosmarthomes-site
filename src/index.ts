@@ -261,6 +261,9 @@ export default {
     const url = new URL(request.url);
     const method = request.method;
 
+    // Helper to get active KV binding (ARTICLES_FEED, ARTICLES_FEED_KV, or KV_BINDING)
+    const kv = env.ARTICLES_FEED || env.ARTICLES_FEED_KV || env.KV_BINDING || null;
+
     // Handle OPTIONS preflight requests
     if (method === 'OPTIONS') {
       return new Response(null, { headers: corsHeaders });
@@ -277,9 +280,9 @@ export default {
     // 8. Status endpoint: /status
     if (url.pathname === '/status' && method === 'GET') {
       let kvStatus = "empty";
-      if (env.ARTICLES_FEED && typeof env.ARTICLES_FEED.get === 'function') {
+      if (kv && typeof kv.get === 'function') {
         try {
-          const kvCheck = await env.ARTICLES_FEED.get("articles.json");
+          const kvCheck = await kv.get("articles.json");
           if (kvCheck) kvStatus = "connected";
         } catch (e) {}
       }

@@ -15,7 +15,15 @@
   "kv_namespaces": [
     {
       "binding": "ARTICLES_FEED",
-      "id": "ARTICLES_FEED_KV_ID"
+      "id": "834d32b368064d139c657cbd28e12933"
+    },
+    {
+      "binding": "ARTICLES_FEED_KV",
+      "id": "834d32b368064d139c657cbd28e12933"
+    },
+    {
+      "binding": "KV_BINDING",
+      "id": "834d32b368064d139c657cbd28e12933"
     }
   ],
   "triggers": {
