@@ -1403,6 +1403,19 @@ export default {
               }
             };
 
+            const structuredSectionsHtml = (article?.sections || []).map((sec: any) => `
+              <section class="article-section" style="margin-bottom:30px;">
+                ${sec.heading ? `<h2>${sec.heading}</h2>` : ''}
+                ${(sec.body || []).map((p: string) => `<p>${p}</p>`).join('')}
+                ${sec.pullquote ? `<blockquote class="pullquote" style="background:#e6f4ef; border-left:5px solid #00a86b; padding:16px; margin:20px 0; font-style:italic; font-size:1.1rem; color:#003f2d;">"${sec.pullquote}"</blockquote>` : ''}
+                ${sec.cta ? `<div style="margin:20px 0;"><a class="cta-button" href="${sec.cta.url}" style="background:#00a86b; color:#fff; padding:12px 24px; border-radius:6px; font-weight:700; text-decoration:none; display:inline-block;">${sec.cta.label}</a></div>` : ''}
+              </section>
+            `).join('');
+
+            const tagChipsHtml = (article?.tags || []).map((t: string) => `
+              <a class="tag-chip" href="/articles/tag/${encodeURIComponent(t)}" style="background:#e6f4ef; color:#007f50; font-size:0.8rem; font-weight:700; padding:4px 12px; border-radius:20px; text-transform:uppercase; text-decoration:none; display:inline-block; margin-right:8px; margin-bottom:14px;">${t}</a>
+            `).join('');
+
             const fullHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1518,7 +1531,8 @@ export default {
   </nav>
   <main class="article-container article-body">
     ${heroImage ? `<img src="${heroImage}" alt="${titleFormatted}" class="article-hero-banner">` : ''}
-    ${htmlBody}
+    ${tagChipsHtml ? `<div style="margin-bottom:16px;">${tagChipsHtml}</div>` : ''}
+    ${htmlBody ? htmlBody : structuredSectionsHtml}
 
     ${related.length > 0 ? `
     <section class="related-section">
