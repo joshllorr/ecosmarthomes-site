@@ -1030,6 +1030,81 @@ flowchart TB
     </div>
   </section>
 
+  <!-- AI WORKER ERROR-HANDLING & RESILIENCE GRAPH (MERMAID) -->
+  <section id="aiErrorHandlingGraphPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🛡️ AI Worker Error-Handling & System Resilience Graph</h2>
+      <span class="badge-ok" style="background:rgba(239,68,68,0.2); color:#f87171;">Fault-Tree & Fallbacks</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+flowchart TD
+
+    %% === ENTRY POINTS ===
+    Intent["User / AI Agent Intent"]
+    Router["Internal Skill Router (/ai/dev/route-skill)"]
+    PublicAPI["Public AI Skill APIs (/api/ai/*)"]
+    DevToken["Dev Token Validator (/ai/dev/validate-token)"]
+
+    %% === ERROR NODES ===
+    ErrInvalidIntent["❌ Invalid Intent"]
+    ErrTokenInvalid["❌ Invalid Dev Token"]
+    ErrSkillFailure["❌ Skill Execution Failure"]
+    ErrTelemetryFail["❌ Telemetry Fetch Failure"]
+    ErrUnauthorized["❌ Unauthorized Access"]
+    ErrFallback["⚠️ Fallback Activated"]
+    ErrRecovery["🔄 Recovery Path"]
+
+    %% === LOGGING ===
+    LogUnauthorized["Log Unauthorized (/ai/dev/log-unauthorized)"]
+    LogManifest["Log Manifest Access (/ai/dev/log-manifest-access)"]
+    LogError["Record Error Event"]
+
+    %% === TELEMETRY ===
+    Telemetry["AI Crawler Telemetry (/ai/dev/cf-ai-telemetry)"]
+    CF["Cloudflare AI Shield Pro"]
+    LocalTelemetry["Local Fallback (cf-ai-telemetry.json)"]
+
+    %% === FLOW ===
+
+    Intent --> Router
+
+    %% Invalid Intent
+    Router -->|Invalid| ErrInvalidIntent
+    ErrInvalidIntent --> LogError
+    ErrInvalidIntent --> ErrRecovery
+
+    %% Dev Token Validation
+    Router --> DevToken
+    DevToken -->|Invalid| ErrTokenInvalid
+    ErrTokenInvalid --> LogUnauthorized
+    ErrTokenInvalid --> ErrRecovery
+
+    %% Unauthorized Access
+    Router -->|Unauthorized| ErrUnauthorized
+    ErrUnauthorized --> LogUnauthorized
+    ErrUnauthorized --> ErrRecovery
+
+    %% Skill Execution
+    Router --> PublicAPI
+    PublicAPI -->|Failure| ErrSkillFailure
+    ErrSkillFailure --> LogError
+    ErrSkillFailure --> ErrRecovery
+
+    %% Telemetry Fetch
+    Router --> Telemetry
+    Telemetry --> CF
+    Telemetry -->|Failure| ErrTelemetryFail
+    ErrTelemetryFail --> LocalTelemetry
+    LocalTelemetry --> ErrFallback
+    ErrFallback --> ErrRecovery
+
+    %% Recovery Path
+    ErrRecovery --> Router
+      </div>
+    </div>
+  </section>
+
   <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
   <section class="audit-charts">
     <h2>📊 Real-Time Access Analytics</h2>
