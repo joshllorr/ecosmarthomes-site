@@ -787,6 +787,20 @@ export default {
             const canonicalUrl = `https://ecosmarthomes.ie/articles/${rawSlug}.html`;
             const fullHeroUrl = heroImage.startsWith("http") ? heroImage : `https://ecosmarthomes.ie${heroImage}`;
 
+            // Compute related articles based on shared topic tags
+            let related: any[] = [];
+            if (article && article.tags && Array.isArray(article.tags)) {
+              related = feed
+                .filter((a: any) => a.slug !== rawSlug)
+                .map((a: any) => {
+                  const shared = (a.tags || []).filter((t: string) => article.tags.includes(t));
+                  return { ...a, sharedCount: shared.length };
+                })
+                .filter((a: any) => a.sharedCount > 0)
+                .sort((a: any, b: any) => b.sharedCount - a.sharedCount)
+                .slice(0, 3);
+            }
+
             const articleJsonLd = {
               "@context": "https://schema.org",
               "@type": "Article",
@@ -877,6 +891,48 @@ export default {
     .article-body li { margin-bottom: 8px; }
     .article-body blockquote { background: #e6f4ef; border-left: 5px solid #00a86b; padding: 14px 20px; margin: 20px 0; font-style: italic; }
     .article-body code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+    .related-section {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 2px solid #e6f4ef;
+    }
+    .related-section h2 {
+      color: #003f2d;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .related-card {
+      background: #fafafa;
+      border-radius: 8px;
+      padding: 16px;
+      border-left: 4px solid #00a86b;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+    .related-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .related-card h3 {
+      font-size: 1.05rem;
+      color: #003f2d;
+      margin: 0 0 8px;
+    }
+    .related-card p {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
@@ -887,6 +943,25 @@ export default {
   <main class="article-container article-body">
     ${heroImage ? `<img src="${heroImage}" alt="${titleFormatted}" class="article-hero-banner">` : ''}
     ${htmlBody}
+
+    ${related.length > 0 ? `
+    <section class="related-section">
+      <h2>Related Articles</h2>
+      <div class="related-grid">
+        ${related.map((r: any) => {
+          const rLink = r.slug === 'raising-ber-g-to-a' || r.slug === 'carbon-tax-2026' ? `/${r.slug}.html` : `/articles/${r.slug}.html`;
+          return `
+            <div class="related-card">
+              ${r.hero ? `<img src="${r.hero}" alt="${r.title}">` : ''}
+              <h3>${r.title}</h3>
+              <p>${r.summary}</p>
+              <a href="${rLink}" style="color:#00a86b; font-weight:700; text-decoration:none; font-size:0.85rem; margin-top:auto;">Read Article →</a>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </section>
+    ` : ''}
   </main>
   <footer style="background:#002d20; color:#fff; text-align:center; padding:30px 20px; font-size:0.9rem;">
     &copy; ${new Date().getFullYear()} EcoSmartHomes Ireland — Premium Home Energy Advisory
