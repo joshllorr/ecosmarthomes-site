@@ -1311,8 +1311,8 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
       });
     }
 
-    // 3. Contact form endpoint
-    if (url.pathname === '/api/contact' && method === 'POST') {
+    // 3. Contact form endpoint (matches /contact and /api/contact)
+    if ((url.pathname === '/contact' || url.pathname === '/api/contact') && method === 'POST') {
       return handleContactForm(request, env);
     }
 
