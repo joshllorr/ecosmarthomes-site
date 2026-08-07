@@ -971,6 +971,107 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
       });
     }
 
+    // ---------------------------------------------------------
+    // 📐 SSR BER ADVISOR — EcoSmartHomes /ber-advisor
+    // ---------------------------------------------------------
+    if ((url.pathname === "/ber-advisor" || url.pathname === "/ber-advisor/" || url.pathname === "/ber-advisor.html") && method === "GET") {
+      let insights: any[] = [];
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: "BER upgrade Ireland retrofit",
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 10,
+                match_threshold: 0.1,
+              },
+            },
+          });
+
+          insights = (results.chunks || []).map((chunk: any) => ({
+            id: chunk.id,
+            title: chunk.item?.metadata?.title || chunk.item?.key || chunk.id,
+            summary: chunk.text?.slice(0, 180) || "Independent guidance on home energy retrofits and SEAI grants.",
+          }));
+        } catch (e: any) {
+          console.error("BER Advisor AI search error:", e);
+        }
+      }
+
+      const html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>BER Advisor — EcoSmartHomes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:image" content="/og/home" />
+    <style>
+      body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; margin: 0; padding: 0; background: #f4f9f6; color: #1a3328; }
+      header { background: #003f2d; color: #fff; padding: 3rem 2rem; text-align: center; border-bottom: 4px solid #00a86b; }
+      header h1 { margin: 0 0 0.5rem 0; font-size: 2.2rem; }
+      header p { margin: 0; font-size: 1.1rem; color: #a3e6cd; }
+      .container { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+      section { background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); padding: 2rem; margin-bottom: 2rem; }
+      h2 { color: #003f2d; margin-top: 0; border-bottom: 2px solid #e6f4ef; padding-bottom: 0.5rem; }
+      .insight-card { background: #fafdfc; border: 1px solid #e6f4ef; border-left: 4px solid #00a86b; border-radius: 6px; padding: 1.2rem; margin-bottom: 1.2rem; }
+      .insight-card h3 { margin-top: 0; color: #003f2d; font-size: 1.15rem; }
+      .insight-card p { color: #555; font-size: 0.95rem; line-height: 1.5; }
+      .factors-list { margin: 1rem 0; padding-left: 1.5rem; color: #333; line-height: 1.7; }
+      .cta { margin-top: 1rem; display: inline-block; padding: 0.75rem 1.5rem; background: #00a86b; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 700; }
+      .cta:hover { background: #007f50; }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <h1>BER Advisor</h1>
+      <p>Independent guidance to help Irish homeowners understand, improve, and optimise their BER rating.</p>
+    </header>
+
+    <div class="container">
+      <section>
+        <h2>Your BER Upgrade Path</h2>
+        <p>This advisor provides clear, conflict-free insights into insulation, heating systems, ventilation, and renewable upgrades that influence your Building Energy Rating (BER) score.</p>
+      </section>
+
+      <section>
+        <h2>Key BER Factors</h2>
+        <ul class="factors-list">
+          <li><strong>Insulation Performance</strong>: Attic, cavity wall, external wall insulation efficiency.</li>
+          <li><strong>Heating System Efficiency</strong>: Heat pump COP ratings vs traditional oil/gas boilers.</li>
+          <li><strong>Ventilation & Airtightness</strong>: Mechanical ventilation with heat recovery (MVHR) & draft sealing.</li>
+          <li><strong>Renewable Energy Contribution</strong>: Solar PV kilowatt-peak generation & battery storage.</li>
+          <li><strong>Thermal Bridging & Cold Spots</strong>: Mitigating condensation risk and heat loss junctions.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Recommended Insights</h2>
+        ${insights.length > 0 ? insights.map(i => `
+          <div class="insight-card">
+            <h3>${i.title}</h3>
+            <p>${i.summary}...</p>
+            <a href="/api/article/${i.id}" class="cta" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Read Full Insight</a>
+          </div>
+        `).join('') : '<p style="color:#666;">Explore our guides on BER upgrading and SEAI grant roadmaps.</p>'}
+      </section>
+
+      <section style="text-align: center;">
+        <h2>Plan Your Upgrade</h2>
+        <p>We help you build a practical, grant‑optimised BER improvement plan tailored to your home.</p>
+        <a class="cta" href="/#contact">Book a Strategy Call</a>
+      </section>
+    </div>
+
+  </body>
+  </html>`;
+
+      return new Response(html, {
+        headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders }
+      });
+    }
+
     // 1. Public AI overview page always allowed
     if (url.pathname === '/ai' || url.pathname === '/ai/') {
       return env.ASSETS.fetch(request);
