@@ -1382,6 +1382,93 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
       }
     }
 
+    // Utility: escape HTML for SVG safety
+    function escSvg(str: string) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // ---------------------------------------------------------
+    // 🖼️ OG: Homepage — /og/home
+    // ---------------------------------------------------------
+    if (url.pathname === "/og/home" && method === "GET") {
+      const svg = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradHome" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#003f2d" />
+      <stop offset="100%" stop-color="#001a13" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgGradHome)" />
+  <rect x="60" y="70" width="8" height="490" fill="#00ff80" rx="4" />
+  <text x="95" y="200" font-size="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#ffffff" font-weight="800">
+    EcoSmartHomes Ireland
+  </text>
+  <text x="95" y="300" font-size="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#00ff80" font-weight="600">
+    Premium Home Energy Retrofit Advisory in Ireland
+  </text>
+  <rect x="95" y="475" width="420" height="54" rx="27" fill="rgba(255,255,255,0.12)" />
+  <text x="135" y="510" font-size="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#00ff80" font-weight="700">
+    🌐 www.ecosmarthomes.ie
+  </text>
+</svg>`;
+      return new Response(svg, {
+        headers: { "Content-Type": "image/svg+xml; charset=utf-8", "Cache-Control": "public, max-age=86400", ...corsHeaders }
+      });
+    }
+
+    // ---------------------------------------------------------
+    // 🖼️ OG: Article — /og/article/<id>
+    // ---------------------------------------------------------
+    if (url.pathname.startsWith("/og/article/") && method === "GET") {
+      const id = decodeURIComponent(url.pathname.replace("/og/article/", "")).trim();
+      let title = id;
+
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: id,
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 1,
+                match_threshold: 0.1,
+              },
+            },
+          });
+          const best = (results.chunks || [])[0];
+          if (best?.item?.metadata?.title) {
+            title = best.item.metadata.title;
+          }
+        } catch (e: any) {
+          console.error("OG Article title fetch error:", e);
+        }
+      }
+
+      const svg = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradArt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#004aad" />
+      <stop offset="100%" stop-color="#001a13" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgGradArt)" />
+  <rect x="60" y="70" width="8" height="490" fill="#00ff80" rx="4" />
+  <text x="95" y="140" font-size="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#00ff80" font-weight="700">
+    ECOSMARTHOMES • HOME ENERGY INSIGHTS
+  </text>
+  <text x="95" y="270" font-size="58" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#ffffff" font-weight="700">
+    ${escSvg(title)}
+  </text>
+  <rect x="95" y="475" width="420" height="54" rx="27" fill="rgba(255,255,255,0.12)" />
+  <text x="135" y="510" font-size="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fill="#00ff80" font-weight="700">
+    🌐 www.ecosmarthomes.ie
+  </text>
+</svg>`;
+      return new Response(svg, {
+        headers: { "Content-Type": "image/svg+xml; charset=utf-8", "Cache-Control": "public, max-age=86400", ...corsHeaders }
+      });
+    }
+
     // 18. Dynamic OpenGraph SVG Image Generator for Tag Pages: /og/tag/<TAG>
     if (url.pathname.startsWith('/og/tag/') && method === 'GET') {
       const tag = decodeURIComponent(url.pathname.replace('/og/tag/', '')).trim();
