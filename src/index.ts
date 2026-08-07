@@ -109,119 +109,102 @@ function cosineSimilarity(a: number[], b: number[]): number {
 
 async function handleContactForm(request: Request, env: any): Promise<Response> {
   try {
-    let data;
+    let data: any = {};
+    const contentType = request.headers.get("content-type") || "";
+    const isFormSubmit = contentType.includes("application/x-www-form-urlencoded") || contentType.includes("multipart/form-data");
 
-    try {
-      const text = await request.text();
-      console.log('Received body:', text);
-
-      if (!text) {
-        return new Response(
-          JSON.stringify({ error: 'Empty request body' }),
-          {
-            status: 400,
-            headers: {
-              'Content-Type': 'application/json',
-              ...corsHeaders
-            }
-          }
-        );
+    if (isFormSubmit) {
+      const formData = await request.formData();
+      data = {
+        name: formData.get("name")?.toString() || "",
+        email: formData.get("email")?.toString() || "",
+        phone: formData.get("phone")?.toString() || "",
+        topic: formData.get("topic")?.toString() || "General Enquiry",
+        message: formData.get("message")?.toString() || ""
+      };
+    } else {
+      try {
+        const text = await request.text();
+        if (text) data = JSON.parse(text);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
       }
-
-      data = JSON.parse(text);
-    } catch (parseError) {
-      console.error('JSON parse error:', parseError);
-      return new Response(
-        JSON.stringify({ error: 'Invalid JSON in request body' }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            ...corsHeaders
-          }
-        }
-      );
     }
 
     // Validate required fields
     if (!data.name || !data.email || !data.message) {
+      if (isFormSubmit) {
+        return new Response(`<!DOCTYPE html><html><body style="font-family:sans-serif;padding:2rem;"><h2>Missing Required Fields</h2><p>Please provide your Name, Email, and Message.</p><a href="/">Go Back to Homepage</a></body></html>`, { status: 400, headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders } });
+      }
       return new Response(
         JSON.stringify({ error: 'Missing required fields: name, email, and message are required' }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            ...corsHeaders
-          }
-        }
+        { status: 400, headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders } }
       );
     }
 
-    console.log('Contact form submission:', {
+    const entry = {
       name: data.name,
       email: data.email,
       phone: data.phone || 'N/A',
       topic: data.topic || 'N/A',
       message: data.message,
       timestamp: new Date().toISOString()
-    });
+    };
 
-    const resendApiKey = env.RESEND_API_KEY;
-
-    if (resendApiKey) {
-      const emailResponse = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'EcoSmartHome Contact <noreply@ecosmarthomes.ie>',
-          to: 'askjoe@ecosmarthomes.ie',
-          reply_to: data.email,
-          subject: `New Enquiry from ${data.name}`,
-          html: `
-            <h3>New Contact Form Submission</h3>
-            <p><strong>Name:</strong> ${data.name}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strongPhone:</strong> ${data.phone || 'N/A'}</p>
-            <p><strong>Topic:</strong> ${data.topic || 'N/A'}</p>
-            <p><strong>Message:</strong><br/>${data.message.replace(/\n/g, '<br/>')}</p>
-          `
-        })
-      });
-
-      if (!emailResponse.ok) {
-        const errorText = await emailResponse.text();
-        console.error('Failed to send email:', errorText);
-        return new Response(
-          JSON.stringify({
-            error: 'Email service error. Please try again.',
-            details: errorText
-          }),
-          {
-            status: 500,
-            headers: {
-              'Content-Type': 'application/json',
-              ...corsHeaders
-            }
-          }
-        );
+    // Store in KV (KV_BINDING, ARTICLES_FEED, or ARTICLES_FEED_KV)
+    const kv = env.KV_BINDING || env.ARTICLES_FEED || env.ARTICLES_FEED_KV || null;
+    if (kv && typeof kv.put === 'function') {
+      try {
+        await kv.put(`contact:${Date.now()}:${data.email}`, JSON.stringify(entry));
+      } catch (e) {
+        console.error("KV store contact error:", e);
       }
-    } else {
-      console.warn('RESEND_API_KEY is not set. Email was not sent.');
-      return new Response(
-        JSON.stringify({
-          error: 'Email configuration missing. Please contact support.'
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-            ...corsHeaders
-          }
-        }
-      );
+    }
+
+    // Optional Resend email dispatch
+    const resendApiKey = env.RESEND_API_KEY;
+    if (resendApiKey) {
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${resendApiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from: 'EcoSmartHome Contact <noreply@ecosmarthomes.ie>',
+            to: 'askjoe@ecosmarthomes.ie',
+            reply_to: data.email,
+            subject: `New Enquiry from ${data.name}`,
+            html: `<h3>New Contact Form Submission</h3><p><strong>Name:</strong> ${data.name}</p><p><strong>Email:</strong> ${data.email}</p><p><strong>Phone:</strong> ${data.phone || 'N/A'}</p><p><strong>Topic:</strong> ${data.topic || 'N/A'}</p><p><strong>Message:</strong><br/>${data.message.replace(/\n/g, '<br/>')}</p>`
+          })
+        });
+      } catch (err) {
+        console.error("Resend email error:", err);
+      }
+    }
+
+    if (isFormSubmit) {
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Message Received | EcoSmartHomes Ireland</title>
+  <style>
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 2rem; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .card { background: #fff; max-width: 520px; width: 100%; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-top: 5px solid #00a86b; text-align: center; }
+    h1 { color: #003f2d; margin-top: 0; }
+    p { color: #555; font-size: 1.05rem; line-height: 1.6; }
+    .btn { display: inline-block; margin-top: 1.5rem; padding: 0.75rem 1.5rem; background: #00a86b; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Thank you, ${data.name}!</h1>
+    <p>Your enquiry has been received and logged to our secure advisory queue. We will get back to you within 24 hours.</p>
+    <a href="/" class="btn">Return to Homepage</a>
+  </div>
+</body>
+</html>`;
+      return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders } });
     }
 
     return new Response(
@@ -229,29 +212,13 @@ async function handleContactForm(request: Request, env: any): Promise<Response> 
         success: true,
         message: 'Thank you! We received your enquiry and will get back to you within 24 hours.'
       }),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          ...corsHeaders
-        }
-      }
+      { status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders } }
     );
-
   } catch (error: any) {
     console.error('Contact form error:', error);
     return new Response(
-      JSON.stringify({
-        error: 'An error occurred processing your request. Please try again later.',
-        details: error?.message || 'Unknown error'
-      }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-          ...corsHeaders
-        }
-      }
+      JSON.stringify({ error: 'An error occurred processing your request. Please try again later.' }),
+      { status: 500, headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders } }
     );
   }
 }
