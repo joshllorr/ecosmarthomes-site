@@ -1177,7 +1177,7 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
     // ---------------------------------------------------------
     // 🧩 ANTIGRAVITY UI — Main Shell & Management (/ui)
     // ---------------------------------------------------------
-    if (url.pathname === "/ui" && method === "GET") {
+    if ((url.pathname === "/ui" || url.pathname === "/ui/") && method === "GET") {
       const html = `<!DOCTYPE html>
   <html lang="en">
   <head>
