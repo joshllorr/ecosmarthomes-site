@@ -878,6 +878,99 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
       }
     }
 
+    // ---------------------------------------------------------
+    // 📊 SSR INSIGHTS DASHBOARD — EcoSmartHomes /dashboard
+    // ---------------------------------------------------------
+    if ((url.pathname === "/dashboard" || url.pathname === "/dashboard.html") && method === "GET") {
+      const html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Insights Dashboard — EcoSmartHomes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:image" content="/og/home" />
+    <style>
+      body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; margin: 0; padding: 0; background: #f4f9f6; color: #1a3328; }
+      header { background: #003f2d; color: #fff; padding: 3rem 2rem; text-align: center; border-bottom: 4px solid #00a86b; }
+      header h1 { margin: 0 0 0.5rem 0; font-size: 2.2rem; }
+      header p { margin: 0; font-size: 1.1rem; color: #a3e6cd; }
+      .container { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+      section { background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); padding: 2rem; margin-bottom: 2rem; }
+      h2 { color: #003f2d; margin-top: 0; border-bottom: 2px solid #e6f4ef; padding-bottom: 0.5rem; }
+      .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+      .metric-card { background: #fafdfc; border: 1px solid #e6f4ef; border-left: 4px solid #00a86b; border-radius: 6px; padding: 1.2rem; }
+      .metric-card h3 { margin-top: 0; color: #003f2d; font-size: 1.1rem; }
+      .metric-card p { color: #555; font-size: 0.95rem; line-height: 1.5; margin-bottom: 0; }
+      .tools-list { list-style: none; padding: 0; display: flex; gap: 1rem; flex-wrap: wrap; }
+      .tools-list li a { display: inline-block; padding: 0.6rem 1.2rem; background: #e6f4ef; color: #007f50; border-radius: 6px; text-decoration: none; font-weight: 700; }
+      .tools-list li a:hover { background: #00a86b; color: #fff; }
+      .cta { margin-top: 1rem; display: inline-block; padding: 0.75rem 1.5rem; background: #00a86b; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 700; }
+      .cta:hover { background: #007f50; }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <h1>Insights Dashboard</h1>
+      <p>Real-time payback calculators and carbon tax projections for Irish homes.</p>
+    </header>
+
+    <div class="container">
+      <section>
+        <h2>Your Home Energy Insights</h2>
+        <p>This dashboard provides independent financial insights, BER upgrade paths, and long-term retrofit projections tailored for Irish homeowners.</p>
+      </section>
+
+      <section>
+        <h2>Key Metrics</h2>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <h3>Estimated Annual Savings</h3>
+            <p>Calculated using typical Irish heating fuel tariffs and heat pump efficiency factors.</p>
+          </div>
+
+          <div class="metric-card">
+            <h3>Carbon Tax Exposure</h3>
+            <p>Projected fossil fuel tax increases through 2030 for oil and gas systems.</p>
+          </div>
+
+          <div class="metric-card">
+            <h3>Upgrade Payback Timeline</h3>
+            <p>Estimated return-on-investment across SEAI grant-assisted insulation and heat pump upgrades.</p>
+          </div>
+
+          <div class="metric-card">
+            <h3>Heat Pump Readiness</h3>
+            <p>Heat loss indicator checking radiator compatibility and building fabric insulation.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Explore Flagship Tools</h2>
+        <ul class="tools-list">
+          <li><a href="/ber-advisor">BER Advisor</a></li>
+          <li><a href="/ai">AI Manifest</a></li>
+          <li><a href="/tag/retrofit">Retrofit Insights</a></li>
+          <li><a href="/sitemap.xml">XML Sitemap</a></li>
+        </ul>
+      </section>
+
+      <section style="text-align: center;">
+        <h2>Independent Retrofit Guidance</h2>
+        <p>Clear, conflict-free advice to help you plan smarter upgrades and protect your long-term energy budget.</p>
+        <a class="cta" href="/#contact">Book a Strategy Call</a>
+      </section>
+    </div>
+
+  </body>
+  </html>`;
+
+      return new Response(html, {
+        headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders }
+      });
+    }
+
     // 1. Public AI overview page always allowed
     if (url.pathname === '/ai' || url.pathname === '/ai/') {
       return env.ASSETS.fetch(request);
