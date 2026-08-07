@@ -555,6 +555,119 @@ export default {
       });
     }
 
+    // ---------------------------------------------------------
+    // 🏷️ AUTOMATIC TAG PAGE GENERATOR — /api/tags
+    // ---------------------------------------------------------
+    if (url.pathname === "/api/tags" && method === "GET") {
+      const tagMap: Record<string, any[]> = {};
+
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: "extract tags",
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 50,
+                match_threshold: 0.0,
+              },
+            },
+          });
+
+          for (const chunk of (results.chunks || [])) {
+            const metadata = chunk.item?.metadata || {};
+            const tags = metadata.tags || [];
+
+            for (const tag of tags) {
+              const t = String(tag).toLowerCase().trim();
+              if (!tagMap[t]) tagMap[t] = [];
+              tagMap[t].push({
+                id: chunk.id,
+                key: chunk.item?.key,
+                title: metadata.title || chunk.item?.key,
+                score: chunk.score,
+              });
+            }
+          }
+        } catch (e: any) {
+          console.error("AI Tags error:", e);
+        }
+      }
+
+      return new Response(JSON.stringify({
+        tags: Object.keys(tagMap),
+        tagMap,
+      }, null, 2), {
+        headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+      });
+    }
+
+    // ---------------------------------------------------------
+    // 🏷️ TAG PAGE SSR — /tag/<TAG>
+    // ---------------------------------------------------------
+    if (url.pathname.startsWith("/tag/") && method === "GET") {
+      const tag = decodeURIComponent(url.pathname.replace("/tag/", "")).toLowerCase().trim();
+
+      let articles: any[] = [];
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: tag,
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 20,
+                match_threshold: 0.1,
+              },
+            },
+          });
+
+          articles = (results.chunks || []).map((chunk: any) => ({
+            id: chunk.id,
+            title: chunk.item?.metadata?.title || chunk.item?.key || chunk.id,
+            key: chunk.item?.key,
+            score: chunk.score,
+          }));
+        } catch (e: any) {
+          console.error("AI Tag SSR error:", e);
+        }
+      }
+
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${tag.toUpperCase()} Insights | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Explore ${tag} guides, SEAI retrofit insights, and energy advice.">
+  <style>
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 2rem; }
+    .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    h1 { color: #007f50; font-size: 2rem; margin-top: 0; text-transform: capitalize; border-bottom: 2px solid #e6f4ef; padding-bottom: 10px; }
+    .article { margin-bottom: 1.5rem; padding: 1rem; border: 1px solid #e6f4ef; border-radius: 8px; background: #fafdfc; }
+    .article strong { font-size: 1.1rem; color: #003f2d; display: block; margin-bottom: 6px; }
+    .article a { color: #00a86b; font-weight: 700; text-decoration: none; display: inline-block; margin-top: 6px; }
+    .article a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Topic: ${tag}</h1>
+    ${articles.length > 0 ? articles.map(a => `
+      <div class="article">
+        <strong>${a.title}</strong>
+        <a href="/api/article/${a.id}">Read article →</a>
+      </div>
+    `).join("") : `<p style="color:#666;">No articles found for tag "${tag}". <a href="/articles" style="color:#00a86b;">Browse all articles →</a></p>`}
+  </div>
+</body>
+</html>`;
+
+      return new Response(html, {
+        headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders }
+      });
+    }
+
     // 15. Server-rendered homepage with latest articles: / or /index.html
     if ((url.pathname === '/' || url.pathname === '/index.html') && method === 'GET') {
       let feed: any[] = [];
