@@ -468,6 +468,93 @@ export default {
       );
     }
 
+    // ---------------------------------------------------------
+    // 🔮 KEYWORD CLUSTERING ENGINE
+    // ---------------------------------------------------------
+    if (url.pathname === "/api/cluster" && method === "GET") {
+      const query = url.searchParams.get("q") || "retrofit grants Ireland";
+
+      let items: any[] = [];
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query,
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 25,
+                match_threshold: 0.0,
+              },
+            },
+          });
+
+          items = (results.chunks || []).map((chunk: any) => ({
+            id: chunk.id,
+            key: chunk.item?.key,
+            text: chunk.text || "",
+            score: chunk.score,
+            metadata: chunk.item?.metadata || {},
+          }));
+        } catch (e: any) {
+          console.error("AI Cluster error:", e);
+        }
+      }
+
+      // Build keyword frequency map
+      const freq: Record<string, number> = {};
+      const stopwords = new Set([
+        "the","and","or","for","with","from","into","your","you","are",
+        "eco","smart","homes","ecosmarthomes","ireland","irish","is","a","an","in","on","of","to"
+      ]);
+
+      for (const item of items) {
+        const words = item.text
+          .toLowerCase()
+          .replace(/[^a-z0-9\s]/g, "")
+          .split(/\s+/);
+
+        for (const w of words) {
+          if (!w || stopwords.has(w)) continue;
+          freq[w] = (freq[w] || 0) + 1;
+        }
+      }
+
+      // Sort keywords by frequency
+      const sorted = Object.entries(freq)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 20);
+
+      // Build clusters
+      const clusters: Record<string, string[]> = {
+        retrofit: [],
+        insulation: [],
+        heating: [],
+        solar: [],
+        grants: [],
+        carbon: [],
+        misc: [],
+      };
+
+      for (const [word] of sorted) {
+        if (word.includes("retrofit")) clusters.retrofit.push(word);
+        else if (word.includes("insulation")) clusters.insulation.push(word);
+        else if (word.includes("heat") || word.includes("pump")) clusters.heating.push(word);
+        else if (word.includes("solar") || word.includes("pv")) clusters.solar.push(word);
+        else if (word.includes("grant") || word.includes("seai")) clusters.grants.push(word);
+        else if (word.includes("carbon") || word.includes("tax")) clusters.carbon.push(word);
+        else clusters.misc.push(word);
+      }
+
+      return new Response(JSON.stringify({
+        query,
+        clusters,
+        top_keywords: sorted,
+        total_chunks: items.length,
+      }, null, 2), {
+        headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+      });
+    }
+
     // 15. Server-rendered homepage with latest articles: / or /index.html
     if ((url.pathname === '/' || url.pathname === '/index.html') && method === 'GET') {
       let feed: any[] = [];
