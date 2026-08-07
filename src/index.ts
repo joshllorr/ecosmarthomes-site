@@ -1072,6 +1072,108 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
       });
     }
 
+    // ---------------------------------------------------------
+    // 🤖 SSR AI MANIFEST — EcoSmartHomes /ai-manifest
+    // ---------------------------------------------------------
+    if ((url.pathname === "/ai-manifest" || url.pathname === "/ai-manifest/" || url.pathname === "/ai-manifest.html") && method === "GET") {
+      let insights: any[] = [];
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: "AI retrofit guidance Ireland",
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 10,
+                match_threshold: 0.1,
+              },
+            },
+          });
+
+          insights = (results.chunks || []).map((chunk: any) => ({
+            id: chunk.id,
+            title: chunk.item?.metadata?.title || chunk.item?.key || chunk.id,
+            summary: chunk.text?.slice(0, 180) || "Independent AI-powered home energy retrofit guidance.",
+          }));
+        } catch (e: any) {
+          console.error("AI Manifest search error:", e);
+        }
+      }
+
+      const html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AI Manifest — EcoSmartHomes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:image" content="/og/home" />
+    <style>
+      body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; margin: 0; padding: 0; background: #f4f9f6; color: #1a3328; }
+      header { background: #003f2d; color: #fff; padding: 3rem 2rem; text-align: center; border-bottom: 4px solid #00a86b; }
+      header h1 { margin: 0 0 0.5rem 0; font-size: 2.2rem; }
+      header p { margin: 0; font-size: 1.1rem; color: #a3e6cd; }
+      .container { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+      section { background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); padding: 2rem; margin-bottom: 2rem; }
+      h2 { color: #003f2d; margin-top: 0; border-bottom: 2px solid #e6f4ef; padding-bottom: 0.5rem; }
+      .insight-card { background: #fafdfc; border: 1px solid #e6f4ef; border-left: 4px solid #00a86b; border-radius: 6px; padding: 1.2rem; margin-bottom: 1.2rem; }
+      .insight-card h3 { margin-top: 0; color: #003f2d; font-size: 1.15rem; }
+      .insight-card p { color: #555; font-size: 0.95rem; line-height: 1.5; }
+      .tools-list { list-style: none; padding: 0; display: flex; gap: 1rem; flex-wrap: wrap; }
+      .tools-list li a { display: inline-block; padding: 0.6rem 1.2rem; background: #e6f4ef; color: #007f50; border-radius: 6px; text-decoration: none; font-weight: 700; }
+      .tools-list li a:hover { background: #00a86b; color: #fff; }
+      .cta { margin-top: 1rem; display: inline-block; padding: 0.75rem 1.5rem; background: #00a86b; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 700; }
+      .cta:hover { background: #007f50; }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <h1>AI Manifest</h1>
+      <p>Your intelligent retrofit explainer — powered by independent, conflict‑free AI guidance.</p>
+    </header>
+
+    <div class="container">
+      <section>
+        <h2>What the AI Manifest Does</h2>
+        <p>This tool helps Irish homeowners understand upgrade paths, retrofit sequencing, and long-term energy strategies using clear, AI‑assisted insights.</p>
+      </section>
+
+      <section>
+        <h2>Smart Retrofit Insights</h2>
+        ${insights.length > 0 ? insights.map(i => `
+          <div class="insight-card">
+            <h3>${i.title}</h3>
+            <p>${i.summary}...</p>
+            <a href="/api/article/${i.id}" class="cta" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Read Full Insight</a>
+          </div>
+        `).join('') : '<p style="color:#666;">Explore our AI-generated guides on BER upgrading and SEAI grant roadmaps.</p>'}
+      </section>
+
+      <section>
+        <h2>Part of the Intelligent Ecosystem</h2>
+        <ul class="tools-list">
+          <li><a href="/dashboard">Insights Dashboard</a></li>
+          <li><a href="/ber-advisor">BER Advisor</a></li>
+          <li><a href="/tag/retrofit">Retrofit Insights</a></li>
+          <li><a href="/sitemap.xml">XML Sitemap</a></li>
+        </ul>
+      </section>
+
+      <section style="text-align: center;">
+        <h2>Plan Your Retrofit</h2>
+        <p>We help you build a practical, grant‑optimised upgrade plan tailored to your home.</p>
+        <a class="cta" href="/#contact">Book a Strategy Call</a>
+      </section>
+    </div>
+
+  </body>
+  </html>`;
+
+      return new Response(html, {
+        headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders }
+      });
+    }
+
     // 1. Public AI overview page always allowed
     if (url.pathname === '/ai' || url.pathname === '/ai/') {
       return env.ASSETS.fetch(request);
