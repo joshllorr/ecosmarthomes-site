@@ -668,6 +668,147 @@ export default {
       });
     }
 
+    // ---------------------------------------------------------
+    // 🌐 SITEMAP GENERATOR — /sitemap.xml
+    // ---------------------------------------------------------
+    if (url.pathname === "/sitemap.xml" && method === "GET") {
+      const urls: string[] = [
+        "https://www.ecosmarthomes.ie/",
+        "https://www.ecosmarthomes.ie/articles",
+        "https://www.ecosmarthomes.ie/grant-calculator.html",
+        "https://www.ecosmarthomes.ie/retrofit-roadmap.html"
+      ];
+
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: "list all EcoSmartHomes articles",
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 100,
+                match_threshold: 0.0,
+              },
+            },
+          });
+
+          for (const chunk of (results.chunks || [])) {
+            const id = chunk.id;
+            const metadata = chunk.item?.metadata || {};
+            const tags = metadata.tags || [];
+
+            urls.push(`https://www.ecosmarthomes.ie/articles/${id}.html`);
+            urls.push(`https://www.ecosmarthomes.ie/api/article/${id}`);
+
+            for (const tag of tags) {
+              const t = String(tag).toLowerCase().trim();
+              if (!t) continue;
+              urls.push(`https://www.ecosmarthomes.ie/tag/${encodeURIComponent(t)}`);
+            }
+          }
+        } catch (e: any) {
+          console.error("Sitemap generation error:", e);
+        }
+      }
+
+      const unique = Array.from(new Set(urls));
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
+</urlset>`;
+
+      return new Response(xml, {
+        headers: { "Content-Type": "application/xml; charset=utf-8", ...corsHeaders }
+      });
+    }
+
+    // ---------------------------------------------------------
+    // 🔗 INTERNAL LINKING ENGINE — /api/internal-links
+    // ---------------------------------------------------------
+    if (url.pathname === "/api/internal-links" && method === "GET") {
+      const id = url.searchParams.get("id") || "";
+
+      if (!id) {
+        return new Response(
+          JSON.stringify({ error: "Missing ?id=article-id" }, null, 2),
+          { status: 400, headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders } }
+        );
+      }
+
+      let links: any[] = [];
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: id,
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 10,
+                match_threshold: 0.1,
+              },
+            },
+          });
+
+          links = (results.chunks || [])
+            .filter((chunk: any) => chunk.id !== id)
+            .map((chunk: any) => ({
+              id: chunk.id,
+              title: chunk.item?.metadata?.title || chunk.item?.key || chunk.id,
+              key: chunk.item?.key,
+              score: chunk.score,
+            }));
+        } catch (e: any) {
+          console.error("Internal links error:", e);
+        }
+      }
+
+      return new Response(JSON.stringify({ id, links }, null, 2), {
+        headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+      });
+    }
+
+    // ---------------------------------------------------------
+    // 📊 TOPIC AUTHORITY ENGINE — /api/topic-authority
+    // ---------------------------------------------------------
+    if (url.pathname === "/api/topic-authority" && method === "GET") {
+      const scores: Record<string, number> = {};
+
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: "extract tags",
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 100,
+                match_threshold: 0.0,
+              },
+            },
+          });
+
+          for (const chunk of (results.chunks || [])) {
+            const metadata = chunk.item?.metadata || {};
+            const tags = metadata.tags || [];
+            for (const tag of tags) {
+              const t = String(tag).toLowerCase().trim();
+              if (!t) continue;
+              scores[t] = (scores[t] || 0) + 1;
+            }
+          }
+        } catch (e: any) {
+          console.error("Topic authority error:", e);
+        }
+      }
+
+      const ranked = Object.entries(scores)
+        .sort((a, b) => b[1] - a[1])
+        .map(([tag, score]) => ({ tag, score }));
+
+      return new Response(JSON.stringify({ topics: ranked }, null, 2), {
+        headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+      });
+    }
+
     // 15. Server-rendered homepage with latest articles: / or /index.html
     if ((url.pathname === '/' || url.pathname === '/index.html') && method === 'GET') {
       let feed: any[] = [];
