@@ -2,6 +2,8 @@
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/index.html", "destination": "/index.html" },
+    { "source": "/og/(.*)", "destination": "/index.html" },
+    { "source": "/tag/(.*)", "destination": "/index.html" },
     { "source": "/articles/search", "destination": "/articles/index.html" },
     { "source": "/articles/tag/(.*)", "destination": "/articles/index.html" },
     { "source": "/articles/(.*)", "destination": "/articles/index.html" },
