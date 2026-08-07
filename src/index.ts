@@ -570,7 +570,7 @@ export default {
     }
 
     // ---------------------------------------------------------
-    // 🏷️ TAG PAGE SSR — /tag/<TAG>
+    // 🏷️ CUSTOM SSR TAG PAGE — EcoSmartHomes Tag Landing Pages
     // ---------------------------------------------------------
     if (url.pathname.startsWith("/tag/") && method === "GET") {
       const tag = decodeURIComponent(url.pathname.replace("/tag/", "")).toLowerCase().trim();
@@ -592,8 +592,7 @@ export default {
           articles = (results.chunks || []).map((chunk: any) => ({
             id: chunk.id,
             title: chunk.item?.metadata?.title || chunk.item?.key || chunk.id,
-            key: chunk.item?.key,
-            score: chunk.score,
+            summary: chunk.text?.slice(0, 180) || "Advisory guidance on home energy retrofits and SEAI grants.",
           }));
         } catch (e: any) {
           console.error("AI Tag SSR error:", e);
@@ -601,34 +600,55 @@ export default {
       }
 
       const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${tag.toUpperCase()} Insights | EcoSmartHomes Ireland</title>
-  <meta name="description" content="Explore ${tag} guides, SEAI retrofit insights, and energy advice.">
-  <style>
-    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 2rem; }
-    .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-    h1 { color: #007f50; font-size: 2rem; margin-top: 0; text-transform: capitalize; border-bottom: 2px solid #e6f4ef; padding-bottom: 10px; }
-    .article { margin-bottom: 1.5rem; padding: 1rem; border: 1px solid #e6f4ef; border-radius: 8px; background: #fafdfc; }
-    .article strong { font-size: 1.1rem; color: #003f2d; display: block; margin-bottom: 6px; }
-    .article a { color: #00a86b; font-weight: 700; text-decoration: none; display: inline-block; margin-top: 6px; }
-    .article a:hover { text-decoration: underline; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Topic: ${tag}</h1>
-    ${articles.length > 0 ? articles.map(a => `
-      <div class="article">
-        <strong>${a.title}</strong>
-        <a href="/api/article/${a.id}">Read article →</a>
-      </div>
-    `).join("") : `<p style="color:#666;">No articles found for tag "${tag}". <a href="/articles" style="color:#00a86b;">Browse all articles →</a></p>`}
-  </div>
-</body>
-</html>`;
+  <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>${tag.toUpperCase()} — EcoSmartHomes Advisory Articles</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:image" content="/og/tag/${encodeURIComponent(tag)}" />
+    <style>
+      body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; margin: 0; padding: 0; background: #f4f9f6; color: #1a3328; }
+      header { background: #003f2d; color: #fff; padding: 3rem 2rem; text-align: center; border-bottom: 4px solid #00a86b; }
+      header h1 { margin: 0 0 0.5rem 0; font-size: 2.2rem; text-transform: capitalize; }
+      header p { margin: 0; font-size: 1.1rem; color: #a3e6cd; }
+      .container { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+      h2 { color: #003f2d; border-bottom: 2px solid #e6f4ef; padding-bottom: 0.5rem; }
+      .article-card { background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); padding: 1.8rem; margin-bottom: 1.5rem; border-left: 5px solid #00a86b; }
+      .article-card h3 { margin-top: 0; color: #003f2d; font-size: 1.3rem; }
+      .article-card p { color: #555; line-height: 1.6; }
+      .cta { margin-top: 1rem; display: inline-block; padding: 0.75rem 1.5rem; background: #00a86b; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 700; }
+      .cta:hover { background: #007f50; }
+      .more-insights { background: #fff; border-radius: 8px; padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.06); margin-top: 3rem; }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <h1>Tag: ${tag}</h1>
+      <p>Independent, conflict‑free retrofit guidance for Irish homeowners.</p>
+    </header>
+
+    <div class="container">
+      <section>
+        <h2>Advisory Articles</h2>
+        ${articles.length > 0 ? articles.map(a => `
+          <div class="article-card">
+            <h3>${a.title}</h3>
+            <p>${a.summary}...</p>
+            <a href="/api/article/${a.id}" class="cta">Read Full Article</a>
+          </div>
+        `).join("") : `<p style="color:#666;">No articles found for tag "${tag}". <a href="/api/articles" class="cta">Browse all articles →</a></p>`}
+      </section>
+
+      <section class="more-insights">
+        <h2>Explore More Insights</h2>
+        <p>Clear, independent advice on Irish home retrofits, SEAI grants, carbon tax shields, and BER upgrades.</p>
+        <a class="cta" href="/api/articles">Explore All Articles</a>
+      </section>
+    </div>
+
+  </body>
+  </html>`;
 
       return new Response(html, {
         headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders }
