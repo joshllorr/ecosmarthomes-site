@@ -303,6 +303,171 @@ export default {
       });
     }
 
+    // ---------------------------------------------------------
+    // 🔍 SEO HUB — SEMANTIC SEARCH (AI SEARCH BINDING MY_SEARCH)
+    // ---------------------------------------------------------
+    if (url.pathname === "/api/search" && method === "GET") {
+      const query = url.searchParams.get("q") || "retrofit grants Ireland";
+
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query,
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 10,
+                match_threshold: 0.4,
+              },
+              query_rewrite: { enabled: false },
+              reranking: { enabled: false },
+            },
+          });
+
+          return new Response(JSON.stringify({
+            query,
+            search_query: results.search_query,
+            chunks: results.chunks,
+          }, null, 2), {
+            headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+          });
+        } catch (e: any) {
+          console.error("AI Search error:", e);
+        }
+      }
+
+      return new Response(JSON.stringify({
+        query,
+        status: "AI Search active on R2 bucket ecosmart-articles",
+        chunks: []
+      }, null, 2), {
+        headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+      });
+    }
+
+    // ---------------------------------------------------------
+    // 🕷️ CRAWLER ENGINE — LIST INDEXED ARTICLES
+    // ---------------------------------------------------------
+    if (url.pathname === "/api/crawl" && method === "GET") {
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: "EcoSmartHomes articles",
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 50,
+                match_threshold: 0.0,
+              },
+            },
+          });
+
+          const items = (results.chunks || []).map((chunk: any) => ({
+            id: chunk.id,
+            key: chunk.item?.key,
+            score: chunk.score,
+            text_preview: chunk.text?.slice(0, 200) || "",
+            metadata: chunk.item?.metadata || {},
+          }));
+
+          return new Response(JSON.stringify({
+            status: "Crawl complete",
+            count: items.length,
+            items,
+          }, null, 2), {
+            headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+          });
+        } catch (e: any) {
+          console.error("AI Crawl error:", e);
+        }
+      }
+
+      return new Response(JSON.stringify({
+        status: "Crawl ready",
+        count: 0,
+        items: []
+      }, null, 2), {
+        headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+      });
+    }
+
+    // ---------------------------------------------------------
+    // 📚 ARTICLES FEED — FOR FRONTEND LISTING VIA AI SEARCH
+    // ---------------------------------------------------------
+    if (url.pathname === "/api/articles" && method === "GET") {
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: "list all EcoSmartHomes articles",
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 20,
+                match_threshold: 0.0,
+              },
+            },
+          });
+
+          const articles = (results.chunks || []).map((chunk: any) => ({
+            id: chunk.id,
+            title: chunk.item?.metadata?.title || chunk.item?.key || chunk.id,
+            key: chunk.item?.key,
+            score: chunk.score,
+            metadata: chunk.item?.metadata || {},
+          }));
+
+          return new Response(JSON.stringify({ articles }, null, 2), {
+            headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+          });
+        } catch (e: any) {
+          console.error("AI Articles feed error:", e);
+        }
+      }
+    }
+
+    // ---------------------------------------------------------
+    // 📄 SINGLE ARTICLE — FETCH BY ID VIA AI SEARCH
+    // ---------------------------------------------------------
+    if (url.pathname.startsWith("/api/article/") && method === "GET") {
+      const id = url.pathname.replace("/api/article/", "").trim();
+
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: id,
+            ai_search_options: {
+              retrieval: {
+                retrieval_type: "hybrid",
+                max_num_results: 5,
+                match_threshold: 0.1,
+              },
+            },
+          });
+
+          const best = (results.chunks || [])[0];
+
+          if (best) {
+            return new Response(JSON.stringify({
+              id: best.id,
+              key: best.item?.key,
+              text: best.text,
+              metadata: best.item?.metadata || {},
+              score: best.score,
+            }, null, 2), {
+              headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+            });
+          }
+        } catch (e: any) {
+          console.error("AI Article fetch error:", e);
+        }
+      }
+
+      return new Response(
+        JSON.stringify({ error: "Article not found", id }, null, 2),
+        { status: 404, headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders } }
+      );
+    }
+
     // 15. Server-rendered homepage with latest articles: / or /index.html
     if ((url.pathname === '/' || url.pathname === '/index.html') && method === 'GET') {
       let feed: any[] = [];
