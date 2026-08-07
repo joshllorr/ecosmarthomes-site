@@ -1174,6 +1174,266 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
       });
     }
 
+    // ---------------------------------------------------------
+    // 🧩 ANTIGRAVITY UI — Main Shell & Management (/ui)
+    // ---------------------------------------------------------
+    if (url.pathname === "/ui" && method === "GET") {
+      const html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Antigravity UI — EcoSmartHomes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 2rem; }
+      .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-top: 5px solid #00a86b; }
+      h1 { color: #003f2d; margin-top: 0; }
+      p { color: #555; font-size: 1.05rem; }
+      .nav-links { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+      .nav-card { background: #fafdfc; border: 1px solid #e6f4ef; padding: 1.2rem; border-radius: 8px; text-decoration: none; color: #003f2d; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: space-between; }
+      .nav-card:hover { border-color: #00a86b; background: #e6f4ef; color: #007f50; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Antigravity UI</h1>
+      <p>Headless content management & AI Search index publishing suite for EcoSmartHomes.</p>
+
+      <div class="nav-links">
+        <a href="/ui/articles" class="nav-card"><span>📚 View Indexed Articles</span><span>→</span></a>
+        <a href="/ui/new" class="nav-card"><span>➕ Create & Publish New Article</span><span>→</span></a>
+        <a href="/ui/editor" class="nav-card"><span>✏️ Open Article Content Editor</span><span>→</span></a>
+        <a href="/dashboard" class="nav-card"><span>📊 Insights Dashboard</span><span>→</span></a>
+      </div>
+    </div>
+  </body>
+  </html>`;
+      return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders } });
+    }
+
+    // 📚 2. Article List — /ui/articles
+    if (url.pathname === "/ui/articles" && method === "GET") {
+      let articles: any[] = [];
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: "list all EcoSmartHomes articles",
+            ai_search_options: {
+              retrieval: { retrieval_type: "hybrid", max_num_results: 50, match_threshold: 0.0 }
+            }
+          });
+          articles = (results.chunks || []).map((c: any) => ({
+            id: c.id,
+            title: c.item?.metadata?.title || c.item?.key || c.id,
+            score: c.score
+          }));
+        } catch (e: any) {
+          console.error("Antigravity articles list error:", e);
+        }
+      }
+
+      const html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Articles — Antigravity UI</title>
+    <style>
+      body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 2rem; }
+      .container { max-width: 850px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+      h1 { color: #003f2d; margin-top: 0; border-bottom: 2px solid #e6f4ef; padding-bottom: 10px; }
+      .article-row { display: flex; align-items: center; justify-content: space-between; padding: 1rem; border-bottom: 1px solid #e6f4ef; }
+      .article-row:last-child { border-bottom: none; }
+      .article-title { font-weight: 700; color: #003f2d; }
+      .btn { display: inline-block; padding: 0.4rem 1rem; background: #00a86b; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+      .btn-outline { background: transparent; border: 1px solid #00a86b; color: #00a86b; margin-left: 8px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Indexed R2 Articles (${articles.length})</h1>
+      ${articles.length > 0 ? articles.map(a => `
+        <div class="article-row">
+          <span class="article-title">${a.title}</span>
+          <div>
+            <a href="/ui/article/${a.id}" class="btn">View</a>
+            <a href="/ui/editor?id=${a.id}" class="btn btn-outline">Edit</a>
+          </div>
+        </div>
+      `).join('') : '<p style="color:#666;">No articles found in AI Search index.</p>'}
+      <div style="margin-top: 2rem;">
+        <a href="/ui" style="color: #00a86b; font-weight: 700; text-decoration: none;">← Back to Antigravity Shell</a>
+      </div>
+    </div>
+  </body>
+  </html>`;
+      return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders } });
+    }
+
+    // 📄 3. Article Viewer — /ui/article/<id>
+    if (url.pathname.startsWith("/ui/article/") && method === "GET") {
+      const id = url.pathname.replace("/ui/article/", "").trim();
+      let article: any = null;
+
+      if (env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: id,
+            ai_search_options: {
+              retrieval: { retrieval_type: "hybrid", max_num_results: 1, match_threshold: 0.1 }
+            }
+          });
+          article = (results.chunks || [])[0];
+        } catch (e: any) {
+          console.error("Antigravity article fetch error:", e);
+        }
+      }
+
+      const title = article?.item?.metadata?.title || article?.item?.key || id;
+      const content = article?.text || "No content found.";
+
+      const html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${title} — Antigravity Article Viewer</title>
+    <style>
+      body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 2rem; }
+      .container { max-width: 850px; margin: 0 auto; background: #fff; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+      h1 { color: #003f2d; margin-top: 0; border-bottom: 2px solid #e6f4ef; padding-bottom: 10px; }
+      pre { background: #fafdfc; border: 1px solid #e6f4ef; padding: 1.5rem; border-radius: 8px; font-family: monospace; white-space: pre-wrap; word-wrap: break-word; line-height: 1.6; }
+      .btn { display: inline-block; padding: 0.6rem 1.2rem; background: #00a86b; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 700; margin-top: 1rem; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>${title}</h1>
+      <pre>${content}</pre>
+      <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
+        <a href="/ui/editor?id=${encodeURIComponent(id)}" class="btn">Edit Article</a>
+        <a href="/ui/articles" style="color: #00a86b; font-weight: 700; text-decoration: none;">Back to Articles</a>
+      </div>
+    </div>
+  </body>
+  </html>`;
+      return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders } });
+    }
+
+    // ✏️ 4. Editor & New Article Creator — /ui/editor and /ui/new
+    if ((url.pathname.startsWith("/ui/editor") || url.pathname === "/ui/new") && method === "GET") {
+      const id = url.searchParams.get("id") || "";
+      let existingContent = "";
+
+      if (id && env.MY_SEARCH && typeof env.MY_SEARCH.search === 'function') {
+        try {
+          const results = await env.MY_SEARCH.search({
+            query: id,
+            ai_search_options: {
+              retrieval: { retrieval_type: "hybrid", max_num_results: 1, match_threshold: 0.1 }
+            }
+          });
+          existingContent = results.chunks?.[0]?.text || "";
+        } catch (e: any) {
+          console.error("Editor fetch existing article error:", e);
+        }
+      }
+
+      const html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Article Editor — Antigravity UI</title>
+    <style>
+      body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 2rem; }
+      .container { max-width: 850px; margin: 0 auto; background: #fff; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+      h1 { color: #003f2d; margin-top: 0; }
+      label { display: block; font-weight: 700; margin-bottom: 0.5rem; color: #003f2d; }
+      input[type="text"], textarea { width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; font-size: 1rem; box-sizing: border-box; margin-bottom: 1.5rem; }
+      textarea { height: 320px; font-family: monospace; line-height: 1.5; }
+      .btn { display: inline-block; padding: 0.75rem 1.5rem; background: #00a86b; color: #fff; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 1rem; }
+      .btn:hover { background: #007f50; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>${id ? 'Edit Article: ' + id : 'Create New Article'}</h1>
+      <form method="POST" action="/ui/publish">
+        <label for="id">Article ID / Slug:</label>
+        <input type="text" id="id" name="id" value="${id}" placeholder="e.g. heat-pump-guide-2026" required ${id ? 'readonly' : ''} />
+
+        <label for="content">Article Content (JSON / Markdown):</label>
+        <textarea id="content" name="content" placeholder="Paste or type article content..." required>${existingContent}</textarea>
+
+        <button type="submit" class="btn">🚀 Publish to R2 & Index AI Search</button>
+      </form>
+      <div style="margin-top: 1.5rem;">
+        <a href="/ui" style="color: #00a86b; font-weight: 700; text-decoration: none;">← Cancel & Return to Antigravity Shell</a>
+      </div>
+    </div>
+  </body>
+  </html>`;
+      return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders } });
+    }
+
+    // 🚀 5. Publish Endpoint — /ui/publish (POST)
+    if (url.pathname === "/ui/publish" && method === "POST") {
+      try {
+        const formData = await request.formData();
+        const id = formData.get("id")?.toString().trim() || `article-${Date.now()}`;
+        const content = formData.get("content")?.toString() || "";
+
+        // Store in R2 bucket (MY_SEARCH binding)
+        if (env.MY_SEARCH && typeof env.MY_SEARCH.put === 'function') {
+          await env.MY_SEARCH.put(`${id}.json`, content);
+        }
+
+        // Trigger AI Search re-indexing if binding supports index()
+        if (env.MY_SEARCH && typeof env.MY_SEARCH.index === 'function') {
+          try {
+            await env.MY_SEARCH.index({
+              key: id,
+              data: content,
+              metadata: { title: id, updated_at: new Date().toISOString() }
+            });
+          } catch (idxErr) {
+            console.error("AI Search index trigger notice:", idxErr);
+          }
+        }
+
+        const html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Published Successfully — Antigravity UI</title>
+    <style>
+      body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 2rem; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+      .card { background: #fff; max-width: 520px; width: 100%; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-top: 5px solid #00a86b; text-align: center; }
+      h1 { color: #003f2d; margin-top: 0; }
+      p { color: #555; font-size: 1.05rem; }
+      .btn { display: inline-block; margin-top: 1.5rem; padding: 0.75rem 1.5rem; background: #00a86b; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>🚀 Article Published!</h1>
+      <p>Article <strong>${id}</strong> has been stored in R2 (<code>ecosmart-articles</code>) and submitted for AI Search indexing.</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+        <a href="/ui/article/${encodeURIComponent(id)}" class="btn">View Article</a>
+        <a href="/ui/articles" class="btn" style="background: #003f2d;">All Articles</a>
+      </div>
+    </div>
+  </body>
+  </html>`;
+        return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders } });
+      } catch (pubErr: any) {
+        console.error("Antigravity publish error:", pubErr);
+        return new Response(`<!DOCTYPE html><html><body><h2>Publish Error</h2><p>${pubErr?.message || 'Error publishing article'}</p><a href="/ui/editor">Back to Editor</a></body></html>`, { status: 500, headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders } });
+      }
+    }
+
     // 1. Public AI overview page always allowed
     if (url.pathname === '/ai' || url.pathname === '/ai/') {
       return env.ASSETS.fetch(request);
