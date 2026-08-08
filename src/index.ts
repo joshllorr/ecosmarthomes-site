@@ -271,6 +271,105 @@ export default {
     }
 
     // ---------------------------------------------------------
+    // 🚀 PUBLISHING ENDPOINT — /api/publish (POST)
+    // Bridge: Hub (Vercel) ➔ Main Site (Cloudflare Worker)
+    // ---------------------------------------------------------
+    if ((url.pathname === "/api/publish" || url.pathname === "/api/publish/") && method === "POST") {
+      try {
+        let body: any = {};
+        const contentType = request.headers.get("content-type") || "";
+
+        if (contentType.includes("application/json")) {
+          body = await request.json();
+        } else if (contentType.includes("form")) {
+          const formData = await request.formData();
+          body = {
+            title: formData.get("title")?.toString() || "",
+            slug: formData.get("slug")?.toString() || formData.get("id")?.toString() || "",
+            content: formData.get("content")?.toString() || "",
+            description: formData.get("description")?.toString() || "",
+            tags: formData.get("tags")?.toString() || ""
+          };
+        }
+
+        const { title, slug, content, description, tags } = body;
+
+        if (!slug || !content) {
+          return new Response(JSON.stringify({ error: "Missing required fields: slug and content are required" }), {
+            status: 400,
+            headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+          });
+        }
+
+        const cleanSlug = slug.replace(/^\/articles\//, "").replace(/\.html$/, "").trim();
+        const articleData = {
+          title: title || cleanSlug,
+          slug: cleanSlug,
+          content,
+          description: description || "Independent home energy retrofit advisory article from EcoSmartHomes Ireland.",
+          tags: Array.isArray(tags) ? tags : (tags ? tags.split(",").map((t: string) => t.trim()) : ["Retrofit", "BER Rating"]),
+          published: Date.now(),
+          published_at: new Date().toISOString()
+        };
+
+        // 1. Store in KV (ARTICLES, KV_BINDING, ARTICLES_FEED, or ARTICLES_FEED_KV)
+        const kv = env.ARTICLES || env.KV_BINDING || env.ARTICLES_FEED || env.ARTICLES_FEED_KV || null;
+        if (kv && typeof kv.put === 'function') {
+          try {
+            await kv.put(`article:${cleanSlug}`, JSON.stringify(articleData));
+            await kv.put(cleanSlug, JSON.stringify(articleData));
+          } catch (kvErr) {
+            console.error("KV store article publish notice:", kvErr);
+          }
+        }
+
+        // 2. Store in R2 bucket (MY_SEARCH)
+        if (env.MY_SEARCH && typeof env.MY_SEARCH.put === 'function') {
+          try {
+            await env.MY_SEARCH.put(`${cleanSlug}.json`, JSON.stringify(articleData));
+          } catch (r2Err) {
+            console.error("R2 store article publish notice:", r2Err);
+          }
+        }
+
+        // 3. Trigger AI Search re-indexing
+        if (env.MY_SEARCH && typeof env.MY_SEARCH.index === 'function') {
+          try {
+            await env.MY_SEARCH.index({
+              key: cleanSlug,
+              data: typeof content === 'string' ? content : JSON.stringify(content),
+              metadata: {
+                title: articleData.title,
+                slug: cleanSlug,
+                description: articleData.description,
+                tags: articleData.tags,
+                updated_at: articleData.published_at
+              }
+            });
+          } catch (idxErr) {
+            console.error("AI Search index publish notice:", idxErr);
+          }
+        }
+
+        return new Response(JSON.stringify({
+          ok: true,
+          success: true,
+          slug: cleanSlug,
+          url: `https://www.ecosmarthomes.ie/articles/${cleanSlug}.html`,
+          message: `Article '${articleData.title}' successfully published and indexed!`
+        }, null, 2), {
+          headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+        });
+      } catch (pubErr: any) {
+        console.error("Error in /api/publish:", pubErr);
+        return new Response(JSON.stringify({ error: pubErr?.message || "Internal publish error" }), {
+          status: 500,
+          headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+        });
+      }
+    }
+
+    // ---------------------------------------------------------
     // 🔍 SEO HUB — SEMANTIC SEARCH (AI SEARCH BINDING MY_SEARCH)
     // ---------------------------------------------------------
     if (url.pathname === "/api/search" && method === "GET") {
@@ -2296,7 +2395,76 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
 
     // 8. Server-Rendered Article Engine (SSR Markdown → HTML with rich SEO & JSON-LD)
     if (url.pathname.startsWith('/articles/') && method === 'GET') {
-      const rawSlug = url.pathname.replace('/articles/', '').replace('.html', '');
+      const rawSlug = url.pathname.replace('/articles/', '').replace('.html', '').trim();
+
+      // 1. Check KV storage for dynamically published article (from POST /api/publish)
+      const kv = env.ARTICLES || env.KV_BINDING || env.ARTICLES_FEED || env.ARTICLES_FEED_KV || null;
+      let kvArticle: any = null;
+      if (kv && typeof kv.get === 'function') {
+        try {
+          const stored = await kv.get(`article:${rawSlug}`) || await kv.get(rawSlug);
+          if (stored) {
+            kvArticle = typeof stored === 'string' ? JSON.parse(stored) : stored;
+          }
+        } catch (e) {}
+      }
+
+      if (kvArticle) {
+        const title = kvArticle.title || rawSlug;
+        const description = kvArticle.description || "Independent home energy retrofit advisory article from EcoSmartHomes Ireland.";
+        const bodyContent = kvArticle.content || "";
+        const ogImage = `/og/article/${encodeURIComponent(rawSlug)}`;
+
+        const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${title} — EcoSmartHomes Ireland</title>
+  <meta name="description" content="${description}">
+  <meta property="og:title" content="${title}">
+  <meta property="og:description" content="${description}">
+  <meta property="og:image" content="${ogImage}">
+  <style>
+    body { font-family: 'Segoe UI', system-ui, Arial, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 0; }
+    header { background: #003f2d; color: #fff; padding: 3rem 2rem; text-align: center; border-bottom: 4px solid #00a86b; }
+    header h1 { margin: 0 0 0.5rem 0; font-size: 2.2rem; }
+    header p { margin: 0; font-size: 1.1rem; color: #a3e6cd; }
+    .container { max-width: 850px; margin: 2rem auto; padding: 2.5rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .content-body { line-height: 1.8; font-size: 1.05rem; color: #333; }
+    .cta-box { background: #fafdfc; border: 1px solid #e6f4ef; border-left: 5px solid #00a86b; border-radius: 8px; padding: 1.8rem; margin-top: 3rem; text-align: center; }
+    .btn { display: inline-block; padding: 0.75rem 1.5rem; background: #00a86b; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 700; }
+    .btn:hover { background: #007f50; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>${title}</h1>
+    <p>Independent, conflict‑free retrofit guidance for Irish homeowners.</p>
+  </header>
+
+  <div class="container">
+    <div class="content-body">
+      ${bodyContent}
+    </div>
+
+    <div class="cta-box">
+      <h3 style="color: #003f2d; margin-top:0;">Need Personalised Retrofit Advice?</h3>
+      <p style="color: #555;">Book a strategy call to evaluate your home's BER potential and SEAI grant options.</p>
+      <a href="/#contact" class="btn">Book a Strategy Call</a>
+    </div>
+
+    <div style="margin-top: 2rem; border-top: 1px solid #e6f4ef; padding-top: 1rem;">
+      <a href="/articles" style="color: #00a86b; font-weight: 700; text-decoration: none;">← Back to All Articles</a>
+    </div>
+  </div>
+</body>
+</html>`;
+
+        return new Response(html, {
+          headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders }
+        });
+      }
 
       let mdText = '';
       const candidatePaths = [
