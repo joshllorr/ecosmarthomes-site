@@ -2741,10 +2741,28 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
         }
       }
 
-      // If no mapping or markdown missing, fall back to static template
-      const fallbackUrl = new URL('/articles/test-article.html', request.url).toString();
-      const fallbackRequest = new Request(fallbackUrl, request);
-      return env.ASSETS.fetch(fallbackRequest);
+      // If article not found in KV or static markdown assets, return 404
+      return new Response(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Article Not Found — EcoSmartHomes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; background: #f4f9f6; color: #1a3328; margin: 0; padding: 3rem 1rem; text-align: center; }
+    .card { max-width: 500px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    h1 { color: #003f2d; margin-top: 0; }
+    a { display: inline-block; margin-top: 1rem; padding: 0.6rem 1.2rem; background: #00a86b; color: #fff; text-decoration: none; font-weight: 700; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Article Not Found</h1>
+    <p>The requested article <code>${rawSlug}</code> could not be found.</p>
+    <a href="/articles">Browse All Articles</a>
+  </div>
+</body>
+</html>`, { status: 404, headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders } });
     }
 
     return new Response('Not Found', { status: 404, headers: corsHeaders });
