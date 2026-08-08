@@ -2402,7 +2402,7 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
       let kvArticle: any = null;
       if (kv && typeof kv.get === 'function') {
         try {
-          const stored = await kv.get(`article:${rawSlug}`);
+          const stored = (await kv.get(`article:${rawSlug}`)) || (await kv.get(rawSlug));
           if (stored) {
             kvArticle = typeof stored === 'string' ? JSON.parse(stored) : stored;
           }
