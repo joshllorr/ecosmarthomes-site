@@ -2402,17 +2402,17 @@ ${unique.map(u => `  <url>\n    <loc>${u}</loc>\n  </url>`).join("\n")}
       let kvArticle: any = null;
       if (kv && typeof kv.get === 'function') {
         try {
-          const stored = await kv.get(`article:${rawSlug}`) || await kv.get(rawSlug);
+          const stored = await kv.get(`article:${rawSlug}`);
           if (stored) {
             kvArticle = typeof stored === 'string' ? JSON.parse(stored) : stored;
           }
         } catch (e) {}
       }
 
-      if (kvArticle) {
+      if (kvArticle && (kvArticle.title || kvArticle.content)) {
         const title = kvArticle.title || rawSlug;
         const description = kvArticle.description || "Independent home energy retrofit advisory article from EcoSmartHomes Ireland.";
-        const bodyContent = kvArticle.content || "";
+        const bodyContent = typeof kvArticle.content === 'string' ? kvArticle.content : JSON.stringify(kvArticle.content || "");
         const ogImage = `/og/article/${encodeURIComponent(rawSlug)}`;
 
         const html = `<!DOCTYPE html>
