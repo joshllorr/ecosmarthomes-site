@@ -82,13 +82,14 @@
 
   function initSpeechSynthesis() {
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => {
+      const loadVoices = () => {
         const voices = window.speechSynthesis.getVoices();
-        // Prefer natural Irish or British English voices
         selectedVoice = voices.find(v => v.lang === 'en-IE' || v.name.includes('Ireland')) ||
-                        voices.find(v => v.lang === 'en-GB' && v.name.includes('Female')) ||
+                        voices.find(v => v.lang === 'en-GB' && (v.name.includes('Female') || v.name.includes('Natural'))) ||
                         voices.find(v => v.lang.startsWith('en')) || null;
       };
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
     }
   }
 
@@ -97,47 +98,79 @@
     if (SpeechRec) {
       recognition = new SpeechRec();
       recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = 'en-IE';
+      recognition.interimResults = true;
+      // Use device language or standard English for universal browser support
+      recognition.lang = navigator.language || 'en-GB';
+
+      let finalTranscript = '';
 
       recognition.onstart = () => {
         isListening = true;
-        updateAcousticBar(true, 'Listening... Speak now 🎙️');
+        finalTranscript = '';
+        updateAcousticBar(true, '🎙️ Listening... Speak your question now');
         const micBtn = document.getElementById('voice-mic-trigger');
+        const textInput = document.getElementById('voice-text-input');
         if (micBtn) micBtn.classList.add('listening');
+        if (textInput) textInput.placeholder = 'Listening to your voice...';
       };
 
       recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        if (transcript && transcript.trim()) {
-          handleUserQuery(transcript.trim());
+        let interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
+        }
+
+        const textInput = document.getElementById('voice-text-input');
+        const liveText = finalTranscript || interimTranscript;
+        if (textInput && liveText) {
+          textInput.value = liveText;
         }
       };
 
       recognition.onerror = (event) => {
-        console.warn('Speech Recognition Error:', event.error);
+        console.warn('Speech Recognition Notice:', event.error);
+        if (event.error === 'not-allowed') {
+          alert('Microphone access was blocked. Please allow microphone permissions in your browser address bar.');
+        }
         stopListening();
       };
 
       recognition.onend = () => {
         stopListening();
+        const textInput = document.getElementById('voice-text-input');
+        const spokenQuery = (finalTranscript || (textInput ? textInput.value : '')).trim();
+        if (spokenQuery) {
+          handleUserQuery(spokenQuery);
+          if (textInput) textInput.value = '';
+        }
       };
     }
   }
 
-  function toggleListening() {
+  async function toggleListening() {
     if (!recognition) {
-      alert('Voice recognition is not supported in this browser. You can type your question directly!');
+      alert('Voice input is not supported in this browser. You can type your question directly in the box below!');
       return;
     }
 
     if (isListening) {
       recognition.stop();
     } else {
+      // Request mic permission explicitly if needed
       try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          await navigator.mediaDevices.getUserMedia({ audio: true });
+        }
         recognition.start();
       } catch (err) {
-        console.warn('Recognition start error:', err);
+        console.warn('Recognition start exception:', err);
+        try {
+          recognition.start();
+        } catch (_) {}
       }
     }
   }
@@ -145,7 +178,9 @@
   function stopListening() {
     isListening = false;
     const micBtn = document.getElementById('voice-mic-trigger');
+    const textInput = document.getElementById('voice-text-input');
     if (micBtn) micBtn.classList.remove('listening');
+    if (textInput) textInput.placeholder = 'Speak or type a question...';
     updateAcousticBar(false, '');
   }
 
@@ -167,14 +202,16 @@
   function speakText(text) {
     if ('speechSynthesis' in window && text) {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
+      // Clean speech text of markdown symbols
+      const cleanSpoken = text.replace(/\*\*/g, '').replace(/[#_`]/g, '').trim();
+      const utterance = new SpeechSynthesisUtterance(cleanSpoken);
       if (selectedVoice) utterance.voice = selectedVoice;
-      utterance.rate = 1.05;
+      utterance.rate = 1.0;
       utterance.pitch = 1.0;
 
       utterance.onstart = () => {
         isSpeaking = true;
-        updateAcousticBar(true, 'Aoife is speaking... 🔊');
+        updateAcousticBar(true, '🔊 Aoife is speaking...');
       };
 
       utterance.onend = () => {
@@ -184,6 +221,15 @@
 
       window.speechSynthesis.speak(utterance);
     }
+  }
+
+  function formatMarkdown(text) {
+    if (!text) return '';
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/\n•\s*/g, '<br>• ')
+      .replace(/\n/g, '<br>');
   }
 
   async function handleUserQuery(queryText) {
@@ -218,11 +264,12 @@
 
       if (res.ok && json.success && json.data) {
         const data = json.data;
+        const formattedDisplay = formatMarkdown(data.displayText);
         const displayHtml = `
-          ${data.displayText.replace(/\n/g, '<br>')}
+          <div>${formattedDisplay}</div>
           ${data.surveyCta ? `
-            <div style="margin-top: 10px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
-              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.85rem; display: block;">
+            <div style="margin-top: 12px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
+              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
                 Order €49 Independent Survey →
               </a>
             </div>
@@ -241,7 +288,7 @@
       console.error('Advisor error:', err);
       const typingNode = document.getElementById(typingId);
       if (typingNode) typingNode.remove();
-      appendMessage(`Homeowners in Ireland can claim up to €12,500 for an Air-to-Water Heat Pump, plus €2,500 for attic insulation under May 2026 SEAI rates. You can start with our <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank">€49 Independent Survey</a> to check your exact heat loss index!`, 'advisor', true);
+      appendMessage(`Under May 2026 SEAI rates, Irish homeowners can claim up to <strong>€12,500</strong> for an Air-to-Water Heat Pump, plus <strong>€2,500</strong> for attic insulation.<br><br>Order your <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" style="color: #065f46; font-weight: 700;">€49 Independent Survey</a> to check your exact grant eligibility!`, 'advisor', true);
     }
   }
 
