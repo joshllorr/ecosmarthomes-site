@@ -10,6 +10,8 @@
     { "source": "/solar/", "destination": "/solar/index.html" },
     { "source": "/roadmap", "destination": "/roadmap/index.html" },
     { "source": "/roadmap/", "destination": "/roadmap/index.html" },
+    { "source": "/whatsapp", "destination": "/whatsapp/index.html" },
+    { "source": "/whatsapp/", "destination": "/whatsapp/index.html" },
     { "source": "/claim-lead", "destination": "/claim-lead.html" },
     { "source": "/claim-lead.html", "destination": "/claim-lead.html" },
     { "source": "/contractors", "destination": "/contractors/index.html" },

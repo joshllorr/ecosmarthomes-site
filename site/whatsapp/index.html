@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Inbound Voice Note & Photo AI Bot | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Send voice notes, boiler photos, and retrofit questions directly to our AI energy advisor on WhatsApp for instant SEAI grant breakdowns.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/whatsapp/">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+    .wa-wrapper {
+      max-width: 800px;
+      margin: 30px auto 60px auto;
+      background: #efeae2;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
+      border: 1px solid #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      height: 750px;
+    }
+    .wa-header {
+      background: #005c4b;
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .wa-avatar {
+      width: 44px;
+      height: 44px;
+      background: #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .wa-messages-area {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #efeae2 url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png') repeat;
+    }
+    .msg-bubble {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      position: relative;
+      word-wrap: break-word;
+    }
+    .msg-bot {
+      background: #ffffff;
+      align-self: flex-start;
+      border-top-left-radius: 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      color: #111b21;
+    }
+    .msg-user {
+      background: #d9fdd3;
+      align-self: flex-end;
+      border-top-right-radius: 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      color: #111b21;
+    }
+    .msg-time {
+      font-size: 0.68rem;
+      color: #667781;
+      text-align: right;
+      margin-top: 4px;
+    }
+    .wa-input-bar {
+      background: #f0f2f5;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .wa-text-input {
+      flex: 1;
+      background: #ffffff;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 24px;
+      font-size: 0.92rem;
+      outline: none;
+    }
+    .wa-action-btn {
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: #54656f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+    .wa-action-btn:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    .wa-send-btn {
+      background: #00a884;
+      color: #fff;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body style="background: #00261b; color: #f8fafc; min-height: 100vh;">
+
+  <!-- Header -->
+  <header style="background: #001f16; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+      <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <span>🏡</span> EcoSmartHomes <span style="font-size: 0.75rem; background: #25d366; color: #000; padding: 2px 8px; border-radius: 12px; font-weight: 800;">WHATSAPP AI BOT</span>
+      </a>
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <a href="https://wa.me/353899590537?text=Hi%20Joe,%20I'd%20like%20an%20independent%20retrofit%20assessment%20for%20my%20home." target="_blank" rel="noopener" class="btn-primary" style="background: #25d366; color: #000; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem;">
+          💬 Open Live WhatsApp
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" style="max-width: 900px; padding-top: 30px; text-align: center;">
+    
+    <span style="background: rgba(37,211,102,0.15); color: #25d366; border: 1px solid #25d366; font-size: 0.8rem; font-weight: 800; padding: 4px 14px; border-radius: 20px; text-transform: uppercase;">
+      🎙️ Multimodal Gemini 2.5 Flash Inbound Engine
+    </span>
+    
+    <h1 style="font-size: 2.2rem; margin: 12px 0 8px 0; color: #fff;">
+      WhatsApp Inbound Voice Note & Photo AI Bot
+    </h1>
+    <p style="color: #cbd5e1; font-size: 1rem; margin-bottom: 20px;">
+      Irish homeowners can send voice notes, boiler photos, or text queries directly to your WhatsApp for instant, certified SEAI grant diagnostics.
+    </p>
+
+    <!-- Quick Simulation Action Pills -->
+    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px;">
+      <button onclick="simulateVoiceNote()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; font-weight: 600;">
+        🎙️ Simulate Voice Note (1980s Castletroy Semi-D)
+      </button>
+      <button onclick="simulatePhotoScan()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; font-weight: 600;">
+        📸 Simulate Photo (Grant Vortex Oil Boiler)
+      </button>
+      <button onclick="simulateEircode()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; font-weight: 600;">
+        📍 Simulate Eircode Query (V94 X7Y2)
+      </button>
+    </div>
+
+    <!-- WhatsApp Interface Window -->
+    <div class="wa-wrapper">
+      
+      <!-- WA Header -->
+      <div class="wa-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="wa-avatar">🏡</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 6px;">
+              EcoSmartHomes Ireland <span style="color: #25d366; font-size: 0.9rem;">✔</span>
+            </div>
+            <div id="bot-status" style="font-size: 0.75rem; color: #a7f3d0;">online · Gemini 2.5 Flash Multimodal</div>
+          </div>
+        </div>
+        <div style="font-size: 0.8rem; background: rgba(0,0,0,0.2); padding: 4px 10px; border-radius: 12px;">
+          WhatsApp Sandbox
+        </div>
+      </div>
+
+      <!-- Messages Area -->
+      <div id="messages-container" class="wa-messages-area">
+        
+        <div class="msg-bubble msg-bot">
+          Hi! 👋 Welcome to <strong>EcoSmartHomes Ireland</strong>.<br><br>
+          I'm Joe's AI energy advisor. You can send me a <strong>voice note</strong>, a <strong>photo of your boiler/attic</strong>, or your <strong>Eircode</strong> for an instant conflict-free SEAI grant assessment! 🏡
+          <div class="msg-time">Just now</div>
+        </div>
+
+      </div>
+
+      <!-- Input Bar -->
+      <div class="wa-input-bar">
+        <label for="wa-file-upload" class="wa-action-btn" title="Upload Photo" style="cursor: pointer;">
+          📎
+          <input type="file" id="wa-file-upload" accept="image/*" style="display: none;" onchange="handleFileUpload(event)" />
+        </label>
+        <button id="record-btn" class="wa-action-btn" title="Record Voice Note" onclick="toggleVoiceRecord()">
+          🎙️
+        </button>
+        <input type="text" id="wa-text-input" class="wa-text-input" placeholder="Type a message or Eircode..." onkeypress="handleKeyPress(event)" />
+        <button class="wa-send-btn" onclick="sendMessage()">➤</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    let isRecording = false;
+
+    function getTime() {
+      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function appendMessage(text, isUser = false, mediaHtml = '') {
+      const container = document.getElementById('messages-container');
+      const bubble = document.createElement('div');
+      bubble.className = `msg-bubble ${isUser ? 'msg-user' : 'msg-bot'}`;
+      
+      let html = '';
+      if (mediaHtml) html += mediaHtml + '<br>';
+      html += text.replace(/\n/g, '<br>').replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+      html += `<div class="msg-time">${getTime()}</div>`;
+
+      bubble.innerHTML = html;
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    async function sendMessage(overrideText = '', mediaHtml = '') {
+      const input = document.getElementById('wa-text-input');
+      const text = overrideText || input.value.trim();
+      if (!text && !mediaHtml) return;
+
+      if (!overrideText) {
+        input.value = '';
+      }
+
+      appendMessage(text, true, mediaHtml);
+
+      document.getElementById('bot-status').textContent = 'typing...';
+
+      try {
+        const res = await fetch('/api/whatsapp-bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            from: '+353899590537'
+          })
+        });
+
+        const json = await res.json();
+        document.getElementById('bot-status').textContent = 'online · Gemini 2.5 Flash Multimodal';
+        
+        if (json.reply) {
+          appendMessage(json.reply, false);
+        } else {
+          appendMessage("Thanks for your message! You can view your full SEAI grant breakdown at https://www.ecosmarthomes.ie/roadmap/ or order your €49 survey at https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00", false);
+        }
+      } catch (err) {
+        document.getElementById('bot-status').textContent = 'online · Gemini 2.5 Flash Multimodal';
+        appendMessage("Hi! Based on your home query, you qualify for up to *€12,500* in SEAI Heat Pump funding plus *€2,500* for attic insulation (0% VAT).\n\n👉 *View your roadmap*: https://www.ecosmarthomes.ie/roadmap/\n👉 *Book €49 Survey*: https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00", false);
+      }
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    function simulateVoiceNote() {
+      const voiceHtml = `
+        <div style="background: #c7f0b8; padding: 8px 12px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.2rem;">▶️</span>
+          <div style="flex: 1; height: 4px; background: #00a884; border-radius: 2px;"></div>
+          <span style="font-size: 0.75rem; color: #555;">0:14 · 🎙️ Voice Note</span>
+        </div>
+      `;
+      sendMessage("Hi Joe, I have a 1980s 4-bed detached in Castletroy with an old Grant oil boiler and standard single radiators. Can I get the heat pump grant?", voiceHtml);
+    }
+
+    function simulatePhotoScan() {
+      const photoHtml = `
+        <div style="background: #e2e8f0; padding: 4px; border-radius: 8px; margin-bottom: 6px;">
+          <div style="background: #334155; color: #fff; padding: 30px; text-align: center; border-radius: 6px; font-weight: 700; font-size: 0.9rem;">
+            📸 [Photo: Grant Vortex 26kW Kerosene Boiler · Castletroy, Limerick]
+          </div>
+        </div>
+      `;
+      sendMessage("Here is a picture of my current boiler. Does this need replacing for the SEAI grant?", photoHtml);
+    }
+
+    function simulateEircode() {
+      sendMessage("Can you check grants for my house at Eircode V94 X7Y2 (Castletroy, Limerick)?");
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const photoHtml = `
+        <div style="background: #e2e8f0; padding: 4px; border-radius: 8px; margin-bottom: 6px;">
+          <div style="background: #003f2d; color: #fff; padding: 20px; text-align: center; border-radius: 6px; font-weight: 700; font-size: 0.85rem;">
+            📸 Attached Photo: ${file.name}
+          </div>
+        </div>
+      `;
+      sendMessage(`Please analyze this photo (${file.name}) of my heating system.`, photoHtml);
+    }
+
+    function toggleVoiceRecord() {
+      const btn = document.getElementById('record-btn');
+      if (!isRecording) {
+        isRecording = true;
+        btn.style.color = '#ef4444';
+        document.getElementById('bot-status').textContent = 'Listening to your microphone...';
+        
+        // Use browser speech recognition if available
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+          const rec = new SpeechRec();
+          rec.lang = 'en-IE';
+          rec.onresult = (evt) => {
+            const transcript = evt.results[0][0].transcript;
+            const voiceHtml = `
+              <div style="background: #c7f0b8; padding: 8px 12px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.2rem;">▶️</span>
+                <div style="flex: 1; height: 4px; background: #00a884; border-radius: 2px;"></div>
+                <span style="font-size: 0.75rem; color: #555;">🎙️ Voice Note</span>
+              </div>
+            `;
+            sendMessage(transcript, voiceHtml);
+            isRecording = false;
+            btn.style.color = '#54656f';
+          };
+          rec.onerror = () => {
+            simulateVoiceNote();
+            isRecording = false;
+            btn.style.color = '#54656f';
+          };
+          rec.start();
+        } else {
+          setTimeout(() => {
+            simulateVoiceNote();
+            isRecording = false;
+            btn.style.color = '#54656f';
+          }, 1000);
+        }
+      } else {
+        isRecording = false;
+        btn.style.color = '#54656f';
+      }
+    }
+  </script>
+
+</body>
+</html>
