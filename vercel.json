@@ -3,6 +3,8 @@
     { "source": "/api/retrofit/:path*", "destination": "http://34.121.195.76:5173/api/retrofit/:path*" },
     { "source": "/api/stripe/:path*", "destination": "http://34.121.195.76:5173/api/stripe/:path*" },
     { "source": "/api/whatsapp/:path*", "destination": "http://34.121.195.76:5173/api/whatsapp/:path*" },
+    { "source": "/api/publish", "destination": "https://ecosmarthomes-site.joehr4838.workers.dev/api/publish" },
+    { "source": "/api/publish/:path*", "destination": "https://ecosmarthomes-site.joehr4838.workers.dev/api/publish/:path*" },
     { "source": "/", "destination": "/index.html" },
     { "source": "/index.html", "destination": "/index.html" },
     { "source": "/og/(.*)", "destination": "/index.html" },
