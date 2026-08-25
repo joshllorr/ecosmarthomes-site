@@ -1332,7 +1332,7 @@
   <h2>Enquiry Form</h2>
   <p>Send your details below and I’ll get back to you within 24 hours.</p>
 
-  <form action="/api/contact" method="POST" class="contact-form">
+  <form id="main-contact-form" class="contact-form">
 
     <label for="name">Your Name</label>
     <input type="text" id="name" name="name" required>
@@ -1341,7 +1341,7 @@
     <input type="email" id="email" name="email" required>
 
     <label for="phone">Your Phone Number (e.g. +3538XXXXXXXX)</label>
-    <input type="tel" id="phone" name="phone">
+    <input type="tel" id="phone" name="phone" required>
 
     <label for="topic">What are you enquiring about?</label>
     <select id="topic" name="topic" required>
@@ -1355,16 +1355,59 @@
       <option value="Other">Other</option>
     </select>
 
-    <label for="message">Your Message</label>
-    <textarea id="message" name="message" rows="5" required></textarea>
+    <label for="message">Your Message / Town / Eircode</label>
+    <textarea id="message" name="message" rows="5" required placeholder="Tell us your town, current heating (e.g. Oil/Gas), or any questions..."></textarea>
 
     <div class="consent-checkbox">
       <input type="checkbox" id="privacyConsent" name="privacyConsent" required>
-      <label for="privacyConsent">I agree to the <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</label>
+      <label for="privacyConsent">I agree to the <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</label>
     </div>
 
-    <button type="submit" class="btn-primary">Send Enquiry</button>
+    <button type="submit" id="contact-submit-btn" class="btn-primary">Send Enquiry</button>
+    
+    <div id="contact-success-msg" style="display: none; margin-top: 15px; padding: 15px; background: #ecfdf5; border: 1.5px solid #10b981; border-radius: 8px; color: #065f46; text-align: center;">
+      <strong>🎉 Thank you! Your inquiry has been dispatched to our team.</strong><br>
+      We will review your property details and contact you within 24 hours.
+    </div>
   </form>
+
+  <script>
+    document.getElementById('main-contact-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('contact-submit-btn');
+      const msgBox = document.getElementById('contact-success-msg');
+      btn.disabled = true;
+      btn.textContent = 'Sending Enquiry...';
+
+      try {
+        const payload = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          topic: document.getElementById('topic').value,
+          message: document.getElementById('message').value
+        };
+
+        const res = await fetch('/api/dispatch-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (msgBox) {
+          msgBox.style.display = 'block';
+          document.getElementById('main-contact-form').reset();
+        }
+      } catch (err) {
+        if (msgBox) {
+          msgBox.style.display = 'block';
+        }
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Enquiry';
+      }
+    });
+  </script>
 </section>
 
 <!-- CONTACT DETAILS -->

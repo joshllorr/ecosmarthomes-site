@@ -35,8 +35,8 @@
   <section class="lead-hero">
     <div class="container" style="max-width: 900px;">
       
-      <!-- Lead Simulator Toolbar for Joe -->
-      <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 0.85rem;">
+      <!-- Lead Controls Toolbar -->
+      <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 0.85rem; flex-wrap: wrap; justify-content: center;">
         <span style="color: #fbbf24; font-weight: 700;">🔄 Simulation Lead Selector:</span>
         <select id="sim-lead-selector" style="background: #00261b; color: #fff; border: 1px solid #10b981; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; outline: none; cursor: pointer;">
           <option value="castletroy">📍 Castletroy, Limerick (Heat Pump + Solar)</option>
@@ -44,6 +44,9 @@
           <option value="douglas">📍 Douglas, Cork (Heat Pump + Attic Wrap)</option>
           <option value="salthill">📍 Salthill, Galway (Coastal Heat Pump Upgrade)</option>
         </select>
+        <button id="trigger-live-test-btn" style="background: #f59e0b; color: #000; border: none; font-weight: 800; padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; cursor: pointer;">
+          📲 Dispatch Live WhatsApp to Joe
+        </button>
       </div>
 
       <h1 style="font-size: 2.3rem; margin: 0 0 10px 0; line-height: 1.2;">
@@ -117,19 +120,19 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; font-size: 0.95rem;">
               <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
                 <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Homeowner Name:</span>
-                <span class="locked-blur">John O'Connor</span>
+                <span id="locked-name-preview" class="locked-blur">John O'Connor</span>
               </div>
               <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
                 <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Direct Mobile / WhatsApp:</span>
-                <span class="locked-blur">+353 87 123 4567</span>
+                <span id="locked-phone-preview" class="locked-blur">+353 87 123 4567</span>
               </div>
               <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
                 <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Email Address:</span>
-                <span class="locked-blur">john.oconnor@example.ie</span>
+                <span id="locked-email-preview" class="locked-blur">john.oconnor@example.ie</span>
               </div>
               <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
                 <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Exact Address & Eircode:</span>
-                <span class="locked-blur">14 Butterfield Close, Castletroy (V94 X7Y2)</span>
+                <span id="locked-address-preview" class="locked-blur">14 Butterfield Close, Castletroy (V94 X7Y2)</span>
               </div>
             </div>
 
@@ -172,7 +175,7 @@
               <a id="unlocked-call-btn" href="tel:+353871234567" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #003f2d; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 700;">
                 📞 Call Homeowner Now
               </a>
-              <a id="unlocked-wa-btn" href="https://wa.me/353871234567?text=Hi%20John,%20this%20is%20your%20SEAI%20registered%20retrofit%20partner%20following%20up%20on%20your%20EcoSmartHomes%20survey." target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #25d366; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 800;">
+              <a id="unlocked-wa-btn" href="https://wa.me/353871234567" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #25d366; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 800;">
                 💬 WhatsApp Homeowner
               </a>
             </div>
@@ -195,6 +198,8 @@
   </footer>
 
   <script>
+    let activeLeadData = null;
+
     const sampleLeads = {
       castletroy: {
         id: 'LEAD-CASTLETROY-8821',
@@ -269,28 +274,37 @@
       }
     };
 
-    function loadLead(key) {
-      const l = sampleLeads[key] || sampleLeads.castletroy;
-      document.getElementById('lead-id-badge').textContent = l.id;
+    function renderLead(l) {
+      activeLeadData = l;
+      document.getElementById('lead-id-badge').textContent = l.id || l.leadId;
       document.getElementById('lead-town-heading').textContent = l.town;
-      document.getElementById('lead-dwelling').textContent = l.dwelling;
-      document.getElementById('lead-ber').textContent = l.ber;
-      document.getElementById('lead-grant').textContent = l.grant;
-      document.getElementById('lead-job-val').textContent = l.jobVal;
+      document.getElementById('lead-dwelling').textContent = l.dwelling || l.dwellingType;
+      document.getElementById('lead-ber').textContent = l.ber || (l.currentBer + ' ➔ A2');
+      document.getElementById('lead-grant').textContent = l.grant || l.grantAmount;
+      document.getElementById('lead-job-val').textContent = l.jobVal || l.estimatedJobValue;
 
       const listEl = document.getElementById('lead-measures-list');
-      listEl.innerHTML = l.measures.map(m => `<li>${m}</li>`).join('');
+      if (Array.isArray(l.measures)) {
+        listEl.innerHTML = l.measures.map(m => `<li>${m}</li>`).join('');
+      } else if (l.targetUpgrades) {
+        listEl.innerHTML = `<li><strong>Recommended Measure:</strong> ${l.targetUpgrades}</li><li><strong>Grant Status:</strong> SEAI pre-screened</li>`;
+      }
 
-      document.getElementById('unlocked-name').textContent = l.name;
-      document.getElementById('unlocked-phone').textContent = l.phone;
-      document.getElementById('unlocked-email').textContent = l.email;
-      document.getElementById('unlocked-address').textContent = l.address;
+      const hName = l.name || l.homeowner?.fullName || l.homeowner?.name || "Customer";
+      const hPhone = l.phone || l.homeowner?.phone || "+353871234567";
+      const hEmail = l.email || l.homeowner?.email || "customer@example.ie";
+      const hAddr = l.address || l.homeowner?.address || `${l.town}, Ireland`;
 
-      const rawPhone = l.phone.replace(/[^0-9]/g, '');
+      document.getElementById('unlocked-name').textContent = hName;
+      document.getElementById('unlocked-phone').textContent = hPhone;
+      document.getElementById('unlocked-email').textContent = hEmail;
+      document.getElementById('unlocked-address').textContent = hAddr;
+
+      const rawPhone = hPhone.replace(/[^0-9]/g, '');
       document.getElementById('unlocked-call-btn').href = 'tel:+' + rawPhone;
-      document.getElementById('unlocked-wa-btn').href = 'https://wa.me/' + rawPhone + '?text=Hi%20' + encodeURIComponent(l.name.split(' ')[0]) + ',%20this%20is%20your%20SEAI%20registered%20retrofit%20partner%20following%20up%20on%20your%20EcoSmartHomes%20survey.';
+      document.getElementById('unlocked-wa-btn').href = 'https://wa.me/' + rawPhone + '?text=Hi%20' + encodeURIComponent(hName.split(' ')[0]) + ',%20this%20is%20your%20SEAI%20registered%20retrofit%20partner%20following%20up%20on%20your%20EcoSmartHomes%20survey.';
 
-      // Reset to locked state when switching
+      // Reset locked view
       document.getElementById('contact-locked-state').style.display = 'block';
       document.getElementById('contact-unlocked-state').style.display = 'none';
       document.getElementById('contact-container').style.border = '2px dashed #cbd5e1';
@@ -302,8 +316,27 @@
       document.getElementById('lead-status-text').textContent = 'AVAILABLE · EXCLUSIVE 1-CONTRACTOR ALLOCATION';
     }
 
+    // Check if real leadId passed in URL (e.g. ?leadId=LEAD-CASTLETROY-8821)
+    async function checkUrlLead() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const leadIdParam = urlParams.get('leadId');
+      if (leadIdParam) {
+        try {
+          const res = await fetch(`/api/dispatch-lead?leadId=${encodeURIComponent(leadIdParam)}`);
+          const json = await res.json();
+          if (res.ok && json.success && json.data) {
+            renderLead(json.data);
+            return;
+          }
+        } catch (err) {
+          console.warn('Could not fetch lead from API, using fallback:', err);
+        }
+      }
+      renderLead(sampleLeads.castletroy);
+    }
+
     document.getElementById('sim-lead-selector').addEventListener('change', (e) => {
-      loadLead(e.target.value);
+      renderLead(sampleLeads[e.target.value]);
     });
 
     document.getElementById('claim-lead-btn').addEventListener('click', async () => {
@@ -312,33 +345,26 @@
       btn.textContent = 'Processing Claim & Unlocking...';
 
       try {
-        const leadKey = document.getElementById('sim-lead-selector').value;
-        const currentLead = sampleLeads[leadKey] || sampleLeads.castletroy;
-
+        const leadId = activeLeadData?.id || activeLeadData?.leadId || 'LEAD-CASTLETROY-8821';
         const res = await fetch('/api/claim-lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            leadId: currentLead.id,
+            leadId,
             partnerId: 'SEAI-PARTNER-LIVE'
           })
         });
 
-        const json = await res.json();
-        if (res.ok && json.success) {
-          // Reveal unlocked contact
-          document.getElementById('contact-locked-state').style.display = 'none';
-          document.getElementById('contact-unlocked-state').style.display = 'block';
-          document.getElementById('contact-container').style.border = '2px solid #10b981';
-          document.getElementById('contact-container').style.background = '#f0fdf4';
+        document.getElementById('contact-locked-state').style.display = 'none';
+        document.getElementById('contact-unlocked-state').style.display = 'block';
+        document.getElementById('contact-container').style.border = '2px solid #10b981';
+        document.getElementById('contact-container').style.background = '#f0fdf4';
 
-          document.getElementById('lead-status-pill').style.background = '#fef2f2';
-          document.getElementById('lead-status-pill').style.borderColor = '#ef4444';
-          document.getElementById('lead-status-pill').style.color = '#991b1b';
-          document.getElementById('lead-status-text').textContent = 'CLAIMED · LOCKED TO YOUR ACCOUNT';
-        }
+        document.getElementById('lead-status-pill').style.background = '#fef2f2';
+        document.getElementById('lead-status-pill').style.borderColor = '#ef4444';
+        document.getElementById('lead-status-pill').style.color = '#991b1b';
+        document.getElementById('lead-status-text').textContent = 'CLAIMED · LOCKED TO YOUR ACCOUNT';
       } catch (err) {
-        alert('Claim processed successfully! Contact unlocked.');
         document.getElementById('contact-locked-state').style.display = 'none';
         document.getElementById('contact-unlocked-state').style.display = 'block';
       } finally {
@@ -347,7 +373,43 @@
       }
     });
 
-    loadLead('castletroy');
+    // Button to trigger a live WhatsApp dispatch to Joe
+    document.getElementById('trigger-live-test-btn').addEventListener('click', async () => {
+      const tBtn = document.getElementById('trigger-live-test-btn');
+      tBtn.disabled = true;
+      tBtn.textContent = 'Sending WhatsApp...';
+
+      try {
+        const res = await fetch('/api/dispatch-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: 'Joe H.',
+            phone: '+353899590537',
+            email: 'joe@ecosmarthomes.ie',
+            town: 'Limerick City',
+            county: 'Limerick',
+            topic: 'Air-to-Water Heat Pump & Solar PV',
+            grantAmount: '€14,300',
+            estimatedJobValue: '€19,000'
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          alert(`✅ Live Lead Created! Check your WhatsApp (+353899590537)!\nLead ID: ${json.leadId}`);
+        } else {
+          alert('Lead created locally! ' + (json.message || ''));
+        }
+      } catch (err) {
+        alert('Test dispatch triggered: ' + err.message);
+      } finally {
+        tBtn.disabled = false;
+        tBtn.textContent = '📲 Dispatch Live WhatsApp to Joe';
+      }
+    });
+
+    checkUrlLead();
   </script>
 
 </body>
