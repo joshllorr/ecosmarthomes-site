@@ -338,23 +338,44 @@
         <p style="text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 12px; margin-bottom: 0;">🔒 100% Conflict-Free Guarantee · No Installer Kickbacks</p>
       </div>
 
-      <!-- Card 2: Instant Gemini 2.5 Flash Document Dropzone -->
+      <!-- Card 2: Multimodal Gemini 2.5 Flash Photo & Document Scanner -->
       <div style="background: #ffffff; color: #0f172a; border-radius: 16px; padding: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-          <h3 style="color: #003f2d; font-size: 1.3rem; margin: 0;">⚡ Instant BER PDF Analysis</h3>
-          <span style="background: #ecfdf5; color: #059669; font-weight: 700; font-size: 0.75rem; padding: 4px 8px; border-radius: 6px;">Powered by Gemini 2.5</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="color: #003f2d; font-size: 1.3rem; margin: 0;">📸 AI Equipment & BER Scanner</h3>
+          <span style="background: #ecfdf5; color: #059669; font-weight: 700; font-size: 0.75rem; padding: 4px 8px; border-radius: 6px;">Gemini 2.5 Flash Vision</span>
         </div>
-        <p style="color: #64748b; font-size: 0.92rem; margin-bottom: 20px;">
-          Already have a BER Cert, Advisory Report, or Architectural PDF? Upload it below to trigger our automated AI diagnostic parser.
+        
+        <p style="color: #64748b; font-size: 0.92rem; margin-bottom: 16px;">
+          Snap a photo of your <strong>boiler, hot water cylinder, attic hatch, or meter box</strong> (or drop your BER PDF) for an instant grant & heat pump viability check.
         </p>
 
-        <!-- Dropzone Area -->
-        <div id="ber-pdf-dropzone" class="dropzone-container">
-          <input type="file" id="ber-pdf-file-input" accept=".pdf" style="display: none;" />
-          <div style="font-size: 2.5rem; margin-bottom: 10px;">📄</div>
-          <p style="font-weight: 700; color: #003f2d; margin-bottom: 5px;">Drag & Drop your BER or Property PDF here</p>
-          <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">or click to browse files from your computer</p>
-          <button type="button" onclick="document.getElementById('ber-pdf-file-input').click();" class="btn-primary" style="background: #003f2d; padding: 10px 20px; font-size: 0.9rem; cursor: pointer; border: none; border-radius: 6px; color: #fff;">Select PDF Document</button>
+        <!-- Mode Selector Tabs -->
+        <div style="display: flex; gap: 8px; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+          <button type="button" id="tab-mode-photo" class="scanner-tab-btn active" style="flex: 1; padding: 8px 12px; background: #003f2d; color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer;">📸 Photo Scan</button>
+          <button type="button" id="tab-mode-pdf" class="scanner-tab-btn" style="flex: 1; padding: 8px 12px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer;">📄 BER / PDF Doc</button>
+        </div>
+
+        <!-- Quick Category Selectors for Photos -->
+        <div id="photo-category-bar" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;">
+          <button type="button" class="photo-category-pill active" data-category="heating" style="padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid #10b981; background: #ecfdf5; color: #065f46; cursor: pointer;">🔥 Boiler / Cylinder</button>
+          <button type="button" class="photo-category-pill" data-category="attic" style="padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid #cbd5e1; background: #fff; color: #64748b; cursor: pointer;">🏠 Attic Insulation</button>
+          <button type="button" class="photo-category-pill" data-category="electrical" style="padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid #cbd5e1; background: #fff; color: #64748b; cursor: pointer;">⚡ Fuseboard / Meter</button>
+          <button type="button" class="photo-category-pill" data-category="roof" style="padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid #cbd5e1; background: #fff; color: #64748b; cursor: pointer;">☀️ Roof / Solar</button>
+        </div>
+
+        <!-- Interactive Dropzone Area -->
+        <div id="ber-pdf-dropzone" class="dropzone-container" style="border: 2px dashed #10b981; background: #fbfdfc; border-radius: 12px; padding: 25px 20px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+          <input type="file" id="ber-photo-camera-input" accept="image/*" capture="environment" style="display: none;" />
+          <input type="file" id="ber-pdf-file-input" accept="image/*,.pdf" style="display: none;" />
+          
+          <div id="dropzone-icon" style="font-size: 2.5rem; margin-bottom: 8px;">📸</div>
+          <p id="dropzone-title" style="font-weight: 700; color: #003f2d; margin: 0 0 4px 0; font-size: 1.05rem;">Take a Photo or Upload Image</p>
+          <p id="dropzone-desc" style="color: #64748b; font-size: 0.85rem; margin: 0 0 14px 0;">Snap your boiler, cylinder, or attic with your phone</p>
+          
+          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <button type="button" onclick="document.getElementById('ber-photo-camera-input').click();" class="btn-primary" style="background: #10b981; padding: 8px 16px; font-size: 0.85rem; cursor: pointer; border: none; border-radius: 6px; color: #fff; font-weight: 700;">📷 Take Photo</button>
+            <button type="button" onclick="document.getElementById('ber-pdf-file-input').click();" class="btn-secondary" style="background: #003f2d; padding: 8px 16px; font-size: 0.85rem; cursor: pointer; border: none; border-radius: 6px; color: #fff; font-weight: 700;">📁 Choose File</button>
+          </div>
         </div>
 
         <!-- Real-time Status / Loading Area -->
