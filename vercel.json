@@ -1,5 +1,8 @@
 {
   "rewrites": [
+    { "source": "/api/retrofit/:path*", "destination": "http://34.121.195.76:5173/api/retrofit/:path*" },
+    { "source": "/api/stripe/:path*", "destination": "http://34.121.195.76:5173/api/stripe/:path*" },
+    { "source": "/api/whatsapp/:path*", "destination": "http://34.121.195.76:5173/api/whatsapp/:path*" },
     { "source": "/", "destination": "/index.html" },
     { "source": "/index.html", "destination": "/index.html" },
     { "source": "/og/(.*)", "destination": "/index.html" },

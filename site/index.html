@@ -70,8 +70,9 @@
   <link rel="stylesheet" href="css/styles.css?v=2" />
   <script src="js/contact-form.js" defer></script>
   <script src="js/webmcp-init.js" defer></script>
+  <script src="js/retrofit-pipeline.js" defer></script>
 
-  <!-- ANIMATION CSS -->
+  <!-- ANIMATION CSS & RETROFIT PIPELINE UI -->
   <style>
     .reveal {
       opacity: 0;
@@ -81,6 +82,38 @@
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .dropzone-container {
+      border: 2px dashed #10b981;
+      border-radius: 16px;
+      padding: 40px 20px;
+      text-align: center;
+      background: #f0fdf4;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .dropzone-container:hover, .dropzone-container.drag-active {
+      border-color: #059669;
+      background: #dcfce7;
+      transform: scale(1.01);
+    }
+    .calc-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+    }
+    .metric-pill {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: inline-block;
     }
 
     .coming-soon-banner {
@@ -216,6 +249,8 @@
     <nav class="nav">
       <ul>
         <li><a href="#hero">Home</a></li>
+        <li><a href="#independent-survey" style="color: #f59e0b; font-weight: 700;">💳 €49 Survey & AI</a></li>
+        <li><a href="#grant-calculator" style="color: #10b981; font-weight: 700;">⚡ Grant Estimator</a></li>
         <li><a href="#services">Services</a></li>
         <li><a href="#process">Process</a></li>
         <li><a href="#independence">Independence</a></li>
@@ -247,7 +282,10 @@
     <p>I help you understand how "leaky" your home really is, whether it can pass the Heat Pump Test, and how to build your Carbon Tax Shield for the years ahead.</p>
     <p>You get a Retrofit Roadmap™ that shows the smartest upgrades, the real costs, the grants you can claim, and the order that saves you the most money.</p>
     <p class="hero-closing"><strong>Independent. Neighbourly. On your side.</strong></p>
-    <a href="#contact" class="btn-primary">Check Your Grant Eligibility</a>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 25px;">
+      <a href="#independent-survey" class="btn-primary" style="background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 1.05rem;">💳 Order €49 Independent Survey</a>
+      <a href="#grant-calculator" class="btn-primary" style="background: #10b981; border-color: #059669; color: #fff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 1.05rem;">⚡ Calculate SEAI Grants</a>
+    </div>
   </div>
 </section>
 
@@ -263,6 +301,198 @@
 
       <p><strong>Independent. Neighbourly. On your side.<br />That's the EcoSmart Homes promise.</strong></p>
     </div>
+  </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 1. €49 INDEPENDENT SURVEY & GEMINI 2.5 FLASH AI DOCUMENT DROPZONE -->
+<!-- ========================================================================= -->
+<section id="independent-survey" class="independent-survey-section" style="background: #003f2d; color: #ffffff; padding: 80px 0;">
+  <div class="container">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 50px auto;">
+      <span class="metric-pill" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border-color: rgba(16, 185, 129, 0.4); margin-bottom: 15px;">⭐ Direct Homeowner Monetisation</span>
+      <h2 style="font-size: 2.4rem; font-family: 'Outfit', sans-serif; color: #ffffff; margin: 10px 0 15px 0;">The €49 Independent Retrofit Survey</h2>
+      <p style="font-size: 1.1rem; color: #cbd5e1; line-height: 1.6;">
+        Stop guessing and avoid €15,000+ contractor oversights. Get a 100% conflict-free building diagnostic, radiator sizing assessment, heat pump viability check, and maximized SEAI grant blueprint.
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; align-items: start;">
+      
+      <!-- Card 1: What You Get in the Assessment -->
+      <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 35px; backdrop-filter: blur(10px);">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+          <h3 style="color: #ffffff; font-size: 1.4rem; margin: 0;">Independent Survey</h3>
+          <span style="font-size: 2rem; font-weight: 800; color: #f59e0b;">€49 <small style="font-size: 0.9rem; font-weight: 400; color: #94a3b8;">one-off</small></span>
+        </div>
+
+        <ul style="list-style: none; padding: 0; margin: 0 0 30px 0; color: #e2e8f0; font-size: 0.98rem; line-height: 1.8;">
+          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>Pass/Fail Heat Pump Readiness Test</strong> (SR50 compliance)</li>
+          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>Maximized SEAI Grant Calculation</strong> (up to €26,000+ claimable)</li>
+          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>Radiator Output & Flow Temp Check</strong> (avoid freezing homes)</li>
+          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>2026-2030 Carbon Tax Shield Model</strong></li>
+          <li style="display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>Direct WhatsApp Advisory Handover</strong> with Joe within 24 hours</li>
+        </ul>
+
+        <a href="mailto:askjoe@ecosmarthomes.ie?subject=Order%20€49%20Independent%20Retrofit%20Survey&body=Hi%20Joe,%0D%0A%0D%0AI%20would%20like%20to%20order%20the%20€49%20Independent%20Retrofit%20Survey%20for%20my%20property.%0D%0A%0D%0AMy%20Address:%20%0D%0AMy%20Phone:%20" class="btn-primary" style="display: block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 15px; border-radius: 8px; font-size: 1.1rem;">Order Assessment for €49 →</a>
+        <p style="text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 12px; margin-bottom: 0;">🔒 100% Conflict-Free Guarantee · No Installer Kickbacks</p>
+      </div>
+
+      <!-- Card 2: Instant Gemini 2.5 Flash Document Dropzone -->
+      <div style="background: #ffffff; color: #0f172a; border-radius: 16px; padding: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <h3 style="color: #003f2d; font-size: 1.3rem; margin: 0;">⚡ Instant BER PDF Analysis</h3>
+          <span style="background: #ecfdf5; color: #059669; font-weight: 700; font-size: 0.75rem; padding: 4px 8px; border-radius: 6px;">Powered by Gemini 2.5</span>
+        </div>
+        <p style="color: #64748b; font-size: 0.92rem; margin-bottom: 20px;">
+          Already have a BER Cert, Advisory Report, or Architectural PDF? Upload it below to trigger our automated AI diagnostic parser.
+        </p>
+
+        <!-- Dropzone Area -->
+        <div id="ber-pdf-dropzone" class="dropzone-container">
+          <input type="file" id="ber-pdf-file-input" accept=".pdf" style="display: none;" />
+          <div style="font-size: 2.5rem; margin-bottom: 10px;">📄</div>
+          <p style="font-weight: 700; color: #003f2d; margin-bottom: 5px;">Drag & Drop your BER or Property PDF here</p>
+          <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">or click to browse files from your computer</p>
+          <button type="button" onclick="document.getElementById('ber-pdf-file-input').click();" class="btn-primary" style="background: #003f2d; padding: 10px 20px; font-size: 0.9rem; cursor: pointer; border: none; border-radius: 6px; color: #fff;">Select PDF Document</button>
+        </div>
+
+        <!-- Real-time Status / Loading Area -->
+        <div id="ber-upload-status" style="display: none;"></div>
+
+        <!-- Rendered AI Results Area -->
+        <div id="ber-analysis-results" style="display: none;"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================================= -->
+<!-- 2. INTERACTIVE SEAI GRANT & HEAT PUMP MARGIN ESTIMATOR -->
+<!-- ========================================================================= -->
+<section id="grant-calculator" class="grant-calculator-section" style="background: #f8fafc; padding: 80px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+  <div class="container">
+    <div style="text-align: center; max-width: 750px; margin: 0 auto 40px auto;">
+      <p class="section-label" style="color: #10b981; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom: 5px;">May 2026 Updated Rates</p>
+      <h2 class="section-title" style="color: #003f2d; margin-bottom: 10px;">SEAI Grant & Energy Savings Estimator</h2>
+      <p class="section-subtitle" style="color: #64748b;">Select your home's current BER rating and planned upgrades to see claimable government grants and estimated annual fuel reductions.</p>
+    </div>
+
+    <form id="seai-grant-calculator-form" class="calc-card" style="max-width: 900px; margin: 0 auto;" onsubmit="return false;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 30px;">
+        
+        <!-- Step 1: BER Selection -->
+        <div>
+          <label style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px;">1. Current Building Energy Rating (BER)</label>
+          <select id="calc-ber-select" style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; background: #fff;">
+            <option value="G">G Rating (Least Efficient - ~€4,200/yr fuel)</option>
+            <option value="F">F Rating (~€3,700/yr fuel)</option>
+            <option value="E">E Rating (~€3,100/yr fuel)</option>
+            <option value="D" selected>D Rating (Irish Average - ~€2,500/yr fuel)</option>
+            <option value="C">C Rating (~€1,900/yr fuel)</option>
+            <option value="B">B Rating (~€1,300/yr fuel)</option>
+          </select>
+        </div>
+
+        <!-- Step 2: Property Type -->
+        <div>
+          <label style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px;">2. Property Layout</label>
+          <select id="calc-property-type" style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; background: #fff;">
+            <option value="detached">Detached House (150+ sqm)</option>
+            <option value="semi" selected>Semi-Detached House (~120 sqm)</option>
+            <option value="terrace">Mid-Terrace House (~90 sqm)</option>
+            <option value="apartment">Apartment / Duplex (~70 sqm)</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Step 3: Upgrade Selection Matrix -->
+      <div style="margin-bottom: 35px;">
+        <label style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 12px;">3. Select Planned Energy Upgrades</label>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px;">
+          
+          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
+            <input type="checkbox" id="upgrade-heatpump" checked style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
+            <div>
+              <div style="font-weight: 600; color: #0f172a;">Heat Pump System</div>
+              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€12,500 Grant</div>
+            </div>
+          </label>
+
+          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
+            <input type="checkbox" id="upgrade-wall" checked style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
+            <div>
+              <div style="font-weight: 600; color: #0f172a;">External Wall Insulation</div>
+              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€8,000 Grant</div>
+            </div>
+          </label>
+
+          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
+            <input type="checkbox" id="upgrade-attic" checked style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
+            <div>
+              <div style="font-weight: 600; color: #0f172a;">Attic & Rafter Insulation</div>
+              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€2,500 Grant</div>
+            </div>
+          </label>
+
+          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
+            <input type="checkbox" id="upgrade-solar" checked style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
+            <div>
+              <div style="font-weight: 600; color: #0f172a;">Solar PV Panels</div>
+              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€1,800 Grant</div>
+            </div>
+          </label>
+
+          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
+            <input type="checkbox" id="upgrade-windows" style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
+            <div>
+              <div style="font-weight: 600; color: #0f172a;">Triple Glazed Windows</div>
+              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€5,600 Grant</div>
+            </div>
+          </label>
+
+          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
+            <input type="checkbox" id="upgrade-controls" style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
+            <div>
+              <div style="font-weight: 600; color: #0f172a;">Smart Heating Controls</div>
+              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€700 Grant</div>
+            </div>
+          </label>
+
+        </div>
+      </div>
+
+      <!-- Live Calculation Dashboard Output -->
+      <div style="background: #003f2d; border-radius: 12px; padding: 24px; color: #fff;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; text-align: center;">
+          <div>
+            <div style="font-size: 0.85rem; color: #a7f3d0; text-transform: uppercase; font-weight: 700;">Total SEAI Grants</div>
+            <div id="calc-total-grants" style="font-size: 2rem; font-weight: 800; color: #34d399;">€24,800</div>
+          </div>
+
+          <div>
+            <div style="font-size: 0.85rem; color: #a7f3d0; text-transform: uppercase; font-weight: 700;">Estimated Net Cost</div>
+            <div id="calc-net-cost" style="font-size: 2rem; font-weight: 800; color: #ffffff;">€11,700</div>
+          </div>
+
+          <div>
+            <div style="font-size: 0.85rem; color: #a7f3d0; text-transform: uppercase; font-weight: 700;">Annual Fuel Savings</div>
+            <div id="calc-annual-savings" style="font-size: 2rem; font-weight: 800; color: #f59e0b;">€1,650 / yr</div>
+          </div>
+
+          <div>
+            <div style="font-size: 0.85rem; color: #a7f3d0; text-transform: uppercase; font-weight: 700;">Est. Payback Period</div>
+            <div id="calc-payback-years" style="font-size: 2rem; font-weight: 800; color: #ffffff;">7.1 Years</div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.15); margin-top: 20px; padding-top: 18px; text-align: center;">
+          <a href="#independent-survey" class="btn-primary" style="background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-size: 1rem; display: inline-block;">Lock In Grants with a €49 Independent Survey →</a>
+        </div>
+      </div>
+    </form>
   </div>
 </section>
 
