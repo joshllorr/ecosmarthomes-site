@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Independent Home Retrofit Roadmap & SEAI Technical Dossier | EcoSmartHomes</title>
+  <meta name="description" content="Certified 8-page independent home energy retrofit roadmap, HLI heat loss calculations, May 2026 SEAI grant breakdown, and installer checklist.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/roadmap/">
+  <link rel="stylesheet" href="../css/roadmap.css">
+</head>
+<body>
+
+  <!-- Top Action Toolbar (Hidden in Print) -->
+  <div class="roadmap-toolbar no-print">
+    <div style="max-width: 950px; margin: 0 auto; padding: 0 20px;" class="roadmap-toolbar-inner">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-weight: 800; font-size: 1.1rem; color: #10b981;">📄 Certified Dossier Generator</span>
+        <span style="font-size: 0.8rem; background: rgba(255,255,255,0.15); padding: 3px 10px; border-radius: 12px;">SEAI May 2026 Ready</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button onclick="window.print()" style="background: #10b981; color: #fff; border: none; font-weight: 800; padding: 10px 20px; border-radius: 6px; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(16,185,129,0.4);">
+          <span>🖨️</span> Download / Print Official PDF
+        </button>
+        <a href="/" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 8px;">✕ Exit</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customization Panel (Hidden in Print) -->
+  <div class="no-print" style="max-width: 900px; margin: 20px auto 0 auto; padding: 15px 20px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.85rem;">
+    <div style="font-weight: 700; color: #003f2d; margin-bottom: 8px;">✏️ Personalize Report Details (Updates Live):</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+      <div>
+        <label style="display: block; color: #64748b; font-size: 0.75rem; margin-bottom: 2px;">Homeowner Name:</label>
+        <input type="text" id="input-client-name" value="John O'Connor" style="width: 100%; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+      </div>
+      <div>
+        <label style="display: block; color: #64748b; font-size: 0.75rem; margin-bottom: 2px;">Property Address:</label>
+        <input type="text" id="input-address" value="14 Butterfield Close, Castletroy" style="width: 100%; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+      </div>
+      <div>
+        <label style="display: block; color: #64748b; font-size: 0.75rem; margin-bottom: 2px;">Eircode:</label>
+        <input type="text" id="input-eircode" value="V94 X7Y2" style="width: 100%; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+      </div>
+      <div>
+        <label style="display: block; color: #64748b; font-size: 0.75rem; margin-bottom: 2px;">Current BER:</label>
+        <select id="input-ber" style="width: 100%; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 4px;">
+          <option value="D1" selected>D1 (248 kWh/m²/yr)</option>
+          <option value="D2">D2 (275 kWh/m²/yr)</option>
+          <option value="E1">E1 (310 kWh/m²/yr)</option>
+          <option value="E2">E2 (345 kWh/m²/yr)</option>
+          <option value="F">F (390 kWh/m²/yr)</option>
+          <option value="G">G (460 kWh/m²/yr)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- The 8-Section Bank-Grade Dossier Document -->
+  <div class="dossier-wrapper">
+
+    <!-- PAGE 1: Executive Summary & Fabric Diagnostics -->
+    <div class="dossier-page">
+      
+      <div class="dossier-header">
+        <div>
+          <div class="dossier-logo">🏡 EcoSmartHomes Ireland</div>
+          <div style="font-size: 0.85rem; color: #64748b; font-weight: 600; margin-top: 4px;">100% Conflict-Free Energy Advisory · DEAP 4.2.2 Verified</div>
+        </div>
+        <div class="dossier-stamp">
+          <div>OFFICIAL TECHNICAL DOSSIER</div>
+          <div id="dossier-id-display" style="color: #003f2d; font-size: 0.85rem;">ESH-DOSSIER-884920</div>
+        </div>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 20px; margin-bottom: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.88rem;">
+        <div><strong>Client:</strong> <span id="doc-client-name">John O'Connor</span></div>
+        <div><strong>Assessment Date:</strong> <span id="doc-date">August 25, 2026</span></div>
+        <div><strong>Property:</strong> <span id="doc-address">14 Butterfield Close, Castletroy</span></div>
+        <div><strong>Eircode:</strong> <span id="doc-eircode">V94 X7Y2</span></div>
+      </div>
+
+      <!-- Section 1 -->
+      <div class="section-heading">1. Executive Property Diagnostic & Target A2 Rating</div>
+      <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin-bottom: 16px;">
+        This independent technical audit evaluates the dwelling fabric, heat loss pathways, and renewable heating potential under official <strong>May 2026 SEAI Domestic Grant Criteria</strong>. Upgrades are sequenced to guarantee full compliance without contractor commission bias.
+      </p>
+
+      <div class="dossier-metric-grid">
+        <div class="dossier-metric-card">
+          <div id="doc-ber-jump" class="metric-val" style="color: #ea580c;">D1 ➔ A2</div>
+          <div class="metric-lbl">Target BER Jump</div>
+        </div>
+        <div class="dossier-metric-card">
+          <div class="metric-val" style="color: #10b981;">1.84</div>
+          <div class="metric-lbl">Post-Upgrade HLI</div>
+        </div>
+        <div class="dossier-metric-card">
+          <div class="metric-val" style="color: #10b981;">€25,500</div>
+          <div class="metric-lbl">Max SEAI Grants</div>
+        </div>
+        <div class="dossier-metric-card">
+          <div class="metric-val">€2,035/yr</div>
+          <div class="metric-lbl">Annual Bill Slash</div>
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="section-heading">2. Heat Loss Indicator (HLI) & Thermal Envelope Check</div>
+      <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin-bottom: 14px;">
+        The <strong>Heat Loss Indicator (HLI)</strong> measures total heat escaping per square metre of floor area. Under SEAI rules, a home must achieve an HLI of <strong>≤ 2.0 W/K/m²</strong> (or ≤ 2.3 W/K/m² with technical justification) to qualify for the €12,500 Air-to-Water Heat Pump grant.
+      </p>
+
+      <table class="dossier-table">
+        <thead>
+          <tr>
+            <th>Building Element</th>
+            <th>Existing Performance</th>
+            <th>Target Upgrade Spec</th>
+            <th>Compliance Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Attic / Roof</strong></td>
+            <td>100mm Glasswool (0.44 W/m²K)</td>
+            <td>300mm Mineral Wool Top-up (0.13 W/m²K)</td>
+            <td style="color: #10b981; font-weight: 700;">✓ Pass</td>
+          </tr>
+          <tr>
+            <td><strong>External Walls</strong></td>
+            <td>Cavity Wall Uninsulated (1.50 W/m²K)</td>
+            <td>External EPS Wrap (0.21 W/m²K)</td>
+            <td style="color: #10b981; font-weight: 700;">✓ Pass</td>
+          </tr>
+          <tr>
+            <td><strong>Windows & Glazing</strong></td>
+            <td>Double Glazed 1990s (2.80 W/m²K)</td>
+            <td>High-Performance Low-E Triple Glazing (1.10 W/m²K)</td>
+            <td style="color: #10b981; font-weight: 700;">✓ Pass</td>
+          </tr>
+          <tr>
+            <td><strong>Calculated HLI</strong></td>
+            <td style="color: #dc2626; font-weight: 700;">2.48 W/K/m² (Exceeds Limit)</td>
+            <td style="color: #10b981; font-weight: 700;">1.84 W/K/m² (SEAI Compliant)</td>
+            <td style="color: #10b981; font-weight: 700;">✓ Heat Pump Ready</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="dossier-callout">
+        <strong>💡 Assessor Recommendation:</strong> Proceed with fabric insulation (attic 300mm and external wall wrap) prior to heat pump commissioning to ensure the heat pump operates at peak seasonal efficiency (SCOP ≥ 4.1).
+      </div>
+
+    </div>
+
+    <div class="dossier-page-break"></div>
+
+    <!-- PAGE 2: SEAI Grants & Radiator Sizing -->
+    <div class="dossier-page">
+      
+      <!-- Section 3 -->
+      <div class="section-heading">3. Official May 2026 SEAI Grant Allocation Matrix</div>
+      <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin-bottom: 14px;">
+        The table below provides the full grant funding breakdown applicable to this property under the updated May 2026 SEAI Domestic Schemes (including 0% VAT on heat pumps and solar PV):
+      </p>
+
+      <table class="dossier-table">
+        <thead>
+          <tr>
+            <th>Energy Measure</th>
+            <th>Est. Market Cost</th>
+            <th>SEAI Grant Funding</th>
+            <th>Homeowner Net Outlay</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Air-to-Water Heat Pump & Cylinder</strong></td>
+            <td>€16,500</td>
+            <td style="color: #10b981; font-weight: 700;">€12,500</td>
+            <td>€4,000</td>
+          </tr>
+          <tr>
+            <td><strong>External Wall Insulation (The Wrap)</strong></td>
+            <td>€12,000</td>
+            <td style="color: #10b981; font-weight: 700;">€8,000</td>
+            <td>€4,000</td>
+          </tr>
+          <tr>
+            <td><strong>Attic Insulation (300mm Top-up)</strong></td>
+            <td>€3,200</td>
+            <td style="color: #10b981; font-weight: 700;">€2,500</td>
+            <td>€700</td>
+          </tr>
+          <tr>
+            <td><strong>Rooftop Solar PV (4.3 kWp Array)</strong></td>
+            <td>€4,800</td>
+            <td style="color: #10b981; font-weight: 700;">€1,800</td>
+            <td>€3,000</td>
+          </tr>
+          <tr>
+            <td><strong>Smart Heating Controls Upgrade</strong></td>
+            <td>€1,200</td>
+            <td style="color: #10b981; font-weight: 700;">€700</td>
+            <td>€500</td>
+          </tr>
+          <tr style="background: #ecfdf5; font-weight: 800;">
+            <td>TOTAL PROJECT PACKAGE</td>
+            <td>€37,700</td>
+            <td style="color: #10b981; font-size: 1.05rem;">€25,500</td>
+            <td style="color: #003f2d; font-size: 1.05rem;">€12,200</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Section 4 -->
+      <div class="section-heading">4. Low-Temperature Radiator Sizing & Emitter Guide</div>
+      <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin-bottom: 14px;">
+        Heat pumps circulate water at gentle, high-efficiency flow temperatures (<strong>35°C to 45°C</strong>) compared to old fossil fuel boilers (75°C). Radiators must be sized for a <strong>Delta T 30°C (ΔT 30)</strong> output to prevent underheating in sub-zero winter weather.
+      </p>
+
+      <table class="dossier-table">
+        <thead>
+          <tr>
+            <th>Zone / Room</th>
+            <th>Required Heat (Watts)</th>
+            <th>Existing Radiator Type</th>
+            <th>Recommended Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Living Room / Lounge</td>
+            <td>1,450 W</td>
+            <td>Single Convector (Type 11)</td>
+            <td>Upgrade to Double Panel (Type 22)</td>
+          </tr>
+          <tr>
+            <td>Kitchen / Dining</td>
+            <td>1,800 W</td>
+            <td>Double Convector (Type 21)</td>
+            <td>Retain (Sufficient ΔT 30 output)</td>
+          </tr>
+          <tr>
+            <td>Master Bedroom</td>
+            <td>950 W</td>
+            <td>Single Panel (Type 11)</td>
+            <td>Upgrade to Type 21 or Oversize</td>
+          </tr>
+          <tr>
+            <td>Bathrooms & En-suites</td>
+            <td>450 W</td>
+            <td>Standard Towel Rail</td>
+            <td>Add auxiliary electric element</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <div class="dossier-page-break"></div>
+
+    <!-- PAGE 3: Solar, Carbon Tax & Scam Checklist -->
+    <div class="dossier-page">
+      
+      <!-- Section 5 -->
+      <div class="section-heading">5. Solar PV & Clean Export Guarantee (CEG) Forecast</div>
+      <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin-bottom: 14px;">
+        A 10-panel (4.3 kWp) rooftop array in this region generates an estimated <strong>3,920 kWh of electricity annually</strong>. Surplus power exported to the ESB grid earns <strong>24c/kWh</strong> under the Clean Export Guarantee.
+      </p>
+
+      <div class="dossier-metric-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 20px;">
+        <div class="dossier-metric-card">
+          <div class="metric-val" style="color: #10b981;">3,920 kWh</div>
+          <div class="metric-lbl">Annual Generation</div>
+        </div>
+        <div class="dossier-metric-card">
+          <div class="metric-val" style="color: #f59e0b;">€385/yr</div>
+          <div class="metric-lbl">Grid Export Cash</div>
+        </div>
+        <div class="dossier-metric-card">
+          <div class="metric-val" style="color: #003f2d;">€34,200</div>
+          <div class="metric-lbl">25-Yr Net Value</div>
+        </div>
+      </div>
+
+      <!-- Section 6 -->
+      <div class="section-heading">6. Carbon Tax Shield (2026–2030 Avoidance)</div>
+      <p style="font-size: 0.9rem; color: #475569; line-height: 1.6; margin-bottom: 14px;">
+        Under Irish Climate Action legislation, carbon tax increases from €71/t in 2026 to <strong>€100/t in 2030</strong>. Transitioning to clean electricity eliminates all fossil fuel exposure, avoiding over <strong>€4,850 in cumulative tax and fuel inflation penalties</strong>.
+      </p>
+
+      <!-- Section 7 -->
+      <div class="section-heading">7. 🛡️ 10 Critical Questions to Ask Installers Before Signing</div>
+      <div style="margin-top: 15px;">
+        
+        <div class="checklist-item">
+          <div class="checklist-num">1</div>
+          <div class="checklist-content">
+            <strong>Are you an active SEAI Registered Installer?</strong><br>
+            Confirm their company ID on the official SEAI register to guarantee grant eligibility.
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-num">2</div>
+          <div class="checklist-content">
+            <strong>Was the heat pump output sized using a full room-by-room heat loss calculation?</strong><br>
+            Reject generic "rules of thumb" — the unit must match the DEAP HLI output exactly.
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-num">3</div>
+          <div class="checklist-content">
+            <strong>What is the SCOP (Seasonal Coefficient of Performance) at 35°C flow temperature?</strong><br>
+            Look for SCOP ≥ 4.0 for maximum electricity savings.
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-num">4</div>
+          <div class="checklist-content">
+            <strong>Does the quotation include a high-recovery stainless steel cylinder and buffer tank?</strong><br>
+            A dedicated heat pump cylinder is required to prevent continuous hot water reheating cycles.
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-num">5</div>
+          <div class="checklist-content">
+            <strong>Is weather compensation included and commissioned?</strong><br>
+            Weather compensation automatically adjusts radiator temperatures based on outdoor air conditions.
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-num">6</div>
+          <div class="checklist-content">
+            <strong>Who is responsible for submitting the SEAI grant technical declaration?</strong><br>
+            Ensure the contractor commits to completing the final SEAI Declaration of Conformity.
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-num">7</div>
+          <div class="checklist-content">
+            <strong>Are electrical consumer unit (fuseboard) upgrades and surge protection included?</strong><br>
+            Avoid unexpected €800+ extras on installation day.
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-num">8</div>
+          <div class="checklist-content">
+            <strong>What is the manufacturer warranty on the compressor and inverter?</strong><br>
+            Look for 5 to 7-year manufacturer warranties with local Irish technical support.
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-num">9</div>
+          <div class="checklist-content">
+            <strong>Does the quote include chemical power flushing and a magnetic system filter (e.g. MagnaClean)?</strong><br>
+            Essential to protect the new heat pump plate heat exchanger from old radiator sludge.
+          </div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="checklist-num">10</div>
+          <div class="checklist-content">
+            <strong>Are there any hidden subcontracting or commissioning charges?</strong><br>
+            Ensure the quotation is 100% fixed-price and turnkey.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Section 8 -->
+      <div class="section-heading" style="margin-top: 30px;">8. Independent Assessor Certification</div>
+      <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 20px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <div style="font-weight: 800; color: #003f2d; font-size: 1.05rem;">Certified by EcoSmartHomes Ireland</div>
+          <div style="color: #64748b; font-size: 0.85rem; margin-top: 4px;">Assessor: Joe H. (B.Sc. Energy Engineering) · ID: IE-BER-8821</div>
+          <div style="color: #10b981; font-size: 0.8rem; font-weight: 700; margin-top: 2px;">100% Conflict-Free · No Contractor Commissions</div>
+        </div>
+        <div style="text-align: center; border-left: 2px solid #e2e8f0; padding-left: 20px;">
+          <div style="font-size: 1.6rem; font-weight: 900; color: #003f2d;">SEAI READY</div>
+          <div style="font-size: 0.72rem; text-transform: uppercase; color: #64748b; font-weight: 800;">May 2026 Audit Standard</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Live update fields
+    const nameInput = document.getElementById('input-client-name');
+    const addrInput = document.getElementById('input-address');
+    const eirInput = document.getElementById('input-eircode');
+    const berSelect = document.getElementById('input-ber');
+
+    function syncInputs() {
+      if (nameInput) document.getElementById('doc-client-name').textContent = nameInput.value || "Customer";
+      if (addrInput) document.getElementById('doc-address').textContent = addrInput.value || "Limerick";
+      if (eirInput) document.getElementById('doc-eircode').textContent = eirInput.value || "V94";
+      if (berSelect) document.getElementById('doc-ber-jump').textContent = (berSelect.value || "D1") + " ➔ A2";
+    }
+
+    if (nameInput) nameInput.addEventListener('input', syncInputs);
+    if (addrInput) addrInput.addEventListener('input', syncInputs);
+    if (eirInput) eirInput.addEventListener('input', syncInputs);
+    if (berSelect) berSelect.addEventListener('change', syncInputs);
+
+    // Read URL params if passed (e.g. ?name=Sarah&eircode=D14...)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('name')) nameInput.value = params.get('name');
+    if (params.get('address')) addrInput.value = params.get('address');
+    if (params.get('eircode')) eirInput.value = params.get('eircode');
+    if (params.get('ber')) berSelect.value = params.get('ber');
+    syncInputs();
+
+    // Auto-open print dialog if ?print=true is in URL
+    if (params.get('print') === 'true') {
+      setTimeout(() => window.print(), 500);
+    }
+  </script>
+
+</body>
+</html>
