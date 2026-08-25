@@ -19,8 +19,8 @@
     { "source": "/locations", "destination": "/locations/index.html" },
     { "source": "/locations/", "destination": "/locations/index.html" },
     { "source": "/locations/:county/:town", "destination": "/locations/:county/:town.html" },
-    { "source": "/articles/search", "destination": "/articles/index.html" },
     { "source": "/articles/tag/:tag", "destination": "/articles/index.html" },
-    { "source": "/articles/:slug", "destination": "/articles/index.html" }
+    { "source": "/articles/search", "destination": "/articles/index.html" },
+    { "source": "/articles/:slug", "destination": "/articles/:slug.html" }
   ]
 }

@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Articles | EcoSmartHomes</title>
-  <meta name="description" content="Latest retrofit, solar, insulation and energy-saving articles from EcoSmartHomes.">
+  <title>Latest Insights & Retrofit Guidance | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Clear, conflict-free advice on home retrofits, SEAI grants, carbon tax mitigation, and heat pump readiness.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/articles/">
   <link rel="stylesheet" href="/css/styles.css?v=2">
   <style>
     .articles-hero {
@@ -12,7 +13,7 @@
       color: white;
       padding: 60px 20px;
       text-align: center;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
     }
     .articles-hero h1 {
       font-size: 2.5rem;
@@ -33,42 +34,43 @@
     .articles-grid {
       display: grid;
       gap: 30px;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     }
     .article-card {
       background: #fff;
-      border-radius: 8px;
+      border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      padding: 30px;
+      padding: 28px;
       text-align: left;
       border-left: 5px solid #00a86b;
       display: flex;
       flex-direction: column;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      text-decoration: none;
-      color: inherit;
+      border: 1px solid #e2e8f0;
+      border-left: 5px solid #00a86b;
     }
     .article-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
     .article-card h2 {
       color: #003f2d;
-      margin: 0 0 15px 0;
-      font-size: 1.3rem;
+      margin: 0 0 12px 0;
+      font-size: 1.25rem;
       line-height: 1.4;
     }
     .article-card .meta {
-      font-size: 0.85rem;
-      color: #666;
-      margin-bottom: 10px;
+      font-size: 0.82rem;
+      color: #64748b;
+      margin-bottom: 12px;
     }
     .article-card .tags {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
       margin-top: auto;
       padding-top: 15px;
+      margin-bottom: 15px;
     }
     .tag-badge {
       background: #e6f4ef;
@@ -78,13 +80,21 @@
       padding: 4px 10px;
       border-radius: 20px;
       text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid rgba(0,168,107,0.2);
+      transition: background 0.15s ease;
+    }
+    .tag-badge:hover {
+      background: #00a86b;
+      color: #fff;
     }
     .article-hero-img {
       width: 100%;
       height: 160px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 8px;
       margin-bottom: 15px;
+      background: #f1f5f9;
     }
     .article-search-box {
       max-width: 600px;
@@ -96,7 +106,7 @@
       padding: 14px 20px 14px 44px;
       font-size: 1rem;
       border-radius: 30px;
-      border: 2px solid #e6f4ef;
+      border: 2px solid #e2e8f0;
       background: #ffffff;
       color: #003f2d;
       outline: none;
@@ -170,6 +180,11 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
+    .tag-filter-btn.active, .tag-filter-btn:hover {
+      background: #003f2d;
+      color: #10b981;
+      border-color: #003f2d;
+    }
     .pagination-bar {
       display: flex;
       justify-content: center;
@@ -203,26 +218,24 @@
     }
   </style>
 </head>
-<body>
+<body style="background: #f8fafc;">
 
 <header class="header">
   <div class="container nav-container">
     <div class="logo">
-      <a href="/index.html">
+      <a href="/">
         <img src="/imgs/logo.svg" alt="EcoSmartHomes" />
       </a>
     </div>
     <nav class="nav">
       <ul>
-        <li><a href="/index.html#hero">Home</a></li>
-        <li><a href="/index.html#services">Services</a></li>
-        <li><a href="/index.html#process">Process</a></li>
-        <li><a href="/index.html#independence">Independence</a></li>
-        <li><a href="/index.html#ber">BER Protection</a></li>
-        <li><a href="/index.html#roadmap">Roadmap</a></li>
-        <li><a href="/index.html#heatpump">Heat Pump Test</a></li>
-        <li><a href="/index.html#grants">Grant Assessment</a></li>
-        <li><a href="/index.html#contact">Contact</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/solar/" style="color: #f59e0b; font-weight: 700;">☀️ Solar PV</a></li>
+        <li><a href="/carbon-tax/" style="color: #ef4444; font-weight: 700;">⚡ Carbon Tax</a></li>
+        <li><a href="/roadmap/" style="color: #10b981; font-weight: 700;">📄 Roadmap PDF</a></li>
+        <li><a href="/locations/" style="color: #10b981; font-weight: 700;">📍 Towns Hub</a></li>
+        <li><a href="/contractors/" style="color: #cbd5e1; font-weight: 600;">🏗️ For Installers</a></li>
+        <li><a href="/#independent-survey" style="background: #f59e0b; color: #000; padding: 6px 14px; border-radius: 6px; font-weight: 800; text-decoration: none;">💳 Book €49 Survey</a></li>
       </ul>
     </nav>
   </div>
@@ -249,6 +262,7 @@
     <button class="tag-filter-btn" data-tag="SEAI Grants">SEAI Grants</button>
     <button class="tag-filter-btn" data-tag="Carbon Tax">Carbon Tax</button>
     <button class="tag-filter-btn" data-tag="Heat Pump">Heat Pump</button>
+    <button class="tag-filter-btn" data-tag="Solar PV">Solar PV</button>
   </div>
 
   <div id="articles" class="articles-grid">
@@ -262,22 +276,22 @@
 <footer class="footer">
   <div class="container footer-grid">
     <div class="footer-col">
-      <h3>EcoSmartHomes</h3>
+      <h3>EcoSmartHomes Ireland</h3>
       <p>Independent, conflict-free retrofit guidance protecting your home and your wallet.</p>
     </div>
     <div class="footer-col">
       <h4>Quick Links</h4>
       <ul>
-        <li><a href="/index.html#hero">Home</a></li>
-        <li><a href="/index.html#services">Services</a></li>
-        <li><a href="/index.html#process">Process</a></li>
-        <li><a href="/index.html#independence">Independence</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/solar/">Solar & CEG</a></li>
+        <li><a href="/carbon-tax/">Carbon Tax Clock</a></li>
+        <li><a href="/roadmap/">Roadmap PDF</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Contact</h4>
       <p>Limerick, Ireland</p>
-      <p>Serving all of Ireland</p>
+      <p>Serving all 32 Counties</p>
     </div>
   </div>
 </footer>
@@ -328,18 +342,18 @@ async function loadArticles(page = 1) {
 
     container.innerHTML = articles.map(a => {
       let tagsList = Array.isArray(a.tags) ? a.tags : ['Retrofit', 'BER'];
-      const articleLink = a.slug === 'raising-ber-g-to-a' || a.slug === 'carbon-tax-2026' ? `/${a.slug}.html` : `/articles/${a.slug}.html`;
+      const articleLink = `/${a.slug}.html`;
 
       return `
         <div class="article-card">
-          ${a.hero ? `<img src="${a.hero}" alt="${a.title}" class="article-hero-img">` : ''}
+          ${a.hero ? `<img src="${a.hero}" alt="${a.title}" class="article-hero-img" onerror="this.style.display='none'">` : ''}
           <h2>${a.title}</h2>
           <p style="color:#555; font-size:0.95rem; margin-bottom:12px; line-height:1.5;">${a.summary}</p>
-          <div class="meta" style="font-size:0.82rem; color:#777;">Published: ${a.date || new Date().toLocaleDateString('en-IE')}</div>
-          <div class="tags" style="margin-bottom:15px;">
-            ${tagsList.map(t => `<a href="/articles/tag/${encodeURIComponent(t)}" class="tag-badge" style="text-decoration:none;">${t}</a>`).join('')}
+          <div class="meta" style="font-size:0.82rem; color:#777;">Published: ${a.date || 'August 2026'}</div>
+          <div class="tags">
+            ${tagsList.map(t => `<span class="tag-badge" onclick="filterByTag('${t}')">${t}</span>`).join('')}
           </div>
-          <a href="${articleLink}" style="color:#00a86b; font-weight:700; text-decoration:none; margin-top:auto;">Read Article →</a>
+          <a href="${articleLink}" style="color:#00a86b; font-weight:700; text-decoration:none; margin-top:auto; font-size: 0.95rem;">Read Article →</a>
         </div>
       `;
     }).join('');
@@ -347,8 +361,22 @@ async function loadArticles(page = 1) {
     renderPagination(pageNum, totalPages);
   } catch (error) {
     console.error('Error loading articles feed:', error);
-    container.innerHTML = '<p>Unable to load live articles feed at this time.</p>';
+    container.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">Unable to load live articles feed at this time.</p>';
   }
+}
+
+function filterByTag(tag) {
+  currentTag = tag;
+  currentSearch = "";
+  document.getElementById('search-input').value = "";
+  document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+    if (btn.dataset.tag.toLowerCase() === tag.toLowerCase()) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  loadArticles(1);
 }
 
 function renderPagination(page, totalPages) {
@@ -388,7 +416,6 @@ function resetFilters() {
   loadArticles(1);
 }
 
-// Autocomplete Suggestion Logic
 const autocomplete = document.getElementById('autocomplete');
 const searchInput = document.getElementById('search-input');
 
@@ -429,7 +456,6 @@ searchInput.addEventListener('input', (e) => {
 
       autocomplete.style.display = 'block';
     } catch (err) {
-      console.error('Autocomplete fetch error:', err);
       autocomplete.style.display = 'none';
     }
 
@@ -440,24 +466,19 @@ searchInput.addEventListener('input', (e) => {
   }, 200);
 });
 
-// Click handler for autocomplete suggestions
 autocomplete.addEventListener('click', (e) => {
   const item = e.target.closest('.autocomplete-item');
   if (!item) return;
-
   const slug = item.dataset.slug;
-  const targetLink = slug === 'raising-ber-g-to-a' || slug === 'carbon-tax-2026' ? `/${slug}.html` : `/articles/${slug}.html`;
-  window.location.href = targetLink;
+  window.location.href = `/${slug}.html`;
 });
 
-// Hide autocomplete when clicking outside
 document.addEventListener('click', (e) => {
   if (!autocomplete.contains(e.target) && e.target !== searchInput) {
     autocomplete.style.display = 'none';
   }
 });
 
-// Tag filter button listener
 document.getElementById('tag-filter').addEventListener('click', (e) => {
   if (e.target.classList.contains('tag-filter-btn')) {
     document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -469,21 +490,6 @@ document.getElementById('tag-filter').addEventListener('click', (e) => {
     loadArticles(1);
   }
 });
-
-// Detect path-based tag route e.g. /articles/tag/BER%20Rating (for Vercel rewrites)
-if (window.location.pathname.startsWith('/articles/tag/')) {
-  const pathTag = decodeURIComponent(window.location.pathname.replace('/articles/tag/', '')).trim();
-  if (pathTag) {
-    currentTag = pathTag;
-    document.querySelectorAll('.tag-filter-btn').forEach(btn => {
-      if (btn.dataset.tag.toLowerCase() === pathTag.toLowerCase()) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
-  }
-}
 
 loadArticles(1);
 </script>

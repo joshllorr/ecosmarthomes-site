@@ -7,37 +7,17 @@
   </url>
 
   <url>
-    <loc>https://www.ecosmarthomes.ie/agent-skills.html</loc>
-    <priority>0.95</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecosmarthomes.ie/ber-advisor/</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecosmarthomes.ie/raising-ber-g-to-a.html</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecosmarthomes.ie/dashboard.html</loc>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecosmarthomes.ie/ai/</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecosmarthomes.ie/carbon-tax/</loc>
+    <loc>https://www.ecosmarthomes.ie/articles/</loc>
     <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://www.ecosmarthomes.ie/solar/</loc>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://www.ecosmarthomes.ie/carbon-tax/</loc>
     <priority>0.95</priority>
   </url>
 
@@ -64,6 +44,52 @@
   <url>
     <loc>https://www.ecosmarthomes.ie/claim-lead.html</loc>
     <priority>0.85</priority>
+  </url>
+
+  <!-- Authority Articles -->
+  <url>
+    <loc>https://www.ecosmarthomes.ie/raising-ber-g-to-a.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.ecosmarthomes.ie/carbon-tax-2026.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.ecosmarthomes.ie/retrofit-roadmap.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.ecosmarthomes.ie/heat-pump-suitability.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.ecosmarthomes.ie/solar-pv-clean-export.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.ecosmarthomes.ie/seai-grants-2026-guide.html</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.ecosmarthomes.ie/ber-advisor/</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.ecosmarthomes.ie/dashboard.html</loc>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.ecosmarthomes.ie/ai/</loc>
+    <priority>0.8</priority>
   </url>
 
   <url>
