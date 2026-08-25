@@ -8,6 +8,8 @@
     { "source": "/carbon-tax/", "destination": "/carbon-tax/index.html" },
     { "source": "/solar", "destination": "/solar/index.html" },
     { "source": "/solar/", "destination": "/solar/index.html" },
+    { "source": "/claim-lead", "destination": "/claim-lead.html" },
+    { "source": "/claim-lead.html", "destination": "/claim-lead.html" },
     { "source": "/contractors", "destination": "/contractors/index.html" },
     { "source": "/contractors/", "destination": "/contractors/index.html" },
     { "source": "/locations", "destination": "/locations/index.html" },

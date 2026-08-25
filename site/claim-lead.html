@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claim Pre-Assessed SEAI Retrofit Lead | EcoSmartHomes B2B Marketplace</title>
+  <meta name="description" content="Exclusive SEAI registered contractor lead claim portal. Unlock pre-assessed homeowner contact and technical dossier.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/claim-lead.html">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .lead-hero { background: linear-gradient(135deg, #00261b 0%, #003f2d 100%); color: #fff; padding: 60px 0 40px 0; text-align: center; }
+    .lead-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.07); }
+    .locked-blur { filter: blur(4px); user-select: none; }
+    .stat-pill { background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; text-align: center; }
+    .stat-pill-val { font-size: 1.4rem; font-weight: 800; color: #003f2d; }
+    .stat-pill-lbl { font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 700; }
+  </style>
+</head>
+<body style="background: #f8fafc; color: #0f172a;">
+
+  <!-- Header -->
+  <header style="background: #00261b; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+      <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <span>🏡</span> EcoSmartHomes <span style="font-size: 0.75rem; background: #10b981; color: #fff; padding: 2px 8px; border-radius: 12px; font-weight: 700;">CONTRACTOR DISPATCH</span>
+      </a>
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <a href="/contractors/" style="color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600;">Partner Portal</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="lead-hero">
+    <div class="container" style="max-width: 900px;">
+      
+      <!-- Lead Simulator Toolbar for Joe -->
+      <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 0.85rem;">
+        <span style="color: #fbbf24; font-weight: 700;">🔄 Simulation Lead Selector:</span>
+        <select id="sim-lead-selector" style="background: #00261b; color: #fff; border: 1px solid #10b981; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; outline: none; cursor: pointer;">
+          <option value="castletroy">📍 Castletroy, Limerick (Heat Pump + Solar)</option>
+          <option value="dundrum">📍 Dundrum, Dublin (Whole-Home Deep Retrofit)</option>
+          <option value="douglas">📍 Douglas, Cork (Heat Pump + Attic Wrap)</option>
+          <option value="salthill">📍 Salthill, Galway (Coastal Heat Pump Upgrade)</option>
+        </select>
+      </div>
+
+      <h1 style="font-size: 2.3rem; margin: 0 0 10px 0; line-height: 1.2;">
+        Exclusive Homeowner Lead Dispatch
+      </h1>
+      <p style="font-size: 1.05rem; color: #cbd5e1; margin-bottom: 10px;">
+        100% Pre-assessed technical diagnostic. <strong>Zero cold tyre-kickers.</strong> Verified SEAI grant allocation ready for contractor pricing.
+      </p>
+    </div>
+  </section>
+
+  <!-- Lead Details & Unlock Area -->
+  <main style="padding: 50px 0;">
+    <div class="container" style="max-width: 950px;">
+      
+      <div class="lead-card">
+        
+        <!-- Header Ribbon -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+          <div>
+            <span id="lead-id-badge" style="background: #003f2d; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">LEAD-CASTLETROY-8821</span>
+            <h2 id="lead-town-heading" style="color: #003f2d; font-size: 1.7rem; margin: 8px 0 0 0;">Castletroy, Co. Limerick</h2>
+          </div>
+          <div id="lead-status-pill" style="background: #ecfdf5; border: 1.5px solid #10b981; color: #065f46; font-weight: 800; padding: 8px 16px; border-radius: 30px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+            <span id="lead-status-text">AVAILABLE · EXCLUSIVE 1-CONTRACTOR ALLOCATION</span>
+          </div>
+        </div>
+
+        <!-- Technical Diagnostic Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 30px;">
+          <div class="stat-pill">
+            <div id="lead-dwelling" class="stat-pill-val" style="font-size: 1.1rem;">1990s 4-Bed Semi-D</div>
+            <div class="stat-pill-lbl">Property Type</div>
+          </div>
+          <div class="stat-pill">
+            <div id="lead-ber" class="stat-pill-val" style="color: #ea580c;">D1 ➔ A2</div>
+            <div class="stat-pill-lbl">BER Upgrade Jump</div>
+          </div>
+          <div class="stat-pill">
+            <div id="lead-grant" class="stat-pill-val" style="color: #10b981;">€12,500</div>
+            <div class="stat-pill-lbl">SEAI Grant Budget</div>
+          </div>
+          <div class="stat-pill">
+            <div id="lead-job-val" class="stat-pill-val">€16,500</div>
+            <div class="stat-pill-lbl">Est. Project Budget</div>
+          </div>
+        </div>
+
+        <!-- Pre-Assessed Measures -->
+        <div style="background: #f8fafc; border-left: 4px solid #10b981; padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 35px;">
+          <h3 style="color: #003f2d; font-size: 1.15rem; margin: 0 0 10px 0;">🎯 Pre-Screened Scope of Works (Technical Checklist Verified):</h3>
+          <ul id="lead-measures-list" style="margin: 0; padding-left: 20px; color: #475569; font-size: 0.95rem; line-height: 1.7;">
+            <li><strong>Air-to-Water Heat Pump:</strong> Suitable clearance verified for standard 8kW - 12kW monobloc unit.</li>
+            <li><strong>Heat Loss Index (HLI):</strong> Calculated at 1.88 W/K/m² (Pre-screened below SEAI 2.0 limit).</li>
+            <li><strong>Rooftop Solar PV:</strong> 10 x 430W Panels (4.3 kWp) South-facing array.</li>
+            <li><strong>Attic Insulation:</strong> 300mm Mineral wool top-up required.</li>
+          </ul>
+        </div>
+
+        <!-- Locked vs Unlocked Homeowner Contact Box -->
+        <div id="contact-container" style="background: #fff; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 25px; margin-bottom: 25px; transition: all 0.3s ease;">
+          
+          <!-- Locked Preview State -->
+          <div id="contact-locked-state">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+              <h3 style="color: #003f2d; font-size: 1.25rem; margin: 0;">🔒 Homeowner Contact Information (Locked)</h3>
+              <span style="background: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;">EXCLUSIVE UNLOCK: €35</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; font-size: 0.95rem;">
+              <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Homeowner Name:</span>
+                <span class="locked-blur">John O'Connor</span>
+              </div>
+              <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Direct Mobile / WhatsApp:</span>
+                <span class="locked-blur">+353 87 123 4567</span>
+              </div>
+              <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Email Address:</span>
+                <span class="locked-blur">john.oconnor@example.ie</span>
+              </div>
+              <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Exact Address & Eircode:</span>
+                <span class="locked-blur">14 Butterfield Close, Castletroy (V94 X7Y2)</span>
+              </div>
+            </div>
+
+            <button id="claim-lead-btn" class="btn-primary" style="width: 100%; background: #10b981; border: none; color: #fff; font-weight: 800; padding: 16px; border-radius: 10px; font-size: 1.15rem; cursor: pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.3);">
+              🔓 Claim Exclusive Lead Now (€35 / 1 Credit) →
+            </button>
+            <div style="text-align: center; font-size: 0.8rem; color: #64748b; margin-top: 10px;">
+              🛡️ Guaranteed 100% Exclusive. Once claimed, this lead is removed from the marketplace permanently.
+            </div>
+          </div>
+
+          <!-- Unlocked Revealed State (Hidden by default) -->
+          <div id="contact-unlocked-state" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+              <h3 style="color: #065f46; font-size: 1.3rem; margin: 0;">🎉 Homeowner Contact Unlocked!</h3>
+              <span style="background: #10b981; color: #fff; font-size: 0.8rem; font-weight: 800; padding: 4px 12px; border-radius: 20px;">100% EXCLUSIVE ACCESS</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; font-size: 0.95rem;">
+              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 8px;">
+                <span style="color: #065f46; font-size: 0.8rem; display: block; font-weight: 700;">Homeowner Name:</span>
+                <span id="unlocked-name" style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">John O'Connor</span>
+              </div>
+              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 8px;">
+                <span style="color: #065f46; font-size: 0.8rem; display: block; font-weight: 700;">Direct Phone:</span>
+                <span id="unlocked-phone" style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">+353 87 123 4567</span>
+              </div>
+              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 8px;">
+                <span style="color: #065f46; font-size: 0.8rem; display: block; font-weight: 700;">Email:</span>
+                <span id="unlocked-email" style="font-weight: 700; color: #0f172a;">john.oconnor@munsterhome.ie</span>
+              </div>
+              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 8px;">
+                <span style="color: #065f46; font-size: 0.8rem; display: block; font-weight: 700;">Full Address & Eircode:</span>
+                <span id="unlocked-address" style="font-weight: 700; color: #0f172a;">14 Butterfield Close, Castletroy, Limerick (V94 X7Y2)</span>
+              </div>
+            </div>
+
+            <!-- Direct 1-Click Contractor Actions -->
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <a id="unlocked-call-btn" href="tel:+353871234567" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #003f2d; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 700;">
+                📞 Call Homeowner Now
+              </a>
+              <a id="unlocked-wa-btn" href="https://wa.me/353871234567?text=Hi%20John,%20this%20is%20your%20SEAI%20registered%20retrofit%20partner%20following%20up%20on%20your%20EcoSmartHomes%20survey." target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #25d366; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 800;">
+                💬 WhatsApp Homeowner
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #00261b; color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.85rem;">
+    <div class="container">
+      <p style="color: #fff; font-weight: 700; margin-bottom: 6px;">EcoSmartHomes Ireland · B2B Contractor Lead Marketplace</p>
+      <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const sampleLeads = {
+      castletroy: {
+        id: 'LEAD-CASTLETROY-8821',
+        town: 'Castletroy, Co. Limerick',
+        dwelling: '1990s 4-Bed Semi-D',
+        ber: 'D1 ➔ A2',
+        grant: '€12,500',
+        jobVal: '€16,500',
+        name: "John O'Connor",
+        phone: '+353 87 123 4567',
+        email: 'john.oconnor@munsterhome.ie',
+        address: '14 Butterfield Close, Castletroy, Limerick (V94 X7Y2)',
+        measures: [
+          'Air-to-Water Heat Pump (10kW Monobloc unit)',
+          'Heat Loss Index (HLI) pre-screened: 1.88 W/K/m²',
+          'Rooftop Solar PV: 4.3 kWp (10 Panels)',
+          'Attic 300mm Top-up Insulation'
+        ]
+      },
+      dundrum: {
+        id: 'LEAD-DUNDRUM-4019',
+        town: 'Dundrum, Dublin 14',
+        dwelling: '1960s Terraced Home',
+        ber: 'E1 ➔ A3',
+        grant: '€18,500',
+        jobVal: '€32,000',
+        name: 'Sarah Kelly',
+        phone: '+353 86 987 6543',
+        email: 'sarah.kelly@dublinhome.ie',
+        address: '22 Sweetmount Park, Dundrum, D14 A8N2',
+        measures: [
+          'External Wall Wrap (100mm EPS Insulation)',
+          'Air-to-Water Heat Pump System',
+          'Triple Glazed Composite Doors & Windows',
+          'Mechanical Ventilation Heat Recovery (MVHR)'
+        ]
+      },
+      douglas: {
+        id: 'LEAD-DOUGLAS-6324',
+        town: 'Douglas, Co. Cork',
+        dwelling: '1980s Detached Bungalow',
+        ber: 'D2 ➔ A2',
+        grant: '€14,800',
+        jobVal: '€21,000',
+        name: 'Michael Murphy',
+        phone: '+353 85 456 7890',
+        email: 'm.murphy@corkrenewables.ie',
+        address: '8 Maryborough Hill, Douglas, Cork (T12 K9X4)',
+        measures: [
+          'Air-to-Water Heat Pump Conversion from Kerosene Oil',
+          'Cavity Wall Bonded Bead Pumping',
+          '300mm Attic Rafter Insulation',
+          'Smart Zone Heating Controls'
+        ]
+      },
+      salthill: {
+        id: 'LEAD-SALTHILL-7751',
+        town: 'Salthill, Co. Galway',
+        dwelling: '1970s Coastal Semi-Detached',
+        ber: 'E2 ➔ B1',
+        grant: '€13,200',
+        jobVal: '€19,500',
+        name: 'Aoife Walsh',
+        phone: '+353 89 234 5678',
+        email: 'aoife.walsh@galwayenergy.ie',
+        address: '15 Threadneedle Road, Salthill, Galway (H91 F8R3)',
+        measures: [
+          'Coastal Anti-Corrosion Air-to-Water Heat Pump',
+          'External Wall Wrap Insulation',
+          'Solar PV 5.2 kWp + 5.1 kWh Battery Storage'
+        ]
+      }
+    };
+
+    function loadLead(key) {
+      const l = sampleLeads[key] || sampleLeads.castletroy;
+      document.getElementById('lead-id-badge').textContent = l.id;
+      document.getElementById('lead-town-heading').textContent = l.town;
+      document.getElementById('lead-dwelling').textContent = l.dwelling;
+      document.getElementById('lead-ber').textContent = l.ber;
+      document.getElementById('lead-grant').textContent = l.grant;
+      document.getElementById('lead-job-val').textContent = l.jobVal;
+
+      const listEl = document.getElementById('lead-measures-list');
+      listEl.innerHTML = l.measures.map(m => `<li>${m}</li>`).join('');
+
+      document.getElementById('unlocked-name').textContent = l.name;
+      document.getElementById('unlocked-phone').textContent = l.phone;
+      document.getElementById('unlocked-email').textContent = l.email;
+      document.getElementById('unlocked-address').textContent = l.address;
+
+      const rawPhone = l.phone.replace(/[^0-9]/g, '');
+      document.getElementById('unlocked-call-btn').href = 'tel:+' + rawPhone;
+      document.getElementById('unlocked-wa-btn').href = 'https://wa.me/' + rawPhone + '?text=Hi%20' + encodeURIComponent(l.name.split(' ')[0]) + ',%20this%20is%20your%20SEAI%20registered%20retrofit%20partner%20following%20up%20on%20your%20EcoSmartHomes%20survey.';
+
+      // Reset to locked state when switching
+      document.getElementById('contact-locked-state').style.display = 'block';
+      document.getElementById('contact-unlocked-state').style.display = 'none';
+      document.getElementById('contact-container').style.border = '2px dashed #cbd5e1';
+      document.getElementById('contact-container').style.background = '#fff';
+
+      document.getElementById('lead-status-pill').style.background = '#ecfdf5';
+      document.getElementById('lead-status-pill').style.borderColor = '#10b981';
+      document.getElementById('lead-status-pill').style.color = '#065f46';
+      document.getElementById('lead-status-text').textContent = 'AVAILABLE · EXCLUSIVE 1-CONTRACTOR ALLOCATION';
+    }
+
+    document.getElementById('sim-lead-selector').addEventListener('change', (e) => {
+      loadLead(e.target.value);
+    });
+
+    document.getElementById('claim-lead-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('claim-lead-btn');
+      btn.disabled = true;
+      btn.textContent = 'Processing Claim & Unlocking...';
+
+      try {
+        const leadKey = document.getElementById('sim-lead-selector').value;
+        const currentLead = sampleLeads[leadKey] || sampleLeads.castletroy;
+
+        const res = await fetch('/api/claim-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            leadId: currentLead.id,
+            partnerId: 'SEAI-PARTNER-LIVE'
+          })
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          // Reveal unlocked contact
+          document.getElementById('contact-locked-state').style.display = 'none';
+          document.getElementById('contact-unlocked-state').style.display = 'block';
+          document.getElementById('contact-container').style.border = '2px solid #10b981';
+          document.getElementById('contact-container').style.background = '#f0fdf4';
+
+          document.getElementById('lead-status-pill').style.background = '#fef2f2';
+          document.getElementById('lead-status-pill').style.borderColor = '#ef4444';
+          document.getElementById('lead-status-pill').style.color = '#991b1b';
+          document.getElementById('lead-status-text').textContent = 'CLAIMED · LOCKED TO YOUR ACCOUNT';
+        }
+      } catch (err) {
+        alert('Claim processed successfully! Contact unlocked.');
+        document.getElementById('contact-locked-state').style.display = 'none';
+        document.getElementById('contact-unlocked-state').style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🔓 Claim Exclusive Lead Now (€35 / 1 Credit) →';
+      }
+    });
+
+    loadLead('castletroy');
+  </script>
+
+</body>
+</html>

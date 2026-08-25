@@ -52,6 +52,11 @@
   </url>
 
   <url>
+    <loc>https://www.ecosmarthomes.ie/claim-lead.html</loc>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
     <loc>https://www.ecosmarthomes.ie/privacy-policy.html</loc>
     <priority>0.5</priority>
   </url>
