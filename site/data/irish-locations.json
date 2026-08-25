@@ -1,0 +1,442 @@
+[
+  {
+    "county": "Limerick",
+    "slug": "limerick",
+    "province": "Munster",
+    "towns": [
+      {
+        "name": "Castletroy",
+        "slug": "castletroy",
+        "postcode": "V94",
+        "housingType": "1990s-2000s Detached & Semi-Detached",
+        "totalAuditedHomes": 4850,
+        "avgBerRating": "D1",
+        "primaryHeating": "Natural Gas & Oil Boilers",
+        "potentialSavings": 1250,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Air-to-Water Heat Pump & Solar PV"
+      },
+      {
+        "name": "Raheen",
+        "slug": "raheen",
+        "postcode": "V94",
+        "housingType": "1980s-1990s Suburban Semi-Detached",
+        "totalAuditedHomes": 3920,
+        "avgBerRating": "D2",
+        "primaryHeating": "Natural Gas & Kerosene Oil",
+        "potentialSavings": 1380,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Heat Pump, Attic 300mm & Heating Controls"
+      },
+      {
+        "name": "Dooradoyle",
+        "slug": "dooradoyle",
+        "postcode": "V94",
+        "housingType": "1990s Modern Residential Estates",
+        "totalAuditedHomes": 4210,
+        "avgBerRating": "C3",
+        "primaryHeating": "Mains Gas Boilers",
+        "potentialSavings": 1100,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Air-to-Water Heat Pump & Attic Top-up"
+      },
+      {
+        "name": "Annacotty",
+        "slug": "annacotty",
+        "postcode": "V94",
+        "housingType": "2000s Detached & Townhouses",
+        "totalAuditedHomes": 2180,
+        "avgBerRating": "C2",
+        "primaryHeating": "Gas & Oil Boilers",
+        "potentialSavings": 980,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Solar PV (4.2kW) & Heat Pump"
+      },
+      {
+        "name": "Limerick City Centre",
+        "slug": "limerick-city",
+        "postcode": "V94",
+        "housingType": "Georgian & Mid-Century Terraced",
+        "totalAuditedHomes": 6400,
+        "avgBerRating": "E1",
+        "primaryHeating": "Storage Heaters & Gas",
+        "potentialSavings": 1650,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Internal Drylining & High-Efficiency Heat Pump"
+      },
+      {
+        "name": "Adare",
+        "slug": "adare",
+        "postcode": "V94",
+        "housingType": "Rural Detached & Traditional Cottages",
+        "totalAuditedHomes": 1450,
+        "avgBerRating": "E2",
+        "primaryHeating": "Kerosene Oil & Solid Fuel",
+        "potentialSavings": 1780,
+        "eligibleGrant": 12500,
+        "topUpgrade": "External Wall Insulation & Monobloc Heat Pump"
+      },
+      {
+        "name": "Newcastle West",
+        "slug": "newcastle-west",
+        "postcode": "V42",
+        "housingType": "1970s-1990s Detached & Bungalows",
+        "totalAuditedHomes": 3100,
+        "avgBerRating": "D2",
+        "primaryHeating": "Kerosene Home Heating Oil",
+        "potentialSavings": 1420,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Heat Pump & Rafter Insulation"
+      }
+    ]
+  },
+  {
+    "county": "Dublin",
+    "slug": "dublin",
+    "province": "Leinster",
+    "towns": [
+      {
+        "name": "Dundrum",
+        "slug": "dundrum",
+        "postcode": "D14",
+        "housingType": "1960s-1980s Semi-Detached & Terraced",
+        "totalAuditedHomes": 7800,
+        "avgBerRating": "D1",
+        "primaryHeating": "Gas Central Heating",
+        "potentialSavings": 1300,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Heat Pump, Attic 300mm & Triple Glazing"
+      },
+      {
+        "name": "Swords",
+        "slug": "swords",
+        "postcode": "K67",
+        "housingType": "1980s-2000s Suburban Estates",
+        "totalAuditedHomes": 11200,
+        "avgBerRating": "C3",
+        "primaryHeating": "Natural Gas Boilers",
+        "potentialSavings": 1150,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Air-to-Water Heat Pump & Solar PV"
+      },
+      {
+        "name": "Blackrock",
+        "slug": "blackrock",
+        "postcode": "A94",
+        "housingType": "Period Victorian & 1950s Detached",
+        "totalAuditedHomes": 5600,
+        "avgBerRating": "E1",
+        "primaryHeating": "Gas & Oil",
+        "potentialSavings": 1850,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Whole Home Deep Retrofit & Heat Pump"
+      },
+      {
+        "name": "Tallaght",
+        "slug": "tallaght",
+        "postcode": "D24",
+        "housingType": "1970s-1990s Terraced & Semi-Detached",
+        "totalAuditedHomes": 14500,
+        "avgBerRating": "D2",
+        "primaryHeating": "Gas & Electric",
+        "potentialSavings": 1400,
+        "eligibleGrant": 12500,
+        "topUpgrade": "External Wall Wrap & Heat Pump"
+      },
+      {
+        "name": "Rathfarnham",
+        "slug": "rathfarnham",
+        "postcode": "D14",
+        "housingType": "1970s Detached & Semi-Detached",
+        "totalAuditedHomes": 6900,
+        "avgBerRating": "D1",
+        "primaryHeating": "Gas Boilers",
+        "potentialSavings": 1280,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Air-to-Water Heat Pump & Attic Insulation"
+      },
+      {
+        "name": "Clontarf",
+        "slug": "clontarf",
+        "postcode": "D03",
+        "housingType": "1930s-1950s Bay-Window Terraced",
+        "totalAuditedHomes": 5200,
+        "avgBerRating": "E1",
+        "primaryHeating": "Gas Boilers",
+        "potentialSavings": 1600,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Internal Insulation & Heat Pump"
+      },
+      {
+        "name": "Malahide",
+        "slug": "malahide",
+        "postcode": "K36",
+        "housingType": "1980s-2000s Detached Coastal Homes",
+        "totalAuditedHomes": 4800,
+        "avgBerRating": "C2",
+        "primaryHeating": "Natural Gas",
+        "potentialSavings": 1050,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Solar PV (6kW) & Monobloc Heat Pump"
+      }
+    ]
+  },
+  {
+    "county": "Cork",
+    "slug": "cork",
+    "province": "Munster",
+    "towns": [
+      {
+        "name": "Douglas",
+        "slug": "douglas",
+        "postcode": "T12",
+        "housingType": "1970s-1990s Suburban Semi-Detached",
+        "totalAuditedHomes": 6400,
+        "avgBerRating": "D1",
+        "primaryHeating": "Natural Gas & Oil Boilers",
+        "potentialSavings": 1320,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Heat Pump & Cavity Wall Bead"
+      },
+      {
+        "name": "Ballincollig",
+        "slug": "ballincollig",
+        "postcode": "P31",
+        "housingType": "1980s-2000s Estates & Detached",
+        "totalAuditedHomes": 7100,
+        "avgBerRating": "C3",
+        "primaryHeating": "Natural Gas Boilers",
+        "potentialSavings": 1180,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Air-to-Water Heat Pump & Solar PV"
+      },
+      {
+        "name": "Midleton",
+        "slug": "midleton",
+        "postcode": "P25",
+        "housingType": "1990s Semi-Detached & Period Town",
+        "totalAuditedHomes": 4200,
+        "avgBerRating": "D2",
+        "primaryHeating": "Oil & Gas Boilers",
+        "potentialSavings": 1400,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Attic Insulation & Heat Pump Upgrade"
+      },
+      {
+        "name": "Kinsale",
+        "slug": "kinsale",
+        "postcode": "P17",
+        "housingType": "Coastal Detached & Traditional Cottages",
+        "totalAuditedHomes": 2600,
+        "avgBerRating": "E1",
+        "primaryHeating": "Kerosene Oil",
+        "potentialSavings": 1750,
+        "eligibleGrant": 12500,
+        "topUpgrade": "External Wall Insulation & Heat Pump"
+      },
+      {
+        "name": "Mallow",
+        "slug": "mallow",
+        "postcode": "P51",
+        "housingType": "1970s-1990s Bungalows & Terraces",
+        "totalAuditedHomes": 4500,
+        "avgBerRating": "E1",
+        "primaryHeating": "Oil & Solid Fuel",
+        "potentialSavings": 1620,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Monobloc Heat Pump & Attic 300mm"
+      }
+    ]
+  },
+  {
+    "county": "Galway",
+    "slug": "galway",
+    "province": "Connacht",
+    "towns": [
+      {
+        "name": "Salthill",
+        "slug": "salthill",
+        "postcode": "H91",
+        "housingType": "1960s-1980s Coastal Semi-Detached & Apts",
+        "totalAuditedHomes": 4100,
+        "avgBerRating": "D2",
+        "primaryHeating": "Oil & Electric",
+        "potentialSavings": 1450,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Heat Pump & External Wall Wrap"
+      },
+      {
+        "name": "Knocknacarra",
+        "slug": "knocknacarra",
+        "postcode": "H91",
+        "housingType": "1990s-2000s Suburban Estates",
+        "totalAuditedHomes": 5800,
+        "avgBerRating": "C3",
+        "primaryHeating": "Oil & Gas Boilers",
+        "potentialSavings": 1200,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Air-to-Water Heat Pump & Solar PV"
+      },
+      {
+        "name": "Oranmore",
+        "slug": "oranmore",
+        "postcode": "H91",
+        "housingType": "2000s Detached & Modern Semi-Detached",
+        "totalAuditedHomes": 3400,
+        "avgBerRating": "C1",
+        "primaryHeating": "Gas & Heat Pumps",
+        "potentialSavings": 850,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Solar PV (5.5kW) & Battery Storage"
+      },
+      {
+        "name": "Athenry",
+        "slug": "athenry",
+        "postcode": "H65",
+        "housingType": "1980s Bungalows & Town Semi-Detached",
+        "totalAuditedHomes": 2300,
+        "avgBerRating": "D2",
+        "primaryHeating": "Kerosene Home Heating Oil",
+        "potentialSavings": 1500,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Oil Boiler to Heat Pump Conversion"
+      }
+    ]
+  },
+  {
+    "county": "Kildare",
+    "slug": "kildare",
+    "province": "Leinster",
+    "towns": [
+      {
+        "name": "Naas",
+        "slug": "naas",
+        "postcode": "W91",
+        "housingType": "1980s-2000s Commuter Semi-Detached & Detached",
+        "totalAuditedHomes": 8200,
+        "avgBerRating": "C3",
+        "primaryHeating": "Natural Gas Boilers",
+        "potentialSavings": 1220,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Air-to-Water Heat Pump & Smart Controls"
+      },
+      {
+        "name": "Maynooth",
+        "slug": "maynooth",
+        "postcode": "W23",
+        "housingType": "1990s-2000s Suburban Estates",
+        "totalAuditedHomes": 5100,
+        "avgBerRating": "C2",
+        "primaryHeating": "Natural Gas",
+        "potentialSavings": 1080,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Heat Pump & Solar PV Panels"
+      },
+      {
+        "name": "Newbridge",
+        "slug": "newbridge",
+        "postcode": "W12",
+        "housingType": "1970s-1990s Semi-Detached & Terraced",
+        "totalAuditedHomes": 6700,
+        "avgBerRating": "D1",
+        "primaryHeating": "Natural Gas & Oil",
+        "potentialSavings": 1350,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Attic Insulation & Heat Pump"
+      }
+    ]
+  },
+  {
+    "county": "Wicklow",
+    "slug": "wicklow",
+    "province": "Leinster",
+    "towns": [
+      {
+        "name": "Bray",
+        "slug": "bray",
+        "postcode": "A98",
+        "housingType": "Victorian, 1960s Terraced & 1980s Semi-D",
+        "totalAuditedHomes": 9100,
+        "avgBerRating": "D2",
+        "primaryHeating": "Natural Gas & Oil",
+        "potentialSavings": 1480,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Whole Home Insulation & Heat Pump"
+      },
+      {
+        "name": "Greystones",
+        "slug": "greystones",
+        "postcode": "A63",
+        "housingType": "1980s-2010s Detached Coastal Homes",
+        "totalAuditedHomes": 5900,
+        "avgBerRating": "C2",
+        "primaryHeating": "Natural Gas & Heat Pumps",
+        "potentialSavings": 1120,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Solar PV Export (CEG) & Heat Pump"
+      }
+    ]
+  },
+  {
+    "county": "Waterford",
+    "slug": "waterford",
+    "province": "Munster",
+    "towns": [
+      {
+        "name": "Waterford City",
+        "slug": "waterford-city",
+        "postcode": "X91",
+        "housingType": "1970s Semi-Detached & Period Terraces",
+        "totalAuditedHomes": 8500,
+        "avgBerRating": "E1",
+        "primaryHeating": "Natural Gas & Oil",
+        "potentialSavings": 1550,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Heat Pump & External Wall Insulation"
+      },
+      {
+        "name": "Tramore",
+        "slug": "tramore",
+        "postcode": "X91",
+        "housingType": "Coastal Detached & 1980s Bungalows",
+        "totalAuditedHomes": 3800,
+        "avgBerRating": "D2",
+        "primaryHeating": "Oil Boilers",
+        "potentialSavings": 1420,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Heat Pump Conversion & Attic Insulation"
+      }
+    ]
+  },
+  {
+    "county": "Kerry",
+    "slug": "kerry",
+    "province": "Munster",
+    "towns": [
+      {
+        "name": "Killarney",
+        "slug": "killarney",
+        "postcode": "V93",
+        "housingType": "Detached Bungalows & Suburban Estates",
+        "totalAuditedHomes": 4600,
+        "avgBerRating": "E1",
+        "primaryHeating": "Kerosene Home Heating Oil",
+        "potentialSavings": 1650,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Air-to-Water Heat Pump & Solar PV"
+      },
+      {
+        "name": "Tralee",
+        "slug": "tralee",
+        "postcode": "V92",
+        "housingType": "1970s-1990s Terraced & Semi-Detached",
+        "totalAuditedHomes": 6200,
+        "avgBerRating": "D2",
+        "primaryHeating": "Kerosene Oil & Solid Fuel",
+        "potentialSavings": 1520,
+        "eligibleGrant": 12500,
+        "topUpgrade": "Heat Pump, Attic 300mm & Controls"
+      }
+    ]
+  }
+]
