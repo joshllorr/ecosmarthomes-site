@@ -1,15 +1,20 @@
 {
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/api/retrofit/:path*", "destination": "http://34.121.195.76:5173/api/retrofit/:path*" },
     { "source": "/api/stripe/:path*", "destination": "http://34.121.195.76:5173/api/stripe/:path*" },
     { "source": "/api/whatsapp/:path*", "destination": "http://34.121.195.76:5173/api/whatsapp/:path*" },
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/index.html", "destination": "/index.html" },
-    { "source": "/og/(.*)", "destination": "/index.html" },
-    { "source": "/tag/(.*)", "destination": "/index.html" },
+    { "source": "/carbon-tax", "destination": "/carbon-tax/index.html" },
+    { "source": "/carbon-tax/", "destination": "/carbon-tax/index.html" },
+    { "source": "/solar", "destination": "/solar/index.html" },
+    { "source": "/solar/", "destination": "/solar/index.html" },
+    { "source": "/contractors", "destination": "/contractors/index.html" },
+    { "source": "/contractors/", "destination": "/contractors/index.html" },
+    { "source": "/locations", "destination": "/locations/index.html" },
+    { "source": "/locations/", "destination": "/locations/index.html" },
+    { "source": "/locations/:county/:town", "destination": "/locations/:county/:town.html" },
     { "source": "/articles/search", "destination": "/articles/index.html" },
-    { "source": "/articles/tag/(.*)", "destination": "/articles/index.html" },
-    { "source": "/articles/(.*)", "destination": "/articles/index.html" },
-    { "source": "/(.*).html", "destination": "/index.html" }
+    { "source": "/articles/tag/:tag", "destination": "/articles/index.html" },
+    { "source": "/articles/:slug", "destination": "/articles/index.html" }
   ]
 }
