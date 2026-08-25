@@ -37,6 +37,11 @@
   </url>
 
   <url>
+    <loc>https://www.ecosmarthomes.ie/contractors/</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
     <loc>https://www.ecosmarthomes.ie/privacy-policy.html</loc>
     <priority>0.5</priority>
   </url>
