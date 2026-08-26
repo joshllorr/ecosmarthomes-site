@@ -1,0 +1,40 @@
+# .github/workflows/site-validator.yml
+name: Pre-Deployment SEO & Security Validator
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+
+jobs:
+  seo-security-audit:
+    name: Run Site Validator Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip" # Standard library only, but good practice if requirements are added later
+
+      # Step 1: Run the Static Scan on build outputs (e.g., dist, build, site, or public directory)
+      # This checks for Stripe test leaks, bad H1 structures, missing image alt tags, etc.
+      - name: Execute Local Directory Static Scan
+        run: |
+          BUILD_DIR="./site"
+          if [ ! -d "$BUILD_DIR" ]; then
+            BUILD_DIR="."
+          fi
+          python3 site-validator.py --local-dir "$BUILD_DIR"
+
+      # Step 2: (Optional/Conditional) Run Live Crawler against Staging/Preview Environments
+      # This crawls live URLs for broken assets, 404s, and trailing slash duplicate content penalties.
+      # You can dynamically pass Vercel/Netlify preview URLs from deployment steps.
+      # - name: Execute Live Crawler Validation
+      #   run: |
+      #     python3 site-validator.py --live-url https://staging.ecosmarthomes.ie
