@@ -23,25 +23,19 @@
 
   const BASE_RUNNING_COSTS = {
     'G': 5400,
-    'F': 4600,
-    'E2': 4000,
-    'E1': 3600,
-    'E': 3800,
-    'D2': 3200,
-    'D1': 2750,
-    'D': 2950,
-    'C3': 2350,
-    'C2': 2050,
-    'C1': 1750,
-    'C': 2050,
-    'B3': 1450,
-    'B2': 1200,
-    'B1': 950,
+    'F': 4200,
+    'E': 3400,
+    'D': 2750,
+    'C': 1950,
     'B': 1200,
-    'A3': 750,
-    'A2': 550,
-    'A1': 350,
-    'A': 550
+    'A': 650,
+    'A0': 350,
+    // Legacy sub-band fallbacks
+    'E1': 3400, 'E2': 3400,
+    'D1': 2750, 'D2': 2750,
+    'C1': 1950, 'C2': 1950, 'C3': 1950,
+    'B1': 1200, 'B2': 1200, 'B3': 1200,
+    'A1': 350, 'A2': 650, 'A3': 650
   };
 
   const EIRCODE_MAP = {
@@ -92,7 +86,7 @@
 
     function recalculate() {
       const berSelect = document.getElementById('calc-ber-select');
-      const berVal = berSelect ? berSelect.value : 'D1';
+      const berVal = berSelect ? berSelect.value : 'D';
       
       let totalGrants = 0;
       let estimatedGross = 0;
@@ -116,7 +110,7 @@
 
       const netCost = Math.max(0, estimatedGross - totalGrants);
       const currentBill = BASE_RUNNING_COSTS[berVal] || 2750;
-      const targetBill = 550; // Optimized A2 NZEB heat pump + solar running cost
+      const targetBill = 550; // Optimized A / A0 NZEB heat pump + solar running cost
       const annualSavings = Math.max(0, currentBill - targetBill);
       const paybackYears = annualSavings > 0 && netCost > 0 ? (netCost / annualSavings).toFixed(1) : 0;
 

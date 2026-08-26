@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Irish Green Mortgage Arbitrage & Bank Interest Slasher | EcoSmartHomes</title>
+  <meta name="description" content="Calculate how jumping your BER rating to A or B slashes your monthly Irish mortgage interest by €230/mo (€2,760/yr) with AIB, BOI, PTSB & Haven, unlocking €4,960/yr in combined savings.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <script src="../js/energy-metrics.js"></script>
+
+  <style>
+    .mortgage-hero {
+      background: radial-gradient(120% 120% at 50% -20%, #004d38 0%, #00241b 60%, #001711 100%);
+      color: #ffffff;
+      padding: 60px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    
+    .mortgage-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 32px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 950px) {
+      .mortgage-grid { grid-template-columns: 1fr; }
+    }
+
+    .calc-card-dark {
+      background: #003f2d;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+    }
+
+    .result-telemetry-box {
+      background: rgba(0, 36, 27, 0.85);
+      border: 1px solid rgba(52, 245, 197, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .metric-value-huge {
+      font-family: var(--font-display, 'Inter');
+      font-size: 2.8rem;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      color: var(--color-arc-mint, #34f5c5);
+      line-height: 1.1;
+      margin: 6px 0;
+    }
+
+    .bank-badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .bank-pill {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 10px;
+      text-align: center;
+      font-size: 0.82rem;
+    }
+
+    .bank-pill strong {
+      display: block;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    .bank-pill span {
+      color: var(--color-arc-mint);
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Notification Telemetry -->
+  <aside class="top-bar" aria-label="Regulatory live updates">
+    <div class="container top-bar-container">
+      <div class="top-bar-left">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span class="protocol-tag">IRISH GREEN MORTGAGE ARBITRAGE</span>
+        <span>AIB · BOI · PTSB · Haven Green Rate Discount (~3.45% vs 4.75% SVR)</span>
+      </div>
+      <div class="top-bar-right">
+        <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="top-bar-cta">
+          ⭐ Book €49 Survey to Unlock Green Rate →
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation -->
+  <header class="header" role="banner">
+    <div class="container header-container">
+      <a href="../index.html" class="logo" aria-label="EcoSmartHomes Home">
+        <span class="logo-icon" aria-hidden="true">🏡</span>
+        <span class="logo-text">EcoSmart<strong>Homes</strong></span>
+      </a>
+
+      <nav class="nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link active" style="color: var(--color-arc-mint);">🏦 Green Mortgage</a>
+        <a href="../quote-auditor/" class="nav-link">🛡️ Quote Auditor</a>
+        <a href="../ber-advisor/index.html" class="nav-link">📊 BER Advisor</a>
+        <a href="../solar/index.html" class="nav-link">☀️ Solar PV</a>
+        <a href="../carbon-tax/index.html" class="nav-link">⚡ Fuel Tax</a>
+        <a href="../roadmap/index.html" class="nav-link">📄 Roadmap PDF</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="padding: 9px 16px; font-size: 0.85rem; background: var(--color-amber-gold); color: #000; font-weight: 800;">
+          💳 Book €49 Survey
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="mortgage-hero">
+    <div class="container">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;">
+        <span class="mono-tag" style="background: rgba(52, 245, 197, 0.12); color: var(--color-arc-mint); border-color: rgba(52, 245, 197, 0.3);">
+          ● BANK RATE ARBITRAGE
+        </span>
+        <span class="mono-tag" style="background: rgba(245, 158, 11, 0.12); color: var(--color-amber-gold); border-color: rgba(245, 158, 11, 0.3);">
+          ⚡ SAVE ~€230/MO (€2,760/YR) IN BANK INTEREST
+        </span>
+        <span class="mono-tag" style="background: rgba(255, 255, 255, 0.08); color: #fff;">
+          📈 +16% IMMEDIATE PROPERTY EQUITY SURGE
+        </span>
+      </div>
+
+      <h1 style="font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 300; letter-spacing: -0.022em; line-height: 1.15; max-width: 850px; margin: 0 0 16px 0;">
+        How the Irish Banks Pay For Your Home Retrofit
+      </h1>
+      <p style="font-size: 1.1rem; color: #cbd5e1; max-width: 780px; line-height: 1.6; margin: 0 0 28px 0;">
+        Stop thinking a retrofit only saves you €1,500 on kerosene oil. Upgrading your BER from <strong>G/D to B or A</strong> qualifies your home for Ireland's lowest <strong>Green Mortgage Rates (~3.45% vs 4.75% SVR)</strong> — saving you <strong>€2,760/year in mortgage payments alone</strong> plus <strong>€2,200/year in fuel bills</strong>.
+      </p>
+
+      <!-- Bank Eligibility Strip -->
+      <div class="bank-badge-grid">
+        <div class="bank-pill">
+          <strong>AIB Green 5-Yr</strong>
+          <span>3.45% Fixed</span>
+        </div>
+        <div class="bank-pill">
+          <strong>Bank of Ireland Eco</strong>
+          <span>3.50% Fixed</span>
+        </div>
+        <div class="bank-pill">
+          <strong>PTSB Green</strong>
+          <span>3.60% Fixed</span>
+        </div>
+        <div class="bank-pill">
+          <strong>Haven Green</strong>
+          <span>3.45% Fixed</span>
+        </div>
+        <div class="bank-pill" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.1);">
+          <strong style="color: #fca5a5;">Standard Variable</strong>
+          <span style="color: #ef4444;">4.75% SVR</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Calculator Section -->
+  <main class="container" style="padding: 40px 20px 80px 20px;">
+    
+    <div class="mortgage-grid">
+      
+      <!-- Input Controls (Light Register) -->
+      <div style="background: #ffffff; border: 1px solid var(--color-silver-border); border-radius: 12px; padding: 32px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="font-size: 1.35rem; color: var(--color-forest-ink); margin: 0; font-family: 'Outfit', sans-serif;">
+            1. Your Property & Mortgage Details
+          </h2>
+          <span class="mono-tag" style="background: #ecfdf5; color: #059669;">LIVE SIMULATOR</span>
+        </div>
+
+        <form id="mortgage-calc-form" onsubmit="event.preventDefault();">
+          
+          <!-- Eircode -->
+          <div style="margin-bottom: 20px;">
+            <label for="mortgage-eircode" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 6px; font-size: 0.9rem;">
+              📍 Irish Eircode Routing Key (e.g. V94, D04, T12, H91)
+            </label>
+            <input type="text" id="mortgage-eircode" value="V94 ED21" placeholder="ENTER EIRCODE..." style="width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-family: var(--font-mono); font-weight: 600; text-transform: uppercase;">
+          </div>
+
+          <!-- Mortgage Balance -->
+          <div style="margin-bottom: 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label for="mortgage-balance" style="font-weight: 700; color: #003f2d; font-size: 0.9rem; margin: 0;">
+                💶 Remaining Mortgage Balance
+              </label>
+              <span id="balance-display" style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: #003f2d;">€300,000</span>
+            </div>
+            <input type="range" id="mortgage-balance-slider" min="100000" max="750000" step="10000" value="300000" style="width: 100%; accent-color: #10b981; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; font-family: var(--font-mono); margin-top: 4px;">
+              <span>€100,000</span>
+              <span>€400,000</span>
+              <span>€750,000+</span>
+            </div>
+          </div>
+
+          <!-- Current Interest Rate -->
+          <div style="margin-bottom: 20px;">
+            <label for="current-rate-select" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 6px; font-size: 0.9rem;">
+              🏦 Current Bank Interest Rate
+            </label>
+            <select id="current-rate-select" style="width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem; font-weight: 600; background: #fff;">
+              <option value="4.75" selected>4.75% (Standard Variable Rate - SVR)</option>
+              <option value="4.50">4.50% (Standard Fixed Rate)</option>
+              <option value="4.25">4.25% (Semi-Discounted Standard Tier)</option>
+              <option value="5.00">5.00% (High Standard Variable)</option>
+            </select>
+          </div>
+
+          <!-- Current BER Rating -->
+          <div style="margin-bottom: 20px;">
+            <label for="current-ber-select" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 6px; font-size: 0.9rem;">
+              🏷️ Current Building Energy Rating (BER)
+            </label>
+            <select id="current-ber-select" style="width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem; font-weight: 600; background: #fff;">
+              <option value="G">🔴 G Rating (>375 kWh/m²/yr · ~€5,400/yr fuel)</option>
+              <option value="F">🟠 F Rating (≤375 kWh/m²/yr · ~€4,200/yr fuel)</option>
+              <option value="E">🟠 E Rating (≤325 kWh/m²/yr · ~€3,400/yr fuel)</option>
+              <option value="D" selected>🟡 D Rating (≤275 kWh/m²/yr · ~€2,750/yr fuel · Irish Average)</option>
+              <option value="C">🟢 C Rating (≤225 kWh/m²/yr · ~€1,950/yr fuel)</option>
+            </select>
+          </div>
+
+          <!-- Target Retrofit Standard -->
+          <div style="margin-bottom: 24px;">
+            <label for="target-ber-select" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 6px; font-size: 0.9rem;">
+              🎯 Target Retrofit Tier for Bank Green Rate
+            </label>
+            <select id="target-ber-select" style="width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem; font-weight: 600; background: #fff;">
+              <option value="A" selected>🟢 A Rating (≤75 kWh/m²/yr · 3.45% Green Rate Standard)</option>
+              <option value="A0">🔵 A0 Zero-Emission (≤42 kWh/m²/yr · Ultra Green Tier)</option>
+              <option value="B">🟢 B Rating (≤150 kWh/m²/yr · 3.50% Minimum Bank Green Entry)</option>
+            </select>
+          </div>
+
+        </form>
+
+        <!-- Guarantee Note -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; font-size: 0.85rem; color: #475569;">
+          🛡️ <strong>Bank Compliance Note:</strong> AIB, BOI, and PTSB require an independent BER Cert or Part-L pre-works engineering roadmap signed off to release Green Mortgage rates.
+        </div>
+      </div>
+
+      <!-- Live Arbitrage Output (Dark Register) -->
+      <div class="calc-card-dark">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <span class="mono-tag" style="background: rgba(52, 245, 197, 0.15); color: var(--color-arc-mint); border-color: rgba(52, 245, 197, 0.3);">
+            ● LIVE FINANCIAL ARBITRAGE
+          </span>
+          <span style="font-family: var(--font-mono); font-size: 11px; color: #94a3b8;">
+            EPBD & CENTRAL BANK BENCHMARK
+          </span>
+        </div>
+
+        <!-- Metric 1: Mortgage Slash -->
+        <div class="result-telemetry-box">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: #94a3b8; text-transform: uppercase;">
+              📉 BANK MORTGAGE INTEREST SLASH (3.45% Green Rate)
+            </span>
+            <span id="rate-drop-tag" style="background: #10b981; color: #000; font-family: var(--font-mono); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">
+              -1.30% RATE DROP
+            </span>
+          </div>
+          <div id="mortgage-monthly-savings" class="metric-value-huge">€230 / mo</div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: #cbd5e1;">
+            = <strong id="mortgage-annual-savings" style="color: #fff;">€2,760 / year</strong> in pure bank interest savings
+          </div>
+        </div>
+
+        <!-- Metric 2: Fuel Savings -->
+        <div class="result-telemetry-box" style="border-color: rgba(245, 158, 11, 0.3);">
+          <span style="font-family: var(--font-mono); font-size: 11px; color: #f59e0b; text-transform: uppercase;">
+            🔥 HEATING FUEL & CARBON TAX SAVINGS
+          </span>
+          <div id="fuel-annual-savings" class="metric-value-huge" style="color: var(--color-amber-gold);">€2,200 / yr</div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: #cbd5e1;">
+            Oil/Gas boiler eliminated · Heat Pump & Solar PV self-generation
+          </div>
+        </div>
+
+        <!-- Grand Total Combined Household Profit -->
+        <div style="background: rgba(16, 185, 129, 0.15); border: 2px solid #10b981; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: #34d399; text-transform: uppercase; font-weight: 700;">
+              💰 TOTAL NET HOUSEHOLD CASH PROFIT
+            </span>
+            <span style="background: #34d399; color: #000; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono);">
+              TAX-FREE CASH
+            </span>
+          </div>
+          <div id="grand-total-savings" style="font-family: var(--font-display); font-size: 3.2rem; font-weight: 300; letter-spacing: -0.03em; color: #ffffff; line-height: 1.1; margin: 8px 0;">
+            €4,960 / yr
+          </div>
+          <p style="margin: 0; font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">
+            💵 <strong>The Bank Pays For Your Retrofit:</strong> Slashes net retrofit costs to zero in approximately <strong>2.4 years</strong> through mortgage discount + fuel savings alone.
+          </p>
+        </div>
+
+        <!-- Property Equity Surge -->
+        <div style="display: flex; gap: 12px; align-items: center; background: rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; margin-bottom: 24px;">
+          <div style="font-size: 1.5rem;">📈</div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: #fff;">+16% Immediate Property Value Uplift</div>
+            <div style="font-size: 0.78rem; color: #94a3b8;">Adds an estimated <strong>+€55,000</strong> to the resale equity of a typical €350,000 Irish home.</div>
+          </div>
+        </div>
+
+        <!-- Action CTAs -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="background: var(--color-amber-gold); color: #000; font-weight: 800; font-size: 1rem; padding: 14px; text-align: center; text-decoration: none; border-radius: 8px;">
+            ⭐ Book €49 Survey to Unlock Green Rate with Joe →
+          </a>
+          <a href="../roadmap/index.html" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600;">
+            📄 Download 2-Page Bank-Ready Roadmap (PDF)
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="dashboard-footer">
+    <div class="container">
+      <p class="protocol">⚡ Powered by EcoSmartHomes Irish Green Mortgage Arbitrage Engine</p>
+      <div class="dashboard-footer-links">
+        <a href="../index.html">Home</a> •
+        <a href="index.html">Green Mortgage</a> •
+        <a href="../quote-auditor/">Quote Auditor</a> •
+        <a href="../ber-advisor/index.html">BER Advisor</a> •
+        <a href="../solar/index.html">Solar AI</a> •
+        <a href="../carbon-tax/index.html">Carbon Tax</a> •
+        <a href="../roadmap/index.html">Roadmap PDF</a>
+      </div>
+      <p><small style="color: #64748b;">© 2026 EcoSmartHomes Ireland. Calculations based on standard 25-year Irish mortgage amortisation and SEAI May 2026 energy matrices.</small></p>
+    </div>
+  </footer>
+
+  <script>
+  // Live Green Mortgage Arbitrage Math
+  const slider = document.getElementById('mortgage-balance-slider');
+  const balanceDisplay = document.getElementById('balance-display');
+  const currentRateSelect = document.getElementById('current-rate-select');
+  const currentBerSelect = document.getElementById('current-ber-select');
+  const targetBerSelect = document.getElementById('target-ber-select');
+
+  const GREEN_RATE = 3.45; // AIB / Haven Green 5-year Fixed Tier
+
+  const BER_FUEL_COSTS = {
+    'G': 5400,
+    'F': 4200,
+    'E': 3400,
+    'D': 2750,
+    'C': 1950,
+    'B': 1200,
+    'A': 650,
+    'A0': 350
+  };
+
+  function calculateMonthlyRepayment(principal, annualRatePercent, years = 25) {
+    const monthlyRate = (annualRatePercent / 100) / 12;
+    const numberOfPayments = years * 12;
+    if (monthlyRate === 0) return principal / numberOfPayments;
+    return (principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+  }
+
+  function recalculateArbitrage() {
+    const balance = Number(slider.value);
+    balanceDisplay.textContent = '€' + balance.toLocaleString();
+
+    const curRate = Number(currentRateSelect.value);
+    const rateDiff = (curRate - GREEN_RATE).toFixed(2);
+    
+    // Monthly Repayments
+    const curMonthly = calculateMonthlyRepayment(balance, curRate);
+    const greenMonthly = calculateMonthlyRepayment(balance, GREEN_RATE);
+    
+    const monthlySavings = Math.max(0, Math.round(curMonthly - greenMonthly));
+    const annualMortgageSavings = Math.round(monthlySavings * 12);
+
+    // Fuel Savings
+    const curBer = currentBerSelect.value;
+    const tarBer = targetBerSelect.value;
+    const curFuel = BER_FUEL_COSTS[curBer] || 2750;
+    const tarFuel = BER_FUEL_COSTS[tarBer] || 650;
+    const annualFuelSavings = Math.max(0, curFuel - tarFuel);
+
+    // Combined Grand Total
+    const grandTotal = annualMortgageSavings + annualFuelSavings;
+
+    // Update UI elements
+    document.getElementById('rate-drop-tag').textContent = `-${rateDiff}% RATE DROP`;
+    document.getElementById('mortgage-monthly-savings').textContent = `€${monthlySavings} / mo`;
+    document.getElementById('mortgage-annual-savings').textContent = `€${annualMortgageSavings.toLocaleString()} / year`;
+    document.getElementById('fuel-annual-savings').textContent = `€${annualFuelSavings.toLocaleString()} / yr`;
+    document.getElementById('grand-total-savings').textContent = `€${grandTotal.toLocaleString()} / yr`;
+  }
+
+  slider.addEventListener('input', recalculateArbitrage);
+  currentRateSelect.addEventListener('change', recalculateArbitrage);
+  currentBerSelect.addEventListener('change', recalculateArbitrage);
+  targetBerSelect.addEventListener('change', recalculateArbitrage);
+
+  recalculateArbitrage();
+  </script>
+
+</body>
+</html>
