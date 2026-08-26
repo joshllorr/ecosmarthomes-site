@@ -15,6 +15,7 @@
   <meta name="description" content="Premium home energy retrofit advisory for Irish homeowners, including BER assessments, insulation upgrades, and heat‑pump guidance." />
   <title>EcoSmartHome | Premium Home Energy Retrofit Advisory in Ireland</title>
   <link rel="canonical" href="https://ecosmarthomes.ie/" />
+  <link rel="icon" type="image/svg+xml" href="imgs/logo.svg" />
   <link rel="stylesheet" href="css/voice-advisor.css" />
 
   <!-- AI Agent & MCP Readiness Manifests -->
@@ -261,6 +262,7 @@
   </div>
 </header>
 
+<main id="main-content">
 <section id="hero" class="hero">
   <iframe
     src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/b74719541aacf34d4b230485c1dbc3bd/iframe?muted=true&autoplay=true&loop=true&controls=false&poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2Fb74719541aacf34d4b230485c1dbc3bd%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
@@ -471,8 +473,8 @@
 
         <!-- Interactive Dropzone Area -->
         <div id="ber-pdf-dropzone" class="dropzone-container" style="border: 2px dashed #10b981; background: #fbfdfc; border-radius: 12px; padding: 25px 20px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
-          <input type="file" id="ber-photo-camera-input" accept="image/*" capture="environment" style="display: none;" />
-          <input type="file" id="ber-pdf-file-input" accept="image/*,.pdf" style="display: none;" />
+          <input type="file" id="ber-photo-camera-input" aria-label="Upload photo of heating equipment or attic" accept="image/*" capture="environment" style="display: none;" />
+          <input type="file" id="ber-pdf-file-input" aria-label="Upload BER certificate PDF or image" accept="image/*,.pdf" style="display: none;" />
           
           <div id="dropzone-icon" style="font-size: 2.5rem; margin-bottom: 8px;">📸</div>
           <p id="dropzone-title" style="font-weight: 700; color: #003f2d; margin: 0 0 4px 0; font-size: 1.05rem;">Take a Photo or Upload Image</p>
@@ -511,8 +513,8 @@
         
         <!-- Step 1: BER Selection -->
         <div>
-          <label style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px;">1. Current Building Energy Rating (BER)</label>
-          <select id="calc-ber-select" style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; background: #fff;">
+          <label for="calc-ber-select" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px;">1. Current Building Energy Rating (BER)</label>
+          <select id="calc-ber-select" aria-label="Select your current Building Energy Rating" style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; background: #fff;">
             <option value="G">G Rating (Least Efficient - ~€4,200/yr fuel)</option>
             <option value="F">F Rating (~€3,700/yr fuel)</option>
             <option value="E">E Rating (~€3,100/yr fuel)</option>
@@ -524,8 +526,8 @@
 
         <!-- Step 2: Property Type -->
         <div>
-          <label style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px;">2. Property Layout</label>
-          <select id="calc-property-type" style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; background: #fff;">
+          <label for="calc-property-type" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px;">2. Property Layout</label>
+          <select id="calc-property-type" aria-label="Select your property type layout" style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; background: #fff;">
             <option value="detached">Detached House (150+ sqm)</option>
             <option value="semi" selected>Semi-Detached House (~120 sqm)</option>
             <option value="terrace">Mid-Terrace House (~90 sqm)</option>
@@ -1288,7 +1290,7 @@
   <h2>EcoSmartHomes Video Carousel</h2>
 
   <div class="carousel-wrapper">
-    <button class="carousel-btn prev">&#10094;</button>
+    <button class="carousel-btn prev" aria-label="Scroll to previous videos">&#10094;</button>
 
     <div class="carousel-track">
 
@@ -1409,7 +1411,7 @@
     </div>
     </div> <!-- end .carousel-track -->
 
-    <button class="carousel-btn next">&#10095;</button>
+    <button class="carousel-btn next" aria-label="Scroll to next videos">&#10095;</button>
   </div> <!-- end .carousel-wrapper -->
 </section> <!-- end #video-carousel -->
 
@@ -1440,13 +1442,13 @@
   <form id="main-contact-form" class="contact-form">
 
     <label for="name">Your Name</label>
-    <input type="text" id="name" name="name" required>
+    <input type="text" id="name" name="name" autocomplete="name" required>
 
     <label for="email">Your Email</label>
-    <input type="email" id="email" name="email" required>
+    <input type="email" id="email" name="email" autocomplete="email" required>
 
     <label for="phone">Your Phone Number (e.g. +3538XXXXXXXX)</label>
-    <input type="tel" id="phone" name="phone" required>
+    <input type="tel" id="phone" name="phone" autocomplete="tel" required>
 
     <label for="topic">What are you enquiring about?</label>
     <select id="topic" name="topic" required>
@@ -1530,7 +1532,7 @@
   <p>Strategy Call Scheduling — 15‑minute Suitability Check</p>
 
 </div>
-
+</main>
 
 <footer class="footer">
   <div class="container footer-grid">

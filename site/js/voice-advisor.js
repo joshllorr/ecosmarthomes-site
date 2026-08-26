@@ -38,7 +38,7 @@
               <div style="font-size: 0.75rem; color: #a7f3d0;">EcoSmartHomes Ireland · Online</div>
             </div>
           </div>
-          <button id="voice-close-btn" style="background: none; border: none; color: #94a3b8; font-size: 1.3rem; cursor: pointer; padding: 4px;">✕</button>
+          <button id="voice-close-btn" aria-label="Close Voice Advisor" style="background: none; border: none; color: #94a3b8; font-size: 1.3rem; cursor: pointer; padding: 4px;">✕</button>
         </div>
 
         <div id="voice-chat-body" class="voice-modal-body">
@@ -68,9 +68,9 @@
           </div>
 
           <div class="voice-input-row">
-            <button id="voice-mic-trigger" class="voice-mic-btn" title="Click to Speak">🎙️</button>
-            <input type="text" id="voice-text-input" class="voice-text-input" placeholder="Speak or type a question..." />
-            <button id="voice-send-btn" style="background: #003f2d; color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 1rem;">➤</button>
+            <button id="voice-mic-trigger" class="voice-mic-btn" title="Click to Speak" aria-label="Toggle microphone for voice input">🎙️</button>
+            <input type="text" id="voice-text-input" class="voice-text-input" aria-label="Ask Aoife voice energy advisor" placeholder="Speak or type a question..." />
+            <button id="voice-send-btn" aria-label="Send message to voice advisor" style="background: #003f2d; color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 1rem;">➤</button>
           </div>
         </div>
       </div>
