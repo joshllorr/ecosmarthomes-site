@@ -1,0 +1,74 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyAfter" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="solarGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="modernRender" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fafafa"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1200" height="675" fill="url(#skyAfter)"/>
+  <!-- Sun Reflection -->
+  <circle cx="1000" cy="120" r="80" fill="#fef08a" opacity="0.6"/>
+
+  <!-- Ground / Paved Driveway -->
+  <rect y="450" width="1200" height="225" fill="#475569"/>
+  <polygon points="150,675 350,450 750,450 950,675" fill="#64748b"/>
+  <!-- Brick Paving Grid lines -->
+  <path d="M 200 675 L 370 450 M 300 675 L 430 450 M 450 675 L 530 450 M 600 675 L 630 450 M 750 675 L 720 450 M 900 675 L 780 450" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Main House Structure (A2 Insulated EWI Modern Render) -->
+  <rect x="360" y="140" width="480" height="310" fill="url(#modernRender)" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="360" y="430" width="480" height="20" fill="#334155"/> <!-- Plinth Insulation Seal -->
+  <line x1="600" y1="140" x2="600" y2="450" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Roof & Solar PV Array -->
+  <polygon points="340,140 600,40 860,140" fill="#1e293b"/>
+  <polygon points="860,140 600,40 1100,140" fill="#0f172a" opacity="0.7"/>
+  <rect x="740" y="45" width="45" height="65" fill="#475569" stroke="#1e293b" stroke-width="2"/>
+
+  <!-- Solar PV Panels (In-Roof Monocrystalline Array) -->
+  <rect x="420" y="65" width="150" height="60" fill="url(#solarGlass)" stroke="#38bdf8" stroke-width="2" rx="4"/>
+  <line x1="470" y1="65" x2="470" y2="125" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <line x1="520" y1="65" x2="520" y2="125" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <line x1="420" y1="95" x2="570" y2="95" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+
+  <rect x="620" y="65" width="140" height="60" fill="url(#solarGlass)" stroke="#38bdf8" stroke-width="2" rx="4"/>
+  <line x1="690" y1="65" x2="690" y2="125" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <line x1="620" y1="95" x2="760" y2="95" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+
+  <!-- Modern Anthracite Triple Glazed Windows -->
+  <!-- Upper Left -->
+  <rect x="420" y="175" width="115" height="90" fill="#0f172a" stroke="#1e293b" stroke-width="8" rx="3"/>
+  <rect x="428" y="183" width="99" height="74" fill="#38bdf8" opacity="0.8"/>
+
+  <!-- Upper Right -->
+  <rect x="630" y="175" width="135" height="90" fill="#0f172a" stroke="#1e293b" stroke-width="8" rx="3"/>
+  <rect x="638" y="183" width="119" height="74" fill="#38bdf8" opacity="0.8"/>
+
+  <!-- Ground Right Window -->
+  <rect x="630" y="295" width="135" height="100" fill="#0f172a" stroke="#1e293b" stroke-width="8" rx="3"/>
+  <rect x="638" y="303" width="119" height="84" fill="#38bdf8" opacity="0.8"/>
+
+  <!-- Modern Composite Front Door & EV Charger -->
+  <rect x="430" y="290" width="95" height="160" fill="#0f172a" stroke="#1e293b" stroke-width="5"/>
+  <rect x="495" y="320" width="8" height="90" fill="#f8fafc"/> <!-- Long Stainless Pull Handle -->
+  
+  <!-- Wall EV Charger -->
+  <rect x="545" y="340" width="30" height="45" rx="6" fill="#1e293b" stroke="#34f5c5" stroke-width="2"/>
+  <circle cx="560" cy="358" r="6" fill="#10b981"/>
+
+  <!-- Technical Telemetry Overlay -->
+  <rect x="910" y="30" width="260" height="75" rx="8" fill="rgba(0,36,27,0.9)" stroke="#34f5c5" stroke-width="2"/>
+  <text x="930" y="58" font-family="monospace" font-weight="bold" font-size="16" fill="#34f5c5">AFTER A2 WRAP</text>
+  <text x="930" y="82" font-family="sans-serif" font-size="14" fill="#e2e8f0">BER A2 NZEB · U-Value 0.18 W/m²K</text>
+</svg>

@@ -117,6 +117,42 @@
   <!-- Main Simulator Workbench -->
   <main style="padding: 50px 0;">
     <div class="container" style="max-width: 1050px;">
+
+      <!-- Before & After Photorealistic Visual Comparison Card -->
+      <div style="background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 24px; margin-bottom: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.04);">
+        <h3 style="color: #003f2d; font-size: 1.3rem; margin-top: 0; margin-bottom: 8px;">Visual Transformation Preview</h3>
+        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 16px;">Slide to inspect the visual contrast between a 1980s pebbledash finish and a modern NSAI Agrément external wall insulation wrap.</p>
+
+        <div id="before-after-container" style="position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; user-select: none; touch-action: pan-y; background: #00241b;">
+          <!-- Badges (Pinned on top layer) -->
+          <div style="position: absolute; top: 12px; left: 12px; background: rgba(15,23,42,0.92); color: #f87171; font-family: var(--font-mono); font-weight: 700; font-size: 11px; padding: 5px 10px; border-radius: 4px; border: 1px solid rgba(239,68,68,0.4); z-index: 25; pointer-events: none; backdrop-filter: blur(4px);">
+            BEFORE: D2 Pebble-Dash
+          </div>
+          <div style="position: absolute; top: 12px; right: 12px; background: rgba(0,36,27,0.92); color: #34f5c5; font-family: var(--font-mono); font-weight: 700; font-size: 11px; padding: 5px 10px; border-radius: 4px; border: 1px solid rgba(52,245,197,0.4); z-index: 25; pointer-events: none; backdrop-filter: blur(4px);">
+            AFTER: A2 Retrofit Wrap
+          </div>
+
+          <!-- After Image -->
+          <img src="/imgs/irish_house_after.svg" alt="A2-Rated Irish House After Retrofit" onerror="this.onerror=null;this.src='/imgs/irish_house_after.jpg';" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; color: transparent;" />
+
+          <!-- Before Image Overlay -->
+          <div id="sim-before-wrap" style="position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(0 50% 0 0); z-index: 10;">
+            <img src="/imgs/irish_house_before.svg" alt="1980s Irish House Before Retrofit" onerror="this.onerror=null;this.src='/imgs/irish_house_before.jpg';" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; color: transparent;" />
+          </div>
+
+          <!-- Divider Handle -->
+          <div id="sim-slider-handle" style="position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #34f5c5; box-shadow: 0 0 10px rgba(52,245,197,0.9); z-index: 20; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+            <div style="width: 34px; height: 34px; border-radius: 50%; background: #00241b; color: #34f5c5; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; border: 2px solid #34f5c5; transform: translateX(-50%); box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+              ↔
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <input type="range" id="page-wrap-slider" min="0" max="100" value="50" style="width: 100%; cursor: pointer; accent-color: #059669;" />
+        </div>
+      </div>
+
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
 
         <!-- Left: Interactive Wall Customizer -->
@@ -261,6 +297,19 @@
     slider.addEventListener('input', updateSim);
     tierSelect.addEventListener('change', updateSim);
     updateSim();
+
+    // Visual Comparison Slider Handler
+    const pageSlider = document.getElementById('page-wrap-slider');
+    const simBeforeWrap = document.getElementById('sim-before-wrap');
+    const simHandle = document.getElementById('sim-slider-handle');
+
+    if (pageSlider && simBeforeWrap && simHandle) {
+      pageSlider.addEventListener('input', (e) => {
+        const val = e.target.value;
+        simBeforeWrap.style.clipPath = `inset(0 ${100 - val}% 0 0)`;
+        simHandle.style.left = val + '%';
+      });
+    }
   </script>
 </body>
 </html>
