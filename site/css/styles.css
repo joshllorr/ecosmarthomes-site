@@ -1224,7 +1224,8 @@ body {
 .video-container {
   position: relative;
   width: 100%;
-  background: #f0f0f0;
+  aspect-ratio: 16 / 9;
+  background: #00241b;
   border-radius: 6px;
   overflow: hidden;
   margin-bottom: 10px;
@@ -1851,5 +1852,25 @@ body {
   align-items: center;
   gap: 8px;
 }
+
+/* Mobile Responsiveness for BER Tables & Data Matrices (< 768px) */
+@media (max-width: 768px) {
+  table.responsive-matrix {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .video-container {
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .carousel-item {
+    flex: 0 0 85vw !important;
+    max-width: 320px;
+  }
+}
+
 
 

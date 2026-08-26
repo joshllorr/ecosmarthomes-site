@@ -120,7 +120,7 @@ export default async function handler(req, res) {
       nextStepRecommendation: riskLevel === 'CRITICAL' || riskLevel === 'HIGH' 
         ? 'Do not sign this quote until an independent SR50 heat loss calculation and radiator sizing survey is conducted.'
         : 'Quote appears reasonably aligned with national benchmarks, but verify installer SEAI registration ID before placing deposit.',
-      surveyBookingUrl: 'https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00'
+      surveyBookingUrl: 'https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00'
     };
 
     return res.status(200).json({

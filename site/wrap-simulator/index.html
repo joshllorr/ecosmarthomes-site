@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Global Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-3013797648"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-3013797648', {'allow_enhanced_conversions': true});
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Simulate external wall insulation (EWI) and wall wrap upgrades for Irish homes. Calculate U-value drop (0.18 W/m²K), SEAI grant allocations up to €8,000, and winter fuel savings." />
+  <title>External Wall Wrap & Insulation Simulator | EcoSmartHomes Ireland</title>
+  <link rel="canonical" href="https://ecosmarthomes.ie/vision/wrap-simulator/" />
+  <link rel="icon" type="image/svg+xml" href="../imgs/logo.svg" />
+  <link rel="stylesheet" href="../css/styles.css?v=2" />
+  <link rel="stylesheet" href="../css/voice-advisor.css" />
+  <style>
+    :root {
+      --color-forest-deep: #00241b;
+      --color-forest-ink: #003f2d;
+      --color-arc-mint: #34f5c5;
+      --color-amber-gold: #f59e0b;
+      --color-slate-body: #475569;
+      --font-display: 'Cinzel', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    .wrap-hero {
+      background: radial-gradient(circle at 50% 0%, #003f2d 0%, #00241b 100%);
+      color: #ffffff;
+      padding: 60px 0 40px 0;
+      text-align: center;
+      border-bottom: 1px solid rgba(52, 245, 197, 0.2);
+    }
+
+    .sim-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    .visualizer-stage {
+      background: #0f172a;
+      border-radius: 12px;
+      padding: 30px;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid rgba(52, 245, 197, 0.3);
+    }
+
+    .wall-cross-section {
+      width: 100%;
+      max-width: 480px;
+      height: 140px;
+      border-radius: 8px;
+      display: flex;
+      overflow: hidden;
+      border: 3px solid #334155;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .layer-plaster { background: #cbd5e1; flex: 1; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #000; font-weight: 700; }
+    .layer-masonry { background: #94a3b8; flex: 3; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #000; font-weight: 700; }
+    .layer-eps { background: #34f5c5; flex: 3; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #00241b; font-weight: 800; transition: all 0.4s ease; }
+    .layer-render { background: #f59e0b; flex: 1; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #000; font-weight: 700; }
+
+    .slider-control {
+      width: 100%;
+      margin: 16px 0;
+      accent-color: var(--color-arc-mint);
+    }
+  </style>
+</head>
+<body style="background: #f8fafc; color: #0f172a;">
+
+  <!-- Header Navigation -->
+  <header style="background: #00241b; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0;">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+      <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <span>🏡</span> EcoSmartHomes
+      </a>
+      <div style="display: flex; gap: 14px; align-items: center;">
+        <a href="/green-mortgage/" style="color: #34f5c5; text-decoration: none; font-size: 0.9rem; font-weight: 700;">🏦 Green Mortgage</a>
+        <a href="/quote-auditor/" style="color: #fca5a5; text-decoration: none; font-size: 0.9rem; font-weight: 700;">🛡️ Quote Auditor</a>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="wrap-hero">
+    <div class="container" style="max-width: 900px;">
+      <span style="background: rgba(52,245,197,0.15); color: #34f5c5; padding: 5px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; border: 1px solid rgba(52,245,197,0.3); display: inline-block; margin-bottom: 12px;">
+        🧱 NSAI Agrément External Wall Insulation (EWI)
+      </span>
+      <h1 style="font-family: var(--font-display); font-size: 2.6rem; font-weight: 300; margin: 0 0 14px 0; line-height: 1.2;">
+        External Wall Wrap & U-Value Simulator
+      </h1>
+      <p style="color: #cbd5e1; font-size: 1.1rem; line-height: 1.6; margin: 0 auto 20px auto; max-width: 760px;">
+        Simulate thermal envelope improvements on Irish solid mass, hollow block, and cavity walls. Calculate your U-value progression from 2.10 down to 0.18 W/m²K and unlock up to €8,000 in SEAI wrap grants.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Simulator Workbench -->
+  <main style="padding: 50px 0;">
+    <div class="container" style="max-width: 1050px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+
+        <!-- Left: Interactive Wall Customizer -->
+        <div class="sim-card">
+          <h2 style="color: #003f2d; font-size: 1.3rem; margin-top: 0; margin-bottom: 16px;">1. Select Existing Wall Build</h2>
+          
+          <label style="display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">Current Wall Construction:</label>
+          <select id="wall-type-select" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-weight: 600; margin-bottom: 18px;">
+            <option value="hollow">1970s Hollow Concrete Block (U: 2.10 W/m²K)</option>
+            <option value="solid">Pre-1950s Solid Mass Concrete / Stone (U: 2.40 W/m²K)</option>
+            <option value="cavity">1980s-1990s Uninsulated Cavity (U: 1.60 W/m²K)</option>
+            <option value="semi">Semi-Detached Standard (U: 1.95 W/m²K)</option>
+          </select>
+
+          <label style="display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">External Insulation Thickness (Graphite EPS):</label>
+          <input type="range" id="insulation-slider" min="50" max="200" step="10" value="120" class="slider-control" />
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; color: #64748b; margin-bottom: 20px;">
+            <span>50mm (Retrofit Base)</span>
+            <span id="thickness-display" style="color: #059669; font-weight: 800;">120mm (Optimal)</span>
+            <span>200mm (Passive Standard)</span>
+          </div>
+
+          <label style="display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">Property Typology (SEAI Grant Tier):</label>
+          <select id="house-tier-select" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-weight: 600; margin-bottom: 20px;">
+            <option value="detached">Detached House (€8,000 Grant)</option>
+            <option value="semi" selected>Semi-Detached / End of Terrace (€6,000 Grant)</option>
+            <option value="mid">Mid-Terrace House (€3,500 Grant)</option>
+            <option value="apt">Apartment (€3,000 Grant)</option>
+          </select>
+
+          <div style="background: #ecfdf5; border: 1px solid #10b981; border-radius: 8px; padding: 14px;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #065f46;">✔ NSAI Agrément Certificate & SR54 Certified</div>
+            <div style="font-size: 0.78rem; color: #047857; margin-top: 2px;">Includes silicone breather render, mechanical fixings, and sub-sill thermal bridge details.</div>
+          </div>
+        </div>
+
+        <!-- Right: Real-Time Thermodynamic Telemetry & Visualizer -->
+        <div class="sim-card" style="background: #00241b; color: #ffffff; border-color: rgba(52, 245, 197, 0.3);">
+          <h2 style="color: var(--color-arc-mint); font-size: 1.3rem; margin-top: 0; margin-bottom: 16px;">2. Real-Time Thermal Physics</h2>
+
+          <div class="visualizer-stage">
+            <div style="font-family: var(--font-mono); font-size: 11px; color: #94a3b8; margin-bottom: 12px; letter-spacing: 0.05em;">WALL CROSS-SECTION (HEAT TRANSMISSION)</div>
+            <div class="wall-cross-section">
+              <div class="layer-plaster" title="Internal Plaster">Plaster</div>
+              <div class="layer-masonry" title="Masonry Block">Blockwork</div>
+              <div id="eps-layer" class="layer-eps" title="Graphite EPS Insulation">120mm EPS</div>
+              <div class="layer-render" title="Silicone Render">Render</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; width: 100%; max-width: 480px; margin-top: 8px; font-family: var(--font-mono); font-size: 10px; color: #94a3b8;">
+              <span>Inside (21°C)</span>
+              <span id="heat-loss-indicator" style="color: #34f5c5; font-weight: 700;">Heat Loss Slashed by 88%</span>
+              <span>Outside (0°C)</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Results -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0;">
+            <div style="background: rgba(255,255,255,0.06); padding: 14px; border-radius: 8px; text-align: center;">
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #94a3b8;">TARGET U-VALUE</div>
+              <div id="u-value-display" style="font-size: 1.6rem; font-weight: 800; color: #34f5c5; margin-top: 4px;">0.18 W/m²K</div>
+              <div style="font-size: 10px; color: #a7f3d0;">Exceeds Part L Regs</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.06); padding: 14px; border-radius: 8px; text-align: center;">
+              <div style="font-family: var(--font-mono); font-size: 11px; color: #94a3b8;">SEAI GRANT</div>
+              <div id="grant-display" style="font-size: 1.6rem; font-weight: 800; color: #f59e0b; margin-top: 4px;">€6,000</div>
+              <div style="font-size: 10px; color: #fde68a;">0% VAT Applicable</div>
+            </div>
+          </div>
+
+          <!-- Annual Bill Savings -->
+          <div style="background: rgba(52, 245, 197, 0.1); border: 1px solid rgba(52, 245, 197, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.9rem; color: #e2e8f0;">Estimated Annual Fuel Cut:</span>
+              <strong id="fuel-cut-display" style="font-size: 1.2rem; color: #34f5c5;">€1,450 / year</strong>
+            </div>
+          </div>
+
+          <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="display: block; text-align: center; background: #f59e0b; color: #000; font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; font-size: 1rem;">
+            ⭐ Book €49 Survey to Audit Wall U-Values with Joe →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" style="background: #00241b; color: #94a3b8; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.1);">
+    <div class="container" style="text-align: center; font-size: 0.85rem;">
+      <p style="margin-bottom: 8px; color: #ffffff;">EcoSmartHomes Ireland · Independent Home Energy Advisory</p>
+      <p style="margin: 0;">100% Conflict-Free · DEAP 4.2.2 & NSAI SR54 Verified</p>
+    </div>
+  </footer>
+
+  <script>
+    const wallSelect = document.getElementById('wall-type-select');
+    const slider = document.getElementById('insulation-slider');
+    const tierSelect = document.getElementById('house-tier-select');
+    const thicknessDisplay = document.getElementById('thickness-display');
+    const uValueDisplay = document.getElementById('u-value-display');
+    const grantDisplay = document.getElementById('grant-display');
+    const fuelCutDisplay = document.getElementById('fuel-cut-display');
+    const epsLayer = document.getElementById('eps-layer');
+    const heatLossText = document.getElementById('heat-loss-indicator');
+
+    const GRANTS = {
+      detached: 8000,
+      semi: 6000,
+      mid: 3500,
+      apt: 3000
+    };
+
+    function updateSim() {
+      const thick = parseInt(slider.value, 10);
+      thicknessDisplay.textContent = thick + 'mm' + (thick === 120 ? ' (Optimal)' : thick >= 160 ? ' (High Performance)' : '');
+      
+      // Calculate U-value using thermal conductivity k=0.031 W/mK for graphite EPS
+      const rInsulation = (thick / 1000) / 0.031;
+      let rBase = wallSelect.value === 'hollow' ? 0.48 : wallSelect.value === 'solid' ? 0.42 : 0.62;
+      const totalR = rBase + rInsulation + 0.17; // 0.17 for surface resistances
+      const uValue = (1 / totalR).toFixed(2);
+
+      uValueDisplay.textContent = uValue + ' W/m²K';
+      
+      const grant = GRANTS[tierSelect.value] || 6000;
+      grantDisplay.textContent = '€' + grant.toLocaleString();
+
+      const savings = Math.round(1100 + (thick / 10) * 35);
+      fuelCutDisplay.textContent = '€' + savings.toLocaleString() + ' / year';
+
+      if (epsLayer) {
+        epsLayer.textContent = thick + 'mm EPS';
+        epsLayer.style.flex = (thick / 40).toFixed(1);
+      }
+
+      const reductionPct = Math.min(92, Math.round(75 + (thick / 200) * 17));
+      if (heatLossText) {
+        heatLossText.textContent = `Heat Loss Slashed by ${reductionPct}%`;
+      }
+    }
+
+    wallSelect.addEventListener('change', updateSim);
+    slider.addEventListener('input', updateSim);
+    tierSelect.addEventListener('change', updateSim);
+    updateSim();
+  </script>
+</body>
+</html>

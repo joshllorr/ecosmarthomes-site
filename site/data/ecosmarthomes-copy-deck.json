@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "project": "EcoSmartHome",
+    "locale": "en-IE",
+    "framework": "One Screen, One Thought",
+    "version": "1.0.0",
+    "target_audience": "Irish Homeowners (Carbon Tax & Fuel Levy Defense)"
+  },
+  "screens": {
+    "screen_1_hero": {
+      "id": "hero_tax_shield",
+      "focus": "Establish carbon tax defense & independent advisory credibility",
+      "copy": {
+        "badge": "100% Conflict-Free Energy Advisory",
+        "headline": "Stop Funding the Irish Fuel Tax. Build Your Carbon Tax Shield.",
+        "subheadline": "Dublin, Cork, or Limerick—rising oil levies are quietly eating your savings. Secure a 100% independent roadmap to slash your heating bills from €5,400 to €650 a year using up to €25,500 in direct SEAI grants. No sales pitches. No contractor kickbacks.",
+        "cta_primary": "Activate My Shield",
+        "trust_label": "Serving all 32 counties • Zero commissions"
+      }
+    },
+    "screen_2_vision_scanner": {
+      "id": "gemini_vision_scanner",
+      "focus": "Low-friction multimodal diagnostic",
+      "copy": {
+        "badge": "Gemini 2.5 Flash Vision",
+        "headline": "Snap Your Boiler. Expose the Energy Leaks Instantly.",
+        "subheadline": "Don't let €100/t carbon tax penalties drain your account. Snap a quick photo of your boiler, cylinder, or attic insulation. Our multimodal AI scanner runs instant SR50 viability checks to see where your heat is escaping.",
+        "cta_primary": "Take a Photo or Upload Image",
+        "drag_drop_label": "Drag & drop your photo here (Max 10MB)",
+        "technical_note": "Camera hardware integration with automatic client-side canvas resizing."
+      }
+    },
+    "screen_3_voice_ai": {
+      "id": "aoife_voice_assistant",
+      "focus": "Jargon-free interactive guidance",
+      "copy": {
+        "badge": "Aoife Voice AI",
+        "headline": "\"Aoife, will my radiators freeze if I install a heat pump?\"",
+        "subheadline": "Tap below to talk live with Ireland's senior independent energy AI. Ask her how to avoid the 9% double VAT fuel penalty and what upgrades you actually need in plain, neighborly English.",
+        "cta_primary": "Ask Aoife Out Loud",
+        "listening_state": "Listening...",
+        "processing_state": "Aoife is thinking..."
+      }
+    },
+    "screen_4_grant_estimator": {
+      "id": "seai_savings_estimator",
+      "focus": "Financial viability & direct grant calculations",
+      "copy": {
+        "badge": "SEAI Grant & Savings Estimator",
+        "headline": "Bypass the Kerosene Penalties. Claim Up to €25,500.",
+        "subheadline": "Drag the slider to see how bringing your home from a typical D-rating up to an A2 standard triggers an instant 16% property value surge and cuts your annual fuel bills by €4,850/yr.",
+        "slider_labels": {
+          "min": "Poor G-Rating",
+          "max": "A-Rated Standard"
+        },
+        "cta_primary": "Calculate My Real Payback"
+      }
+    },
+    "screen_5_actionable_roadmap": {
+      "id": "conversion_checkout",
+      "focus": "Stripe checkout and final delivery trigger",
+      "copy": {
+        "badge": "Independent Retrofit Roadmap",
+        "headline": "Get Your 100% Independent €49 Survey & Roadmap.",
+        "subheadline": "Secure your certified blueprint: pass/fail Heat Pump Readiness test, radiator output check, and your custom 2026-2030 Carbon Tax Shield Model. Completed by Joe and delivered straight to your WhatsApp within 24 hours.",
+        "cta_primary": "Order Assessment for €49",
+        "features": [
+          "100% Conflict-Free Guarantee",
+          "No Installer Kickbacks",
+          "Completed by Joe",
+          "Delivered to WhatsApp within 24 hours"
+        ],
+        "trust_tagline": "100% Conflict-Free Guarantee • No Installer Kickbacks • Serving All 32 Counties"
+      }
+    }
+  }
+}

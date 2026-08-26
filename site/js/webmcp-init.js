@@ -46,9 +46,9 @@
       execute: async (args) => {
         const measures = args.selected_measures || [];
         let total = 0;
-        if (measures.includes("attic_insulation")) total += 1500;
-        if (measures.includes("heat_pump")) total += 6500;
-        if (measures.includes("solar_pv")) total += 2100;
+        if (measures.includes("attic_insulation")) total += 2500;
+        if (measures.includes("heat_pump")) total += 12500;
+        if (measures.includes("solar_pv")) total += 1800;
         return {
           total_grants_eur: total,
           currency: "EUR",

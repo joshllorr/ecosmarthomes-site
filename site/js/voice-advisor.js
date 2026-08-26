@@ -19,9 +19,10 @@
 
     const container = document.createElement('div');
     container.id = 'voice-advisor-container';
+    container.setAttribute('data-screen-id', 'aoife_voice_assistant');
     container.innerHTML = `
       <!-- Floating Launcher Button -->
-      <div id="voice-launcher" class="voice-advisor-launcher">
+      <div id="voice-launcher" class="voice-advisor-launcher" data-screen-id="aoife_voice_assistant">
         <div class="voice-launcher-pulse"></div>
         <span style="font-weight: 700; font-size: 0.9rem;">🎙️ Ask Aoife (Voice AI)</span>
       </div>
@@ -43,8 +44,8 @@
 
         <div id="voice-chat-body" class="voice-modal-body">
           <div class="voice-msg advisor">
-            👋 <strong>Hi there! I'm Aoife.</strong><br>
-            Ask me anything out loud about Irish SEAI grants, heat pumps, insulation, or solar PV. Tap the green mic to speak!
+            👋 <strong>"Aoife, will my radiators freeze if I install a heat pump?"</strong><br><br>
+            Tap below to talk live with Ireland's senior independent energy AI. Ask her how to avoid the 9% double VAT fuel penalty and what upgrades you actually need in plain, neighborly English.
           </div>
         </div>
 
@@ -134,8 +135,19 @@
 
       recognition.onerror = (event) => {
         console.warn('Speech Recognition Notice:', event.error);
-        if (event.error === 'not-allowed') {
-          alert('Microphone access was blocked. Please allow microphone permissions in your browser address bar.');
+        if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+          const chatBody = document.getElementById('voice-chat-body');
+          if (chatBody && !document.getElementById('mic-permission-notice')) {
+            const notice = document.createElement('div');
+            notice.id = 'mic-permission-notice';
+            notice.className = 'voice-msg advisor';
+            notice.style.background = '#fef3c7';
+            notice.style.borderColor = '#f59e0b';
+            notice.style.color = '#92400e';
+            notice.innerHTML = '🔒 <strong>Microphone permission required:</strong> You can enable mic access in your browser or simply type your question below!';
+            chatBody.appendChild(notice);
+            chatBody.scrollTop = chatBody.scrollHeight;
+          }
         }
         stopListening();
       };
@@ -154,21 +166,24 @@
 
   async function toggleListening() {
     if (!recognition) {
-      alert('Voice input is not supported in this browser. You can type your question directly in the box below!');
+      const textInput = document.getElementById('voice-text-input');
+      if (textInput) textInput.focus();
       return;
     }
 
     if (isListening) {
       recognition.stop();
     } else {
-      // Request mic permission explicitly if needed
+      // Request mic permission explicitly on user touch/click
       try {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          await navigator.mediaDevices.getUserMedia({ audio: true });
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          // Stop immediate tracks once permission is verified to prevent battery drain
+          stream.getTracks().forEach(track => track.stop());
         }
         recognition.start();
       } catch (err) {
-        console.warn('Recognition start exception:', err);
+        console.warn('Recognition start handled gracefully:', err);
         try {
           recognition.start();
         } catch (_) {}
@@ -270,7 +285,7 @@
           <div>${formattedDisplay}</div>
           ${data.surveyCta ? `
             <div style="margin-top: 12px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
-              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
                 Order €49 Independent Survey →
               </a>
             </div>
@@ -303,7 +318,7 @@
             • <strong>The Engineering Rule</strong>: Open flues cause massive uncontrolled air permeability and draft heat loss. To qualify for the <strong>€12,500 Heat Pump Grant</strong>, dwelling Heat Loss Indicator (HLI) must be ≤ 2.0 W/K/m².<br>
             • <strong>Mandatory Compliance</strong>: Open fireplaces must be permanently sealed at the throat with an insulated register plate or replaced with a room-sealed stove with dedicated external combustion air intake.<br><br>
             <div style="margin-top: 8px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
-              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
                 Book €49 Survey to Audit Flues & Heat Loss →
               </a>
             </div>
@@ -318,7 +333,7 @@
             • <strong>The Rule</strong>: Heat pump grant approval mandates an independent assessment confirming HLI ≤ 2.0 W/K/m² (or ≤ 2.3 with fabric roadmap) to maintain a Seasonal Performance Factor (SPF) ≥ 3.0.<br>
             • <strong>Upgrade Sequence</strong>: 300mm Attic Insulation + External Wall Wrap (U ≤ 0.18 W/m²K) brings 90% of Irish D/E-rated homes below the 2.0 threshold.<br><br>
             <div style="margin-top: 8px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
-              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
                 Order €49 Independent HLI Survey →
               </a>
             </div>
@@ -334,7 +349,7 @@
             • <strong>Attic Insulation</strong>: Up to <strong>€2,500</strong> grant (300mm mineral wool)<br>
             • <strong>Solar PV System</strong>: Up to <strong>€1,800</strong> grant + 24c/kWh Clean Export Guarantee<br><br>
             <div style="margin-top: 8px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
-              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
                 Book €49 Independent Retrofit Survey →
               </a>
             </div>

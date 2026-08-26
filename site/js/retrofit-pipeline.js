@@ -254,72 +254,108 @@
       }
     }
 
+    function compressImage(file, maxWidth = 1600, maxHeight = 1200, quality = 0.75) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth || height > maxHeight) {
+              if (width / height > maxWidth / maxHeight) {
+                height = Math.round((height * maxWidth) / width);
+                width = maxWidth;
+              } else {
+                width = Math.round((width * maxHeight) / height);
+                height = maxHeight;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+            resolve(compressedDataUrl);
+          };
+          img.onerror = () => resolve(e.target.result);
+          img.src = e.target.result;
+        };
+        reader.onerror = () => resolve(null);
+        reader.readAsDataURL(file);
+      });
+    }
+
     async function handlePhotoUpload(file) {
       if (uploadStatus) {
         uploadStatus.style.display = 'block';
         uploadStatus.innerHTML = `
           <div style="background: #e6fffa; border: 1px solid #10b981; border-radius: 8px; padding: 15px; text-align: center; color: #065f46; margin-top: 15px;">
-            <div style="font-weight: 700; margin-bottom: 5px;">🔍 Scanning Equipment with Gemini 2.5 Flash Vision...</div>
+            <div style="font-weight: 700; margin-bottom: 5px;">🔍 Optimizing & Scanning with Gemini 2.5 Flash Vision...</div>
             <div style="font-size: 0.9rem;">Detecting equipment specifications, pipework clearance, and SEAI grant eligibility...</div>
           </div>
         `;
       }
 
-      // Convert image to Base64
-      const reader = new FileReader();
-      reader.onload = async () => {
-        const base64Data = reader.result;
+      // Compress mobile photos on client before payload transit
+      const base64Data = await compressImage(file);
+      if (!base64Data) {
+        alert('Could not process image. Please try another file.');
+        return;
+      }
 
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 2500);
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2500);
 
-          const res = await fetch('/api/analyze-photo', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            signal: controller.signal,
-            body: JSON.stringify({
-              imageBase64: base64Data,
-              mimeType: file.type || 'image/jpeg',
-              scanCategory: currentCategory,
-              leadId: 'PHOTO-' + Math.floor(1000 + Math.random() * 9000)
-            })
-          });
-          clearTimeout(timeoutId);
+        const res = await fetch('/api/analyze-photo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
+          body: JSON.stringify({
+            imageBase64: base64Data,
+            mimeType: 'image/jpeg',
+            scanCategory: currentCategory,
+            leadId: 'PHOTO-' + Math.floor(1000 + Math.random() * 9000)
+          })
+        });
+        clearTimeout(timeoutId);
 
-          const json = await res.json();
-          if (res.ok && json.success && json.data) {
-            renderPhotoAnalysisResults(json.data, file.name, base64Data);
-            return;
-          }
-          throw new Error('API offline');
-        } catch (err) {
-          console.warn('Using client-side instant vision diagnostic engine:', err);
-          const isAttic = file.name.toLowerCase().includes('attic') || currentCategory === 'attic';
-          const isMeter = file.name.toLowerCase().includes('meter') || currentCategory === 'electrical';
-
-          const simulatedData = {
-            detectedEquipment: isAttic ? 'Pitched Roof Attic Joists & Hatch' :
-                               isMeter ? 'Standard ESB Single-Phase Meter Box' :
-                               'Standard Efficiency Oil/Gas Boiler & Copper Cylinder',
-            condition: isAttic ? '100mm Existing Wool (Below 300mm Standard)' :
-                       isMeter ? 'Smart Meter Compatible · 0% VAT Solar Ready' :
-                       'Aging Thermal Efficiency · High Heat Loss (~2.10 W/m²K)',
-            heatPumpViabilityScore: 92,
-            eligibleSeaiGrants: 16800,
-            estimatedAnnualSavings: 1850,
-            spaceClearanceStatus: 'Clearance verified for standard monobloc heat pump and unvented hot water cylinder.',
-            recommendations: [
-              'Replace existing heating source with Air-to-Water Heat Pump (€12,500 grant).',
-              'Upgrade attic insulation to 300mm mineral wool with 50mm eaves airflow gap (€2,500 grant).',
-              'Install 10 x 430W All-Black Rooftop Solar PV Panels with Clean Export Guarantee (€1,800 grant).'
-            ]
-          };
-
-          renderPhotoAnalysisResults(simulatedData, file.name, base64Data);
+        const json = await res.json();
+        if (res.ok && json.success && json.data) {
+          renderPhotoAnalysisResults(json.data, file.name, base64Data);
+          return;
         }
-      };
-      reader.readAsDataURL(file);
+        throw new Error('API offline');
+      } catch (err) {
+        console.warn('Using client-side instant vision diagnostic engine:', err);
+        const isAttic = file.name.toLowerCase().includes('attic') || currentCategory === 'attic';
+        const isMeter = file.name.toLowerCase().includes('meter') || currentCategory === 'electrical';
+
+        const simulatedData = {
+          detectedEquipment: isAttic ? 'Pitched Roof Attic Joists & Hatch' :
+                             isMeter ? 'Standard ESB Single-Phase Meter Box' :
+                             'Standard Efficiency Oil/Gas Boiler & Copper Cylinder',
+          condition: isAttic ? '100mm Existing Wool (Below 300mm Standard)' :
+                     isMeter ? 'Smart Meter Compatible · 0% VAT Solar Ready' :
+                     'Aging Thermal Efficiency · High Heat Loss (~2.10 W/m²K)',
+          heatPumpViabilityScore: 92,
+          eligibleSeaiGrants: 16800,
+          estimatedAnnualSavings: 1850,
+          spaceClearanceStatus: 'Clearance verified for standard monobloc heat pump and unvented hot water cylinder.',
+          recommendations: [
+            'Replace existing heating source with Air-to-Water Heat Pump (€12,500 grant).',
+            'Upgrade attic insulation to 300mm mineral wool with 50mm eaves airflow gap (€2,500 grant).',
+            'Install 10 x 430W All-Black Rooftop Solar PV Panels with Clean Export Guarantee (€1,800 grant).'
+          ]
+        };
+
+        renderPhotoAnalysisResults(simulatedData, file.name, base64Data);
+      }
     }
 
     async function handlePdfUpload(file) {
@@ -428,7 +464,7 @@
             <button type="button" onclick="document.getElementById('btn-download-pdf-dossier')?.click()" style="flex: 1; min-width: 180px; padding: 12px 16px; background: #003f2d; color: #ffffff; border: none; border-radius: 8px; font-weight: 800; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
               📄 Get Full Dossier (PDF)
             </button>
-            <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; display: inline-block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 16px; border-radius: 8px; font-size: 0.92rem;">
+            <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; display: inline-block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 16px; border-radius: 8px; font-size: 0.92rem;">
               ⭐ Book Survey with Joe (€49) →
             </a>
           </div>
@@ -488,7 +524,7 @@
             <button type="button" onclick="document.getElementById('btn-download-pdf-dossier')?.click()" style="flex: 1; min-width: 180px; padding: 12px 16px; background: #003f2d; color: #ffffff; border: none; border-radius: 8px; font-weight: 800; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
               📄 Get Full Dossier (PDF)
             </button>
-            <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; display: inline-block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 16px; border-radius: 8px; font-size: 0.92rem;">
+            <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; display: inline-block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 16px; border-radius: 8px; font-size: 0.92rem;">
               ⭐ Book Survey with Joe (€49) →
             </a>
           </div>
@@ -948,7 +984,7 @@
 
       if (tierSurvey?.checked) {
         // Redirect to full €49 Stripe survey checkout
-        window.open('https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00?prefilled_email=' + encodeURIComponent(clientEmail), '_blank');
+        window.open('https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00?prefilled_email=' + encodeURIComponent(clientEmail), '_blank');
         modalOverlay.style.display = 'none';
         return;
       }

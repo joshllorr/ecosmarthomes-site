@@ -73,7 +73,7 @@ export default async function handler(req, res) {
       directActions: {
         telUrl: "tel:+353871234567",
         whatsappUrl: `https://wa.me/353871234567?text=${encodeURIComponent("Hi John, this is your SEAI registered partner following up on your pre-assessed EcoSmartHomes roadmap.")}`,
-        stripeReceiptUrl: "https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00"
+        stripeReceiptUrl: "https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00"
       }
     };
 

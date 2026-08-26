@@ -50,39 +50,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close popup
     function closePopup() {
-        popupOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+        const popupOverlay = document.querySelector('.popup-overlay');
+        if (popupOverlay) {
+            popupOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     }
 
-    popupClose.addEventListener('click', closePopup);
+    const popupClose = document.querySelector('.popup-close');
+    if (popupClose) {
+        popupClose.addEventListener('click', closePopup);
+    }
 
-    popupOverlay.addEventListener('click', function(e) {
-        if (e.target === popupOverlay) {
-            closePopup();
-        }
-    });
+    const popupOverlay = document.querySelector('.popup-overlay');
+    if (popupOverlay) {
+        popupOverlay.addEventListener('click', function(e) {
+            if (e.target === popupOverlay) {
+                closePopup();
+            }
+        });
+    }
 
     // Close popup with Escape key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && popupOverlay.classList.contains('active')) {
+        const popupOverlay = document.querySelector('.popup-overlay');
+        if (e.key === 'Escape' && popupOverlay && popupOverlay.classList.contains('active')) {
             closePopup();
         }
     });
 
     // Handle contact navigation from popup
-    popupContent.addEventListener('click', function(e) {
-        if (e.target.matches('.popup-actions a')) {
-            e.preventDefault();
-            closePopup();
-            const target = e.target.getAttribute('href');
-            if (target && document.querySelector(target)) {
-                document.querySelector(target).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+    const popupContent = document.querySelector('.popup-content');
+    if (popupContent) {
+        popupContent.addEventListener('click', function(e) {
+            if (e.target.matches('.popup-actions a')) {
+                e.preventDefault();
+                closePopup();
+                const target = e.target.getAttribute('href');
+                if (target && document.querySelector(target)) {
+                    document.querySelector(target).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             }
-        }
-    });
+        });
+    }
 });
             
             // Open clicked item if it wasn't active
