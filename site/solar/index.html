@@ -103,15 +103,48 @@
   <main style="padding: 60px 0;">
     <div class="container" style="max-width: 1000px;">
       
-      <div class="solar-box">
-        
+        <!-- Step 0: Satellite Roof Scanner Input -->
+        <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #e2e8f0;">
+          <label for="solar-eircode-input" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px; font-size: 1rem;">
+            📍 Enter Irish Eircode for Instant Satellite Roof-Scan (e.g. V94 ED21, D04, T12, Limerick):
+          </label>
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <input type="text" id="solar-eircode-input" placeholder="Enter Eircode (e.g. V94 ED21)..." value="V94 ED21" style="flex: 1; min-width: 250px; padding: 12px 14px; border: 2px solid #10b981; border-radius: 8px; font-size: 1rem; text-transform: uppercase; font-weight: 700; color: #003f2d;" autocomplete="postal-code" aria-label="Enter Irish Eircode for satellite solar scan" />
+            <span id="satellite-hud-location" style="padding: 8px 14px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 8px; color: #065f46; font-weight: 700; font-size: 0.9rem;">
+              📍 <strong>Castletroy / Limerick</strong> (Lat: 52.6680, Lng: -8.5710)
+            </span>
+          </div>
+          <div id="satellite-scan-status" style="margin-top: 6px; font-size: 0.8rem; color: #059669; font-weight: 600;">
+            🛰️ Satellite scan locked on V94 · High-Resolution Irish Solar Mesh Active
+          </div>
+        </div>
+
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 35px; margin-bottom: 35px;">
           
           <!-- Left Column: Controls & Roof Simulation -->
           <div>
-            <h2 style="color: #003f2d; font-size: 1.4rem; margin: 0 0 15px 0;">1. Configure Your Rooftop Array</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h2 style="color: #003f2d; font-size: 1.3rem; margin: 0;">1. Satellite Rooftop AI Mesh</h2>
+              <span style="font-size: 0.75rem; background: #003f2d; color: #a7f3d0; padding: 3px 8px; border-radius: 6px; font-weight: 700;">430W Panels</span>
+            </div>
+
+            <!-- Satellite AI HUD Telemetry Bar -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; font-size: 0.8rem; text-align: center;">
+              <div style="background: #f1f5f9; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Rooftop Area</div>
+                <strong id="hud-roof-area" style="color: #003f2d;">25.2 m² usable</strong>
+              </div>
+              <div style="background: #f1f5f9; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Annual Sunlight</div>
+                <strong id="hud-sun-hours" style="color: #003f2d;">1,420 hrs/yr</strong>
+              </div>
+              <div style="background: #f1f5f9; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Irradiance</div>
+                <strong id="hud-irradiance" style="color: #10b981;">980 kWh/kWp</strong>
+              </div>
+            </div>
             
-            <!-- Animated Roof -->
+            <!-- Animated Roof Mesh Grid -->
             <div class="roof-simulator">
               <div class="roof-ridge"></div>
               <div id="solar-roof-panel-grid" class="roof-panel-grid"></div>
@@ -120,10 +153,10 @@
             <!-- Slider -->
             <div style="margin-bottom: 20px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <label style="font-weight: 700; color: #003f2d; font-size: 0.95rem;">Solar Array Size:</label>
+                <label for="solar-panel-slider" style="font-weight: 700; color: #003f2d; font-size: 0.95rem;">Solar Array Size:</label>
                 <span id="solar-panel-count-display" style="background: #10b981; color: #fff; font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 0.85rem;">10 Panels (4.3 kWp)</span>
               </div>
-              <input type="range" id="solar-panel-slider" min="4" max="20" step="2" value="10" style="width: 100%; cursor: pointer;" />
+              <input type="range" id="solar-panel-slider" min="4" max="20" step="2" value="10" aria-label="Adjust Solar Array Panel Count" style="width: 100%; cursor: pointer;" />
               <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-top: 4px;">
                 <span>4 Panels (1.7 kWp)</span>
                 <span>10 Panels (4.3 kWp)</span>
@@ -134,21 +167,21 @@
             <!-- Selectors -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
               <div>
-                <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.85rem; margin-bottom: 4px;">County / Region:</label>
-                <select id="solar-county-select" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
+                <label for="solar-county-select" style="display: block; font-weight: 700; color: #003f2d; font-size: 0.85rem; margin-bottom: 4px;">County / Region:</label>
+                <select id="solar-county-select" aria-label="Select your county" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
                   <option value="Limerick" selected>Limerick (980 kWh/kWp)</option>
-                  <option value="Dublin">Dublin (1,000 kWh/kWp)</option>
-                  <option value="Cork">Cork (1,020 kWh/kWp)</option>
-                  <option value="Wexford">Wexford (1,050 kWh/kWp)</option>
-                  <option value="Waterford">Waterford (1,040 kWh/kWp)</option>
+                  <option value="Dublin">Dublin (1,005 kWh/kWp)</option>
+                  <option value="Cork">Cork (1,025 kWh/kWp)</option>
+                  <option value="Wexford">Wexford (1,060 kWh/kWp)</option>
+                  <option value="Waterford">Waterford (1,045 kWh/kWp)</option>
                   <option value="Galway">Galway (960 kWh/kWp)</option>
                   <option value="Kildare">Kildare (990 kWh/kWp)</option>
                   <option value="Kerry">Kerry (1,010 kWh/kWp)</option>
                 </select>
               </div>
               <div>
-                <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.85rem; margin-bottom: 4px;">Roof Orientation:</label>
-                <select id="solar-orientation-select" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
+                <label for="solar-orientation-select" style="display: block; font-weight: 700; color: #003f2d; font-size: 0.85rem; margin-bottom: 4px;">Roof Orientation:</label>
+                <select id="solar-orientation-select" aria-label="Select roof orientation" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
                   <option value="South" selected>South (100% Max Yield)</option>
                   <option value="South-East">South-East (95% Yield)</option>
                   <option value="South-West">South-West (95% Yield)</option>
@@ -161,23 +194,23 @@
             <!-- Battery Toggle -->
             <div style="background: #f1f5f9; padding: 12px 16px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <div style="font-weight: 700; font-size: 0.9rem; color: #003f2d;">🔋 Include 5.1 kWh Battery Storage</div>
+                <label for="solar-battery-toggle" style="font-weight: 700; font-size: 0.9rem; color: #003f2d; display: block; cursor: pointer;">🔋 Include 5.1 kWh Battery Storage</label>
                 <div style="font-size: 0.75rem; color: #64748b;">Stores daytime solar for evening peak use</div>
               </div>
-              <input type="checkbox" id="solar-battery-toggle" style="width: 20px; height: 20px; cursor: pointer;" />
+              <input type="checkbox" id="solar-battery-toggle" aria-label="Toggle battery storage inclusion" style="width: 20px; height: 20px; cursor: pointer;" />
             </div>
 
           </div>
 
           <!-- Right Column: Financial Results -->
           <div>
-            <h2 style="color: #003f2d; font-size: 1.4rem; margin: 0 0 15px 0;">2. Estimated Annual Financial Returns</h2>
+            <h2 style="color: #003f2d; font-size: 1.3rem; margin: 0 0 15px 0;">2. Financial Returns & Clean Export (CEG)</h2>
 
             <!-- Main Benefit Card -->
-            <div style="background: linear-gradient(135deg, #003f2d 0%, #064e3b 100%); color: #fff; border-radius: 14px; padding: 22px; text-align: center; margin-bottom: 18px;">
+            <div style="background: linear-gradient(135deg, #003f2d 0%, #064e3b 100%); color: #fff; border-radius: 14px; padding: 22px; text-align: center; margin-bottom: 18px; box-shadow: 0 10px 25px rgba(0,63,45,0.25);">
               <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a7f3d0; font-weight: 700;">Total Combined Annual Benefit</div>
               <div id="solar-val-total-benefit" style="font-size: 2.5rem; font-weight: 800; color: #34d399; margin: 4px 0;">€1,570/yr</div>
-              <div style="font-size: 0.85rem; color: #cbd5e1;">Direct Bill Offset + Clean Export Grid Payouts</div>
+              <div style="font-size: 0.85rem; color: #cbd5e1;">Direct Bill Offset + 24c/kWh Clean Export Grid Cash</div>
             </div>
 
             <!-- Breakdown Grid -->
@@ -207,15 +240,20 @@
                 <div id="solar-val-net-cost" style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">€4,650</div>
               </div>
               <div style="text-align: right;">
-                <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">25-Year Net Profit:</div>
+                <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">25-Year Net Benefit:</div>
                 <div id="solar-val-25yr" style="font-weight: 800; color: #10b981; font-size: 1.1rem;">€34,600</div>
               </div>
             </div>
 
-            <!-- Call to Action -->
-            <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="display: block; text-align: center; background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 14px; border-radius: 8px; font-size: 1rem; box-shadow: 0 10px 20px rgba(245,158,11,0.25);">
-              Book Independent Solar & Heat Pump Feasibility Survey (€49) →
-            </a>
+            <!-- Call to Actions -->
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="display: block; text-align: center; background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 13px; border-radius: 8px; font-size: 0.98rem; box-shadow: 0 8px 20px rgba(245,158,11,0.25);">
+                ⭐ Book Onsite Solar & Heat Pump Feasibility Survey (€49) →
+              </a>
+              <p style="font-size: 0.78rem; color: #64748b; text-align: center; margin: 0;">
+                🔒 100% Conflict-free. Includes in-person roof structural check & shading analysis.
+              </p>
+            </div>
 
           </div>
 

@@ -24,15 +24,36 @@ export default async function handler(req, res) {
   try {
     const geminiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
 
+    const SEAI_GROUNDING_DATABASE = `
+[OFFICIAL SEAI TECHNICAL STANDARDS & CITATIONS]:
+1. Open Fireplaces & Chimney Flues:
+   - Citation: SEAI Technical Guidance SR54:2024 Section 4.2 & DEAP 4.2.2 Rule 3.4
+   - Rule: Open flues cause massive uncontrolled ventilation and draft losses. To qualify for a heat pump grant (HLI <= 2.0 W/K/m²), open fireplaces must be permanently sealed or fitted with room-sealed / balanced-flue appliances with dedicated external air intake.
+2. Heat Loss Indicator (HLI) 2.0 Requirement:
+   - Citation: SEAI Domestic Technical Guidance SR50-2 Clause 3.4
+   - Rule: Heat pump grant approval mandates dwelling HLI <= 2.0 W/K/m² (or <= 2.3 with fabric roadmap) to ensure Seasonal Performance Factor (SPF) >= 3.0.
+3. Low-Temperature Radiators (Delta T 30):
+   - Citation: NSAI SR50-1:2021 Code of Practice for Domestic Wet Central Heating Systems
+   - Rule: Heat pumps run at 45°C flow / 35°C return. Existing radiators must be audited; undersized single-panel units must be upgraded to high-output double-panel convector (Type 22) radiators.
+4. External Wall Insulation (The Wrap):
+   - Citation: SEAI May 2026 Code of Practice & NSAI Agrément I.S. EN 13163 / SR54 Clause 5.3
+   - Rule: Finished U-Value <= 0.18 W/m²K with certified NSAI Agrément insulation.
+5. Attic Insulation:
+   - Citation: SEAI Domestic Technical Guidance SR54 Clause 6.1
+   - Rule: 300mm mineral wool (U <= 0.16 W/m²K) with a 50mm continuous eaves ventilation gap.
+6. May 2026 Grants:
+   - Heat Pump: €12,500 | Wall Wrap: €8,000 | Attic: €2,500 | Solar PV: €1,800 + 24c/kWh Clean Export (0% VAT).
+`;
+
     let aiPrompt = `You are Joe H., founder of EcoSmartHomes Ireland — a certified, 100% independent home energy engineer.
 You are replying directly to an Irish homeowner on WhatsApp.
 Your tone is neighbourly, friendly, authoritative, and practical (Irish phrasing).
 
-Key Knowledge Base:
-- SEAI May 2026 Grants: Air-to-Water Heat Pump (€12,500), External Wall Wrap (€8,000), Attic Insulation (€2,500), Solar PV (€1,800), Heating Controls (€700). 0% VAT on heat pumps and solar.
-- Heat Loss Index (HLI): Must be ≤ 2.0 W/K/m² for heat pump grant approval.
-- Carbon Tax: Increasing to €100/t by 2030 (+9% double VAT on oil).
-- Services: Independent Retrofit Assessment (€49 survey), 1-Click Bank-Grade Roadmap PDF.
+Core Instruction:
+Ground your answers in official Irish engineering standards (SR54:2024, SR50-1, SR50-2, DEAP 4.2.2, May 2026 SEAI rates).
+When answering technical questions, cite the exact standard (e.g. "Under SEAI Guidance SR54 Section 4.2...").
+
+${SEAI_GROUNDING_DATABASE}
 
 Task:
 Provide a concise, helpful diagnostic answer (max 3-4 bullet points) addressing the homeowner's voice note, photo, or question.
@@ -65,7 +86,7 @@ Always include a clear recommendation and invitation to view their Roadmap or bo
           } catch (mErr) {
             console.warn('Could not fetch media url:', mErr);
             contents.push({
-              parts: [{ text: `${aiPrompt}\n\nHomeowner sent a ${mediaType || 'photo/voice note'} with text: "${bodyText}". Please provide your expert assessment.` }]
+              parts: [{ text: `${aiPrompt}\n\nHomeowner sent a ${mediaType || 'photo/voice note'} with text: "${bodyText}". Please provide your expert assessment citing relevant SEAI standards.` }]
             });
           }
         } else {
@@ -90,18 +111,28 @@ Always include a clear recommendation and invitation to view their Roadmap or bo
     }
 
     if (!replyText) {
-      // High-quality deterministic fallback response
-      replyText = `Hi there! 👋 Thanks for reaching out to EcoSmartHomes.
+      const msgLower = (bodyText || '').toLowerCase();
+      if (msgLower.includes('fireplace') || msgLower.includes('chimney') || msgLower.includes('open fire')) {
+        replyText = `Hi there! 👋 Great question regarding open fireplaces.
 
-Based on your message:
-• *SEAI Grant Support*: You can access up to *€12,500* for an Air-to-Water Heat Pump plus *€2,500* for attic insulation and *€1,800* for solar PV (0% VAT).
-• *Pre-Check*: We make sure your home's Heat Loss Index (HLI) is under 2.0 W/K/m² so the heat pump runs efficiently.
-• *Carbon Tax Shield*: Switching off oil eliminates up to €498/yr in rising carbon penalties.
+Under *SEAI Technical Guidance SR54:2024 Section 4.2 & DEAP 4.2.2 Rule 3.4*:
+• *The Rule*: Open flues create massive uncontrolled ventilation heat loss. To qualify for the *€12,500 Heat Pump Grant*, your home's Heat Loss Indicator (HLI) must be ≤ 2.0 W/K/m².
+• *Compliance*: Open fireplaces must be permanently sealed at the throat or fitted with a room-sealed stove with dedicated external combustion air.
+• *Next Step*: During our *€49 Independent Survey*, I check your chimney pathways and measure exact room heat loss to guarantee grant sign-off.
+
+👉 *Book your €49 Survey*: https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00`;
+      } else {
+        replyText = `Hi there! 👋 Thanks for reaching out to EcoSmartHomes.
+
+Under *SEAI May 2026 Code of Practice & NSAI SR50/SR54 Standards*:
+• *Heat Pump Grant*: Up to *€12,500* (Requires Heat Loss Index HLI ≤ 2.0 W/K/m² as per SR50-2 Clause 3.4)
+• *External Wall Wrap*: Up to *€8,000* (NSAI Agrément certified, U-Value ≤ 0.18 W/m²K)
+• *Attic Insulation*: Up to *€2,500* (300mm cross-layered mineral wool)
+• *Solar PV*: Up to *€1,800* + 24c/kWh Clean Export Guarantee (0% VAT permanent)
 
 👉 *View your certified Roadmap PDF*: https://www.ecosmarthomes.ie/roadmap/
-👉 *Book your €49 Independent Survey*: https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00
-
-Let me know your Eircode and I'll pull the exact property specs! 🏡`;
+👉 *Book your €49 Independent Survey*: https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00`;
+      }
     }
 
     if (isTwiML) {

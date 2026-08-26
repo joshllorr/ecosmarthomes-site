@@ -112,9 +112,14 @@
           
           <!-- Locked Preview State -->
           <div id="contact-locked-state">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
               <h3 style="color: #003f2d; font-size: 1.25rem; margin: 0;">🔒 Homeowner Contact Information (Locked)</h3>
-              <span style="background: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;">EXCLUSIVE UNLOCK: €35</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span id="hold-timer-badge" style="background: #fee2e2; color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; border: 1px solid #fca5a5;">
+                  ⏱️ Hold Expires in <span id="hold-timer-countdown">14:59</span>
+                </span>
+                <span style="background: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;">EXCLUSIVE UNLOCK: €35</span>
+              </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; font-size: 0.95rem;">
@@ -136,18 +141,28 @@
               </div>
             </div>
 
-            <button id="claim-lead-btn" class="btn-primary" style="width: 100%; background: #10b981; border: none; color: #fff; font-weight: 800; padding: 16px; border-radius: 10px; font-size: 1.15rem; cursor: pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.3);">
-              🔓 Claim Exclusive Lead Now (€35 / 1 Credit) →
+            <!-- Stripe Express Instant Pay Button -->
+            <button id="claim-lead-btn" class="btn-primary" style="width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; color: #fff; font-weight: 800; padding: 16px; border-radius: 10px; font-size: 1.15rem; cursor: pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.3); display: flex; align-items: center; justify-content: center; gap: 10px;">
+              <span>⚡</span> <span>Claim Exclusive Lead Now with Stripe Express (€35) →</span>
             </button>
-            <div style="text-align: center; font-size: 0.8rem; color: #64748b; margin-top: 10px;">
-              🛡️ Guaranteed 100% Exclusive. Once claimed, this lead is removed from the marketplace permanently.
+            <div style="display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 10px; font-size: 0.8rem; color: #64748b; flex-wrap: wrap;">
+              <span>Pay</span>
+              <span>•</span>
+              <span>GPay</span>
+              <span>•</span>
+              <span>Revolut Pay</span>
+              <span>•</span>
+              <span>Instant Invoice Receipt</span>
+            </div>
+            <div style="text-align: center; font-size: 0.78rem; color: #64748b; margin-top: 8px;">
+              🛡️ Guaranteed 100% Exclusive. Once claimed, this lead is locked to you and removed permanently.
             </div>
           </div>
 
           <!-- Unlocked Revealed State (Hidden by default) -->
           <div id="contact-unlocked-state" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-              <h3 style="color: #065f46; font-size: 1.3rem; margin: 0;">🎉 Homeowner Contact Unlocked!</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+              <h3 style="color: #065f46; font-size: 1.3rem; margin: 0;">🎉 Homeowner Contact & Dossier Unlocked!</h3>
               <span style="background: #10b981; color: #fff; font-size: 0.8rem; font-weight: 800; padding: 4px 12px; border-radius: 20px;">100% EXCLUSIVE ACCESS</span>
             </div>
 
@@ -177,6 +192,9 @@
               </a>
               <a id="unlocked-wa-btn" href="https://wa.me/353871234567" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #25d366; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 800;">
                 💬 WhatsApp Homeowner
+              </a>
+              <a id="unlocked-dossier-btn" href="/roadmap/" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #0284c7; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 800;">
+                📄 View Technical Dossier (PDF)
               </a>
             </div>
 
@@ -316,6 +334,22 @@
       document.getElementById('lead-status-text').textContent = 'AVAILABLE · EXCLUSIVE 1-CONTRACTOR ALLOCATION';
     }
 
+    // 15-minute exclusive hold countdown timer
+    let remainingSeconds = 899; // 14m 59s
+    function startHoldTimer() {
+      const timerEl = document.getElementById('hold-timer-countdown');
+      setInterval(() => {
+        if (remainingSeconds > 0) {
+          remainingSeconds--;
+          const mins = Math.floor(remainingSeconds / 60);
+          const secs = remainingSeconds % 60;
+          if (timerEl) {
+            timerEl.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+          }
+        }
+      }, 1000);
+    }
+
     // Check if real leadId passed in URL (e.g. ?leadId=LEAD-CASTLETROY-8821)
     async function checkUrlLead() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -342,7 +376,7 @@
     document.getElementById('claim-lead-btn').addEventListener('click', async () => {
       const btn = document.getElementById('claim-lead-btn');
       btn.disabled = true;
-      btn.textContent = 'Processing Claim & Unlocking...';
+      btn.textContent = '⚡ Processing Stripe Express & Locking Lead...';
 
       try {
         const leadId = activeLeadData?.id || activeLeadData?.leadId || 'LEAD-CASTLETROY-8821';
@@ -351,9 +385,21 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             leadId,
-            partnerId: 'SEAI-PARTNER-LIVE'
+            contractorName: 'SEAI Registered Partner',
+            paymentMethod: 'stripe_express'
           })
         });
+
+        const json = await res.json();
+        if (json.success && json.data) {
+          const d = json.data;
+          document.getElementById('unlocked-name').textContent = d.homeowner.fullName;
+          document.getElementById('unlocked-phone').textContent = d.homeowner.phone;
+          document.getElementById('unlocked-email').textContent = d.homeowner.email;
+          document.getElementById('unlocked-address').textContent = d.homeowner.address;
+          document.getElementById('unlocked-call-btn').href = d.directActions.telUrl;
+          document.getElementById('unlocked-wa-btn').href = d.directActions.whatsappUrl;
+        }
 
         document.getElementById('contact-locked-state').style.display = 'none';
         document.getElementById('contact-unlocked-state').style.display = 'block';
@@ -362,14 +408,19 @@
 
         document.getElementById('lead-status-pill').style.background = '#fef2f2';
         document.getElementById('lead-status-pill').style.borderColor = '#ef4444';
-        document.getElementById('lead-status-pill').style.color = '#991b1b';
-        document.getElementById('lead-status-text').textContent = 'CLAIMED · LOCKED TO YOUR ACCOUNT';
       } catch (err) {
         document.getElementById('contact-locked-state').style.display = 'none';
         document.getElementById('contact-unlocked-state').style.display = 'block';
+        document.getElementById('contact-container').style.border = '2px solid #10b981';
+        document.getElementById('contact-container').style.background = '#f0fdf4';
+
+        document.getElementById('lead-status-pill').style.background = '#fef2f2';
+        document.getElementById('lead-status-pill').style.borderColor = '#ef4444';
+        document.getElementById('lead-status-pill').style.color = '#991b1b';
+        document.getElementById('lead-status-text').textContent = 'CLAIMED · LOCKED EXCLUSIVELY TO YOUR ACCOUNT';
       } finally {
         btn.disabled = false;
-        btn.textContent = '🔓 Claim Exclusive Lead Now (€35 / 1 Credit) →';
+        btn.textContent = '⚡ Claim Exclusive Lead Now with Stripe Express (€35) →';
       }
     });
 
@@ -410,6 +461,7 @@
     });
 
     checkUrlLead();
+    startHoldTimer();
   </script>
 
 </body>

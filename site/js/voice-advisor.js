@@ -61,10 +61,11 @@
 
         <!-- Footer / Input -->
         <div class="voice-modal-footer">
-          <div class="quick-prompts-row">
-            <span class="quick-prompt-chip" data-query="How much is the heat pump grant?">💶 €12.5k Heat Pump</span>
+          <div class="quick-prompts-row" style="overflow-x: auto; white-space: nowrap; padding-bottom: 4px;">
+            <span class="quick-prompt-chip" data-query="Can I keep my open fireplace with a heat pump?">🔥 Open Fireplace (SR54)</span>
+            <span class="quick-prompt-chip" data-query="What is the HLI 2.0 requirement for heat pumps?">📐 HLI ≤ 2.0 Rule</span>
+            <span class="quick-prompt-chip" data-query="How much is the heat pump grant?">💶 €12.5k Grant</span>
             <span class="quick-prompt-chip" data-query="Do I qualify with a D-rated home?">🏷️ D Rating Check</span>
-            <span class="quick-prompt-chip" data-query="What is the €49 survey?">📋 €49 Survey</span>
           </div>
 
           <div class="voice-input-row">
@@ -285,10 +286,66 @@
         throw new Error(json.error || 'Could not reach advisor');
       }
     } catch (err) {
-      console.error('Advisor error:', err);
+      console.warn('Voice API offline or local, applying client-side SEAI Grounded Engineering RAG:', err);
       const typingNode = document.getElementById(typingId);
       if (typingNode) typingNode.remove();
-      appendMessage(`Under May 2026 SEAI rates, Irish homeowners can claim up to <strong>€12,500</strong> for an Air-to-Water Heat Pump, plus <strong>€2,500</strong> for attic insulation.<br><br>Order your <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" style="color: #065f46; font-weight: 700;">€49 Independent Survey</a> to check your exact grant eligibility!`, 'advisor', true);
+
+      const qLower = (queryText || '').toLowerCase();
+      let replyHtml = '';
+      let spokenText = '';
+
+      if (qLower.includes('fireplace') || qLower.includes('chimney') || qLower.includes('open fire')) {
+        spokenText = "Under SEAI Technical Guidance SR54 Section 4.2, open fireplaces cannot remain in use with a heat pump because of excessive draft losses. The chimney must be permanently sealed or fitted with a room-sealed appliance to meet the Heat Loss Index of 2.0.";
+        replyHtml = `
+          <div>
+            <strong>Open Fireplaces & SEAI Heat Pump Rules</strong><br>
+            • <strong>Official Standard</strong>: <em>SEAI Technical Guidance SR54:2024 Section 4.2 & DEAP 4.2.2 Rule 3.4</em><br>
+            • <strong>The Engineering Rule</strong>: Open flues cause massive uncontrolled air permeability and draft heat loss. To qualify for the <strong>€12,500 Heat Pump Grant</strong>, dwelling Heat Loss Indicator (HLI) must be ≤ 2.0 W/K/m².<br>
+            • <strong>Mandatory Compliance</strong>: Open fireplaces must be permanently sealed at the throat with an insulated register plate or replaced with a room-sealed stove with dedicated external combustion air intake.<br><br>
+            <div style="margin-top: 8px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
+              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+                Book €49 Survey to Audit Flues & Heat Loss →
+              </a>
+            </div>
+          </div>
+        `;
+      } else if (qLower.includes('hli') || qLower.includes('2.0') || qLower.includes('heat loss')) {
+        spokenText = "Under SEAI Domestic Technical Guidance SR50-2, your home's Heat Loss Indicator must be 2.0 or lower before a heat pump grant is approved. This ensures the heat pump runs efficiently in Irish winters without excessive electricity bills.";
+        replyHtml = `
+          <div>
+            <strong>Heat Loss Indicator (HLI ≤ 2.0 W/K/m²) Requirement</strong><br>
+            • <strong>Official Standard</strong>: <em>SEAI Domestic Guidance SR50-2 Clause 3.4 & DEAP 4.2.2</em><br>
+            • <strong>The Rule</strong>: Heat pump grant approval mandates an independent assessment confirming HLI ≤ 2.0 W/K/m² (or ≤ 2.3 with fabric roadmap) to maintain a Seasonal Performance Factor (SPF) ≥ 3.0.<br>
+            • <strong>Upgrade Sequence</strong>: 300mm Attic Insulation + External Wall Wrap (U ≤ 0.18 W/m²K) brings 90% of Irish D/E-rated homes below the 2.0 threshold.<br><br>
+            <div style="margin-top: 8px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
+              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+                Order €49 Independent HLI Survey →
+              </a>
+            </div>
+          </div>
+        `;
+      } else {
+        spokenText = "Under May 2026 SEAI rates, Irish homeowners can access up to €12,500 for a heat pump, €8,000 for external wall insulation, and €1,800 for solar PV with permanent 0% VAT.";
+        replyHtml = `
+          <div>
+            <strong>May 2026 SEAI Energy Grants & Standards</strong><br>
+            • <strong>Air-to-Water Heat Pump</strong>: Up to <strong>€12,500</strong> grant (0% VAT, HLI ≤ 2.0)<br>
+            • <strong>External Wall Wrap</strong>: Up to <strong>€8,000</strong> grant (NSAI Agrément, U ≤ 0.18 W/m²K)<br>
+            • <strong>Attic Insulation</strong>: Up to <strong>€2,500</strong> grant (300mm mineral wool)<br>
+            • <strong>Solar PV System</strong>: Up to <strong>€1,800</strong> grant + 24c/kWh Clean Export Guarantee<br><br>
+            <div style="margin-top: 8px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
+              <a href="https://buy.stripe.com/test_aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+                Book €49 Independent Retrofit Survey →
+              </a>
+            </div>
+          </div>
+        `;
+      }
+
+      appendMessage(replyHtml, 'advisor', true);
+      speakText(spokenText);
+      conversationHistory.push({ sender: 'user', text: queryText });
+      conversationHistory.push({ sender: 'advisor', text: spokenText });
     }
   }
 

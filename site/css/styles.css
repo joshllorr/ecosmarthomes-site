@@ -1,3 +1,67 @@
+/**
+ * EcoSmartHomes — Green Ameba Command Center Design System
+ * Theme: Deep Forest Ink (#00241b), Emerald Signal (#10b981), Arc Mint (#34f5c5)
+ * Two-Register Architecture (Dark Command Center vs Crisp Product Paper)
+ */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Colors */
+  --color-forest-ink: #00241b;       /* Primary canvas, hero, mission control */
+  --color-forest-deep: #003f2d;      /* Elevated surface, nav */
+  --color-forest-glow: #004d38;      /* Radial atmosphere glow */
+  --color-emerald-signal: #10b981;   /* Primary focus & action */
+  --color-emerald-dark: #059669;     /* Action hover */
+  --color-arc-mint: #34f5c5;         /* Electric telemetry, pulse halos, status dots */
+  --color-amber-gold: #f59e0b;       /* High-value grants & survey CTA */
+  --color-amber-dark: #d97706;       /* Amber hover */
+  --color-carbon: #1e293b;          /* Dark mode text on light product paper */
+  --color-slate-body: #475569;      /* Body copy on light surfaces */
+  --color-fog: #64748b;             /* Muted micro-labels, helper copy */
+  --color-mist: #94a3b8;            /* Inactive tags, disabled labels */
+  --color-silver-border: #e2e8f0;   /* 1px hairline dividers on light surfaces */
+  --color-dark-hairline: rgba(255, 255, 255, 0.12); /* 1px hairline on dark canvas */
+  --color-paper: #ffffff;           /* Clean Product Paper canvas */
+
+  /* Typography */
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Typography Scale */
+  --text-micro: 11px;
+  --leading-micro: 1.82;
+  --tracking-micro: 0.08em;
+  --text-caption: 13px;
+  --leading-caption: 1.5;
+  --text-body-sm: 14px;
+  --leading-body-sm: 1.54;
+  --text-body: 16px;
+  --leading-body: 1.6;
+  --text-subheading: 24px;
+  --leading-subheading: 1.35;
+  --tracking-subheading: -0.015em;
+  --text-heading-sm: 32px;
+  --leading-heading-sm: 1.3;
+  --tracking-heading-sm: -0.018em;
+  --text-heading: 40px;
+  --leading-heading: 1.25;
+  --tracking-heading: -0.019em;
+  --text-display: 54px;
+  --leading-display: 1.2;
+  --tracking-display: -0.022em;
+
+  /* Geometry */
+  --radius-tags: 4px;
+  --radius-cards: 8px;
+  --radius-buttons: 8px;
+  --radius-images: 6px;
+
+  --page-max-width: 1200px;
+  --section-gap: 80px;
+  --card-padding: 24px;
+}
+
 /* Reset and base styles */
 * {
   margin: 0;
@@ -6,24 +70,31 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  font-family: var(--font-body);
+  background-color: #f8fafc;
+  color: var(--color-carbon);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Container */
 .container {
-  width: 90%;
-  max-width: 1200px;
+  width: 92%;
+  max-width: var(--page-max-width);
   margin: 0 auto;
 }
 
-/* Header and Navigation */
+/* Header and Navigation (Ameba Minimalist Floating Nav) */
 .header {
-  background-color: #003f2d;
+  background-color: var(--color-forest-ink);
   color: #fff;
-  padding: 20px 0;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-dark-hairline);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .nav-container {
@@ -38,24 +109,30 @@ body {
 }
 
 .logo img {
-  height: 50px;
+  height: 44px;
   width: auto;
 }
 
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 22px;
 }
 
 .nav a {
-  color: #fff;
+  color: #cbd5e1;
   text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 13px;
   font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
 }
 
 .nav a:hover {
-  text-decoration: underline;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 @media (max-width: 900px) {
@@ -68,29 +145,33 @@ body {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     white-space: nowrap;
-    padding-bottom: 10px;
+    padding-bottom: 6px;
   }
   .nav ul {
     justify-content: flex-start;
   }
   .nav::-webkit-scrollbar {
-    height: 4px;
+    height: 3px;
   }
   .nav::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.2);
   }
   .nav::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 4px;
+    background: var(--color-emerald-signal);
+    border-radius: 2px;
   }
 }
 
-/* Hero Section */
+/* Hero Section (Ameba Midnight Command Center Canvas) */
 .hero {
   position: relative;
-  min-height: 80vh;
-  padding-bottom: 60px;
+  min-height: 85vh;
+  padding: 60px 0 80px 0;
+  background: radial-gradient(circle at 50% 40%, var(--color-forest-glow) 0%, var(--color-forest-ink) 75%);
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-video {
@@ -103,6 +184,7 @@ body {
   z-index: -1;
   border: none;
   pointer-events: none;
+  opacity: 0.35;
 }
 
 .hero-overlay {
@@ -111,7 +193,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 63, 45, 0.6);
+  background: radial-gradient(circle at 50% 50%, rgba(0, 77, 56, 0.5) 0%, rgba(0, 36, 27, 0.92) 80%);
   z-index: 0;
 }
 
@@ -120,107 +202,138 @@ body {
   z-index: 1;
   color: #fff;
   text-align: center;
-  padding-top: 100px;
 }
 
 .hero-content h1 {
-  font-size: 2.5rem;
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 300;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
   margin-bottom: 20px;
+  color: #ffffff;
 }
 
 .hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  margin-bottom: 24px;
 }
 
 .btn-primary {
-  display: inline-block;
-  background-color: #00a86b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-emerald-signal);
   color: #fff;
   padding: 12px 24px;
-  border-radius: 4px;
+  border-radius: var(--radius-buttons);
   text-decoration: none;
-  font-weight: bold;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
-  background-color: #007f50;
+  background-color: var(--color-emerald-dark);
+  transform: translateY(-1px);
 }
 
 /* Section Labels and Titles */
 .section-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-micro);
   text-transform: uppercase;
-  font-size: 0.9rem;
-  color: #00a86b;
+  color: var(--color-emerald-signal);
   margin-bottom: 10px;
+  display: inline-block;
 }
 
 .section-title {
-  font-size: 2rem;
-  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-weight: 300;
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-heading);
+  margin-bottom: 12px;
+  color: var(--color-carbon);
 }
 
 .section-subtitle {
-  font-size: 1.1rem;
+  font-size: var(--text-body);
+  line-height: 1.6;
   margin-bottom: 30px;
-  color: #666;
+  color: var(--color-slate-body);
 }
 
-/* --- SERVICE CARD UPGRADE --- */
-
+/* --- SERVICE CARD UPGRADE (Restrained Hairline Precision) --- */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
 }
 
 .service-card {
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: var(--radius-cards);
+  border: 1px solid var(--color-silver-border);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: none; /* Ameba Do: Clean hairlines without muddy elevation */
+  transition: transform 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
 }
 
 .service-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+  border-color: var(--color-emerald-signal);
 }
 
 .service-image {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
   object-position: center;
   display: block;
-  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+  background: #f1f5f9;
 }
 
 .service-content {
-  padding: 20px;
+  padding: 24px;
 }
 
 .service-content h3 {
-  font-size: 1.25rem;
-  margin-bottom: 10px;
-  color: #003f2d;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--color-forest-deep);
 }
 
 .service-content p {
-  font-size: 0.95rem;
-  margin-bottom: 15px;
-  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin-bottom: 16px;
+  color: var(--color-slate-body);
 }
 
 .service-link {
-  color: #00a86b;
-  font-weight: bold;
+  color: var(--color-emerald-signal);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .service-link:hover {
-  text-decoration: underline;
+  color: var(--color-emerald-dark);
+  text-decoration: none;
 }
 
 /* Footer */
@@ -1558,26 +1671,25 @@ body {
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
+  gap: 20px;
 }
 
 .tool-card {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 28px;
+  border: 1px solid var(--color-silver-border);
+  border-radius: var(--radius-cards);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: none; /* Ameba Do: No heavy elevation */
+  transition: transform 0.2s ease, border-color 0.2s ease;
   position: relative;
   overflow: hidden;
 }
 
 .tool-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 35px -10px rgba(0, 63, 45, 0.12);
-  border-color: #10b981;
+  transform: translateY(-2px);
+  border-color: var(--color-emerald-signal);
 }
 
 .tool-card-top {
@@ -1588,36 +1700,38 @@ body {
 }
 
 .tool-card-icon {
-  font-size: 2rem;
+  font-size: 1.8rem;
   line-height: 1;
 }
 
 .tool-card-badge {
-  font-size: 0.72rem;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 20px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: var(--radius-tags);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
 }
 
-.badge-amber { background: #fef3c7; color: #92400e; }
-.badge-red { background: #fee2e2; color: #991b1b; }
-.badge-emerald { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-.badge-blue { background: #e0f2fe; color: #0369a1; }
-.badge-purple { background: #f3e8ff; color: #6b21a8; }
+.badge-amber { background: rgba(245, 158, 11, 0.12); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-red { background: rgba(239, 68, 68, 0.12); color: #b91c1c; border: 1px solid rgba(239, 68, 68, 0.3); }
+.badge-emerald { background: rgba(16, 185, 129, 0.12); color: var(--color-emerald-signal); border: 1px solid rgba(16, 185, 129, 0.3); }
+.badge-blue { background: rgba(59, 130, 246, 0.12); color: #1d4ed8; border: 1px solid rgba(59, 130, 246, 0.3); }
+.badge-purple { background: rgba(168, 85, 247, 0.12); color: #7e22ce; border: 1px solid rgba(168, 85, 247, 0.3); }
 
 .tool-card-title {
-  color: #003f2d;
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin: 0 0 10px 0;
-  line-height: 1.3;
+  color: var(--color-forest-deep);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  line-height: 1.35;
 }
 
 .tool-card-desc {
-  color: #64748b;
-  font-size: 0.92rem;
+  color: var(--color-slate-body);
+  font-size: 0.9rem;
   line-height: 1.6;
   margin-bottom: 20px;
   flex-grow: 1;
@@ -1628,10 +1742,11 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 18px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.95rem;
+  padding: 10px 16px;
+  border-radius: var(--radius-buttons);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
   text-decoration: none;
   transition: all 0.2s ease;
   width: 100%;
@@ -1639,20 +1754,102 @@ body {
 }
 
 .tool-btn-emerald {
-  background: #003f2d;
+  background: var(--color-forest-deep);
   color: #ffffff;
 }
 .tool-btn-emerald:hover {
-  background: #065f46;
+  background: var(--color-emerald-dark);
   color: #ffffff;
 }
 
 .tool-btn-amber {
-  background: #f59e0b;
-  color: #0f172a;
+  background: var(--color-amber-gold);
+  color: #00241b;
+  font-weight: 700;
 }
 .tool-btn-amber:hover {
-  background: #d97706;
-  color: #ffffff;
+  background: var(--color-amber-dark);
+  color: #00241b;
 }
+
+/* ========================================================================= */
+/* EcoSmartHomes Design Tokens & Modern Clean-Tech UI System (Stitch MCP)   */
+/* ========================================================================= */
+:root {
+  --brand-emerald-dark: #00261b;
+  --brand-emerald: #003f2d;
+  --brand-emerald-light: #065f46;
+  --brand-mint: #10b981;
+  --brand-mint-hover: #059669;
+  --brand-mint-light: #ecfdf5;
+  --brand-gold: #f59e0b;
+  --brand-gold-light: #fef3c7;
+  --brand-danger: #ef4444;
+  --brand-danger-light: #fef2f2;
+  
+  --bg-page: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f1f5f9;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-glow-mint: 0 0 24px rgba(16, 185, 129, 0.25);
+  --shadow-glow-gold: 0 0 24px rgba(245, 158, 11, 0.25);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.ber-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+}
+.ber-badge-a { background: linear-gradient(135deg, #00a86b, #00875a); }
+.ber-badge-b { background: linear-gradient(135deg, #57b956, #388e3c); }
+.ber-badge-c { background: linear-gradient(135deg, #ffcc00, #f57f17); color: #000; }
+.ber-badge-d { background: linear-gradient(135deg, #ff9900, #e65100); }
+.ber-badge-e { background: linear-gradient(135deg, #ff6600, #d84315); }
+.ber-badge-f { background: linear-gradient(135deg, #ff3300, #bf360c); }
+.ber-badge-g { background: linear-gradient(135deg, #cc0000, #b71c1c); }
+
+.grant-stat-chip {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(6, 95, 70, 0.08));
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
