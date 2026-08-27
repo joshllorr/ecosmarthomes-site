@@ -1,29 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Global Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-3013797648"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-3013797648', {'allow_enhanced_conversions': true});
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rooftop Solar PV & Clean Export (CEG) Estimator | EcoSmartHomes Ireland</title>
-  <meta name="description" content="Calculate your SEAI Solar PV grant (up to €1,800), annual electricity bill savings, and Clean Export Guarantee (CEG) cash earnings in Ireland. 0% VAT applied.">
+  <title>Eircode Instant Solar & Roof Geometry Simulator | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Type your Irish Eircode for instant satellite rooftop geometry analysis, €1,800 SEAI Solar PV grant, 0% VAT, and 24c/kWh Clean Export Guarantee (CEG) earnings.">
   <link rel="canonical" href="https://www.ecosmarthomes.ie/solar/">
-  <link rel="stylesheet" href="../css/style.css">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/style.css?v=5">
+  <link rel="stylesheet" href="/css/dashboard.css">
 
   <style>
-    .solar-hero { background: linear-gradient(135deg, #00261b 0%, #003f2d 100%); color: #fff; padding: 75px 0 50px 0; }
-    .solar-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.07); }
-    
-    /* Interactive Pitched Roof Simulation */
-    .roof-simulator {
-      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
-      border-radius: 16px;
-      padding: 30px 20px;
+    :root {
+      --bg-dark: #001711;
+      --bg-card: #00241b;
+      --bg-card-light: #003628;
+      --color-mint: #34f5c5;
+      --color-emerald: #10b981;
+      --color-amber: #f59e0b;
+      --color-sky: #38bdf8;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .top-bar-custom {
+      background: #00120d;
+      color: #94a3b8;
+      padding: 7px 0;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-nav-bar {
+      background: rgba(0, 36, 27, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link-item {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .nav-link-item:hover {
+      color: var(--color-mint);
+    }
+    .btn-book-nav {
+      background: var(--color-amber);
+      color: #00241b;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+      white-space: nowrap;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .btn-book-nav:hover {
+      background: #fbbf24;
+      transform: scale(1.02);
+    }
+    .solar-hero {
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      padding: 50px 20px 60px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .solar-card-dark {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .roof-simulator-box {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-radius: 14px;
+      padding: 24px 16px;
       position: relative;
       overflow: hidden;
-      border: 3px solid #0f172a;
-      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
-      margin-bottom: 25px;
+      border: 2px solid #334155;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.6);
+      margin-bottom: 24px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    .roof-ridge {
+    .roof-ridge-bar {
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 8px;
@@ -33,15 +150,16 @@
     .roof-panel-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
-      gap: 10px;
-      max-width: 500px;
+      gap: 8px;
+      max-width: 480px;
       margin: 0 auto;
+      width: 100%;
       justify-content: center;
     }
     .roof-solar-panel {
-      height: 95px;
+      height: 90px;
       background: linear-gradient(135deg, #0369a1 0%, #082f49 100%);
-      border: 1.5px solid #38bdf8;
+      border: 1.5px solid var(--color-sky);
       border-radius: 6px;
       box-shadow: 0 4px 10px rgba(56, 189, 248, 0.25);
       position: relative;
@@ -51,239 +169,282 @@
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 18px, rgba(255,255,255,0.15) 19px, rgba(255,255,255,0.15) 20px);
+      background: repeating-linear-gradient(0deg, transparent, transparent 16px, rgba(255,255,255,0.15) 17px, rgba(255,255,255,0.15) 18px);
     }
     @keyframes popIn {
       from { opacity: 0; transform: scale(0.7); }
       to { opacity: 1; transform: scale(1); }
     }
-    
-    .stat-badge {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+    .metric-badge-box {
+      background: rgba(0, 23, 17, 0.7);
+      border: 1px solid rgba(255,255,255,0.08);
       padding: 16px;
       border-radius: 12px;
       text-align: center;
     }
-    .stat-num { font-size: 1.6rem; font-weight: 800; color: #003f2d; }
-    .stat-label { font-size: 0.8rem; text-transform: uppercase; color: #64748b; font-weight: 700; }
+    .metric-val-large {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: var(--color-mint);
+    }
+    .metric-label-small {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #94a3b8;
+      font-weight: 700;
+      margin-top: 4px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
   </style>
 </head>
-<body style="background: #f8fafc; color: #0f172a;">
+<body>
 
-  <!-- Header -->
-  <header style="background: #00261b; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0;">
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none; display: flex; align-items: center; gap: 8px;">
-        <span>🏡</span> EcoSmartHomes
+  <!-- Top Notification Telemetry -->
+  <aside class="top-bar-custom" aria-label="Regulatory live updates">
+    <div class="top-bar-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: var(--color-mint);">☀️</span>
+        <span style="color: #cbd5e1; font-weight: 700;">May 2026 Irish Solar PV Grant Engine & 24c/kWh Clean Export (CEG) Active</span>
+      </div>
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: var(--color-amber); font-weight: 800; text-decoration: none;">⭐ Book €49 Survey →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="main-nav-bar" role="banner">
+    <div class="nav-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-size: 1.4rem;">🏡</span>
+        <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: var(--color-mint);">Homes</strong></span>
       </a>
-      <div style="display: flex; gap: 15px; align-items: center;">
-        <a href="/locations/" style="color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600;">Town Directory</a>
-        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 18px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
+
+      <nav class="nav-links-wrap" aria-label="Main Navigation">
+        <a href="/" class="nav-link-item">Home</a>
+        <a href="/green-mortgage/" class="nav-link-item">🏛️ Green Mortgage</a>
+        <a href="/quote-auditor/" class="nav-link-item">🛡️ Quote Auditor</a>
+        <a href="/solar/" class="nav-link-item" style="color: var(--color-mint);">☀️ Solar PV</a>
+        <a href="/carbon-tax/" class="nav-link-item">⚡ Carbon Tax</a>
+        <a href="/roadmap/" class="nav-link-item">📄 Roadmap PDF</a>
+        <a href="/locations/" class="nav-link-item">📍 Towns Hub</a>
+        <a href="/contractors/" class="nav-link-item">👔 For Installers</a>
+      </nav>
+
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-book-nav">
+          💳 Book €49 Survey
+        </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Banner -->
   <section class="solar-hero">
-    <div class="container" style="max-width: 900px; text-align: center;">
-      <span style="background: rgba(245,158,11,0.2); color: #fbbf24; padding: 5px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; border: 1px solid rgba(245,158,11,0.3);">
-        ☀️ SEAI May 2026 Solar PV & Clean Export Engine
-      </span>
-      <h1 style="font-size: 2.6rem; margin: 18px 0 14px 0; line-height: 1.2;">
-        Rooftop Solar PV & Clean Export (CEG) Estimator
+    <div style="max-width: 900px; margin: 0 auto;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); margin-bottom: 20px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-sky); box-shadow: 0 0 10px var(--color-sky);"></span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 800; color: var(--color-sky); text-transform: uppercase;">
+          Eircode Geocoding & Micro-Climate Satellite Mesh
+        </span>
+      </div>
+
+      <h1 style="font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; color: #ffffff; margin: 0 auto 16px auto; line-height: 1.15; letter-spacing: -0.02em;">
+        Eircode Instant Solar & Roof Geometry Simulator
       </h1>
-      <p style="font-size: 1.15rem; color: #cbd5e1; margin-bottom: 30px;">
-        Calculate your exact <strong>€1,800 SEAI Solar Grant</strong>, 0% VAT savings, and see how much cash Irish energy suppliers will pay you for surplus electricity export under the <strong>Clean Export Guarantee (CEG)</strong>.
+
+      <p style="font-size: clamp(0.95rem, 2vw, 1.15rem); color: #94a3b8; max-width: 760px; margin: 0 auto; line-height: 1.6;">
+        Type your Eircode to lock into your regional solar irradiance, simulate pitch angle, claim up to <strong>€1,800 in SEAI grants</strong> with <strong>0% Irish VAT</strong>, and cash in on the <strong>24c/kWh Clean Export Guarantee (CEG)</strong>.
       </p>
     </div>
   </section>
 
-  <!-- Interactive Estimator -->
-  <main style="padding: 60px 0;">
-    <div class="container" style="max-width: 1000px;">
+  <!-- Simulator Main Stage -->
+  <main style="max-width: 1200px; margin: -30px auto 80px auto; padding: 0 20px;">
+    
+    <div class="solar-card-dark">
       
-        <!-- Step 0: Satellite Roof Scanner Input -->
-        <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #e2e8f0;">
-          <label for="solar-eircode-input" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px; font-size: 1rem;">
-            📍 Enter Irish Eircode for Instant Satellite Roof-Scan (e.g. V94 ED21, D04, T12, Limerick):
-          </label>
-          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-            <input type="text" id="solar-eircode-input" placeholder="Enter Eircode (e.g. V94 ED21)..." value="V94 ED21" style="flex: 1; min-width: 250px; padding: 12px 14px; border: 2px solid #10b981; border-radius: 8px; font-size: 1rem; text-transform: uppercase; font-weight: 700; color: #003f2d;" autocomplete="postal-code" aria-label="Enter Irish Eircode for satellite solar scan" />
-            <span id="satellite-hud-location" style="padding: 8px 14px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 8px; color: #065f46; font-weight: 700; font-size: 0.9rem;">
-              📍 <strong>Castletroy / Limerick</strong> (Lat: 52.6680, Lng: -8.5710)
-            </span>
-          </div>
-          <div id="satellite-scan-status" style="margin-top: 6px; font-size: 0.8rem; color: #059669; font-weight: 600;">
-            🛰️ Satellite scan locked on V94 · High-Resolution Irish Solar Mesh Active
-          </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 35px; margin-bottom: 35px;">
+      <!-- Step 0: Eircode Bar -->
+      <div style="margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <label for="solar-eircode-input" style="display: block; font-weight: 800; color: #ffffff; margin-bottom: 8px; font-size: 1.05rem;">
+          📍 Enter Irish Eircode for Instant Satellite Solar Mesh (e.g. V94 ED21, D04, T12, X91, Y35, H91):
+        </label>
+        
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <input type="text" id="solar-eircode-input" placeholder="e.g. V94 ED21..." value="V94 ED21" style="flex: 1; min-width: 260px; padding: 14px 18px; background: #001711; border: 2px solid var(--color-mint); border-radius: 10px; font-size: 1.1rem; text-transform: uppercase; font-weight: 800; color: var(--color-mint); font-family: 'IBM Plex Mono', monospace;" autocomplete="postal-code" />
           
-          <!-- Left Column: Controls & Roof Simulation -->
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-              <h2 style="color: #003f2d; font-size: 1.3rem; margin: 0;">1. Satellite Rooftop AI Mesh</h2>
-              <span style="font-size: 0.75rem; background: #003f2d; color: #a7f3d0; padding: 3px 8px; border-radius: 6px; font-weight: 700;">430W Panels</span>
-            </div>
+          <span id="satellite-hud-location" style="padding: 12px 18px; background: rgba(52, 245, 197, 0.1); border: 1px solid rgba(52, 245, 197, 0.3); border-radius: 10px; color: var(--color-mint); font-weight: 800; font-size: 0.95rem;">
+            📍 Castletroy / Limerick (Lat: 52.6680, Lng: -8.5710)
+          </span>
+        </div>
+        
+        <div id="satellite-scan-status" style="margin-top: 8px; font-size: 0.82rem; color: #6ee7b7; font-weight: 600; font-family: 'IBM Plex Mono', monospace;">
+          🛰️ High-Resolution Irish Solar Mesh Active · Orientation: 32° South
+        </div>
+      </div>
 
-            <!-- Satellite AI HUD Telemetry Bar -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; font-size: 0.8rem; text-align: center;">
-              <div style="background: #f1f5f9; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Rooftop Area</div>
-                <strong id="hud-roof-area" style="color: #003f2d;">25.2 m² usable</strong>
-              </div>
-              <div style="background: #f1f5f9; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Annual Sunlight</div>
-                <strong id="hud-sun-hours" style="color: #003f2d;">1,420 hrs/yr</strong>
-              </div>
-              <div style="background: #f1f5f9; padding: 8px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                <div style="color: #64748b; font-size: 0.7rem; text-transform: uppercase;">Irradiance</div>
-                <strong id="hud-irradiance" style="color: #10b981;">980 kWh/kWp</strong>
-              </div>
-            </div>
-            
-            <!-- Animated Roof Mesh Grid -->
-            <div class="roof-simulator">
-              <div class="roof-ridge"></div>
-              <div id="solar-roof-panel-grid" class="roof-panel-grid"></div>
-            </div>
-
-            <!-- Slider -->
-            <div style="margin-bottom: 20px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <label for="solar-panel-slider" style="font-weight: 700; color: #003f2d; font-size: 0.95rem;">Solar Array Size:</label>
-                <span id="solar-panel-count-display" style="background: #10b981; color: #fff; font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 0.85rem;">10 Panels (4.3 kWp)</span>
-              </div>
-              <input type="range" id="solar-panel-slider" min="4" max="20" step="2" value="10" aria-label="Adjust Solar Array Panel Count" style="width: 100%; cursor: pointer;" />
-              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-top: 4px;">
-                <span>4 Panels (1.7 kWp)</span>
-                <span>10 Panels (4.3 kWp)</span>
-                <span>20 Panels (8.6 kWp)</span>
-              </div>
-            </div>
-
-            <!-- Selectors -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
-              <div>
-                <label for="solar-county-select" style="display: block; font-weight: 700; color: #003f2d; font-size: 0.85rem; margin-bottom: 4px;">County / Region:</label>
-                <select id="solar-county-select" aria-label="Select your county" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
-                  <option value="Limerick" selected>Limerick (980 kWh/kWp)</option>
-                  <option value="Dublin">Dublin (1,005 kWh/kWp)</option>
-                  <option value="Cork">Cork (1,025 kWh/kWp)</option>
-                  <option value="Wexford">Wexford (1,060 kWh/kWp)</option>
-                  <option value="Waterford">Waterford (1,045 kWh/kWp)</option>
-                  <option value="Galway">Galway (960 kWh/kWp)</option>
-                  <option value="Kildare">Kildare (990 kWh/kWp)</option>
-                  <option value="Kerry">Kerry (1,010 kWh/kWp)</option>
-                </select>
-              </div>
-              <div>
-                <label for="solar-orientation-select" style="display: block; font-weight: 700; color: #003f2d; font-size: 0.85rem; margin-bottom: 4px;">Roof Orientation:</label>
-                <select id="solar-orientation-select" aria-label="Select roof orientation" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
-                  <option value="South" selected>South (100% Max Yield)</option>
-                  <option value="South-East">South-East (95% Yield)</option>
-                  <option value="South-West">South-West (95% Yield)</option>
-                  <option value="East">East (82% Yield)</option>
-                  <option value="West">West (82% Yield)</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Battery Toggle -->
-            <div style="background: #f1f5f9; padding: 12px 16px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <label for="solar-battery-toggle" style="font-weight: 700; font-size: 0.9rem; color: #003f2d; display: block; cursor: pointer;">🔋 Include 5.1 kWh Battery Storage</label>
-                <div style="font-size: 0.75rem; color: #64748b;">Stores daytime solar for evening peak use</div>
-              </div>
-              <input type="checkbox" id="solar-battery-toggle" aria-label="Toggle battery storage inclusion" style="width: 20px; height: 20px; cursor: pointer;" />
-            </div>
-
+      <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 36px;">
+        
+        <!-- Left Column: 3D Roof Mesh & Array Tuning -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h2 style="color: #ffffff; font-size: 1.35rem; font-weight: 800; margin: 0;">1. Roof AI Mesh & Panel Layout</h2>
+            <span style="font-size: 0.78rem; background: rgba(16, 185, 129, 0.2); color: var(--color-mint); border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 10px; border-radius: 6px; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">430W All-Black Monocrystalline</span>
           </div>
 
-          <!-- Right Column: Financial Results -->
-          <div>
-            <h2 style="color: #003f2d; font-size: 1.3rem; margin: 0 0 15px 0;">2. Financial Returns & Clean Export (CEG)</h2>
-
-            <!-- Main Benefit Card -->
-            <div style="background: linear-gradient(135deg, #003f2d 0%, #064e3b 100%); color: #fff; border-radius: 14px; padding: 22px; text-align: center; margin-bottom: 18px; box-shadow: 0 10px 25px rgba(0,63,45,0.25);">
-              <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #a7f3d0; font-weight: 700;">Total Combined Annual Benefit</div>
-              <div id="solar-val-total-benefit" style="font-size: 2.5rem; font-weight: 800; color: #34d399; margin: 4px 0;">€1,570/yr</div>
-              <div style="font-size: 0.85rem; color: #cbd5e1;">Direct Bill Offset + 24c/kWh Clean Export Grid Cash</div>
+          <!-- Satellite HUD Specs -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; font-size: 0.8rem; text-align: center;">
+            <div style="background: #001711; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+              <div style="color: #64748b; font-size: 0.68rem; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">Rooftop Area</div>
+              <strong id="hud-roof-area" style="color: #ffffff; font-size: 0.95rem;">52.0 m² usable</strong>
             </div>
-
-            <!-- Breakdown Grid -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-              <div class="stat-badge">
-                <div id="solar-val-bill-cut" class="stat-num" style="color: #10b981;">€980/yr</div>
-                <div class="stat-label">Electricity Bill Cut</div>
-              </div>
-              <div class="stat-badge">
-                <div id="solar-val-ceg-cash" class="stat-num" style="color: #f59e0b;">€385/yr</div>
-                <div class="stat-label">Clean Export (CEG Cash)</div>
-              </div>
-              <div class="stat-badge">
-                <div id="solar-val-grant" class="stat-num">€1,800</div>
-                <div class="stat-label">SEAI Solar PV Grant</div>
-              </div>
-              <div class="stat-badge">
-                <div id="solar-val-payback" class="stat-num">3.4 Years</div>
-                <div class="stat-label">Typical Payback</div>
-              </div>
+            <div style="background: #001711; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+              <div style="color: #64748b; font-size: 0.68rem; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">Sun Hours</div>
+              <strong id="hud-sun-hours" style="color: #ffffff; font-size: 0.95rem;">1,420 hrs/yr</strong>
             </div>
-
-            <!-- Net Cost & 25-Yr Profit -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-              <div>
-                <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Net Turnkey Outlay (0% VAT):</div>
-                <div id="solar-val-net-cost" style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">€4,650</div>
-              </div>
-              <div style="text-align: right;">
-                <div style="font-size: 0.8rem; color: #64748b; font-weight: 600;">25-Year Net Benefit:</div>
-                <div id="solar-val-25yr" style="font-weight: 800; color: #10b981; font-size: 1.1rem;">€34,600</div>
-              </div>
+            <div style="background: #001711; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+              <div style="color: #64748b; font-size: 0.68rem; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">Irradiance</div>
+              <strong id="hud-irradiance" style="color: var(--color-mint); font-size: 0.95rem;">980 kWh/kWp</strong>
             </div>
+          </div>
+          
+          <!-- Animated Interactive 3D Roof Mesh -->
+          <div class="roof-simulator-box">
+            <div class="roof-ridge-bar"></div>
+            <div id="solar-roof-panel-grid" class="roof-panel-grid"></div>
+          </div>
 
-            <!-- Call to Actions -->
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="display: block; text-align: center; background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 13px; border-radius: 8px; font-size: 0.98rem; box-shadow: 0 8px 20px rgba(245,158,11,0.25);">
-                ⭐ Book Onsite Solar & Heat Pump Feasibility Survey (€49) →
-              </a>
-              <p style="font-size: 0.78rem; color: #64748b; text-align: center; margin: 0;">
-                🔒 100% Conflict-free. Includes in-person roof structural check & shading analysis.
-              </p>
+          <!-- Array Slider -->
+          <div style="background: #001711; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <label for="solar-panel-slider" style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">Solar Array Size:</label>
+              <span id="solar-panel-count-display" style="background: var(--color-emerald); color: #00241b; font-weight: 900; padding: 4px 12px; border-radius: 20px; font-size: 0.88rem; font-family: 'IBM Plex Mono', monospace;">10 Panels (4.3 kWp)</span>
             </div>
+            <input type="range" id="solar-panel-slider" min="4" max="20" step="2" value="10" aria-label="Adjust Solar Array Panel Count" style="width: 100%; accent-color: var(--color-mint); cursor: pointer;" />
+            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; margin-top: 6px; font-family: 'IBM Plex Mono', monospace;">
+              <span>4 Panels (1.7 kWp)</span>
+              <span>10 Panels (4.3 kWp)</span>
+              <span>20 Panels (8.6 kWp)</span>
+            </div>
+          </div>
 
+          <!-- Selectors: County & Orientation -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
+            <div>
+              <label for="solar-county-select" style="display: block; font-weight: 700; color: #94a3b8; font-size: 0.8rem; margin-bottom: 6px;">County / Micro-Climate:</label>
+              <select id="solar-county-select" aria-label="Select your county" style="width: 100%; padding: 10px; background: #001711; color: #ffffff; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; font-size: 0.9rem;">
+                <option value="Limerick" selected>Limerick (980 kWh/kWp)</option>
+                <option value="Dublin">Dublin (1,005 kWh/kWp)</option>
+                <option value="Cork">Cork (1,025 kWh/kWp)</option>
+                <option value="Wexford">Wexford (1,060 kWh/kWp)</option>
+                <option value="Waterford">Waterford (1,045 kWh/kWp)</option>
+                <option value="Galway">Galway (960 kWh/kWp)</option>
+                <option value="Kildare">Kildare (990 kWh/kWp)</option>
+                <option value="Kerry">Kerry (1,010 kWh/kWp)</option>
+              </select>
+            </div>
+            <div>
+              <label for="solar-orientation-select" style="display: block; font-weight: 700; color: #94a3b8; font-size: 0.8rem; margin-bottom: 6px;">Roof Orientation:</label>
+              <select id="solar-orientation-select" aria-label="Select roof orientation" style="width: 100%; padding: 10px; background: #001711; color: #ffffff; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; font-size: 0.9rem;">
+                <option value="South" selected>South (100% Max Yield)</option>
+                <option value="South-East">South-East (95% Yield)</option>
+                <option value="South-West">South-West (95% Yield)</option>
+                <option value="East">East (82% Yield)</option>
+                <option value="West">West (82% Yield)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Battery Storage Toggle -->
+          <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2); padding: 14px 18px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <label for="solar-battery-toggle" style="font-weight: 800; font-size: 0.92rem; color: var(--color-sky); display: block; cursor: pointer;">🔋 Include 5.1 kWh Modular Battery Storage</label>
+              <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 2px;">Boosts daytime solar self-consumption from 45% to 80%</div>
+            </div>
+            <input type="checkbox" id="solar-battery-toggle" aria-label="Toggle battery storage inclusion" style="width: 22px; height: 22px; accent-color: var(--color-sky); cursor: pointer;" />
           </div>
 
         </div>
 
-        <!-- Explanatory Guide -->
-        <div style="border-top: 1px solid #e2e8f0; padding-top: 30px; margin-top: 20px;">
-          <h3 style="color: #003f2d; font-size: 1.25rem; margin-bottom: 12px;">How the Clean Export Guarantee (CEG) Works in Ireland</h3>
-          <p style="color: #475569; font-size: 0.95rem; line-height: 1.7; margin-bottom: 15px;">
-            Under the Irish <strong>Clean Export Guarantee (CEG)</strong>, electricity suppliers (such as Electric Ireland, Bord Gáis, Energia, and SSE Airtricity) are legally mandated to pay domestic solar microgenerators for every kilowatt-hour (kWh) exported back to the ESB Networks national grid. Rates typically range between <strong>21c and 24c per kWh</strong>, credited directly to your utility bill as cash earnings.
-          </p>
-          <p style="color: #475569; font-size: 0.95rem; line-height: 1.7;">
-            Combined with the <strong>0% VAT government incentive</strong> and <strong>up to €1,800 in SEAI Solar PV grants</strong>, modern rooftop solar in Ireland delivers an unprecedented average return on investment of <strong>22% annually</strong>.
-          </p>
+        <!-- Right Column: Financial Returns & Clean Export (CEG) -->
+        <div>
+          <h2 style="color: #ffffff; font-size: 1.35rem; font-weight: 800; margin: 0 0 14px 0;">2. Financial Returns & CEG Cash Income</h2>
+
+          <!-- Main ROI Hero Card -->
+          <div style="background: radial-gradient(120% 120% at 50% 0%, #004d38 0%, #00241b 100%); border: 1px solid rgba(52, 245, 197, 0.3); border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.4);">
+            <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: #a7f3d0; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">Total Combined Annual Benefit</div>
+            <div id="solar-val-total-benefit" style="font-size: 3rem; font-weight: 900; color: var(--color-mint); margin: 6px 0; letter-spacing: -0.02em;">€1,570/yr</div>
+            <div style="font-size: 0.85rem; color: #94a3b8;">Direct Electricity Bill Offset + 24c/kWh Clean Export Grid Cash</div>
+          </div>
+
+          <!-- 4-Stat Metric Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
+            <div class="metric-badge-box">
+              <div id="solar-val-bill-cut" class="metric-val-large" style="color: #10b981;">€980/yr</div>
+              <div class="metric-label-small">Bill Reduction</div>
+            </div>
+            <div class="metric-badge-box">
+              <div id="solar-val-ceg-cash" class="metric-val-large" style="color: var(--color-amber);">€385/yr</div>
+              <div class="metric-label-small">Clean Export (CEG Cash)</div>
+            </div>
+            <div class="metric-badge-box">
+              <div id="solar-val-grant" class="metric-val-large" style="color: #ffffff;">€1,800</div>
+              <div class="metric-label-small">SEAI Solar PV Grant</div>
+            </div>
+            <div class="metric-badge-box">
+              <div id="solar-val-payback" class="metric-val-large" style="color: var(--color-mint);">3.4 Years</div>
+              <div class="metric-label-small">Typical Payback</div>
+            </div>
+          </div>
+
+          <!-- Net Cost Outlay & 25-Year Profit -->
+          <div style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div>
+              <div style="font-size: 0.75rem; color: #64748b; font-weight: 700; font-family: 'IBM Plex Mono', monospace;">NET TURNKEY OUTLAY (0% VAT):</div>
+              <div id="solar-val-net-cost" style="font-weight: 900; color: #ffffff; font-size: 1.25rem;">€4,650</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 0.75rem; color: #64748b; font-weight: 700; font-family: 'IBM Plex Mono', monospace;">25-YEAR NET PROFIT:</div>
+              <div id="solar-val-25yr" style="font-weight: 900; color: var(--color-mint); font-size: 1.25rem;">€34,600</div>
+            </div>
+          </div>
+
+          <!-- CTAs -->
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="display: block; text-align: center; background: var(--color-amber); color: #00241b; font-weight: 900; text-decoration: none; padding: 15px; border-radius: 10px; font-size: 1rem; box-shadow: 0 8px 24px rgba(245,158,11,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+              ⭐ Book Onsite Solar & Heat Pump Feasibility Survey (€49) →
+            </a>
+            <p style="font-size: 0.75rem; color: #64748b; text-align: center; margin: 0;">
+              🔒 100% Conflict-free independent survey. Includes in-person roof structural check & shading simulation.
+            </p>
+          </div>
+
         </div>
 
       </div>
 
+      <!-- Explanatory Technical Guide -->
+      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 36px; margin-top: 40px;">
+        <h3 style="color: #ffffff; font-size: 1.35rem; font-weight: 800; margin-bottom: 14px;">How the Clean Export Guarantee (CEG) & 0% VAT Work in Ireland</h3>
+        <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.7; margin-bottom: 16px;">
+          Under the Irish <strong>Clean Export Guarantee (CEG)</strong>, electricity suppliers (Electric Ireland, Bord Gáis, Energia, SSE Airtricity, Yuno) are legally mandated to pay domestic solar microgenerators for every kilowatt-hour (kWh) exported back to the ESB Networks national grid. Rates typically range between <strong>21c and 24c per kWh</strong>, credited directly to your utility bill as cash earnings.
+        </p>
+        <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.7;">
+          Combined with the government's <strong>0% VAT incentive on domestic solar PV installations</strong> and <strong>up to €1,800 in SEAI Solar PV grants</strong>, modern rooftop solar in Ireland delivers an unprecedented average return on investment of <strong>22% annually</strong>.
+        </p>
+      </div>
+
     </div>
+
   </main>
 
   <!-- Footer -->
-  <footer style="background: #00261b; color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.85rem;">
-    <div class="container">
-      <p style="color: #fff; font-weight: 700; margin-bottom: 6px;">EcoSmartHomes Ireland · Independent Solar & Retrofit Platform</p>
-      <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
-    </div>
+  <footer style="background: #00120d; border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; color: #94a3b8; font-size: 0.85rem; text-align: center;">
+    <p style="color: #fff; font-weight: 800; margin-bottom: 6px;">EcoSmartHomes Ireland · 100% Conflict-Free Solar & Energy Retrofit Advisory</p>
+    <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
   </footer>
 
-  <script src="../js/solar-estimator.js"></script>
+  <script src="/js/solar-estimator.js"></script>
 
 </body>
 </html>
