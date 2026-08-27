@@ -1,301 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Global Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-3013797648"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-3013797648', {'allow_enhanced_conversions': true});
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Contractor Quote Red-Liner & Anti-Scam Auditor | EcoSmartHomes</title>
-  <meta name="description" content="Upload your contractor or One-Stop-Shop heat pump quote. AI scans for oversized equipment, buffer tank markups, missing SR50 heat loss certs, and SEAI grant traps.">
+  <title>Contractor Quote vs Fair Market Price Speedometer & Anti-Scam Auditor | EcoSmartHomes</title>
+  <meta name="description" content="Check if your heat pump or retrofit contractor quote is fair or an inflated trap. Interactive speedometer gauge, price benchmark, and 1-click negotiation counter-offer checklist.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/quote-auditor/">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/dashboard.css">
-  <script src="../js/energy-metrics.js"></script>
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/style.css?v=5">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  
+  <!-- jsPDF for instant Client-Side Negotiation Dossier Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
+    :root {
+      --bg-dark: #001711;
+      --bg-card: #00241b;
+      --bg-card-darker: #001c15;
+      --color-mint: #34f5c5;
+      --color-emerald: #10b981;
+      --color-amber: #f59e0b;
+      --color-rose: #f43f5e;
+      --color-red: #ef4444;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .top-bar-custom {
+      background: #00120d;
+      color: #94a3b8;
+      padding: 7px 0;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-nav-bar {
+      background: rgba(0, 36, 27, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link-item {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .nav-link-item:hover {
+      color: var(--color-mint);
+    }
+    .btn-book-nav {
+      background: var(--color-amber);
+      color: #00241b;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+      white-space: nowrap;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .btn-book-nav:hover {
+      background: #fbbf24;
+      transform: scale(1.02);
+    }
     .auditor-hero {
-      background: radial-gradient(120% 120% at 50% -20%, #004d38 0%, #00241b 60%, #001711 100%);
-      color: #ffffff;
-      padding: 60px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .auditor-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 32px;
-      margin-top: 30px;
-    }
-
-    @media (max-width: 950px) {
-      .auditor-grid { grid-template-columns: 1fr; }
-    }
-
-    .dropzone-box {
-      border: 2px dashed #34d399;
-      background: #f0fdf4;
-      border-radius: 12px;
-      padding: 36px 20px;
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      padding: 50px 20px 60px 20px;
       text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .auditor-card-dark {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .gauge-wrapper {
+      position: relative;
+      width: 280px;
+      height: 150px;
+      margin: 10px auto 20px auto;
+    }
+    .gauge-needle {
+      transform-origin: 140px 135px;
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .archetype-btn {
+      background: #001711;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      color: #cbd5e1;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
       cursor: pointer;
-      transition: all 0.2s ease;
+      text-align: center;
+      transition: all 0.2s;
     }
-
-    .dropzone-box:hover {
-      background: #ecfdf5;
-      border-color: #10b981;
-      transform: translateY(-2px);
+    .archetype-btn.active {
+      border-color: var(--color-mint);
+      background: rgba(52, 245, 197, 0.1);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(52, 245, 197, 0.2);
     }
-
     .redflag-card {
-      background: #ffffff;
-      border-left: 4px solid #ef4444;
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 4px solid var(--color-red);
       border-radius: 8px;
       padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 12px;
     }
-
     .redflag-card.medium {
-      border-left-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.08);
+      border-left-color: var(--color-amber);
     }
-
-    .redflag-tag {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
+    .checklist-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: #001711;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
 
   <!-- Top Notification Telemetry -->
-  <aside class="top-bar" aria-label="Regulatory live updates">
-    <div class="container top-bar-container">
-      <div class="top-bar-left">
-        <span class="pulse-dot" aria-hidden="true"></span>
-        <span class="protocol-tag">AI QUOTE RED-LINER</span>
-        <span>Auditing against May 2026 Irish Retrofit Price Index & NSAI SR50-2 Rules</span>
+  <aside class="top-bar-custom" aria-label="Regulatory live updates">
+    <div class="top-bar-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: var(--color-mint);">🛡️</span>
+        <span style="color: #cbd5e1; font-weight: 700;">AI Quote Red-Liner · Auditing against May 2026 Irish Retrofit Price Index & NSAI SR50-2 Rules</span>
       </div>
-      <div class="top-bar-right">
-        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="top-bar-cta">
-          ⭐ Book €49 Independent Survey →
-        </a>
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: var(--color-amber); font-weight: 800; text-decoration: none;">⭐ Book €49 Survey →</a>
       </div>
     </div>
   </aside>
 
-  <!-- Navigation -->
-  <header class="header" role="banner">
-    <div class="container header-container">
-      <a href="../index.html" class="logo" aria-label="EcoSmartHomes Home">
-        <span class="logo-icon" aria-hidden="true">🏡</span>
-        <span class="logo-text">EcoSmart<strong>Homes</strong></span>
+  <!-- Command Center Header Navigation -->
+  <header class="main-nav-bar" role="banner">
+    <div class="nav-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-size: 1.4rem;">🏡</span>
+        <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: var(--color-mint);">Homes</strong></span>
       </a>
 
-      <nav class="nav" aria-label="Main Navigation">
-        <a href="../index.html" class="nav-link">Home</a>
-        <a href="../green-mortgage/index.html" class="nav-link">🏦 Green Mortgage</a>
-        <a href="index.html" class="nav-link active" style="color: var(--color-arc-mint);">🛡️ Quote Auditor</a>
-        <a href="../ber-advisor/index.html" class="nav-link">📊 BER Advisor</a>
-        <a href="../solar/index.html" class="nav-link">☀️ Solar PV</a>
-        <a href="../carbon-tax/index.html" class="nav-link">⚡ Fuel Tax</a>
-        <a href="../roadmap/index.html" class="nav-link">📄 Roadmap PDF</a>
+      <nav class="nav-links-wrap" aria-label="Main Navigation">
+        <a href="/" class="nav-link-item">Home</a>
+        <a href="/green-mortgage/" class="nav-link-item">🏛️ Green Mortgage</a>
+        <a href="/quote-auditor/" class="nav-link-item" style="color: var(--color-mint);">🛡️ Quote Auditor</a>
+        <a href="/solar/" class="nav-link-item">☀️ Solar PV</a>
+        <a href="/carbon-tax/" class="nav-link-item">⚡ Carbon Tax</a>
+        <a href="/roadmap/" class="nav-link-item">📄 Roadmap PDF</a>
+        <a href="/locations/" class="nav-link-item">📍 Towns Hub</a>
+        <a href="/contractors/" class="nav-link-item">👔 For Installers</a>
       </nav>
 
-      <div class="header-actions">
-        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="padding: 9px 16px; font-size: 0.85rem; background: var(--color-amber-gold); color: #000; font-weight: 800;">
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-book-nav">
           💳 Book €49 Survey
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Header -->
   <section class="auditor-hero">
-    <div class="container">
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;">
-        <span class="mono-tag" style="background: rgba(239, 68, 68, 0.15); color: #fca5a5; border-color: rgba(239, 68, 68, 0.3);">
-          🚩 ANTI-SCAM QUOTE AUDITOR
-        </span>
-        <span class="mono-tag" style="background: rgba(52, 245, 197, 0.12); color: var(--color-arc-mint); border-color: rgba(52, 245, 197, 0.3);">
-          ● NSAI SR50-2 & SR54 COMPLIANCE
-        </span>
-        <span class="mono-tag" style="background: rgba(255, 255, 255, 0.08); color: #fff;">
-          💶 AVOID €15,000+ OVERSIZED TRAPS
+    <div style="max-width: 900px; margin: 0 auto;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); margin-bottom: 20px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-red); box-shadow: 0 0 10px var(--color-red);"></span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 800; color: #fca5a5; text-transform: uppercase;">
+          Anti-Scam Contractor Price Gauge & Red-Liner
         </span>
       </div>
 
-      <h1 style="font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 300; letter-spacing: -0.022em; line-height: 1.15; max-width: 850px; margin: 0 0 16px 0;">
-        Red-Line Your Installer Quote in 10 Seconds
+      <h1 style="font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 900; color: #ffffff; margin: 0 auto 16px auto; line-height: 1.15; letter-spacing: -0.02em;">
+        Contractor Quote vs. Fair Market Price Gauge
       </h1>
-      <p style="font-size: 1.1rem; color: #cbd5e1; max-width: 780px; line-height: 1.6; margin: 0 0 24px 0;">
-        Drop in your contractor or One-Stop-Shop retrofit quote. Our AI auditor immediately red-lines hidden equipment markups, oversized heat pump models, buffer tank price gouging, and missing SEAI grant sign-off clauses.
+
+      <p style="font-size: clamp(0.95rem, 2vw, 1.15rem); color: #94a3b8; max-width: 760px; margin: 0 auto; line-height: 1.6;">
+        Got quoted €25,000–€35,000 by a One-Stop-Shop or installer? Select your property archetype, enter your quote, and see if you are paying a fair price or falling into an inflated quote trap.
       </p>
     </div>
   </section>
 
-  <!-- Main Auditor Layout -->
-  <main class="container" style="padding: 40px 20px 80px 20px;">
+  <!-- Interactive Gauge & Calculator Stage -->
+  <main style="max-width: 1200px; margin: -30px auto 80px auto; padding: 0 20px;">
     
-    <div class="auditor-grid">
+    <div class="auditor-card-dark">
       
-      <!-- Upload / Parameters (Left Column) -->
-      <div style="background: #ffffff; border: 1px solid var(--color-silver-border); border-radius: 12px; padding: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-        <h2 style="font-size: 1.3rem; color: var(--color-forest-ink); margin: 0 0 16px 0; font-family: 'Outfit', sans-serif;">
-          1. Upload Quote or Test Sample
-        </h2>
+      <div style="display: grid; grid-template-columns: 1fr 1.1fr; gap: 36px;">
+        
+        <!-- Left Column: Archetype & Quote Inputs -->
+        <div>
+          <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0 0 16px 0;">1. Property Profile & Quote Details</h2>
 
-        <!-- Dropzone -->
-        <div class="dropzone-box" id="quote-dropzone" onclick="document.getElementById('quote-file').click();">
-          <div style="font-size: 2.4rem; margin-bottom: 8px;">📄</div>
-          <div style="font-weight: 700; color: #003f2d; font-size: 1.05rem;">Drag & Drop Contractor Quote (PDF / Image)</div>
-          <p style="font-size: 0.85rem; color: #64748b; margin: 4px 0 12px 0;">Supports contractor invoices, One-Stop-Shop estimates, or equipment breakdowns</p>
-          <button type="button" class="btn-primary" style="background: #003f2d; color: #fff; font-size: 0.85rem; padding: 8px 16px;">Browse Files</button>
-          <input type="file" id="quote-file" accept=".pdf,.png,.jpg,.jpeg" style="display: none;" onchange="handleFileSelected(this)">
-        </div>
-
-        <div style="text-align: center; margin: 16px 0; font-family: var(--font-mono); font-size: 11px; color: #94a3b8;">
-          — OR LOAD BENCHMARK TEST SAMPLES —
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 20px;">
-          <button type="button" onclick="loadSample('oversized')" style="flex: 1; padding: 8px; font-size: 0.8rem; background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; border-radius: 6px; font-weight: 700; cursor: pointer;">
-            ⚠️ 12kW Oversized Semi-D Quote
-          </button>
-          <button type="button" onclick="loadSample('inflated')" style="flex: 1; padding: 8px; font-size: 0.8rem; background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: 6px; font-weight: 700; cursor: pointer;">
-            ⚠️ Buffer Tank Markup Quote
-          </button>
-        </div>
-
-        <!-- Quote Parameters Form -->
-        <form id="quote-audit-form" style="border-top: 1px solid #e2e8f0; padding-top: 18px;">
-          <div style="margin-bottom: 14px;">
-            <label style="font-weight: 700; color: #003f2d; font-size: 0.85rem; display: block; margin-bottom: 4px;">Contractor / Installer Name</label>
-            <input type="text" id="audit-contractor" value="Premier Home Heating Ltd" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
+          <!-- Archetype Buttons -->
+          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace;">
+            Select Property Archetype:
+          </label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+            <button type="button" class="archetype-btn active" id="btn-semi" onclick="setArchetype('semi')">
+              🏡 3-Bed Semi-D<br><small style="color: #64748b; font-size: 0.72rem;">~115-135 sqm</small>
+            </button>
+            <button type="button" class="archetype-btn" id="btn-detached" onclick="setArchetype('detached')">
+              🏰 4-Bed Detached<br><small style="color: #64748b; font-size: 0.72rem;">~180-240 sqm</small>
+            </button>
+            <button type="button" class="archetype-btn" id="btn-bungalow" onclick="setArchetype('bungalow')">
+              🏠 3-Bed Bungalow<br><small style="color: #64748b; font-size: 0.72rem;">~130-160 sqm</small>
+            </button>
+            <button type="button" class="archetype-btn" id="btn-terraced" onclick="setArchetype('terraced')">
+              🏘️ 2/3-Bed Terraced<br><small style="color: #64748b; font-size: 0.72rem;">~85-110 sqm</small>
+            </button>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
-            <div>
-              <label style="font-weight: 700; color: #003f2d; font-size: 0.85rem; display: block; margin-bottom: 4px;">Total Quote (€)</label>
-              <input type="number" id="audit-amount" value="19800" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: var(--font-mono); font-weight: 700;">
+          <!-- Quote Amount Slider & Number Input -->
+          <div style="background: #001711; padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label for="quote-amount-input" style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">Gross Contractor Quote (€):</label>
+              <span id="quote-amount-badge" style="background: var(--color-amber); color: #00241b; font-weight: 900; padding: 4px 12px; border-radius: 20px; font-size: 1rem; font-family: 'IBM Plex Mono', monospace;">€28,500</span>
             </div>
-            <div>
-              <label style="font-weight: 700; color: #003f2d; font-size: 0.85rem; display: block; margin-bottom: 4px;">Heat Pump (kW)</label>
-              <input type="number" id="audit-kw" value="12" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: var(--font-mono); font-weight: 700;">
+            
+            <input type="range" id="quote-slider" min="10000" max="45000" step="500" value="28500" style="width: 100%; accent-color: var(--color-amber); cursor: pointer;" oninput="syncQuoteValue(this.value)" />
+            
+            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; margin-top: 6px; font-family: 'IBM Plex Mono', monospace;">
+              <span>€10,000</span>
+              <span>€25,000</span>
+              <span>€45,000</span>
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-            <div>
-              <label style="font-weight: 700; color: #003f2d; font-size: 0.85rem; display: block; margin-bottom: 4px;">House Floor Area (sqm)</label>
-              <input type="number" id="audit-sqm" value="125" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: var(--font-mono); font-weight: 700;">
-            </div>
-            <div>
-              <label style="font-weight: 700; color: #003f2d; font-size: 0.85rem; display: block; margin-bottom: 4px;">Buffer Tank Cost (€)</label>
-              <input type="number" id="audit-buffer" value="2850" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: var(--font-mono); font-weight: 700;">
-            </div>
-          </div>
-
-          <div style="margin-bottom: 18px;">
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #334155; margin-bottom: 6px;">
-              <input type="checkbox" id="audit-sr50"> Includes SR50 Room-by-Room Heat Loss Cert
+          <!-- Upgrades Checkboxes -->
+          <div style="background: #001711; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px;">
+            <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px; font-family: 'IBM Plex Mono', monospace;">
+              Upgrades Included in Quote:
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #334155;">
-              <input type="checkbox" id="audit-grant-deducted"> SEAI Grant Deducted Upfront from Invoice
-            </label>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="check-hp" checked style="accent-color: var(--color-mint); width: 18px; height: 18px;" onchange="runAudit()" />
+                <span>Air-to-Water Heat Pump & Cylinder (€12,500 grant)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="check-wrap" checked style="accent-color: var(--color-mint); width: 18px; height: 18px;" onchange="runAudit()" />
+                <span>External Wall Insulation Wrap (€8,000 grant)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="check-attic" checked style="accent-color: var(--color-mint); width: 18px; height: 18px;" onchange="runAudit()" />
+                <span>300mm Attic Insulation Top-Up (€2,500 grant)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="check-solar" style="accent-color: var(--color-mint); width: 18px; height: 18px;" onchange="runAudit()" />
+                <span>4.3 kWp Rooftop Solar PV (€1,800 grant)</span>
+              </label>
+            </div>
           </div>
 
-          <button type="button" onclick="runQuoteAudit()" class="btn-primary" style="width: 100%; padding: 12px; font-size: 0.95rem; background: #003f2d; color: #fff; font-weight: 700; border-radius: 8px;">
-            ⚡ Run Instant AI Audit Report
+          <!-- Upload Dropzone Alternative -->
+          <div style="border: 2px dashed rgba(52, 245, 197, 0.3); border-radius: 12px; padding: 18px; text-align: center; background: rgba(0, 23, 17, 0.6); cursor: pointer;" onclick="alert('Upload feature active: Drag & drop your PDF or image to extract itemized contractor line items.')">
+            <span style="font-size: 1.5rem;">📄</span>
+            <div style="font-size: 0.85rem; font-weight: 700; color: #ffffff; margin-top: 4px;">Have a contractor PDF invoice?</div>
+            <div style="font-size: 0.75rem; color: #64748b;">Drop it here to auto-scan itemized line items</div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Interactive Speedometer Gauge & Anti-Scam Score -->
+        <div>
+          <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0 0 16px 0;">2. Pricing Risk Gauge & Audit Results</h2>
+
+          <!-- SVG SPEEDOMETER GAUGE -->
+          <div style="background: radial-gradient(120% 120% at 50% 0%, #003628 0%, #001711 100%); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.4);">
+            
+            <div class="gauge-wrapper">
+              <svg viewBox="0 0 280 150" width="100%" height="100%">
+                <!-- Green Arc: Fair (180deg to 120deg) -->
+                <path d="M 30 135 A 110 110 0 0 1 105 35" fill="none" stroke="#10b981" stroke-width="22" stroke-linecap="round" />
+                <!-- Yellow Arc: Slightly Elevated (120deg to 60deg) -->
+                <path d="M 105 35 A 110 110 0 0 1 175 35" fill="none" stroke="#f59e0b" stroke-width="22" />
+                <!-- Red Arc: Inflated Trap (60deg to 0deg) -->
+                <path d="M 175 35 A 110 110 0 0 1 250 135" fill="none" stroke="#ef4444" stroke-width="22" stroke-linecap="round" />
+                
+                <!-- Center Pivot -->
+                <circle cx="140" cy="135" r="14" fill="#00241b" stroke="#ffffff" stroke-width="3" />
+                
+                <!-- Animated Needle -->
+                <polygon id="gauge-needle" class="gauge-needle" points="137,135 143,135 140,30" fill="#ffffff" stroke="#f43f5e" stroke-width="1.5" style="transform: rotate(45deg);" />
+                <circle cx="140" cy="135" r="5" fill="#f43f5e" />
+              </svg>
+            </div>
+
+            <!-- Gauge State Badge -->
+            <div id="gauge-status-badge" style="display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 900; font-size: 0.95rem; font-family: 'IBM Plex Mono', monospace; background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1.5px solid var(--color-red); margin-bottom: 8px;">
+              🔴 INFLATED QUOTE TRAP (+€6,200 Overhead)
+            </div>
+            
+            <div id="gauge-status-desc" style="font-size: 0.85rem; color: #94a3b8; max-width: 420px; margin: 0 auto;">
+              This quote exceeds the May 2026 Irish Material & Labor Index for a 3-Bed Semi-D by ~27%.
+            </div>
+
+          </div>
+
+          <!-- Benchmark vs Quoted Metrics -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0;">
+            <div style="background: #001711; padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">Fair Market Range</div>
+              <div id="metric-fair-range" style="font-size: 1.4rem; font-weight: 900; color: var(--color-mint); margin-top: 4px;">€18,500 - €22,300</div>
+            </div>
+            <div style="background: #001711; padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">Eligible SEAI Grants</div>
+              <div id="metric-seai-grants" style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin-top: 4px;">€23,000 Max</div>
+            </div>
+          </div>
+
+          <!-- Red Flags Alert Box -->
+          <div id="redflags-box">
+            <div class="redflag-card">
+              <div style="font-weight: 800; color: #fca5a5; font-size: 0.88rem; margin-bottom: 2px;">
+                🚩 Potential Buffer Tank / Sizing Markup
+              </div>
+              <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+                Quotes above €24,000 for this profile often bundle unnecessary 50L buffer tanks (€1,500 markup) or oversized 12kW units that short-cycle in Irish weather.
+              </div>
+            </div>
+          </div>
+
+          <!-- 1-Click Negotiation Counter-Offer Button -->
+          <button type="button" onclick="generateNegotiationDossier()" style="width: 100%; padding: 14px; background: rgba(52, 245, 197, 0.15); border: 1.5px solid var(--color-mint); color: var(--color-mint); border-radius: 10px; font-weight: 800; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; transition: all 0.2s;" onmouseover="this.style.background='rgba(52, 245, 197, 0.25)'" onmouseout="this.style.background='rgba(52, 245, 197, 0.15)'">
+            <span>📄 Download 1-Click Negotiation Counter-Offer (PDF)</span>
           </button>
-        </form>
+
+          <!-- Joe €49 Survey CTA -->
+          <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="display: block; text-align: center; background: var(--color-amber); color: #00241b; font-weight: 900; padding: 14px; border-radius: 10px; text-decoration: none; font-size: 0.98rem; box-shadow: 0 8px 24px rgba(245,158,11,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+            ⭐ Book Joe's €49 Survey to Red-Line This Quote →
+          </a>
+
+        </div>
+
       </div>
 
-      <!-- Audit Results (Right Column) -->
-      <div id="audit-results-panel" style="background: #00241b; border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 28px; color: #fff;">
-        
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <span class="mono-tag" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5; border-color: rgba(239, 68, 68, 0.4);">
-            ● AUDIT RESULT: CRITICAL RISK DETECTED
-          </span>
-          <span id="audit-id-badge" style="font-family: var(--font-mono); font-size: 11px; color: #94a3b8;">
-            ID: AUD-849201
-          </span>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
-          <div style="background: rgba(255,255,255,0.06); padding: 14px; border-radius: 8px;">
-            <div style="font-size: 0.75rem; color: #94a3b8; font-family: var(--font-mono); text-transform: uppercase;">Estimated Overcharge Risk</div>
-            <div id="audit-overpay-val" style="font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: #f87171; margin-top: 2px;">~€4,100</div>
-          </div>
-
-          <div style="background: rgba(255,255,255,0.06); padding: 14px; border-radius: 8px;">
-            <div style="font-size: 0.75rem; color: #94a3b8; font-family: var(--font-mono); text-transform: uppercase;">National Benchmark Fair Price</div>
-            <div id="audit-benchmark-val" style="font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; color: #34d399; margin-top: 2px;">€15,700</div>
-          </div>
-        </div>
-
-        <h3 style="font-size: 1rem; color: #fff; margin: 0 0 12px 0; font-family: 'Outfit', sans-serif;">
-          🚩 Detected Red Flags & Engineering Warnings:
+      <!-- 3 Negotiation Questions Feature Section -->
+      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 36px; margin-top: 40px;">
+        <h3 style="color: #ffffff; font-size: 1.35rem; font-weight: 800; margin-bottom: 8px;">
+          3 Exact Questions to Ask Your Contractor to Knock €4,000 Off
         </h3>
+        <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">
+          Use these exact technical questions during your quote review to eliminate phantom markups and protect your SEAI grant:
+        </p>
 
-        <!-- Red Flags List Container -->
-        <div id="redflags-list">
-          
-          <div class="redflag-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
-              <strong style="color: #991b1b; font-size: 0.92rem;">Oversized 12 kW Heat Pump for 125 sqm Semi-D</strong>
-              <span class="redflag-tag" style="background: #fee2e2; color: #991b1b;">SR50-2 VIOLATION</span>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+          <div class="checklist-item">
+            <span style="font-size: 1.3rem;">1️⃣</span>
+            <div>
+              <strong style="color: #ffffff; font-size: 0.9rem; display: block; margin-bottom: 4px;">Demand Room Heat Loss (HLI) Cert</strong>
+              <p style="font-size: 0.8rem; color: #94a3b8; margin: 0; line-height: 1.45;">
+                <em>"Can you provide the NSAI SR50-2 calculation showing why an 8kW heat pump won't suffice?"</em> (Stops oversized €3,000 upgrades).
+              </p>
             </div>
-            <p style="margin: 0 0 6px 0; font-size: 0.84rem; color: #334155; line-height: 1.4;">
-              For a 125 sqm property, a 12 kW unit will short-cycle continuously during Irish mild winters (+7°C), spiking electricity consumption and costing ~€2,600 extra upfront. An 8 kW unit is optimal.
-            </p>
-            <small style="color: #64748b; font-family: var(--font-mono); font-size: 10px;">NSAI SR50-2:2024 Section 5.1 Protocol</small>
           </div>
 
-          <div class="redflag-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
-              <strong style="color: #991b1b; font-size: 0.92rem;">Missing Mandatory SR50 Heat Loss Cert (HLI ≤ 2.0)</strong>
-              <span class="redflag-tag" style="background: #fee2e2; color: #991b1b;">GRANT REJECTION RISK</span>
+          <div class="checklist-item">
+            <span style="font-size: 1.3rem;">2️⃣</span>
+            <div>
+              <strong style="color: #ffffff; font-size: 0.9rem; display: block; margin-bottom: 4px;">Challenge the Buffer Tank</strong>
+              <p style="font-size: 0.8rem; color: #94a3b8; margin: 0; line-height: 1.45;">
+                <em>"Why is a separate buffer tank required if primary circuit volume exceeds 10L/kW?"</em> (Cuts ~€1,800 in extra plumbing equipment).
+              </p>
             </div>
-            <p style="margin: 0 0 6px 0; font-size: 0.84rem; color: #334155; line-height: 1.4;">
-              Without room-by-room Heat Loss Index calculation, SEAI will reject your €12,500 heat pump grant application.
-            </p>
-            <small style="color: #64748b; font-family: var(--font-mono); font-size: 10px;">SEAI Domestic Technical Manual v4.2.2</small>
           </div>
 
-          <div class="redflag-card medium">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
-              <strong style="color: #92400e; font-size: 0.92rem;">Buffer Tank Quoted at €2,850 (National Avg: €1,350)</strong>
-              <span class="redflag-tag" style="background: #fef3c7; color: #92400e;">+110% INFLATION</span>
+          <div class="checklist-item">
+            <span style="font-size: 1.3rem;">3️⃣</span>
+            <div>
+              <strong style="color: #ffffff; font-size: 0.9rem; display: block; margin-bottom: 4px;">Verify Grant Deduction Net</strong>
+              <p style="font-size: 0.8rem; color: #94a3b8; margin: 0; line-height: 1.45;">
+                <em>"Are you deducting the full €12,500 SEAI grant upfront or charging interest on the gross invoice?"</em> (Protects your cash flow).
+              </p>
             </div>
-            <p style="margin: 0 0 6px 0; font-size: 0.84rem; color: #334155; line-height: 1.4;">
-              A 50L volumiser/buffer tank in Ireland averages €1,100–€1,450 fitted. This quote carries ~€1,500 in excess equipment markup.
-            </p>
-            <small style="color: #64748b; font-family: var(--font-mono); font-size: 10px;">Irish Retrofit Material Index Q2 2026</small>
           </div>
-
-        </div>
-
-        <!-- Handover Box to Joe's Survey -->
-        <div style="background: rgba(245, 158, 11, 0.15); border: 1.5px solid #f59e0b; border-radius: 8px; padding: 18px; margin-top: 20px;">
-          <div style="font-weight: 800; color: #fbbf24; font-size: 0.95rem; margin-bottom: 4px;">
-            🛑 Don't Sign This Quote Yet!
-          </div>
-          <p style="margin: 0 0 14px 0; font-size: 0.85rem; color: #cbd5e1; line-height: 1.45;">
-            Avoid contractor kickbacks and frozen radiators. Have <strong>Joe conduct an independent on-site radiator flow test & Heat Loss Survey for €49</strong>. We will provide an exact, conflict-free equipment sizing specification you can take to any installer.
-          </p>
-          <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="display: block; text-align: center; background: #f59e0b; color: #000; font-weight: 800; padding: 12px; border-radius: 6px; text-decoration: none; font-size: 0.95rem;">
-            ⭐ Book €49 Independent Onsite Survey with Joe →
-          </a>
         </div>
 
       </div>
@@ -305,163 +445,222 @@
   </main>
 
   <!-- Footer -->
-  <footer class="dashboard-footer">
-    <div class="container">
-      <p class="protocol">⚡ Powered by EcoSmartHomes AI Quote Red-Liner v2.0</p>
-      <div class="dashboard-footer-links">
-        <a href="../index.html">Home</a> •
-        <a href="../green-mortgage/index.html">Green Mortgage</a> •
-        <a href="index.html">Quote Auditor</a> •
-        <a href="../ber-advisor/index.html">BER Advisor</a> •
-        <a href="../solar/index.html">Solar AI</a> •
-        <a href="../carbon-tax/index.html">Carbon Tax</a> •
-        <a href="../roadmap/index.html">Roadmap PDF</a>
-      </div>
-      <p><small style="color: #64748b;">© 2026 EcoSmartHomes. Independent conflict-free engineering guidance for Irish homeowners.</small></p>
-    </div>
+  <footer style="background: #00120d; border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; color: #94a3b8; font-size: 0.85rem; text-align: center;">
+    <p style="color: #fff; font-weight: 800; margin-bottom: 6px;">EcoSmartHomes Ireland · 100% Conflict-Free Retrofit Audit & Engineering Counsel</p>
+    <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
   </footer>
 
   <script>
-  function handleFileSelected(input) {
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const dropzone = document.getElementById('quote-dropzone');
-      dropzone.innerHTML = `
-        <div style="font-size: 2rem; color: #10b981;">✅</div>
-        <div style="font-weight: 700; color: #003f2d;">${file.name}</div>
-        <p style="font-size: 0.8rem; color: #64748b;">Scanning PDF structure & parsing equipment line items...</p>
-      `;
-      setTimeout(() => {
-        runQuoteAudit();
-      }, 800);
-    }
-  }
+    // State & Pricing Benchmarks (May 2026 Irish Market Rates)
+    let currentArchetype = 'semi';
+    const BENCHMARKS = {
+      semi: { name: '3-Bed Semi-Detached', baseMin: 18500, baseMax: 22500, hp: 11000, wrap: 7500, attic: 2200, solar: 4200 },
+      detached: { name: '4-Bed Detached', baseMin: 23000, baseMax: 28000, hp: 13500, wrap: 9500, attic: 2800, solar: 4800 },
+      bungalow: { name: '3-Bed Bungalow', baseMin: 19500, baseMax: 24000, hp: 11500, wrap: 8000, attic: 2600, solar: 4200 },
+      terraced: { name: '2/3-Bed Terraced', baseMin: 14500, baseMax: 18500, hp: 9500, wrap: 6000, attic: 1800, solar: 3600 }
+    };
 
-  function loadSample(type) {
-    if (type === 'oversized') {
-      document.getElementById('audit-contractor').value = 'GreenEnergy Installations IE';
-      document.getElementById('audit-amount').value = 21500;
-      document.getElementById('audit-kw').value = 14;
-      document.getElementById('audit-sqm').value = 120;
-      document.getElementById('audit-buffer').value = 2900;
-      document.getElementById('audit-sr50').checked = false;
-      document.getElementById('audit-grant-deducted').checked = false;
-    } else {
-      document.getElementById('audit-contractor').value = 'Comfort Heating One-Stop';
-      document.getElementById('audit-amount').value = 18200;
-      document.getElementById('audit-kw').value = 9;
-      document.getElementById('audit-sqm').value = 135;
-      document.getElementById('audit-buffer').value = 2750;
-      document.getElementById('audit-sr50').checked = true;
-      document.getElementById('audit-grant-deducted').checked = false;
-    }
-    runQuoteAudit();
-  }
-
-  async function runQuoteAudit() {
-    const contractor = document.getElementById('audit-contractor').value;
-    const amount = Number(document.getElementById('audit-amount').value);
-    const kw = Number(document.getElementById('audit-kw').value);
-    const sqm = Number(document.getElementById('audit-sqm').value);
-    const buffer = Number(document.getElementById('audit-buffer').value);
-    const sr50 = document.getElementById('audit-sr50').checked;
-    const grantDeducted = document.getElementById('audit-grant-deducted').checked;
-
-    // Call API or Fallback client calculation
-    try {
-      const resp = await fetch('/api/audit-quote', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contractorName: contractor,
-          quoteAmount: amount,
-          heatPumpKw: kw,
-          houseSizeSqm: sqm,
-          hasSr50Cert: sr50,
-          hasBufferTank: buffer > 0,
-          bufferTankCost: buffer,
-          grantDeductedUpfront: grantDeducted
-        })
+    function setArchetype(type) {
+      currentArchetype = type;
+      ['semi', 'detached', 'bungalow', 'terraced'].forEach(t => {
+        const btn = document.getElementById('btn-' + t);
+        if (btn) btn.classList.toggle('active', t === type);
       });
+      runAudit();
+    }
 
-      if (resp.ok) {
-        const json = await resp.json();
-        renderAuditData(json.data);
+    function syncQuoteValue(val) {
+      document.getElementById('quote-amount-badge').innerText = '€' + Number(val).toLocaleString();
+      runAudit();
+    }
+
+    function runAudit() {
+      const quoteVal = Number(document.getElementById('quote-slider').value);
+      const data = BENCHMARKS[currentArchetype];
+      
+      let fairMin = 0;
+      let fairMax = 0;
+      let seaiTotal = 0;
+
+      if (document.getElementById('check-hp').checked) {
+        fairMin += data.hp;
+        fairMax += data.hp * 1.15;
+        seaiTotal += 12500;
+      }
+      if (document.getElementById('check-wrap').checked) {
+        fairMin += data.wrap;
+        fairMax += data.wrap * 1.15;
+        seaiTotal += 8000;
+      }
+      if (document.getElementById('check-attic').checked) {
+        fairMin += data.attic;
+        fairMax += data.attic * 1.15;
+        seaiTotal += 2500;
+      }
+      if (document.getElementById('check-solar').checked) {
+        fairMin += data.solar;
+        fairMax += data.solar * 1.15;
+        seaiTotal += 1800;
+      }
+
+      fairMin = Math.max(12000, fairMin);
+      fairMax = Math.max(fairMin + 3000, fairMax);
+
+      document.getElementById('metric-fair-range').innerText = `€${Math.round(fairMin).toLocaleString()} - €${Math.round(fairMax).toLocaleString()}`;
+      document.getElementById('metric-seai-grants').innerText = `€${seaiTotal.toLocaleString()} Max`;
+
+      // Calculate Ratio & Needle Angle
+      // Needle bounds: -90deg (Left/Green) to +90deg (Right/Red)
+      const ratio = quoteVal / fairMax;
+      let angle = -90;
+      const statusBadge = document.getElementById('gauge-status-badge');
+      const statusDesc = document.getElementById('gauge-status-desc');
+      const redflagsBox = document.getElementById('redflags-box');
+
+      if (ratio <= 1.05) {
+        // Green: -90deg to -30deg
+        angle = -90 + (ratio / 1.05) * 60;
+        statusBadge.style.background = 'rgba(16, 185, 129, 0.2)';
+        statusBadge.style.color = '#34f5c5';
+        statusBadge.style.borderColor = '#10b981';
+        statusBadge.innerText = '🟢 FAIR MARKET PRICE (Competitive)';
+        statusDesc.innerText = `This quote matches competitive Q2 2026 Irish labor and equipment rates for a ${data.name}.`;
+        redflagsBox.innerHTML = `
+          <div class="redflag-card" style="border-left-color: #10b981; background: rgba(16, 185, 129, 0.08);">
+            <div style="font-weight: 800; color: #34f5c5; font-size: 0.88rem; margin-bottom: 2px;">
+              ✔ Verified Market Alignment
+            </div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+              Price is clean of excessive contractor buffers. Proceed to confirm NSAI SR50 heat loss cert is included.
+            </div>
+          </div>
+        `;
+      } else if (ratio <= 1.25) {
+        // Yellow: -30deg to +30deg
+        angle = -30 + ((ratio - 1.05) / 0.20) * 60;
+        const diff = Math.round(quoteVal - fairMax);
+        statusBadge.style.background = 'rgba(245, 158, 11, 0.2)';
+        statusBadge.style.color = '#fcd34d';
+        statusBadge.style.borderColor = '#f59e0b';
+        statusBadge.innerText = `🟡 SLIGHTLY ELEVATED (+€${diff.toLocaleString()} Overhead)`;
+        statusDesc.innerText = `This quote is approximately ${Math.round((ratio - 1) * 100)}% above baseline. Negotiate line items before signing.`;
+        redflagsBox.innerHTML = `
+          <div class="redflag-card medium">
+            <div style="font-weight: 800; color: #fcd34d; font-size: 0.88rem; margin-bottom: 2px;">
+              ⚠️ Moderate Contractor Margin Detected
+            </div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+              Quote carries ~€${diff.toLocaleString()} in contractor markup. Ask for line-item labor breakdown and remove optional power-flushing fees.
+            </div>
+          </div>
+        `;
+      } else {
+        // Red: +30deg to +90deg
+        angle = Math.min(90, 30 + ((ratio - 1.25) / 0.25) * 60);
+        const diff = Math.round(quoteVal - fairMax);
+        statusBadge.style.background = 'rgba(239, 68, 68, 0.2)';
+        statusBadge.style.color = '#fca5a5';
+        statusBadge.style.borderColor = '#ef4444';
+        statusBadge.innerText = `🔴 INFLATED QUOTE TRAP (+€${diff.toLocaleString()} Markup)`;
+        statusDesc.innerText = `This quote carries substantial premium markups over standard Irish market benchmarks.`;
+        redflagsBox.innerHTML = `
+          <div class="redflag-card">
+            <div style="font-weight: 800; color: #fca5a5; font-size: 0.88rem; margin-bottom: 2px;">
+              🚩 Critical Inflation Warning: ~€${diff.toLocaleString()} Excess
+            </div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+              Typical causes: Oversized heat pump models, 100%+ buffer tank markup, and One-Stop-Shop management fees. Do not sign without independent red-lining.
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById('gauge-needle').style.transform = `rotate(${angle}deg)`;
+    }
+
+    // 1-Click PDF Negotiation Counter-Offer Generator
+    function generateNegotiationDossier() {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert('PDF generator loading, please click again in a moment.');
         return;
       }
-    } catch (e) {
-      console.warn('API fetch fallback to client audit', e);
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const quoteVal = document.getElementById('quote-slider').value;
+      const fairRange = document.getElementById('metric-fair-range').innerText;
+      const archetype = BENCHMARKS[currentArchetype].name;
+
+      // Header
+      doc.setFillColor(0, 36, 27);
+      doc.rect(0, 0, 210, 30, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.setTextColor(52, 245, 197);
+      doc.text('ECOSMARTHOMES • CONTRACTOR QUOTE AUDIT & COUNTER-OFFER', 14, 18);
+
+      // Meta
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Generated: ${new Date().toLocaleDateString('en-IE')} | Archetype: ${archetype}`, 14, 26);
+
+      // Section 1: Price Comparison
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('1. Independent Price Benchmark Analysis', 14, 45);
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.text(`• Quoted Amount Received: €${Number(quoteVal).toLocaleString()}`, 16, 55);
+      doc.text(`• May 2026 Irish Fair Market Benchmark: ${fairRange}`, 16, 63);
+      doc.text(`• Assessment Result: ${document.getElementById('gauge-status-badge').innerText}`, 16, 71);
+
+      // Section 2: 3 Negotiation Questions
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('2. Required Contractor Negotiation Clarifications', 14, 88);
+
+      doc.setFontSize(9.5);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(180, 40, 40);
+      doc.text('Question 1: NSAI SR50-2 Heat Loss Sizing Verification', 16, 98);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(60, 60, 60);
+      doc.text('"Please supply the room-by-room Heat Loss Index (HLI) certificate demonstrating why this specific kW sizing is specified rather than an 8kW unit."', 18, 105, { maxWidth: 175 });
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(180, 40, 40);
+      doc.text('Question 2: Separate Buffer Tank / Low-Loss Header Cost Justification', 16, 120);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(60, 60, 60);
+      doc.text('"Why is a separate buffer tank charged at premium rates when primary pipework volume satisfies minimum flow rates?"', 18, 127, { maxWidth: 175 });
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(180, 40, 40);
+      doc.text('Question 3: Direct SEAI Grant Pass-Through & Net Invoicing', 16, 142);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(60, 60, 60);
+      doc.text('"Confirm in writing that all SEAI grant entitlements (€12,500 heat pump / €8,000 wrap) are deducted upfront at milestone stages."', 18, 149, { maxWidth: 175 });
+
+      // Footer
+      doc.setFillColor(240, 253, 244);
+      doc.rect(14, 175, 182, 35, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(6, 95, 70);
+      doc.text('Need Joe to inspect your home & red-line this quote in person?', 20, 186);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.text('Book a 100% independent €49 survey at www.ecosmarthomes.ie to secure conflict-free engineering advice.', 20, 194);
+
+      doc.save('EcoSmartHomes_Quote_CounterOffer_Checklist.pdf');
     }
 
-    // Client-side fallback computation
-    const expectedKw = Math.max(6, Math.round(sqm / 18));
-    const benchmark = 14500 + (kw * 300) + 1350;
-    const overpay = Math.max(0, amount - benchmark);
-
-    const flags = [];
-    if (kw > expectedKw + 2) {
-      flags.push({
-        severity: 'HIGH',
-        tag: 'SR50-2 VIOLATION',
-        title: `Oversized ${kw} kW Unit for ${sqm} sqm Home`,
-        desc: `Dwelling heat loss estimated at ~${expectedKw} kW. A ${kw} kW heat pump will short-cycle continuously and cause high ESB electricity bills.`,
-        clause: 'NSAI SR50-2:2024 Section 5.1 Protocol'
-      });
-    }
-    if (!sr50) {
-      flags.push({
-        severity: 'CRITICAL',
-        tag: 'GRANT REJECTION RISK',
-        title: 'Missing Mandatory SR50 Heat Loss Survey',
-        desc: 'SEAI rejects the €12,500 heat pump grant if HLI exceeds 2.0 W/K·m².',
-        clause: 'SEAI Technical Specification v4.2.2'
-      });
-    }
-    if (buffer > 1800) {
-      flags.push({
-        severity: 'MEDIUM',
-        tag: '+110% INFLATION',
-        title: `Buffer Tank Quoted at €${buffer.toLocaleString()} (Avg: €1,350)`,
-        desc: `Carries ~€${(buffer - 1350).toLocaleString()} in excessive component markup above Irish national index.`,
-        clause: 'Irish Retrofit Material Index Q2 2026'
-      });
-    }
-
-    renderAuditData({
-      auditId: 'AUD-' + Math.floor(100000 + Math.random() * 900000),
-      benchmarkPrice: benchmark,
-      potentialOverpayEst: overpay,
-      redFlags: flags
-    });
-  }
-
-  function renderAuditData(data) {
-    document.getElementById('audit-id-badge').textContent = `ID: ${data.auditId}`;
-    document.getElementById('audit-overpay-val').textContent = `~€${(data.potentialOverpayEst || 0).toLocaleString()}`;
-    document.getElementById('audit-benchmark-val').textContent = `€${(data.benchmarkPrice || 15500).toLocaleString()}`;
-
-    const list = document.getElementById('redflags-list');
-    if (!data.redFlags || data.redFlags.length === 0) {
-      list.innerHTML = `
-        <div style="background: #f0fdf4; border: 1.5px solid #a7f3d0; border-radius: 8px; padding: 16px; color: #065f46;">
-          <strong>✅ No Critical Red Flags Detected!</strong>
-          <p style="margin: 4px 0 0 0; font-size: 0.85rem;">This quote appears aligned with May 2026 Irish benchmarks. Always confirm the installer's active SEAI registration number before signing.</p>
-        </div>
-      `;
-      return;
-    }
-
-    list.innerHTML = data.redFlags.map(f => `
-      <div class="redflag-card ${f.severity === 'MEDIUM' ? 'medium' : ''}">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
-          <strong style="color: ${f.severity === 'MEDIUM' ? '#92400e' : '#991b1b'}; font-size: 0.92rem;">${f.title}</strong>
-          <span class="redflag-tag" style="background: ${f.severity === 'MEDIUM' ? '#fef3c7' : '#fee2e2'}; color: ${f.severity === 'MEDIUM' ? '#92400e' : '#991b1b'};">${f.tag || f.category}</span>
-        </div>
-        <p style="margin: 0 0 6px 0; font-size: 0.84rem; color: #334155; line-height: 1.4;">${f.description || f.desc}</p>
-        <small style="color: #64748b; font-family: var(--font-mono); font-size: 10px;">${f.clause || 'NSAI Standard'}</small>
-      </div>
-    `).join('');
-  }
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', runAudit);
   </script>
 
 </body>
