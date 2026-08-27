@@ -1,9 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
+// Generates or retrieves an ephemeral session UUID for funnel analytics
+const getOrCreateFunnelSession = () => {
+  try {
+    let sid = sessionStorage.getItem('esh_funnel_session_id');
+    if (!sid) {
+      sid = typeof crypto !== 'undefined' && crypto.randomUUID 
+        ? crypto.randomUUID() 
+        : 'sess_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+      sessionStorage.setItem('esh_funnel_session_id', sid);
+    }
+    return sid;
+  } catch (e) {
+    return 'anon_' + Date.now();
+  }
+};
+
+// Non-blocking telemetry dispatcher using navigator.sendBeacon
+const sendFunnelTelemetry = (step, action, metadata = {}, timeSpentSeconds = 0) => {
+  try {
+    const payload = JSON.stringify({
+      sessionId: getOrCreateFunnelSession(),
+      step,
+      action,
+      metadata,
+      timeSpentSeconds,
+      deviceType: typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop'
+    });
+
+    const endpoint = '/api/analytics/track-step';
+
+    if (typeof navigator !== 'undefined' && navigator.sendBeacon) {
+      const blob = new Blob([payload], { type: 'application/json' });
+      navigator.sendBeacon(endpoint, blob);
+    } else if (typeof fetch !== 'undefined') {
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload,
+        keepalive: true
+      }).catch(() => {});
+    }
+  } catch (e) {
+    // Telemetry errors should never interrupt the user experience
+  }
+};
 
 export default function OnboardingWizard({ isOpen = true, onClose, copyData, copyDeckData }) {
   if (isOpen === false) return null;
 
   const [step, setStep] = useState(1);
+  const stepStartTimeRef = useRef(Date.now());
+
   const [formData, setFormData] = useState({
     propertyType: 'semi-detached',
     currentBER: 'D',
@@ -15,6 +63,26 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
     scanComplete: false,
     radiatorCount: 8,
   });
+
+  // Track initial step view and step transitions
+  useEffect(() => {
+    const stepNames = {
+      1: 'step_1_profile',
+      2: 'step_2_fuel_exposure',
+      3: 'step_3_vision_scanner',
+      4: 'step_4_grant_forecast',
+      5: 'step_5_checkout_order'
+    };
+
+    const timeSpent = (Date.now() - stepStartTimeRef.current) / 1000;
+    stepStartTimeRef.current = Date.now();
+
+    sendFunnelTelemetry(stepNames[step], 'step_viewed', {
+      propertyType: formData.propertyType,
+      currentBER: formData.currentBER,
+      fuel: formData.heatingFuel
+    }, timeSpent);
+  }, [step]);
 
   const calculateSavings = () => {
     const baseBill = formData.annualBill;
@@ -43,6 +111,9 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
   const { grantAmount, targetBill, carbonTaxShieldSavings, propertySurge } = calculateSavings();
 
   const handleNext = () => {
+    const timeSpent = (Date.now() - stepStartTimeRef.current) / 1000;
+    sendFunnelTelemetry(step, 'step_completed', { ...formData }, timeSpent);
+
     if (step === 3 && !formData.scanComplete) {
       setFormData(prev => ({ ...prev, isScanning: true }));
       setTimeout(() => {
@@ -58,9 +129,17 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
     setStep(prev => Math.max(prev - 1, 1));
   };
 
+  const handleClose = () => {
+    const timeSpent = (Date.now() - stepStartTimeRef.current) / 1000;
+    sendFunnelTelemetry(step, 'wizard_abandoned', { exitedAtStep: step }, timeSpent);
+    if (onClose) onClose();
+  };
+
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      sendFunnelTelemetry(3, 'photo_uploaded', { fileName: file.name, fileSize: file.size });
+
       setFormData(prev => ({
         ...prev,
         uploadedPhoto: file,
@@ -73,6 +152,16 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
         setFormData(prev => ({ ...prev, isScanning: false, scanComplete: true }));
       }, 2000);
     }
+  };
+
+  const handleStripeClick = () => {
+    const timeSpent = (Date.now() - stepStartTimeRef.current) / 1000;
+    sendFunnelTelemetry(5, 'stripe_cta_clicked', {
+      finalBER: formData.currentBER,
+      fuel: formData.heatingFuel,
+      bill: formData.annualBill,
+      grantCalculated: grantAmount
+    }, timeSpent);
   };
 
   const selectOption = (key, value) => {
@@ -100,7 +189,7 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
           </div>
           <button 
             data-testid="close-wizard-button"
-            onClick={onClose}
+            onClick={handleClose}
             className="rounded-full p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors cursor-pointer"
             aria-label="Close wizard"
           >
@@ -274,10 +363,7 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
                 </p>
               </div>
 
-              {/* Dropzone Area with custom Scanner animation */}
               <div className="relative border-2 border-dashed border-slate-800 rounded-xl bg-slate-950/40 p-6 flex flex-col items-center justify-center min-h-[180px] overflow-hidden">
-                
-                {/* Laser scan line overlay when active */}
                 {(formData.isScanning || formData.photoPreview) && (
                   <div className="scanner-laser absolute inset-x-0 top-0 h-0.5 bg-emerald-500 shadow-[0_0_15px_#10b981] animate-laserSweep" />
                 )}
@@ -445,6 +531,7 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
                   <a
                     data-testid="stripe-checkout-cta"
                     href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" 
+                    onClick={handleStripeClick}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 w-full block text-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm py-2.5 px-4 rounded-lg transition-all duration-200 active:scale-98 shadow-lg shadow-emerald-500/20 cursor-pointer"
@@ -486,7 +573,7 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
             ) : (
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 className="px-5 py-2 text-sm font-semibold text-slate-300 hover:text-slate-100 transition-colors cursor-pointer"
               >
                 Exit Diagnostics
