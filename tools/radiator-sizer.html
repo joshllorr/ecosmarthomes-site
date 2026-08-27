@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Global Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-3013797648"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-3013797648', {'allow_enhanced_conversions': true});
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>National Radiator Flow & Low-Flow Heat Pump Sizing Simulator (NSAI SR50-2) | EcoSmartHomes</title>
+  <meta name="description" content="Calculate low-flow 45°C (Delta-T 30) radiator heat outputs for heat pump readiness under Irish NSAI SR50-2:2024 and SEAI grant rules. Instant room-by-room schedule and PDF export.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/radiator-sizer/">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/style.css?v=5">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  
+  <!-- jsPDF for instant Client-Side Radiator Schedule PDF Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #001711;
+      --bg-card: #00241b;
+      --bg-card-light: #003628;
+      --color-mint: #34f5c5;
+      --color-emerald: #10b981;
+      --color-amber: #f59e0b;
+      --color-sky: #38bdf8;
+      --color-red: #ef4444;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .top-bar-custom {
+      background: #00120d;
+      color: #94a3b8;
+      padding: 7px 0;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-nav-bar {
+      background: rgba(0, 36, 27, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link-item {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .nav-link-item:hover {
+      color: var(--color-mint);
+    }
+    .btn-book-nav {
+      background: var(--color-amber);
+      color: #00241b;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+      white-space: nowrap;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .btn-book-nav:hover {
+      background: #fbbf24;
+      transform: scale(1.02);
+    }
+    .sizer-hero {
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      padding: 50px 20px 60px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sizer-card-dark {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .room-row-card {
+      background: #001711;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      transition: all 0.2s;
+    }
+    .room-row-card.pass {
+      border-left: 5px solid var(--color-emerald);
+    }
+    .room-row-card.fail {
+      border-left: 5px solid var(--color-red);
+    }
+    .tag-status {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .tag-status.pass {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--color-mint);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .tag-status.fail {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .metric-summary-box {
+      background: #001711;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .metric-val-big {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--color-mint);
+      margin-top: 4px;
+    }
+    .metric-lbl {
+      font-size: 0.72rem;
+      color: #64748b;
+      text-transform: uppercase;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+    }
+    .delta-toggle-btn {
+      background: #001711;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      color: #cbd5e1;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .delta-toggle-btn.active {
+      background: rgba(52, 245, 197, 0.15);
+      border-color: var(--color-mint);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(52, 245, 197, 0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Notification Telemetry -->
+  <aside class="top-bar-custom" aria-label="Regulatory live updates">
+    <div class="top-bar-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: var(--color-mint);">📐</span>
+        <span style="color: #cbd5e1; font-weight: 700;">NSAI SR50-2:2024 Low-Flow Heat Pump Radiator Standard Active (Delta-T 30 @ 45°C Flow)</span>
+      </div>
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: var(--color-amber); font-weight: 800; text-decoration: none;">⭐ Book €49 Survey →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="main-nav-bar" role="banner">
+    <div class="nav-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-size: 1.4rem;">🏡</span>
+        <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: var(--color-mint);">Homes</strong></span>
+      </a>
+
+      <nav class="nav-links-wrap" aria-label="Main Navigation">
+        <a href="/" class="nav-link-item">Home</a>
+        <a href="/radiator-sizer/" class="nav-link-item" style="color: var(--color-mint);">📐 Radiator Sizer</a>
+        <a href="/green-mortgage/" class="nav-link-item">🏛️ Green Mortgage</a>
+        <a href="/quote-auditor/" class="nav-link-item">🛡️ Quote Auditor</a>
+        <a href="/solar/" class="nav-link-item">☀️ Solar PV</a>
+        <a href="/battery-arbitrage/" class="nav-link-item">⚡ Battery Arbitrage</a>
+        <a href="/carbon-tax/" class="nav-link-item">⚡ Carbon Tax</a>
+        <a href="/roadmap/" class="nav-link-item">📄 Roadmap PDF</a>
+      </nav>
+
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-book-nav">
+          💳 Book €49 Survey
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Header -->
+  <section class="sizer-hero">
+    <div style="max-width: 920px; margin: 0 auto;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); margin-bottom: 20px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-mint); box-shadow: 0 0 10px var(--color-mint);"></span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 800; color: var(--color-mint); text-transform: uppercase;">
+          NSAI SR50-2:2024 & SEAI DTSS v4.2 Compliant
+        </span>
+      </div>
+
+      <h1 style="font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 900; color: #ffffff; margin: 0 auto 16px auto; line-height: 1.15; letter-spacing: -0.02em;">
+        National Radiator Flow & Low-Flow Heat Pump Sizing Simulator
+      </h1>
+
+      <p style="font-size: clamp(0.95rem, 2vw, 1.15rem); color: #94a3b8; max-width: 780px; margin: 0 auto; line-height: 1.6;">
+        The #1 reason Irish heat pump installations fail is undersized radiators operating at 45°C low flow temperatures. Build your room-by-room schedule below to discover exactly which radiators pass and get the certified NSAI replacement sizes.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Simulator Stage -->
+  <main style="max-width: 1240px; margin: -30px auto 80px auto; padding: 0 20px;">
+    
+    <div class="sizer-card-dark">
+      
+      <!-- Top System Controls & Global Parameters -->
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 28px;">
+        
+        <div>
+          <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; margin-bottom: 6px;">
+            Operating Flow Temperature (Delta-T):
+          </label>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="delta-toggle-btn active" id="btn-delta-30" onclick="setDeltaT(30, 45)">
+              ❄️ 45°C Flow (Delta-T 30) · Ultra-Efficient (COP ~4.0)
+            </button>
+            <button type="button" class="delta-toggle-btn" id="btn-delta-35" onclick="setDeltaT(35, 50)">
+              🔥 50°C Flow (Delta-T 35) · Standard High-Temp (COP ~3.4)
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; margin-bottom: 6px;">
+            Overall Insulation Level:
+          </label>
+          <select id="global-insulation" style="padding: 10px 14px; background: #001711; color: #ffffff; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; font-size: 0.88rem;" onchange="recalculateAllRooms()">
+            <option value="cavity_uninsulated">Cavity Walls (Uninsulated / 100mm attic) ~105 W/m²</option>
+            <option value="cavity_pumped" selected>Cavity Pumped + 300mm Attic Insulation ~75 W/m²</option>
+            <option value="external_wrap">External Wall Wrap (NZEB A-Rated) ~45 W/m²</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Main Columns: Room Schedule & System Summary -->
+      <div style="display: grid; grid-template-columns: 1.35fr 1fr; gap: 36px;">
+        
+        <!-- Left: Room by Room Schedule -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0;">1. Room-by-Room Sizing Schedule</h2>
+            <button type="button" onclick="addNewRoom()" style="background: rgba(52, 245, 197, 0.15); border: 1px solid var(--color-mint); color: var(--color-mint); padding: 6px 14px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
+              + Add Another Room
+            </button>
+          </div>
+
+          <!-- Dynamic Room Cards Container -->
+          <div id="room-list-container"></div>
+
+        </div>
+
+        <!-- Right: Whole-House Engineering Compliance & Summary -->
+        <div>
+          <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0 0 16px 0;">2. Whole-House Compliance & Heat Pump Sizing</h2>
+
+          <!-- Compliance Hero Card -->
+          <div id="compliance-hero-card" style="background: radial-gradient(120% 120% at 50% 0%, #004d38 0%, #00241b 100%); border: 1.5px solid var(--color-mint); border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.4);">
+            <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #a7f3d0; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">NSAI SR50-2 Compliance Status</div>
+            <div id="compliance-status-text" style="font-size: 1.8rem; font-weight: 900; color: var(--color-mint); margin: 6px 0;">
+              🟢 4 / 6 Rooms Pass (2 Upgrades Needed)
+            </div>
+            <div id="compliance-sub-text" style="font-size: 0.82rem; color: #94a3b8;">
+              Low-flow heat pump ready with 2 radiator panel upgrades to avoid high winter electricity bills.
+            </div>
+          </div>
+
+          <!-- 4 Stats Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+            <div class="metric-summary-box">
+              <div class="metric-lbl">Total Heat Loss</div>
+              <div id="stat-total-heat-loss" class="metric-val-big">7.4 kW</div>
+            </div>
+            <div class="metric-summary-box">
+              <div class="metric-lbl">Recommended Heat Pump</div>
+              <div id="stat-recommended-hp" class="metric-val-big" style="color: var(--color-amber);">8.0 kW Unit</div>
+            </div>
+            <div class="metric-summary-box">
+              <div class="metric-lbl">Radiator Output @ 45°C</div>
+              <div id="stat-radiator-output" class="metric-val-big">6.8 kW</div>
+            </div>
+            <div class="metric-summary-box">
+              <div class="metric-lbl">Estimated Hardware Cost</div>
+              <div id="stat-hardware-cost" class="metric-val-big" style="color: #ffffff;">~€320</div>
+            </div>
+          </div>
+
+          <!-- Technical SEAI Grant Checklist -->
+          <div style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px; margin-bottom: 20px;">
+            <div style="font-weight: 800; color: #ffffff; font-size: 0.9rem; margin-bottom: 8px;">
+              📋 SEAI Heat Pump Technical Sign-Off Criteria:
+            </div>
+            <div style="font-size: 0.8rem; color: #94a3b8; line-height: 1.5;">
+              ✔ Heat Loss Index (HLI) must be ≤ 2.0 W/K/m²<br>
+              ✔ Radiators must deliver 100% room heat loss at design flow (45°C-50°C)<br>
+              ✔ Thermostatic Radiator Valves (TRVs) on all living/bedroom zones<br>
+              ✔ Unlocks direct <strong>€12,500 SEAI Heat Pump Grant</strong>
+            </div>
+          </div>
+
+          <!-- Actions: 1-Click PDF Download & Survey CTA -->
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button type="button" onclick="generateRadiatorSchedulePDF()" style="width: 100%; padding: 14px; background: rgba(52, 245, 197, 0.15); border: 1.5px solid var(--color-mint); color: var(--color-mint); border-radius: 10px; font-weight: 800; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='rgba(52, 245, 197, 0.25)'" onmouseout="this.style.background='rgba(52, 245, 197, 0.15)'">
+              <span>📄 Download Official NSAI SR50-2 Radiator Schedule (PDF)</span>
+            </button>
+
+            <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="display: block; text-align: center; background: var(--color-amber); color: #00241b; font-weight: 900; padding: 14px; border-radius: 10px; text-decoration: none; font-size: 0.98rem; box-shadow: 0 8px 24px rgba(245,158,11,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+              ⭐ Book Joe's €49 Onsite Radiator Flow & Thermal Survey →
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Explanatory Technical Notes -->
+      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 36px; margin-top: 40px;">
+        <h3 style="color: #ffffff; font-size: 1.35rem; font-weight: 800; margin-bottom: 12px;">
+          Why Delta-T 30 Radiator Sizing Matters for Irish Heat Pumps
+        </h3>
+        <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.7; margin-bottom: 16px;">
+          Traditional Irish kerosene and gas boilers pump water through radiators at scorching temperatures of <strong>75°C (Delta-T 50)</strong>. Modern Air-to-Water Heat Pumps, however, operate at their highest seasonal efficiency (COP 3.8 to 4.2) when heating water to a gentle <strong>45°C (Delta-T 30)</strong>.
+        </p>
+        <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.7;">
+          Under the laws of thermodynamics (EN 442 European Standard), a radiator operating at 45°C emits approximately <strong>48% of its rated 75°C output</strong>. If a contractor installs a heat pump without resizing undersized single-panel radiators, your heat pump will be forced to operate at high flow temperatures, burning hundreds of extra Euros in electricity each winter and risking SEAI grant disqualification.
+        </p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #00120d; border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; color: #94a3b8; font-size: 0.85rem; text-align: center;">
+    <p style="color: #fff; font-weight: 800; margin-bottom: 6px;">EcoSmartHomes Ireland · 100% Conflict-Free Radiator & Low-Flow Engineering Counsel</p>
+    <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
+  </footer>
+
+  <script src="/js/whatsapp-widget.js" defer></script>
+
+  <script>
+    // Thermodynamic conversion factor: EN442 DeltaT50 to DeltaT30 / DeltaT35
+    // Delta-T 30 factor = (30/50)^1.3 = 0.514
+    // Delta-T 35 factor = (35/50)^1.3 = 0.630
+    let currentDeltaT = 30;
+    let deltaCorrectionFactor = 0.514;
+
+    // Radiator Wattage Ratings at Delta-T 50 (W per meter of length for standard 600mm height)
+    const RAD_SPEC_PER_METER = {
+      type11: 1100, // Single Panel Single Convector
+      type21: 1650, // Double Panel Single Convector
+      type22: 2150, // Double Panel Double Convector (K2)
+      type33: 3100  // Triple Panel Triple Convector
+    };
+
+    // Initial Rooms Data
+    let rooms = [
+      { id: 'r1', name: 'Living Room', area: 24, radType: 'type22', width: 1200, height: 600 },
+      { id: 'r2', name: 'Kitchen / Dining', area: 28, radType: 'type22', width: 1400, height: 600 },
+      { id: 'r3', name: 'Master Bedroom', area: 18, radType: 'type11', width: 1000, height: 600 },
+      { id: 'r4', name: 'Bedroom 2', area: 14, radType: 'type11', width: 900, height: 600 },
+      { id: 'r5', name: 'Bedroom 3 / Office', area: 11, radType: 'type11', width: 800, height: 600 },
+      { id: 'r6', name: 'Main Bathroom', area: 7, radType: 'type21', width: 800, height: 600 }
+    ];
+
+    function setDeltaT(dt, flowTemp) {
+      currentDeltaT = dt;
+      deltaCorrectionFactor = (dt === 30) ? 0.514 : 0.630;
+      document.getElementById('btn-delta-30').classList.toggle('active', dt === 30);
+      document.getElementById('btn-delta-35').classList.toggle('active', dt === 35);
+      recalculateAllRooms();
+    }
+
+    function addNewRoom() {
+      const newId = 'r' + (rooms.length + 1);
+      rooms.push({
+        id: newId,
+        name: 'New Room / Bedroom ' + (rooms.length - 2),
+        area: 12,
+        radType: 'type11',
+        width: 900,
+        height: 600
+      });
+      renderRooms();
+      recalculateAllRooms();
+    }
+
+    function removeRoom(index) {
+      if (rooms.length <= 1) return;
+      rooms.splice(index, 1);
+      renderRooms();
+      recalculateAllRooms();
+    }
+
+    function renderRooms() {
+      const container = document.getElementById('room-list-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      rooms.forEach((room, idx) => {
+        const card = document.createElement('div');
+        card.className = 'room-row-card';
+        card.id = `card-${room.id}`;
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <input type="text" value="${room.name}" style="font-weight: 800; font-size: 1rem; color: #ffffff; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.2); padding: 2px 4px; width: 220px;" onchange="rooms[${idx}].name = this.value; recalculateAllRooms();" />
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span id="badge-${room.id}" class="tag-status pass">Calculating...</span>
+              <button type="button" onclick="removeRoom(${idx})" style="background: none; border: none; color: #64748b; font-size: 1rem; cursor: pointer;" title="Remove Room">✕</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; font-size: 0.82rem; margin-bottom: 12px;">
+            <div>
+              <label style="color: #94a3b8; display: block; margin-bottom: 3px;">Floor Area (m²):</label>
+              <input type="number" value="${room.area}" min="3" max="80" style="width: 100%; padding: 8px; background: #00241b; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;" onchange="rooms[${idx}].area = Number(this.value); recalculateAllRooms();" />
+            </div>
+            <div>
+              <label style="color: #94a3b8; display: block; margin-bottom: 3px;">Radiator Type:</label>
+              <select style="width: 100%; padding: 8px; background: #00241b; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;" onchange="rooms[${idx}].radType = this.value; recalculateAllRooms();">
+                <option value="type11" ${room.radType === 'type11' ? 'selected' : ''}>Type 11 (Single Panel)</option>
+                <option value="type21" ${room.radType === 'type21' ? 'selected' : ''}>Type 21 (Double Single)</option>
+                <option value="type22" ${room.radType === 'type22' ? 'selected' : ''}>Type 22 (Double Convector)</option>
+                <option value="type33" ${room.radType === 'type33' ? 'selected' : ''}>Type 33 (Triple Convector)</option>
+              </select>
+            </div>
+            <div>
+              <label style="color: #94a3b8; display: block; margin-bottom: 3px;">Radiator Length (mm):</label>
+              <input type="number" value="${room.width}" step="100" min="400" max="2400" style="width: 100%; padding: 8px; background: #00241b; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px;" onchange="rooms[${idx}].width = Number(this.value); recalculateAllRooms();" />
+            </div>
+          </div>
+
+          <!-- Result Telemetry Line -->
+          <div id="telemetry-${room.id}" style="background: rgba(0, 36, 27, 0.7); border: 1px solid rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function recalculateAllRooms() {
+      const insulation = document.getElementById('global-insulation').value;
+      let wPerSqm = 75;
+      if (insulation === 'cavity_uninsulated') wPerSqm = 105;
+      if (insulation === 'external_wrap') wPerSqm = 45;
+
+      let totalLossW = 0;
+      let totalRadOutputW = 0;
+      let passCount = 0;
+      let failCount = 0;
+      let totalUpgradeCost = 0;
+
+      rooms.forEach((room) => {
+        const heatLossW = Math.round(room.area * wPerSqm);
+        totalLossW += heatLossW;
+
+        // Radiator output calculation
+        const baseWattPerM = RAD_SPEC_PER_METER[room.radType] || 1650;
+        const lengthM = room.width / 1000;
+        const outputDelta50 = baseWattPerM * lengthM;
+        const outputDelta30 = Math.round(outputDelta50 * deltaCorrectionFactor);
+        totalRadOutputW += outputDelta30;
+
+        const isPass = outputDelta30 >= heatLossW;
+        const card = document.getElementById(`card-${room.id}`);
+        const badge = document.getElementById(`badge-${room.id}`);
+        const telemetry = document.getElementById(`telemetry-${room.id}`);
+
+        if (isPass) {
+          passCount++;
+          if (card) { card.className = 'room-row-card pass'; }
+          if (badge) {
+            badge.className = 'tag-status pass';
+            badge.innerHTML = `🟢 OK (${outputDelta30}W vs ${heatLossW}W required)`;
+          }
+          if (telemetry) {
+            telemetry.innerHTML = `
+              <span style="color: #cbd5e1;">Heat Loss: <strong>${heatLossW} W</strong> | 45°C Output: <strong style="color: var(--color-mint);">${outputDelta30} W</strong></span>
+              <span style="color: var(--color-mint); font-weight: 700;">✔ Existing Radiator Compliant</span>
+            `;
+          }
+        } else {
+          failCount++;
+          totalUpgradeCost += 160; // Average cost of single Type 22 replacement radiator in Ireland
+          const shortfall = heatLossW - outputDelta30;
+          
+          // Calculate needed replacement size (Type 22 @ Delta30)
+          const neededLengthM = (heatLossW / (RAD_SPEC_PER_METER.type22 * deltaCorrectionFactor));
+          const recommendedWidth = Math.ceil(neededLengthM * 10) * 100; // Round up to nearest 100mm
+
+          if (card) { card.className = 'room-row-card fail'; }
+          if (badge) {
+            badge.className = 'tag-status fail';
+            badge.innerHTML = `🔴 Undersized (${outputDelta30}W / -${shortfall}W Shortfall)`;
+          }
+          if (telemetry) {
+            telemetry.innerHTML = `
+              <span style="color: #cbd5e1;">Heat Loss: <strong>${heatLossW} W</strong> | 45°C Output: <strong style="color: #f87171;">${outputDelta30} W</strong></span>
+              <span style="color: #fca5a5; font-weight: 700;">➔ Upgrade to Type 22 (${recommendedWidth} x 600mm)</span>
+            `;
+          }
+        }
+      });
+
+      // System Totals
+      const totalKwLoss = (totalLossW / 1000).toFixed(1);
+      const totalKwRad = (totalRadOutputW / 1000).toFixed(1);
+      const recommendedHpKw = Math.ceil(totalLossW / 1000);
+
+      document.getElementById('stat-total-heat-loss').innerText = `${totalKwLoss} kW`;
+      document.getElementById('stat-recommended-hp').innerText = `${recommendedHpKw}.0 kW Unit`;
+      document.getElementById('stat-radiator-output').innerText = `${totalKwRad} kW`;
+      document.getElementById('stat-hardware-cost').innerText = `~€${totalUpgradeCost}`;
+
+      const heroCard = document.getElementById('compliance-hero-card');
+      const statusText = document.getElementById('compliance-status-text');
+      const subText = document.getElementById('compliance-sub-text');
+
+      if (failCount === 0) {
+        heroCard.style.borderColor = 'var(--color-emerald)';
+        statusText.style.color = 'var(--color-mint)';
+        statusText.innerText = `🟢 100% PASS (${passCount} / ${passCount} Rooms Compliant)`;
+        subText.innerText = `All radiators deliver sufficient low-flow heat. Ready for immediate SEAI grant sign-off with zero radiator replacements!`;
+      } else {
+        heroCard.style.borderColor = 'var(--color-amber)';
+        statusText.style.color = 'var(--color-amber)';
+        statusText.innerText = `⚠️ ${passCount} Pass, ${failCount} Radiator Upgrades Recommended`;
+        subText.innerText = `Upgrading ${failCount} undersized radiator(s) (~€${totalUpgradeCost} material) guarantees heat pump low-flow efficiency and prevents cold rooms.`;
+      }
+    }
+
+    // 1-Click PDF Radiator Schedule Generator
+    function generateRadiatorSchedulePDF() {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert('PDF generator loading, please click again in a moment.');
+        return;
+      }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const insulation = document.getElementById('global-insulation').selectedOptions[0].text;
+      const totalLoss = document.getElementById('stat-total-heat-loss').innerText;
+      const hpSize = document.getElementById('stat-recommended-hp').innerText;
+
+      // Header Banner
+      doc.setFillColor(0, 36, 27);
+      doc.rect(0, 0, 210, 30, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.setTextColor(52, 245, 197);
+      doc.text('ECOSMARTHOMES • NSAI SR50-2 HEAT PUMP RADIATOR SIZING SCHEDULE', 14, 18);
+
+      // Meta
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Generated: ${new Date().toLocaleDateString('en-IE')} | Flow Temp: ${currentDeltaT === 30 ? '45°C (Delta-T 30)' : '50°C (Delta-T 35)'} | Spec: NSAI SR50-2:2024`, 14, 26);
+
+      // System Overview Box
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('1. Whole-House Thermodynamic Summary', 14, 42);
+
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.text(`• Property Insulation Standard: ${insulation}`, 16, 50);
+      doc.text(`• Total Design Heat Loss at -3°C External: ${totalLoss}`, 16, 57);
+      doc.text(`• Recommended Monobloc Heat Pump Capacity: ${hpSize}`, 16, 64);
+      doc.text(`• System Compliance Status: ${document.getElementById('compliance-status-text').innerText}`, 16, 71);
+
+      // Table Header
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('2. Room-by-Room Radiator Low-Flow Sizing Schedule', 14, 86);
+
+      let y = 96;
+      doc.setFillColor(241, 245, 249);
+      doc.rect(14, y - 5, 182, 8, 'F');
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(30, 41, 59);
+      doc.text('ROOM NAME', 16, y);
+      doc.text('AREA (m²)', 60, y);
+      doc.text('HEAT LOSS', 85, y);
+      doc.text('45°C OUTPUT', 115, y);
+      doc.text('STATUS & NSAI RECOMMENDATION', 145, y);
+
+      y += 8;
+
+      rooms.forEach((r) => {
+        const wPerSqm = (document.getElementById('global-insulation').value === 'cavity_uninsulated') ? 105 : (document.getElementById('global-insulation').value === 'external_wrap' ? 45 : 75);
+        const heatLossW = Math.round(r.area * wPerSqm);
+        const baseWattPerM = RAD_SPEC_PER_METER[r.radType] || 1650;
+        const outputDelta30 = Math.round(baseWattPerM * (r.width / 1000) * deltaCorrectionFactor);
+        const isPass = outputDelta30 >= heatLossW;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(50, 50, 50);
+        doc.text(r.name, 16, y);
+        doc.text(`${r.area} m²`, 60, y);
+        doc.text(`${heatLossW} W`, 85, y);
+        doc.text(`${outputDelta30} W`, 115, y);
+
+        if (isPass) {
+          doc.setTextColor(6, 95, 70);
+          doc.text('✔ PASS (Compliant)', 145, y);
+        } else {
+          doc.setTextColor(180, 40, 40);
+          const neededM = Math.ceil((heatLossW / (RAD_SPEC_PER_METER.type22 * deltaCorrectionFactor)) * 10) * 100;
+          doc.text(`➔ Upgrade to Type 22 (${neededM}mm)`, 145, y);
+        }
+
+        y += 7;
+      });
+
+      // Footer Box
+      doc.setFillColor(240, 253, 244);
+      doc.rect(14, 230, 182, 35, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(6, 95, 70);
+      doc.text('Certified Heating Engineer On-Site Verification', 20, 241);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.2);
+      doc.text('Present this schedule to your SEAI Registered Technical Advisor or Heat Pump Installer. To book an independent on-site radiator flow test with Joe, visit www.ecosmarthomes.ie (€49 independent survey).', 20, 249, { maxWidth: 170 });
+
+      doc.save('EcoSmartHomes_NSAI_Radiator_Sizing_Schedule.pdf');
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderRooms();
+      recalculateAllRooms();
+    });
+  </script>
+
+</body>
+</html>
