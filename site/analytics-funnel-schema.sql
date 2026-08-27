@@ -32,7 +32,7 @@ END $$;
 -- 2. Create the Funnel Events Table
 CREATE TABLE IF NOT EXISTS public.wizard_funnel_events (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    session_id UUID NOT NULL,
+    session_id TEXT NOT NULL,  -- Accept both UUIDs and fallback session IDs
     step wizard_step_enum NOT NULL,
     action funnel_action_enum NOT NULL DEFAULT 'step_viewed',
     
@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS public.wizard_funnel_events (
 -- Index for rapid aggregation queries by session and step
 CREATE INDEX IF NOT EXISTS idx_funnel_session_step ON public.wizard_funnel_events (session_id, step, action);
 CREATE INDEX IF NOT EXISTS idx_funnel_created_at ON public.wizard_funnel_events (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_funnel_step_action ON public.wizard_funnel_events (step, action);
 
 -- Enable Row Level Security (RLS)
 ALTER TABLE public.wizard_funnel_events ENABLE ROW LEVEL SECURITY;

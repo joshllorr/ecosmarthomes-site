@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS orders (
     survey_profile_id UUID REFERENCES survey_profiles(id) ON DELETE SET NULL,
     
     -- Customer contact (validated before stripe redirect)
-    customer_email VARCHAR(255) NOT NULL CHECK (customer_email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$'),
+    customer_email VARCHAR(255) NOT NULL CHECK (customer_email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
     customer_phone VARCHAR(50) NOT NULL, -- Strict E.164 phone number formatting for WhatsApp (+353...)
     
     -- Stripe session tracking

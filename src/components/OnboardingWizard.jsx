@@ -1,18 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+// Generates a valid UUID v4 for environments without crypto.randomUUID
+const generateUUIDv4Fallback = () =>
+  'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+
 // Generates or retrieves an ephemeral session UUID for funnel analytics
 const getOrCreateFunnelSession = () => {
   try {
     let sid = sessionStorage.getItem('esh_funnel_session_id');
     if (!sid) {
-      sid = typeof crypto !== 'undefined' && crypto.randomUUID 
-        ? crypto.randomUUID() 
-        : 'sess_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+      sid = typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : generateUUIDv4Fallback();
       sessionStorage.setItem('esh_funnel_session_id', sid);
     }
     return sid;
   } catch (e) {
-    return 'anon_' + Date.now();
+    return generateUUIDv4Fallback();
   }
 };
 
@@ -25,7 +32,9 @@ const sendFunnelTelemetry = (step, action, metadata = {}, timeSpentSeconds = 0) 
       action,
       metadata,
       timeSpentSeconds,
-      deviceType: typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile' : 'desktop'
+      deviceType: typeof window !== 'undefined'
+        ? window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop'
+        : 'desktop'
     });
 
     const endpoint = '/api/analytics/track-step';
@@ -51,6 +60,8 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
 
   const [step, setStep] = useState(1);
   const stepStartTimeRef = useRef(Date.now());
+  const isFirstRender = useRef(true);
+  const scanningRef = useRef(false);
 
   const [formData, setFormData] = useState({
     propertyType: 'semi-detached',
@@ -74,7 +85,12 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
       5: 'step_5_checkout_order'
     };
 
-    const timeSpent = (Date.now() - stepStartTimeRef.current) / 1000;
+    let timeSpent = 0;
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+    } else {
+      timeSpent = (Date.now() - stepStartTimeRef.current) / 1000;
+    }
     stepStartTimeRef.current = Date.now();
 
     sendFunnelTelemetry(stepNames[step], 'step_viewed', {
@@ -86,25 +102,27 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
 
   const calculateSavings = () => {
     const baseBill = formData.annualBill;
-    let targetBill = 650;
-    let grantAmount = 0;
 
-    if (formData.currentBER === 'G' || formData.currentBER === 'F') {
-      grantAmount = 25500;
-    } else if (formData.currentBER === 'E' || formData.currentBER === 'D' || formData.currentBER.startsWith('E') || formData.currentBER.startsWith('D')) {
-      grantAmount = 18500;
-    } else {
-      grantAmount = 10500;
-    }
+    // Grant amounts for upgrading FROM current rating TO A2
+    // Aligned with SEAI 2025/2026 Individual Energy Upgrade Grants schedule
+    const grantTable = {
+      'G':  25500, 'F':  25500,
+      'E1': 18500, 'E2': 18500,
+      'D1': 14500, 'D2': 14500,
+      'C1': 10500, 'C2': 10500, 'C3': 10500,
+      'B1': 6000,  'B2': 6000,  'B3': 6000,
+      'A1': 0,     'A2': 0,     'A3': 0,
+    };
 
-    const estimatedPropertySurgeValue = "16%"; 
+    const grantAmount = grantTable[formData.currentBER] ?? 10500;
+    const targetBill = 650;
     const carbonTaxShieldSavings = baseBill - targetBill;
 
     return {
       grantAmount,
       targetBill,
       carbonTaxShieldSavings,
-      propertySurge: estimatedPropertySurgeValue,
+      propertySurge: "16%",
     };
   };
 
@@ -112,11 +130,16 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
 
   const handleNext = () => {
     const timeSpent = (Date.now() - stepStartTimeRef.current) / 1000;
-    sendFunnelTelemetry(step, 'step_completed', { ...formData }, timeSpent);
+    // Strip non-serializable/sensitive fields from telemetry payload
+    const { uploadedPhoto, photoPreview, isScanning, ...safeMetadata } = formData;
+    sendFunnelTelemetry(step, 'step_completed', safeMetadata, timeSpent);
 
     if (step === 3 && !formData.scanComplete) {
+      if (scanningRef.current) return; // Prevent double-fire on rapid clicks
+      scanningRef.current = true;
       setFormData(prev => ({ ...prev, isScanning: true }));
       setTimeout(() => {
+        scanningRef.current = false;
         setFormData(prev => ({ ...prev, isScanning: false, scanComplete: true }));
         setStep(4);
       }, 2500);
@@ -138,6 +161,11 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Revoke previous blob URL to prevent memory leak
+      if (formData.photoPreview) {
+        URL.revokeObjectURL(formData.photoPreview);
+      }
+
       sendFunnelTelemetry(3, 'photo_uploaded', { fileName: file.name, fileSize: file.size });
 
       setFormData(prev => ({
@@ -251,7 +279,7 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Current BER Rating (Approx.)</label>
                 <div className="grid grid-cols-7 gap-2">
-                  {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map((rating) => (
+                  {['A2', 'B1', 'C1', 'D1', 'E1', 'F', 'G'].map((rating) => (
                     <button
                       key={rating}
                       type="button"
@@ -301,8 +329,8 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
                   {[
                     { id: 'oil', label: 'Heating Oil', desc: 'High Kerosene Tax' },
                     { id: 'gas', label: 'Natural Gas', desc: 'Carbon Penalties' },
-                    { id: 'electric', label: 'Standard Electric', desc: 'Day-rate surge' },
-                    { id: 'solid', label: 'Solid Fuel', desc: 'Banned in zones' },
+                    { id: 'electricity', label: 'Standard Electric', desc: 'Day-rate surge' },
+                    { id: 'solid_fuel', label: 'Solid Fuel', desc: 'Banned in zones' },
                   ].map((fuel) => (
                     <button
                       key={fuel.id}

@@ -13,16 +13,21 @@
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Stripe with strict API version pinning
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_live_dummy_placeholder', {
+// Fail fast if critical secrets are missing
+const STRIPE_KEY = process.env.STRIPE_SECRET_KEY;
+if (!STRIPE_KEY) {
+  throw new Error('FATAL: STRIPE_SECRET_KEY environment variable is not configured.');
+}
+const stripe = new Stripe(STRIPE_KEY, {
   apiVersion: '2023-10-16',
 });
 
-// Initialize Supabase Client with service role to bypass RLS for server-side insertions
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dummy.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || 'dummy_role_key'
-);
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+  console.error('WARNING: Supabase credentials are not configured. DB writes will be skipped.');
+}
+const supabase = SUPABASE_URL && SUPABASE_SERVICE_KEY ? createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY) : null;
 
 // Rigid boundaries for input verification (protect against SQL injections and schema errors)
 const VALID_ARCHETYPES = ['detached', 'semi-detached', 'terraced', 'apartment'];
@@ -67,25 +72,30 @@ export async function POST(req) {
     }
 
     // Insert Draft Survey Profile into Postgres Database
-    const { data: profile, error: dbError } = await supabase
-      .from('survey_profiles')
-      .insert([
-        {
-          property_type: propertyArchetype,
-          current_ber: currentBer,
-          annual_energy_bill: validatedBill,
-          fuel_type: fuelType,
-          boiler_image_url: boilerImage || null
-        }
-      ])
-      .select()
-      .single();
-
-    const surveyProfileId = profile ? profile.id : 'temp_session_id';
+    let profile = null;
+    let dbError = null;
+    if (supabase) {
+      const result = await supabase
+        .from('survey_profiles')
+        .insert([
+          {
+            property_type: propertyArchetype,
+            current_ber: currentBer,
+            annual_energy_bill: validatedBill,
+            fuel_type: fuelType,
+            boiler_image_url: boilerImage || null
+          }
+        ])
+        .select()
+        .single();
+      profile = result.data;
+      dbError = result.error;
+    }
 
     if (dbError) {
-      console.warn('Database pre-insert warning (falling back to direct Stripe metadata):', dbError.message);
+      console.error('Supabase pre-insert FAILED:', dbError.message);
     }
+    const surveyProfileId = profile?.id || `orphan_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
     // Secure Metadata Formulation
     const metadata = {

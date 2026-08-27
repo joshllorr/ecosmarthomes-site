@@ -3,7 +3,11 @@
  * Serverless API endpoint to create Stripe Checkout Sessions with survey metadata
  */
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_live_dummy_placeholder');
+const STRIPE_KEY = process.env.STRIPE_SECRET_KEY;
+if (!STRIPE_KEY) {
+  throw new Error('FATAL: STRIPE_SECRET_KEY environment variable is not configured.');
+}
+const stripe = require('stripe')(STRIPE_KEY);
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

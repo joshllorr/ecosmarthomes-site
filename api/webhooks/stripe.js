@@ -4,7 +4,11 @@
  * Validates stripe-signature header, saves order metadata, and triggers WhatsApp webhooks
  */
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_live_dummy_placeholder');
+const STRIPE_KEY = process.env.STRIPE_SECRET_KEY;
+if (!STRIPE_KEY) {
+  throw new Error('FATAL: STRIPE_SECRET_KEY environment variable is not configured.');
+}
+const stripe = require('stripe')(STRIPE_KEY);
 
 async function triggerWhatsAppNotifications(surveyData) {
   const joePhoneId = process.env.META_JOE_PHONE_ID || '100654321098765';
@@ -89,16 +93,17 @@ export default async function webhookHandler(req, res) {
   let event;
 
   try {
-    // Standard signature check (In Vercel Node.js API routes, req.body contains raw buffer or payload)
-    const rawBody = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
-    event = stripe.webhooks.constructEvent(
-      rawBody,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET || 'whsec_dummy_placeholder'
-    );
+    // In Vercel, use rawBody for proper signature verification
+    const rawBody = req.rawBody || (typeof req.body === 'string' ? req.body : JSON.stringify(req.body));
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    if (!webhookSecret) {
+      console.error('FATAL: STRIPE_WEBHOOK_SECRET is not configured.');
+      return res.status(500).json({ error: 'Webhook configuration error.' });
+    }
+    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
   } catch (err) {
-    console.warn('Webhook signature check bypass in development:', err.message);
-    event = req.body;
+    console.error('⛔ Webhook signature verification FAILED:', err.message);
+    return res.status(400).json({ error: 'Invalid webhook signature.' });
   }
 
   if (event && event.type === 'checkout.session.completed') {
