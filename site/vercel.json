@@ -1,43 +1,53 @@
 {
+  "version": 2,
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/api/upgrades/recommendations.md", "destination": "/api/spec?file=upgrades/recommendations" },
-    { "source": "/api/ber/analysis.md", "destination": "/api/spec?file=ber/analysis" },
-    { "source": "/api/grants/guidance.md", "destination": "/api/spec?file=grants/guidance" },
-    { "source": "/api/journey/timeline.md", "destination": "/api/spec?file=journey/timeline" },
-    { "source": "/api/insights/dashboard.md", "destination": "/api/spec?file=insights/dashboard" },
-    { "source": "/api/retrofit/:path*", "destination": "http://34.121.195.76:5173/api/retrofit/:path*" },
-    { "source": "/api/stripe/:path*", "destination": "http://34.121.195.76:5173/api/stripe/:path*" },
-    { "source": "/api/whatsapp/:path*", "destination": "http://34.121.195.76:5173/api/whatsapp/:path*" },
-    { "source": "/agent-skills", "destination": "/agent-skills.html" },
-    { "source": "/agent-skills/", "destination": "/agent-skills.html" },
-    { "source": "/green-mortgage", "destination": "/green-mortgage/index.html" },
-    { "source": "/green-mortgage/", "destination": "/green-mortgage/index.html" },
-    { "source": "/quote-auditor", "destination": "/quote-auditor/index.html" },
-    { "source": "/quote-auditor/", "destination": "/quote-auditor/index.html" },
-    { "source": "/ber-advisor", "destination": "/ber-advisor/index.html" },
-    { "source": "/ber-advisor/", "destination": "/ber-advisor/index.html" },
-    { "source": "/wrap-simulator", "destination": "/wrap-simulator/index.html" },
-    { "source": "/wrap-simulator/", "destination": "/wrap-simulator/index.html" },
-    { "source": "/vision/wrap-simulator", "destination": "/wrap-simulator/index.html" },
-    { "source": "/vision/wrap-simulator/", "destination": "/wrap-simulator/index.html" },
-    { "source": "/carbon-tax", "destination": "/carbon-tax/index.html" },
-    { "source": "/carbon-tax/", "destination": "/carbon-tax/index.html" },
-    { "source": "/solar", "destination": "/solar/index.html" },
-    { "source": "/solar/", "destination": "/solar/index.html" },
-    { "source": "/roadmap", "destination": "/roadmap/index.html" },
-    { "source": "/roadmap/", "destination": "/roadmap/index.html" },
-    { "source": "/whatsapp", "destination": "/whatsapp/index.html" },
-    { "source": "/whatsapp/", "destination": "/whatsapp/index.html" },
-    { "source": "/claim-lead", "destination": "/claim-lead.html" },
-    { "source": "/claim-lead.html", "destination": "/claim-lead.html" },
-    { "source": "/contractors", "destination": "/contractors/index.html" },
-    { "source": "/contractors/", "destination": "/contractors/index.html" },
-    { "source": "/locations", "destination": "/locations/index.html" },
-    { "source": "/locations/", "destination": "/locations/index.html" },
-    { "source": "/locations/:county/:town", "destination": "/locations/:county/:town.html" },
-    { "source": "/articles/tag/:tag", "destination": "/articles/index.html" },
-    { "source": "/articles/search", "destination": "/articles/index.html" },
-    { "source": "/articles/:slug", "destination": "/articles/:slug.html" }
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains; preload"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://*.stripe.com; connect-src 'self' https://api.stripe.com https://*.supabase.co wss://*; frame-src 'self' https://js.stripe.com; font-src 'self' https://fonts.gstatic.com;"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/index",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    }
   ]
 }

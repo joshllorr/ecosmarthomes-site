@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-export default function OnboardingWizard({ onClose, copyData }) {
+export default function OnboardingWizard({ isOpen = true, onClose, copyData, copyDeckData }) {
+  if (isOpen === false) return null;
+
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     propertyType: 'semi-detached',
@@ -96,7 +98,7 @@ export default function OnboardingWizard({ onClose, copyData }) {
           <button 
             data-testid="close-wizard-button"
             onClick={onClose}
-            className="rounded-full p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
+            className="rounded-full p-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors cursor-pointer"
             aria-label="Close wizard"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -137,7 +139,7 @@ export default function OnboardingWizard({ onClose, copyData }) {
                       type="button"
                       data-archetype={type}
                       onClick={() => selectOption('propertyType', type)}
-                      className={`p-3 rounded-lg border text-sm capitalize font-medium transition-all duration-200 ${
+                      className={`p-3 rounded-lg border text-sm capitalize font-medium transition-all duration-200 cursor-pointer ${
                         formData.propertyType === type
                           ? 'bg-emerald-950/40 border-brand-emerald border-emerald-500 text-emerald-300 shadow-lg shadow-emerald-950/20'
                           : 'bg-slate-950/40 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
@@ -157,7 +159,7 @@ export default function OnboardingWizard({ onClose, copyData }) {
                       key={rating}
                       type="button"
                       onClick={() => selectOption('currentBER', rating)}
-                      className={`py-3 rounded-lg border text-base font-bold transition-all duration-200 ${
+                      className={`py-3 rounded-lg border text-base font-bold transition-all duration-200 cursor-pointer ${
                         formData.currentBER === rating
                           ? 'bg-amber-950/40 border-amber-500 text-amber-300 shadow-lg shadow-amber-950/20'
                           : 'bg-slate-950/40 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
@@ -208,7 +210,7 @@ export default function OnboardingWizard({ onClose, copyData }) {
                       type="button"
                       data-fuel={fuel.id}
                       onClick={() => selectOption('heatingFuel', fuel.id)}
-                      className={`p-3 rounded-lg border text-left transition-all duration-200 ${
+                      className={`p-3 rounded-lg border text-left transition-all duration-200 cursor-pointer ${
                         formData.heatingFuel === fuel.id
                           ? 'bg-emerald-950/40 border-brand-emerald border-emerald-500 shadow-lg'
                           : 'bg-slate-950/40 border-slate-800 hover:border-slate-700'
@@ -293,7 +295,7 @@ export default function OnboardingWizard({ onClose, copyData }) {
                         <button
                           type="button"
                           onClick={() => document.getElementById('wizard-file').click()}
-                          className="px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 transition-colors"
+                          className="px-3 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 transition-colors cursor-pointer"
                         >
                           Change Photo
                         </button>
@@ -312,7 +314,7 @@ export default function OnboardingWizard({ onClose, copyData }) {
                     <button
                       type="button"
                       onClick={() => document.getElementById('wizard-file').click()}
-                      className="mt-4 px-4 py-2 rounded-lg bg-slate-850 hover:bg-slate-800 text-xs font-semibold text-slate-300 border border-slate-800 hover:border-slate-700 transition-all duration-200"
+                      className="mt-4 px-4 py-2 rounded-lg bg-slate-850 hover:bg-slate-800 text-xs font-semibold text-slate-300 border border-slate-800 hover:border-slate-700 transition-all duration-200 cursor-pointer"
                     >
                       Select File
                     </button>
@@ -428,7 +430,7 @@ export default function OnboardingWizard({ onClose, copyData }) {
                     href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 w-full block text-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm py-2.5 px-4 rounded-lg transition-all duration-200 active:scale-98 shadow-lg shadow-emerald-500/20"
+                    className="mt-4 w-full block text-center bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm py-2.5 px-4 rounded-lg transition-all duration-200 active:scale-98 shadow-lg shadow-emerald-500/20 cursor-pointer"
                   >
                     Lock Survey Assessment
                   </a>
@@ -441,12 +443,13 @@ export default function OnboardingWizard({ onClose, copyData }) {
             </div>
           )}
 
+          {/* Navigation Controls */}
           <div className="border-t border-slate-800/80 pt-6 mt-8 flex justify-between gap-4">
             <button
               type="button"
               onClick={handleBack}
               disabled={step === 1}
-              className={`px-4 py-2 text-sm font-semibold rounded-lg border transition-all duration-200 ${
+              className={`px-4 py-2 text-sm font-semibold rounded-lg border transition-all duration-200 cursor-pointer ${
                 step === 1
                   ? 'border-slate-800 text-slate-600 cursor-not-allowed bg-transparent'
                   : 'border-slate-800 text-slate-300 bg-slate-850 hover:bg-slate-800 hover:text-slate-100'
@@ -459,7 +462,7 @@ export default function OnboardingWizard({ onClose, copyData }) {
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-5 py-2 text-sm font-bold rounded-lg transition-all duration-200 active:scale-98 bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/10"
+                className="px-5 py-2 text-sm font-bold rounded-lg transition-all duration-200 active:scale-98 bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emerald-500/10 cursor-pointer"
               >
                 {step === 3 ? (formData.photoPreview ? 'View My Payback Map' : 'Analyze Asset Upload') : (step === 4 ? 'Generate My Roadmap' : 'Continue')}
               </button>
@@ -467,7 +470,7 @@ export default function OnboardingWizard({ onClose, copyData }) {
               <button
                 type="button"
                 onClick={onClose}
-                className="px-5 py-2 text-sm font-semibold text-slate-300 hover:text-slate-100 transition-colors"
+                className="px-5 py-2 text-sm font-semibold text-slate-300 hover:text-slate-100 transition-colors cursor-pointer"
               >
                 Exit Diagnostics
               </button>

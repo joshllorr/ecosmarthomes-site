@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import OnboardingWizard from './OnboardingWizard';
 
 export default function HubPage({ copyDeckData }) {
-  // Use provided JSON or fallback to the exact copy deck schema to prevent runtime errors
   const copyDeck = copyDeckData || {
     "metadata": {
       "project": "EcoSmartHome",
@@ -82,7 +81,6 @@ export default function HubPage({ copyDeckData }) {
   };
 
   const { screens } = copyDeck;
-
   const [isWizardOpen, setIsWizardOpen] = useState(false);
 
   const sectionRefs = {
@@ -154,7 +152,6 @@ export default function HubPage({ copyDeckData }) {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-950 overflow-x-hidden scroll-smooth">
-      
       <div className="fixed inset-0 bg-tech-grid opacity-[0.03] pointer-events-none z-0" />
       <div className="fixed inset-0 noise-overlay opacity-[0.02] pointer-events-none z-0" />
 
@@ -625,7 +622,7 @@ export default function HubPage({ copyDeckData }) {
                   <div key={i} className="flex items-center gap-3 group">
                     <div className="w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 border border-emerald-500/20 transition-all group-hover:scale-105">
                       <svg className="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
                     <span className="text-xs sm:text-sm font-semibold text-slate-200">{feature}</span>
