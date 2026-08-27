@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Global Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-3013797648"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-3013797648', {'allow_enhanced_conversions': true});
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero-Out-of-Pocket SBCI Retrofit Loan & SEAI Grant Stacker | EcoSmartHomes</title>
+  <meta name="description" content="Calculate your 3.55% SBCI Government Home Energy Upgrade Loan stacked with up to €25,500 in SEAI cash grants. Prove positive monthly cashflow from Day 1.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/retrofit-loan/">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/style.css?v=5">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  
+  <!-- jsPDF for instant Client-Side Loan Stacker Dossier Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #001711;
+      --bg-card: #00241b;
+      --bg-card-light: #003628;
+      --color-mint: #34f5c5;
+      --color-emerald: #10b981;
+      --color-amber: #f59e0b;
+      --color-sky: #38bdf8;
+      --color-gold: #fbbf24;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .top-bar-custom {
+      background: #00120d;
+      color: #94a3b8;
+      padding: 7px 0;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-nav-bar {
+      background: rgba(0, 36, 27, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link-item {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .nav-link-item:hover {
+      color: var(--color-mint);
+    }
+    .btn-book-nav {
+      background: var(--color-amber);
+      color: #00241b;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+      white-space: nowrap;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .btn-book-nav:hover {
+      background: #fbbf24;
+      transform: scale(1.02);
+    }
+    .loan-hero {
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      padding: 50px 20px 60px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .loan-card-dark {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .upgrade-toggle-row {
+      background: #001711;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .upgrade-toggle-row:hover {
+      border-color: rgba(52, 245, 197, 0.4);
+      background: rgba(0, 36, 27, 0.8);
+    }
+    .upgrade-toggle-row.selected {
+      border-color: var(--color-mint);
+      background: rgba(52, 245, 197, 0.08);
+      box-shadow: 0 0 12px rgba(52, 245, 197, 0.15);
+    }
+    .cashflow-banner {
+      background: radial-gradient(120% 120% at 50% 0%, #004d38 0%, #00241b 100%);
+      border: 2px solid var(--color-mint);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
+    .bank-badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .bank-pill-item {
+      background: #001711;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+    .bank-pill-item strong {
+      display: block;
+      color: #ffffff;
+      font-size: 0.9rem;
+    }
+    .bank-pill-item span {
+      color: var(--color-mint);
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .stat-metric-card {
+      background: #001711;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Notification Telemetry -->
+  <aside class="top-bar-custom" aria-label="Regulatory live updates">
+    <div class="top-bar-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: var(--color-mint);">💶</span>
+        <span style="color: #cbd5e1; font-weight: 700;">Irish Government SBCI 3.55% Home Energy Upgrade Loan Scheme (HEULS) Active</span>
+      </div>
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: var(--color-amber); font-weight: 800; text-decoration: none;">⭐ Book €49 Survey →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="main-nav-bar" role="banner">
+    <div class="nav-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-size: 1.4rem;">🏡</span>
+        <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: var(--color-mint);">Homes</strong></span>
+      </a>
+
+      <nav class="nav-links-wrap" aria-label="Main Navigation">
+        <a href="/" class="nav-link-item">Home</a>
+        <a href="/retrofit-loan/" class="nav-link-item" style="color: var(--color-mint);">💶 0% Out-of-Pocket Loan</a>
+        <a href="/radiator-sizer/" class="nav-link-item">📐 Radiator Sizer</a>
+        <a href="/green-mortgage/" class="nav-link-item">🏛️ Green Mortgage</a>
+        <a href="/quote-auditor/" class="nav-link-item">🛡️ Quote Auditor</a>
+        <a href="/solar/" class="nav-link-item">☀️ Solar PV</a>
+        <a href="/battery-arbitrage/" class="nav-link-item">⚡ Battery Arbitrage</a>
+        <a href="/carbon-tax/" class="nav-link-item">⚡ Carbon Tax</a>
+      </nav>
+
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-book-nav">
+          💳 Book €49 Survey
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Header -->
+  <section class="loan-hero">
+    <div style="max-width: 920px; margin: 0 auto;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; background: rgba(52, 245, 197, 0.15); border: 1px solid rgba(52, 245, 197, 0.35); margin-bottom: 20px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-mint); box-shadow: 0 0 10px var(--color-mint);"></span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 800; color: var(--color-mint); text-transform: uppercase;">
+          SBCI 3.55% Subsidized Loan + SEAI Grant Stacker
+        </span>
+      </div>
+
+      <h1 style="font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 900; color: #ffffff; margin: 0 auto 16px auto; line-height: 1.15; letter-spacing: -0.02em;">
+        "Zero-Out-of-Pocket" Government Retrofit Loan & Grant Stacker
+      </h1>
+
+      <p style="font-size: clamp(0.95rem, 2vw, 1.15rem); color: #94a3b8; max-width: 780px; margin: 0 auto; line-height: 1.6;">
+        Think deep retrofitting costs tens of thousands upfront? Stack Ireland's <strong>3.55% low-interest SBCI government loan</strong> with up to <strong>€25,500 in direct SEAI cash grants</strong>. Your monthly fuel savings exceed your loan payment from Month 1.
+      </p>
+    </div>
+  </section>
+
+  <!-- Simulator Main Stage -->
+  <main style="max-width: 1240px; margin: -30px auto 80px auto; padding: 0 20px;">
+    
+    <div class="loan-card-dark">
+      
+      <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 36px;">
+        
+        <!-- Left Column: Upgrade Selection & Loan Term -->
+        <div>
+          <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0 0 16px 0;">1. Select Your Energy Upgrades</h2>
+
+          <div id="upgrades-container">
+            
+            <!-- Upgrade 1: Heat Pump -->
+            <div class="upgrade-toggle-row selected" id="row-hp" onclick="toggleUpgrade('hp')">
+              <div>
+                <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">❄️ Air-to-Water Heat Pump & cylinder</div>
+                <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">Gross: €16,500 · <strong style="color: var(--color-mint);">SEAI Grant: €12,500</strong> · Slashes €2,100/yr oil bills</div>
+              </div>
+              <input type="checkbox" id="check-upgrade-hp" checked style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
+            </div>
+
+            <!-- Upgrade 2: External Wall Wrap -->
+            <div class="upgrade-toggle-row selected" id="row-wrap" onclick="toggleUpgrade('wrap')">
+              <div>
+                <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">🧱 External Wall Insulation Wrap (100mm EPS)</div>
+                <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">Gross: €12,000 · <strong style="color: var(--color-mint);">SEAI Grant: €8,000</strong> · Eliminates draft & cold bridges</div>
+              </div>
+              <input type="checkbox" id="check-upgrade-wrap" checked style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
+            </div>
+
+            <!-- Upgrade 3: Solar PV -->
+            <div class="upgrade-toggle-row selected" id="row-solar" onclick="toggleUpgrade('solar')">
+              <div>
+                <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">☀️ 4.3 kWp Rooftop Solar PV & 0% VAT</div>
+                <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">Gross: €4,800 · <strong style="color: var(--color-mint);">SEAI Grant: €1,800</strong> · 24c/kWh Clean Export earnings</div>
+              </div>
+              <input type="checkbox" id="check-upgrade-solar" checked style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
+            </div>
+
+            <!-- Upgrade 4: Attic Insulation -->
+            <div class="upgrade-toggle-row selected" id="row-attic" onclick="toggleUpgrade('attic')">
+              <div>
+                <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">🏠 300mm Mineral Wool Attic Top-Up</div>
+                <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">Gross: €3,200 · <strong style="color: var(--color-mint);">SEAI Grant: €2,500</strong> · Stops 30% ceiling heat escape</div>
+              </div>
+              <input type="checkbox" id="check-upgrade-attic" checked style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
+            </div>
+
+            <!-- Upgrade 5: Triple Glazed Windows -->
+            <div class="upgrade-toggle-row" id="row-windows" onclick="toggleUpgrade('windows')">
+              <div>
+                <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">🪟 High-Performance Triple Glazed Windows & Doors</div>
+                <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">Gross: €9,500 · <strong style="color: var(--color-mint);">SEAI Grant: €5,600</strong> · Acoustic & thermal insulation</div>
+              </div>
+              <input type="checkbox" id="check-upgrade-windows" style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
+            </div>
+
+          </div>
+
+          <!-- Loan Term Slider -->
+          <div style="background: #001711; padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); margin-top: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label for="loan-term-slider" style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">SBCI Loan Repayment Term:</label>
+              <span id="loan-term-badge" style="background: var(--color-amber); color: #00241b; font-weight: 900; padding: 4px 12px; border-radius: 20px; font-size: 0.9rem; font-family: 'IBM Plex Mono', monospace;">10 Years (120 Months)</span>
+            </div>
+            
+            <input type="range" id="loan-term-slider" min="3" max="10" step="1" value="10" style="width: 100%; accent-color: var(--color-amber); cursor: pointer;" oninput="updateLoanTerm(this.value)" />
+            
+            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; margin-top: 6px; font-family: 'IBM Plex Mono', monospace;">
+              <span>3 Years</span>
+              <span>5 Years</span>
+              <span>7 Years</span>
+              <span>10 Years (Recommended)</span>
+            </div>
+          </div>
+
+          <!-- Participating Irish Banks -->
+          <div style="margin-top: 20px;">
+            <span style="font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">
+              Participating Irish Lenders (3.55% Fixed/Variable):
+            </span>
+            <div class="bank-badge-grid">
+              <div class="bank-pill-item">
+                <strong>Permanent TSB</strong>
+                <span>3.55% HEULS</span>
+              </div>
+              <div class="bank-pill-item">
+                <strong>AIB</strong>
+                <span>3.55% Green Loan</span>
+              </div>
+              <div class="bank-pill-item">
+                <strong>Bank of Ireland</strong>
+                <span>3.55% EcoLoan</span>
+              </div>
+              <div class="bank-pill-item">
+                <strong>Avant Money</strong>
+                <span>3.55% Subsidized</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Positive Cashflow Visualizer & Payback Math -->
+        <div>
+          <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0 0 16px 0;">2. Monthly "Cash-in-Pocket" Equation</h2>
+
+          <!-- HERO POSITIVE CASHFLOW BANNER -->
+          <div class="cashflow-banner">
+            <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: #a7f3d0; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">
+              Net Monthly Cashflow From Month 1:
+            </div>
+            <div id="stat-monthly-profit" style="font-size: 3.2rem; font-weight: 900; color: var(--color-mint); margin: 6px 0; letter-spacing: -0.03em;">
+              +€54 / month
+            </div>
+            <div style="font-size: 0.85rem; color: #cbd5e1;">
+              <strong>You make a monthly profit from Day 1.</strong> Your heating bill cut is larger than your loan repayment!
+            </div>
+          </div>
+
+          <!-- 4 Breakdown Metric Boxes -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+            <div class="stat-metric-card">
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">Gross Upgrade Cost</div>
+              <div id="stat-gross-cost" style="font-size: 1.35rem; font-weight: 900; color: #ffffff; margin-top: 4px;">€36,500</div>
+            </div>
+            <div class="stat-metric-card">
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">SEAI Cash Grants</div>
+              <div id="stat-seai-grants" style="font-size: 1.35rem; font-weight: 900; color: var(--color-mint); margin-top: 4px;">-€24,800</div>
+            </div>
+            <div class="stat-metric-card">
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">Net SBCI 3.55% Loan</div>
+              <div id="stat-net-loan" style="font-size: 1.35rem; font-weight: 900; color: var(--color-sky); margin-top: 4px;">€11,700</div>
+            </div>
+            <div class="stat-metric-card">
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">Monthly Loan Payment</div>
+              <div id="stat-monthly-repayment" style="font-size: 1.35rem; font-weight: 900; color: var(--color-amber); margin-top: 4px;">€116 / mo</div>
+            </div>
+          </div>
+
+          <!-- Monthly Comparison Equation Box -->
+          <div style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px; margin-bottom: 20px; font-size: 0.85rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #cbd5e1;">
+              <span>• Monthly Heating & Fuel Bill Slashed:</span>
+              <strong id="stat-fuel-cut" style="color: var(--color-mint);">-€170 / mo</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #cbd5e1;">
+              <span>• Monthly SBCI 3.55% Loan Repayment:</span>
+              <strong id="stat-loan-cost" style="color: #f87171;">+€116 / mo</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); font-weight: 800; font-size: 0.95rem;">
+              <span style="color: #ffffff;">= Net Profit in Homeowner Pocket:</span>
+              <span id="stat-net-pocket" style="color: var(--color-mint);">+€54 / month</span>
+            </div>
+          </div>
+
+          <!-- Actions: 1-Click PDF Download & Survey CTA -->
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button type="button" onclick="generateLoanStackerPDF()" style="width: 100%; padding: 14px; background: rgba(52, 245, 197, 0.15); border: 1.5px solid var(--color-mint); color: var(--color-mint); border-radius: 10px; font-weight: 800; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='rgba(52, 245, 197, 0.25)'" onmouseout="this.style.background='rgba(52, 245, 197, 0.15)'">
+              <span>📄 Download SBCI Loan & Grant Stacker Dossier (PDF)</span>
+            </button>
+
+            <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="display: block; text-align: center; background: var(--color-amber); color: #00241b; font-weight: 900; padding: 14px; border-radius: 10px; text-decoration: none; font-size: 0.98rem; box-shadow: 0 8px 24px rgba(245,158,11,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+              ⭐ Book Joe's €49 Onsite Feasibility & Loan Stacker Survey →
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Explanatory Technical Notes -->
+      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 36px; margin-top: 40px;">
+        <h3 style="color: #ffffff; font-size: 1.35rem; font-weight: 800; margin-bottom: 12px;">
+          How the SBCI 3.55% Home Energy Upgrade Loan Scheme Works
+        </h3>
+        <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.7; margin-bottom: 16px;">
+          The <strong>Strategic Banking Corporation of Ireland (SBCI)</strong>, in partnership with the Department of the Environment and the European Investment Bank, subsidizes interest rates down to a market-low <strong>3.55% APR</strong> for residential energy retrofits that achieve a minimum 20% energy improvement or jump to a B2/A-rating.
+        </p>
+        <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.7;">
+          Because this loan is unsecured (no remortgaging or legal fees required) and repayments are stretched over 10 years, the monthly reduction in kerosene/gas/electricity bills is almost always larger than the loan payment itself—allowing homeowners to finance a full €35,000+ deep retrofit with <strong>zero upfront capital and immediate monthly profit</strong>.
+        </p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #00120d; border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; color: #94a3b8; font-size: 0.85rem; text-align: center;">
+    <p style="color: #fff; font-weight: 800; margin-bottom: 6px;">EcoSmartHomes Ireland · 100% Conflict-Free Government Loan & Grant Counsel</p>
+    <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
+  </footer>
+
+  <script src="/js/whatsapp-widget.js" defer></script>
+
+  <script>
+    const UPGRADES = {
+      hp: { name: 'Air-to-Water Heat Pump & Cylinder', gross: 16500, grant: 12500, monthlyFuelSaving: 110 },
+      wrap: { name: 'External Wall Insulation Wrap', gross: 12000, grant: 8000, monthlyFuelSaving: 60 },
+      solar: { name: '4.3 kWp Rooftop Solar PV', gross: 4800, grant: 1800, monthlyFuelSaving: 45 },
+      attic: { name: '300mm Attic Insulation Top-Up', gross: 3200, grant: 2500, monthlyFuelSaving: 25 },
+      windows: { name: 'Triple Glazed Windows & Doors', gross: 9500, grant: 5600, monthlyFuelSaving: 35 }
+    };
+
+    let selectedUpgrades = {
+      hp: true,
+      wrap: true,
+      solar: true,
+      attic: true,
+      windows: false
+    };
+
+    let loanTermYears = 10;
+    const SBCI_ANNUAL_INTEREST = 0.0355; // 3.55%
+
+    function toggleUpgrade(key) {
+      selectedUpgrades[key] = !selectedUpgrades[key];
+      const row = document.getElementById('row-' + key);
+      const checkbox = document.getElementById('check-upgrade-' + key);
+      if (row) row.classList.toggle('selected', selectedUpgrades[key]);
+      if (checkbox) checkbox.checked = selectedUpgrades[key];
+      calculateStacker();
+    }
+
+    function updateLoanTerm(val) {
+      loanTermYears = Number(val);
+      document.getElementById('loan-term-badge').innerText = `${val} Years (${val * 12} Months)`;
+      calculateStacker();
+    }
+
+    function calculatePMT(ratePerPeriod, totalPeriods, presentValue) {
+      if (ratePerPeriod === 0) return presentValue / totalPeriods;
+      const q = Math.pow(1 + ratePerPeriod, totalPeriods);
+      return (presentValue * ratePerPeriod * q) / (q - 1);
+    }
+
+    function calculateStacker() {
+      let grossTotal = 0;
+      let grantTotal = 0;
+      let fuelSavingsMonthly = 0;
+
+      for (const [key, isSelected] of Object.entries(selectedUpgrades)) {
+        if (isSelected) {
+          const item = UPGRADES[key];
+          grossTotal += item.gross;
+          grantTotal += item.grant;
+          fuelSavingsMonthly += item.monthlyFuelSaving;
+        }
+      }
+
+      const netLoanAmount = Math.max(0, grossTotal - grantTotal);
+      const totalMonths = loanTermYears * 12;
+      const monthlyInterestRate = SBCI_ANNUAL_INTEREST / 12;
+      const monthlyPayment = Math.round(calculatePMT(monthlyInterestRate, totalMonths, netLoanAmount));
+
+      const netMonthlyProfit = fuelSavingsMonthly - monthlyPayment;
+
+      // Update DOM
+      document.getElementById('stat-gross-cost').innerText = `€${grossTotal.toLocaleString()}`;
+      document.getElementById('stat-seai-grants').innerText = `-€${grantTotal.toLocaleString()}`;
+      document.getElementById('stat-net-loan').innerText = `€${netLoanAmount.toLocaleString()}`;
+      document.getElementById('stat-monthly-repayment').innerText = `€${monthlyPayment} / mo`;
+      document.getElementById('stat-fuel-cut').innerText = `-€${fuelSavingsMonthly} / mo`;
+      document.getElementById('stat-loan-cost').innerText = `+€${monthlyPayment} / mo`;
+
+      const profitEl = document.getElementById('stat-monthly-profit');
+      const pocketEl = document.getElementById('stat-net-pocket');
+
+      if (netMonthlyProfit >= 0) {
+        profitEl.style.color = 'var(--color-mint)';
+        profitEl.innerText = `+€${netMonthlyProfit} / month`;
+        pocketEl.style.color = 'var(--color-mint)';
+        pocketEl.innerText = `+€${netMonthlyProfit} / month`;
+      } else {
+        profitEl.style.color = 'var(--color-amber)';
+        profitEl.innerText = `€${Math.abs(netMonthlyProfit)} / month`;
+        pocketEl.style.color = 'var(--color-amber)';
+        pocketEl.innerText = `-€${Math.abs(netMonthlyProfit)} / month`;
+      }
+    }
+
+    // 1-Click PDF Strategy Generator
+    function generateLoanStackerPDF() {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert('PDF generator loading, please click again in a moment.');
+        return;
+      }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const gross = document.getElementById('stat-gross-cost').innerText;
+      const grants = document.getElementById('stat-seai-grants').innerText;
+      const netLoan = document.getElementById('stat-net-loan').innerText;
+      const payment = document.getElementById('stat-monthly-repayment').innerText;
+      const fuelCut = document.getElementById('stat-fuel-cut').innerText;
+      const profit = document.getElementById('stat-monthly-profit').innerText;
+
+      // Header Banner
+      doc.setFillColor(0, 36, 27);
+      doc.rect(0, 0, 210, 30, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(15);
+      doc.setTextColor(52, 245, 197);
+      doc.text('ECOSMARTHOMES • SBCI 3.55% LOAN & SEAI GRANT STACKER', 14, 18);
+
+      // Meta
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Generated: ${new Date().toLocaleDateString('en-IE')} | Scheme: SBCI HEULS 3.55% APR | Term: ${loanTermYears} Years`, 14, 26);
+
+      // Section 1: Financial Overview
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('1. Retrofit Capital Stack & Monthly Cashflow', 14, 45);
+
+      doc.setFontSize(9.5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.text(`• Total Turnkey Upgrade Value: ${gross}`, 16, 55);
+      doc.text(`• Direct SEAI Cash Grant Deductions: ${grants}`, 16, 63);
+      doc.text(`• Net Subsidized SBCI 3.55% Loan Required: ${netLoan}`, 16, 71);
+      doc.text(`• Monthly Loan Repayment (${loanTermYears} years): ${payment}`, 16, 79);
+      doc.text(`• Estimated Monthly Fuel & Energy Bill Reduction: ${fuelCut}`, 16, 87);
+      
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(6, 95, 70);
+      doc.text(`• NET MONTHLY CASH IN YOUR POCKET FROM MONTH 1: ${profit}`, 16, 97);
+
+      // Section 2: Approved Participating Lenders
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('2. Approved SBCI Participating Irish Lenders', 14, 115);
+
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.text('1. Permanent TSB — Home Energy Upgrade Loan (3.55% APR, terms 1-10 years)', 16, 125);
+      doc.text('2. AIB — Green Personal & Home Energy Loan (3.55% APR, terms up to 10 years)', 16, 133);
+      doc.text('3. Bank of Ireland — EcoLoan (3.55% APR subsidized via SBCI)', 16, 141);
+      doc.text('4. Avant Money — Subsidized Home Retrofit Loan', 16, 149);
+
+      // Section 3: Next Steps
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('3. Application & Grant Drawdown Sequence', 14, 168);
+
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.text('Step 1: Secure an independent technical specification & grant estimate with Joe (€49 survey).', 16, 177);
+      doc.text('Step 2: Submit your SEAI Application & apply for SBCI 3.55% loan pre-approval with your bank.', 16, 185);
+      doc.text('Step 3: Works completed by registered SEAI contractors; grant drawn down directly against invoice.', 16, 193);
+
+      // Footer Box
+      doc.setFillColor(240, 253, 244);
+      doc.rect(14, 215, 182, 35, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(6, 95, 70);
+      doc.text('Ready to Lock In 3.55% Financing for Your Home?', 20, 226);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.text('Book a 100% independent €49 survey at www.ecosmarthomes.ie to receive an itemized grant and loan specification report.', 20, 234, { maxWidth: 170 });
+
+      doc.save('EcoSmartHomes_SBCI_Loan_Grant_Stacker.pdf');
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', calculateStacker);
+  </script>
+
+</body>
+</html>
