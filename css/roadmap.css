@@ -1,0 +1,238 @@
+/**
+ * site/css/roadmap.css
+ * Bank-Grade White-Label Retrofit Dossier Stylesheet
+ * Engineered for Screen View and Crisp A4 PDF Printing
+ */
+
+:root {
+  --doc-primary: #003f2d;
+  --doc-primary-light: #065f46;
+  --doc-accent: #10b981;
+  --doc-amber: #f59e0b;
+  --doc-dark: #0f172a;
+  --doc-muted: #64748b;
+  --doc-border: #e2e8f0;
+  --doc-bg: #f8fafc;
+}
+
+body {
+  background: var(--doc-bg);
+  color: var(--doc-dark);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Toolbar Controls */
+.roadmap-toolbar {
+  background: #00261b;
+  color: #fff;
+  padding: 14px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.roadmap-toolbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Document Container */
+.dossier-wrapper {
+  max-width: 900px;
+  margin: 30px auto 60px auto;
+  background: #ffffff;
+  border: 1px solid var(--doc-border);
+  box-shadow: 0 20px 40px -15px rgba(0,0,0,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dossier-page {
+  padding: 45px 50px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.dossier-page-break {
+  border-bottom: 2px dashed #cbd5e1;
+  margin: 0;
+}
+
+/* Header & Headers */
+.dossier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 3px solid var(--doc-primary);
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.dossier-logo {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--doc-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.dossier-stamp {
+  border: 2px solid var(--doc-accent);
+  background: #ecfdf5;
+  color: var(--doc-primary-light);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: right;
+}
+
+.section-heading {
+  color: var(--doc-primary);
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 25px 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--doc-border);
+  padding-bottom: 8px;
+}
+
+/* Data Tables */
+.dossier-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px 0;
+  font-size: 0.9rem;
+}
+
+.dossier-table th {
+  background: #f1f5f9;
+  color: var(--doc-primary);
+  font-weight: 700;
+  text-align: left;
+  padding: 10px 14px;
+  border: 1px solid var(--doc-border);
+}
+
+.dossier-table td {
+  padding: 10px 14px;
+  border: 1px solid var(--doc-border);
+  color: #334155;
+}
+
+.dossier-table tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+/* Metric Pill Grid */
+.dossier-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.dossier-metric-card {
+  background: #f8fafc;
+  border: 1px solid var(--doc-border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.metric-val {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--doc-primary);
+}
+
+.metric-lbl {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--doc-muted);
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* Callout Box */
+.dossier-callout {
+  background: #f0fdf4;
+  border-left: 4px solid var(--doc-accent);
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 18px 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* Checklists */
+.checklist-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  background: #f8fafc;
+  border: 1px solid var(--doc-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.checklist-num {
+  width: 24px;
+  height: 24px;
+  background: var(--doc-primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.checklist-content {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #334155;
+}
+
+/* Print CSS */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .roadmap-toolbar, .no-print {
+    display: none !important;
+  }
+  .dossier-wrapper {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  .dossier-page {
+    padding: 0 !important;
+    page-break-after: always;
+  }
+  .dossier-page-break {
+    border-bottom: none !important;
+    page-break-after: always;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 15mm 12mm 15mm 12mm;
+  }
+}
