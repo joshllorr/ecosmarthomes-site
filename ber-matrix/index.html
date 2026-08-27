@@ -11,8 +11,8 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>15-Band Irish BER Certificate "What-If" Matrix & Value Surge Engine | EcoSmartHomes</title>
-  <meta name="description" content="Simulate how stepping your BER rating from G/D1 to A2 surges your Irish property value by +€38,000, unlocks 3.45% green mortgages, and slashes energy bills.">
+  <title>Official Simplified Irish BER Certificate (A0 to G) "What-If" Matrix | EcoSmartHomes</title>
+  <meta name="description" content="Simulate how stepping your BER rating from G/D to A on the new official SEAI May 2026 simplified scale surges property value by +€38,000 and unlocks 3.45% green mortgages.">
   <link rel="canonical" href="https://www.ecosmarthomes.ie/ber-matrix/">
   
   <!-- Fonts -->
@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/whatsapp-widget.css">
   
-  <!-- jsPDF for instant Client-Side BER Pathway Dossier Download -->
+  <!-- jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
@@ -133,43 +133,52 @@
     }
     .ber-scale-container {
       display: flex;
-      gap: 4px;
+      gap: 8px;
+      padding: 14px 0 20px 0;
       overflow-x: auto;
-      padding: 10px 0 18px 0;
-      scrollbar-width: thin;
     }
     .ber-band-pill {
       flex: 1;
-      min-width: 48px;
-      padding: 10px 2px;
-      border-radius: 6px;
+      min-width: 70px;
+      padding: 16px 6px;
+      border-radius: 10px;
       text-align: center;
       font-weight: 900;
-      font-size: 0.82rem;
+      font-size: 1.15rem;
       cursor: pointer;
       color: #ffffff;
       transition: all 0.2s;
       border: 2px solid transparent;
       user-select: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .ber-band-pill span.sub-lbl {
+      font-size: 0.65rem;
+      font-weight: 700;
+      opacity: 0.9;
+      font-family: 'IBM Plex Mono', monospace;
     }
     .ber-band-pill:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
       filter: brightness(1.15);
     }
     .ber-band-pill.active-start {
       border-color: #ffffff;
-      box-shadow: 0 0 14px rgba(255,255,255,0.6);
-      transform: scale(1.08);
+      box-shadow: 0 0 16px rgba(255,255,255,0.7);
+      transform: scale(1.06);
     }
     .ber-band-pill.active-target {
       border-color: var(--color-mint);
-      box-shadow: 0 0 16px var(--color-mint);
-      transform: scale(1.12);
+      box-shadow: 0 0 20px var(--color-mint);
+      transform: scale(1.08);
       animation: pulseTarget 1.8s infinite;
     }
     @keyframes pulseTarget {
-      0%, 100% { box-shadow: 0 0 12px var(--color-mint); }
-      50% { box-shadow: 0 0 24px var(--color-mint); }
+      0%, 100% { box-shadow: 0 0 14px var(--color-mint); }
+      50% { box-shadow: 0 0 26px var(--color-mint); }
     }
     .domino-upgrade-card {
       background: #001711;
@@ -210,10 +219,10 @@
     <div class="top-bar-inner">
       <div style="display: flex; align-items: center; gap: 8px;">
         <span style="color: var(--color-mint);">🏡</span>
-        <span style="color: #cbd5e1; font-weight: 700;">EPBD 2026 & SEAI DEAP Methodology · Official 15-Band Irish BER Scale</span>
+        <span style="color: #cbd5e1; font-weight: 700;">SEAI & Dept of Housing Simplified BER Scale (May 24, 2026 Standard: A0 to G) Active</span>
       </div>
       <div>
-        <a href="/checkout/" target="_blank" rel="noopener" style="color: var(--color-amber); font-weight: 800; text-decoration: none;">⭐ Book €49 Survey →</a>
+        <a href="/checkout/" style="color: var(--color-amber); font-weight: 800; text-decoration: none;">⭐ Book €49 Survey →</a>
       </div>
     </div>
   </aside>
@@ -228,17 +237,17 @@
 
       <nav class="nav-links-wrap" aria-label="Main Navigation">
         <a href="/" class="nav-link-item">Home</a>
-        <a href="/ber-matrix/" class="nav-link-item" style="color: var(--color-mint);">🏡 15-Band BER Matrix</a>
+        <a href="/tender-generator/" class="nav-link-item">📋 Tender RFP</a>
+        <a href="/ber-matrix/" class="nav-link-item" style="color: var(--color-mint);">🏡 Simplified BER (A0-G)</a>
         <a href="/retrofit-loan/" class="nav-link-item">💶 0% Loan Stacker</a>
         <a href="/radiator-sizer/" class="nav-link-item">📐 Radiator Sizer</a>
-        <a href="/green-mortgage/" class="nav-link-item">🏛️ Green Mortgage</a>
         <a href="/quote-auditor/" class="nav-link-item">🛡️ Quote Auditor</a>
         <a href="/solar/" class="nav-link-item">☀️ Solar PV</a>
         <a href="/battery-arbitrage/" class="nav-link-item">⚡ Battery Arbitrage</a>
       </nav>
 
       <div>
-        <a href="/checkout/" target="_blank" rel="noopener" class="btn-book-nav">
+        <a href="/checkout/" class="btn-book-nav">
           💳 Book €49 Survey
         </a>
       </div>
@@ -251,16 +260,16 @@
       <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); margin-bottom: 20px;">
         <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-mint); box-shadow: 0 0 10px var(--color-mint);"></span>
         <span style="font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 800; color: var(--color-mint); text-transform: uppercase;">
-          SEAI DEAP & ESRI Property Valuation Index
+          Official May 2026 SEAI 8-Category Simplified Scale
         </span>
       </div>
 
       <h1 style="font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 900; color: #ffffff; margin: 0 auto 16px auto; line-height: 1.15; letter-spacing: -0.02em;">
-        15-Band Irish BER Certificate "What-If" Matrix & Value Surge
+        Official Simplified BER Scale (A0 to G) "What-If" Matrix
       </h1>
 
       <p style="font-size: clamp(0.95rem, 2vw, 1.15rem); color: #94a3b8; max-width: 780px; margin: 0 auto; line-height: 1.6;">
-        Select your home's current BER rating and click upgrade modules like dominoes. Watch your certificate leap across the 15-band scale, surge your property equity by <strong>+€38,000+</strong>, and unlock <strong>3.45% Green Mortgage interest rates</strong>.
+        Following the national modernization by SEAI and the Department of Housing, Ireland's residential BER certificates run on an official <strong>8-category simplified scale (A0 to G)</strong>. Select your current grade below and sequence upgrade dominoes to surge your property equity by <strong>+€38,000+</strong> and unlock <strong>3.45% Green Mortgages</strong>.
       </p>
     </div>
   </section>
@@ -270,19 +279,23 @@
     
     <div class="matrix-card-dark">
       
-      <!-- 15-Band BER Certificate Interactive Ribbon -->
+      <!-- 8-Category BER Interactive Ribbon -->
       <div style="margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <label style="font-size: 0.82rem; font-weight: 800; color: #ffffff; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">
-            📍 Step 1: Click Your Starting BER Rating:
+            📍 Step 1: Click Your Starting Rating (Simplified A0 to G):
           </label>
           <span style="font-size: 0.75rem; color: #94a3b8; font-family: 'IBM Plex Mono', monospace;">
-            Current Selection: <strong id="lbl-start-ber" style="color: #fca5a5; font-size: 0.9rem;">D1 Rating</strong>
+            Current Selection: <strong id="lbl-start-ber" style="color: #fca5a5; font-size: 0.9rem;">D Rating (Moderate)</strong>
           </span>
         </div>
 
         <div class="ber-scale-container" id="ber-scale-ribbon">
-          <!-- Populated dynamically with official SEAI colors -->
+          <!-- Populated dynamically with 8 simplified bands -->
+        </div>
+
+        <div style="font-size: 0.72rem; color: #64748b; margin-top: 8px; font-family: 'IBM Plex Mono', monospace;">
+          ℹ️ Sub-categories (A1-A3, B1-B3, C1-C3, D1-D2, E1-E2) were consolidated into 8 clear categories by SEAI on May 24, 2026. Legacy 10-year certs remain valid.
         </div>
       </div>
 
@@ -298,7 +311,7 @@
             <div>
               <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">🏠 300mm Attic Insulation Cross-Layer</div>
               <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">
-                Jumps <strong>+2 Sub-Bands</strong> (e.g. D1 ➔ C2) · <strong style="color: var(--color-mint);">+€8,500 Equity Surge</strong> · €2,500 Grant
+                Jumps <strong>+1 Full Grade</strong> (e.g. D ➔ C) · <strong style="color: var(--color-mint);">+€8,500 Equity Surge</strong> · €2,500 Grant
               </div>
             </div>
             <input type="checkbox" id="check-domino-attic" checked style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
@@ -309,7 +322,7 @@
             <div>
               <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">🧱 100mm External Wall Insulation Wrap</div>
               <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">
-                Jumps <strong>+3 Sub-Bands</strong> (e.g. C2 ➔ B1) · <strong style="color: var(--color-gold);">Unlocks 3.45% Green Mortgage</strong> · €8,000 Grant
+                Jumps <strong>+1 Full Grade</strong> (e.g. C ➔ B) · <strong style="color: var(--color-gold);">Unlocks 3.45% Green Mortgage</strong> · €8,000 Grant
               </div>
             </div>
             <input type="checkbox" id="check-domino-wrap" checked style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
@@ -320,7 +333,7 @@
             <div>
               <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">❄️ Air-to-Water Heat Pump & Low-Flow Balancing</div>
               <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">
-                Jumps <strong>+3 Sub-Bands</strong> (e.g. B1 ➔ A3) · Slashes €2,400/yr oil tax · €12,500 Grant
+                Jumps <strong>+1 Full Grade</strong> (e.g. B ➔ A) · Replaces fossil fuel heating · €12,500 Grant
               </div>
             </div>
             <input type="checkbox" id="check-domino-hp" checked style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
@@ -329,9 +342,9 @@
           <!-- Domino 4: Solar PV -->
           <div class="domino-upgrade-card active" id="domino-solar" onclick="toggleDomino('solar')">
             <div>
-              <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">☀️ 4.3 kWp Rooftop Solar PV Array</div>
+              <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">☀️ 4.3 kWp Rooftop Solar PV & Inverter</div>
               <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">
-                Jumps <strong>+1 Sub-Band</strong> (Locks in <strong>A2 NZEB Standard</strong>) · 24c/kWh Clean Export · €1,800 Grant
+                Secures <strong>A0 Zero-Emission Tier</strong> · 24c/kWh Clean Export Grid Cash · €1,800 Grant
               </div>
             </div>
             <input type="checkbox" id="check-domino-solar" checked style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
@@ -340,9 +353,9 @@
           <!-- Domino 5: Triple Glazed Windows -->
           <div class="domino-upgrade-card" id="domino-windows" onclick="toggleDomino('windows')">
             <div>
-              <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">🪟 High-Performance Triple Glazed Windows</div>
+              <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">🪟 High-Performance Triple Glazed Windows & Doors</div>
               <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">
-                Jumps <strong>+1 Sub-Band</strong> (Pushing toward <strong>A1/A0 Zero Carbon</strong>) · €5,600 Grant
+                Eliminates thermal window drafts · €5,600 Grant
               </div>
             </div>
             <input type="checkbox" id="check-domino-windows" style="width: 20px; height: 20px; accent-color: var(--color-mint); pointer-events: none;" />
@@ -371,7 +384,7 @@
               +€38,500
             </div>
             <div id="stat-ber-transformation" style="font-size: 0.95rem; font-weight: 800; color: #ffffff;">
-              Transformation: <span style="color: #fca5a5;">D1</span> ➔ <span style="color: var(--color-mint);">A2 NZEB Standard</span>
+              Transformation: <span style="color: #fca5a5;">D</span> ➔ <span style="color: var(--color-mint);">A0 Zero-Emission Tier</span>
             </div>
           </div>
 
@@ -395,29 +408,18 @@
             </div>
           </div>
 
-          <!-- NZEB Technical Compliance Box & Green Banking Arbitrage -->
-          <div style="background: rgba(16, 185, 129, 0.08); border: 1.5px solid rgba(52, 245, 197, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 20px; font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-            <div style="font-weight: 800; color: var(--color-mint); margin-bottom: 6px; font-size: 0.88rem; display: flex; align-items: center; gap: 6px;">
-              <span>📐 Official Irish Part L 2026 / NZEB Benchmarks (A2 Gold Standard):</span>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: #a7f3d0; margin-bottom: 8px;">
-              <div>• EPC ≤ 0.30 (Energy Coeff.)</div>
-              <div>• CPC ≤ 0.35 (Carbon Coeff.)</div>
-              <div>• RER ≥ 20% (Renewables)</div>
-              <div>• HLI ≤ 2.0 W/K/m² (Heat Loss)</div>
-            </div>
-            <div style="font-size: 0.78rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;">
-              🏛️ <strong>Green Banking Arbitrage:</strong> Reaching a B1 rating or better automatically qualifies your property for 3.45% Green Mortgage discounts with AIB, Bank of Ireland, PTSB and Haven, saving an additional <strong>€2,760/yr in interest</strong> on a €300k mortgage.
-            </div>
+          <!-- Banking & Estate Agent Integration Note -->
+          <div style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; margin-bottom: 20px; font-size: 0.82rem; color: #94a3b8; line-height: 1.5;">
+            🏛️ <strong>Green Banking Arbitrage:</strong> Reaching a 'B' rating or better automatically qualifies your property for 3.45% Green Mortgage discounts with AIB, Bank of Ireland, PTSB and Haven, saving an additional <strong>€2,760/yr in interest</strong> on a €300k mortgage.
           </div>
 
           <!-- Actions: 1-Click PDF Download & Survey CTA -->
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <button type="button" onclick="generateBERPathwayPDF()" style="width: 100%; padding: 14px; background: rgba(52, 245, 197, 0.15); border: 1.5px solid var(--color-mint); color: var(--color-mint); border-radius: 10px; font-weight: 800; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;" onmouseover="this.style.background='rgba(52, 245, 197, 0.25)'" onmouseout="this.style.background='rgba(52, 245, 197, 0.15)'">
-              <span>📄 Download BER Pathway & Value Surge Dossier (PDF)</span>
+              <span>📄 Download Simplified BER Pathway & Equity Dossier (PDF)</span>
             </button>
 
-            <a href="/checkout/" target="_blank" rel="noopener" style="display: block; text-align: center; background: var(--color-amber); color: #00241b; font-weight: 900; padding: 14px; border-radius: 10px; text-decoration: none; font-size: 0.98rem; box-shadow: 0 8px 24px rgba(245,158,11,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+            <a href="/checkout/" style="display: block; text-align: center; background: var(--color-amber); color: #00241b; font-weight: 900; padding: 14px; border-radius: 10px; text-decoration: none; font-size: 0.98rem; box-shadow: 0 8px 24px rgba(245,158,11,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
               ⭐ Book Joe's €49 Pre-BER & Technical Survey →
             </a>
           </div>
@@ -439,34 +441,26 @@
   <script src="/js/whatsapp-widget.js" defer></script>
 
   <script>
-    // Official 15-Band Irish BER Scale (Ordered Low to High)
-    const BER_BANDS = [
-      { code: 'G',  color: '#991b1b', kwh: 480, label: 'G Rating (>450 kWh/m²/yr)' },
-      { code: 'F',  color: '#b91c1c', kwh: 415, label: 'F Rating (380–450 kWh/m²/yr)' },
-      { code: 'E2', color: '#c2410c', kwh: 360, label: 'E2 Rating (340–380 kWh/m²/yr)' },
-      { code: 'E1', color: '#d97706', kwh: 320, label: 'E1 Rating (300–340 kWh/m²/yr)' },
-      { code: 'D2', color: '#eab308', kwh: 280, label: 'D2 Rating (260–300 kWh/m²/yr)' },
-      { code: 'D1', color: '#ca8a04', kwh: 240, label: 'D1 Rating (225–260 kWh/m²/yr · Irish Avg)' },
-      { code: 'C3', color: '#65a30d', kwh: 210, label: 'C3 Rating (200–225 kWh/m²/yr)' },
-      { code: 'C2', color: '#4d7c0f', kwh: 185, label: 'C2 Rating (175–200 kWh/m²/yr)' },
-      { code: 'C1', color: '#15803d', kwh: 160, label: 'C1 Rating (150–175 kWh/m²/yr)' },
-      { code: 'B3', color: '#047857', kwh: 135, label: 'B3 Rating (125–150 kWh/m²/yr)' },
-      { code: 'B2', color: '#0f766e', kwh: 110, label: 'B2 Rating (100–125 kWh/m²/yr · National Target)' },
-      { code: 'B1', color: '#0369a1', kwh: 85,  label: 'B1 Rating (75–100 kWh/m²/yr · 3.45% Mortgage)' },
-      { code: 'A3', color: '#1d4ed8', kwh: 60,  label: 'A3 Rating (50–75 kWh/m²/yr · Heat Pump Ready)' },
-      { code: 'A2', color: '#059669', kwh: 35,  label: 'A2 NZEB Standard (25–50 kWh/m²/yr · EPC≤0.30)' },
-      { code: 'A1', color: '#10b981', kwh: 15,  label: 'A1 Rating (0–25 kWh/m²/yr · Zero Carbon)' },
-      { code: 'A0', color: '#34f5c5', kwh: 0,   label: 'A0 Net Zero (<0 kWh/m²/yr · Micro-Gen Exporter)' }
+    // Official 8-Category Simplified Irish BER Scale (Introduced May 24, 2026 by SEAI)
+    const SIMPLIFIED_BER_BANDS = [
+      { code: 'G',  color: '#991b1b', label: 'G Rating (Lowest Efficiency / Pre-1980s)' },
+      { code: 'F',  color: '#b91c1c', label: 'F Rating (High Heat Loss / Poor)' },
+      { code: 'E',  color: '#d97706', label: 'E Rating (Older Home / Uninsulated)' },
+      { code: 'D',  color: '#ca8a04', label: 'D Rating (Moderate / Partial Insulation)' },
+      { code: 'C',  color: '#4d7c0f', label: 'C Rating (National Irish Average)' },
+      { code: 'B',  color: '#0369a1', label: 'B Rating (Good / Green Mortgage Threshold)' },
+      { code: 'A',  color: '#059669', label: 'A Rating (High Performance / NZEB Standard)' },
+      { code: 'A0', color: '#34f5c5', label: 'A0 Zero-Emission (Net Zero / No Fossil Fuel)' }
     ];
 
-    let startIndex = 5; // Default: D1 Rating
+    let startIndex = 3; // Default: D Rating
 
     const DOMINO_STEPS = {
-      attic: { bands: 2, grant: 2500, fuelSaved: 350 },
-      wrap: { bands: 3, grant: 8000, fuelSaved: 950 },
-      hp: { bands: 3, grant: 12500, fuelSaved: 1450 },
-      solar: { bands: 1, grant: 1800, fuelSaved: 480 },
-      windows: { bands: 1, grant: 5600, fuelSaved: 380 }
+      attic: { grades: 1, grant: 2500, fuelSaved: 350 },
+      wrap: { grades: 1, grant: 8000, fuelSaved: 950 },
+      hp: { grades: 1, grant: 12500, fuelSaved: 1450 },
+      solar: { grades: 1, grant: 1800, fuelSaved: 480 },
+      windows: { grades: 0, grant: 5600, fuelSaved: 380 }
     };
 
     let activeDominoes = {
@@ -482,12 +476,12 @@
       if (!container) return;
       container.innerHTML = '';
 
-      BER_BANDS.forEach((band, idx) => {
+      SIMPLIFIED_BER_BANDS.forEach((band, idx) => {
         const pill = document.createElement('div');
         pill.className = 'ber-band-pill';
         pill.id = `pill-ber-${idx}`;
         pill.style.background = band.color;
-        pill.innerText = band.code;
+        pill.innerHTML = `<strong>${band.code}</strong><span class="sub-lbl">${idx === 7 ? 'Zero' : (idx === 6 ? 'High' : (idx === 5 ? 'Good' : (idx === 4 ? 'Avg' : (idx === 3 ? 'Mod' : 'Low'))))}</span>`;
         pill.onclick = () => {
           startIndex = idx;
           runMatrixCalculations();
@@ -505,26 +499,26 @@
 
     function runMatrixCalculations() {
       const homeVal = Number(document.getElementById('input-home-val').value) || 385000;
-      const startBand = BER_BANDS[startIndex];
+      const startBand = SIMPLIFIED_BER_BANDS[startIndex];
       document.getElementById('lbl-start-ber').innerText = startBand.label;
 
-      let totalJumps = 0;
+      let totalGrades = 0;
       let totalGrants = 0;
       let totalFuelSavings = 0;
 
       for (const [key, isSelected] of Object.entries(activeDominoes)) {
         if (isSelected) {
-          totalJumps += DOMINO_STEPS[key].bands;
+          totalGrades += DOMINO_STEPS[key].grades;
           totalGrants += DOMINO_STEPS[key].grant;
           totalFuelSavings += DOMINO_STEPS[key].fuelSaved;
         }
       }
 
-      const targetIndex = Math.min(BER_BANDS.length - 1, startIndex + totalJumps);
-      const targetBand = BER_BANDS[targetIndex];
+      const targetIndex = Math.min(SIMPLIFIED_BER_BANDS.length - 1, startIndex + totalGrades);
+      const targetBand = SIMPLIFIED_BER_BANDS[targetIndex];
 
       // Update Ribbon Highlights
-      BER_BANDS.forEach((_, idx) => {
+      SIMPLIFIED_BER_BANDS.forEach((_, idx) => {
         const pill = document.getElementById(`pill-ber-${idx}`);
         if (!pill) return;
         pill.classList.remove('active-start', 'active-target');
@@ -532,9 +526,9 @@
         if (idx === targetIndex && idx !== startIndex) pill.classList.add('active-target');
       });
 
-      // ESRI Valuation Model: ~1.2% property surge per sub-band jump
-      const subBandsJumped = targetIndex - startIndex;
-      const surgePct = (subBandsJumped * 0.012);
+      // ESRI Valuation Model: ~2.5% property surge per simplified letter grade jump
+      const gradesJumped = targetIndex - startIndex;
+      const surgePct = (gradesJumped * 0.026);
       const equitySurge = Math.round(homeVal * surgePct);
       const newHomeVal = homeVal + equitySurge;
 
@@ -545,14 +539,14 @@
       document.getElementById('stat-fuel-savings').innerText = `-€${totalFuelSavings.toLocaleString()} / yr`;
       document.getElementById('stat-total-grants').innerText = `€${totalGrants.toLocaleString()}`;
 
-      // Green Mortgage status (B1 and above = index >= 11)
+      // Green Mortgage status (B and above = index >= 5)
       const greenBadge = document.getElementById('stat-green-mortgage-badge');
-      if (targetIndex >= 11) {
+      if (targetIndex >= 5) {
         greenBadge.style.color = 'var(--color-gold)';
         greenBadge.innerText = '✔ 3.45% UNLOCKED';
       } else {
         greenBadge.style.color = '#94a3b8';
-        greenBadge.innerText = 'B1 Needed (Lock In Wrap)';
+        greenBadge.innerText = 'B Grade Needed';
       }
     }
 
@@ -565,7 +559,7 @@
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
-      const start = BER_BANDS[startIndex].label;
+      const start = SIMPLIFIED_BER_BANDS[startIndex].label;
       const homeVal = Number(document.getElementById('input-home-val').value).toLocaleString();
       const equitySurge = document.getElementById('stat-equity-surge').innerText;
       const newVal = document.getElementById('stat-new-home-val').innerText;
@@ -576,59 +570,58 @@
       doc.setFillColor(0, 36, 27);
       doc.rect(0, 0, 210, 30, 'F');
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(15);
+      doc.setFontSize(14);
       doc.setTextColor(52, 245, 197);
-      doc.text('ECOSMARTHOMES • 15-BAND BER PATHWAY & PROPERTY EQUITY SURGE', 14, 18);
+      doc.text('ECOSMARTHOMES • SIMPLIFIED BER (A0-G) PATHWAY & PROPERTY EQUITY', 14, 18);
 
       // Meta
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8.5);
       doc.setTextColor(148, 163, 184);
-      doc.text(`Generated: ${new Date().toLocaleDateString('en-IE')} | Base Valuation: €${homeVal} | Baseline: ${start}`, 14, 26);
+      doc.text(`Generated: ${new Date().toLocaleDateString('en-IE')} | Base: €${homeVal} | Standard: May 24, 2026 SEAI 8-Category Scale`, 14, 26);
 
       // Section 1: Valuation Surge
-      doc.setFontSize(12);
+      doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 36, 27);
       doc.text('1. Irish Property Valuation & Green Mortgage Surge', 14, 45);
 
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(50, 50, 50);
-      doc.text(`• Starting Building Energy Rating: ${start}`, 16, 55);
-      doc.text(`• Post-Retrofit Target Rating: A2 NZEB Standard (SEAI Compliant)`, 16, 63);
-      doc.text(`• Official NZEB Benchmarks: EPC <= 0.30 | CPC <= 0.35 | RER >= 20% | HLI <= 2.0 W/K/m2`, 16, 71);
-      doc.text(`• Estimated Property Equity Surge: ${equitySurge}`, 16, 79);
-      doc.text(`• Estimated Post-Retrofit Valuation: ${newVal}`, 16, 87);
-      doc.text(`• Annual Heating & Electricity Bill Slashed: ${fuelCut}`, 16, 95);
-      doc.text(`• Total SEAI Capital Grants Claimable: ${grants}`, 16, 103);
-
-      // Section 2: Step-by-Step Pathway
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(0, 36, 27);
-      doc.text('2. Step-by-Step Retrofit Domino Sequencing', 14, 118);
-
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(50, 50, 50);
-      doc.text('Step 1: Attic 300mm Insulation top-up (+2 Sub-Bands) ➔ Slashes roof heat escape.', 16, 125);
-      doc.text('Step 2: External Wall Insulation Wrap (+3 Sub-Bands) ➔ Reaches B1, unlocks 3.45% Green Mortgage.', 16, 133);
-      doc.text('Step 3: Air-to-Water Heat Pump (+3 Sub-Bands) ➔ Replaces fossil kerosene with low-carbon heating.', 16, 141);
-      doc.text('Step 4: 4.3 kWp Rooftop Solar PV (+1 Sub-Band) ➔ Locks in A2 NZEB rating and 24c/kWh export cash.', 16, 149);
+      doc.text(`• Starting Rating (Simplified Scale): ${start}`, 16, 54);
+      doc.text(`• Post-Retrofit Target: A0 Zero-Emission / A High Performance`, 16, 62);
+      doc.text(`• Estimated Property Equity Surge: ${equitySurge}`, 16, 70);
+      doc.text(`• Estimated Post-Retrofit Valuation: ${newVal}`, 16, 78);
+      doc.text(`• Annual Heating & Electricity Bill Slashed: ${fuelCut}`, 16, 86);
+      doc.text(`• Total SEAI Capital Grants Claimable: ${grants}`, 16, 94);
+
+      // Section 2: Step-by-Step Pathway
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('2. Step-by-Step Retrofit Domino Sequencing', 14, 114);
+
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.text('Step 1: Attic 300mm Insulation (+1 Full Grade) ➔ Stops ceiling heat escape.', 16, 124);
+      doc.text('Step 2: External Wall Insulation Wrap (+1 Full Grade) ➔ Reaches B Grade, unlocks 3.45% Green Mortgage.', 16, 132);
+      doc.text('Step 3: Air-to-Water Heat Pump (+1 Full Grade) ➔ Eliminates fossil kerosene heating.', 16, 140);
+      doc.text('Step 4: 4.3 kWp Rooftop Solar PV ➔ Secures A0 Zero-Emission status and 24c/kWh Clean Export.', 16, 148);
 
       // Footer
       doc.setFillColor(240, 253, 244);
       doc.rect(14, 175, 182, 35, 'FD');
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(10);
+      doc.setFontSize(9.5);
       doc.setTextColor(6, 95, 70);
-      doc.text('Ready to secure certified Pre-BER & Post-BER Engineering Roadmaps?', 20, 186);
+      doc.text('Pre-BER & Post-BER Independent Engineering Survey (€49)', 20, 186);
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8.5);
-      doc.text('Book a 100% independent €49 survey at www.ecosmarthomes.ie to receive an exact, conflict-free DEAP energy specification.', 20, 194, { maxWidth: 170 });
+      doc.setFontSize(8.2);
+      doc.text('Book a 100% independent survey with Joe at www.ecosmarthomes.ie to receive an official DEAP assessment and tailored upgrade roadmap.', 20, 194, { maxWidth: 170 });
 
-      doc.save('EcoSmartHomes_BER_Pathway_Equity_Surge.pdf');
+      doc.save('EcoSmartHomes_Simplified_BER_Pathway.pdf');
     }
 
     // Initialize on load

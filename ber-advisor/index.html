@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BER Advisor & Retrofit Upgrade Path | EcoSmartHomes Ireland</title>
-  <meta name="description" content="Understand your home's Building Energy Rating (BER A-G), simulate rating jumps (G to B2/A2), calculate annual energy savings, and explore SEAI grant options.">
+  <title>Simplified Irish BER (A0 to G) Advisor & Retrofit Upgrade Path | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Understand your home's official simplified Building Energy Rating (BER A0-G), simulate rating jumps (G to B/A), calculate annual energy savings, and explore SEAI grant options.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,7 @@
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "EcoSmartHomes Realtime BER Advisor",
+    "name": "EcoSmartHomes Realtime Simplified BER Advisor",
     "applicationCategory": "Home Energy Evaluation",
     "operatingSystem": "Web",
     "provider": {
@@ -29,7 +29,7 @@
       "name": "EcoSmartHomes",
       "url": "https://www.ecosmarthomes.ie"
     },
-    "description": "Interactive AI-powered BER evaluation app running Gemini generative intelligence for property-specific recommendations, SEAI grant guidance, and upgrade pathways in Ireland."
+    "description": "Interactive AI-powered simplified BER (A0 to G) evaluation app running Gemini generative intelligence for property-specific recommendations, SEAI grant guidance, and upgrade pathways in Ireland."
   }
   </script>
   
@@ -98,13 +98,25 @@
     .ber-row.active-current {
       outline: 3px solid #10b981;
       outline-offset: -2px;
-      z-index: 5;
+      position: relative;
+      font-weight: 800;
+      transform: scale(1.02);
+      z-index: 2;
     }
 
     .ber-row.active-target {
-      outline: 3px solid #003f2d;
+      outline: 3px dashed #f59e0b;
       outline-offset: -2px;
-      z-index: 5;
+      position: relative;
+      font-weight: 800;
+      transform: scale(1.02);
+      z-index: 2;
+    }
+
+    .ber-row span:first-child {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
     }
 
     .ber-row span:last-child {
@@ -113,8 +125,17 @@
       font-size: 0.85rem;
     }
 
-    /* Official New Irish 15-Band BER Scale Colours (A0 to G) */
+    /* Official Simplified 8-Category Irish BER Scale Colours (A0 to G) */
     .ber-a0 { background: #34f5c5; color: #003f2d; }
+    .ber-a  { background: #059669; color: #fff; }
+    .ber-b  { background: #0369a1; color: #fff; }
+    .ber-c  { background: #4d7c0f; color: #fff; }
+    .ber-d  { background: #ca8a04; color: #fff; }
+    .ber-e  { background: #d97706; color: #fff; }
+    .ber-f  { background: #b91c1c; color: #fff; }
+    .ber-g  { background: #991b1b; color: #fff; }
+
+    /* Legacy Sub-Division Classes (Maintained for compatibility) */
     .ber-a1 { background: #10b981; color: #fff; }
     .ber-a2 { background: #059669; color: #fff; }
     .ber-a3 { background: #1d4ed8; color: #fff; }
@@ -128,8 +149,6 @@
     .ber-d2 { background: #eab308; color: #000; }
     .ber-e1 { background: #d97706; color: #fff; }
     .ber-e2 { background: #c2410c; color: #fff; }
-    .ber-f  { background: #b91c1c; color: #fff; }
-    .ber-g  { background: #991b1b; color: #fff; }
 
     /* Advisory Cards Grid */
     .advisory-grid {
@@ -232,8 +251,8 @@
         <polyline points="9 22 9 12 15 12 15 22"></polyline>
       </svg>
     </div>
-    <h1>Official Irish BER Score & Upgrade Path Simulator</h1>
-    <p class="tagline">Comprehensive 15-Band SEAI & EU EPBD 2026–2030 Transformation Architecture</p>
+    <h1>Official Simplified Irish BER Score (A0-G) & Upgrade Simulator</h1>
+    <p class="tagline">Official Simplified 8-Category SEAI (May 24, 2026 Standard) & EU EPBD Architecture</p>
   </div>
 </section>
 
@@ -246,60 +265,49 @@
       <div style="font-size: 2.2rem; background: rgba(255,255,255,0.12); width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">🚀</div>
       <div>
         <div style="font-weight: 800; font-size: 1.15rem; color: #34d399; display: flex; align-items: center; gap: 8px;">
-          <span>G ➔ A2 Retrofit Transformation Protocol</span>
+          <span>G ➔ A/A0 Retrofit Transformation Protocol</span>
           <span style="background: #f59e0b; color: #000; font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; font-weight: 800; text-transform: uppercase;">EPBD 2030 Rule</span>
         </div>
         <p style="margin: 6px 0 0 0; font-size: 0.92rem; color: #cbd5e1; max-width: 680px;">
-          Under the revised European Energy Performance of Buildings Directive (EPBD), lowest-rated dwellings (<strong>G & F</strong>) qualify for up to <strong>€25,500+ in SEAI grants</strong> and unlock an estimated <strong>€4,850/year in heating bill savings</strong>.
+          Under the official simplified SEAI scale, lowest-rated dwellings (<strong>G & F</strong>) qualify for up to <strong>€25,500+ in SEAI grants</strong> and unlock an estimated <strong>€4,850/year in heating bill savings</strong>.
         </p>
       </div>
     </div>
     <button type="button" id="btn-open-ber-explainer-modal" style="background: #10b981; color: #ffffff; border: none; font-weight: 800; padding: 12px 22px; border-radius: 8px; font-size: 0.92rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(16,185,129,0.3);">
-      ℹ️ Explain G to A Scale →
+      ℹ️ Explain Simplified A0-G Scale →
     </button>
   </div>
 
   <!-- INTERACTIVE BER SIMULATOR PANEL -->
   <section style="margin-top: 10px;">
     <div class="section-title-wrapper">
-      <span class="section-badge">15-Band Engine</span>
+      <span class="section-badge">Simplified BER Scale</span>
       <h2>BER Jump & Financial Savings Simulator</h2>
     </div>
 
     <div class="accordion-panel open" style="padding: 24px; background: #ffffff; border-radius: 16px; border: 1px solid var(--border-color);">
       <div class="payback-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div class="input-group">
-          <label for="currentBER" style="font-weight: 700; color: #003f2d; margin-bottom: 6px; display: block;">1. Select Current BER Rating (A0 to G):</label>
+          <label for="currentBER" style="font-weight: 700; color: #003f2d; margin-bottom: 6px; display: block;">1. Select Current BER Rating (Simplified A0 to G):</label>
           <select id="currentBER" onchange="simulateBER()" style="width:100%; padding:12px 14px; border-radius:8px; border:1.5px solid #cbd5e1; font-size:0.95rem; font-weight:600; background:#fff;">
-            <option value="G" selected>🔴 G Rating (&gt;450 kWh/m²/yr · ~€5,400/yr fuel · Priority Retrofit)</option>
-            <option value="F">🟠 F Rating (380–450 kWh/m²/yr · ~€4,200/yr fuel)</option>
-            <option value="E2">🟠 E2 Rating (340–380 kWh/m²/yr · ~€3,600/yr fuel)</option>
-            <option value="E1">🟠 E1 Rating (300–340 kWh/m²/yr · ~€3,200/yr fuel)</option>
-            <option value="D2">🟡 D2 Rating (260–300 kWh/m²/yr · ~€2,800/yr fuel)</option>
-            <option value="D1">🟡 D1 Rating (225–260 kWh/m²/yr · ~€2,500/yr · Irish Average)</option>
-            <option value="C3">🟢 C3 Rating (200–225 kWh/m²/yr · ~€2,100/yr fuel)</option>
-            <option value="C2">🟢 C2 Rating (175–200 kWh/m²/yr · ~€1,850/yr fuel)</option>
-            <option value="C1">🟢 C1 Rating (150–175 kWh/m²/yr · ~€1,600/yr fuel)</option>
-            <option value="B3">🟢 B3 Rating (125–150 kWh/m²/yr · Green Mortgage Entry)</option>
-            <option value="B2">🟢 B2 Rating (100–125 kWh/m²/yr · SEAI National Target)</option>
-            <option value="B1">🟢 B1 Rating (75–100 kWh/m²/yr · 3.45% Green Mortgage)</option>
-            <option value="A3">🔵 A3 Rating (50–75 kWh/m²/yr · Low-Flow Heat Pump)</option>
-            <option value="A2">🔵 A2 Rating (25–50 kWh/m²/yr · Official NZEB Standard)</option>
-            <option value="A1">🔵 A1 Rating (0–25 kWh/m²/yr · Zero-Carbon Standard)</option>
-            <option value="A0">🔵 A0 Rating (&lt;0 kWh/m²/yr · Net Energy Exporter)</option>
+            <option value="G" selected>🔴 G Rating (Lowest efficiency · Pre-1980s · Priority Grants)</option>
+            <option value="F">🟠 F Rating (Poor performance · High running costs)</option>
+            <option value="E">🟠 E Rating (Lower efficiency · Uninsulated)</option>
+            <option value="D">🟡 D Rating (Moderate efficiency · Partial insulation)</option>
+            <option value="C">🟢 C Rating (National Irish average)</option>
+            <option value="B">🟢 B Rating (Good efficiency · Green mortgage threshold)</option>
+            <option value="A">🔵 A Rating (High performance · Modern / Deep retrofit)</option>
+            <option value="A0">🔵 A0 Rating (Zero-emission · Non-fossil fuel)</option>
           </select>
         </div>
 
         <div class="input-group">
           <label for="targetBER" style="font-weight: 700; color: #003f2d; margin-bottom: 6px; display: block;">2. Select Target Retrofit BER Goal:</label>
           <select id="targetBER" onchange="simulateBER()" style="width:100%; padding:12px 14px; border-radius:8px; border:1.5px solid #cbd5e1; font-size:0.95rem; font-weight:600; background:#fff;">
-            <option value="A0">🔵 A0 Net-Positive (&lt;0 kWh/m²/yr · Micro-Gen Exporter)</option>
-            <option value="A1">🔵 A1 Zero Carbon (0–25 kWh/m²/yr · Passive Standard)</option>
-            <option value="A2" selected>🔵 A2 NZEB Standard (25–50 kWh/m²/yr · SEAI Gold Standard)</option>
-            <option value="A3">🔵 A3 High Efficiency (50–75 kWh/m²/yr · Heat Pump Ready)</option>
-            <option value="B1">🟢 B1 Green Mortgage (75–100 kWh/m²/yr · 3.45% Rate)</option>
-            <option value="B2">🟢 B2 Cost Optimal (100–125 kWh/m²/yr · National Target)</option>
-            <option value="B3">🟢 B3 Green Mortgage Entry (125–150 kWh/m²/yr)</option>
+            <option value="A0">🔵 A0 Rating (Zero-emission · Non-fossil fuel · Micro-gen)</option>
+            <option value="A" selected>🔵 A Rating (High performance · Deep retrofit standard)</option>
+            <option value="B">🟢 B Rating (Good efficiency · Minimum recommended target)</option>
+            <option value="C">🟢 C Rating (Average efficiency)</option>
           </select>
         </div>
       </div>
@@ -308,12 +316,12 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px;">
         <div style="background:#ecfdf5; border:1.5px solid #a7f3d0; padding:16px; border-radius:12px; text-align:center;">
           <small style="color:#047857; font-weight:700; text-transform:uppercase; font-size:0.75rem;">Projected Annual Fuel Savings</small>
-          <div id="berSavingsOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#003f2d; margin-top:4px;">€4,750 / yr</div>
+          <div id="berSavingsOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#003f2d; margin-top:4px;">€4,950 / yr</div>
         </div>
 
         <div style="background:#f0fdf4; border:1.5px solid #bbf7d0; padding:16px; border-radius:12px; text-align:center;">
           <small style="color:#15803d; font-weight:700; text-transform:uppercase; font-size:0.75rem;">CO₂ Emissions Reduction</small>
-          <div id="berCO2Out" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#16a34a; margin-top:4px;">7.9 Tonnes/yr</div>
+          <div id="berCO2Out" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#16a34a; margin-top:4px;">8.1 Tonnes/yr</div>
         </div>
 
         <div style="background:#eff6ff; border:1.5px solid #bfdbfe; padding:16px; border-radius:12px; text-align:center;">
@@ -321,47 +329,39 @@
           <div id="berGrantOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#1e40af; margin-top:4px;">€25,500 Max</div>
         </div>
 
-        <div style="background:#faf5ff; border:1.5px solid #e9d5ff; padding:16px; border-radius:12px; text-align:center;">
-          <small style="color:#6b21a8; font-weight:700; text-transform:uppercase; font-size:0.75rem;">Est. Property Value Boost</small>
-          <div id="berValueOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#7e22ce; margin-top:4px;">+14% to +18%</div>
+        <div style="background:#fffbeb; border:1.5px solid #fde68a; padding:16px; border-radius:12px; text-align:center;">
+          <small style="color:#b45309; font-weight:700; text-transform:uppercase; font-size:0.75rem;">Est. Property Value Boost</small>
+          <div id="berValueOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#d97706; margin-top:4px;">+14% to +18%</div>
         </div>
       </div>
 
-      <!-- Contextual Roadmap & Booking CTA -->
-      <div style="display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; justify-content: center;">
-        <a href="../roadmap/" class="btn-primary" style="text-decoration:none; font-size:0.92rem; padding:12px 22px; background:#003f2d; color:#fff; font-weight:700; border-radius:8px;">📄 Download 2-Page Engineering Dossier (PDF) →</a>
-        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none; font-size:0.92rem; padding:12px 22px; background:#f59e0b; color:#000; font-weight:800; border-radius:8px;">⭐ Book Onsite Survey with Joe (€49) →</a>
+      <div style="margin-top: 16px; padding: 12px 16px; background: #f8fafc; border-radius: 8px; font-size: 0.85rem; color: #64748b; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <span>ℹ️ Sub-categories (A1-A3, B1-B3, C1-C3, D1-D2, E1-E2) were consolidated into 8 standard bands by SEAI on May 24, 2026.</span>
+        <a href="/ber-matrix/" style="color: #10b981; font-weight: 700; text-decoration: none;">Launch Interactive "What-If" Domino Matrix →</a>
       </div>
+
     </div>
   </section>
 
   <!-- SECTION: BER SCALE GRAPHIC & ADVISORY CARDS -->
   <div class="ber-layout-grid">
     
-    <!-- LEFT COLUMN: Official 15-Band Irish BER Scale Graphic -->
+    <!-- LEFT COLUMN: Official Simplified 8-Category Irish BER Scale Graphic -->
     <div class="ber-scale-card">
       <div class="ber-scale-title">
-        <span>Official Irish BER Scale</span>
-        <small style="color:var(--text-muted); font-size:0.75rem;">15-Band SEAI / EPBD</small>
+        <span>Official Simplified BER Scale</span>
+        <small style="color:var(--text-muted); font-size:0.75rem;">SEAI 8-Category Standard</small>
       </div>
 
       <div class="ber-scale">
-        <div class="ber-row ber-a0" id="band-A0"><span>A0</span><span>&lt; 0 kWh (Net-Positive ZEB)</span></div>
-        <div class="ber-row ber-a1" id="band-A1"><span>A1</span><span>0–25 kWh (Zero Carbon)</span></div>
-        <div class="ber-row ber-a2 active-target" id="band-A2"><span>A2 ★ NZEB</span><span>25–50 kWh (NZEB Benchmark)</span></div>
-        <div class="ber-row ber-a3" id="band-A3"><span>A3</span><span>50–75 kWh (Heat Pump Ready)</span></div>
-        <div class="ber-row ber-b1" id="band-B1"><span>B1</span><span>75–100 kWh (3.45% Mortgage)</span></div>
-        <div class="ber-row ber-b2" id="band-B2"><span>B2</span><span>100–125 kWh (National Target)</span></div>
-        <div class="ber-row ber-b3" id="band-B3"><span>B3</span><span>125–150 kWh (Green Entry)</span></div>
-        <div class="ber-row ber-c1" id="band-C1"><span>C1</span><span>150–175 kWh/m²/yr</span></div>
-        <div class="ber-row ber-c2" id="band-C2"><span>C2</span><span>175–200 kWh/m²/yr</span></div>
-        <div class="ber-row ber-c3" id="band-C3"><span>C3</span><span>200–225 kWh/m²/yr</span></div>
-        <div class="ber-row ber-d1" id="band-D1"><span>D1</span><span>225–260 kWh (Irish Avg)</span></div>
-        <div class="ber-row ber-d2" id="band-D2"><span>D2</span><span>260–300 kWh/m²/yr</span></div>
-        <div class="ber-row ber-e1" id="band-E1"><span>E1</span><span>300–340 kWh/m²/yr</span></div>
-        <div class="ber-row ber-e2" id="band-E2"><span>E2</span><span>340–380 kWh/m²/yr</span></div>
-        <div class="ber-row ber-f" id="band-F"><span>F</span><span>380–450 kWh (EPBD Target)</span></div>
-        <div class="ber-row ber-g active-current" id="band-G"><span>G 👈 Current</span><span>&gt; 450 kWh (Worst Loss)</span></div>
+        <div class="ber-row ber-a0" id="band-A0"><span>A0</span><span>&lt; 0 kWh (Zero-Emission Tier)</span></div>
+        <div class="ber-row ber-a active-target" id="band-A"><span>A ★ High Perf</span><span>0–50 kWh (NZEB / Deep Retrofit)</span></div>
+        <div class="ber-row ber-b" id="band-B"><span>B</span><span>50–125 kWh (Green Mortgage 3.45%)</span></div>
+        <div class="ber-row ber-c" id="band-C"><span>C</span><span>125–200 kWh (Irish Average)</span></div>
+        <div class="ber-row ber-d" id="band-D"><span>D</span><span>200–280 kWh (Moderate / Partial)</span></div>
+        <div class="ber-row ber-e" id="band-E"><span>E</span><span>280–360 kWh (Older Home / Poor)</span></div>
+        <div class="ber-row ber-f" id="band-F"><span>F</span><span>360–450 kWh (High Heat Loss)</span></div>
+        <div class="ber-row ber-g active-current" id="band-G"><span>G 👈 Current</span><span>&gt; 450 kWh (Priority Retrofit)</span></div>
       </div>
     </div>
 
@@ -429,18 +429,18 @@
 
     <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 18px; margin-bottom: 24px;">
       <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
-        <span style="background: #003f2d; color: #34d399; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;">SEAI & EU EPBD 2026–2030 Guidance</span>
-        <span style="background: #ecfdf5; color: #059669; font-weight: 700; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px;">15-Band Scale</span>
+        <span style="background: #003f2d; color: #34d399; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; text-transform: uppercase;">SEAI & EU EPBD 2026 Guidance</span>
+        <span style="background: #ecfdf5; color: #059669; font-weight: 700; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px;">8-Category Scale</span>
       </div>
-      <h2 style="color: #003f2d; margin: 0; font-size: 1.8rem; font-family: 'Outfit', sans-serif;">Understanding the Irish BER Scale: G to A2 Transformation</h2>
+      <h2 style="color: #003f2d; margin: 0; font-size: 1.8rem; font-family: 'Outfit', sans-serif;">Understanding the Simplified Irish BER Scale: G to A/A0 Transformation</h2>
       <p style="color: #64748b; margin: 8px 0 0 0; font-size: 0.95rem;">
-        What every rating from <strong>G (Worst Heat Loss)</strong> to <strong>A2 (Deep Retrofit Standard)</strong> means for your fuel bills, carbon taxes, SEAI grants, and property valuation.
+        What every rating from <strong>G (Lowest Efficiency)</strong> to <strong>A0 (Zero-Emission Tier)</strong> means for your fuel bills, carbon taxes, SEAI grants, and property valuation.
       </p>
     </div>
 
     <!-- Official NZEB Technical Benchmarks Banner -->
     <div style="background: #f0fdf4; border: 1.5px solid #10b981; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px;">
-      <div style="font-weight: 800; color: #003f2d; font-size: 0.95rem; margin-bottom: 6px;">📐 Official Irish Part L 2026 / NZEB Compliance Benchmarks (A2 Tier):</div>
+      <div style="font-weight: 800; color: #003f2d; font-size: 0.95rem; margin-bottom: 6px;">📐 Official Irish Part L 2026 / NZEB Compliance Benchmarks (A Tier):</div>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; font-size: 0.82rem; color: #166534;">
         <div><strong>• EPC ≤ 0.30</strong> (Energy Performance Coeff.)</div>
         <div><strong>• CPC ≤ 0.35</strong> (Carbon Performance Coeff.)</div>
@@ -449,7 +449,7 @@
       </div>
     </div>
 
-    <!-- Official 15-Band Irish Reference Table -->
+    <!-- Official Simplified 8-Category Irish Reference Table -->
     <div style="margin-bottom: 24px; overflow-x: auto;">
       <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
         <thead>
@@ -462,22 +462,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr style="background: #ecfdf5; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #047857;">A0</td><td style="padding: 8px 12px;">&lt; 0 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #047857;">~€200 / yr</td><td style="padding: 8px 12px;">0.1 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #065f46;">Net Energy Positive · Micro-Generation Net Exporter</td></tr>
-          <tr style="background: #f0fdf4; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #00703c;">A1</td><td style="padding: 8px 12px;">0 – 25 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #00703c;">~€350 / yr</td><td style="padding: 8px 12px;">0.3 t/yr</td><td style="padding: 8px 12px;">Zero Emission Building (ZEB) · Passive House Standard</td></tr>
-          <tr style="background: #ecfdf5; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #059669;">A2</td><td style="padding: 8px 12px;">25 – 50 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #059669;">~€550 / yr</td><td style="padding: 8px 12px;">0.5 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #065f46;">★ Official Irish NZEB Benchmark (EPC ≤ 0.30, CPC ≤ 0.35, RER ≥ 20%, HLI ≤ 2.0)</td></tr>
-          <tr style="background: #eff6ff; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #1d4ed8;">A3</td><td style="padding: 8px 12px;">50 – 75 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #1d4ed8;">~€800 / yr</td><td style="padding: 8px 12px;">0.8 t/yr</td><td style="padding: 8px 12px; color: #1e40af;">High-Efficiency Low-Flow Heat Pump Ready (HLI ≤ 2.0 W/K/m²)</td></tr>
-          <tr style="background: #f0f9ff; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #0369a1;">B1</td><td style="padding: 8px 12px;">75 – 100 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #0369a1;">~€1,050 / yr</td><td style="padding: 8px 12px;">1.2 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #0369a1;">★ Preferred Green Mortgage Threshold · 3.45% Interest Rate Tier</td></tr>
-          <tr style="background: #f0fdf4; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #0f766e;">B2</td><td style="padding: 8px 12px;">100 – 125 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #0f766e;">~€1,250 / yr</td><td style="padding: 8px 12px;">1.5 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #0f766e;">★ National Retrofit Target · Cost-Optimal Benchmark (SEAI Supported)</td></tr>
-          <tr style="background: #f0fdf4; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #047857;">B3</td><td style="padding: 8px 12px;">125 – 150 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #047857;">~€1,450 / yr</td><td style="padding: 8px 12px;">1.9 t/yr</td><td style="padding: 8px 12px; color: #047857;">Standard Green Mortgage Entry Tier</td></tr>
-          <tr style="background: #f7fee7; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #15803d;">C1</td><td style="padding: 8px 12px;">150 – 175 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #15803d;">~€1,600 / yr</td><td style="padding: 8px 12px;">2.3 t/yr</td><td style="padding: 8px 12px;">Moderate Efficiency · Attic & Heating Controls</td></tr>
-          <tr style="background: #f7fee7; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #4d7c0f;">C2</td><td style="padding: 8px 12px;">175 – 200 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #4d7c0f;">~€1,850 / yr</td><td style="padding: 8px 12px;">2.7 t/yr</td><td style="padding: 8px 12px;">Moderate Thermal Loss · Cavity Wall Top-Up</td></tr>
-          <tr style="background: #f7fee7; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #65a30d;">C3</td><td style="padding: 8px 12px;">200 – 225 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #65a30d;">~€2,100 / yr</td><td style="padding: 8px 12px;">3.1 t/yr</td><td style="padding: 8px 12px;">Moderate-to-High Heating Demand</td></tr>
-          <tr style="background: #fefce8; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #ca8a04;">D1</td><td style="padding: 8px 12px;">225 – 260 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #ca8a04;">~€2,500 / yr</td><td style="padding: 8px 12px;">3.8 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #854d0e;">Average Existing Irish Home · External Wrap & Heat Pump Eligible</td></tr>
-          <tr style="background: #fefce8; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #eab308;">D2</td><td style="padding: 8px 12px;">260 – 300 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #a16207;">~€2,800 / yr</td><td style="padding: 8px 12px;">4.4 t/yr</td><td style="padding: 8px 12px;">High Thermal Loss · Draft Infiltration</td></tr>
-          <tr style="background: #fff7ed; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #d97706;">E1</td><td style="padding: 8px 12px;">300 – 340 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #c2410c;">~€3,200 / yr</td><td style="padding: 8px 12px;">5.1 t/yr</td><td style="padding: 8px 12px;">Poor Insulation · High Fuel Poverty Exposure</td></tr>
-          <tr style="background: #fff7ed; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #c2410c;">E2</td><td style="padding: 8px 12px;">340 – 380 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #9a3412;">~€3,600 / yr</td><td style="padding: 8px 12px;">5.7 t/yr</td><td style="padding: 8px 12px;">Uninsulated Walls & Low Efficiency Boiler</td></tr>
-          <tr style="background: #fff1f2; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #b91c1c;">F</td><td style="padding: 8px 12px;">380 – 450 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #991b1b;">~€4,200 / yr</td><td style="padding: 8px 12px;">6.6 t/yr</td><td style="padding: 8px 12px; color: #991b1b; font-weight: 700;">EU EPBD 2030 Mandatory Retrofit Priority Target</td></tr>
-          <tr style="background: #fef2f2;"><td style="padding: 8px 12px; font-weight: 800; color: #991b1b;">G</td><td style="padding: 8px 12px;">&gt; 450 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #7f1d1d;">~€5,400+ / yr</td><td style="padding: 8px 12px;">8.5+ t/yr</td><td style="padding: 8px 12px; color: #7f1d1d; font-weight: 800;">Worst Thermal Heat Loss · Priority SEAI €25,500+ Deep Grants</td></tr>
+          <tr style="background: #ecfdf5; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #047857;">A0</td><td style="padding: 8px 12px;">&lt; 0 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #047857;">~€200 / yr</td><td style="padding: 8px 12px;">0.1 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #065f46;">Net Energy Positive · Micro-Generation Net Exporter · Non-Fossil Fuel</td></tr>
+          <tr style="background: #ecfdf5; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #059669;">A</td><td style="padding: 8px 12px;">0 – 50 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #059669;">~€450 / yr</td><td style="padding: 8px 12px;">0.4 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #065f46;">★ Official Irish NZEB Benchmark · Deep Retrofit Standard (EPC ≤ 0.30, CPC ≤ 0.35, RER ≥ 20%, HLI ≤ 2.0)</td></tr>
+          <tr style="background: #f0fdf4; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #0369a1;">B</td><td style="padding: 8px 12px;">50 – 125 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #0369a1;">~€1,150 / yr</td><td style="padding: 8px 12px;">1.4 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #0369a1;">★ Green Mortgage Threshold · 3.45% Interest Rate Tier · Cost-Optimal Target</td></tr>
+          <tr style="background: #f7fee7; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #4d7c0f;">C</td><td style="padding: 8px 12px;">125 – 200 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #4d7c0f;">~€1,850 / yr</td><td style="padding: 8px 12px;">2.5 t/yr</td><td style="padding: 8px 12px;">National Irish Average · Attic & Heating Controls Upgrade</td></tr>
+          <tr style="background: #fefce8; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #ca8a04;">D</td><td style="padding: 8px 12px;">200 – 280 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #ca8a04;">~€2,650 / yr</td><td style="padding: 8px 12px;">4.1 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #854d0e;">Moderate Efficiency · External Wrap & Heat Pump Candidate</td></tr>
+          <tr style="background: #fff7ed; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #d97706;">E</td><td style="padding: 8px 12px;">280 – 360 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #c2410c;">~€3,400 / yr</td><td style="padding: 8px 12px;">5.4 t/yr</td><td style="padding: 8px 12px;">Lower Efficiency · Uninsulated Walls & Inefficient Boiler</td></tr>
+          <tr style="background: #fff1f2; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #b91c1c;">F</td><td style="padding: 8px 12px;">360 – 450 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #991b1b;">~€4,200 / yr</td><td style="padding: 8px 12px;">6.6 t/yr</td><td style="padding: 8px 12px; color: #991b1b; font-weight: 700;">Poor Performance · EU EPBD Mandatory Retrofit Priority Target</td></tr>
+          <tr style="background: #fef2f2;"><td style="padding: 8px 12px; font-weight: 800; color: #991b1b;">G</td><td style="padding: 8px 12px;">&gt; 450 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #7f1d1d;">~€5,400+ / yr</td><td style="padding: 8px 12px;">8.5+ t/yr</td><td style="padding: 8px 12px; color: #7f1d1d; font-weight: 800;">Lowest Efficiency · Priority SEAI Up to €25,500+ Deep Grants</td></tr>
         </tbody>
       </table>
     </div>
@@ -513,9 +505,17 @@
 </footer>
 
 <script>
-// Dynamic BER Simulator Logic using Official 15-Band Irish Scale (A0 to G)
+// Dynamic BER Simulator Logic using Official Simplified Irish Scale (A0 to G)
 const berScaleData = (window.ECOSMART_METRICS && window.ECOSMART_METRICS.ber_scale) ? window.ECOSMART_METRICS.ber_scale : {
-  'A0': { kwh: -10, co2: 0.1, fuelEst: 200, label: 'A0 Net-Positive' },
+  'A0': { kwh: -10, co2: 0.1, fuelEst: 200, label: 'A0 Zero-Emission Tier' },
+  'A':  { kwh: 40,  co2: 0.4, fuelEst: 450, label: 'A High Performance' },
+  'B':  { kwh: 100, co2: 1.4, fuelEst: 1150, label: 'B Green Mortgage' },
+  'C':  { kwh: 185, co2: 2.5, fuelEst: 1850, label: 'C Irish Average' },
+  'D':  { kwh: 260, co2: 4.1, fuelEst: 2650, label: 'D Moderate Efficiency' },
+  'E':  { kwh: 340, co2: 5.4, fuelEst: 3400, label: 'E Lower Efficiency' },
+  'F':  { kwh: 415, co2: 6.6, fuelEst: 4200, label: 'F Poor Performance' },
+  'G':  { kwh: 480, co2: 8.5, fuelEst: 5400, label: 'G Lowest Efficiency' },
+  // Backward compatibility for legacy sub-divisions
   'A1': { kwh: 20,  co2: 0.3, fuelEst: 350, label: 'A1 Zero Carbon' },
   'A2': { kwh: 40,  co2: 0.5, fuelEst: 550, label: 'A2 NZEB Standard' },
   'A3': { kwh: 65,  co2: 0.8, fuelEst: 800, label: 'A3 High Efficiency' },
@@ -528,9 +528,7 @@ const berScaleData = (window.ECOSMART_METRICS && window.ECOSMART_METRICS.ber_sca
   'D1': { kwh: 240, co2: 3.8, fuelEst: 2500, label: 'D1 Irish Average' },
   'D2': { kwh: 280, co2: 4.4, fuelEst: 2800, label: 'D2 High Loss' },
   'E1': { kwh: 320, co2: 5.1, fuelEst: 3200, label: 'E1 High Loss' },
-  'E2': { kwh: 360, co2: 5.7, fuelEst: 3600, label: 'E2 Poor Insulation' },
-  'F':  { kwh: 415, co2: 6.6, fuelEst: 4200, label: 'F Priority Retrofit' },
-  'G':  { kwh: 480, co2: 8.5, fuelEst: 5400, label: 'G Worst Loss' }
+  'E2': { kwh: 360, co2: 5.7, fuelEst: 3600, label: 'E2 Poor Insulation' }
 };
 
 function simulateBER() {
@@ -538,23 +536,24 @@ function simulateBER() {
   const targetKey  = document.getElementById('targetBER').value;
   
   const cur = berScaleData[currentKey] || { kwh: 480, co2: 8.5, fuelEst: 5400 };
-  const tar = berScaleData[targetKey] || { kwh: 40,  co2: 0.5, fuelEst: 550 };
+  const tar = berScaleData[targetKey] || { kwh: 40,  co2: 0.4, fuelEst: 450 };
 
   const annualSavings = Math.max(0, cur.fuelEst - tar.fuelEst);
   const co2Saved = Math.max(0, (cur.co2 - tar.co2)).toFixed(1);
   
   // SEAI Grant estimation
   let grantEst = "€25,500 Max (One-Stop-Shop)";
-  if (['B3', 'B2'].includes(targetKey)) grantEst = "€21,000 (Cost-Optimal Target)";
+  if (['C', 'C1', 'C2', 'C3'].includes(targetKey)) grantEst = "€16,500 (Attic & Controls)";
+  if (['B', 'B3', 'B2'].includes(targetKey)) grantEst = "€21,000 (Cost-Optimal Target)";
   if (targetKey === 'B1') grantEst = "€22,500 (3.45% Green Mortgage)";
-  if (targetKey === 'A3') grantEst = "€24,000 (Heat Pump Ready)";
+  if (['A', 'A3'].includes(targetKey)) grantEst = "€25,500 (Deep Retrofit / Heat Pump)";
   if (targetKey === 'A2') grantEst = "€25,500 (Official NZEB Standard)";
   if (['A1', 'A0'].includes(targetKey)) grantEst = "€26,500+ (Zero-Emission ZEB)";
 
   // Value boost
   let valueBoost = "+10% to +14%";
-  if (['G', 'F', 'E2', 'E1'].includes(currentKey)) valueBoost = "+14% to +18%";
-  if (['A2', 'A1', 'A0'].includes(targetKey)) valueBoost = "+15% to +22%";
+  if (['G', 'F', 'E', 'E2', 'E1'].includes(currentKey)) valueBoost = "+14% to +18%";
+  if (['A', 'A2', 'A1', 'A0'].includes(targetKey)) valueBoost = "+15% to +22%";
 
   document.getElementById('berSavingsOut').textContent = '€' + annualSavings.toLocaleString() + ' / yr';
   document.getElementById('berCO2Out').textContent = co2Saved + ' Tonnes/yr';
@@ -599,20 +598,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'auto';
       }
     });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.style.display === 'flex') {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    });
   }
-});
 
-// Initial Run
-simulateBER();
+  simulateBER();
+});
 </script>
 
-  <script src="/js/whatsapp-widget.js" defer></script>
 </body>
 </html>
