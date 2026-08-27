@@ -85,5 +85,11 @@
       "destination": "/",
       "permanent": true
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/monday-report",
+      "schedule": "0 8 * * 1"
+    }
   ]
 }
