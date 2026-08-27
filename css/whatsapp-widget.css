@@ -1,0 +1,140 @@
+/* EcoSmartHomes Branded WhatsApp Quick-Consult Floating Widget */
+#esh-whatsapp-floating-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9998;
+  background: #25D366;
+  color: #00241b;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  font-family: 'Inter', -apple-system, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+  border: 2px solid #ffffff;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+}
+#esh-whatsapp-floating-btn:hover {
+  background: #20ba59;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 30px rgba(37, 211, 102, 0.55);
+}
+.wa-pulse-ring {
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ffffff;
+  animation: waPulse 1.8s infinite;
+}
+@keyframes waPulse {
+  0% { transform: scale(0.9); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+  100% { transform: scale(0.9); opacity: 1; }
+}
+
+/* Modal Overlay */
+#esh-wa-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 23, 17, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+.esh-wa-card {
+  background: #00241b;
+  border: 1.5px solid rgba(52, 245, 197, 0.3);
+  border-radius: 20px;
+  max-width: 480px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+  position: relative;
+  color: #f8fafc;
+}
+.esh-wa-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  color: #cbd5e1;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.esh-wa-close-btn:hover {
+  background: rgba(255,255,255,0.2);
+  color: #ffffff;
+}
+.wa-topic-chip {
+  background: #001711;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #cbd5e1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wa-topic-chip.active {
+  border-color: #25D366;
+  background: rgba(37, 211, 102, 0.12);
+  color: #ffffff;
+}
+.wa-preview-box {
+  background: #001711;
+  border: 1px dashed rgba(52, 245, 197, 0.4);
+  border-radius: 10px;
+  padding: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.76rem;
+  color: #a7f3d0;
+  line-height: 1.5;
+  margin: 14px 0;
+  white-space: pre-wrap;
+}
+.btn-launch-wa {
+  background: #25D366;
+  color: #00241b;
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 900;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+  transition: all 0.2s;
+}
+.btn-launch-wa:hover {
+  background: #20ba59;
+  transform: scale(1.02);
+}
