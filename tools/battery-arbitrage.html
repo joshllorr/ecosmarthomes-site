@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Global Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-3013797648"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-3013797648', {'allow_enhanced_conversions': true});
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Meter & Night-Rate Battery Arbitrage Slasher | EcoSmartHomes</title>
+  <meta name="description" content="Calculate how charging a 5kWh or 10kWh home battery at 7c/kWh night rate and discharging during 38c peak hours slashes your Irish electricity bills by €1,420/yr.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/battery-arbitrage/">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/style.css?v=5">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  
+  <!-- jsPDF for instant Client-Side Battery Arbitrage Dossier Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #001711;
+      --bg-card: #00241b;
+      --bg-card-light: #003628;
+      --color-mint: #34f5c5;
+      --color-emerald: #10b981;
+      --color-amber: #f59e0b;
+      --color-sky: #38bdf8;
+      --color-electric: #fbbf24;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .top-bar-custom {
+      background: #00120d;
+      color: #94a3b8;
+      padding: 7px 0;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-nav-bar {
+      background: rgba(0, 36, 27, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link-item {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .nav-link-item:hover {
+      color: var(--color-mint);
+    }
+    .btn-book-nav {
+      background: var(--color-amber);
+      color: #00241b;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+      white-space: nowrap;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .btn-book-nav:hover {
+      background: #fbbf24;
+      transform: scale(1.02);
+    }
+    .arbitrage-hero {
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      padding: 50px 20px 60px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .arbitrage-card-dark {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .battery-visual-box {
+      background: linear-gradient(180deg, #001f17 0%, #00120d 100%);
+      border: 2px solid rgba(52, 245, 197, 0.3);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .battery-glow-pulse {
+      position: absolute;
+      top: -30px; left: 50%;
+      transform: translateX(-50%);
+      width: 140px; height: 140px;
+      background: radial-gradient(circle, rgba(52, 245, 197, 0.35) 0%, transparent 70%);
+      pointer-events: none;
+      animation: batteryPulse 2.5s infinite;
+    }
+    @keyframes batteryPulse {
+      0%, 100% { transform: translateX(-50%) scale(0.9); opacity: 0.5; }
+      50% { transform: translateX(-50%) scale(1.3); opacity: 1; }
+    }
+    .tariff-card {
+      background: #001711;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tariff-card.active {
+      border-color: var(--color-mint);
+      background: rgba(52, 245, 197, 0.08);
+      box-shadow: 0 0 14px rgba(52, 245, 197, 0.2);
+    }
+    .battery-pill-btn {
+      background: #001711;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      color: #cbd5e1;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .battery-pill-btn.active {
+      border-color: var(--color-electric);
+      background: rgba(245, 158, 11, 0.12);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+    }
+    .metric-stat-box {
+      background: rgba(0, 23, 17, 0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Notification Telemetry -->
+  <aside class="top-bar-custom" aria-label="Regulatory live updates">
+    <div class="top-bar-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: var(--color-electric);">⚡</span>
+        <span style="color: #cbd5e1; font-weight: 700;">Irish Smart Meter Night-Boost Arbitrage Index (02:00-06:00 Boost Active)</span>
+      </div>
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: var(--color-amber); font-weight: 800; text-decoration: none;">⭐ Book €49 Survey →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="main-nav-bar" role="banner">
+    <div class="nav-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-size: 1.4rem;">🏡</span>
+        <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: var(--color-mint);">Homes</strong></span>
+      </a>
+
+      <nav class="nav-links-wrap" aria-label="Main Navigation">
+        <a href="/" class="nav-link-item">Home</a>
+        <a href="/green-mortgage/" class="nav-link-item">🏛️ Green Mortgage</a>
+        <a href="/quote-auditor/" class="nav-link-item">🛡️ Quote Auditor</a>
+        <a href="/solar/" class="nav-link-item">☀️ Solar PV</a>
+        <a href="/battery-arbitrage/" class="nav-link-item" style="color: var(--color-electric);">⚡ Battery Arbitrage</a>
+        <a href="/carbon-tax/" class="nav-link-item">⚡ Carbon Tax</a>
+        <a href="/roadmap/" class="nav-link-item">📄 Roadmap PDF</a>
+        <a href="/locations/" class="nav-link-item">📍 Towns Hub</a>
+        <a href="/contractors/" class="nav-link-item">👔 For Installers</a>
+      </nav>
+
+      <div>
+        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-book-nav">
+          💳 Book €49 Survey
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="arbitrage-hero">
+    <div style="max-width: 900px; margin: 0 auto;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); margin-bottom: 20px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-electric); box-shadow: 0 0 10px var(--color-electric);"></span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 800; color: var(--color-electric); text-transform: uppercase;">
+          Smart Meter EV Night Rate Arbitrage Engine
+        </span>
+      </div>
+
+      <h1 style="font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 900; color: #ffffff; margin: 0 auto 16px auto; line-height: 1.15; letter-spacing: -0.02em;">
+        Smart Meter & Night-Rate Battery Arbitrage Slasher
+      </h1>
+
+      <p style="font-size: clamp(0.95rem, 2vw, 1.15rem); color: #94a3b8; max-width: 760px; margin: 0 auto; line-height: 1.6;">
+        Ireland now has over 1.5 million smart meters. Charge a home battery overnight at <strong>~7c/kWh</strong> and run your heat pump & appliances during <strong>38c/kWh peak daytime hours</strong> to unlock an extra <strong>€1,420/year in pure cash savings</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Simulator Main Stage -->
+  <main style="max-width: 1200px; margin: -30px auto 80px auto; padding: 0 20px;">
+    
+    <div class="arbitrage-card-dark">
+      
+      <div style="display: grid; grid-template-columns: 1fr 1.1fr; gap: 36px;">
+        
+        <!-- Left Column: Utility Provider & Hardware Tuning -->
+        <div>
+          <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0 0 16px 0;">1. Select Your Irish Utility Tariff & Battery Pack</h2>
+
+          <!-- Utility Provider Selector -->
+          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace;">
+            Select Electricity Provider:
+          </label>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+            <div class="tariff-card active" id="tariff-energia" onclick="setTariff('energia')">
+              <div style="font-weight: 800; color: #ffffff; font-size: 0.92rem;">Energia EV Smart</div>
+              <div style="font-size: 0.75rem; color: var(--color-mint); margin-top: 2px; font-family: 'IBM Plex Mono', monospace;">Night: 7.2c | Peak: 37.8c</div>
+            </div>
+            <div class="tariff-card" id="tariff-electricireland" onclick="setTariff('electricireland')">
+              <div style="font-weight: 800; color: #ffffff; font-size: 0.92rem;">Electric Ireland EV</div>
+              <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 2px; font-family: 'IBM Plex Mono', monospace;">Night: 8.1c | Peak: 38.5c</div>
+            </div>
+            <div class="tariff-card" id="tariff-bordgais" onclick="setTariff('bordgais')">
+              <div style="font-weight: 800; color: #ffffff; font-size: 0.92rem;">Bord Gáis Smart Plan</div>
+              <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 2px; font-family: 'IBM Plex Mono', monospace;">Night: 7.9c | Peak: 39.1c</div>
+            </div>
+            <div class="tariff-card" id="tariff-sse" onclick="setTariff('sse')">
+              <div style="font-weight: 800; color: #ffffff; font-size: 0.92rem;">SSE Airtricity Boost</div>
+              <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 2px; font-family: 'IBM Plex Mono', monospace;">Night: 8.5c | Peak: 36.9c</div>
+            </div>
+          </div>
+
+          <!-- Battery Pack Capacity Buttons -->
+          <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace;">
+            Select Modular Home Battery Storage:
+          </label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+            <button type="button" class="battery-pill-btn" id="btn-bat-5" onclick="setBattery(5.1)">
+              🔋 5.1 kWh<br><small style="color: #94a3b8; font-size: 0.7rem;">Standard Home</small>
+            </button>
+            <button type="button" class="battery-pill-btn active" id="btn-bat-10" onclick="setBattery(10.2)">
+              ⚡ 10.2 kWh<br><small style="color: #94a3b8; font-size: 0.7rem;">Heat Pump Dual</small>
+            </button>
+            <button type="button" class="battery-pill-btn" id="btn-bat-15" onclick="setBattery(15.3)">
+              🏢 15.3 kWh<br><small style="color: #94a3b8; font-size: 0.7rem;">Detached / EV</small>
+            </button>
+          </div>
+
+          <!-- Household Usage Archetype -->
+          <div style="background: #001711; padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px;">
+            <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace;">
+              Household Load Profile:
+            </label>
+            <select id="usage-profile-select" style="width: 100%; padding: 10px; background: #00241b; color: #ffffff; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; font-size: 0.9rem;" onchange="runArbitrageCalc()">
+              <option value="heatpump" selected>Air-to-Water Heat Pump + Smart Domestic (~6,800 kWh/yr)</option>
+              <option value="standard">Standard Domestic (Lights, Oven, Appliances) (~4,200 kWh/yr)</option>
+              <option value="ev_heatpump">EV Commuter + Heat Pump (~9,400 kWh/yr)</option>
+            </select>
+          </div>
+
+          <!-- 0% VAT Hardware Guarantee -->
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); padding: 14px; border-radius: 10px; display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 1.5rem;">💶</span>
+            <div>
+              <strong style="color: var(--color-mint); font-size: 0.88rem;">0% Irish VAT on Battery Installations</strong>
+              <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 2px;">Zero VAT applied on modular lithium storage when installed with solar or standalone smart inverters.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Visual Arbitrage Spread & Savings Math -->
+        <div>
+          <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0 0 16px 0;">2. Night-vs-Peak Arbitrage Returns</h2>
+
+          <!-- Animated Battery Hardware Card -->
+          <div class="battery-visual-box">
+            <div class="battery-glow-pulse"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; position: relative; z-index: 10;">
+              <span id="battery-status-tag" style="background: rgba(52, 245, 197, 0.15); color: var(--color-mint); border: 1px solid rgba(52, 245, 197, 0.3); padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace;">
+                ● 10.2 kWh SMART STORAGE ACTIVE
+              </span>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--color-electric); font-weight: 800;">
+                SPREAD: +30.6c / kWh
+              </span>
+            </div>
+
+            <!-- Visual Flow Bar: Charge 02:00 -> Discharge 17:00 -->
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; margin: 16px 0; font-family: 'IBM Plex Mono', monospace;">
+              <div style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); padding: 10px; border-radius: 8px;">
+                <div style="font-size: 0.68rem; color: var(--color-sky); text-transform: uppercase;">02:00 - 06:00 CHARGE</div>
+                <strong id="val-night-rate" style="font-size: 1.25rem; color: #ffffff;">7.2c / kWh</strong>
+              </div>
+              <span style="font-size: 1.2rem; color: var(--color-mint);">➔</span>
+              <div style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); padding: 10px; border-radius: 8px;">
+                <div style="font-size: 0.68rem; color: #fca5a5; text-transform: uppercase;">08:00 - 23:00 DISCHARGE</div>
+                <strong id="val-peak-rate" style="font-size: 1.25rem; color: #ffffff;">37.8c / kWh</strong>
+              </div>
+            </div>
+
+            <div style="font-size: 0.82rem; color: #94a3b8; line-height: 1.4;">
+              Your battery charges automatically at night using cheap off-peak electricity and runs your heat pump during the day, eliminating expensive peak tariffs.
+            </div>
+          </div>
+
+          <!-- Total Benefit Hero Card -->
+          <div style="background: radial-gradient(120% 120% at 50% 0%, #004d38 0%, #00241b 100%); border: 1px solid rgba(52, 245, 197, 0.3); border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.4);">
+            <div style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: #a7f3d0; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">Annual Electricity Bill Slasher</div>
+            <div id="val-annual-savings" style="font-size: 3rem; font-weight: 900; color: var(--color-mint); margin: 4px 0; letter-spacing: -0.02em;">€1,420/yr</div>
+            <div style="font-size: 0.84rem; color: #94a3b8;">Direct savings on Irish domestic electricity invoices</div>
+          </div>
+
+          <!-- 4-Stat Metric Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+            <div class="metric-stat-box">
+              <div id="val-bill-before" style="font-size: 1.35rem; font-weight: 900; color: #f87171;">€2,850/yr</div>
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; margin-top: 4px;">Unmanaged Bill</div>
+            </div>
+            <div class="metric-stat-box">
+              <div id="val-bill-after" style="font-size: 1.35rem; font-weight: 900; color: #34d399;">€1,430/yr</div>
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; margin-top: 4px;">With Battery Slasher</div>
+            </div>
+            <div class="metric-stat-box">
+              <div id="val-net-battery-cost" style="font-size: 1.35rem; font-weight: 900; color: #ffffff;">€4,850</div>
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; margin-top: 4px;">Net Turnkey Outlay (0% VAT)</div>
+            </div>
+            <div class="metric-stat-box">
+              <div id="val-payback" style="font-size: 1.35rem; font-weight: 900; color: var(--color-electric);">3.4 Years</div>
+              <div style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; margin-top: 4px;">Payback Payoff</div>
+            </div>
+          </div>
+
+          <!-- 1-Click PDF Strategy Download Button -->
+          <button type="button" onclick="generateBatteryDossier()" style="width: 100%; padding: 14px; background: rgba(52, 245, 197, 0.15); border: 1.5px solid var(--color-mint); color: var(--color-mint); border-radius: 10px; font-weight: 800; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; transition: all 0.2s;" onmouseover="this.style.background='rgba(52, 245, 197, 0.25)'" onmouseout="this.style.background='rgba(52, 245, 197, 0.15)'">
+            <span>📄 Download 1-Click Battery Arbitrage Strategy (PDF)</span>
+          </button>
+
+          <!-- Joe €49 Survey CTA -->
+          <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="display: block; text-align: center; background: var(--color-amber); color: #00241b; font-weight: 900; padding: 14px; border-radius: 10px; text-decoration: none; font-size: 0.98rem; box-shadow: 0 8px 24px rgba(245,158,11,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+            ⭐ Book Joe's €49 Survey for Smart Meter & Battery Feasibility →
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- Explanatory Technical Notes -->
+      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 36px; margin-top: 40px;">
+        <h3 style="color: #ffffff; font-size: 1.35rem; font-weight: 800; margin-bottom: 12px;">
+          How Smart Meter Night-Rate Battery Arbitrage Works in Ireland
+        </h3>
+        <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.7; margin-bottom: 16px;">
+          With the ESB Networks national smart meter rollout, Irish electricity suppliers offer dramatic discounts during the 4-hour night boost window (02:00 to 06:00 AM). While regular daytime peak power costs up to <strong>38c - 40c per kWh</strong>, night-boost EV tariffs drop as low as <strong>7.2c per kWh</strong>.
+        </p>
+        <p style="color: #94a3b8; font-size: 0.92rem; line-height: 1.7;">
+          By installing an intelligent home battery (5.1kWh to 15.3kWh) paired with a smart hybrid inverter, your home charges at the rock-bottom 7.2c rate every single night—even in the dead of winter when there is zero sunshine. During peak morning and evening hours, the battery powers your heat pump, induction hob, and appliances, effectively locking in an average electricity cost of <strong>sub-10c per kWh year-round</strong>.
+        </p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #00120d; border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; color: #94a3b8; font-size: 0.85rem; text-align: center;">
+    <p style="color: #fff; font-weight: 800; margin-bottom: 6px;">EcoSmartHomes Ireland · 100% Conflict-Free Smart Meter & Storage Advisory</p>
+    <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Tariffs database
+    const TARIFFS = {
+      energia: { name: 'Energia EV Smart Drive', night: 0.072, peak: 0.378 },
+      electricireland: { name: 'Electric Ireland Home EV', night: 0.081, peak: 0.385 },
+      bordgais: { name: 'Bord Gáis EV Smart Plan', night: 0.079, peak: 0.391 },
+      sse: { name: 'SSE Airtricity Night Boost', night: 0.085, peak: 0.369 }
+    };
+
+    let selectedTariffKey = 'energia';
+    let selectedBatteryKwh = 10.2;
+
+    function setTariff(key) {
+      selectedTariffKey = key;
+      ['energia', 'electricireland', 'bordgais', 'sse'].forEach(k => {
+        const el = document.getElementById('tariff-' + k);
+        if (el) el.classList.toggle('active', k === key);
+      });
+      runArbitrageCalc();
+    }
+
+    function setBattery(kwh) {
+      selectedBatteryKwh = kwh;
+      document.getElementById('btn-bat-5').classList.toggle('active', kwh === 5.1);
+      document.getElementById('btn-bat-10').classList.toggle('active', kwh === 10.2);
+      document.getElementById('btn-bat-15').classList.toggle('active', kwh === 15.3);
+      document.getElementById('battery-status-tag').innerText = `● ${kwh} kWh SMART STORAGE ACTIVE`;
+      runArbitrageCalc();
+    }
+
+    function runArbitrageCalc() {
+      const tariff = TARIFFS[selectedTariffKey];
+      const profile = document.getElementById('usage-profile-select').value;
+      
+      let annualKwh = 6800;
+      if (profile === 'standard') annualKwh = 4200;
+      if (profile === 'ev_heatpump') annualKwh = 9400;
+
+      // Pricing rates display
+      document.getElementById('val-night-rate').innerText = `${(tariff.night * 100).toFixed(1)}c / kWh`;
+      document.getElementById('val-peak-rate').innerText = `${(tariff.peak * 100).toFixed(1)}c / kWh`;
+
+      // Arbitrage Math
+      // Daily discharge cycles = 1.0 cycle/day * 365 days
+      const dailyDischarge = selectedBatteryKwh * 0.90; // 90% Depth of Discharge
+      const annualShiftedKwh = Math.min(annualKwh * 0.75, dailyDischarge * 365);
+      
+      const unshiftedKwh = annualKwh - annualShiftedKwh;
+      const billBefore = Math.round(annualKwh * tariff.peak);
+      const billAfter = Math.round((unshiftedKwh * tariff.peak) + (annualShiftedKwh * tariff.night));
+      const annualSavings = Math.round(billBefore - billAfter);
+
+      // Battery Hardware Cost (0% VAT Turnkey)
+      let netBatteryCost = 2850;
+      if (selectedBatteryKwh === 10.2) netBatteryCost = 4850;
+      if (selectedBatteryKwh === 15.3) netBatteryCost = 6850;
+
+      const paybackYears = (netBatteryCost / annualSavings).toFixed(1);
+
+      // DOM updates
+      document.getElementById('val-annual-savings').innerText = `€${annualSavings.toLocaleString()}/yr`;
+      document.getElementById('val-bill-before').innerText = `€${billBefore.toLocaleString()}/yr`;
+      document.getElementById('val-bill-after').innerText = `€${billAfter.toLocaleString()}/yr`;
+      document.getElementById('val-net-battery-cost').innerText = `€${netBatteryCost.toLocaleString()}`;
+      document.getElementById('val-payback').innerText = `${paybackYears} Years`;
+    }
+
+    // 1-Click PDF Strategy Generator
+    function generateBatteryDossier() {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert('PDF generator loading, please click again in a moment.');
+        return;
+      }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const tariff = TARIFFS[selectedTariffKey];
+      const savings = document.getElementById('val-annual-savings').innerText;
+      const billBefore = document.getElementById('val-bill-before').innerText;
+      const billAfter = document.getElementById('val-bill-after').innerText;
+      const netCost = document.getElementById('val-net-battery-cost').innerText;
+      const payback = document.getElementById('val-payback').innerText;
+
+      // Header Banner
+      doc.setFillColor(0, 36, 27);
+      doc.rect(0, 0, 210, 30, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(15);
+      doc.setTextColor(52, 245, 197);
+      doc.text('ECOSMARTHOMES • SMART METER BATTERY ARBITRAGE STRATEGY', 14, 18);
+
+      // Meta
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Generated: ${new Date().toLocaleDateString('en-IE')} | Tariff: ${tariff.name}`, 14, 26);
+
+      // Section 1: Financial Arbitrage
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('1. Electricity Arbitrage & Night-Boost Analysis', 14, 45);
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.text(`• Selected Battery Capacity: ${selectedBatteryKwh} kWh Lithium Modular Storage`, 16, 55);
+      doc.text(`• Selected Utility Provider: ${tariff.name}`, 16, 63);
+      doc.text(`• Off-Peak Night Rate (02:00 - 06:00): ${(tariff.night * 100).toFixed(1)}c / kWh`, 16, 71);
+      doc.text(`• Standard Peak Day Rate (08:00 - 23:00): ${(tariff.peak * 100).toFixed(1)}c / kWh`, 16, 79);
+      doc.text(`• Annual Electricity Bill Slashed: ${savings} saved every year`, 16, 87);
+      doc.text(`• Bill Before Storage: ${billBefore} ➔ Bill After Storage: ${billAfter}`, 16, 95);
+      doc.text(`• Estimated Hardware Investment (0% VAT applied): ${netCost}`, 16, 103);
+      doc.text(`• Estimated ROI Payback Period: ${payback}`, 16, 111);
+
+      // Section 2: Implementation Sequence
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('2. 3-Step Implementation Sequence for Irish Homeowners', 14, 130);
+
+      doc.setFontSize(9.5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+      doc.text('Step 1: Contact your supplier to activate an EV / Night Boost Smart Meter tariff.', 16, 140);
+      doc.text('Step 2: Have a certified REC installer install a hybrid inverter and modular battery.', 16, 148);
+      doc.text('Step 3: Configure inverter charge timer to 02:00-06:00 for automatic overnight charging.', 16, 156);
+
+      // Footer Box
+      doc.setFillColor(240, 253, 244);
+      doc.rect(14, 180, 182, 35, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(6, 95, 70);
+      doc.text('Ready to check your home fuseboard & smart meter compatibility?', 20, 191);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.text('Book a 100% conflict-free €49 survey with Joe at www.ecosmarthomes.ie to verify installation feasibility.', 20, 199);
+
+      doc.save('EcoSmartHomes_Battery_Arbitrage_Strategy.pdf');
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', runArbitrageCalc);
+  </script>
+
+</body>
+</html>
