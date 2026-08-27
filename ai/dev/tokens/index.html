@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Token Dashboard | EcoSmartHomes Private Console</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../../../css/styles.css">
+  <link rel="stylesheet" href="../../../css/dashboard.css">
+
+  <style>
+    .token-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-bottom: 32px;
+      padding: 24px;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 0.92rem;
+    }
+
+    .token-table th {
+      background: #f8fafc;
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border-color);
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .token-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .token-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .token-id {
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      color: #0284c7;
+      background: #f0f9ff;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .badge-active {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .badge-revoked {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../../../index.html">
+        <img src="../../../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../ber-advisor/">BER Advisor</a></li>
+        <li><a href="../../../dashboard.html">Dashboard</a></li>
+        <li><a href="../../index.html">AI Advisory</a></li>
+        <li><a href="../index.html" style="color: #10b981; font-weight: 700;">🔐 Dev Portal</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="dashboard-logo-icon" style="margin: 0 auto 16px auto;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+    </div>
+    <h1>Developer Token Dashboard</h1>
+    <p class="tagline">Rotation-aware access control & token lifecycle management for EcoSmartHomes AI Portal</p>
+  </div>
+</section>
+
+<!-- MAIN CONTAINER -->
+<main class="dashboard-container">
+
+  <!-- ACTIVE TOKENS SECTION -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <span class="section-badge" style="background:#dcfce7; color:#15803d;">Active Credentials</span>
+        <h2>Active Access Tokens</h2>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="new.html" class="btn-primary" style="text-decoration:none; font-size:0.85rem; padding:8px 14px; background:#003f2d;">➕ Issue New Token →</a>
+        <a href="rotate.html" class="btn-primary" style="text-decoration:none; font-size:0.85rem; padding:8px 14px; background:#0f172a;">⚙️ Rotation Console →</a>
+        <a href="revoke.html" class="btn-primary" style="text-decoration:none; font-size:0.85rem; padding:8px 14px; background:#dc2626;">🚫 Revocation Console →</a>
+        <a href="audit.html" class="btn-primary" style="text-decoration:none; font-size:0.85rem; padding:8px 14px; background:#0284c7;">📜 Audit Log →</a>
+      </div>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token ID</th>
+            <th>Label</th>
+            <th>Issued</th>
+            <th>Expires</th>
+            <th>Scope</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="active-tokens">
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- REVOKED TOKENS SECTION -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge" style="background:#fee2e2; color:#dc2626;">Revoked Credentials</span>
+      <h2>Revoked Tokens</h2>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token ID</th>
+            <th>Label</th>
+            <th>Revoked At</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="revoked-tokens">
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ROTATION POLICY SECTION -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge">Security Policy</span>
+      <h2>Token Lifecycle & Rotation Rules</h2>
+    </div>
+    
+    <p style="color:var(--text-main); line-height:1.6;">Developer tokens rotate every 6–12 months. Expired or revoked tokens immediately lose access to:</p>
+    <ul style="margin: 12px 0 0 20px; color:var(--text-main); line-height:1.7;">
+      <li><strong>/ai/dev/</strong> (Private Developer Portal)</li>
+      <li><strong>/ai/manifest.json</strong> (AI Plugin & Agent Manifest)</li>
+      <li><strong>/api/mcp/manifest.json</strong> (Model Context Protocol Manifest)</li>
+      <li><strong>/.well-known/oauth-authorization-server</strong> (RFC 8414 Metadata)</li>
+      <li><strong>/api/upgrades/recommendations.md</strong> (Retrofit Advisory Specs)</li>
+    </ul>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">🔒 EcoSmartHomes Private Developer Console — Rotation-Aware Access Layer</p>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. All rights reserved.</small></p>
+  </div>
+</footer>
+
+<script>
+  async function loadTokens() {
+    try {
+      const res = await fetch('../../data/dev-tokens.json');
+      const registry = await res.json();
+
+      const activeBody = document.getElementById('active-tokens');
+      const revokedBody = document.getElementById('revoked-tokens');
+
+      activeBody.innerHTML = '';
+      revokedBody.innerHTML = '';
+
+      if (registry.active && registry.active.length > 0) {
+        registry.active.forEach(t => {
+          const row = document.createElement('tr');
+          const issuedDate = t.issued ? new Date(t.issued * 1000).toLocaleDateString() : 'N/A';
+          const expiresDate = t.expires ? new Date(t.expires * 1000).toLocaleDateString() : 'N/A';
+          row.innerHTML = `
+            <td><span class="token-id">${t.id}</span></td>
+            <td>${t.label || 'Partner Token'}</td>
+            <td>${issuedDate}</td>
+            <td>${expiresDate}</td>
+            <td><code style="color:#0284c7; font-size:0.82rem;">ai.dev, schema.read, diagnostics</code></td>
+            <td><span class="badge-active">Active</span></td>
+          `;
+          activeBody.appendChild(row);
+        });
+      } else {
+        activeBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#64748b;">No active tokens found.</td></tr>';
+      }
+
+      if (registry.revoked && registry.revoked.length > 0) {
+        registry.revoked.forEach(t => {
+          const row = document.createElement('tr');
+          const revokedDate = t.revoked_at ? new Date(t.revoked_at * 1000).toLocaleDateString() : 'N/A';
+          row.innerHTML = `
+            <td><span class="token-id" style="color:#94a3b8; background:#f1f5f9;">${t.id}</span></td>
+            <td>${t.label || 'Revoked Credential'}</td>
+            <td>${revokedDate}</td>
+            <td><span class="badge-revoked">Revoked</span></td>
+          `;
+          revokedBody.appendChild(row);
+        });
+      } else {
+        revokedBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">No revoked tokens.</td></tr>';
+      }
+    } catch (e) {
+      console.error('Failed to load token registry:', e);
+    }
+  }
+
+  loadTokens();
+</script>
+
+</body>
+</html>

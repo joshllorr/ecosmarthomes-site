@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "EcoSmartHomes",
+  "version": "1.0.0",
+  "description": "Premium Home Energy Retrofit Advisory in Ireland",
+  "legal_entity": "EcoSmartHomes Ireland",
+  "homepage": "https://ecosmarthomes.ie",
+  "contact": "https://ecosmarthomes.ie/#contact",
+  "skills": [
+    "retrofit-advisory",
+    "BER-analysis",
+    "grant-guidance",
+    "journey-timeline",
+    "upgrade-recommendations",
+    "insights-dashboard"
+  ],
+  "capabilities": {
+    "markdown_responses": true,
+    "mcp_support": true,
+    "oauth_skills": true,
+    "dns_aid_discovery": true,
+    "realtime_ber_advisor": true,
+    "structured_data_negotiation": true
+  },
+  "endpoints": {
+    "agent_skills_page": "https://ecosmarthomes.ie/agent-skills.html",
+    "openapi_spec": "https://ecosmarthomes.ie/ai/openapi.json",
+    "ai_plugin": "https://ecosmarthomes.ie/.well-known/ai-plugin.json",
+    "mcp_manifest": "https://ecosmarthomes.ie/api/mcp/manifest.json",
+    "dns_aid_json": "https://ecosmarthomes.ie/.well-known/dns-aid.json",
+    "oauth_metadata": "https://ecosmarthomes.ie/api/oauth/metadata.json",
+    "markdown_endpoints": {
+      "upgrade_recommendations": "https://ecosmarthomes.ie/api/upgrades/recommendations.md",
+      "ber_analysis": "https://ecosmarthomes.ie/api/ber/analysis.md",
+      "grant_guidance": "https://ecosmarthomes.ie/api/grants/guidance.md",
+      "journey_timeline": "https://ecosmarthomes.ie/api/journey/timeline.md",
+      "insights_dashboard": "https://ecosmarthomes.ie/api/insights/dashboard.md"
+    }
+  },
+  "authentication": {
+    "type": "oauth2",
+    "authorization_server": "https://ecosmarthomes.ie/api/oauth/metadata.json",
+    "supported_scopes": [
+      "read:retrofit_plans",
+      "read:ber_analysis",
+      "read:grant_guidance",
+      "execute:skills"
+    ]
+  },
+  "mcp": {
+    "protocol_version": "2024-11-05",
+    "server_info": {
+      "name": "ecosmarthomes-mcp-server",
+      "version": "1.0.0"
+    },
+    "tools": [
+      {
+        "name": "get_ber_analysis",
+        "description": "Calculates expected BER band improvement and primary energy savings for home retrofit options."
+      },
+      {
+        "name": "get_retrofit_recommendations",
+        "description": "Returns prioritized energy efficiency upgrade options based on house age, wall construction, and heat loss index."
+      },
+      {
+        "name": "calculate_seai_grants",
+        "description": "Computes exact SEAI grant entitlements, heat pump readiness bonuses, and net out-of-pocket costs for Irish homeowners."
+      },
+      {
+        "name": "get_journey_timeline",
+        "description": "Provides step-by-step guidance timeline from initial assessment to grant payout."
+      }
+    ]
+  }
+}

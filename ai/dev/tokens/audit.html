@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Token & Manifest Audit Log | EcoSmartHomes Private Console</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../../../css/styles.css">
+  <link rel="stylesheet" href="../../../css/dashboard.css">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Mermaid.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof mermaid !== "undefined") {
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+      }
+    });
+  </script>
+
+  <!-- 🔒 Private JSON-LD Manifest (Full Bundle - Developer-Only) -->
+  <script id="private-ai-manifest" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebAPI",
+        "name": "Developer Presence API",
+        "description": "Internal API for developer heartbeat, session tracking, and presence telemetry.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "RecordDeveloperHeartbeat",
+          "target": "/ai/dev/heartbeat"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Crawler Telemetry API",
+        "description": "Internal API exposing Cloudflare AI Shield Pro crawler telemetry.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "GetAICrawlerTelemetry",
+          "target": "/ai/dev/cf-ai-telemetry"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Manifest Access Log API",
+        "description": "Internal API logging AI agent manifest access attempts.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "RecordManifestAccess",
+          "target": "/ai/dev/log-manifest-access"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Unauthorized Access Log API",
+        "description": "Internal API logging unauthorized access attempts to developer-only endpoints.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "RecordUnauthorizedAccess",
+          "target": "/ai/dev/log-unauthorized"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Developer Token Validation API",
+        "description": "Internal API validating developer tokens and returning session metadata.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "ValidateDeveloperToken",
+          "target": "/ai/dev/validate-token"
+        }
+      },
+      {
+        "@type": "WebAPI",
+        "name": "AI Internal Skill Routing API",
+        "description": "Internal routing layer for developer-only AI skills and orchestration.",
+        "provider": {
+          "@type": "Organization",
+          "name": "EcoSmartHomes Internal Systems"
+        },
+        "potentialAction": {
+          "@type": "Action",
+          "name": "RouteInternalSkill",
+          "target": "/ai/dev/route-skill"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script>
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = localStorage.getItem('ecosmart-dev-token') || urlParams.get('token') || '';
+      const privateManifest = document.getElementById("private-ai-manifest");
+      if (!token || (!token.startsWith("dev-") && !token.includes("."))) {
+        if (privateManifest) privateManifest.remove();
+      }
+    })();
+  </script>
+
+  <style>
+    .token-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-bottom: 32px;
+      padding: 24px;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 0.92rem;
+    }
+
+    .token-table th {
+      background: #f8fafc;
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border-color);
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .token-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .token-table tr:hover {
+      background: #f8fafc;
+    }
+
+    .token-id {
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      color: #0284c7;
+      background: #f0f9ff;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .badge-ok {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .badge-ai {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .badge-denied {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .badge-redirect {
+      background: #fef3c7;
+      color: #b45309;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group input, .filter-group select {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      min-width: 200px;
+    }
+
+    .endpoint-code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #0369a1;
+    }
+
+    .ua-code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: #64748b;
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
+    }
+
+    /* Color Coded Rows */
+    tr.row-authorized td {
+      background: rgba(220, 252, 231, 0.2);
+    }
+
+    tr.row-ai-agent td {
+      background: rgba(224, 242, 254, 0.25);
+    }
+
+    tr.row-denied td {
+      background: rgba(254, 226, 226, 0.2);
+    }
+
+    /* Analytics Chart Dashboard (Emerald Dark Theme) */
+    .audit-charts {
+      margin-top: 32px;
+      padding: 28px;
+      background: linear-gradient(145deg, #0b2e1f, #0f3a28);
+      border-radius: 16px;
+      box-shadow: 0 0 24px rgba(0, 255, 128, 0.2);
+      border: 1px solid rgba(0, 255, 128, 0.3);
+      color: #e8f5e9;
+    }
+
+    .audit-charts h2 {
+      color: #00ff80;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .chart-block {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(0, 255, 128, 0.15);
+    }
+
+    .chart-block h3 {
+      color: #00ff80;
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+    }
+
+    /* Developer Online Presence Indicator */
+    .dev-online-indicator {
+      background: rgba(0, 255, 128, 0.12);
+      border: 1px solid #00ff80;
+      color: #00ff80;
+      padding: 8px 16px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(0, 255, 128, 0.2);
+    }
+
+    .dev-online-indicator .dot {
+      width: 10px;
+      height: 10px;
+      background: #00ff80;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00ff80;
+      animation: pulsePulse 1.5s infinite;
+    }
+
+    @keyframes pulsePulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .chart-container-wrapper {
+      position: relative;
+      width: 100%;
+      max-height: 260px;
+    }
+
+    /* Session Duration Panel */
+    .session-duration-panel {
+      margin-top: 32px;
+      padding: 24px;
+      background: linear-gradient(145deg, #0b2e1f, #0f3a28);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.2);
+      border: 1px solid rgba(0, 255, 128, 0.3);
+      color: #e8f5e9;
+    }
+
+    .session-duration-panel h3 {
+      color: #00ff80;
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    #sessionDurationTable {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    #sessionDurationTable th {
+      color: #00ff80;
+      background: rgba(0, 255, 128, 0.1);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    #sessionDurationTable td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0, 255, 128, 0.15);
+    }
+
+    /* Who's Online Now Panel */
+    .who-online-panel {
+      margin-top: 32px;
+      padding: 24px;
+      background: linear-gradient(145deg, #0b2e1f, #0f3a28);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.2);
+      border: 1px solid rgba(0, 255, 128, 0.3);
+      color: #e8f5e9;
+    }
+
+    .who-online-panel h3 {
+      color: #00ff80;
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    #whoOnlineTable {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    #whoOnlineTable th {
+      color: #00ff80;
+      background: rgba(0, 255, 128, 0.1);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    #whoOnlineTable td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0, 255, 128, 0.15);
+    }
+
+    .online-dot {
+      width: 10px;
+      height: 10px;
+      background: #00ff80;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px #00ff80;
+      animation: pulseOnline 1.5s infinite;
+    }
+
+    @keyframes pulseOnline {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* AI Crawler Telemetry Panel (Cloudflare AI Shield Pro) */
+    .ai-crawler-panel {
+      margin-top: 32px;
+      padding: 24px;
+      background: linear-gradient(145deg, #0b2e1f, #0f3a28);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 255, 128, 0.2);
+      border: 1px solid rgba(0, 255, 128, 0.3);
+      color: #e8f5e9;
+    }
+
+    .ai-crawler-panel h3 {
+      color: #00ff80;
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    #aiCrawlerTable {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    #aiCrawlerTable th {
+      color: #00ff80;
+      background: rgba(0, 255, 128, 0.1);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    #aiCrawlerTable td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(0, 255, 128, 0.15);
+    }
+
+    /* AI Capability Cards Grid */
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .capability-card {
+      border-radius: 14px;
+      padding: 20px;
+      background: #05140e;
+      border: 1px solid rgba(0, 255, 128, 0.2);
+      color: #e8f5e9;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .capability-card:hover {
+      transform: translateY(-2px);
+      border-color: #00ff80;
+    }
+
+    .capability-card.public {
+      border-left: 6px solid #10b981;
+    }
+
+    .capability-card.dev {
+      border-left: 6px solid #3b82f6;
+    }
+
+    .capability-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.15rem;
+      color: #00ff80;
+    }
+
+    .capability-card.dev h3 {
+      color: #60a5fa;
+    }
+
+    .capability-card p {
+      margin: 0 0 14px;
+      font-size: 0.88rem;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    .capability-card ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.85rem;
+      color: #d1d5db;
+    }
+
+    .capability-card li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../../../index.html">
+        <img src="../../../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../ber-advisor/">BER Advisor</a></li>
+        <li><a href="../../../dashboard.html">Dashboard</a></li>
+        <li><a href="../../index.html">AI Advisory</a></li>
+        <li><a href="../index.html">🔐 Dev Portal</a></li>
+        <li><a href="index.html" style="color: #10b981; font-weight: 700;">🔑 Tokens</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="dashboard-logo-icon" style="margin: 0 auto 16px auto;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+    </div>
+    <h1>Developer & Manifest Access Audit Log</h1>
+    <p class="tagline">Real-time developer & AI agent access stream across EcoSmartHomes manifests & endpoints</p>
+  </div>
+</section>
+
+<!-- MAIN CONTAINER -->
+<main class="dashboard-container">
+
+  <!-- FILTERS PANEL -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge">Audit Controls</span>
+      <h2>Filter Audit Events</h2>
+    </div>
+
+    <div class="filter-group">
+      <div>
+        <label for="filter-type" style="font-weight:600; display:block; margin-bottom:4px;">Filter by Type:</label>
+        <select id="filter-type">
+          <option value="all">All Events</option>
+          <option value="manifest">Manifest Access Only</option>
+          <option value="badge">Developer Badge Views</option>
+          <option value="sessions">Developer Sessions (Fingerprinted)</option>
+          <option value="ai">AI Agents Only</option>
+          <option value="developer">Developer Access Only</option>
+          <option value="unauthorized">Unauthorized Attempts Only</option>
+        </select>
+      </div>
+      <div>
+        <label for="filter-id" style="font-weight:600; display:block; margin-bottom:4px;">Filter by Token ID:</label>
+        <input id="filter-id" type="text" placeholder="dev-2026-01">
+      </div>
+      <div>
+        <label for="filter-endpoint" style="font-weight:600; display:block; margin-bottom:4px;">Filter by Endpoint:</label>
+        <input id="filter-endpoint" type="text" placeholder="/ai/manifest.json">
+      </div>
+      <div style="align-self:flex-end;">
+        <button id="apply-filters" class="btn-primary" style="padding:10px 20px;">Apply Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIT STREAM TABLE PANEL -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <span class="section-badge" style="background:#dcfce7; color:#15803d;">Live Stream</span>
+        <h2>Recent Activity Stream</h2>
+      </div>
+      <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+        <div id="devOnlineIndicator" class="dev-online-indicator">
+          <span class="dot"></span> Developers Online: <span id="devOnlineCount">0</span>
+        </div>
+        <div style="font-size:0.82rem; color:#64748b;">
+          <span id="live-indicator" style="display:inline-block; width:8px; height:8px; background:#10b981; border-radius:50%; margin-right:6px;"></span>
+          Auto-refreshing every 5s
+        </div>
+      </div>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Token ID</th>
+            <th>Endpoint</th>
+            <th>Result</th>
+            <th>Fingerprint</th>
+            <th>User-Agent</th>
+          </tr>
+        </thead>
+        <tbody id="audit-rows">
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- WHO'S ONLINE NOW PANEL -->
+  <section id="whoOnlinePanel" class="who-online-panel">
+    <h3>🟢 Who’s Online Now</h3>
+    <div style="overflow-x: auto;">
+      <table id="whoOnlineTable">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Token ID</th>
+            <th>Fingerprint</th>
+            <th>Started</th>
+            <th>Last Seen</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- DEVELOPER SESSION DURATION PANEL -->
+  <section id="sessionDurationPanel" class="session-duration-panel">
+    <h3>⏱️ Active Developer Session Durations</h3>
+    <div style="overflow-x: auto;">
+      <table id="sessionDurationTable">
+        <thead>
+          <tr>
+            <th>Token ID</th>
+            <th>Fingerprint</th>
+            <th>Started</th>
+            <th>Last Seen</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CLOUDFLARE AI CRAWLER TELEMETRY PANEL -->
+  <section id="aiCrawlerPanel" class="ai-crawler-panel">
+    <h3>🤖 AI Crawler Telemetry (Cloudflare AI Shield Pro)</h3>
+    <div style="overflow-x: auto;">
+      <table id="aiCrawlerTable">
+        <thead>
+          <tr>
+            <th>Crawler Identity</th>
+            <th>Allowed Requests</th>
+            <th>Blocked Requests</th>
+            <th>HTML MB Consumed</th>
+            <th>Search Referrals</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- COMPACT AI AGENT ROUTING GRAPH (MERMAID) -->
+  <section id="aiRoutingGraphPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🗺️ AI Agent Routing Graph & Orchestration Topology</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Compact & Drop-In Ready</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+graph TD
+    %% Entry Points
+    UserIntent["User / AI Agent Intent"]
+    WebUI["Web UI (agent-skills, ber-advisor, ai assistant)"]
+    PublicAPI["Public AI Skill APIs"]
+
+    %% Public Skills
+    Retrofit["Retrofit Advisory Skill"]
+    BER["BER Analysis Skill"]
+    Grants["Grant Guidance Skill"]
+    Timeline["Journey Timeline Skill"]
+    Insights["Insights Dashboard Skill"]
+    RealtimeBER["Realtime BER Advisor Skill"]
+
+    %% Internal Dev APIs
+    DevRouter["Internal Skill Router (/ai/dev/route-skill)"]
+    DevToken["Dev Token Validation (/ai/dev/validate-token)"]
+    DevHeartbeat["Developer Heartbeat (/ai/dev/heartbeat)"]
+    AITelemetry["AI Crawler Telemetry (/ai/dev/cf-ai-telemetry)"]
+    ManifestLog["Manifest Access Log (/ai/dev/log-manifest-access)"]
+    UnauthorizedLog["Unauthorized Access Log (/ai/dev/log-unauthorized)"]
+
+    %% Data Sources
+    CFShield["Cloudflare AI Shield Pro"]
+    LocalTelemetry["Local Telemetry Dataset (cf-ai-telemetry.json)"]
+
+    %% Entry Flow
+    UserIntent --> WebUI
+    UserIntent --> PublicAPI
+
+    %% Public API Routing
+    PublicAPI --> Retrofit
+    PublicAPI --> BER
+    PublicAPI --> Grants
+    PublicAPI --> Timeline
+    PublicAPI --> Insights
+    PublicAPI --> RealtimeBER
+
+    %% Internal Routing (Dev Only)
+    UserIntent --> DevRouter
+    DevRouter --> Retrofit
+    DevRouter --> BER
+    DevRouter --> Grants
+    DevRouter --> Timeline
+    DevRouter --> Insights
+    DevRouter --> RealtimeBER
+
+    %% Dev Token Gate
+    DevRouter --> DevToken
+
+    %% Telemetry & Logging
+    DevRouter --> ManifestLog
+    DevRouter --> UnauthorizedLog
+    DevHeartbeat --> DevRouter
+
+    %% AI Crawler Telemetry
+    AITelemetry --> CFShield
+    AITelemetry --> LocalTelemetry
+
+    %% Dashboard
+    DevRouter --> AITelemetry
+    DevRouter --> DevHeartbeat
+      </div>
+    </div>
+  </section>
+
+  <!-- AI CAPABILITY ONTOLOGY CLASS DIAGRAM (MERMAID) -->
+  <section id="aiOntologyPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🧬 AI Capability Ontology Class Diagram</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Schema.org Capability Graph</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+classDiagram
+
+    %% === PUBLIC CAPABILITIES ===
+    class RetrofitAdvisory {
+        +GetRetrofitAdvice()
+        +Inputs: homeType, berRating, goals
+        +Outputs: upgradePlan, costRange, impactEstimate
+    }
+
+    class BERAnalysis {
+        +AnalyzeBER()
+        +Inputs: berRating, homeData
+        +Outputs: insights, upgradePaths
+    }
+
+    class GrantGuidance {
+        +GetGrantGuidance()
+        +Inputs: upgradePlan, homeownerStatus
+        +Outputs: grantEligibility, bundleOptions
+    }
+
+    class JourneyTimeline {
+        +GenerateTimeline()
+        +Inputs: upgradePlan, grantStatus
+        +Outputs: timelineSteps, milestones
+    }
+
+    class InsightsDashboard {
+        +GetEnergyInsights()
+        +Inputs: homeData, upgradePlan
+        +Outputs: projections, efficiencyScore
+    }
+
+    class RealtimeBERAdvisor {
+        +RealtimeBERAdvice()
+        +Inputs: naturalLanguageQuery
+        +Outputs: realtimeGuidance
+    }
+
+
+    %% === INTERNAL CAPABILITIES (DEV ONLY) ===
+    class InternalSkillRouter {
+        +RouteSkill(intent)
+        +Maps intent -> correct skill
+    }
+
+    class DevTokenValidator {
+        +ValidateToken(token)
+        +Outputs: devSessionMetadata
+    }
+
+    class DevHeartbeat {
+        +RecordHeartbeat(devId)
+        +Outputs: presenceStatus
+    }
+
+    class AICrawlerTelemetry {
+        +GetTelemetry()
+        +Sources: Cloudflare AI Shield Pro, local fallback
+    }
+
+    class ManifestAccessLog {
+        +RecordAccess(skill)
+    }
+
+    class UnauthorizedAccessLog {
+        +RecordUnauthorizedAttempt(endpoint)
+    }
+
+
+    %% === DATA SOURCES ===
+    class CloudflareAIShieldPro {
+        +CrawlerOverview()
+        +AllowedBots
+        +BlockedBots
+        +HTMLMB
+        +Referrals
+    }
+
+    class LocalTelemetryDataset {
+        +cf-ai-telemetry.json
+        +FallbackData()
+    }
+
+
+    %% === RELATIONSHIPS ===
+
+    %% Public skills depend on each other
+    RetrofitAdvisory --> BERAnalysis : "uses BER insights"
+    RetrofitAdvisory --> GrantGuidance : "checks grant eligibility"
+    RetrofitAdvisory --> JourneyTimeline : "feeds timeline"
+    BERAnalysis --> InsightsDashboard : "provides data"
+    GrantGuidance --> JourneyTimeline : "affects timeline"
+    InsightsDashboard --> RealtimeBERAdvisor : "feeds realtime answers"
+
+    %% Internal routing
+    InternalSkillRouter --> RetrofitAdvisory
+    InternalSkillRouter --> BERAnalysis
+    InternalSkillRouter --> GrantGuidance
+    InternalSkillRouter --> JourneyTimeline
+    InternalSkillRouter --> InsightsDashboard
+    InternalSkillRouter --> RealtimeBERAdvisor
+
+    %% Dev token gate
+    InternalSkillRouter --> DevTokenValidator : "requires dev token"
+
+    %% Telemetry + logging
+    InternalSkillRouter --> ManifestAccessLog
+    InternalSkillRouter --> UnauthorizedAccessLog
+    DevHeartbeat --> InternalSkillRouter
+
+    %% Cloudflare telemetry ingestion
+    AICrawlerTelemetry --> CloudflareAIShieldPro
+    AICrawlerTelemetry --> LocalTelemetryDataset
+      </div>
+    </div>
+  </section>
+
+  <!-- AI WORKER ENDPOINT MAP NETWORK DIAGRAM (MERMAID) -->
+  <section id="aiWorkerEndpointMapPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🕸️ AI Worker Endpoint Network Map & Telemetry Flow</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Worker Topology</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+graph LR
+
+    %% === PUBLIC AI ENDPOINTS ===
+    subgraph Public_APIs["Public AI Skill APIs"]
+        RetrofitAPI["POST /api/ai/retrofit-advice"]
+        BERAPI["POST /api/ai/ber-analysis"]
+        GrantAPI["POST /api/ai/grant-guidance"]
+        TimelineAPI["POST /api/ai/journey-timeline"]
+        InsightsAPI["POST /api/ai/insights"]
+        RealtimeBERAPI["POST /api/ai/realtime-ber"]
+    end
+
+    %% === INTERNAL DEV ENDPOINTS ===
+    subgraph Dev_APIs["Developer-Only Worker APIs"]
+        DevRouter["POST /ai/dev/route-skill"]
+        DevToken["POST /ai/dev/validate-token"]
+        DevHeartbeat["POST /ai/dev/heartbeat"]
+        AITelemetry["GET /ai/dev/cf-ai-telemetry"]
+        ManifestLog["POST /ai/dev/log-manifest-access"]
+        UnauthorizedLog["POST /ai/dev/log-unauthorized"]
+    end
+
+    %% === DATA SOURCES ===
+    subgraph DataSources["Telemetry Sources"]
+        CFShield["Cloudflare AI Shield Pro API"]
+        LocalTelemetry["cf-ai-telemetry.json (local fallback)"]
+    end
+
+    %% === ROUTING FLOW ===
+    UserIntent["User / AI Agent Intent"]
+    UserIntent --> RetrofitAPI
+    UserIntent --> BERAPI
+    UserIntent --> GrantAPI
+    UserIntent --> TimelineAPI
+    UserIntent --> InsightsAPI
+    UserIntent --> RealtimeBERAPI
+
+    %% Internal routing
+    UserIntent --> DevRouter
+    DevRouter --> RetrofitAPI
+    DevRouter --> BERAPI
+    DevRouter --> GrantAPI
+    DevRouter --> TimelineAPI
+    DevRouter --> InsightsAPI
+    DevRouter --> RealtimeBERAPI
+
+    %% Token gate
+    DevRouter --> DevToken
+
+    %% Telemetry + logs
+    DevRouter --> ManifestLog
+    DevRouter --> UnauthorizedLog
+    DevHeartbeat --> DevRouter
+
+    %% Cloudflare telemetry ingestion
+    AITelemetry --> CFShield
+    AITelemetry --> LocalTelemetry
+      </div>
+    </div>
+  </section>
+
+  <!-- AI AGENT FLOW SEQUENCE DIAGRAM (MERMAID) -->
+  <section id="aiSequenceDiagramPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🎬 AI Agent End-to-End Execution Sequence Diagram</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Interaction Sequence</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+sequenceDiagram
+    autonumber
+
+    participant Agent as AI Agent (ChatGPT/Gemini/Claude)
+    participant User as Homeowner/User
+    participant Router as Internal Skill Router (/ai/dev/route-skill)
+    participant Token as Dev Token Validator (/ai/dev/validate-token)
+    participant PublicAPI as Public AI Skill APIs (/api/ai/*)
+    participant Telemetry as AI Crawler Telemetry (/ai/dev/cf-ai-telemetry)
+    participant Logs as Manifest & Unauthorized Logs
+    participant CF as Cloudflare AI Shield Pro
+
+    %% === USER INTENT ===
+    User->>Agent: Ask question (retrofit, BER, grants, timeline, insights)
+
+    %% === AGENT INTERPRETS INTENT ===
+    Agent->>Router: Send intent (retrofit/BER/grants/etc.)
+
+    %% === DEV TOKEN CHECK (IF DEVELOPER CONTEXT) ===
+    Router->>Token: Validate dev token
+    Token-->>Router: Token valid OR public mode
+
+    %% === ROUTING TO CORRECT SKILL ===
+    Router->>PublicAPI: Call correct skill endpoint<br/>(e.g., /api/ai/retrofit-advice)
+
+    %% === SKILL EXECUTION ===
+    PublicAPI-->>Router: Return structured result<br/>(upgrade plan, BER insights, grant eligibility, etc.)
+
+    %% === TELEMETRY & LOGGING ===
+    Router->>Logs: Record manifest access
+    Router->>Logs: Record unauthorized attempts (if any)
+    Router->>Telemetry: Request crawler telemetry
+
+    %% === CLOUDLFARE TELEMETRY ===
+    Telemetry->>CF: Fetch AI crawler data
+    CF-->>Telemetry: Allowed/blocked bots, HTML MB, referrals
+
+    %% === RESPONSE TO AGENT ===
+    Router-->>Agent: Return final structured response
+
+    %% === AGENT RESPONDS TO USER ===
+    Agent-->>User: Provide answer (retrofit plan, BER guidance, grants, timeline, insights)
+      </div>
+    </div>
+  </section>
+
+  <!-- AI ECOSYSTEM HEATMAP (MERMAID) -->
+  <section id="aiEcosystemHeatmapPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🔥 AI Ecosystem Activity Heatmap</h2>
+      <div style="display:flex; gap:8px; font-size:0.8rem;">
+        <span class="badge-ok" style="background:#ff4d4d; color:#fff;">Hot</span>
+        <span class="badge-ok" style="background:#ffa64d; color:#fff;">Warm</span>
+        <span class="badge-ok" style="background:#4da6ff; color:#fff;">Cool</span>
+        <span class="badge-ok" style="background:#7f7f7f; color:#fff;">Cold</span>
+      </div>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+flowchart TB
+
+    classDef hot fill:#ff4d4d,stroke:#b30000,color:#fff
+    classDef warm fill:#ffa64d,stroke:#cc7a00,color:#fff
+    classDef cool fill:#4da6ff,stroke:#0059b3,color:#fff
+    classDef cold fill:#7f7f7f,stroke:#404040,color:#fff
+
+    subgraph Public_Skills["Public AI Skills (User & Agent Facing)"]
+        Retrofit["Retrofit Advisory Skill"]
+        BER["BER Analysis Skill"]
+        Grants["Grant Guidance Skill"]
+        Timeline["Journey Timeline Skill"]
+        Insights["Insights Dashboard Skill"]
+        RealtimeBER["Realtime BER Advisor Skill"]
+    end
+
+    subgraph Dev_APIs["Developer-Only Worker APIs"]
+        DevRouter["/ai/dev/route-skill"]
+        DevToken["/ai/dev/validate-token"]
+        DevHeartbeat["/ai/dev/heartbeat"]
+        AITelemetry["/ai/dev/cf-ai-telemetry"]
+        ManifestLog["/ai/dev/log-manifest-access"]
+        UnauthorizedLog["/ai/dev/log-unauthorized"]
+    end
+
+    subgraph Cloudflare["Cloudflare AI Shield Pro"]
+        CFAllowed["Allowed Bots"]
+        CFBlocked["Blocked Bots"]
+        CFHTML["HTML MB"]
+        CFReferrals["Referrals"]
+    end
+
+    subgraph Data["Local Telemetry Dataset"]
+        LocalTelemetry["cf-ai-telemetry.json"]
+    end
+
+    %% Heatmap Activity Levels
+    class Retrofit hot
+    class BER warm
+    class Grants warm
+    class Timeline warm
+    class Insights warm
+    class RealtimeBER hot
+
+    class DevRouter hot
+    class DevToken warm
+    class DevHeartbeat warm
+    class AITelemetry hot
+    class ManifestLog warm
+    class UnauthorizedLog cool
+
+    class CFAllowed warm
+    class CFBlocked cool
+    class CFHTML warm
+    class CFReferrals cool
+
+    class LocalTelemetry cold
+      </div>
+    </div>
+  </section>
+
+  <!-- AI WORKER ERROR-HANDLING & RESILIENCE GRAPH (MERMAID) -->
+  <section id="aiErrorHandlingGraphPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🛡️ AI Worker Error-Handling & System Resilience Graph</h2>
+      <span class="badge-ok" style="background:rgba(239,68,68,0.2); color:#f87171;">Fault-Tree & Fallbacks</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+flowchart TD
+
+    %% === ENTRY POINTS ===
+    Intent["User / AI Agent Intent"]
+    Router["Internal Skill Router (/ai/dev/route-skill)"]
+    PublicAPI["Public AI Skill APIs (/api/ai/*)"]
+    DevToken["Dev Token Validator (/ai/dev/validate-token)"]
+
+    %% === ERROR NODES ===
+    ErrInvalidIntent["❌ Invalid Intent"]
+    ErrTokenInvalid["❌ Invalid Dev Token"]
+    ErrSkillFailure["❌ Skill Execution Failure"]
+    ErrTelemetryFail["❌ Telemetry Fetch Failure"]
+    ErrUnauthorized["❌ Unauthorized Access"]
+    ErrFallback["⚠️ Fallback Activated"]
+    ErrRecovery["🔄 Recovery Path"]
+
+    %% === LOGGING ===
+    LogUnauthorized["Log Unauthorized (/ai/dev/log-unauthorized)"]
+    LogManifest["Log Manifest Access (/ai/dev/log-manifest-access)"]
+    LogError["Record Error Event"]
+
+    %% === TELEMETRY ===
+    Telemetry["AI Crawler Telemetry (/ai/dev/cf-ai-telemetry)"]
+    CF["Cloudflare AI Shield Pro"]
+    LocalTelemetry["Local Fallback (cf-ai-telemetry.json)"]
+
+    %% === FLOW ===
+
+    Intent --> Router
+
+    %% Invalid Intent
+    Router -->|Invalid| ErrInvalidIntent
+    ErrInvalidIntent --> LogError
+    ErrInvalidIntent --> ErrRecovery
+
+    %% Dev Token Validation
+    Router --> DevToken
+    DevToken -->|Invalid| ErrTokenInvalid
+    ErrTokenInvalid --> LogUnauthorized
+    ErrTokenInvalid --> ErrRecovery
+
+    %% Unauthorized Access
+    Router -->|Unauthorized| ErrUnauthorized
+    ErrUnauthorized --> LogUnauthorized
+    ErrUnauthorized --> ErrRecovery
+
+    %% Skill Execution
+    Router --> PublicAPI
+    PublicAPI -->|Failure| ErrSkillFailure
+    ErrSkillFailure --> LogError
+    ErrSkillFailure --> ErrRecovery
+
+    %% Telemetry Fetch
+    Router --> Telemetry
+    Telemetry --> CF
+    Telemetry -->|Failure| ErrTelemetryFail
+    ErrTelemetryFail --> LocalTelemetry
+    LocalTelemetry --> ErrFallback
+    ErrFallback --> ErrRecovery
+
+    %% Recovery Path
+    ErrRecovery --> Router
+      </div>
+    </div>
+  </section>
+
+  <!-- AI ASSISTANT INTENT TAXONOMY HIERARCHY (MERMAID) -->
+  <section id="aiIntentTaxonomyPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🧠 AI Assistant Intent Taxonomy Hierarchy</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Capability Hierarchy</span>
+    </div>
+    <div style="overflow-x:auto; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+      <div class="mermaid">
+flowchart TD
+
+    %% ROOT INTENT
+    IntentRoot["AI Assistant Intent Taxonomy"]
+
+    %% === TOP-LEVEL DOMAINS ===
+    RetrofitDomain["Retrofit Planning Intents"]
+    BERDomain["BER Rating Intents"]
+    GrantDomain["SEAI Grant Intents"]
+    TimelineDomain["Upgrade Timeline Intents"]
+    InsightsDomain["Energy Insights Intents"]
+    RealtimeDomain["Realtime Advisory Intents"]
+    DevDomain["Developer-Only Intents"]
+
+    %% ROOT CONNECTIONS
+    IntentRoot --> RetrofitDomain
+    IntentRoot --> BERDomain
+    IntentRoot --> GrantDomain
+    IntentRoot --> TimelineDomain
+    IntentRoot --> InsightsDomain
+    IntentRoot --> RealtimeDomain
+    IntentRoot --> DevDomain
+
+    %% === RETROFIT INTENTS ===
+    RetrofitDomain --> R1["Plan Retrofit Path"]
+    RetrofitDomain --> R2["Compare Upgrade Options"]
+    RetrofitDomain --> R3["Estimate Costs"]
+    RetrofitDomain --> R4["Assess Home Type"]
+    RetrofitDomain --> R5["Recommend Upgrade Bundle"]
+
+    %% === BER INTENTS ===
+    BERDomain --> B1["Explain BER Rating"]
+    BERDomain --> B2["Identify BER Weak Points"]
+    BERDomain --> B3["Estimate BER Improvement"]
+    BERDomain --> B4["Map BER to Retrofit Plan"]
+
+    %% === GRANT INTENTS ===
+    GrantDomain --> G1["Check SEAI Eligibility"]
+    GrantDomain --> G2["Calculate Grant Amount"]
+    GrantDomain --> G3["Match Grants to Upgrades"]
+    GrantDomain --> G4["Explain SEAI Rules"]
+
+    %% === TIMELINE INTENTS ===
+    TimelineDomain --> T1["Generate Retrofit Timeline"]
+    TimelineDomain --> T2["Sequence Upgrade Steps"]
+    TimelineDomain --> T3["Estimate Project Duration"]
+    TimelineDomain --> T4["Identify Dependencies"]
+
+    %% === INSIGHTS INTENTS ===
+    InsightsDomain --> I1["Energy Usage Insights"]
+    InsightsDomain --> I2["Upgrade Impact Projection"]
+    InsightsDomain --> I3["Efficiency Score"]
+    InsightsDomain --> I4["Home Data Interpretation"]
+
+    %% === REALTIME ADVISORY INTENTS ===
+    RealtimeDomain --> RT1["Realtime BER Advice"]
+    RealtimeDomain --> RT2["Realtime Retrofit Q&A"]
+    RealtimeDomain --> RT3["Realtime Grant Q&A"]
+    RealtimeDomain --> RT4["Natural Language Guidance"]
+
+    %% === DEVELOPER-ONLY INTENTS ===
+    DevDomain --> D1["Route Internal Skill"]
+    DevDomain --> D2["Validate Dev Token"]
+    DevDomain --> D3["Record Heartbeat"]
+    DevDomain --> D4["Fetch AI Telemetry"]
+    DevDomain --> D5["Log Manifest Access"]
+    DevDomain --> D6["Log Unauthorized Access"]
+      </div>
+    </div>
+  </section>
+
+  <!-- AI CAPABILITY CARDS UI COMPONENTS PANEL -->
+  <section id="aiCapabilityCardsPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">🎴 AI Ecosystem Capability Cards Component Library</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Modular UI Components</span>
+    </div>
+
+    <!-- PUBLIC SKILL CARDS -->
+    <h3 style="color:#10b981; font-size:1.1rem; margin-top:20px; border-bottom:1px solid rgba(16,185,129,0.3); padding-bottom:8px;">🔥 Public AI Skill Capabilities (Declared JSON-LD)</h3>
+    <div class="capability-grid">
+      <div class="capability-card public">
+        <h3>Retrofit Advisory Skill</h3>
+        <p>Provides tailored retrofit guidance including insulation, heat pumps, solar PV, and upgrade pathways.</p>
+        <ul>
+          <li><strong>Action:</strong> GetRetrofitAdvice</li>
+          <li><strong>Endpoint:</strong> /api/ai/retrofit-advice</li>
+          <li><strong>Inputs:</strong> homeType, berRating, goals</li>
+          <li><strong>Outputs:</strong> upgradePlan, costRange, impactEstimate</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>BER Analysis Skill</h3>
+        <p>Interprets BER ratings, identifies upgrade opportunities, and estimates BER improvements.</p>
+        <ul>
+          <li><strong>Action:</strong> AnalyzeBER</li>
+          <li><strong>Endpoint:</strong> /api/ai/ber-analysis</li>
+          <li><strong>Inputs:</strong> berRating, homeData</li>
+          <li><strong>Outputs:</strong> insights, upgradePaths</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>Grant Guidance Skill</h3>
+        <p>Explains SEAI grants, eligibility, documentation, and optimal upgrade combinations.</p>
+        <ul>
+          <li><strong>Action:</strong> GetGrantGuidance</li>
+          <li><strong>Endpoint:</strong> /api/ai/grant-guidance</li>
+          <li><strong>Inputs:</strong> upgradePlan, homeownerStatus</li>
+          <li><strong>Outputs:</strong> grantEligibility, bundleOptions</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>Journey Timeline Skill</h3>
+        <p>Generates a personalized retrofit timeline from assessment to BER certification.</p>
+        <ul>
+          <li><strong>Action:</strong> GenerateTimeline</li>
+          <li><strong>Endpoint:</strong> /api/ai/journey-timeline</li>
+          <li><strong>Inputs:</strong> upgradePlan, grantStatus</li>
+          <li><strong>Outputs:</strong> timelineSteps, milestones</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>Insights Dashboard Skill</h3>
+        <p>Provides real-time home energy insights, upgrade impact projections, and efficiency recommendations.</p>
+        <ul>
+          <li><strong>Action:</strong> GetEnergyInsights</li>
+          <li><strong>Endpoint:</strong> /api/ai/insights</li>
+          <li><strong>Inputs:</strong> homeData, upgradePlan</li>
+          <li><strong>Outputs:</strong> projections, efficiencyScore</li>
+        </ul>
+      </div>
+
+      <div class="capability-card public">
+        <h3>Realtime BER Advisor Skill</h3>
+        <p>Offers instant BER advisory and upgrade decision support.</p>
+        <ul>
+          <li><strong>Action:</strong> RealtimeBERAdvice</li>
+          <li><strong>Endpoint:</strong> /api/ai/realtime-ber</li>
+          <li><strong>Inputs:</strong> naturalLanguageQuery</li>
+          <li><strong>Outputs:</strong> realtimeGuidance</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DEVELOPER-ONLY CARDS -->
+    <h3 style="color:#60a5fa; font-size:1.1rem; margin-top:32px; border-bottom:1px solid rgba(96,165,250,0.3); padding-bottom:8px;">🔒 Developer-Only Internal Worker Capabilities</h3>
+    <div class="capability-grid">
+      <div class="capability-card dev">
+        <h3>Internal Skill Router</h3>
+        <p>Routes intents to the correct public skill or internal capability.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/route-skill</li>
+          <li><strong>Role:</strong> Orchestration brain</li>
+          <li><strong>Requires Token:</strong> Yes</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>Developer Token Validator</h3>
+        <p>Validates developer tokens and returns session metadata.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/validate-token</li>
+          <li><strong>Role:</strong> Security gate</li>
+          <li><strong>Requires Token:</strong> Yes</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>Developer Heartbeat</h3>
+        <p>Tracks developer presence and session activity.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/heartbeat</li>
+          <li><strong>Role:</strong> Presence telemetry</li>
+          <li><strong>Requires Token:</strong> Yes</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>AI Crawler Telemetry</h3>
+        <p>Fetches Cloudflare AI Shield Pro crawler analytics.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/cf-ai-telemetry</li>
+          <li><strong>Role:</strong> Crawler analytics</li>
+          <li><strong>Fallback:</strong> cf-ai-telemetry.json</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>Manifest Access Log</h3>
+        <p>Records access attempts to the AI skill manifest.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/log-manifest-access</li>
+          <li><strong>Role:</strong> Audit trail</li>
+        </ul>
+      </div>
+
+      <div class="capability-card dev">
+        <h3>Unauthorized Access Log</h3>
+        <p>Records unauthorized attempts to access developer-only endpoints.</p>
+        <ul>
+          <li><strong>Endpoint:</strong> /ai/dev/log-unauthorized</li>
+          <li><strong>Role:</strong> Security monitoring</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI AGENT INTEROPERABILITY SPECIFICATION PANEL -->
+  <section id="aiInteroperabilitySpecPanel" class="token-card" style="background: linear-gradient(145deg, #0b2e1f, #0f3a28); border: 1px solid rgba(0, 255, 128, 0.3); color: #e8f5e9;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+      <h2 style="color:#00ff80; margin:0; font-size:1.25rem;">📄 AI Agent Interoperability Specification (SSOT)</h2>
+      <span class="badge-ok" style="background:rgba(0,255,128,0.15); color:#00ff80;">Single Source of Truth</span>
+    </div>
+
+    <div style="font-size:0.9rem; color:#d1d5db; line-height:1.6;">
+      <p>Official interop contract mapping public skills for <strong>OpenAI GPT-4o</strong>, <strong>Google Gemini</strong>, <strong>Anthropic Claude</strong>, <strong>Perplexity AI</strong>, and <strong>BingAI / Copilot</strong>.</p>
+      
+      <div style="margin-top:16px; padding:16px; background:#05140e; border-radius:12px; border:1px solid rgba(0,255,128,0.15);">
+        <h4 style="color:#34d399; margin-top:0;">OpenAI / Anthropic Tool Schema (JSON Sample)</h4>
+        <pre style="background:#020b08; padding:14px; border-radius:8px; overflow-x:auto; font-family:'Fira Code',monospace; font-size:0.8rem; color:#a7f3d0; margin:0;">[
+  {
+    "name": "GetRetrofitAdvice",
+    "description": "Returns retrofit upgrade recommendations based on home type, BER rating, and homeowner goals.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "homeType": { "type": "string" },
+        "berRating": { "type": "string" },
+        "goals": { "type": "string" }
+      },
+      "required": ["homeType", "berRating"]
+    },
+    "endpoint": "https://www.ecosmarthomes.ie/api/ai/retrofit-advice",
+    "method": "POST"
+  }
+]</pre>
+      </div>
+
+      <div style="margin-top:16px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+        <div style="padding:14px; background:#05140e; border-radius:10px; border:1px solid rgba(0,255,128,0.15);">
+          <h4 style="color:#60a5fa; margin-top:0;">Gemini Intent Mapping</h4>
+          <ul style="padding-left:18px; margin:0; font-size:0.84rem; color:#93c5fd;">
+            <li><code>retrofit.plan</code> ➔ GetRetrofitAdvice</li>
+            <li><code>ber.explain</code> ➔ AnalyzeBER</li>
+            <li><code>grant.check</code> ➔ GetGrantGuidance</li>
+            <li><code>timeline.generate</code> ➔ GenerateTimeline</li>
+            <li><code>insights.energy</code> ➔ GetEnergyInsights</li>
+            <li><code>ber.realtime</code> ➔ RealtimeBERAdvice</li>
+          </ul>
+        </div>
+
+        <div style="padding:14px; background:#05140e; border-radius:10px; border:1px solid rgba(0,255,128,0.15);">
+          <h4 style="color:#f472b6; margin-top:0;">Claude & Perplexity Contract</h4>
+          <ul style="padding-left:18px; margin:0; font-size:0.84rem; color:#fbcfe8;">
+            <li><strong>Public Skills Only</strong>: Strict access to 6 public APIs</li>
+            <li><strong>Dev Endpoints Blocked</strong>: 403 on <code>/ai/dev/*</code></li>
+            <li><strong>Standard Payload</strong>: <code>summary</code>, <code>details</code>, <code>confidence</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REAL-TIME ACCESS ANALYTICS CHARTS PANEL -->
+  <section class="audit-charts">
+    <h2>📊 Real-Time Access Analytics</h2>
+
+    <div class="charts-grid">
+      <!-- AI vs Developer vs Unauthorized Doughnut -->
+      <div class="chart-block">
+        <h3>AI vs Developer vs Unauthorized</h3>
+        <div class="chart-container-wrapper">
+          <canvas id="accessTypeChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Endpoint Heatmap Bar Chart -->
+      <div class="chart-block">
+        <h3>Endpoint Heatmap</h3>
+        <div class="chart-container-wrapper">
+          <canvas id="endpointChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Access Frequency Over Time Line Chart -->
+      <div class="chart-block" style="grid-column: 1 / -1;">
+        <h3>Access Frequency Over Time</h3>
+        <div class="chart-container-wrapper" style="max-height:220px;">
+          <canvas id="timelineChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">🔒 EcoSmartHomes Private Developer Console — Manifest & Security Audit Trail</p>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. All rights reserved.</small></p>
+  </div>
+</footer>
+
+<script>
+  let auditData = [];
+  let accessTypeChart, endpointChart, timelineChart;
+
+  function updateDeveloperOnlineIndicator(data) {
+    if (!data) return;
+    const now = Math.floor(Date.now() / 1000);
+    const active = data.filter(e =>
+      (e.result.includes('Heartbeat') || e.result.includes('Badge View') || (e.endpoint && e.endpoint.includes('heartbeat'))) &&
+      now - e.timestamp <= 40
+    );
+    const uniqueSessions = new Set(active.map(e => e.fingerprint || e.token_id));
+    const countEl = document.getElementById('devOnlineCount');
+    if (countEl) countEl.textContent = uniqueSessions.size;
+  }
+
+  function updateWhoOnlineList(sessions) {
+    const tbody = document.querySelector("#whoOnlineTable tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    const now = Math.floor(Date.now() / 1000);
+    const sessionList = Object.values(sessions || {}).filter(s => (now - s.last_seen) <= 40);
+
+    if (sessionList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#64748b;">No active developers currently online.</td></tr>';
+      return;
+    }
+
+    sessionList.forEach(s => {
+      const durationSec = Math.max(0, s.last_seen - s.start_time);
+      const duration = new Date(durationSec * 1000).toISOString().substr(11, 8);
+      const fp = s.fingerprint && s.fingerprint !== 'none' ? s.fingerprint.substring(0, 12) + '...' : '—';
+
+      const row = document.createElement("tr");
+      row.className = "row-authorized";
+      row.innerHTML = `
+        <td><span class="online-dot"></span></td>
+        <td><span class="token-id">${s.token_id}</span></td>
+        <td><span class="token-id" style="font-size:0.75rem; background:#f1f5f9; color:#475569;" title="${s.fingerprint || 'none'}">${fp}</span></td>
+        <td>${new Date(s.start_time * 1000).toLocaleTimeString()}</td>
+        <td>${new Date(s.last_seen * 1000).toLocaleTimeString()}</td>
+        <td><span class="badge-ok" style="font-family:'Fira Code',monospace;">${duration}</span></td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  async function loadAICrawlerTelemetry() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = localStorage.getItem('ecosmart-dev-token') || urlParams.get('token') || '';
+
+      const res = await fetch('/ai/dev/cf-ai-telemetry', {
+        headers: { "ecosmart-dev-token": token }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        renderAICrawlerTelemetry(data);
+      } else {
+        const fallbackRes = await fetch('../../data/cf-ai-telemetry.json');
+        if (fallbackRes.ok) {
+          const fallbackData = await fallbackRes.json();
+          renderAICrawlerTelemetry(fallbackData);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load Cloudflare AI telemetry:', e);
+    }
+  }
+
+  function renderAICrawlerTelemetry(data) {
+    const tbody = document.querySelector("#aiCrawlerTable tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    const crawlers = data.crawlers || [];
+    if (crawlers.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#64748b;">No AI crawler telemetry recorded.</td></tr>';
+      return;
+    }
+
+    crawlers.forEach(c => {
+      const row = document.createElement("tr");
+      const isBlocked = (c.blocked || 0) > 0 && (c.allowed || 0) === 0;
+      row.className = isBlocked ? "row-denied" : "row-ai-agent";
+
+      row.innerHTML = `
+        <td><strong>${c.name}</strong></td>
+        <td><span class="badge-ok">${(c.allowed || 0).toLocaleString()}</span></td>
+        <td><span class="${c.blocked > 0 ? 'badge-denied' : 'badge-ok'}">${(c.blocked || 0).toLocaleString()}</span></td>
+        <td><span class="endpoint-code">${(c.html_mb || 0).toFixed(2)} MB</span></td>
+        <td><span class="badge-ai">${(c.referrals || 0).toLocaleString()}</span></td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  async function loadSessions() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = localStorage.getItem('ecosmart-dev-token') || urlParams.get('token') || '';
+
+      const res = await fetch('../../data/dev-sessions.json');
+      if (res.ok) {
+        const sessions = await res.json();
+        updateSessionDurationDisplay(sessions);
+        updateWhoOnlineList(sessions);
+      }
+    } catch (e) {
+      console.error('Failed to load session store:', e);
+    }
+  }
+
+  function updateSessionDurationDisplay(sessions) {
+    const tbody = document.querySelector("#sessionDurationTable tbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+
+    const sessionList = Object.values(sessions || {});
+    if (sessionList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#64748b;">No active developer sessions tracked yet.</td></tr>';
+      return;
+    }
+
+    sessionList.forEach(s => {
+      const durationSec = Math.max(0, s.last_seen - s.start_time);
+      const duration = new Date(durationSec * 1000).toISOString().substr(11, 8);
+      const fp = s.fingerprint && s.fingerprint !== 'none' ? s.fingerprint.substring(0, 12) + '...' : '—';
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><span class="token-id">${s.token_id}</span></td>
+        <td><span class="token-id" style="font-size:0.75rem; background:#f1f5f9; color:#475569;" title="${s.fingerprint || 'none'}">${fp}</span></td>
+        <td>${new Date(s.start_time * 1000).toLocaleTimeString()}</td>
+        <td>${new Date(s.last_seen * 1000).toLocaleTimeString()}</td>
+        <td><span class="badge-ok" style="font-family:'Fira Code',monospace;">${duration}</span></td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  async function loadAudit() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = localStorage.getItem('ecosmart-dev-token') || urlParams.get('token') || '';
+
+      const res = await fetch('../../data/dev-audit.json');
+      auditData = await res.json();
+      applyCurrentFilters();
+      updateCharts(auditData);
+      updateDeveloperOnlineIndicator(auditData);
+      loadSessions();
+      loadAICrawlerTelemetry();
+    } catch (e) {
+      console.error('Failed to load audit trail:', e);
+    }
+  }
+
+  function renderAudit(rows) {
+    const body = document.getElementById('audit-rows');
+    body.innerHTML = '';
+
+    if (!rows || rows.length === 0) {
+      body.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#64748b;">No matching audit entries found.</td></tr>';
+      return;
+    }
+
+    rows.forEach(entry => {
+      const row = document.createElement('tr');
+      const ua = entry.user_agent || '';
+      const isAI = ua.includes('GPTBot') || ua.includes('ClaudeBot') || ua.includes('PerplexityBot') || ua.includes('Gemini') || ua.includes('ChatGPT') || ua.includes('BingAI');
+      const isDenied = entry.result.includes('403') || entry.result.includes('Denied') || entry.result.includes('Unauthorized');
+
+      let badgeClass = 'badge-ok';
+      let rowClass = 'row-authorized';
+
+      if (isDenied) {
+        badgeClass = 'badge-denied';
+        rowClass = 'row-denied';
+      } else if (isAI) {
+        badgeClass = 'badge-ai';
+        rowClass = 'row-ai-agent';
+      } else if (entry.result.includes('302') || entry.result.includes('Redirect')) {
+        badgeClass = 'badge-redirect';
+        rowClass = 'row-denied';
+      }
+
+      row.className = rowClass;
+      const fp = entry.fingerprint && entry.fingerprint !== 'none' ? entry.fingerprint.substring(0, 12) + '...' : '—';
+      row.innerHTML = `
+        <td>${new Date(entry.timestamp * 1000).toLocaleString()}</td>
+        <td><span class="token-id">${entry.token_id}</span></td>
+        <td><span class="endpoint-code">${entry.endpoint}</span></td>
+        <td><span class="${badgeClass}">${entry.result}</span></td>
+        <td><span class="token-id" style="font-size:0.75rem; background:#f1f5f9; color:#475569;" title="${entry.fingerprint || 'none'}">${fp}</span></td>
+        <td><span class="ua-code" title="${ua}">${ua}</span></td>
+      `;
+      body.appendChild(row);
+    });
+  }
+
+  function applyCurrentFilters() {
+    const filterType = document.getElementById('filter-type').value;
+    const id = document.getElementById('filter-id').value.trim().toLowerCase();
+    const endpoint = document.getElementById('filter-endpoint').value.trim().toLowerCase();
+
+    const filtered = auditData.filter(entry => {
+      const ua = (entry.user_agent || '').toLowerCase();
+      const isAI = ua.includes('gptbot') || ua.includes('claudebot') || ua.includes('perplexitybot') || ua.includes('gemini') || ua.includes('chatgpt') || ua.includes('bingai');
+      const isDenied = entry.result.includes('403') || entry.result.includes('Denied') || entry.result.includes('Unauthorized');
+      const isDev = !isAI && !isDenied && entry.token_id.startsWith('dev-');
+
+      let matchType = true;
+      if (filterType === 'manifest') {
+        matchType = entry.endpoint.includes('manifest');
+      } else if (filterType === 'badge') {
+        matchType = entry.endpoint.includes('badge') || entry.result.includes('Badge View');
+      } else if (filterType === 'sessions') {
+        matchType = entry.fingerprint && entry.fingerprint !== 'none';
+      } else if (filterType === 'ai') {
+        matchType = isAI;
+      } else if (filterType === 'developer') {
+        matchType = isDev;
+      } else if (filterType === 'unauthorized') {
+        matchType = isDenied;
+      }
+
+      const matchId = !id || entry.token_id.toLowerCase().includes(id);
+      const matchEndpoint = !endpoint || entry.endpoint.toLowerCase().includes(endpoint);
+
+      return matchType && matchId && matchEndpoint;
+    });
+
+    renderAudit(filtered);
+  }
+
+  function updateCharts(data) {
+    if (typeof Chart === 'undefined') return;
+
+    // Filter manifest & API events
+    const events = data || [];
+
+    // Count categories
+    let aiCount = 0;
+    let devCount = 0;
+    let deniedCount = 0;
+
+    events.forEach(e => {
+      const ua = e.user_agent || '';
+      const isAI = ua.includes('GPTBot') || ua.includes('ClaudeBot') || ua.includes('PerplexityBot') || ua.includes('Gemini') || ua.includes('ChatGPT') || ua.includes('BingAI');
+      const isDenied = e.result.includes('403') || e.result.includes('Denied') || e.result.includes('Unauthorized') || e.result.includes('302');
+
+      if (isDenied) {
+        deniedCount++;
+      } else if (isAI) {
+        aiCount++;
+      } else {
+        devCount++;
+      }
+    });
+
+    // Endpoint heatmap counts
+    const endpointCounts = {};
+    events.forEach(e => {
+      endpointCounts[e.endpoint] = (endpointCounts[e.endpoint] || 0) + 1;
+    });
+
+    // Timeline data
+    const sortedEvents = [...events].sort((a, b) => a.timestamp - b.timestamp);
+    const timelineLabels = sortedEvents.map(e => new Date(e.timestamp * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    const timelineValues = sortedEvents.map((_, idx) => idx + 1);
+
+    // 1. AI vs Developer vs Unauthorized (Doughnut)
+    if (!accessTypeChart) {
+      accessTypeChart = new Chart(document.getElementById("accessTypeChart"), {
+        type: "doughnut",
+        data: {
+          labels: ["AI Agents", "Developers", "Unauthorized"],
+          datasets: [{
+            data: [aiCount, devCount, deniedCount],
+            backgroundColor: ["#00e0ff", "#00ff80", "#ff4d4d"],
+            borderColor: "#0b2e1f",
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: "#e8f5e9" }
+            }
+          }
+        }
+      });
+    } else {
+      accessTypeChart.data.datasets[0].data = [aiCount, devCount, deniedCount];
+      accessTypeChart.update();
+    }
+
+    // 2. Endpoint Heatmap (Bar)
+    if (!endpointChart) {
+      endpointChart = new Chart(document.getElementById("endpointChart"), {
+        type: "bar",
+        data: {
+          labels: Object.keys(endpointCounts),
+          datasets: [{
+            label: "Access Count",
+            data: Object.values(endpointCounts),
+            backgroundColor: "#00ff80",
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: "#e8f5e9" } }
+          },
+          scales: {
+            x: { ticks: { color: "#00ff80" }, grid: { color: "rgba(255,255,255,0.05)" } },
+            y: { ticks: { color: "#e8f5e9" }, grid: { color: "rgba(255,255,255,0.1)" } }
+          }
+        }
+      });
+    } else {
+      endpointChart.data.labels = Object.keys(endpointCounts);
+      endpointChart.data.datasets[0].data = Object.values(endpointCounts);
+      endpointChart.update();
+    }
+
+    // 3. Access Frequency Over Time (Line)
+    if (!timelineChart) {
+      timelineChart = new Chart(document.getElementById("timelineChart"), {
+        type: "line",
+        data: {
+          labels: timelineLabels,
+          datasets: [{
+            label: "Cumulative Access Events",
+            data: timelineValues,
+            borderColor: "#00ff80",
+            backgroundColor: "rgba(0,255,128,0.15)",
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: "#e8f5e9" } }
+          },
+          scales: {
+            x: { ticks: { color: "#e8f5e9" }, grid: { color: "rgba(255,255,255,0.05)" } },
+            y: { ticks: { color: "#e8f5e9" }, grid: { color: "rgba(255,255,255,0.1)" } }
+          }
+        }
+      });
+    } else {
+      timelineChart.data.labels = timelineLabels;
+      timelineChart.data.datasets[0].data = timelineValues;
+      timelineChart.update();
+    }
+  }
+
+  document.getElementById('apply-filters').onclick = applyCurrentFilters;
+  document.getElementById('filter-type').onchange = applyCurrentFilters;
+
+  loadAudit();
+  loadAICrawlerTelemetry();
+  setInterval(loadAudit, 5000);
+  setInterval(loadAICrawlerTelemetry, 10000);
+</script>
+
+</body>
+</html>

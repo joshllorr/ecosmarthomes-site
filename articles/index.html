@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latest Insights & Retrofit Guidance | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Clear, conflict-free advice on home retrofits, SEAI grants, carbon tax mitigation, and heat pump readiness.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/articles/">
+  <link rel="stylesheet" href="/css/styles.css?v=2">
+  <style>
+    .articles-hero {
+      background: linear-gradient(135deg, #003f2d 0%, #002d20 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .articles-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+    .articles-hero p {
+      font-size: 1.1rem;
+      color: #7fd38a;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .articles-layout {
+      max-width: 1100px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+    .articles-grid {
+      display: grid;
+      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    .article-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 28px;
+      text-align: left;
+      border-left: 5px solid #00a86b;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid #e2e8f0;
+      border-left: 5px solid #00a86b;
+    }
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .article-card h2 {
+      color: #003f2d;
+      margin: 0 0 12px 0;
+      font-size: 1.25rem;
+      line-height: 1.4;
+    }
+    .article-card .meta {
+      font-size: 0.82rem;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+    .article-card .tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 15px;
+      margin-bottom: 15px;
+    }
+    .tag-badge {
+      background: #e6f4ef;
+      color: #007f50;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid rgba(0,168,107,0.2);
+      transition: background 0.15s ease;
+    }
+    .tag-badge:hover {
+      background: #00a86b;
+      color: #fff;
+    }
+    .article-hero-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: #f1f5f9;
+    }
+    .article-search-box {
+      max-width: 600px;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+    #search-input {
+      width: 100%;
+      padding: 14px 20px 14px 44px;
+      font-size: 1rem;
+      border-radius: 30px;
+      border: 2px solid #e2e8f0;
+      background: #ffffff;
+      color: #003f2d;
+      outline: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    #search-input:focus {
+      border-color: #00a86b;
+      box-shadow: 0 4px 16px rgba(0,168,107,0.2);
+    }
+    .search-icon-inside {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: #00a86b;
+    }
+    .autocomplete-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1px solid rgba(0,168,107,0.3);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      z-index: 100;
+      display: none;
+      overflow: hidden;
+    }
+    .autocomplete-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.15s ease;
+    }
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+    .autocomplete-item:hover {
+      background: #e6f4ef;
+    }
+    .autocomplete-title {
+      font-weight: 700;
+      color: #003f2d;
+      font-size: 0.95rem;
+    }
+    .autocomplete-meta {
+      font-size: 0.78rem;
+      color: #00a86b;
+      margin-top: 4px;
+    }
+    .tag-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .tag-filter-btn {
+      background: #e6f4ef;
+      color: #007f50;
+      border: 1px solid rgba(0,168,107,0.3);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tag-filter-btn.active, .tag-filter-btn:hover {
+      background: #003f2d;
+      color: #10b981;
+      border-color: #003f2d;
+    }
+    .pagination-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 40px;
+    }
+    .pagination-btn {
+      background: #e6f4ef;
+      color: #007f50;
+      border: 1px solid rgba(0,168,107,0.3);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pagination-btn:hover:not(:disabled) {
+      background: #00a86b;
+      color: #ffffff;
+    }
+    .pagination-btn.active {
+      background: #003f2d;
+      color: #00ff80;
+      border-color: #003f2d;
+    }
+    .pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body style="background: #f8fafc;">
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="/">
+        <img src="/imgs/logo.svg" alt="EcoSmartHomes" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/solar/" style="color: #f59e0b; font-weight: 700;">☀️ Solar PV</a></li>
+        <li><a href="/carbon-tax/" style="color: #ef4444; font-weight: 700;">⚡ Carbon Tax</a></li>
+        <li><a href="/roadmap/" style="color: #10b981; font-weight: 700;">📄 Roadmap PDF</a></li>
+        <li><a href="/locations/" style="color: #10b981; font-weight: 700;">📍 Towns Hub</a></li>
+        <li><a href="/contractors/" style="color: #cbd5e1; font-weight: 600;">🏗️ For Installers</a></li>
+        <li><a href="/#independent-survey" style="background: #f59e0b; color: #000; padding: 6px 14px; border-radius: 6px; font-weight: 800; text-decoration: none;">💳 Book €49 Survey</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="articles-hero">
+  <h1>Latest Insights & Guidance</h1>
+  <p>Clear, conflict-free advice on home retrofits, SEAI grants, carbon tax mitigation, and heat pump readiness.</p>
+</div>
+
+<div class="articles-layout">
+  <!-- Search Bar -->
+  <div class="article-search-box">
+    <span class="search-icon-inside">🔍</span>
+    <input id="search-input" type="text" placeholder="Search articles by title, summary, or topic tag..." autocomplete="off">
+    <div id="autocomplete" class="autocomplete-dropdown"></div>
+  </div>
+
+  <!-- Tag Filter Bar -->
+  <div id="tag-filter" class="tag-filter-bar">
+    <button class="tag-filter-btn active" data-tag="">All</button>
+    <button class="tag-filter-btn" data-tag="BER Rating">BER Rating</button>
+    <button class="tag-filter-btn" data-tag="Retrofit Roadmap">Retrofit Roadmap</button>
+    <button class="tag-filter-btn" data-tag="SEAI Grants">SEAI Grants</button>
+    <button class="tag-filter-btn" data-tag="Carbon Tax">Carbon Tax</button>
+    <button class="tag-filter-btn" data-tag="Heat Pump">Heat Pump</button>
+    <button class="tag-filter-btn" data-tag="Solar PV">Solar PV</button>
+  </div>
+
+  <div id="articles" class="articles-grid">
+    <!-- Dynamic live articles feed loaded here -->
+  </div>
+
+  <!-- Pagination Controls Bar -->
+  <div id="pagination" class="pagination-bar"></div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div class="footer-col">
+      <h3>EcoSmartHomes Ireland</h3>
+      <p>Independent, conflict-free retrofit guidance protecting your home and your wallet.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/solar/">Solar & CEG</a></li>
+        <li><a href="/carbon-tax/">Carbon Tax Clock</a></li>
+        <li><a href="/roadmap/">Roadmap PDF</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>Limerick, Ireland</p>
+      <p>Serving all 32 Counties</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+let currentTag = "";
+let currentSearch = "";
+let currentPage = 1;
+
+async function loadArticles(page = 1) {
+  currentPage = page;
+  const container = document.getElementById('articles');
+  try {
+    let baseUrl = currentSearch ? '/api/articles-search' : '/api/articles-feed';
+    let params = [`page=${page}`, `pageSize=6`];
+    if (currentSearch) params.push(`q=${encodeURIComponent(currentSearch)}`);
+    if (currentTag) params.push(`tag=${encodeURIComponent(currentTag)}`);
+
+    let url = `${baseUrl}?${params.join('&')}`;
+    let res = await fetch(url);
+    if (!res.ok) {
+      res = await fetch('/data/articles-feed.json');
+    }
+    let data = await res.json();
+
+    let articles = Array.isArray(data) ? data : (data.items || []);
+    let totalPages = data.totalPages || 1;
+    let pageNum = data.page || page;
+
+    if (Array.isArray(data)) {
+      if (currentSearch) {
+        const q = currentSearch.toLowerCase();
+        articles = articles.filter(a => (a.title || "").toLowerCase().includes(q) || (a.summary || "").toLowerCase().includes(q) || (a.tags || []).some(t => t.toLowerCase().includes(q)));
+      } else if (currentTag) {
+        articles = articles.filter(a => a.tags && Array.isArray(a.tags) && a.tags.some(t => t.toLowerCase().includes(currentTag.toLowerCase())));
+      }
+      totalPages = Math.ceil(articles.length / 6) || 1;
+      const start = (page - 1) * 6;
+      articles = articles.slice(start, start + 6);
+    }
+
+    if (articles.length === 0) {
+      const term = currentSearch || currentTag;
+      container.innerHTML = `<p style="grid-column:1/-1; text-align:center; padding:40px; color:#666;">No articles found matching <strong>"${term || 'your request'}"</strong>. <button onclick="resetFilters()" style="color:#00a86b; border:none; background:none; text-decoration:underline; cursor:pointer; font-weight:bold;">Clear filters</button></p>`;
+      renderPagination(1, 1);
+      return;
+    }
+
+    container.innerHTML = articles.map(a => {
+      let tagsList = Array.isArray(a.tags) ? a.tags : ['Retrofit', 'BER'];
+      const articleLink = `/${a.slug}.html`;
+
+      return `
+        <div class="article-card">
+          ${a.hero ? `<img src="${a.hero}" alt="${a.title}" class="article-hero-img" onerror="this.style.display='none'">` : ''}
+          <h2>${a.title}</h2>
+          <p style="color:#555; font-size:0.95rem; margin-bottom:12px; line-height:1.5;">${a.summary}</p>
+          <div class="meta" style="font-size:0.82rem; color:#777;">Published: ${a.date || 'August 2026'}</div>
+          <div class="tags">
+            ${tagsList.map(t => `<span class="tag-badge" onclick="filterByTag('${t}')">${t}</span>`).join('')}
+          </div>
+          <a href="${articleLink}" style="color:#00a86b; font-weight:700; text-decoration:none; margin-top:auto; font-size: 0.95rem;">Read Article →</a>
+        </div>
+      `;
+    }).join('');
+
+    renderPagination(pageNum, totalPages);
+  } catch (error) {
+    console.error('Error loading articles feed:', error);
+    container.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px;">Unable to load live articles feed at this time.</p>';
+  }
+}
+
+function filterByTag(tag) {
+  currentTag = tag;
+  currentSearch = "";
+  document.getElementById('search-input').value = "";
+  document.querySelectorAll('.tag-filter-btn').forEach(btn => {
+    if (btn.dataset.tag.toLowerCase() === tag.toLowerCase()) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  loadArticles(1);
+}
+
+function renderPagination(page, totalPages) {
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'pagination-btn';
+  prevBtn.innerHTML = '← Previous';
+  prevBtn.disabled = page <= 1;
+  prevBtn.onclick = () => loadArticles(page - 1);
+  pagination.appendChild(prevBtn);
+
+  for (let i = 1; i <= totalPages; i++) {
+    const pBtn = document.createElement('button');
+    pBtn.className = `pagination-btn ${i === page ? 'active' : ''}`;
+    pBtn.textContent = i;
+    pBtn.onclick = () => loadArticles(i);
+    pagination.appendChild(pBtn);
+  }
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'pagination-btn';
+  nextBtn.innerHTML = 'Next →';
+  nextBtn.disabled = page >= totalPages;
+  nextBtn.onclick = () => loadArticles(page + 1);
+  pagination.appendChild(nextBtn);
+}
+
+function resetFilters() {
+  currentTag = "";
+  currentSearch = "";
+  document.getElementById('search-input').value = "";
+  document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector('.tag-filter-btn[data-tag=""]').classList.add('active');
+  loadArticles(1);
+}
+
+const autocomplete = document.getElementById('autocomplete');
+const searchInput = document.getElementById('search-input');
+
+let suggestTimer;
+searchInput.addEventListener('input', (e) => {
+  const q = e.target.value.trim();
+  clearTimeout(suggestTimer);
+
+  if (!q) {
+    autocomplete.style.display = 'none';
+    autocomplete.innerHTML = '';
+    currentSearch = "";
+    loadArticles(1);
+    return;
+  }
+
+  suggestTimer = setTimeout(async () => {
+    try {
+      const res = await fetch(`/api/articles-semantic?q=${encodeURIComponent(q)}`);
+      if (!res.ok) {
+        autocomplete.style.display = 'none';
+        return;
+      }
+      const suggestions = await res.json();
+
+      if (!suggestions || suggestions.length === 0) {
+        autocomplete.style.display = 'none';
+        autocomplete.innerHTML = '';
+        return;
+      }
+
+      autocomplete.innerHTML = suggestions.map(s => `
+        <div class="autocomplete-item" data-slug="${s.slug}">
+          <div class="autocomplete-title">${s.title}</div>
+          <div class="autocomplete-meta">Tags: ${(s.tags || []).join(', ')}</div>
+        </div>
+      `).join('');
+
+      autocomplete.style.display = 'block';
+    } catch (err) {
+      autocomplete.style.display = 'none';
+    }
+
+    currentSearch = q;
+    currentTag = "";
+    document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
+    loadArticles(1);
+  }, 200);
+});
+
+autocomplete.addEventListener('click', (e) => {
+  const item = e.target.closest('.autocomplete-item');
+  if (!item) return;
+  const slug = item.dataset.slug;
+  window.location.href = `/${slug}.html`;
+});
+
+document.addEventListener('click', (e) => {
+  if (!autocomplete.contains(e.target) && e.target !== searchInput) {
+    autocomplete.style.display = 'none';
+  }
+});
+
+document.getElementById('tag-filter').addEventListener('click', (e) => {
+  if (e.target.classList.contains('tag-filter-btn')) {
+    document.querySelectorAll('.tag-filter-btn').forEach(btn => btn.classList.remove('active'));
+    e.target.classList.add('active');
+    currentTag = e.target.dataset.tag;
+    currentSearch = "";
+    document.getElementById('search-input').value = "";
+    autocomplete.style.display = 'none';
+    loadArticles(1);
+  }
+});
+
+loadArticles(1);
+</script>
+
+</body>
+</html>

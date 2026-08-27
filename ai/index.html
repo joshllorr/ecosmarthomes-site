@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoSmartHomes AI Advisory | Independent Retrofit Guidance</title>
+  <meta name="description" content="Smart, structured retrofit intelligence for Irish homes — without any tech clutter. Understand your BER score, SEAI grants, and heating options.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "EcoSmartHomes AI Assistant",
+    "applicationCategory": "Home Energy Advisory",
+    "operatingSystem": "Web",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "EcoSmartHomes",
+      "url": "https://www.ecosmarthomes.ie"
+    },
+    "description": "AI-powered home energy advisor providing retrofit guidance, BER insights, grant eligibility, and upgrade pathways."
+  }
+  </script>
+
+  <style>
+    .ai-benefits-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      padding: 32px;
+      margin-top: 30px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+
+    .benefit-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0 0;
+      display: grid;
+      gap: 20px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .benefit-icon {
+      font-size: 1.5rem;
+      background: #ecfdf5;
+      color: #10b981;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../index.html">
+        <img src="../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../index.html#hero">Home</a></li>
+        <li><a href="../index.html#services">Services</a></li>
+        <li><a href="../index.html#process">Process</a></li>
+        <li><a href="../index.html#independence">Independence</a></li>
+        <li><a href="../ber-advisor/">BER Advisor</a></li>
+        <li><a href="../index.html#roadmap">Roadmap</a></li>
+        <li><a href="../dashboard.html" style="color: #10b981; font-weight: 700;">📊 Insights</a></li>
+        <li><a href="index.html" style="color: #10b981; font-weight: 700;">🤖 AI Advisory</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="dashboard-logo-icon" style="margin: 0 auto 16px auto;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+      </svg>
+    </div>
+    <h1>EcoSmartHomes AI Advisory</h1>
+    <p class="tagline" style="font-size: 1.25rem; color: #e2e8f0; margin-top: 12px;">Smart, structured retrofit intelligence for Irish homes — without any tech clutter.</p>
+    
+    <div style="display: flex; gap: 16px; margin-top: 28px; justify-content: center; flex-wrap: wrap;">
+      <a href="../dashboard.html" class="btn-primary" style="text-decoration:none; font-size:1rem; padding:12px 24px;">Open Financial Insights Dashboard →</a>
+      <a href="../ber-advisor/" class="btn-primary" style="text-decoration:none; font-size:1rem; padding:12px 24px; background:#003f2d; border:1px solid #10b981;">Open BER Advisor Tool →</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<main class="dashboard-container">
+
+  <section class="ai-benefits-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge">Human-Centric Intelligence</span>
+      <h2>What our AI Advisory does for you</h2>
+    </div>
+
+    <ul class="benefit-list">
+      <li class="benefit-item">
+        <div class="benefit-icon">📈</div>
+        <div>
+          <strong>Clear upgrade paths:</strong> Step-by-step roadmap from your home's current BER rating up to a warm, energy-efficient A0-rating.
+        </div>
+      </li>
+      <li class="benefit-item">
+        <div class="benefit-icon">💶</div>
+        <div>
+          <strong>Grant-aware advice:</strong> Pre-calculated net cost models incorporating Ireland's latest SEAI national grant rates and Carbon Tax shielding.
+        </div>
+      </li>
+      <li class="benefit-item">
+        <div class="benefit-icon">🏡</div>
+        <div>
+          <strong>Comfort-first guidance:</strong> Fabric-first retrofit sequence rules designed to keep your home warm and bills predictable, backed by independent Irish expertise.
+        </div>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">🌿 EcoSmartHomes — Independent Home Energy Retrofit Advisory for Irish Homeowners</p>
+    <div class="dashboard-footer-links">
+      <a href="../index.html">Home</a> •
+      <a href="../ber-advisor/">BER Advisor</a> •
+      <a href="../dashboard.html">Dashboard</a> •
+      <a href="index.html">AI Advisory</a> •
+      <a href="../articles/">Articles</a> •
+      <a href="../privacy-policy.html">Privacy Policy</a>
+    </div>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. Independent Building Energy Rating guidance.</small></p>
+  </div>
+</footer>
+
+</body>
+</html>

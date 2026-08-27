@@ -1,0 +1,19 @@
+<svg width="340" height="80" viewBox="0 0 340 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00a86b"/>
+      <stop offset="100%" stop-color="#003f2d"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- House icon -->
+  <g transform="translate(10, 20)">
+    <polygon points="25,5 5,25 5,38 45,38 45,25" fill="url(#logoGrad)"/>
+    <polygon points="5,25 25,8 45,25" fill="#003f2d" opacity="0.3"/>
+    <rect x="22" y="28" width="6" height="10" fill="white" opacity="0.8"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="70" y="48" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#ffffff">EcoSmart</text>
+  <text x="208" y="48" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#ffffff">Homes</text>
+</svg>

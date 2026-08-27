@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revoke Developer Token | EcoSmartHomes Private Console</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../../../css/styles.css">
+  <link rel="stylesheet" href="../../../css/dashboard.css">
+
+  <style>
+    .token-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-bottom: 32px;
+      padding: 24px;
+    }
+
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 0.92rem;
+    }
+
+    .token-table th {
+      background: #f8fafc;
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--border-color);
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .token-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .token-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .token-id {
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      color: #0284c7;
+      background: #f0f9ff;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .badge-active {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .btn-action {
+      font-size: 0.82rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s;
+    }
+
+    .btn-action:hover {
+      opacity: 0.85;
+    }
+
+    .btn-revoke-prefill {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
+    }
+
+    .form-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .form-group input {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      min-width: 260px;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../../../index.html">
+        <img src="../../../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../ber-advisor/">BER Advisor</a></li>
+        <li><a href="../../../dashboard.html">Dashboard</a></li>
+        <li><a href="../../index.html">AI Advisory</a></li>
+        <li><a href="../index.html">🔐 Dev Portal</a></li>
+        <li><a href="index.html" style="color: #10b981; font-weight: 700;">🔑 Tokens</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="dashboard-logo-icon" style="margin: 0 auto 16px auto;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+      </svg>
+    </div>
+    <h1>Revoke Developer Token</h1>
+    <p class="tagline">Instantly disable access for any developer token across the EcoSmartHomes AI Developer Portal</p>
+  </div>
+</section>
+
+<!-- MAIN CONTAINER -->
+<main class="dashboard-container">
+
+  <!-- ACTIVE TOKENS LIST PANEL -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge" style="background:#dcfce7; color:#15803d;">Active Registry</span>
+      <h2>Active Access Tokens</h2>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token ID</th>
+            <th>Issued</th>
+            <th>Expires</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="active-tokens">
+          <!-- Populated dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- REVOKE FORM PANEL -->
+  <section class="token-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge" style="background:#fee2e2; color:#dc2626;">Revocation Action</span>
+      <h2>Revoke a Token</h2>
+    </div>
+    <p style="color:var(--text-main); line-height:1.6;">Select a token from the list above or enter a Token ID manually to trigger instant access revocation.</p>
+
+    <div class="form-group">
+      <label for="revoke-id" style="font-weight:600;">Token ID:</label>
+      <input id="revoke-id" type="text" placeholder="dev-2026-01">
+      <button id="revoke-btn" class="btn-danger">Revoke Token</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">🔒 EcoSmartHomes Private Developer Console — Token Revocation Module</p>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. All rights reserved.</small></p>
+  </div>
+</footer>
+
+<script>
+  async function loadTokens() {
+    try {
+      const res = await fetch('../../data/dev-tokens.json');
+      const registry = await res.json();
+
+      const activeBody = document.getElementById('active-tokens');
+      activeBody.innerHTML = '';
+
+      if (registry.active && registry.active.length > 0) {
+        registry.active.forEach(t => {
+          const row = document.createElement('tr');
+          const issuedDate = t.issued ? new Date(t.issued * 1000).toLocaleDateString() : 'N/A';
+          const expiresDate = t.expires ? new Date(t.expires * 1000).toLocaleDateString() : 'N/A';
+          row.innerHTML = `
+            <td><span class="token-id">${t.id}</span></td>
+            <td>${issuedDate}</td>
+            <td>${expiresDate}</td>
+            <td>
+              <button class="btn-action btn-revoke-prefill" onclick="prefillRevoke('${t.id}')">Revoke</button>
+            </td>
+          `;
+          activeBody.appendChild(row);
+        });
+      } else {
+        activeBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#64748b;">No active tokens found.</td></tr>';
+      }
+    } catch (e) {
+      console.error('Failed to load token registry:', e);
+    }
+  }
+
+  function prefillRevoke(id) {
+    document.getElementById('revoke-id').value = id;
+  }
+
+  document.getElementById('revoke-btn').onclick = () => {
+    const id = document.getElementById('revoke-id').value.trim();
+    if (!id) {
+      alert("Enter a token ID first.");
+      return;
+    }
+
+    const revokedAt = Math.floor(Date.now() / 1000);
+    alert(
+      `To revoke token "${id}":\n\n` +
+      `1. Add this entry to "revoked" in site/data/dev-tokens.json:\n` +
+      `   { "id": "${id}", "revoked_at": ${revokedAt} }\n\n` +
+      `2. Remove "${id}" from the "active" array in site/data/dev-tokens.json.\n\n` +
+      `Your Cloudflare Worker will enforce revocation instantly.`
+    );
+  };
+
+  loadTokens();
+</script>
+
+</body>
+</html>

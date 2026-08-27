@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Interface Code Inspector | EcoSmartHomes Private Developer Console</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="../../css/dashboard.css">
+
+  <style>
+    .endpoint-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-bottom: 32px;
+      padding: 24px;
+    }
+
+    .code-explorer {
+      background: #0f172a;
+      border-radius: 16px;
+      border: 1px solid #1e293b;
+      overflow: hidden;
+      margin-top: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .explorer-tabs {
+      display: flex;
+      background: #1e293b;
+      overflow-x: auto;
+      border-bottom: 1px solid #334155;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 14px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: #e2e8f0;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .tab-btn.active {
+      color: #38bdf8;
+      background: #0f172a;
+      border-bottom: 2px solid #38bdf8;
+    }
+
+    .code-content {
+      position: relative;
+      padding: 20px;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #334155;
+      color: #e2e8f0;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .copy-btn:hover {
+      background: #475569;
+    }
+
+    .tab-pane pre {
+      margin: 0;
+      overflow-x: auto;
+    }
+
+    .tab-pane code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    .raw-link {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      color: #0284c7;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav-container">
+    <div class="logo">
+      <a href="../../index.html">
+        <img src="../../imgs/logo.svg" alt="EcoSmartHomes Logo" />
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../ber-advisor/">BER Advisor</a></li>
+        <li><a href="../../dashboard.html">Dashboard</a></li>
+        <li><a href="../index.html">AI Advisory</a></li>
+        <li><a href="index.html" style="color: #10b981; font-weight: 700;">🔐 Dev Portal</a></li>
+        <li><a href="tokens/" style="color: #10b981; font-weight: 600;">🔑 Tokens</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO BANNER -->
+<section class="dashboard-header">
+  <div class="dashboard-title-wrapper" style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="dashboard-logo-icon" style="margin: 0 auto 16px auto;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+    </div>
+    <h1>Machine Interface Code Inspector</h1>
+    <p class="tagline">Developer-only raw payload inspector, manifest schemas, and Cloudflare Worker specifications</p>
+  </div>
+</section>
+
+<!-- MAIN CONTAINER -->
+<main class="dashboard-container">
+
+  <!-- Token Status Banner -->
+  <div style="background:#003f2d; color:#ffffff; padding:16px 24px; border-radius:12px; margin-bottom:28px; border:1px solid #10b981; box-shadow:0 4px 12px rgba(0,0,0,0.08); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <div>
+      <strong style="color:#10b981;">🔐 Developer Access Token Active</strong>
+      <span style="opacity:0.9; margin-left:8px;">• Accessing Private Developer Endpoint Inspector</span>
+    </div>
+    <div style="font-size:0.85rem; opacity:0.85;">
+      Scope: <code style="color:#6ee7b7;">ai.dev, schema.read, diagnostics</code>
+    </div>
+  </div>
+
+  <!-- CODE INSPECTOR SECTION -->
+  <section class="endpoint-card">
+    <div class="section-title-wrapper" style="margin-top:0;">
+      <span class="section-badge">Raw Payload Inspector</span>
+      <h2>Machine Specifications & Schemas</h2>
+    </div>
+
+    <div class="code-explorer">
+      <div class="explorer-tabs">
+        <button class="tab-btn active" onclick="switchTab('tab-manifest')"><i class="fa-solid fa-file-code"></i> ai/manifest.json</button>
+        <button class="tab-btn" onclick="switchTab('tab-robots')"><i class="fa-solid fa-robot"></i> robots.txt</button>
+        <button class="tab-btn" onclick="switchTab('tab-mcp')"><i class="fa-solid fa-plug"></i> mcp/manifest.json</button>
+        <button class="tab-btn" onclick="switchTab('tab-markdown')"><i class="fa-solid fa-file-lines"></i> recommendations.md</button>
+        <button class="tab-btn" onclick="switchTab('tab-worker')"><i class="fa-brands fa-cloudflare"></i> oauth-mcp-worker.js</button>
+      </div>
+
+      <div class="code-content">
+        <button class="copy-btn" onclick="copyActiveCode()"><i class="fa-regular fa-copy"></i> Copy Code</button>
+
+        <!-- Tab 1: AI Manifest -->
+        <div id="tab-manifest" class="tab-pane">
+<pre><code id="code-tab-manifest">{
+  "name": "EcoSmartHomes",
+  "version": "1.0.0",
+  "description": "Premium Home Energy Retrofit Advisory in Ireland",
+  "homepage": "https://ecosmarthomes.ie",
+  "contact": "https://ecosmarthomes.ie/#contact",
+  "skills": [
+    "retrofit-advisory",
+    "BER-analysis",
+    "grant-guidance",
+    "journey-timeline",
+    "upgrade-recommendations",
+    "insights-dashboard"
+  ],
+  "capabilities": {
+    "markdown_responses": true,
+    "mcp_support": true,
+    "oauth_skills": true
+  },
+  "endpoints": {
+    "agent_skills_page": "https://ecosmarthomes.ie/agent-skills.html",
+    "openapi_spec": "https://ecosmarthomes.ie/ai/openapi.json",
+    "mcp_manifest": "https://ecosmarthomes.ie/api/mcp/manifest.json",
+    "markdown_recommendations": "https://ecosmarthomes.ie/api/upgrades/recommendations.md"
+  }
+}</code></pre>
+        </div>
+
+        <!-- Tab 2: robots.txt -->
+        <div id="tab-robots" class="tab-pane" style="display:none;">
+<pre><code id="code-tab-robots">User-agent: *
+Allow: /
+Disallow: /scratch/
+Disallow: /ai/manifest.json
+Disallow: /api/
+Disallow: /schema/
+Disallow: /data/
+Disallow: /.well-known/
+
+User-agent: ai
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://ecosmarthomes.ie/sitemap.xml
+AI-Manifest: https://ecosmarthomes.ie/ai/manifest.json
+MCP-Manifest: https://ecosmarthomes.ie/api/mcp/manifest.json
+Agent-Skills: https://ecosmarthomes.ie/agent-skills.html</code></pre>
+        </div>
+
+        <!-- Tab 3: MCP Manifest -->
+        <div id="tab-mcp" class="tab-pane" style="display:none;">
+<pre><code id="code-tab-mcp">{
+  "protocolVersion": "2024-11-05",
+  "serverInfo": {
+    "name": "ecosmarthomes-mcp-server",
+    "version": "1.0.0"
+  },
+  "tools": [
+    {
+      "name": "get_ber_analysis",
+      "description": "Calculates expected BER rating band improvement and primary energy savings."
+    },
+    {
+      "name": "get_retrofit_recommendations",
+      "description": "Returns prioritized energy efficiency upgrade options based on building specs."
+    },
+    {
+      "name": "calculate_seai_grants",
+      "description": "Computes exact SEAI grant entitlements, heat pump bonuses, and net out-of-pocket costs."
+    }
+  ]
+}</code></pre>
+        </div>
+
+        <!-- Tab 4: Markdown Endpoint -->
+        <div id="tab-markdown" class="tab-pane" style="display:none;">
+<pre><code id="code-tab-markdown">---
+title: "EcoSmartHomes - Home Energy Upgrade Recommendations"
+version: "1.0.0"
+date: "2026-08-03"
+domain: "ecosmarthomes.ie"
+format: "markdown/structured-agent-data"
+---
+
+# EcoSmartHomes: Home Energy Retrofit Recommendations
+
+## 1. Prioritised Upgrade Matrix (Fabric First Approach)
+
+| Step | Upgrade Category | Typical Target U-Value | Primary Benefit | Max SEAI Grant |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | Attic Insulation | ≤ 0.16 W/m²K | Eliminates top-floor thermal leakage | €1,500 |
+| 2 | Cavity Wall Pumping | ≤ 0.27 W/m²K | Low-disruption wall heat retention | €1,700 |
+| 3 | External Wall Insulation | ≤ 0.18 W/m²K | High thermal mass enclosure | €8,000 |
+| 4 | Triple Glazing | ≤ 0.8 W/m²K | Eliminates draughts & acoustic noise | One-Stop-Shop |
+| 5 | Air-to-Water Heat Pump | COP ≥ 4.0 | Replaces fossil oil/gas boilers | €12,500 |
+| 6 | Solar PV & Battery System | 4kWp + 5kWh | Direct micro-generation offset | €1,800 |</code></pre>
+        </div>
+
+        <!-- Tab 5: Worker Script -->
+        <div id="tab-worker" class="tab-pane" style="display:none;">
+<pre><code id="code-tab-worker">// Cloudflare Worker for AI Agent OAuth & MCP Hooks
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+    };
+
+    if (url.pathname === "/api/oauth/token" && request.method === "POST") {
+      return new Response(JSON.stringify({
+        access_token: "esh_agent_live_" + Math.random().toString(36).substring(2),
+        token_type: "Bearer",
+        expires_in: 86400,
+        mcp_manifest: "https://ecosmarthomes.ie/api/mcp/manifest.json"
+      }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+    }
+    return fetch(request);
+  }
+};</code></pre>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="dashboard-footer">
+  <div class="container">
+    <p class="protocol">🔒 EcoSmartHomes Private Developer Console — Machine Code Inspector</p>
+    <p><small style="color: #64748b;">© 2026 EcoSmartHomes. All rights reserved.</small></p>
+  </div>
+</footer>
+
+<script>
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    
+    document.getElementById(tabId).style.display = 'block';
+    event.currentTarget.classList.add('active');
+  }
+
+  function copyActiveCode() {
+    const activePane = document.querySelector('.tab-pane[style*="block"]') || document.getElementById('tab-manifest');
+    const codeText = activePane.querySelector('code').textContent;
+    navigator.clipboard.writeText(codeText).then(() => {
+      const copyBtn = document.querySelector('.copy-btn');
+      copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+      setTimeout(() => {
+        copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Code';
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
