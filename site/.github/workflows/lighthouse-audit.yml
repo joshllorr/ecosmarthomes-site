@@ -1,0 +1,59 @@
+name: Core Web Vitals Lighthouse Audit
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# Ensure that only one audit runs per PR branch at a time
+concurrency:
+  group: lighthouse-audit-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  performance-audit:
+    name: Core Web Vitals Performance Gate
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: 📥 Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: 🟢 Set Up Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install Performance Dependencies
+        run: |
+          # Install dependencies required by the Lighthouse programmatic script
+          npm ci || npm install
+          npm install lighthouse chrome-launcher chalk --no-save
+
+      - name: ⏳ Await Vercel Preview Deployment URL
+        id: vercel_preview
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 300 # Wait up to 5 minutes for Vercel to finish building the endpoints and assets
+
+      - name: 🚀 Run Programmatic Lighthouse Audit
+        id: run_lighthouse
+        run: |
+          # Create reports directory if it doesn't exist to ensure robust output pathing
+          mkdir -p reports
+          
+          # Run our performance audit suite using the live Vercel Preview URL outputted in the previous step
+          node audit-performance.js "${{ steps.vercel_preview.outputs.url }}"
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+
+      - name: 💬 Sticky Comment Audit Scorecard on Pull Request
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: always() && steps.vercel_preview.outputs.url != ''
+        with:
+          header: lighthouse-performance-scorecard
+          path: reports/lighthouse-summary.md
