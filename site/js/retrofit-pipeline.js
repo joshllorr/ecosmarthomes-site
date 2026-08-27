@@ -464,7 +464,7 @@
             <button type="button" onclick="document.getElementById('btn-download-pdf-dossier')?.click()" style="flex: 1; min-width: 180px; padding: 12px 16px; background: #003f2d; color: #ffffff; border: none; border-radius: 8px; font-weight: 800; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
               📄 Get Full Dossier (PDF)
             </button>
-            <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; display: inline-block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 16px; border-radius: 8px; font-size: 0.92rem;">
+            <a href="/checkout/" class="btn-primary" style="flex: 1; min-width: 180px; display: inline-block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 16px; border-radius: 8px; font-size: 0.92rem;">
               ⭐ Book Survey with Joe (€49) →
             </a>
           </div>
@@ -524,7 +524,7 @@
             <button type="button" onclick="document.getElementById('btn-download-pdf-dossier')?.click()" style="flex: 1; min-width: 180px; padding: 12px 16px; background: #003f2d; color: #ffffff; border: none; border-radius: 8px; font-weight: 800; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
               📄 Get Full Dossier (PDF)
             </button>
-            <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; display: inline-block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 16px; border-radius: 8px; font-size: 0.92rem;">
+            <a href="/checkout/" class="btn-primary" style="flex: 1; min-width: 180px; display: inline-block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 16px; border-radius: 8px; font-size: 0.92rem;">
               ⭐ Book Survey with Joe (€49) →
             </a>
           </div>
@@ -984,7 +984,7 @@
 
       if (tierSurvey?.checked) {
         // Redirect to full €49 Stripe survey checkout
-        window.open('https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00?prefilled_email=' + encodeURIComponent(clientEmail), '_blank');
+        window.location.href = '/checkout/?email=' + encodeURIComponent(clientEmail);
         modalOverlay.style.display = 'none';
         return;
       }

@@ -87,7 +87,7 @@ describe('EcoSmartHome Onboarding Wizard - E2E Integration Test Suite', () => {
     cy.get('[data-testid="stripe-checkout-cta"]')
       .should('have.attr', 'href')
       .and('not.include', 'test_')
-      .and('include', 'buy.stripe.com/aFabJ01EGbPz6tn8UYeME00');
+      .and('include', '/checkout/');
   });
 
   it('should gracefully handle viewport modal exit controls', () => {

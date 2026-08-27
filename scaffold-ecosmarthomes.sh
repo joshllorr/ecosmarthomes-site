@@ -1002,7 +1002,7 @@ cat << EOF > "$TARGET_DIR/checkout/index.html"
             </ul>
         </div>
 
-        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="gradient-brand text-white text-lg px-10 py-4 rounded-xl font-bold inline-block shadow-lg hover:shadow-xl transition-all">Proceed to Secure Payment (€49) &rarr;</a>
+        <a href="/checkout/" target="_blank" rel="noopener" class="gradient-brand text-white text-lg px-10 py-4 rounded-xl font-bold inline-block shadow-lg hover:shadow-xl transition-all">Proceed to Secure Payment (€49) &rarr;</a>
     </main>
 
     $HTML_FOOTER
@@ -1041,10 +1041,10 @@ cat << EOF > "$TARGET_DIR/checkout/order.html"
 
             <!-- Hardened Payment Notice -->
             <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg mb-6 text-xs text-emerald-900 leading-relaxed">
-                🛡️ <strong>Production Checkout Active:</strong> Payment flows utilize Stripe's live checkout pipeline (`https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00`) to guarantee instant booking confirmation.
+                🛡️ <strong>Production Checkout Active:</strong> Payment flows utilize Stripe's live checkout pipeline (`/checkout/`) to guarantee instant booking confirmation.
             </div>
 
-            <form class="space-y-4" action="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" method="GET">
+            <form class="space-y-4" action="/checkout/" method="GET">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Eircode / Home Address</label>
                     <input type="text" placeholder="e.g. V94 XXXX" class="mt-1 block w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-emerald-500 focus:outline-none" required>
@@ -1054,7 +1054,7 @@ cat << EOF > "$TARGET_DIR/checkout/order.html"
                     <input type="tel" placeholder="e.g. +353 87 123 4567" class="mt-1 block w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900 focus:border-emerald-500 focus:outline-none" required>
                 </div>
 
-                <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="gradient-brand text-white w-full py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all text-center block mt-6">Confirm and Pay €49</a>
+                <a href="/checkout/" target="_blank" rel="noopener" class="gradient-brand text-white w-full py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all text-center block mt-6">Confirm and Pay €49</a>
             </form>
         </div>
     </main>

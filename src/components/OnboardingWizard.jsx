@@ -558,7 +558,7 @@ export default function OnboardingWizard({ isOpen = true, onClose, copyData, cop
                   
                   <a
                     data-testid="stripe-checkout-cta"
-                    href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" 
+                    href="/checkout/" 
                     onClick={handleStripeClick}
                     target="_blank"
                     rel="noopener noreferrer"

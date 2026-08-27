@@ -117,7 +117,7 @@ The repository is pre-configured with a GitHub Actions pipeline (`site-validator
 ## 📝 Critical Production Checklist
 
 Prior to running a deployment, confirm the following items:
-- [x] **Stripe Production URLs**: No occurrences of Stripe Test URLs (`buy.stripe.com/test_...`) remain on any billing path. Payment links point exclusively to live Stripe production link `https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00`.
+- [x] **Stripe Production URLs**: No occurrences of Stripe Test URLs (`buy.stripe.com/test_...`) remain on any billing path. Payment links point exclusively to `/checkout/`.
 - [x] **No Test Keys**: No occurrences of Stripe Test API keys (`sk_test_`, `pk_test_`) exist within frontend or backend routes.
 - [x] **Canonical Tags**: Self-referential `<link rel="canonical">` tags are populated with the final absolute URL of the domain on every static page to prevent duplicate content crawling.
 - [x] **Clean Routing**: All internal links utilize clean, slash-terminated routing paths or clean `.html` targets as required by your static host provider.

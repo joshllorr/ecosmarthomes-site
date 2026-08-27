@@ -57,7 +57,7 @@ Verify the mathematical logic and compliance triggers based on SEAI and NSAI SR5
 ## 3. Stripe Payment & "Joe" Onsite Survey Checkout
 
 ### Production Readiness Checklist:
-- [x] **URL Swap**: Confirm all Stripe test links (`buy.stripe.com/test_...`) are replaced with production-live keys (`https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00`).
+- [x] **URL Swap**: Confirm all Stripe test links (`buy.stripe.com/test_...`) are replaced with `/checkout/`.
 - [x] **Price Audit**: Checkout must be fixed at €49.
 - [x] **WhatsApp Handover**: Confirm payment success triggers the "Direct WhatsApp Advisory Handover."
 - [x] **SLA Verification**: Verify text confirms Joe will contact the user within 24 hours.
@@ -115,7 +115,7 @@ Test the multi-modal upload for the following four targets:
 | Category | GO / NO-GO | Joe's Notes |
 | :--- | :--- | :--- |
 | **SEO & Architecture (32 Counties)** | **GO** | All 32 counties & 3,000+ towns resolved with clean canonicals. |
-| **Stripe & Payments (Live Keys)** | **GO** | Production live URL `https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00` verified with 0 test links. |
+| **Stripe & Payments (Live Keys)** | **GO** | Production URL `/checkout/` verified with 0 test links. |
 | **Business Logic (SR54 & Double VAT)** | **GO** | HLI $\le$ 2.0, €100/t Carbon Tax, and SR54 fireplace warning active. |
 | **UI/UX (One Screen, One Thought)** | **GO** | `100dvh` viewport locking and safe-area notch protection verified. |
 | **AI Features (Scanner & MCP/Skills)** | **GO** | Gemini 2.5 Flash scanner, Aoife Voice AI, and MCP v1.0 endpoints live. |

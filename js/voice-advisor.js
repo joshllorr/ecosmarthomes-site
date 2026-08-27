@@ -285,7 +285,7 @@
           <div>${formattedDisplay}</div>
           ${data.surveyCta ? `
             <div style="margin-top: 12px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
-              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+              <a href="/checkout/" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
                 Order €49 Independent Survey →
               </a>
             </div>
@@ -318,7 +318,7 @@
             • <strong>The Engineering Rule</strong>: Open flues cause massive uncontrolled air permeability and draft heat loss. To qualify for the <strong>€12,500 Heat Pump Grant</strong>, dwelling Heat Loss Indicator (HLI) must be ≤ 2.0 W/K/m².<br>
             • <strong>Mandatory Compliance</strong>: Open fireplaces must be permanently sealed at the throat with an insulated register plate or replaced with a room-sealed stove with dedicated external combustion air intake.<br><br>
             <div style="margin-top: 8px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
-              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+              <a href="/checkout/" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
                 Book €49 Survey to Audit Flues & Heat Loss →
               </a>
             </div>
@@ -333,7 +333,7 @@
             • <strong>The Rule</strong>: Heat pump grant approval mandates an independent assessment confirming HLI ≤ 2.0 W/K/m² (or ≤ 2.3 with fabric roadmap) to maintain a Seasonal Performance Factor (SPF) ≥ 3.0.<br>
             • <strong>Upgrade Sequence</strong>: 300mm Attic Insulation + External Wall Wrap (U ≤ 0.18 W/m²K) brings 90% of Irish D/E-rated homes below the 2.0 threshold.<br><br>
             <div style="margin-top: 8px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
-              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+              <a href="/checkout/" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
                 Order €49 Independent HLI Survey →
               </a>
             </div>
@@ -349,7 +349,7 @@
             • <strong>Attic Insulation</strong>: Up to <strong>€2,500</strong> grant (300mm mineral wool)<br>
             • <strong>Solar PV System</strong>: Up to <strong>€1,800</strong> grant + 24c/kWh Clean Export Guarantee<br><br>
             <div style="margin-top: 8px; padding: 10px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; text-align: center;">
-              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
+              <a href="/checkout/" target="_blank" rel="noopener" style="color: #92400e; font-weight: 800; text-decoration: none; font-size: 0.88rem; display: block;">
                 Book €49 Independent Retrofit Survey →
               </a>
             </div>

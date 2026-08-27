@@ -643,7 +643,7 @@ export default function HubPage({ copyDeckData }) {
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   </div>
                   <a
-                    href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00"
+                    href="/checkout/"
                     onClick={(e) => {
                       if (e.currentTarget.href.includes('test_')) {
                         e.preventDefault();

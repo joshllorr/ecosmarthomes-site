@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Global Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-3013797648"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-3013797648', {'allow_enhanced_conversions': true});
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSAI-Compliant Contractor Tender Specification Generator (RFP) | EcoSmartHomes</title>
+  <meta name="description" content="Generate an official 1-Click Irish Contractor Tender Specification & RFP (PDF). Protect yourself with NSAI SR50-2 standards, 0% VAT rules, and consumer milestone payment terms.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/tender-generator/">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/style.css?v=5">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  
+  <!-- jsPDF for instant Client-Side Tender RFP Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #001711;
+      --bg-card: #00241b;
+      --bg-card-light: #003628;
+      --color-mint: #34f5c5;
+      --color-emerald: #10b981;
+      --color-amber: #f59e0b;
+      --color-sky: #38bdf8;
+      --color-gold: #fbbf24;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .top-bar-custom {
+      background: #00120d;
+      color: #94a3b8;
+      padding: 7px 0;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-nav-bar {
+      background: rgba(0, 36, 27, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link-item {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .nav-link-item:hover {
+      color: var(--color-mint);
+    }
+    .btn-book-nav {
+      background: var(--color-amber);
+      color: #00241b;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+      white-space: nowrap;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .btn-book-nav:hover {
+      background: #fbbf24;
+      transform: scale(1.02);
+    }
+    .tender-hero {
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      padding: 50px 20px 60px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .tender-card-dark {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .tender-step-box {
+      background: #001711;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .tender-step-box label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-family: 'IBM Plex Mono', monospace;
+      margin-bottom: 8px;
+    }
+    .tender-preview-sheet {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 14px;
+      padding: 32px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      border: 1px solid #cbd5e1;
+    }
+    .tender-clause-badge {
+      display: inline-block;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: 'IBM Plex Mono', monospace;
+      margin-bottom: 4px;
+    }
+    .milestone-badge-row {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+      flex-wrap: wrap;
+    }
+    .milestone-pill {
+      flex: 1;
+      min-width: 130px;
+      background: #f8fafc;
+      border: 1.5px solid #003628;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .milestone-pill strong {
+      display: block;
+      color: #003628;
+      font-size: 1rem;
+    }
+    .milestone-pill span {
+      font-size: 0.72rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Notification Telemetry -->
+  <aside class="top-bar-custom" aria-label="Regulatory live updates">
+    <div class="top-bar-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: var(--color-mint);">📋</span>
+        <span style="color: #cbd5e1; font-weight: 700;">NSAI SR50-2 & SEAI DTSS v4.2 Contractor RFP Tender Standard Active</span>
+      </div>
+      <div>
+        <a href="/checkout/" target="_blank" rel="noopener" style="color: var(--color-amber); font-weight: 800; text-decoration: none;">⭐ Book €49 Survey →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="main-nav-bar" role="banner">
+    <div class="nav-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-size: 1.4rem;">🏡</span>
+        <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: var(--color-mint);">Homes</strong></span>
+      </a>
+
+      <nav class="nav-links-wrap" aria-label="Main Navigation">
+        <a href="/" class="nav-link-item">Home</a>
+        <a href="/tender-generator/" class="nav-link-item" style="color: var(--color-mint);">📋 Tender Generator</a>
+        <a href="/ber-matrix/" class="nav-link-item">🏡 15-Band BER Matrix</a>
+        <a href="/retrofit-loan/" class="nav-link-item">💶 0% Loan Stacker</a>
+        <a href="/radiator-sizer/" class="nav-link-item">📐 Radiator Sizer</a>
+        <a href="/quote-auditor/" class="nav-link-item">🛡️ Quote Auditor</a>
+        <a href="/solar/" class="nav-link-item">☀️ Solar PV</a>
+        <a href="/battery-arbitrage/" class="nav-link-item">⚡ Battery Arbitrage</a>
+      </nav>
+
+      <div>
+        <a href="/checkout/" target="_blank" rel="noopener" class="btn-book-nav">
+          💳 Book €49 Survey
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Header -->
+  <section class="tender-hero">
+    <div style="max-width: 920px; margin: 0 auto;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; background: rgba(52, 245, 197, 0.15); border: 1px solid rgba(52, 245, 197, 0.35); margin-bottom: 20px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-mint); box-shadow: 0 0 10px var(--color-mint);"></span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 800; color: var(--color-mint); text-transform: uppercase;">
+          Consumer Protection RFP & NSAI Tender Standard
+        </span>
+      </div>
+
+      <h1 style="font-size: clamp(2.1rem, 5vw, 3.4rem); font-weight: 900; color: #ffffff; margin: 0 auto 16px auto; line-height: 1.15; letter-spacing: -0.02em;">
+        NSAI-Compliant Contractor Tender Specification Generator
+      </h1>
+
+      <p style="font-size: clamp(0.95rem, 2vw, 1.15rem); color: #94a3b8; max-width: 780px; margin: 0 auto; line-height: 1.6;">
+        Stop explaining your house 5 times to 5 different builders. Answer 3 quick questions to generate an official <strong>1-Click Tender RFP Document (PDF)</strong> with binding NSAI SR50-2 quality standards, 0% VAT declarations, and safe milestone payment terms.
+      </p>
+    </div>
+  </section>
+
+  <!-- Simulator Main Stage -->
+  <main style="max-width: 1240px; margin: -30px auto 80px auto; padding: 0 20px;">
+    
+    <div class="tender-card-dark">
+      
+      <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 36px;">
+        
+        <!-- Left Column: 3-Step Wizard Form -->
+        <div>
+          <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0 0 16px 0;">1. Configure Your Tender RFP</h2>
+
+          <!-- Question 1: Property Archetype & Location -->
+          <div class="tender-step-box">
+            <label for="input-tender-name">Homeowner Name & Eircode / County:</label>
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px; margin-bottom: 10px;">
+              <input type="text" id="input-tender-name" value="Sean Murphy" placeholder="Your Full Name" style="padding: 10px; background: #00241b; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-size: 0.9rem;" oninput="updateTenderPreview()" />
+              <input type="text" id="input-tender-eircode" value="V94 ED21 (Limerick)" placeholder="Eircode / County" style="padding: 10px; background: #00241b; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-size: 0.9rem;" oninput="updateTenderPreview()" />
+            </div>
+
+            <label for="select-property-type">Property Archetype & Year of Build:</label>
+            <select id="select-property-type" style="width: 100%; padding: 10px; background: #00241b; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-size: 0.9rem;" onchange="updateTenderPreview()">
+              <option value="3-Bed Semi-Detached (~115m², Built 1995)">3-Bed Semi-Detached (~115m², Built 1995)</option>
+              <option value="4-Bed Detached (~175m², Built 2002)">4-Bed Detached (~175m², Built 2002)</option>
+              <option value="3-Bed Bungalow (~130m², Built 1984)">3-Bed Bungalow (~130m², Built 1984)</option>
+              <option value="Mid-Terrace Townhouse (~90m², Built 1978)">Mid-Terrace Townhouse (~90m², Built 1978)</option>
+            </select>
+          </div>
+
+          <!-- Question 2: Scope of Works Checkboxes -->
+          <div class="tender-step-box">
+            <label>Select Scope of Works (Included in RFP):</label>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;">
+              <label style="display: flex; align-items: center; gap: 8px; color: #ffffff; cursor: pointer;">
+                <input type="checkbox" id="tender-scope-hp" checked onchange="updateTenderPreview()" style="width: 18px; height: 18px; accent-color: var(--color-mint);" />
+                <span>❄️ Air-to-Water Heat Pump & Cylinder (NSAI SR50-2)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: #ffffff; cursor: pointer;">
+                <input type="checkbox" id="tender-scope-wrap" checked onchange="updateTenderPreview()" style="width: 18px; height: 18px; accent-color: var(--color-mint);" />
+                <span>🧱 100mm External Wall Insulation Wrap (EPS)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: #ffffff; cursor: pointer;">
+                <input type="checkbox" id="tender-scope-solar" checked onchange="updateTenderPreview()" style="width: 18px; height: 18px; accent-color: var(--color-mint);" />
+                <span>☀️ Rooftop Solar PV System (4.3 kWp+ / 0% VAT)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: #ffffff; cursor: pointer;">
+                <input type="checkbox" id="tender-scope-attic" checked onchange="updateTenderPreview()" style="width: 18px; height: 18px; accent-color: var(--color-mint);" />
+                <span>🏠 300mm Attic Mineral Wool Top-Up & Hatch Seal</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; color: #ffffff; cursor: pointer;">
+                <input type="checkbox" id="tender-scope-rads" checked onchange="updateTenderPreview()" style="width: 18px; height: 18px; accent-color: var(--color-mint);" />
+                <span>📐 Low-Flow 45°C Radiator Resizing & Balancing</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Question 3: Quote Submission Deadline -->
+          <div class="tender-step-box">
+            <label for="input-tender-deadline">Contractor Tender Submission Deadline:</label>
+            <input type="date" id="input-tender-deadline" style="width: 100%; padding: 10px; background: #00241b; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; font-size: 0.9rem;" onchange="updateTenderPreview()" />
+          </div>
+
+          <!-- 1-Click PDF Generator Button -->
+          <button type="button" onclick="generateTenderPDF()" style="width: 100%; padding: 16px; background: var(--color-mint); color: #00241b; border: none; border-radius: 10px; font-weight: 900; font-size: 1.05rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 8px 24px rgba(52, 245, 197, 0.35); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+            <span>📥 Download 1-Click Tender RFP Document (PDF)</span>
+          </button>
+
+          <div style="margin-top: 16px; text-align: center;">
+            <a href="/checkout/" target="_blank" rel="noopener" style="color: var(--color-amber); font-weight: 800; font-size: 0.85rem; text-decoration: none;">
+              ⭐ Want Joe to review your returned contractor bids? Book €49 Audit →
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Live RFP Document Sheet Preview -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h2 style="color: #ffffff; font-size: 1.3rem; font-weight: 800; margin: 0;">2. Live Tender Document Preview</h2>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--color-mint); font-weight: 700;">● Ready to Print / Email</span>
+          </div>
+
+          <div class="tender-preview-sheet" id="tender-sheet-content">
+            
+            <!-- Document Header -->
+            <div style="border-bottom: 2px solid #003628; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <h3 style="margin: 0; color: #003628; font-size: 1.15rem; font-weight: 900; font-family: 'Outfit', sans-serif;">
+                  REQUEST FOR PROPOSAL (RFP) & TENDER SPECIFICATION
+                </h3>
+                <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; margin-top: 2px;">
+                  Standard Form for Domestic Energy Retrofits · NSAI SR50-2:2024 Compliant
+                </div>
+              </div>
+              <div style="text-align: right; font-size: 0.72rem; color: #64748b; font-family: 'IBM Plex Mono', monospace;">
+                Doc Ref: <strong>ESH-RFP-<span id="preview-ref-code">2026</span></strong><br>
+                Date: <strong id="preview-date">27/08/2026</strong>
+              </div>
+            </div>
+
+            <!-- Client & Property Details Table -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 14px; font-size: 0.8rem;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                <div>Client Name: <strong id="preview-client-name" style="color: #003628;">Sean Murphy</strong></div>
+                <div>Property Location: <strong id="preview-eircode" style="color: #003628;">V94 ED21 (Limerick)</strong></div>
+                <div>Archetype: <strong id="preview-archetype" style="color: #003628;">3-Bed Semi-Detached (~115m²)</strong></div>
+                <div>Tender Due: <strong id="preview-deadline" style="color: #c2410c;">14 Days from Receipt</strong></div>
+              </div>
+            </div>
+
+            <!-- Scope of Works -->
+            <div style="margin-bottom: 14px;">
+              <span class="tender-clause-badge">SECTION 1: ITEMISED SCOPE OF WORKS</span>
+              <ul id="preview-scope-list" style="margin: 6px 0 0 16px; padding: 0; font-size: 0.78rem; color: #334155; line-height: 1.5;">
+              </ul>
+            </div>
+
+            <!-- Mandatory Contractor Quality Standards -->
+            <div style="margin-bottom: 14px;">
+              <span class="tender-clause-badge">SECTION 2: MANDATORY CONTRACTOR QUALITY STANDARDS</span>
+              <div style="font-size: 0.76rem; color: #334155; line-height: 1.45; margin-top: 4px;">
+                ✔ <strong>SEAI Registration:</strong> Contractor must state active SEAI Registration ID and insurance cert.<br>
+                ✔ <strong>NSAI SR50-2 Compliance:</strong> Heat pump sizing must be accompanied by room-by-room heat loss calculations. No oversized units or unnecessary buffer tanks.<br>
+                ✔ <strong>0% Irish VAT:</strong> Solar PV and heat pump residential equipment must be invoiced at 0% VAT in accordance with Irish Finance Act.<br>
+                ✔ <strong>Sound Compliance:</strong> Outdoor unit sound pressure level must not exceed 42 dB(A) at property boundary.
+              </div>
+            </div>
+
+            <!-- Consumer Milestone Payment Schedule -->
+            <div>
+              <span class="tender-clause-badge">SECTION 3: MANDATORY MILESTONE PAYMENT SCHEDULE</span>
+              <div class="milestone-badge-row">
+                <div class="milestone-pill">
+                  <strong>10% Deposit</strong>
+                  <span>Upon contract signing</span>
+                </div>
+                <div class="milestone-pill">
+                  <strong>40% Delivery</strong>
+                  <span>On-site plant delivery</span>
+                </div>
+                <div class="milestone-pill" style="border-color: #059669; background: #ecfdf5;">
+                  <strong style="color: #059669;">50% Sign-Off</strong>
+                  <span>After SEAI Grant Pass</span>
+                </div>
+              </div>
+              <div style="font-size: 0.72rem; color: #64748b; margin-top: 4px;">
+                *Final payment balance is strictly released upon delivery of NSAI SR50-2 commissioning sheet and SEAI grant sign-off.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #00120d; border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; color: #94a3b8; font-size: 0.85rem; text-align: center;">
+    <p style="color: #fff; font-weight: 800; margin-bottom: 6px;">EcoSmartHomes Ireland · 100% Conflict-Free Contractor Tender Counsel</p>
+    <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
+  </footer>
+
+  <script src="/js/whatsapp-widget.js" defer></script>
+
+  <script>
+    // Set default deadline 14 days ahead
+    const defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() + 14);
+    const deadlineStr = defaultDate.toISOString().split('T')[0];
+    document.getElementById('input-tender-deadline').value = deadlineStr;
+
+    function updateTenderPreview() {
+      const name = document.getElementById('input-tender-name').value || 'Homeowner';
+      const eircode = document.getElementById('input-tender-eircode').value || 'Ireland';
+      const property = document.getElementById('select-property-type').value;
+      const deadline = document.getElementById('input-tender-deadline').value;
+
+      document.getElementById('preview-client-name').innerText = name;
+      document.getElementById('preview-eircode').innerText = eircode;
+      document.getElementById('preview-archetype').innerText = property;
+      document.getElementById('preview-deadline').innerText = deadline || '14 Days';
+      document.getElementById('preview-date').innerText = new Date().toLocaleDateString('en-IE');
+
+      const scopeList = document.getElementById('preview-scope-list');
+      scopeList.innerHTML = '';
+
+      if (document.getElementById('tender-scope-hp').checked) {
+        scopeList.innerHTML += '<li><strong>Air-to-Water Heat Pump:</strong> Monobloc / Split system, design flow 45°C, high-recovery stainless cylinder, NSAI SR50-2 compliant.</li>';
+      }
+      if (document.getElementById('tender-scope-wrap').checked) {
+        scopeList.innerHTML += '<li><strong>External Wall Insulation Wrap:</strong> 100mm EPS graphite system (U-value ≤ 0.21 W/m²K) with NSAI Agrément cert.</li>';
+      }
+      if (document.getElementById('tender-scope-solar').checked) {
+        scopeList.innerHTML += '<li><strong>Rooftop Solar PV:</strong> Tier-1 all-black monocrystalline array (4.3 kWp+), hybrid inverter, 0% VAT declaration.</li>';
+      }
+      if (document.getElementById('tender-scope-attic').checked) {
+        scopeList.innerHTML += '<li><strong>Attic Insulation:</strong> 300mm cross-layer mineral wool with tank lagging jacket, walkway, insulated draft-proof hatch.</li>';
+      }
+      if (document.getElementById('tender-scope-rads').checked) {
+        scopeList.innerHTML += '<li><strong>Radiator Resizing & TRVs:</strong> Low-flow Delta-T 30 replacement for undersized zones with bi-directional thermostatic valves.</li>';
+      }
+    }
+
+    // 1-Click PDF Generator
+    function generateTenderPDF() {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert('PDF generator loading, please click again in a moment.');
+        return;
+      }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const name = document.getElementById('input-tender-name').value || 'Homeowner';
+      const eircode = document.getElementById('input-tender-eircode').value || 'Ireland';
+      const property = document.getElementById('select-property-type').value;
+      const deadline = document.getElementById('input-tender-deadline').value || '14 Days';
+
+      // Header Banner
+      doc.setFillColor(0, 36, 27);
+      doc.rect(0, 0, 210, 30, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.setTextColor(52, 245, 197);
+      doc.text('ECOSMARTHOMES • OFFICIAL CONTRACTOR TENDER SPECIFICATION (RFP)', 14, 18);
+
+      // Meta
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Doc Ref: ESH-RFP-2026 | Date: ${new Date().toLocaleDateString('en-IE')} | Spec Standard: NSAI SR50-2:2024 & SEAI DTSS`, 14, 26);
+
+      // Section 1: Client & Dwelling Meta
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('1. Client & Dwelling Particulars', 14, 44);
+
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.text(`• Employer / Homeowner: ${name}`, 16, 52);
+      doc.text(`• Property Location / Eircode: ${eircode}`, 16, 59);
+      doc.text(`• Dwelling Archetype: ${property}`, 16, 66);
+      doc.text(`• Tender Submission Deadline: ${deadline}`, 16, 73);
+
+      // Section 2: Scope of Works
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('2. Mandatory Scope of Works', 14, 88);
+
+      let y = 96;
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'normal');
+
+      if (document.getElementById('tender-scope-hp').checked) {
+        doc.text('✔ Air-to-Water Heat Pump: Sized to NSAI SR50-2 @ 45°C flow with unvented stainless cylinder.', 16, y);
+        y += 7;
+      }
+      if (document.getElementById('tender-scope-wrap').checked) {
+        doc.text('✔ External Wall Wrap: 100mm EPS (U <= 0.21 W/m²K) with NSAI Agrément cert.', 16, y);
+        y += 7;
+      }
+      if (document.getElementById('tender-scope-solar').checked) {
+        doc.text('✔ Rooftop Solar PV: 4.3 kWp+ Tier-1 array with NC6 ESB grid connection & 0% VAT.', 16, y);
+        y += 7;
+      }
+      if (document.getElementById('tender-scope-attic').checked) {
+        doc.text('✔ Attic Insulation: 300mm cross-layer mineral wool with tank lagging & insulated hatch.', 16, y);
+        y += 7;
+      }
+      if (document.getElementById('tender-scope-rads').checked) {
+        doc.text('✔ Radiator Sizing: Delta-T 30 low-flow replacement with bidirectional TRVs on all zones.', 16, y);
+        y += 7;
+      }
+
+      // Section 3: Contractor Quality Standards
+      y += 4;
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('3. Mandatory Contractor Quality Standards', 14, y);
+
+      y += 8;
+      doc.setFontSize(8.2);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50, 50, 50);
+      doc.text('1. SEAI Registration: Contractor must state active SEAI Registered Installer ID & Safe Electric cert.', 16, y);
+      y += 6;
+      doc.text('2. Technical Sizing: No buffer tank markups without minimum system water volume justification (>12L/kW).', 16, y);
+      y += 6;
+      doc.text('3. 0% VAT Invoicing: Solar PV & Heat Pump equipment invoiced at 0% VAT per Irish Finance Act.', 16, y);
+      y += 6;
+      doc.text('4. Commissioning: Delivery of NSAI SR50-2 commissioning sheet and sound pressure level < 42 dB(A).', 16, y);
+
+      // Section 4: Milestone Payment Schedule
+      y += 10;
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('4. Consumer Milestone Payment Schedule', 14, y);
+
+      y += 8;
+      doc.setFillColor(241, 245, 249);
+      doc.rect(14, y - 4, 182, 22, 'F');
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0, 36, 27);
+      doc.text('• Milestone 1: 10% Deposit upon contract signing and scheduling.', 18, y + 2);
+      doc.text('• Milestone 2: 40% upon plant delivery to site & mechanical commencement.', 18, y + 8);
+      doc.text('• Milestone 3: 50% Final Balance strictly upon SEAI grant inspection pass.', 18, y + 14);
+
+      // Footer Box
+      doc.setFillColor(240, 253, 244);
+      doc.rect(14, 235, 182, 35, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(6, 95, 70);
+      doc.text('Independent Tender Review with Joe (€49 Quote Audit)', 20, 246);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.2);
+      doc.text('Once contractors submit their bids based on this RFP, book an independent quote audit at www.ecosmarthomes.ie to verify equipment sizing, pricing fairness, and grant pass-through.', 20, 254, { maxWidth: 170 });
+
+      doc.save('EcoSmartHomes_Contractor_Tender_RFP.pdf');
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', updateTenderPreview);
+  </script>
+
+</body>
+</html>

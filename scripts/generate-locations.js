@@ -132,7 +132,7 @@ function generateTownHtml(county, town, siblingTowns) {
       </a>
       <div style="display: flex; gap: 15px; align-items: center;">
         <a href="/locations/" style="color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600;">Irish Towns Directory</a>
-        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
+        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
       </div>
     </div>
   </header>
@@ -177,7 +177,7 @@ function generateTownHtml(county, town, siblingTowns) {
           </div>
         </div>
 
-        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 1.1rem; display: inline-block;">Book ${town.name} €49 Independent Survey →</a>
+        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 1.1rem; display: inline-block;">Book ${town.name} €49 Independent Survey →</a>
       </div>
     </div>
   </section>
@@ -318,7 +318,7 @@ function generateDirectoryIndex(counties) {
   <header style="background: #003f2d; padding: 18px 0;">
     <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
       <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none;">🏡 EcoSmartHomes</a>
-      <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
+      <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
     </div>
   </header>
 

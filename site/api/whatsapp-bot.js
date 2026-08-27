@@ -35,7 +35,7 @@ Key Knowledge Base:
 
 Task:
 Provide a concise, helpful diagnostic answer (max 3-4 bullet points) addressing the homeowner's voice note, photo, or question.
-Always include a clear recommendation and invitation to view their Roadmap or book the €49 survey at https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00 or https://www.ecosmarthomes.ie/roadmap/`;
+Always include a clear recommendation and invitation to view their Roadmap or book the €49 survey at /checkout/ or https://www.ecosmarthomes.ie/roadmap/`;
 
     let replyText = "";
 
@@ -96,7 +96,7 @@ Based on your message:
 • *Carbon Tax Shield*: Switching off oil eliminates up to €498/yr in rising carbon penalties.
 
 👉 *View your certified Roadmap PDF*: https://www.ecosmarthomes.ie/roadmap/
-👉 *Book your €49 Independent Survey*: https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00
+👉 *Book your €49 Independent Survey*: https://www.ecosmarthomes.ie/checkout/
 
 Let me know your Eircode and I'll pull the exact property specs! 🏡`;
     }
