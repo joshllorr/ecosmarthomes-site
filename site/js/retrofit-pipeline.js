@@ -1139,19 +1139,19 @@
     }
   }
 
-  // Initialize once DOM is ready
+  // Initialize once DOM is ready with safe error boundary
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-      initGrantCalculator();
-      initScannerAndDropzone();
-      initPdfReportGenerator();
-      initWrapSimulator();
+      try { initGrantCalculator(); } catch (e) { console.warn('Grant calc init notice:', e); }
+      try { initScannerAndDropzone(); } catch (e) { console.warn('Scanner init notice:', e); }
+      try { initPdfReportGenerator(); } catch (e) { console.warn('PDF gen init notice:', e); }
+      try { initWrapSimulator(); } catch (e) { console.warn('Wrap sim init notice:', e); }
     });
   } else {
-    initGrantCalculator();
-    initScannerAndDropzone();
-    initPdfReportGenerator();
-    initWrapSimulator();
+    try { initGrantCalculator(); } catch (e) { console.warn('Grant calc init notice:', e); }
+    try { initScannerAndDropzone(); } catch (e) { console.warn('Scanner init notice:', e); }
+    try { initPdfReportGenerator(); } catch (e) { console.warn('PDF gen init notice:', e); }
+    try { initWrapSimulator(); } catch (e) { console.warn('Wrap sim init notice:', e); }
   }
 })();
 

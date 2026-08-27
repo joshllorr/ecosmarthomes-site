@@ -11,11 +11,12 @@
   </script>
   <meta name="google-site-verification" content="9XcdPnA88zl7JsAleQtYnGtjmL5pQZVuq2Yy1tTqAhU" />
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Premium home energy retrofit advisory for Irish homeowners, including BER assessments, insulation upgrades, and heat‑pump guidance." />
-  <title>EcoSmartHomes | Independent Home Energy Retrofit Advisory in Ireland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Stop Funding the Irish Fuel Tax. 100% Independent energy advisory, BER assessments, heat pump readiness checks, and SEAI grant roadmaps for Irish homeowners." />
+  <title>EcoSmartHome | Carbon Tax Shield & Independent Energy Advisory</title>
   <link rel="canonical" href="https://ecosmarthomes.ie/" />
-  <link rel="icon" type="image/svg+xml" href="imgs/logo.svg" />
+  <link rel="icon" type="image/svg+xml" href="/imgs/logo.svg" />
+  <link rel="stylesheet" href="css/styles.css?v=3" />
   <link rel="stylesheet" href="css/voice-advisor.css" />
 
   <!-- AI Agent & MCP Readiness Manifests -->
@@ -24,7 +25,7 @@
   <link rel="agent-manifest" type="application/json" href="/ai/manifest.json" />
   <link rel="ai-plugin" type="application/json" href="/.well-known/ai-plugin.json" />
   <link rel="mcp-manifest" type="application/json" href="/api/mcp/manifest.json" />
-  <link rel="alternate" type="text/markdown" href="/api/upgrades/recommendations.md" title="EcoSmartHomes Upgrade Recommendations (Markdown)" />
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -33,7 +34,6 @@
     "url": "https://ecosmarthomes.ie",
     "image": "https://ecosmarthomes.ie/logo.png",
     "description": "EcoSmartHomes provides premium home energy retrofit advisory services across Ireland, specialising in heat pumps, insulation upgrades, BER assessments, and NZEB compliance.",
-    "telephone": "+353-XX-XXX-XXXX",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "12 Butterfield Avenue, Old Cork Rd",
@@ -42,2037 +42,262 @@
       "postalCode": "V94",
       "addressCountry": "IE"
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 52.661,
-      "longitude": -8.630
-    },
-    "openingHours": "Mo-Fr 09:00-18:00",
     "areaServed": {
       "@type": "Country",
       "name": "Ireland"
-    },
-    "sameAs": [
-      "https://www.facebook.com/ecosmarthomes",
-      "https://www.instagram.com/ecosmarthomes",
-      "https://www.linkedin.com/company/ecosmarthomes"
-    ],
-    "serviceType": [
-      "Home Energy Retrofit Advisory",
-      "Heat Pump Consultation",
-      "BER Assessment",
-      "NZEB Compliance Guidance",
-      "Insulation Upgrade Planning"
-    ]
+    }
   }
   </script>
-  
-  <!-- Harbor SEO Snippet -->
-  <script data-harbor-site="nd7d6rtk4d1dcz0q1ha3ppx77x8ap9zc" src="https://outgoing-oyster-428.convex.site/api/harbor-seo.js?siteId=nd7d6rtk4d1dcz0q1ha3ppx77b8ap9zc" async></script>
-  <link rel="stylesheet" href="css/styles.css?v=2" />
+
   <script src="js/contact-form.js" defer></script>
   <script src="js/webmcp-init.js" defer></script>
   <script src="js/retrofit-pipeline.js" defer></script>
-
-  <!-- ANIMATION CSS & RETROFIT PIPELINE UI -->
-  <style>
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .dropzone-container {
-      border: 2px dashed #10b981;
-      border-radius: 16px;
-      padding: 40px 20px;
-      text-align: center;
-      background: #f0fdf4;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .dropzone-container:hover, .dropzone-container.drag-active {
-      border-color: #059669;
-      background: #dcfce7;
-      transform: scale(1.01);
-    }
-    .calc-card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 32px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.04);
-    }
-    .metric-pill {
-      background: #ecfdf5;
-      color: #065f46;
-      border: 1px solid #a7f3d0;
-      padding: 8px 16px;
-      border-radius: 9999px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      display: inline-block;
-    }
-
-    .coming-soon-banner {
-      background-color: #003f2d;
-      color: #fff;
-      padding: 10px 20px;
-      text-align: center;
-      font-weight: 500;
-      font-size: 1rem;
-      overflow: hidden;
-      white-space: nowrap;
-      position: sticky;
-      top: 0;
-      z-index: 9999;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .coming-soon-loop {
-      display: inline-block;
-      padding-left: 100%;
-      animation: loopText 30s linear infinite;
-    }
-
-    .coming-soon-loop a {
-      color: #fff;
-      text-decoration: none;
-      margin-right: 100px;
-    }
-
-    .coming-soon-loop a:hover {
-      text-decoration: underline;
-    }
-
-    @keyframes loopText {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-  </style>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Do you offer free consultations?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. I'm a consultant, not a salesperson. I offer a short 15‑minute Suitability Check to confirm your home and goals are a good fit for an Independent Retrofit Assessment. All expert guidance is provided within paid services only."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the Heat Pump Test?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "It's a simple pass/fail check to confirm whether your home is ready for a heat pump before you spend thousands. If it won't pass, I show you the exact steps to fix it."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the Leakiness Score?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Instead of engineering jargon, I show you where warm air escapes and cold air sneaks in — explained in plain English. Think of your home like a bucket: if it's leaky, you'll never keep the heat in."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the Retrofit Roadmap™?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "It's your personalised upgrade plan showing what to do, when to do it, what it costs, what grants you can claim, and the order that saves you the most money. It's the opposite of a BER certificate — it's a long‑term strategy for your home."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the Carbon Tax Shield?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "It's a financial‑defence plan that shows how today's upgrades protect you from rising energy costs and future government levies. This isn't about \"being greener\" — it's about protecting your wallet."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do you work with any installers?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. I stay fully independent so you get unbiased advice. If you need installers later, I help you understand what to ask and what to avoid — but I don't take commissions or referrals."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can you check if my radiators are suitable for a heat pump?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. This is part of the Radiator Check. I explain in plain English whether your current radiators can support a modern system and what changes (if any) are needed."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How long does the assessment take?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Most assessments take between 60 and 90 minutes, depending on the size and condition of the home. You'll receive your Retrofit Roadmap™ shortly after."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Is this service only for older homes?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. Even newer homes can be leaky, inefficient, or poorly set up for future heating systems. Every home benefits from a clear, independent plan."
-        }
-      }
-    ]
-  }
-  </script>
+  <script src="js/voice-advisor.js" defer></script>
 </head>
-<body>
-<div class="coming-soon-banner">
-  <div class="coming-soon-loop">
-    <a href="raising-ber-g-to-a.html">🗞️ Latest Insights: Raising BER from G to A: Step-by-Step Retrofit Sequence</a>
-    <a href="carbon-tax-2026.html">🗞️ 2026-2030 Irish Carbon Tax & Fuel Cost Impact</a>
-  </div>
-</div>
-<header class="header">
-  <div class="container nav-container">
-    <div class="logo">
-      <img src="imgs/logo.svg" alt="EcoSmartHomes" />
-    </div>
-    <nav class="nav">
-      <ul>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="/green-mortgage/" style="color: var(--color-arc-mint, #34f5c5); font-weight: 700;">🏦 Green Mortgage</a></li>
-        <li><a href="/quote-auditor/" style="color: #fca5a5; font-weight: 700;">🛡️ Quote Auditor</a></li>
-        <li><a href="/solar/" style="color: #f59e0b; font-weight: 700;">☀️ Solar PV</a></li>
-        <li><a href="/carbon-tax/" style="color: #ef4444; font-weight: 700;">⚡ Carbon Tax</a></li>
-        <li><a href="/roadmap/" style="color: #10b981; font-weight: 700;">📄 Roadmap PDF</a></li>
-        <li><a href="/locations/" style="color: #10b981; font-weight: 700;">📍 Towns Hub</a></li>
-        <li><a href="/contractors/" style="color: #cbd5e1; font-weight: 600;">🏗️ For Installers</a></li>
-        <li><a href="#independent-survey" style="background: #f59e0b; color: #000; padding: 6px 14px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-block;">💳 Book €49 Survey</a></li>
-      </ul>
+<body style="background-color: #020617; color: #f8fafc; font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif; overflow-x: hidden;">
+
+  <!-- Sticky App Navigation Pill -->
+  <header style="position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 999; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 8px 16px; border-radius: 9999px; border: 1px solid rgba(30, 41, 59, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; max-width: 95vw; overflow-x: auto;">
+    <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+      <span style="font-weight: 800; color: #10b981; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap;">EcoSmartHome</span>
+    </a>
+    <div style="height: 16px; width: 1px; background: rgba(148, 163, 184, 0.2);"></div>
+    <nav style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+      <a href="/services/" style="color: #94a3b8; text-decoration: none; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 9999px; transition: all 0.2s;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#94a3b8'">Services</a>
+      <a href="/tools/" style="color: #94a3b8; text-decoration: none; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 9999px; transition: all 0.2s;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#94a3b8'">Tools</a>
+      <a href="/guides/" style="color: #94a3b8; text-decoration: none; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 9999px; transition: all 0.2s;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#94a3b8'">Guides</a>
+      <a href="/support/faq.html" style="color: #94a3b8; text-decoration: none; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 9999px; transition: all 0.2s;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#94a3b8'">FAQ</a>
+      <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="background: #10b981; color: #020617; text-decoration: none; font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 9999px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);">Order €49</a>
     </nav>
-  </div>
-</header>
+  </header>
 
-<main id="main-content">
-<section id="hero" class="hero" data-screen-id="hero_tax_shield">
-  <iframe
-    src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/b74719541aacf34d4b230485c1dbc3bd/iframe?muted=true&autoplay=true&loop=true&controls=false&poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2Fb74719541aacf34d4b230485c1dbc3bd%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-    class="hero-video"
-    title="EcoSmartHomes Hero Video"
-    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-    allowfullscreen="true">
-  </iframe>
-  <div class="hero-overlay"></div>
-  
-  <div class="hero-content container" style="position: relative; z-index: 1; max-width: 960px; padding: 40px 20px;">
-    
-    <!-- Top Ambient Telemetry Stream -->
-    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;">
-      <span class="mono-tag" style="background: rgba(0, 36, 27, 0.85); color: #34f5c5; border: 1px solid rgba(52, 245, 197, 0.3); font-family: var(--font-mono); font-size: 11px; padding: 5px 10px; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px;">
-        <span class="status-dot-pulse" style="width: 6px; height: 6px; border-radius: 50%; background: #34f5c5; box-shadow: 0 0 8px #34f5c5; display: inline-block;"></span>
-        100% CONFLICT-FREE ENERGY ADVISORY
-      </span>
-      <span class="mono-tag" style="background: rgba(0, 36, 27, 0.85); color: #34f5c5; border: 1px solid rgba(52, 245, 197, 0.3); font-family: var(--font-mono); font-size: 11px; padding: 5px 10px; border-radius: 4px;">
-        🏦 3.45% Green Mortgage Slasher
-      </span>
-      <span class="mono-tag" style="background: rgba(0, 36, 27, 0.85); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.15); font-family: var(--font-mono); font-size: 11px; padding: 5px 10px; border-radius: 4px;">
-        ⚡ 24c/kWh Clean Export (CEG)
-      </span>
-      <span class="mono-tag" style="background: rgba(0, 36, 27, 0.85); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-family: var(--font-mono); font-size: 11px; padding: 5px 10px; border-radius: 4px;">
-        💶 Up to €25,500 SEAI Grants
-      </span>
-      <span class="mono-tag" style="background: rgba(0, 36, 27, 0.85); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); font-family: var(--font-mono); font-size: 11px; padding: 5px 10px; border-radius: 4px;">
-        🛡️ AI Quote Red-Liner
-      </span>
-    </div>
+  <!-- 5-VIEWPORT SNAP-SCROLL CONTAINER -->
+  <main class="viewport-container">
 
-    <!-- Editorial Display Headline (Whisper Weight 300) -->
-    <h1 style="font-family: var(--font-display); font-size: 3.2rem; font-weight: 300; letter-spacing: -0.022em; line-height: 1.15; color: #ffffff; margin-bottom: 16px;">
-      Stop Funding the Irish Fuel Tax. Build Your Carbon Tax Shield.
-    </h1>
+    <!-- ──────────────────────────────────────────────────────────────
+        SCREEN 1: THE HERO (Carbon Tax Shield)
+        ────────────────────────────────────────────────────────────── -->
+    <section id="hero" class="viewport-screen bg-tech-grid" data-screen-id="hero_tax_shield" style="background: linear-gradient(180deg, #0f172a 0%, #020617 100%);">
+      <div class="noise-overlay"></div>
+      <div class="glow-ambient" style="top: 20%; left: 50%; transform: translateX(-50%);"></div>
 
-    <p style="font-size: 1.15rem; color: #cbd5e1; line-height: 1.6; max-width: 780px; margin: 0 auto 30px auto; font-weight: 400;">
-      Dublin, Cork, or Limerick—rising oil levies are quietly eating your savings. Secure a 100% independent roadmap to slash your heating bills from €5,400 to €650 a year using up to €25,500 in direct SEAI grants. No sales pitches. No contractor kickbacks.
-    </p>
-
-    <!-- Command CTA Row -->
-    <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 35px;">
-      <a href="#independent-survey" class="btn-primary" style="background: var(--color-emerald-signal); color: #ffffff; font-weight: 700; font-size: 14px; padding: 14px 28px; border-radius: var(--radius-buttons); border: none; box-shadow: none;">
-        🛡️ Activate My Shield (Diagnostic Scan)
-      </a>
-      <a href="#independent-survey" class="btn-primary" style="background: var(--color-amber-gold); color: #00241b; font-weight: 700; font-size: 14px; padding: 14px 28px; border-radius: var(--radius-buttons); border: none; box-shadow: none;">
-        💳 Order €49 Independent Survey
-      </a>
-    </div>
-
-    <!-- Floating Live Telemetry Strip -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; max-width: 880px; margin: 0 auto; text-align: left;">
-      <div style="background: rgba(0, 36, 27, 0.9); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 14px 18px;">
-        <div style="font-family: var(--font-mono); font-size: 10px; color: #34f5c5; letter-spacing: 0.08em; margin-bottom: 4px; text-transform: uppercase;">● Heat Pump Readiness</div>
-        <div style="font-size: 14px; font-weight: 600; color: #ffffff;">SR50-2 Compliance Test</div>
-        <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">Avoid €15k undersized installations</div>
-      </div>
-      <div style="background: rgba(0, 36, 27, 0.9); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 14px 18px;">
-        <div style="font-family: var(--font-mono); font-size: 10px; color: #f59e0b; letter-spacing: 0.08em; margin-bottom: 4px; text-transform: uppercase;">● 15-Band BER Model</div>
-        <div style="font-size: 14px; font-weight: 600; color: #ffffff;">G ➔ A2 Transformation</div>
-        <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">Save up to €4,850/yr in fuel bills</div>
-      </div>
-      <div style="background: rgba(0, 36, 27, 0.9); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 8px; padding: 14px 18px;">
-        <div style="font-family: var(--font-mono); font-size: 10px; color: #10b981; letter-spacing: 0.08em; margin-bottom: 4px; text-transform: uppercase;">● Irish Micro-Climate</div>
-        <div style="font-size: 14px; font-weight: 600; color: #ffffff;">Eircode Solar Geocoding</div>
-        <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;">980+ kWh/kWp regional yield</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ========================================================================= -->
-<!-- INTERACTIVE ENERGY & AI SUITE SHOWCASE (Two-Register Light Paper) -->
-<!-- ========================================================================= -->
-<section id="interactive-suite" class="tools-showcase-section" style="background: #ffffff; border-top: 1px solid var(--color-silver-border); border-bottom: 1px solid var(--color-silver-border); padding: 80px 0;">
-  <div class="container">
-    <div class="tools-header-wrap" style="text-align: center; max-width: 800px; margin: 0 auto 50px auto;">
-      <span class="mono-tag" style="background: rgba(16, 185, 129, 0.1); color: var(--color-emerald-signal); border: 1px solid rgba(16, 185, 129, 0.2); font-family: var(--font-mono); font-size: 11px; margin-bottom: 14px;">
-        ⚡ 2026 INTERACTIVE ENERGY & AI SUITE
-      </span>
-      <h2 style="font-family: var(--font-display); font-size: 2.4rem; font-weight: 300; letter-spacing: -0.019em; color: var(--color-forest-deep); margin: 0 0 14px 0;">
-        Explore Your Upgrades, Grants & Savings
-      </h2>
-      <p style="color: var(--color-slate-body); font-size: 1.05rem; line-height: 1.6; margin: 0;">
-        100% Conflict-free tools. Calculate your exact SEAI grants, rooftop solar generation, carbon tax penalties, and bank-grade roadmap in seconds.
-      </p>
-    </div>
-
-    <div class="tools-grid">
-
-      <!-- Card 1: Solar PV Estimator -->
-      <div class="tool-card">
-        <div class="tool-card-top">
-          <div class="tool-card-icon">☀️</div>
-          <span class="tool-card-badge badge-amber">Instant Visualizer</span>
-        </div>
-        <h3 class="tool-card-title">Rooftop Solar & Clean Export Estimator</h3>
-        <p class="tool-card-desc">
-          Interactive roof visualizer. Calculate your €1,800 SEAI grant, 0% VAT, and 24c/kWh Clean Export cash earned from selling power back to the grid.
-        </p>
-        <a href="/solar/" class="tool-card-btn tool-btn-amber">
-          Launch Solar Visualizer →
-        </a>
-      </div>
-
-      <!-- Card 2: Carbon Tax Clock -->
-      <div class="tool-card">
-        <div class="tool-card-top">
-          <div class="tool-card-icon">⚡</div>
-          <span class="tool-card-badge badge-red">2026–2030 Penalty Clock</span>
-        </div>
-        <h3 class="tool-card-title">Irish Carbon Tax & Oil Penalty Ticker</h3>
-        <p class="tool-card-desc">
-          Live animated national counter. Calculate how much your household loses on kerosene oil from €71/t to €100/t, plus the 9% double VAT penalty.
-        </p>
-        <a href="/carbon-tax/" class="tool-card-btn tool-btn-emerald">
-          Calculate Fuel Penalty →
-        </a>
-      </div>
-
-      <!-- Card 3: 1-Click Roadmap PDF -->
-      <div class="tool-card">
-        <div class="tool-card-top">
-          <div class="tool-card-icon">📄</div>
-          <span class="tool-card-badge badge-emerald">Certified Dossier</span>
-        </div>
-        <h3 class="tool-card-title">1-Click Bank-Grade Retrofit Roadmap PDF</h3>
-        <p class="tool-card-desc">
-          Generate an 8-page independent engineering dossier with pre-screened HLI score, May 2026 SEAI grant table (€25,500), and anti-scam installer checklist.
-        </p>
-        <a href="/roadmap/" class="tool-card-btn tool-btn-emerald">
-          Preview Official PDF →
-        </a>
-      </div>
-
-      <!-- Card 4: Towns Domination Engine -->
-      <div class="tool-card">
-        <div class="tool-card-top">
-          <div class="tool-card-icon">📍</div>
-          <span class="tool-card-badge badge-blue">32 Counties</span>
-        </div>
-        <h3 class="tool-card-title">Ireland 3,000-Town Energy Directory</h3>
-        <p class="tool-card-desc">
-          Hyper-local energy data for every district in Ireland. Check average BER ratings, housing stock, and typical grant allocations in your local town.
-        </p>
-        <a href="/locations/" class="tool-card-btn tool-btn-emerald">
-          Browse Irish Towns Hub →
-        </a>
-      </div>
-
-      <!-- Card 5: B2B Lead Marketplace -->
-      <div class="tool-card">
-        <div class="tool-card-top">
-          <div class="tool-card-icon">🏗️</div>
-          <span class="tool-card-badge badge-emerald">SEAI Installers</span>
-        </div>
-        <h3 class="tool-card-title">Contractor Lead Dispatch & Claim Hub</h3>
-        <p class="tool-card-desc">
-          Pre-assessed homeowner leads dispatched via WhatsApp. 100% exclusive 1-contractor allocation (€35 unlock) with instant direct dial and chat.
-        </p>
-        <a href="/claim-lead.html" class="tool-card-btn tool-btn-emerald">
-          Claim Exclusive Leads →
-        </a>
-      </div>
-
-      <!-- Card 6: AI Photo & Voice Scanner -->
-      <div class="tool-card">
-        <div class="tool-card-top">
-          <div class="tool-card-icon">📸</div>
-          <span class="tool-card-badge badge-purple">Gemini 2.5 Flash</span>
-        </div>
-        <h3 class="tool-card-title">Multimodal Photo & Voice AI Scanner</h3>
-        <p class="tool-card-desc">
-          Snap a picture of your boiler, attic, or heat pump setup for instant vision analysis, or talk live with "Aoife", our real-time voice energy advisor.
-        </p>
-        <a href="#independent-survey" class="tool-card-btn tool-btn-emerald">
-          Launch AI Scanner →
-        </a>
-      </div>
-
-      <!-- Card 7: Green Mortgage Arbitrage & Bank Interest Slasher -->
-      <div class="tool-card" style="border: 1.5px solid rgba(52, 245, 197, 0.4); background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);">
-        <div class="tool-card-top">
-          <div class="tool-card-icon">🏦</div>
-          <span class="tool-card-badge" style="background: rgba(16, 185, 129, 0.15); color: #059669; border: 1px solid #10b981;">SAVE ~€2,760/YR</span>
-        </div>
-        <h3 class="tool-card-title">Green Mortgage Arbitrage Engine</h3>
-        <p class="tool-card-desc">
-          Calculate how upgrading to BER B or A unlocks Ireland's 3.45% Green Mortgage tier with AIB, BOI & PTSB, saving €230/month in bank interest alone.
-        </p>
-        <a href="/green-mortgage/" class="tool-card-btn tool-btn-emerald" style="background: var(--color-forest-ink, #00241b); color: var(--color-arc-mint, #34f5c5);">
-          Calculate Bank Savings →
-        </a>
-      </div>
-
-      <!-- Card 8: AI Contractor Quote Red-Liner -->
-      <div class="tool-card" style="border: 1.5px solid rgba(239, 68, 68, 0.3); background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%);">
-        <div class="tool-card-top">
-          <div class="tool-card-icon">🛡️</div>
-          <span class="tool-card-badge" style="background: rgba(239, 68, 68, 0.15); color: #dc2626; border: 1px solid #f87171;">NSAI SR50 AUDIT</span>
-        </div>
-        <h3 class="tool-card-title">AI Contractor Quote Red-Liner</h3>
-        <p class="tool-card-desc">
-          Drop in your installer or One-Stop-Shop PDF quote. Immediately red-lines oversized 12kW units, buffer tank markups, and missing SEAI grant clauses.
-        </p>
-        <a href="/quote-auditor/" class="tool-card-btn tool-btn-emerald" style="background: #991b1b; color: #ffffff;">
-          Red-Line My Quote →
-        </a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="about">
-  <div class="container">
-    <h2 class="section-title">About EcoSmart Homes</h2>
-    <div class="about-content">
-      <p>EcoSmart Homes was built on a simple idea: homeowners deserve clear, honest guidance without the sales pressure. I'm not an installer, I don't earn commissions, and I don't benefit from pushing heat pumps, solar panels, or any specific upgrade. My only job is to help you understand your home and make smarter decisions that protect your comfort, your wallet, and your future.</p>
-
-      <p>Most people feel lost when it comes to energy upgrades. Installers want to sell hardware. Low‑cost assessors rush paperwork. Technical experts drown you in jargon. I take a different approach — the neighbourly one.</p>
-
-      <p>I explain your home in plain English: where the heat is leaking, whether your radiators can support a modern system, and what steps will actually make a difference. You get a Retrofit Roadmap™ that shows the smartest upgrades, the real costs, the grants you can claim, and how to build your Carbon Tax Shield to stay ahead of rising energy prices and future government levies.</p>
-
-      <p><strong>Independent. Neighbourly. On your side.<br />That's the EcoSmart Homes promise.</strong></p>
-    </div>
-  </div>
-</section>
-
-<!-- ========================================================================= -->
-<!-- 1. €49 INDEPENDENT SURVEY & GEMINI 2.5 FLASH AI DOCUMENT DROPZONE -->
-<!-- ========================================================================= -->
-<section id="independent-survey" class="independent-survey-section" data-screen-id="conversion_checkout" style="background: #003f2d; color: #ffffff; padding: 80px 0;">
-  <div class="container">
-    <div style="text-align: center; max-width: 800px; margin: 0 auto 50px auto;">
-      <span class="metric-pill" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border-color: rgba(16, 185, 129, 0.4); margin-bottom: 15px;">⭐ Direct Homeowner Monetisation</span>
-      <h2 style="font-size: 2.4rem; font-family: 'Outfit', sans-serif; color: #ffffff; margin: 10px 0 15px 0;">Get Your 100% Independent €49 Survey & Roadmap</h2>
-      <p style="font-size: 1.1rem; color: #cbd5e1; line-height: 1.6;">
-        Secure your certified blueprint: pass/fail Heat Pump Readiness test, radiator output check, and your custom 2026-2030 Carbon Tax Shield Model. Completed by Joe and delivered straight to your WhatsApp within 24 hours.
-      </p>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; align-items: start;">
-      
-      <!-- Card 1: What You Get in the Assessment -->
-      <div id="conversion_checkout" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 35px; backdrop-filter: blur(10px);">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
-          <h3 style="color: #ffffff; font-size: 1.4rem; margin: 0;">Independent Survey</h3>
-          <span style="font-size: 2rem; font-weight: 800; color: #f59e0b;">€49 <small style="font-size: 0.9rem; font-weight: 400; color: #94a3b8;">one-off</small></span>
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 800px; margin: 0 auto; z-index: 10; padding-top: 60px;">
+        <div style="margin-bottom: 16px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 9999px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 8px #10b981; display: inline-block;"></span>
+          <span style="font-size: 0.75rem; font-weight: 800; color: #6ee7b7; text-transform: uppercase; letter-spacing: 0.08em;">100% Conflict-Free Energy Advisory</span>
         </div>
 
-        <ul style="list-style: none; padding: 0; margin: 0 0 30px 0; color: #e2e8f0; font-size: 0.98rem; line-height: 1.8;">
-          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>Pass/Fail Heat Pump Readiness Test</strong> (SR50 compliance)</li>
-          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>Maximized SEAI Grant Calculation</strong> (up to €26,000+ claimable)</li>
-          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>Radiator Output & Flow Temp Check</strong> (avoid freezing homes)</li>
-          <li style="margin-bottom: 12px; display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>2026-2030 Carbon Tax Shield Model</strong></li>
-          <li style="display: flex; align-items: flex-start;"><span style="color: #10b981; margin-right: 10px; font-weight: bold;">✔</span> <strong>Direct WhatsApp Advisory Handover</strong> with Joe within 24 hours</li>
-        </ul>
+        <h1 style="font-family: 'Liberation Serif', Georgia, serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: #ffffff; margin-bottom: 20px; line-height: 1.15; letter-spacing: -0.02em;">
+          Stop Funding the Irish Fuel Tax.<br>Build Your Carbon Tax Shield.
+        </h1>
 
-        <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="display: block; text-align: center; background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 15px; border-radius: 8px; font-size: 1.1rem;">Order Assessment for €49 →</a>
-        <p style="text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 12px; margin-bottom: 0;">🔒 100% Conflict-Free Guarantee • No Installer Kickbacks • Serving All 32 Counties</p>
-      </div>
-
-      <!-- Card 2: Multimodal Gemini 2.5 Flash Photo & Document Scanner -->
-      <div id="gemini_vision_scanner" class="scanner-viewport" data-screen-id="gemini_vision_scanner" style="background: #ffffff; color: #0f172a; border-radius: 16px; padding: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <h3 style="color: #003f2d; font-size: 1.3rem; margin: 0;">📸 Snap Your Boiler. Expose Energy Leaks.</h3>
-          <span style="background: #ecfdf5; color: #059669; font-weight: 700; font-size: 0.75rem; padding: 4px 8px; border-radius: 6px;">Gemini 2.5 Flash Vision</span>
-        </div>
-        
-        <p style="color: #64748b; font-size: 0.92rem; margin-bottom: 16px;">
-          Don't let €100/t carbon tax penalties drain your account. Snap a quick photo of your boiler, cylinder, or attic insulation. Our multimodal AI scanner runs instant SR50 viability checks to see where your heat is escaping.
+        <p style="font-size: clamp(0.9rem, 2vw, 1.15rem); color: #94a3b8; margin-bottom: 32px; max-width: 680px; line-height: 1.6;">
+          Dublin, Cork, or Limerick—rising oil levies are quietly eating your savings. Secure a 100% independent roadmap to slash your heating bills from €5,400 to €650 a year using up to €25,500 in direct SEAI grants. No sales pitches. No contractor kickbacks.
         </p>
 
-        <!-- Mode Selector Tabs -->
-        <div style="display: flex; gap: 8px; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
-          <button type="button" id="tab-mode-photo" class="scanner-tab-btn active" style="flex: 1; padding: 8px 12px; background: #003f2d; color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer;">📸 Photo Scan</button>
-          <button type="button" id="tab-mode-pdf" class="scanner-tab-btn" style="flex: 1; padding: 8px 12px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer;">📄 BER / PDF Doc</button>
-        </div>
-
-        <!-- Quick Category Selectors for Photos -->
-        <div id="photo-category-bar" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px;">
-          <button type="button" class="photo-category-pill active" data-category="heating" style="padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid #10b981; background: #ecfdf5; color: #065f46; cursor: pointer;">🔥 Boiler / Cylinder</button>
-          <button type="button" class="photo-category-pill" data-category="attic" style="padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid #cbd5e1; background: #fff; color: #64748b; cursor: pointer;">🏠 Attic Insulation</button>
-          <button type="button" class="photo-category-pill" data-category="electrical" style="padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid #cbd5e1; background: #fff; color: #64748b; cursor: pointer;">⚡ Fuseboard / Meter</button>
-          <button type="button" class="photo-category-pill" data-category="roof" style="padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid #cbd5e1; background: #fff; color: #64748b; cursor: pointer;">☀️ Roof / Solar</button>
-        </div>
-
-        <!-- Interactive Dropzone Area -->
-        <div id="ber-pdf-dropzone" class="dropzone-container" style="border: 2px dashed #10b981; background: #fbfdfc; border-radius: 12px; padding: 25px 20px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
-          <input type="file" id="ber-photo-camera-input" aria-label="Upload photo of heating equipment or attic" accept="image/*" capture="environment" style="display: none;" />
-          <input type="file" id="ber-pdf-file-input" aria-label="Upload BER certificate PDF or image" accept="image/*,.pdf" style="display: none;" />
-          
-          <div id="dropzone-icon" style="font-size: 2.5rem; margin-bottom: 8px;">📸</div>
-          <p id="dropzone-title" style="font-weight: 700; color: #003f2d; margin: 0 0 4px 0; font-size: 1.05rem;">Take a Photo or Upload Image</p>
-          <p id="dropzone-desc" style="color: #64748b; font-size: 0.85rem; margin: 0 0 14px 0;">Drag & drop your photo here (Max 10MB) or snap with camera</p>
-          
-          <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-            <button type="button" onclick="document.getElementById('ber-photo-camera-input').click();" class="btn-primary" style="background: #10b981; padding: 8px 16px; font-size: 0.85rem; cursor: pointer; border: none; border-radius: 6px; color: #fff; font-weight: 700;">📷 Take Photo</button>
-            <button type="button" onclick="document.getElementById('ber-pdf-file-input').click();" class="btn-secondary" style="background: #003f2d; padding: 8px 16px; font-size: 0.85rem; cursor: pointer; border: none; border-radius: 6px; color: #fff; font-weight: 700;">📁 Choose File</button>
-          </div>
-        </div>
-
-        <!-- Real-time Status / Loading Area -->
-        <div id="ber-upload-status" style="display: none;"></div>
-
-        <!-- Rendered AI Results Area -->
-        <div id="ber-analysis-results" style="display: none;"></div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ========================================================================= -->
-<!-- 2. INTERACTIVE SEAI GRANT & HEAT PUMP MARGIN ESTIMATOR -->
-<!-- ========================================================================= -->
-<section id="grant-calculator" class="grant-calculator-section" data-screen-id="seai_savings_estimator" style="background: #f8fafc; padding: 80px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
-  <div class="container">
-    <div style="text-align: center; max-width: 820px; margin: 0 auto 30px auto;">
-      <p class="section-label" style="color: #10b981; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom: 5px;">SEAI Grant & Energy Savings Estimator</p>
-      <h2 class="section-title" style="color: #003f2d; margin-bottom: 10px;">Bypass the Kerosene Penalties. Claim Up to €25,500.</h2>
-      <p class="section-subtitle" style="color: #64748b; font-size: 1.05rem;">Drag the slider to see how bringing your home from a typical D-rating up to an A2 standard triggers an instant 16% property value surge and cuts your annual fuel bills by €4,850/yr.</p>
-    </div>
-
-    <!-- Prominent G to A Transformation & EPBD 2026-2030 Notice Banner -->
-    <div style="max-width: 900px; margin: 0 auto 24px auto; background: linear-gradient(135deg, #003f2d 0%, #065f46 100%); border-radius: 12px; padding: 18px 24px; color: #ffffff; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; box-shadow: 0 4px 16px rgba(0,63,45,0.12);">
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <div style="font-size: 2rem; background: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">🚀</div>
-        <div>
-          <div style="font-weight: 800; font-size: 1.05rem; color: #34d399; display: flex; align-items: center; gap: 8px;">
-            <span>G ➔ A2 Retrofit Transformation Hub</span>
-            <span style="background: #f59e0b; color: #000; font-size: 0.72rem; padding: 2px 6px; border-radius: 4px; font-weight: 800; text-transform: uppercase;">EPBD 2030 Priority</span>
-          </div>
-          <p style="margin: 4px 0 0 0; font-size: 0.88rem; color: #cbd5e1;">
-            Under new EU EPBD mandates, worst-performing <strong>G & F homes</strong> unlock maximum funding (+16% property value surge & €4,850/yr fuel savings).
-          </p>
-        </div>
-      </div>
-      <button type="button" id="btn-open-ber-explainer-modal" style="background: #10b981; color: #ffffff; border: none; font-weight: 700; padding: 10px 18px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: transform 0.2s, background 0.2s;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
-        ℹ️ Explain G to A Scale →
-      </button>
-    </div>
-
-    <form id="seai-grant-calculator-form" class="calc-card glass-card" style="max-width: 900px; margin: 0 auto; padding: 32px;" onsubmit="return false;">
-      
-      <!-- Step 0: Eircode & Town Quick-Finder -->
-      <div style="margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid #e2e8f0;">
-        <label for="calc-eircode" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px;">📍 Irish Eircode or Town (e.g. V94, D04, T12, Limerick)</label>
-        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-          <input type="text" id="calc-eircode" placeholder="Enter Irish Eircode (e.g. V94 ED21)..." style="flex: 1; min-width: 240px; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 1rem; text-transform: uppercase;" autocomplete="postal-code" aria-label="Enter your Irish Eircode or Town" />
-          <span id="eircode-location-badge" style="display: none; padding: 8px 14px; background: #ecfdf5; border: 1px solid #10b981; border-radius: 8px; color: #065f46; font-weight: 700; font-size: 0.9rem; align-items: center; gap: 6px;"></span>
-        </div>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 30px;">
-        
-        <!-- Step 1: BER Selection -->
-        <div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <label for="calc-ber-select" style="font-weight: 700; color: #003f2d; margin: 0;">1. Current Energy Rating (BER)</label>
-            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 2px 6px; border-radius: 4px;">New EPBD Scale (A0 to G)</span>
-          </div>
-          <select id="calc-ber-select" aria-label="Select your current Building Energy Rating" style="width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; background: #fff; font-weight: 600;">
-            <option value="G">🔴 G Rating (&gt;375 kWh/m²/yr · ~€5,400/yr fuel · Worst Heat Loss)</option>
-            <option value="F">🟠 F Rating (≤375 kWh/m²/yr · ~€4,200/yr fuel · EPBD Priority)</option>
-            <option value="E">🟠 E Rating (≤325 kWh/m²/yr · ~€3,400/yr fuel · High Heat Loss)</option>
-            <option value="D" selected>🟡 D Rating (≤275 kWh/m²/yr · ~€2,750/yr · Irish Average)</option>
-            <option value="C">🟢 C Rating (≤225 kWh/m²/yr · ~€1,950/yr · Moderate Loss)</option>
-            <option value="B">🟢 B Rating (≤150 kWh/m²/yr · ~€1,200/yr · SEAI Base Standard)</option>
-            <option value="A">🟢 A Rating (≤75 kWh/m²/yr · ~€650/yr · Deep Retrofit Target)</option>
-            <option value="A0">🔵 A0 Rating (≤42 kWh/m²/yr · ~€350/yr · Zero-Emission ZEB)</option>
-          </select>
-        </div>
-
-        <!-- Step 2: Property Type -->
-        <div>
-          <label for="calc-property-type" style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 8px;">2. Property Layout</label>
-          <select id="calc-property-type" aria-label="Select your property type layout" style="width: 100%; padding: 12px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; background: #fff; font-weight: 600;">
-            <option value="detached">Detached House (150+ sqm)</option>
-            <option value="semi" selected>Semi-Detached House (~120 sqm)</option>
-            <option value="terrace">Mid-Terrace House (~90 sqm)</option>
-            <option value="apartment">Apartment / Duplex (~70 sqm)</option>
-          </select>
-        </div>
-
-      </div>
-
-      <!-- Step 3: Upgrade Selection Matrix -->
-      <div style="margin-bottom: 35px;">
-        <label style="display: block; font-weight: 700; color: #003f2d; margin-bottom: 12px;">3. Select Planned Energy Upgrades</label>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px;">
-          
-          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
-            <input type="checkbox" id="upgrade-heatpump" checked style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
-            <div>
-              <div style="font-weight: 600; color: #0f172a;">Heat Pump System</div>
-              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€12,500 Grant</div>
-            </div>
-          </label>
-
-          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
-            <input type="checkbox" id="upgrade-wall" checked style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
-            <div>
-              <div style="font-weight: 600; color: #0f172a;">External Wall Insulation</div>
-              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€8,000 Grant</div>
-            </div>
-          </label>
-
-          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
-            <input type="checkbox" id="upgrade-attic" checked style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
-            <div>
-              <div style="font-weight: 600; color: #0f172a;">Attic & Rafter Insulation</div>
-              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€2,500 Grant</div>
-            </div>
-          </label>
-
-          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
-            <input type="checkbox" id="upgrade-solar" checked style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
-            <div>
-              <div style="font-weight: 600; color: #0f172a;">Solar PV Panels</div>
-              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€1,800 Grant</div>
-            </div>
-          </label>
-
-          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
-            <input type="checkbox" id="upgrade-windows" style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
-            <div>
-              <div style="font-weight: 600; color: #0f172a;">Triple Glazed Windows</div>
-              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€5,600 Grant</div>
-            </div>
-          </label>
-
-          <label style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; cursor: pointer;">
-            <input type="checkbox" id="upgrade-controls" style="width: 18px; height: 18px; accent-color: #10b981; margin-right: 12px;" />
-            <div>
-              <div style="font-weight: 600; color: #0f172a;">Smart Heating Controls</div>
-              <div style="font-size: 0.8rem; color: #10b981; font-weight: 700;">+€700 Grant</div>
-            </div>
-          </label>
-
-        </div>
-      </div>
-
-      <!-- Live Calculation Dashboard Output (Ameba Command Center Surface) -->
-      <div style="background: var(--color-forest-ink); border: 1px solid var(--color-dark-hairline); border-radius: var(--radius-cards); padding: 28px; color: #fff;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; text-align: center;">
-          <div>
-            <div style="font-family: var(--font-mono); font-size: 11px; color: #34f5c5; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">● Total SEAI Grants</div>
-            <div id="calc-total-grants" style="font-family: var(--font-display); font-size: 2.4rem; font-weight: 300; letter-spacing: -0.02em; color: #34f5c5;">€24,800</div>
-          </div>
-
-          <div>
-            <div style="font-family: var(--font-mono); font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">● Estimated Net Cost</div>
-            <div id="calc-net-cost" style="font-family: var(--font-display); font-size: 2.4rem; font-weight: 300; letter-spacing: -0.02em; color: #ffffff;">€11,700</div>
-          </div>
-
-          <div>
-            <div style="font-family: var(--font-mono); font-size: 11px; color: #f59e0b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">● Annual Fuel Savings</div>
-            <div id="calc-annual-savings" style="font-family: var(--font-display); font-size: 2.4rem; font-weight: 300; letter-spacing: -0.02em; color: #f59e0b;">€1,650 / yr</div>
-          </div>
-
-          <div>
-            <div style="font-family: var(--font-mono); font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px;">● Est. Payback Period</div>
-            <div id="calc-payback-years" style="font-family: var(--font-display); font-size: 2.4rem; font-weight: 300; letter-spacing: -0.02em; color: #ffffff;">7.1 Years</div>
-          </div>
-        </div>
-
-        <div style="border-top: 1px solid var(--color-dark-hairline); margin-top: 24px; padding-top: 20px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; align-items: center;">
-          <button type="button" id="btn-download-pdf-dossier" aria-label="Download Instant PDF Energy Dossier" class="btn-command-primary" style="background: var(--color-emerald-signal); border: none; color: #ffffff; font-weight: 600; padding: 12px 22px; border-radius: var(--radius-buttons); font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-            📄 Download Instant 2-Page Dossier (PDF)
-          </button>
-          
-          <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; border-color: #d97706; color: #000; font-weight: 700; text-decoration: none; padding: 12px 22px; border-radius: var(--radius-buttons); font-size: 14px; display: inline-flex; align-items: center; gap: 8px;">
-            ⭐ Book Onsite Survey with Joe (€49) →
+        <div style="display: flex; flex-direction: column; sm-flex-direction: row; gap: 12px; width: 100%; max-width: 400px; justify-content: center;">
+          <a href="#vision-scanner" style="padding: 16px 32px; border-radius: 12px; background: #10b981; color: #020617; font-weight: 800; font-size: 1rem; text-decoration: none; text-align: center; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+            Activate My Shield ↓
           </a>
         </div>
-        
-        <p style="margin: 12px 0 0 0; font-family: var(--font-mono); font-size: 11px; color: #94a3b8; text-align: center; letter-spacing: 0.04em;">
-          🔒 100% Conflict-free. Joe conducts in-person onsite radiator flow tests & thermal scans across all 32 counties.
+      </div>
+
+      <div style="text-align: center; z-index: 10; padding-bottom: 20px;">
+        <p style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">
+          Serving all 32 counties • Zero commissions
+        </p>
+        <div style="color: #64748b; font-size: 1.2rem; animation: bounce 2s infinite;">↓</div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────────────────────────────
+        SCREEN 2: GEMINI 2.5 FLASH VISION SCANNER
+        ────────────────────────────────────────────────────────────── -->
+    <section id="vision-scanner" class="viewport-screen bg-tech-grid" data-screen-id="gemini_vision_scanner" style="background: #020617;">
+      <div class="noise-overlay"></div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 650px; margin: 0 auto; z-index: 10; padding-top: 50px;">
+        <span style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; background: #0f172a; padding: 4px 12px; border-radius: 9999px; border: 1px solid #1e293b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">
+          Gemini 2.5 Flash Vision
+        </span>
+
+        <h2 style="font-family: 'Liberation Serif', Georgia, serif; font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 800; color: #ffffff; margin-bottom: 12px; line-height: 1.2;">
+          Snap Your Boiler. Expose Energy Leaks.
+        </h2>
+
+        <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 24px; line-height: 1.5;">
+          Don't let €100/t carbon tax penalties drain your account. Snap a quick photo of your boiler, cylinder, or attic insulation. Our multimodal AI scanner runs instant SR50 viability checks.
+        </p>
+
+        <!-- Dropzone Box -->
+        <div class="scanner-box" style="width: 100%; background: rgba(15, 23, 42, 0.6); border-radius: 16px; border: 2px dashed rgba(16, 185, 129, 0.4); padding: 24px; position: relative; min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <div class="scanner-laser"></div>
+          <div style="font-size: 2.2rem; margin-bottom: 8px;">📷</div>
+          <span style="font-size: 0.95rem; font-weight: 700; color: #f8fafc; margin-bottom: 4px;">Take a Photo or Upload Image</span>
+          <span style="font-size: 0.75rem; color: #64748b; margin-bottom: 12px;">Drag & drop photo of boiler, cylinder, or hatch (Max 10MB)</span>
+          <a href="/tools/vision-scanner.html" style="padding: 10px 20px; border-radius: 8px; background: #1e293b; color: #34f5c5; font-size: 0.8rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(52, 245, 197, 0.3);">
+            Open Full Scanner Tool →
+          </a>
+        </div>
+      </div>
+
+      <div style="text-align: center; z-index: 10; padding-bottom: 20px;">
+        <p style="font-size: 0.7rem; color: #64748b; background: rgba(15, 23, 42, 0.5); padding: 8px 16px; border-radius: 8px; display: inline-block;">
+          🔒 <strong>Technical Dev Note:</strong> Camera hardware integration with automatic client-side canvas resizing.
         </p>
       </div>
-    </form>
-  </div>
-</section>
+    </section>
 
-<!-- PHOTOREALISTIC BEFORE & AFTER HOME WRAP SIMULATOR -->
-<section id="wrap-simulator" style="background: #ffffff; padding: 70px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
-  <div class="container" style="max-width: 1100px;">
-    
-    <div style="text-align: center; max-width: 800px; margin: 0 auto 35px auto;">
-      <span class="mono-tag" style="background: rgba(16, 185, 129, 0.1); color: var(--color-emerald-signal); border: 1px solid rgba(16, 185, 129, 0.2); font-family: var(--font-mono); font-size: 11px; margin-bottom: 12px;">
-        🏡 GENERATIVE AI RETROFIT VISION
-      </span>
-      <h2 style="font-family: var(--font-display); color: var(--color-forest-deep); font-size: 2.3rem; margin: 12px 0 10px 0; font-weight: 300; letter-spacing: -0.019em;">
-        Before & After: See Your Home Transformed to A-Rated
-      </h2>
-      <p style="color: var(--color-slate-body); font-size: 1.05rem; line-height: 1.6;">
-        Slide to see how <strong>NSAI External Wall Insulation (The Wrap)</strong>, anthracite triple glazing, and in-roof solar PV elevate a 1980s Irish home into a certified <strong>A2 NZEB property</strong>.
-      </p>
-    </div>
+    <!-- ──────────────────────────────────────────────────────────────
+        SCREEN 3: AOIFE VOICE AI
+        ────────────────────────────────────────────────────────────── -->
+    <section id="voice-ai" class="viewport-screen bg-tech-grid" data-screen-id="aoife_voice_assistant" style="background: linear-gradient(180deg, #020617 0%, #0f172a 100%);">
+      <div class="noise-overlay"></div>
 
-    <!-- Ameba Browser Chrome Mockup Container -->
-    <div style="background: #ffffff; border-radius: var(--radius-cards); border: 1px solid var(--color-silver-border); overflow: hidden;">
-      
-      <!-- Chrome Title Bar -->
-      <div style="background: var(--color-forest-ink); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--color-dark-hairline);">
-        <div style="display: flex; gap: 6px; align-items: center;">
-          <span style="width: 10px; height: 10px; border-radius: 50%; background: #ef4444; display: inline-block;"></span>
-          <span style="width: 10px; height: 10px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span>
-          <span style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 650px; margin: 0 auto; z-index: 10; padding-top: 50px;">
+        <span style="font-size: 0.7rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.1); padding: 4px 12px; border-radius: 9999px; border: 1px solid rgba(16, 185, 129, 0.2); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">
+          Aoife Voice AI
+        </span>
+
+        <h2 style="font-family: 'Liberation Serif', Georgia, serif; font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-style: italic; color: #ffffff; margin-bottom: 12px; line-height: 1.3;">
+          "Aoife, will my radiators freeze if I install a heat pump?"
+        </h2>
+
+        <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 24px; line-height: 1.5;">
+          Tap below to talk live with Ireland's senior independent energy AI. Ask her how to avoid the 9% double VAT fuel penalty and what upgrades you actually need in plain, neighborly English.
+        </p>
+
+        <!-- Mic Control -->
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 140px;">
+          <button id="main-aoife-mic-btn" style="width: 80px; height: 80px; border-radius: 50%; background: #0f172a; border: 2px solid #10b981; color: #10b981; font-size: 2.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); transition: all 0.2s;" onclick="if(window.toggleVoiceModal){window.toggleVoiceModal();}else{window.location.href='/tools/voice-aoife.html';}">
+            🎙️
+          </button>
+          <span style="font-size: 0.8rem; font-weight: 700; color: #10b981; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+            Tap to Talk Live with Aoife
+          </span>
         </div>
-        <div style="background: rgba(255,255,255,0.08); color: #94a3b8; font-family: var(--font-mono); font-size: 11px; padding: 3px 18px; border-radius: 4px; letter-spacing: 0.04em;">
-          app.ecosmarthomes.ie/vision/wrap-simulator
-        </div>
-        <div style="font-family: var(--font-mono); font-size: 10px; color: #34f5c5; letter-spacing: 0.08em;">● LIVE GPU RENDER</div>
       </div>
 
-      <div style="padding: 30px;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; align-items: center;">
-          
-          <!-- Interactive Before/After Visual Slider -->
-          <div>
-            <div id="before-after-container" style="position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; border: 1px solid var(--color-silver-border); user-select: none; touch-action: pan-y; background: #00241b;">
-              
-              <!-- Badges (Pinned on top layer to prevent clipping or text bleed) -->
-              <div style="position: absolute; top: 12px; left: 12px; background: rgba(15,23,42,0.92); color: #f87171; font-family: var(--font-mono); font-weight: 700; font-size: 11px; padding: 5px 10px; border-radius: 4px; border: 1px solid rgba(239,68,68,0.4); z-index: 25; pointer-events: none; backdrop-filter: blur(4px);">
-                BEFORE: D2 Pebble-Dash
-              </div>
-              <div style="position: absolute; top: 12px; right: 12px; background: rgba(0,36,27,0.92); color: #34f5c5; font-family: var(--font-mono); font-weight: 700; font-size: 11px; padding: 5px 10px; border-radius: 4px; border: 1px solid rgba(52,245,197,0.4); z-index: 25; pointer-events: none; backdrop-filter: blur(4px);">
-                AFTER: A2 Retrofit Wrap
-              </div>
+      <div style="text-align: center; z-index: 10; padding-bottom: 20px;">
+        <a href="/tools/voice-aoife.html" style="font-size: 0.75rem; color: #94a3b8; text-decoration: none; font-weight: 700;">
+          🎙️ Full Screen Voice Assistant & Custom Q&A →
+        </a>
+      </div>
+    </section>
 
-              <!-- After Image (Base) -->
-              <img src="/imgs/irish_house_after.svg" alt="A2-Rated Irish House After Retrofit and External Wall Insulation Wrap" onerror="this.onerror=null;this.src='/imgs/irish_house_after.jpg';" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; color: transparent;" />
+    <!-- ──────────────────────────────────────────────────────────────
+        SCREEN 4: SEAI GRANT & SAVINGS ESTIMATOR
+        ────────────────────────────────────────────────────────────── -->
+    <section id="grant-estimator" class="viewport-screen bg-tech-grid" data-screen-id="seai_savings_estimator" style="background: #020617;">
+      <div class="noise-overlay"></div>
 
-              <!-- Before Image (Clipped Overlay with matching dimensions) -->
-              <div id="before-image-wrap" style="position: absolute; inset: 0; width: 100%; height: 100%; clip-path: inset(0 50% 0 0); z-index: 10;">
-                <img src="/imgs/irish_house_before.svg" alt="Traditional 1980s Irish Pebbledash House Before Retrofit" onerror="this.onerror=null;this.src='/imgs/irish_house_before.jpg';" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; color: transparent;" />
-              </div>
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 700px; margin: 0 auto; z-index: 10; padding-top: 50px; width: 100%;">
+        <span style="font-size: 0.7rem; font-weight: 800; color: #94a3b8; background: #0f172a; padding: 4px 12px; border-radius: 9999px; border: 1px solid #1e293b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">
+          SEAI Grant & Savings Estimator
+        </span>
 
-              <!-- Slider Divider Line & Knob -->
-              <div id="slider-handle" style="position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #34f5c5; box-shadow: 0 0 10px rgba(52,245,197,0.9); z-index: 20; display: flex; align-items: center; justify-content: center; pointer-events: none;">
-                <div style="width: 34px; height: 34px; border-radius: 50%; background: #00241b; color: #34f5c5; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: bold; border: 2px solid #34f5c5; transform: translateX(-50%); box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
-                  ↔
-                </div>
-              </div>
+        <h2 style="font-family: 'Liberation Serif', Georgia, serif; font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 800; color: #ffffff; margin-bottom: 12px; line-height: 1.2;">
+          Bypass Fuel Penalties. Claim Up to €25,500.
+        </h2>
 
+        <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; line-height: 1.5;">
+          Drag the slider to see how bringing your home from a typical D-rating up to an A2 standard triggers an instant 16% property value surge and cuts your annual fuel bills.
+        </p>
+
+        <!-- Slider Card -->
+        <div style="width: 100%; background: rgba(15, 23, 42, 0.7); border: 1px solid #1e293b; border-radius: 16px; padding: 20px; box-sizing: border-box;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+            <div style="background: #020617; padding: 12px; border-radius: 10px; border: 1px solid #1e293b; text-align: left;">
+              <span style="font-size: 0.65rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px;">SEAI Grant Available</span>
+              <span id="hero-grant-val" style="font-size: 1.4rem; font-weight: 900; color: #10b981;">€25,500</span>
             </div>
-
-            <!-- Slider Range Input -->
-            <div style="margin-top: 14px;">
-              <input type="range" id="home-wrap-slider" min="0" max="100" value="50" aria-label="Slide to compare before and after retrofit" style="width: 100%; cursor: pointer; accent-color: var(--color-emerald-signal);" />
-              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--color-fog); margin-top: 4px;">
-                <span>◀ Original Pebble-Dash</span>
-                <span>↔ Drag to Compare</span>
-                <span>A-Rated Modern Wrap ▶</span>
-              </div>
+            <div style="background: #020617; padding: 12px; border-radius: 10px; border: 1px solid #1e293b; text-align: left;">
+              <span style="font-size: 0.65rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px;">Annual Energy Bills</span>
+              <span id="hero-bill-val" style="font-size: 1.4rem; font-weight: 900; color: #ffffff;">€650/yr</span>
             </div>
           </div>
 
-          <!-- Right Side: Transformation Engineering HUD -->
-          <div>
-            <div style="margin-bottom: 20px;">
-              <span class="mono-tag" style="background: rgba(0, 36, 27, 0.08); color: var(--color-forest-deep); border: 1px solid rgba(0, 36, 27, 0.15); font-family: var(--font-mono); font-size: 11px; margin-bottom: 6px;">
-                VERIFIED ENGINEERING SPECS
-              </span>
-              <h3 style="font-family: var(--font-display); color: var(--color-forest-deep); font-size: 1.4rem; margin: 8px 0 6px 0; font-weight: 600;">Whole-House Fabric Transformation</h3>
-              <p style="color: var(--color-slate-body); font-size: 0.9rem; margin: 0;">Certified to SEAI May 2026 & NSAI Agrément I.S. EN 13163 standards.</p>
+          <div style="margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px;">
+              <span>Poor G-Rating</span>
+              <span id="hero-ber-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 800;">Rating: A2</span>
+              <span>A-Rated Standard</span>
             </div>
+            <input type="range" id="hero-ber-slider" class="custom-slider" min="0" max="6" value="6" oninput="
+              const bands = [
+                {b:'G', g:1500, bill:5400, s:0},
+                {b:'F', g:3000, bill:4600, s:2},
+                {b:'E', g:6000, bill:3900, s:5},
+                {b:'D', g:9500, bill:3100, s:8},
+                {b:'C', g:14000, bill:2200, s:11},
+                {b:'B', g:19500, bill:1400, s:14},
+                {b:'A2', g:25500, bill:650, s:16}
+              ];
+              const item = bands[this.value];
+              document.getElementById('hero-grant-val').innerText = '€' + item.g.toLocaleString();
+              document.getElementById('hero-bill-val').innerText = '€' + item.bill.toLocaleString() + '/yr';
+              document.getElementById('hero-ber-badge').innerText = 'Rating: ' + item.b;
+            " />
+          </div>
+        </div>
+      </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-              <div style="background: #f8fafc; border: 1px solid var(--color-silver-border); border-radius: var(--radius-cards); padding: 12px 14px;">
-                <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-fog); text-transform: uppercase; letter-spacing: 0.06em;">BER Rating</div>
-                <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: #ef4444;">D2 <span style="color: var(--color-fog); font-weight: normal; font-size: 0.9rem;">➔</span> <span style="color: var(--color-emerald-signal);">A2 NZEB</span></div>
-              </div>
+      <div style="text-align: center; z-index: 10; padding-bottom: 20px;">
+        <a href="/tools/grant-calculator.html" style="padding: 10px 20px; border-radius: 8px; background: #1e293b; color: #ffffff; font-size: 0.8rem; font-weight: 700; text-decoration: none; border: 1px solid #334155;">
+          Open Detailed Grant Calculator →
+        </a>
+      </div>
+    </section>
 
-              <div style="background: #f8fafc; border: 1px solid var(--color-silver-border); border-radius: var(--radius-cards); padding: 12px 14px;">
-                <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-fog); text-transform: uppercase; letter-spacing: 0.06em;">Wall U-Value</div>
-                <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--color-forest-deep);">2.10 <span style="color: var(--color-fog); font-weight: normal; font-size: 0.9rem;">➔</span> <span style="color: var(--color-emerald-signal);">0.18</span> <span style="font-size: 0.75rem; color: var(--color-fog);">W/m²K</span></div>
-              </div>
+    <!-- ──────────────────────────────────────────────────────────────
+        SCREEN 5: THE ACTIONABLE ROADMAP (Stripe €49 Survey)
+        ────────────────────────────────────────────────────────────── -->
+    <section id="checkout" class="viewport-screen bg-tech-grid" data-screen-id="conversion_checkout" style="background: linear-gradient(180deg, #020617 0%, #0f172a 100%);">
+      <div class="noise-overlay"></div>
 
-              <div style="background: #f8fafc; border: 1px solid var(--color-silver-border); border-radius: var(--radius-cards); padding: 12px 14px;">
-                <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-fog); text-transform: uppercase; letter-spacing: 0.06em;">SEAI Wrap Grant</div>
-                <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--color-emerald-signal);">€8,000 <span style="font-size: 0.75rem; color: var(--color-fog);">(NSAI)</span></div>
-              </div>
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 650px; margin: 0 auto; z-index: 10; padding-top: 50px;">
+        <span style="font-size: 0.7rem; font-weight: 800; color: #10b981; background: rgba(16, 185, 129, 0.1); padding: 4px 12px; border-radius: 9999px; border: 1px solid rgba(16, 185, 129, 0.2); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">
+          Independent Retrofit Roadmap
+        </span>
 
-              <div style="background: #f8fafc; border: 1px solid var(--color-silver-border); border-radius: var(--radius-cards); padding: 12px 14px;">
-                <div style="font-family: var(--font-mono); font-size: 10px; color: var(--color-fog); text-transform: uppercase; letter-spacing: 0.06em;">Annual Fuel Cut</div>
-                <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--color-amber-gold);">€2,350 / yr</div>
-              </div>
+        <h2 style="font-family: 'Liberation Serif', Georgia, serif; font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 800; color: #ffffff; margin-bottom: 12px; line-height: 1.2;">
+          Get Your 100% Independent €49 Survey & Roadmap.
+        </h2>
+
+        <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 20px; line-height: 1.5;">
+          Secure your certified blueprint: pass/fail Heat Pump Readiness test, radiator output check, and your custom 2026-2030 Carbon Tax Shield Model. Completed by Joe and delivered straight to your WhatsApp within 24 hours.
+        </p>
+
+        <!-- Feature Grid -->
+        <div style="width: 100%; background: rgba(15, 23, 42, 0.7); border: 1px solid #1e293b; border-radius: 16px; padding: 20px; box-sizing: border-box; text-align: left; margin-bottom: 16px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #e2e8f0; font-weight: 600;">
+              <span style="color: #10b981;">✓</span> 100% Conflict-Free
             </div>
-
-            <!-- CTAs -->
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-              <button type="button" onclick="document.getElementById('btn-download-pdf-dossier')?.click()" class="btn-command-primary" style="flex: 1; min-width: 180px; padding: 12px 18px; font-size: 13px;">
-                📄 Get Full Retrofit Dossier (PDF)
-              </button>
-              <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-command-primary btn-command-amber" style="flex: 1; min-width: 180px; padding: 12px 18px; font-size: 13px; text-decoration: none;">
-                ⭐ Book Onsite Survey with Joe (€49) →
-              </a>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #e2e8f0; font-weight: 600;">
+              <span style="color: #10b981;">✓</span> Zero Installer Kickbacks
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #e2e8f0; font-weight: 600;">
+              <span style="color: #10b981;">✓</span> Completed by Joe
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #e2e8f0; font-weight: 600;">
+              <span style="color: #10b981;">✓</span> WhatsApp Delivery (24h)
             </div>
           </div>
 
-        </div>
-      </div>
-    </div>
-
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- FLAGSHIP ECOSYSTEM TOOLS SECTION -->
-<section class="ecosystem-tools" style="background: #f8fafc; padding: 60px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
-  <div class="container">
-    <p class="section-label" style="text-align:center; color: #10b981; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom: 5px;">Intelligent Ecosystem</p>
-    <h2 class="section-title" style="text-align:center; color: #003f2d; margin-bottom: 10px;">Explore Our Flagship Retrofit & AI Tools</h2>
-    <p class="section-subtitle" style="text-align:center; color: #64748b; margin-bottom: 40px;">Independent financial insights, BER upgrade paths, and machine-readable agent protocols.</p>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-      
-      <!-- Card 1: Insights Dashboard -->
-      <div style="background:#ffffff; border-radius:16px; padding:30px 24px; border:1px solid #e2e8f0; box-shadow:0 4px 12px rgba(0,0,0,0.03); display:flex; flex-direction:column;">
-        <div style="font-size:2rem; margin-bottom:12px;">📊</div>
-        <h3 style="font-family:'Outfit',sans-serif; color:#003f2d; margin:0 0 10px 0; font-size:1.3rem;">Insights Dashboard</h3>
-        <p style="color:#64748b; font-size:0.92rem; line-height:1.5; margin-bottom:20px; flex-grow:1;">See your potential savings and ROI with real-time payback calculators and carbon tax projections.</p>
-        <a href="dashboard.html" class="btn-primary" style="text-align:center; text-decoration:none; padding:10px 18px; font-size:0.9rem;">Explore Insights →</a>
-      </div>
-
-      <!-- Card 2: BER Advisor -->
-      <div style="background:#ffffff; border-radius:16px; padding:30px 24px; border:1px solid #e2e8f0; box-shadow:0 4px 12px rgba(0,0,0,0.03); display:flex; flex-direction:column;">
-        <div style="font-size:2rem; margin-bottom:12px;">🏡</div>
-        <h3 style="font-family:'Outfit',sans-serif; color:#003f2d; margin:0 0 10px 0; font-size:1.3rem;">BER Advisor</h3>
-        <p style="color:#64748b; font-size:0.92rem; line-height:1.5; margin-bottom:20px; flex-grow:1;">Understand your home’s Building Energy Rating (A–G) and simulate G → B2/A2 upgrade paths.</p>
-        <a href="ber-advisor/" class="btn-primary" style="text-align:center; text-decoration:none; padding:10px 18px; font-size:0.9rem; background:#003f2d;">Open BER Advisor →</a>
-      </div>
-
-      <!-- Card 3: AI Manifest -->
-      <div style="background:#ffffff; border-radius:16px; padding:30px 24px; border:1px solid #e2e8f0; box-shadow:0 4px 12px rgba(0,0,0,0.03); display:flex; flex-direction:column;">
-        <div style="font-size:2rem; margin-bottom:12px;">🤖</div>
-        <h3 style="font-family:'Outfit',sans-serif; color:#003f2d; margin:0 0 10px 0; font-size:1.3rem;">AI Manifest</h3>
-        <p style="color:#64748b; font-size:0.92rem; line-height:1.5; margin-bottom:20px; flex-grow:1;">Explore our agent-ready protocol, Model Context Protocol (MCP v1.0), and RFC 8414 OAuth specs.</p>
-        <a href="ai/" class="btn-primary" style="text-align:center; text-decoration:none; padding:10px 18px; font-size:0.9rem; background:#0f172a;">View AI Manifest →</a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="services" class="services">
-  <div class="container">
-    <p class="section-label">What We Offer</p>
-    <h2 class="section-title">Independent Retrofit Services</h2>
-    <p class="section-subtitle">No sales. No contractors. Just clear, trusted guidance.</p>
-
-    <div class="services-grid">
-
-      <!-- SERVICE 1: BER Advisory -->
-      <div class="service-card">
-        <img src="imgs/ber-advisory-service.svg" alt="BER Advisory" class="service-image" />
-        <div class="service-content">
-          <h3>BER Advisory & Upgrade Strategy</h3>
-          <p>Build your Carbon Tax Shield. Protect your wallet from rising levies and plan the smartest upgrade path.</p>
-          <a href="#details1" class="service-link">Learn More →</a>
+          <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" style="display: block; width: 100%; padding: 16px; border-radius: 12px; background: #10b981; color: #020617; font-weight: 900; font-size: 1rem; text-decoration: none; text-align: center; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); box-sizing: border-box;">
+            Order Assessment for €49 →
+          </a>
         </div>
       </div>
 
-      <!-- SERVICE 2: Grant Maximisation -->
-      <div class="service-card">
-        <img src="imgs/grant-service.svg" alt="Grant Maximisation" class="service-image" />
-        <div class="service-content">
-          <h3>Grant Maximisation Planning</h3>
-          <p>Ensure you receive every euro you're entitled to through SEAI grants.</p>
-          <a href="#details2" class="service-link">Learn More →</a>
-        </div>
-      </div>
-
-      <!-- SERVICE 3: Heat Pump Readiness -->
-      <div class="service-card">
-        <img src="imgs/heatpump-service.svg" alt="Heat Pump Readiness" class="service-image" />
-        <div class="service-content">
-          <h3>Heat Pump Readiness Test</h3>
-          <p>Find out if your home qualifies for a heat pump — before spending money.</p>
-          <a href="#details3" class="service-link">Learn More →</a>
-        </div>
-      </div>
-
-      <!-- SERVICE 4: Retrofit Roadmap -->
-      <div class="service-card">
-        <img src="imgs/roadmap-service.svg" alt="Retrofit Roadmap" class="service-image" />
-        <div class="service-content">
-          <h3>Full Retrofit Roadmap</h3>
-          <p>A step‑by‑step plan tailored to your home, budget, and long‑term goals.</p>
-          <a href="#details4" class="service-link">Learn More →</a>
-        </div>
-      </div>
-
-      <!-- SERVICE 5: Carbon Tax Shield -->
-      <div class="service-card">
-        <img src="imgs/carbon-tax-shield.svg" alt="Carbon Tax Shield" class="service-image" />
-        <div class="service-content">
-          <h3>Carbon Tax Shield</h3>
-          <p>Build your Carbon Tax Shield. Protect your wallet from rising levies and plan the smartest upgrade path.</p>
-          <a href="#details5" class="service-link">Learn More →</a>
-        </div>
-      </div>
-
-      <!-- SERVICE 6: Renovation Feasibility Study -->
-      <div class="service-card">
-        <img src="imgs/feasibility-study.svg" alt="Renovation Feasibility Study" class="service-image" />
-        <div class="service-content">
-          <h3>Renovation Feasibility Study</h3>
-          <p>A clear, independent overview of your home before you spend a cent on works or contractors.</p>
-          <a href="#details6" class="service-link">Learn More →</a>
-        </div>
-      </div>
-
-      <!-- SERVICE 7: Leakiness Score -->
-      <div class="service-card">
-        <img src="imgs/leakiness-score.svg" alt="Leakiness Score" class="service-image" />
-        <div class="service-content">
-          <h3>Leakiness Score</h3>
-          <p>Discover exactly where your home is losing heat and money — explained in plain English.</p>
-          <a href="#details7" class="service-link">Learn More →</a>
-        </div>
-      </div>
-
-      <!-- SERVICE 8: Cold Spots & Mould Risk Check -->
-      <div class="service-card">
-        <img src="imgs/cold-spots-mould.svg" alt="Cold Spots & Mould Risk Check" class="service-image" />
-        <div class="service-content">
-          <h3>Cold Spots & Mould Risk Check</h3>
-          <p>Identify the areas at risk of damp and mould before they become expensive problems.</p>
-          <a href="#details8" class="service-link">Learn More →</a>
-        </div>
-      </div>
-
-      <!-- SERVICE 9: Grant Eligibility & Readiness Audit -->
-      <div class="service-card">
-        <img src="imgs/grant-eligibility-audit.svg" alt="Grant Eligibility & Readiness Audit" class="service-image" />
-        <div class="service-content">
-          <h3>Grant Eligibility & Readiness Audit</h3>
-          <p>Ensure your home qualifies for maximum grants and avoid costly mistakes that cause lost funding.</p>
-          <a href="#details9" class="service-link">Learn More →</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- DETAILS SECTIONS -->
-
-<section id="details1" class="service-details">
-  <div class="container">
-    <h2>BER Advisory & Upgrade Strategy</h2>
-    <p>We assess your home's current BER, identify upgrade opportunities, and map out a strategic path to improve energy performance while protecting long-term value.</p>
-  </div>
-</section>
-
-<section id="details2" class="service-details">
-  <div class="container">
-    <h2>Grant Maximisation Planning</h2>
-    <p>We help you navigate SEAI grants, ensuring you claim every euro available — with no missed opportunities or compliance issues.</p>
-  </div>
-</section>
-
-<section id="details3" class="service-details">
-  <div class="container">
-    <h2>Heat Pump Test</h2>
-    <p>A heat pump can be a brilliant upgrade — but only if your home is ready for it. Most homes fail the basic requirements, which leads to oversized systems, high running costs, and poor performance. The Heat Pump Test checks your home's readiness before you spend thousands.</p>
-    
-    <h3>You'll learn:</h3>
-    <ul>
-      <li>Whether your home can actually support a heat pump</li>
-      <li>What upgrades (if any) are needed to pass the test</li>
-      <li>How to avoid oversizing, poor installs, and wasted money</li>
-      <li>The most cost‑effective path to becoming heat‑pump ready</li>
-    </ul>
-    
-    <p><strong>This is independent, conflict‑free guidance. No sales, no commissions — just a clear answer before you make a big investment.</strong></p>
-  </div>
-</section>
-
-<section id="details4" class="service-details">
-  <div class="container">
-    <h2>Full Retrofit Roadmap</h2>
-    <p>We build a step-by-step upgrade plan tailored to your home, budget, and long-term goals — including timelines, grant stages, and BER targets.</p>
-  </div>
-</section>
-
-<section id="details5" class="service-details">
-  <div class="container">
-    <h2>Carbon Tax Shield</h2>
-    <p>Energy prices and government levies are rising every year, and most homeowners have no idea how exposed their home really is. The Carbon Tax Shield shows you the financial impact of your current setup and what it will cost you over the next decade if nothing changes.</p>
-    
-    <h3>You'll see:</h3>
-    <ul>
-      <li>Where your home is losing money today</li>
-      <li>How future carbon taxes will affect your bills</li>
-      <li>The upgrades that protect you from rising levies</li>
-      <li>The smartest order to complete them for maximum savings</li>
-    </ul>
-    
-    <p><strong>This isn't about "being greener." It's about protecting your wallet and future-proofing your home with clear, independent advice.</strong></p>
-  </div>
-</section>
-
-<section id="details6" class="service-details">
-  <div class="container">
-    <h2>Renovation Feasibility Study</h2>
-    <p>Most homeowners start upgrades without knowing what's realistic, what's risky, or what will actually improve comfort and reduce costs. The Renovation Feasibility Study gives you a clear, independent overview of your home before you spend a cent on works or contractors.</p>
-    
-    <h3>You'll learn:</h3>
-    <ul>
-      <li>What upgrades make sense for your specific home</li>
-      <li>What risks or hidden issues could cost you later</li>
-      <li>Which improvements deliver the best comfort and savings</li>
-      <li>Whether your plans are achievable within your budget</li>
-    </ul>
-    
-    <p><strong>This is not a sales call and not a quote. It's a conflict‑free assessment that helps you avoid expensive mistakes and plan with confidence.</strong></p>
-  </div>
-</section>
-
-<section id="details7" class="service-details">
-  <div class="container">
-    <h2>Leakiness Score</h2>
-    <p>Most homes lose far more heat than homeowners realise. Warm air escapes through tiny gaps, drafts sneak in around old fittings, and insulation often performs worse than expected. The Leakiness Score shows you exactly where your home is leaking money — explained in plain English.</p>
-    
-    <h3>You'll learn:</h3>
-    <ul>
-      <li>Where warm air is escaping and cold air is getting in</li>
-      <li>How much these leaks are costing you every year</li>
-      <li>Which fixes give the biggest comfort boost for the lowest cost</li>
-      <li>What to prioritise before investing in bigger upgrades</li>
-    </ul>
-    
-    <p><strong>No engineering jargon. No pressure to buy anything. Just a clear, neighbourly explanation of how to keep more heat — and more money — inside your home.</strong></p>
-  </div>
-</section>
-
-<section id="details8" class="service-details">
-  <div class="container">
-    <h2>Cold Spots & Mould Risk Check</h2>
-    <p>Cold patches on walls and ceilings are more than just uncomfortable — they're early warning signs of damp and mould. Most homeowners don't notice them until the problem becomes expensive. This check highlights the areas at risk and explains what's causing them in simple, practical terms.</p>
-    
-    <h3>You'll learn:</h3>
-    <ul>
-      <li>Where cold spots are forming and why they happen</li>
-      <li>How close your home is to developing damp or mould</li>
-      <li>What small fixes can prevent bigger problems later</li>
-      <li>Which upgrades improve comfort and protect your home's structure</li>
-    </ul>
-    
-    <p><strong>No scare tactics. No upselling. Just clear, independent guidance to keep your home healthy, warm, and worry‑free.</strong></p>
-  </div>
-</section>
-
-<section id="details9" class="service-details">
-  <div class="container">
-    <h2>Grant Eligibility & Readiness Audit</h2>
-    <p>Most homeowners miss out on grant funding because key details are rushed, overlooked, or completed by someone whose priority is selling hardware. This audit ensures your home qualifies for the maximum grants available — and that nothing causes you to lose money later.</p>
-    
-    <h3>You'll learn:</h3>
-    <ul>
-      <li>Which grants your home can access right now</li>
-      <li>What upgrades are required to unlock higher funding</li>
-      <li>Common mistakes that lead to rejected or reduced grant payments</li>
-      <li>How to sequence your upgrades to maximise financial support</li>
-    </ul>
-    
-    <p><strong>This is not "grant paperwork." It's a strategic financial review that protects your funding and keeps every euro working in your favour.</strong></p>
-  </div>
-</section>
-
-<section id="process" class="process">
-  <div class="container">
-    <p class="section-label">Our Process</p>
-    <h2 class="section-title">How We Work</h2>
-    <div class="process-grid">
-      <div class="process-step">
-        <div class="step-number">1</div>
-        <h3>Strategy Call Scheduling</h3>
-        <p>A short 15‑minute Suitability Check to confirm your home and goals are a good fit for an Independent Retrofit Assessment. This is not a consultation and does not include advice. All expert guidance is provided within paid services only.</p>
-      </div>
-      <div class="process-step">
-        <div class="step-number">2</div>
-        <h3>Initial Consultation</h3>
-        <p>We listen to your goals, timeline, and budget constraints.</p>
-      </div>
-      <div class="process-step">
-        <div class="step-number">3</div>
-        <h3>Home Assessment</h3>
-        <p>On-site evaluation of your home's current performance and potential.</p>
-      </div>
-      <div class="process-step">
-        <div class="step-number">4</div>
-        <h3>Strategy Report</h3>
-        <p>Detailed analysis, upgrade recommendations, and grant eligibility.</p>
-      </div>
-      <div class="process-step">
-        <div class="step-number">5</div>
-        <h3>Ongoing Support</h3>
-        <p>We guide you through implementation and compliance requirements.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="independence" class="independence">
-  <div class="container">
-    <p class="section-label">Why Choose Us</p>
-    <h2 class="section-title">True Independence</h2>
-    <p class="section-subtitle">No conflicts of interest. No sales targets. Just honest advice.</p>
-    <div class="independence-grid">
-      <div class="independence-card">
-        <h3>No Sales Commissions</h3>
-        <p>We don't sell products or recommend contractors — removing any conflict of interest.</p>
-      </div>
-      <div class="independence-card">
-        <h3>Experience Across All Systems</h3>
-        <p>We evaluate all retrofit technologies objectively to find the best fit for your home.</p>
-      </div>
-      <div class="independence-card">
-        <h3>Grant Expertise</h3>
-        <p>Deep knowledge of SEAI programs, eligibility, and compliance requirements.</p>
-      </div>
-      <div class="independence-card">
-        <h3>Long-Term Perspective</h3>
-        <p>We prioritize your home's long-term value and performance, not quick fixes.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="ber" class="ber-protection">
-  <div class="container">
-    <p class="section-label">Protect Your Home's Value</p>
-    <h2 class="section-title">BER Protection Strategy</h2>
-    <p>A good BER rating is critical for resale value and mortgage eligibility. We ensure your retrofit strategy maximizes energy performance while protecting your property's marketability.</p>
-    <div class="ber-features">
-      <ul>
-        <li>Pre-retrofit BER assessment</li>
-        <li>Upgrade impact analysis</li>
-        <li>BER-compliant recommendations</li>
-        <li>Post-upgrade verification</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section id="latest-articles-section" class="latest-articles-section" style="background-color: #f4f9f6; padding: 80px 0;">
-  <div class="container">
-    <div style="text-align: center; max-width: 800px; margin: 0 auto 40px;">
-      <p class="section-label">Home Energy Insights</p>
-      <h2 class="section-title">Latest Advisory Articles</h2>
-      <p style="font-size: 1.1rem; color: #555;">Clear, independent, conflict-free advice on Irish home retrofits, SEAI grants, carbon tax shields, and BER upgrades.</p>
-    </div>
-
-    <div class="latest-articles-grid">
-      <!--LATEST_ARTICLES-->
-    </div>
-
-    <div style="text-align: center; margin-top: 40px;">
-      <a href="/articles" class="btn btn-secondary">Explore All Articles →</a>
-    </div>
-  </div>
-</section>
-
-<section id="roadmap" class="roadmap" style="background-color: #f8fafc; padding: 80px 0;">
-  <div class="container">
-    <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
-      <p class="section-label">Plan Your Future</p>
-      <h2 class="section-title">Personalized Retrofit Roadmap™</h2>
-      <p style="font-size: 1.1rem; color: #555;">Every home is different. We don't just hand you a BER cert—we build a physical, step-by-step masterplan tailored to your specific walls, your budget, and the SEAI grants you actually qualify for.</p>
-    </div>
-    
-    <div class="roadmap-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;">
-      
-      <!-- Visual Timeline -->
-      <div class="roadmap-timeline-container">
-        <h3 style="color: #003f2d; margin-bottom: 30px; font-size: 1.6rem;">Your Step-by-Step Sequence</h3>
-        <div class="roadmap-timeline">
-          <div class="timeline-item">
-            <span class="phase-badge">Phase 1</span>
-            <h3>Stop the Leaks & Quick Wins</h3>
-            <p>We target the low-hanging fruit. Fixing drafts, topping up insulation, and reducing your energy baseline immediately.</p>
-          </div>
-          <div class="timeline-item">
-            <span class="phase-badge">Phase 2</span>
-            <h3>Deep Retrofit & Heating</h3>
-            <p>If your home passes the Heat Pump Test, we map the exact sequence to upgrade your heating system and secure the €12,500 SEAI grant safely.</p>
-          </div>
-          <div class="timeline-item">
-            <span class="phase-badge">Phase 3</span>
-            <h3>Future-Proofing & Renewables</h3>
-            <p>Only once the fabric is sealed do we explore Solar PV to wipe out the remaining bills, giving you total energy independence.</p>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Snippet Preview & Financial Contrast -->
-      <div class="roadmap-visuals">
-        <div class="mock-snippet" style="text-align: center; margin-bottom: 40px;">
-          <img src="imgs/roadmap_snippet.png?v=2" alt="Retrofit Roadmap Document Preview" class="roadmap-image" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); width: 100%; border: 1px solid #e0e0e0;" />
-          <p style="font-size: 0.9rem; color: #666; margin-top: 15px; font-style: italic;">A preview of your personalized 25+ page roadmap report.</p>
-        </div>
-        
-        <div class="financial-contrast" style="background: #fff; padding: 25px; border-radius: 8px; border-left: 5px solid #00a86b; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-          <h4 style="margin-top: 0; color: #003f2d; font-size: 1.2rem; margin-bottom: 20px;">The Financial Reality (Over 10 Years)</h4>
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #eee;"><strong>Unprotected G-Rated Home</strong></td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #eee; text-align: right; color: #d32f2f; font-weight: bold;">~€45,000+</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; color: #555; font-size: 0.85rem;" colspan="2">Lost to inefficient oil, carbon tax hikes, and drafts.</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; border-bottom: 1px solid #eee; padding-top: 15px;"><strong>Home with a Carbon Tax Shield</strong></td>
-              <td style="padding: 10px 0; border-bottom: 1px solid #eee; text-align: right; color: #00a86b; font-weight: bold; padding-top: 15px;">~€12,000</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 0; color: #555; font-size: 0.85rem;" colspan="2">Protected bills, A-rating achieved, home value increased.</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-</section>
-
-<section id="heatpump" class="heatpump">
-  <div class="container">
-    <p class="section-label">Technology Assessment</p>
-    <h2 class="section-title">Heat Pump Readiness Test</h2>
-    <p>Not every home is heat pump-ready. We evaluate your home's insulation, airtightness, and existing heating systems to determine if a heat pump is the right choice — before you invest.</p>
-    <div class="heatpump-criteria">
-      <div class="criteria-card">
-        <h3>Insulation Level</h3>
-        <p>We assess wall, roof, and floor insulation to ensure heat pump efficiency.</p>
-      </div>
-      <div class="criteria-card">
-        <h3>Drafts & Leakiness</h3>
-        <p>Air leaks reduce heat pump efficiency. We identify problem areas.</p>
-      </div>
-      <div class="criteria-card">
-        <h3>Radiator Check</h3>
-        <p>A simple check to confirm whether your radiators can support a modern heating system before you invest in upgrades.</p>
-      </div>
-      <div class="criteria-card">
-        <h3>Grant Eligibility</h3>
-        <p>We confirm your eligibility for heat pump grants and identify pathways to funding.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="grants" class="grants">
-  <div class="container">
-    <p class="section-label">Financial Planning</p>
-    <h2 class="section-title">Grant Assessment & Eligibility Guide</h2>
-    <p>We help you understand your potential grant funding and plan upgrades to maximize financial support.</p>
-    <div class="grants-info">
-      <div class="grant-type">
-        <h3>Home Energy Upgrade Scheme (HEUS)</h3>
-        <p>Up to €6,500 for energy efficiency upgrades on homes built before 2006.</p>
-      </div>
-      <div class="grant-type">
-        <h3>Heat Pump Grants</h3>
-        <p>€5,000-€8,000 support for heat pump installation (grant level varies by region).</p>
-      </div>
-      <div class="grant-type">
-        <h3>Insulation Grants</h3>
-        <p>Support for cavity wall, attic, and floor insulation upgrades.</p>
-      </div>
-      <div class="grant-type">
-        <h3>Solar Grants</h3>
-        <p>Solar PV installation support through various SEAI programs.</p>
-      </div>
-    </div>
-    <div class="grant-cta">
-      <details class="grant-dropdown">
-        <summary>Why do I need a personalised assessment?</summary>
-        <p>Every home is different. Submit your details below for a personalised grant eligibility assessment for Grant Assessment & Eligibility Guide.</p>
-      </details>
-      <a href="#contact" class="btn-primary">Get Your Free Grant Assessment</a>
-    </div>
-  </div>
-</section>
-
-
-
-<section id="ber-guide" class="ber-guide-section">
-  <div class="container">
-    <p class="section-label">Educational Resources</p>
-    <h2 class="section-title">Understanding BER</h2>
-    <p class="section-subtitle">Learn about Building Energy Ratings and how to improve your home's efficiency</p>
-    
-    <div class="ber-grid">
-
-      <div class="ber-card">
-        <img src="imgs/ber-scale-chart.svg" alt="BER Rating Scale A-G" />
-        <h3>BER Scale Explained</h3>
-        <p>Understanding the A-G rating system and what each rating means for your home's energy efficiency and costs.</p>
-      </div>
-
-      <div class="ber-card">
-        <img src="imgs/ber-assessment-steps.svg" alt="BER Assessment Process" />
-        <h3>Assessment Process</h3>
-        <p>Step-by-step guide on how to book a BER assessment, what happens during the survey, and what you'll receive.</p>
-      </div>
-
-      <div class="ber-card">
-        <img src="imgs/ber-improvements-visual.svg" alt="How to Improve BER" />
-        <h3>Improvement Options</h3>
-        <p>Practical upgrades like insulation, windows, heating systems, and solar panels to enhance your BER rating.</p>
-      </div>
-
-      <div class="ber-card">
-        <img src="imgs/ber-benefits-icons.svg" alt="Benefits of Better BER" />
-        <h3>Key Benefits</h3>
-        <p>Lower energy bills, increased property value, better comfort, and reduced environmental impact.</p>
-      </div>
-
-      <div class="ber-card">
-        <img src="imgs/seai-grants-visual.svg" alt="SEAI Grants" />
-        <h3>Available Grants</h3>
-        <p>SEAI funding available for heat pumps, insulation, solar panels, and energy upgrades.</p>
-      </div>
-
-      <div class="ber-card">
-        <img src="imgs/retrofit-roadmap-visual.svg" alt="Your Retrofit Journey" />
-        <h3>Your Retrofit Journey</h3>
-        <p>Start with a BER assessment and follow a personalized roadmap to make your home more energy efficient.</p>
-      </div>
-
-    </div> <!-- end ber-grid -->
-  </div> <!-- end container -->
-</section> <!-- end ber-section -->
-
-
-<section class="pillars-section">
-  <div class="container">
-    <p class="section-label">Core Principles</p>
-    <h2 class="section-title">The Four Pillars of Retrofit</h2>
-    <p class="section-subtitle">Essential foundations for successful home energy upgrades</p>
-
-    <div class="pillars-grid">
-
-      <!-- PILLAR 1 -->
-      <div class="pillar-item">
-        <h3>Pillar 1: Grant Maximisation Planning</h3>
-
-        <div class="video-embed">
-          <iframe
-            src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/b903e69b6237dcd9e78ac2f3f18f90db/iframe?preload=true&poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2Fb903e69b6237dcd9e78ac2f3f18f90db%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-            loading="lazy"
-            title="EcoSmartHomes Video"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true"
-          ></iframe>
-        </div>
-      </div>
-
-      <!-- PILLAR 2 -->
-      <div class="pillar-item">
-        <h3>Pillar 2: Irish Grants Overview</h3>
-
-        <div class="video-embed">
-          <iframe
-            src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/678658f4e443940a4aa085009ac91126/iframe?poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2F678658f4e443940a4aa085009ac91126%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-            loading="lazy"
-            title="EcoSmartHomes Video"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true"
-          ></iframe>
-        </div>
-
-      </div>
-
-     <div class="pillar-item">
-  <h3>Pillar 3: Home Retrofit</h3>
-
-  <div class="video-embed">
-    <iframe
-      src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/1368273faed944653757b1765825a27e/iframe?poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2F1368273faed944653757b1765825a27e%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-      loading="lazy"
-      title="EcoSmartHomes Video"
-      allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-      allowfullscreen="true"
-    ></iframe>
-  </div>
-
-<p>Learn how to plan a retrofit that maximizes comfort, efficiency, and long‑term savings.</p>
-</div>
-
-<div class="pillar-item">
-  <h3>Pillar 4: Your Path to Retrofit</h3>
-
-<div class="video-embed">
-  <iframe
-    src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/1030d34f5ce620dd1982d214b20a8e60/iframe?poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2F1030d34f5ce620dd1982d214b20a8e60%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-    loading="lazy"
-    title="EcoSmartHomes Video"
-    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-    allowfullscreen="true"
-  ></iframe>
-</div>
-
-</div>
-
-</div> <!-- END pillars-grid -->
-
-  </div>
-</section>
-
-<section class="faq-section">
-  <div class="container">
-    <h2 class="section-title">Frequently Asked Questions</h2>
-
-
-      <div class="faq-item">
-        <h3>Do you offer free consultations?</h3>
-        <p>No. I'm a consultant, not a salesperson. I offer a short 15‑minute Suitability Check to confirm your home and goals are a good fit for an Independent Retrofit Assessment. All expert guidance is provided within paid services only.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>What is the Heat Pump Test?</h3>
-        <p>It's a simple pass/fail check to confirm whether your home is ready for a heat pump before you spend thousands. If it won't pass, I show you the exact steps to fix it.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>What is the Leakiness Score?</h3>
-        <p>Instead of engineering jargon, I show you where warm air escapes and cold air sneaks in — explained in plain English. Think of your home like a bucket: if it's leaky, you'll never keep the heat in.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>What is the Retrofit Roadmap™?</h3>
-        <p>It's your personalised upgrade plan showing what to do, when to do it, what it costs, what grants you can claim, and the order that saves you the most money. It's the opposite of a BER certificate — it's a long‑term strategy for your home.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>What is the Carbon Tax Shield?</h3>
-        <p>It's a financial‑defence plan that shows how today's upgrades protect you from rising energy costs and future government levies. This isn't about "being greener" — it's about protecting your wallet.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Do you work with any installers?</h3>
-        <p>No. I stay fully independent so you get unbiased advice. If you need installers later, I help you understand what to ask and what to avoid — but I don't take commissions or referrals.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Can you check if my radiators are suitable for a heat pump?</h3>
-        <p>Yes. This is part of the Radiator Check. I explain in plain English whether your current radiators can support a modern system and what changes (if any) are needed.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>How long does the assessment take?</h3>
-        <p>Most assessments take between 60 and 90 minutes, depending on the size and condition of the home. You'll receive your Retrofit Roadmap™ shortly after.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Is this service only for older homes?</h3>
-        <p>No. Even newer homes can be leaky, inefficient, or poorly set up for future heating systems. Every home benefits from a clear, independent plan.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="video-carousel" class="carousel-section container">
-  <h2>EcoSmartHomes Video Carousel</h2>
-
-  <div class="carousel-wrapper">
-    <button class="carousel-btn prev" aria-label="Scroll to previous videos">&#10094;</button>
-
-    <div class="carousel-track">
-
-      <div class="carousel-item">
-        <h3>A Warmer, Greener Home</h3>
-        <div class="video-container">
-          <img src="imgs/thumbnails/warmer_greener_home.svg" alt="A Warmer, Greener Home" class="video-thumbnail">
-          <div class="play-overlay">
-            <span class="play-icon">▶</span>
-          </div>
-        </div>
-        <div class="video-embed">
-          <iframe
-            src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/c07038225315edcff1e0994f69dc0f44/iframe?poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2Fc07038225315edcff1e0994f69dc0f44%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-            loading="lazy"
-            title="EcoSmartHomes Video"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true"
-          ></iframe>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <h3>Window Upgrades Guide</h3>
-        <div class="video-container">
-          <img src="imgs/thumbnails/window_upgrades.svg" alt="Window Upgrades Guide" class="video-thumbnail">
-          <div class="play-overlay">
-            <span class="play-icon">▶</span>
-          </div>
-        </div>
-        <div class="video-embed">
-          <iframe
-            src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/6396a2d5d29877d6cf309738db6ad7d1/iframe?poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2F6396a2d5d29877d6cf309738db6ad7d1%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-            loading="lazy"
-            title="EcoSmartHomes Video"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true"
-          ></iframe>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <h3>Insulation for Irish Homes</h3>
-        <div class="video-container">
-          <img src="imgs/thumbnails/insulation.svg" alt="Insulation for Irish Homes" class="video-thumbnail">
-          <div class="play-overlay">
-            <span class="play-icon">▶</span>
-          </div>
-        </div>
-        <div class="video-embed">
-          <iframe
-            src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/c6a15043276d7db11facfd6611d4806c/iframe?poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2Fc6a15043276d7db11facfd6611d4806c%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-            loading="lazy"
-            title="EcoSmartHomes Video"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true"
-          ></iframe>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <h3>Solar Panel Installation</h3>
-        <div class="video-container">
-          <img src="imgs/thumbnails/solar_panels.svg" alt="Solar Panel Installation" class="video-thumbnail">
-          <div class="play-overlay">
-            <span class="play-icon">▶</span>
-          </div>
-        </div>
-        <div class="video-embed">
-          <iframe
-            src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/31cb9aa1c5af837e1f70f52063bb4719/iframe?poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2F31cb9aa1c5af837e1f70f52063bb4719%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-            loading="lazy"
-            title="EcoSmartHomes Video"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true"
-          ></iframe>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <h3>Home Energy Audit in Ireland</h3>
-        <div class="video-container">
-          <img src="imgs/thumbnails/home_audit.svg" alt="Home Energy Audit in Ireland" class="video-thumbnail">
-          <div class="play-overlay">
-            <span class="play-icon">▶</span>
-          </div>
-        </div>
-        <div class="video-embed">
-          <iframe
-            src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/6010c6b83c99f4462a6802b6cfa543fc/iframe?poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2F6010c6b83c99f4462a6802b6cfa543fc%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-            loading="lazy"
-            title="EcoSmartHomes Video"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true"
-          ></iframe>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <h3>Irish Home Energy Upgrade</h3>
-        <div class="video-container">
-          <img src="imgs/thumbnails/home_upgrade.svg" alt="Irish Home Energy Upgrade" class="video-thumbnail">
-          <div class="play-overlay">
-            <span class="play-icon">▶</span>
-          </div>
-        </div>
-        <div class="video-embed">
-          <iframe
-            src="https://customer-hl27u5b37kiaeq5u.cloudflarestream.com/b614a772685ca5ce651e7c4a753139bf/iframe?poster=https%3A%2F%2Fcustomer-hl27u5b37kiaeq5u.cloudflarestream.com%2Fb614a772685ca5ce651e7c4a753139bf%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600"
-            loading="lazy"
-            title="EcoSmartHomes Video"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true"
-          ></iframe>
-        </div>
-      </div>
-
-    </div>
-    </div> <!-- end .carousel-track -->
-
-    <button class="carousel-btn next" aria-label="Scroll to next videos">&#10095;</button>
-  </div> <!-- end .carousel-wrapper -->
-</section> <!-- end #video-carousel -->
-
-<!-- INSIGHTS & ARTICLES -->
-<section id="insights" class="insights-section container" style="margin-bottom: 60px; text-align: center;">
-  <h2 class="section-title" style="margin-bottom: 30px;">Insights & Articles</h2>
-  
-  <div class="articles-grid" style="display: grid; gap: 30px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); max-width: 900px; margin: 0 auto;">
-    <div class="article-card" style="background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px; text-align: left; border-left: 5px solid #00a86b; display: flex; flex-direction: column;">
-      <h3 style="color: #003f2d; margin-bottom: 10px;">Raising BER from G to A: Step-by-Step Retrofit Sequence</h3>
-      <p style="color: #666; margin-bottom: 20px; flex-grow: 1;">If your BER cert has a G on it, you're not alone, and you're not stuck. Homeowners in that exact position can access up to €50,000 in SEAI grant funding.</p>
-      <a href="raising-ber-g-to-a.html" class="btn-primary" style="display: inline-block; padding: 10px 20px; align-self: flex-start;">Read the Full Article</a>
-    </div>
-
-    <div class="article-card" style="background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px; text-align: left; border-left: 5px solid #00a86b; display: flex; flex-direction: column;">
-      <h3 style="color: #003f2d; margin-bottom: 10px;">The 2026 Home Heating Oil Tax Hike: How Much More Are You Paying?</h3>
-      <p style="color: #666; margin-bottom: 20px; flex-grow: 1;">The May 2026 carbon tax hike has pushed Irish heating oil costs to new heights. Find out exactly what your next fill will cost and how to build a Carbon Tax Shield.</p>
-      <a href="carbon-tax-2026.html" class="btn-primary" style="display: inline-block; padding: 10px 20px; align-self: flex-start;">Read the Full Article</a>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT / ENQUIRY FORM -->
-<section id="contact" class="contact-section container">
-  <h2>Enquiry Form</h2>
-  <p>Send your details below and I’ll get back to you within 24 hours.</p>
-
-  <form id="main-contact-form" class="contact-form">
-
-    <label for="name">Your Name</label>
-    <input type="text" id="name" name="name" autocomplete="name" required>
-
-    <label for="email">Your Email</label>
-    <input type="email" id="email" name="email" autocomplete="email" required>
-
-    <label for="phone">Your Phone Number (e.g. +3538XXXXXXXX)</label>
-    <input type="tel" id="phone" name="phone" autocomplete="tel" required>
-
-    <label for="topic">What are you enquiring about?</label>
-    <select id="topic" name="topic" required>
-      <option value="">Select an option</option>
-      <option value="Grant Assessment">Grant Assessment</option>
-      <option value="Heat Pump Suitability">Heat Pump Suitability</option>
-      <option value="Radiator Check">Radiator Check</option>
-      <option value="Insulation Advice">Insulation Advice</option>
-      <option value="Full Retrofit Assessment">Full Retrofit Assessment</option>
-      <option value="Grant Guidance">Grant Guidance</option>
-      <option value="Other">Other</option>
-    </select>
-
-    <label for="message">Your Message / Town / Eircode</label>
-    <textarea id="message" name="message" rows="5" required placeholder="Tell us your town, current heating (e.g. Oil/Gas), or any questions..."></textarea>
-
-    <div class="consent-checkbox">
-      <input type="checkbox" id="privacyConsent" name="privacyConsent" required>
-      <label for="privacyConsent">I agree to the <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</label>
-    </div>
-
-    <button type="submit" id="contact-submit-btn" class="btn-primary">Send Enquiry</button>
-    
-    <div id="contact-success-msg" style="display: none; margin-top: 15px; padding: 15px; background: #ecfdf5; border: 1.5px solid #10b981; border-radius: 8px; color: #065f46; text-align: center;">
-      <strong>🎉 Thank you! Your inquiry has been dispatched to our team.</strong><br>
-      We will review your property details and contact you within 24 hours.
-    </div>
-  </form>
-
-  <script>
-    document.getElementById('main-contact-form')?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById('contact-submit-btn');
-      const msgBox = document.getElementById('contact-success-msg');
-      btn.disabled = true;
-      btn.textContent = 'Sending Enquiry...';
-
-      try {
-        const payload = {
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          phone: document.getElementById('phone').value,
-          topic: document.getElementById('topic').value,
-          message: document.getElementById('message').value
-        };
-
-        const res = await fetch('/api/dispatch-lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (msgBox) {
-          msgBox.style.display = 'block';
-          document.getElementById('main-contact-form').reset();
-        }
-      } catch (err) {
-        if (msgBox) {
-          msgBox.style.display = 'block';
-        }
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Send Enquiry';
-      }
-    });
-  </script>
-</section>
-
-<!-- CONTACT DETAILS -->
-<div class="contact-details">
-
-  <h3>📧 Email</h3>
-  <p><a href="mailto:askjoe@ecosmarthomes.ie">askjoe@ecosmarthomes.ie</a></p>
-  <p>We typically respond within 24 hours</p>
-
-  <h3>📍 Location</h3>
-  <p>Limerick, Ireland</p>
-  <p>Serving all of Ireland</p>
-
-  <h3>🕒 Response Time</h3>
-  <p>Strategy Call Scheduling — 15‑minute Suitability Check</p>
-
-</div>
-</main>
-
-<footer class="footer">
-  <div class="container footer-grid">
-
-    <div class="footer-section">
-      <h3>EcoSmart Homes</h3>
-      <p>Independent, conflict‑free retrofit guidance for Irish homeowners.</p>
-      <p>No sales. No commissions. No installers — just clear advice you can trust.</p>
-    </div>
-
-    <div class="footer-section">
-      <h4>Strategy Call Scheduling</h4>
-      <p>Book a 15‑minute Suitability Check to confirm your home and goals are a good fit for an Independent Retrofit Assessment.</p>
-      <p><small>This is not a consultation and does not include advice. All expert guidance is provided within paid services only.</small></p>
-    </div>
-
-    <div class="footer-section">
-      <h4>Know more. Save more.</h4>
-      <a href="#contact" class="btn-primary">Get in Touch</a>
-      <p class="footer-privacy-wrapper">
-        <a href="/privacy-policy.html" class="footer-privacy-link">Privacy Policy</a> • 
-        <a href="/carbon-tax/" class="footer-privacy-link" style="color: #ef4444; font-weight: 800;">⚡ Carbon Tax Clock</a> • 
-        <a href="/solar/" class="footer-privacy-link" style="color: #f59e0b; font-weight: 800;">☀️ Solar & Clean Export</a> • 
-        <a href="/locations/" class="footer-privacy-link" style="color: #10b981; font-weight: 700;">📍 Irish Towns Directory</a> • 
-        <a href="/contractors/" class="footer-privacy-link" style="color: #10b981; font-weight: 700;">🏗️ Installer Network</a> • 
-        <a href="/articles/" class="footer-privacy-link">Articles</a> • 
-        <a href="/ber-advisor/" class="footer-privacy-link">BER Advisor</a> • 
-        <a href="/dashboard.html" class="footer-privacy-link" style="color: #10b981;">📊 Dashboard</a> • 
-        <a href="/agent-skills.html" class="footer-privacy-link" style="color: #10b981;">🤖 Agent Skills</a> • 
-        <a href="/ai/" class="footer-privacy-link">AI Manifest</a>
-      </p>
-    </div>
-
-  </div>
-</footer>
-
-
-<script>
-// Carousel functionality & Mobile Touch Swipe
-const track = document.querySelector('.carousel-track');
-const nextBtn = document.querySelector('.carousel-btn.next');
-const prevBtn = document.querySelector('.carousel-btn.prev');
-const scrollAmount = 350;
-
-if (nextBtn && prevBtn && track) {
-  nextBtn.addEventListener('click', () => {
-    track.scrollBy({
-      left: scrollAmount,
-      behavior: 'smooth'
-    });
-  });
-
-  prevBtn.addEventListener('click', () => {
-    track.scrollBy({
-      left: -scrollAmount,
-      behavior: 'smooth'
-    });
-  });
-
-  // Mobile Touch Swipe Handling
-  let startX = 0;
-  let scrollLeftStart = 0;
-  let isTouching = false;
-
-  track.addEventListener('touchstart', (e) => {
-    isTouching = true;
-    startX = e.touches[0].pageX - track.offsetLeft;
-    scrollLeftStart = track.scrollLeft;
-  }, { passive: true });
-
-  track.addEventListener('touchmove', (e) => {
-    if (!isTouching) return;
-    const x = e.touches[0].pageX - track.offsetLeft;
-    const walk = (x - startX) * 1.2;
-    track.scrollLeft = scrollLeftStart - walk;
-  }, { passive: true });
-
-  track.addEventListener('touchend', () => {
-    isTouching = false;
-  }, { passive: true });
-}
-</script>
-
-<!-- ========================================================================= -->
-<!-- BER G TO A EXPLAINER MODAL (EPBD 2026-2030 & SEAI COMPLIANCE) -->
-<!-- ========================================================================= -->
-<div id="ber-explainer-modal" class="custom-modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(0, 20, 15, 0.75); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;">
-  <div style="background: #ffffff; border-radius: 20px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 60px rgba(0,0,0,0.3); border: 2px solid #10b981; position: relative; padding: 32px; animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
-    
-    <!-- Close Button -->
-    <button type="button" id="btn-close-ber-modal" aria-label="Close modal" style="position: absolute; top: 20px; right: 20px; background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; color: #475569; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: background 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">✕</button>
-
-    <!-- Modal Header -->
-    <div style="border-bottom: 2px solid #f1f5f9; padding-bottom: 18px; margin-bottom: 24px;">
-      <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
-        <span style="background: #003f2d; color: #34d399; font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em;">EU EPBD & SEAI Standard</span>
-        <span style="background: #ecfdf5; color: #059669; font-weight: 700; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px;">New 8-Band Scale (A0 to G)</span>
-      </div>
-      <h2 style="color: #003f2d; margin: 0; font-size: 1.8rem; font-family: 'Outfit', sans-serif;">Understanding the Irish BER Scale: G to A0 Transformation</h2>
-      <p style="color: #64748b; margin: 8px 0 0 0; font-size: 0.95rem;">
-        Under the revised EU Energy Performance of Buildings Directive (EPBD), Ireland has transitioned to the unified <strong>A0 to G Scale</strong> (replacing the pre-May 2026 sub-bands). Here is what every band means for your heating bills, grants, and property valuation.
-      </p>
-    </div>
-
-    <!-- Quick Overview Cards -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 24px;">
-      
-      <div style="background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 12px; padding: 16px;">
-        <div style="font-weight: 800; color: #991b1b; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 6px;">🔴 F & G Rating (Critical)</div>
-        <div style="font-size: 1.3rem; font-weight: 800; color: #d91e0a; margin-bottom: 4px;">~€4,200 to €5,400+ / yr</div>
-        <p style="margin: 0; font-size: 0.82rem; color: #7f1d1d; line-height: 1.5;">
-          Uninsulated walls, open fireplaces, high heat loss (&gt;375 kWh/m²/yr). Eligible for maximum €25,500+ SEAI deep retrofit funding.
+      <div style="text-align: center; z-index: 10; padding-bottom: 20px;">
+        <p style="font-size: 0.7rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+          © 2026 EcoSmartHome IE • 100% Conflict-Free Guarantee • All 32 Counties Served
         </p>
       </div>
+    </section>
 
-      <div style="background: #fffbeb; border: 1.5px solid #fef3c7; border-radius: 12px; padding: 16px;">
-        <div style="font-weight: 800; color: #92400e; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 6px;">🟠 D & E Rating (Irish Average)</div>
-        <div style="font-size: 1.3rem; font-weight: 800; color: #d97706; margin-bottom: 4px;">~€2,750 to €3,400 / yr</div>
-        <p style="margin: 0; font-size: 0.82rem; color: #78350f; line-height: 1.5;">
-          Typical 1980s–1990s pebbledash semi-D (225–325 kWh/m²/yr). Requires Heat Loss Index check (HLI ≤ 2.0) before heat pump installation.
-        </p>
-      </div>
-
-      <div style="background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 16px;">
-        <div style="font-weight: 800; color: #065f46; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 6px;">🟢 B, A & A0 (Target Standard)</div>
-        <div style="font-size: 1.3rem; font-weight: 800; color: #059669; margin-bottom: 4px;">~€350 to €1,200 / yr</div>
-        <p style="margin: 0; font-size: 0.82rem; color: #047857; line-height: 1.5;">
-          NZEB / Zero-Emission Standard (≤75 to ≤42 kWh/m²/yr). Heat Pump + 300mm Attic + External Wrap + Solar PV. Adds +16% to property resale price.
-        </p>
-      </div>
-
-    </div>
-
-    <!-- Official 8-Band EPBD Irish Reference Table -->
-    <div style="margin-bottom: 24px; overflow-x: auto;">
-      <h3 style="color: #003f2d; font-size: 1.15rem; margin: 0 0 12px 0;">Official Irish BER Scale Matrix (kWh/m²/yr & Energy Bounds)</h3>
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
-        <thead>
-          <tr style="background: #003f2d; color: #ffffff;">
-            <th style="padding: 10px 12px; border-radius: 6px 0 0 0;">BER Band</th>
-            <th style="padding: 10px 12px;">Energy Threshold</th>
-            <th style="padding: 10px 12px;">Est. Fuel / Year</th>
-            <th style="padding: 10px 12px;">CO₂ Emissions</th>
-            <th style="padding: 10px 12px; border-radius: 0 6px 0 0;">Retrofit Action / Grant Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background: #eff6ff; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 8px 12px; font-weight: 800; color: #1d4ed8;"><span style="background: #1d4ed8; color: #fff; padding: 2px 8px; border-radius: 4px;">A0</span></td>
-            <td style="padding: 8px 12px; font-weight: 700;">&le; 42* kWh/m²/yr</td>
-            <td style="padding: 8px 12px; font-weight: 700; color: #1d4ed8;">~€350 / yr</td>
-            <td style="padding: 8px 12px;">0.2 t/yr</td>
-            <td style="padding: 8px 12px; color: #1e40af; font-weight: 700;">Zero-Emission Building (ZEB) · Grid Net Contributor</td>
-          </tr>
-          <tr style="background: #f0fdf4; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 8px 12px; font-weight: 800; color: #00875a;"><span style="background: #00875a; color: #fff; padding: 2px 8px; border-radius: 4px;">A</span></td>
-            <td style="padding: 8px 12px; font-weight: 700;">&le; 75 kWh/m²/yr</td>
-            <td style="padding: 8px 12px; font-weight: 700; color: #00875a;">~€650 / yr</td>
-            <td style="padding: 8px 12px;">0.6 t/yr</td>
-            <td style="padding: 8px 12px; color: #065f46; font-weight: 700;">★ Deep Retrofit Target (Max Comfort & Green Mortgage)</td>
-          </tr>
-          <tr style="background: #f0fdf4; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 8px 12px; font-weight: 800; color: #22c55e;"><span style="background: #22c55e; color: #fff; padding: 2px 8px; border-radius: 4px;">B</span></td>
-            <td style="padding: 8px 12px; font-weight: 700;">&le; 150 kWh/m²/yr</td>
-            <td style="padding: 8px 12px; font-weight: 700; color: #15803d;">~€1,200 / yr</td>
-            <td style="padding: 8px 12px;">1.6 t/yr</td>
-            <td style="padding: 8px 12px; color: #15803d; font-weight: 700;">★ SEAI National Cost-Optimal Minimum Standard</td>
-          </tr>
-          <tr style="background: #f7fee7; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 8px 12px; font-weight: 800; color: #84cc16;"><span style="background: #84cc16; color: #000; padding: 2px 8px; border-radius: 4px;">C</span></td>
-            <td style="padding: 8px 12px; font-weight: 700;">&le; 225 kWh/m²/yr</td>
-            <td style="padding: 8px 12px; font-weight: 700; color: #4d7c0f;">~€1,950 / yr</td>
-            <td style="padding: 8px 12px;">2.8 t/yr</td>
-            <td style="padding: 8px 12px; color: #4d7c0f;">Moderate Loss · Attic & Heating Controls Grant</td>
-          </tr>
-          <tr style="background: #fefce8; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 8px 12px; font-weight: 800; color: #eab308;"><span style="background: #eab308; color: #000; padding: 2px 8px; border-radius: 4px;">D</span></td>
-            <td style="padding: 8px 12px; font-weight: 700;">&le; 275 kWh/m²/yr</td>
-            <td style="padding: 8px 12px; font-weight: 700; color: #a16207;">~€2,750 / yr</td>
-            <td style="padding: 8px 12px;">4.2 t/yr</td>
-            <td style="padding: 8px 12px; color: #a16207;">Irish Average Home · External Wrap + Heat Pump eligible</td>
-          </tr>
-          <tr style="background: #fff7ed; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 8px 12px; font-weight: 800; color: #f97316;"><span style="background: #f97316; color: #fff; padding: 2px 8px; border-radius: 4px;">E</span></td>
-            <td style="padding: 8px 12px; font-weight: 700;">&le; 325 kWh/m²/yr</td>
-            <td style="padding: 8px 12px; font-weight: 700; color: #c2410c;">~€3,400 / yr</td>
-            <td style="padding: 8px 12px;">5.4 t/yr</td>
-            <td style="padding: 8px 12px; color: #c2410c;">Poor Insulation · High Fuel Poverty Exposure</td>
-          </tr>
-          <tr style="background: #fff1f2; border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 8px 12px; font-weight: 800; color: #ea580c;"><span style="background: #ea580c; color: #fff; padding: 2px 8px; border-radius: 4px;">F</span></td>
-            <td style="padding: 8px 12px; font-weight: 700;">&le; 375 kWh/m²/yr</td>
-            <td style="padding: 8px 12px; font-weight: 700; color: #b91c1c;">~€4,200 / yr</td>
-            <td style="padding: 8px 12px;">6.6 t/yr</td>
-            <td style="padding: 8px 12px; color: #b91c1c; font-weight: 700;">EU EPBD 2030 Mandatory Upgrade Priority</td>
-          </tr>
-          <tr style="background: #fef2f2;">
-            <td style="padding: 8px 12px; font-weight: 800; color: #dc2626;"><span style="background: #dc2626; color: #fff; padding: 2px 8px; border-radius: 4px;">G</span></td>
-            <td style="padding: 8px 12px; font-weight: 700;">&gt; 375 kWh/m²/yr</td>
-            <td style="padding: 8px 12px; font-weight: 700; color: #991b1b;">~€5,400+ / yr</td>
-            <td style="padding: 8px 12px;">8.5+ t/yr</td>
-            <td style="padding: 8px 12px; color: #991b1b; font-weight: 800;">Worst Energy Loss · Claim Up to €25,500+ Deep Grants</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 4 Pillar Summary -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; font-size: 0.85rem;">
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
-        <div style="font-weight: 700; color: #003f2d; margin-bottom: 4px;">1. NSAI SR50-2 HLI Limit</div>
-        <p style="margin: 0; color: #64748b;">Heat Loss Index must be &le; 2.0 W/K·m² to qualify for the €12,500 heat pump grant.</p>
-      </div>
-
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
-        <div style="font-weight: 700; color: #003f2d; margin-bottom: 4px;">2. SR54 Fireplace Rule</div>
-        <p style="margin: 0; color: #64748b;">Open fireplaces must be permanently sealed or converted to room-sealed stoves.</p>
-      </div>
-
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
-        <div style="font-weight: 700; color: #003f2d; margin-bottom: 4px;">3. Clean Export Guarantee</div>
-        <p style="margin: 0; color: #64748b;">24c/kWh microgen credit paid on surplus solar with 0% VAT on solar installations.</p>
-      </div>
-
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
-        <div style="font-weight: 700; color: #003f2d; margin-bottom: 4px;">4. Property Value Surge</div>
-        <p style="margin: 0; color: #64748b;">Documented +12% to +16% resale price increase upon reaching A2/B2.</p>
-      </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; border-top: 1px solid #f1f5f9; padding-top: 20px;">
-      <button type="button" onclick="document.getElementById('btn-close-ber-modal').click(); document.getElementById('btn-download-pdf-dossier')?.click();" class="btn-primary" style="background: #003f2d; color: #fff; font-weight: 700; padding: 12px 20px; border-radius: 8px; font-size: 0.92rem; border: none; cursor: pointer;">
-        📄 Download Certified Roadmap Dossier (PDF) →
-      </button>
-      <a href="https://buy.stripe.com/aFabJ01EGbPz6tn8UYeME00" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; border-color: #d97706; color: #000; font-weight: 800; text-decoration: none; padding: 12px 22px; border-radius: 8px; font-size: 0.92rem; display: inline-flex; align-items: center;">
-        ⭐ Book Onsite Survey with Joe (€49) →
-      </a>
-    </div>
-
-  </div>
-</div>
-
-<script>
-// Modal Event Listeners
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('ber-explainer-modal');
-  const openBtn = document.getElementById('btn-open-ber-explainer-modal');
-  const closeBtn = document.getElementById('btn-close-ber-modal');
-
-  if (openBtn && modal) {
-    openBtn.addEventListener('click', () => {
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    });
-  }
-
-  if (closeBtn && modal) {
-    closeBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-    });
-  }
-
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.style.display === 'flex') {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    });
-  }
-});
-</script>
-
-<!-- Native Gemini 2.5 Flash Voice AI Advisor (Aoife) -->
-<script src="js/voice-advisor.js"></script>
-
+  </main>
 </body>
-</html><!-- cache bust 3 -->
+</html>

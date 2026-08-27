@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-// Import the companion copy deck JSON
-// In a standard React project, import copyDeck from './ecosmarthomes-copy-deck.json';
-// For this component, we inline a fallback or accept it as a prop to keep it fully self-contained.
+import OnboardingWizard from './OnboardingWizard';
 
 export default function HubPage({ copyDeckData }) {
-  // Use provided JSON or fallback to the exact copy deck schema to prevent runtime errors
+  const [showWizard, setShowWizard] = useState(false);
+
   const copyDeck = copyDeckData || {
     "metadata": {
       "project": "EcoSmartHome",
@@ -85,7 +84,6 @@ export default function HubPage({ copyDeckData }) {
 
   const { screens } = copyDeck;
 
-  // Ref elements for smooth programmatic scrolling between viewports
   const sectionRefs = {
     screen1: useRef(null),
     screen2: useRef(null),
@@ -98,20 +96,15 @@ export default function HubPage({ copyDeckData }) {
     sectionRefs[sectionKey]?.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // --- STATE FOR INTERACTIVE VIEWPORTS ---
-  
-  // Screen 2: Vision Scanner state
-  const [uploadState, setUploadState] = useState('idle'); // idle | loading | success
+  const [uploadState, setUploadState] = useState('idle');
   const [scannedImage, setScannedImage] = useState(null);
   const [scanResult, setScanResult] = useState('');
 
-  // Screen 3: Aoife Voice AI state
-  const [voiceState, setVoiceState] = useState('idle'); // idle | listening | processing | speaking
+  const [voiceState, setVoiceState] = useState('idle');
   const [voiceTranscript, setVoiceTranscript] = useState('');
   const [voiceResponse, setVoiceResponse] = useState('');
 
-  // Screen 4: Dynamic Grant Slider state
-  const [berIndex, setBerIndex] = useState(3); // 0 (G) to 6 (A2)
+  const [berIndex, setBerIndex] = useState(3);
   const berBands = [
     { band: 'G', grant: 1500, bills: 5400, propertySurge: 0, text: 'Extreme thermal leakage. Forced exposure to massive carbon taxes.' },
     { band: 'F', grant: 3000, bills: 4600, propertySurge: 2, text: 'Poor insulation. Highly exposed to Ireland\'s kerosene fuel penalties.' },
@@ -122,7 +115,6 @@ export default function HubPage({ copyDeckData }) {
     { band: 'A2', grant: 25500, bills: 650, propertySurge: 16, text: 'Zero emission tier. Carbon Tax Shield complete. Max equity gain!' }
   ];
 
-  // Handle image upload emulation
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -139,7 +131,6 @@ export default function HubPage({ copyDeckData }) {
     }
   };
 
-  // Handle Aoife speech emulation
   const startAoifeVoice = () => {
     if (voiceState !== 'idle') return;
     setVoiceState('listening');
@@ -163,6 +154,11 @@ export default function HubPage({ copyDeckData }) {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-950 overflow-x-hidden">
       
+      {/* Interactive Modal Wizard */}
+      {showWizard && (
+        <OnboardingWizard onClose={() => setShowWizard(false)} copyData={copyDeck} />
+      )}
+
       {/* Sticky Segmented Navigation Indicator for Viewport Management */}
       <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-slate-900/80 backdrop-blur-md px-4 py-2.5 rounded-full border border-slate-800/60 shadow-lg shadow-slate-950/50 flex items-center gap-2 max-w-[95vw] overflow-x-auto">
         <span className="text-xs font-bold text-emerald-500 mr-2 tracking-wide uppercase whitespace-nowrap hidden sm:inline-block">
@@ -180,14 +176,11 @@ export default function HubPage({ copyDeckData }) {
         ))}
       </nav>
 
-      {/* ──────────────────────────────────────────────────────────────
-          SCREEN 1: THE HERO (Carbon Tax Shield)
-          ────────────────────────────────────────────────────────────── */}
+      {/* SCREEN 1: THE HERO (Carbon Tax Shield) */}
       <section
         ref={sectionRefs.screen1}
         className="min-h-[100dvh] w-full flex flex-col justify-between items-center px-6 py-24 md:py-32 relative bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-slate-900/80 h-[100dvh] snap-start"
       >
-        {/* Subtle background graphics to smash "AI Slop" default colors (using Emerald instead of generic Purple) */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
         
         <div className="w-full max-w-3xl flex-grow flex flex-col justify-center text-center z-10">
@@ -208,8 +201,8 @@ export default function HubPage({ copyDeckData }) {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
-              onClick={() => scrollToSection('screen2')}
-              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-all hover:scale-[1.02] shadow-lg shadow-emerald-500/20 active:scale-[0.98] text-center"
+              onClick={() => setShowWizard(true)}
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-all hover:scale-[1.02] shadow-lg shadow-emerald-500/20 active:scale-[0.98] text-center cursor-pointer"
             >
               {screens.screen_1_hero.copy.cta_primary}
             </button>
@@ -228,9 +221,7 @@ export default function HubPage({ copyDeckData }) {
         </div>
       </section>
 
-      {/* ──────────────────────────────────────────────────────────────
-          SCREEN 2: GEMINI 2.5 FLASH VISION SCANNER
-          ────────────────────────────────────────────────────────────── */}
+      {/* SCREEN 2: GEMINI 2.5 FLASH VISION SCANNER */}
       <section
         ref={sectionRefs.screen2}
         className="min-h-[100dvh] w-full flex flex-col justify-between items-center px-6 py-24 relative bg-slate-950 border-b border-slate-900/80 h-[100dvh] snap-start"
@@ -250,9 +241,7 @@ export default function HubPage({ copyDeckData }) {
             {screens.screen_2_vision_scanner.copy.subheadline}
           </p>
 
-          {/* Drag & Drop Upload Zone Simulator */}
           <div className="w-full bg-slate-900/50 rounded-2xl border-2 border-dashed border-slate-800 p-6 flex flex-col items-center justify-center text-center hover:border-emerald-500/40 transition-colors relative min-h-[220px]">
-            
             {uploadState === 'idle' && (
               <div className="flex flex-col items-center">
                 <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-emerald-400 mb-4 shadow">
@@ -314,9 +303,7 @@ export default function HubPage({ copyDeckData }) {
         </div>
       </section>
 
-      {/* ──────────────────────────────────────────────────────────────
-          SCREEN 3: AOIFE VOICE AI
-          ────────────────────────────────────────────────────────────── */}
+      {/* SCREEN 3: AOIFE VOICE AI */}
       <section
         ref={sectionRefs.screen3}
         className="min-h-[100dvh] w-full flex flex-col justify-between items-center px-6 py-24 relative bg-slate-900/30 border-b border-slate-900/80 h-[100dvh] snap-start"
@@ -336,7 +323,6 @@ export default function HubPage({ copyDeckData }) {
             {screens.screen_3_voice_ai.copy.subheadline}
           </p>
 
-          {/* Voice Mic Interface Simulator */}
           <div className="flex flex-col items-center justify-center min-h-[180px]">
             {voiceState === 'idle' && (
               <button
@@ -399,9 +385,7 @@ export default function HubPage({ copyDeckData }) {
         </div>
       </section>
 
-      {/* ──────────────────────────────────────────────────────────────
-          SCREEN 4: SEAI GRANT & SAVINGS ESTIMATOR
-          ────────────────────────────────────────────────────────────── */}
+      {/* SCREEN 4: SEAI GRANT & SAVINGS ESTIMATOR */}
       <section
         ref={sectionRefs.screen4}
         className="min-h-[100dvh] w-full flex flex-col justify-between items-center px-6 py-24 relative bg-slate-950 border-b border-slate-900/80 h-[100dvh] snap-start"
@@ -421,10 +405,7 @@ export default function HubPage({ copyDeckData }) {
             {screens.screen_4_grant_estimator.copy.subheadline}
           </p>
 
-          {/* Dynamic Slider Calculator Panel */}
           <div className="w-full bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 shadow-inner">
-            
-            {/* Calculated Stat Dashboard */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Estimated SEAI Grant</span>
@@ -440,7 +421,6 @@ export default function HubPage({ copyDeckData }) {
               </div>
             </div>
 
-            {/* Interactive Slider Input */}
             <div className="space-y-4 mb-4">
               <div className="flex justify-between items-center text-xs text-slate-400 font-bold uppercase">
                 <span>{screens.screen_4_grant_estimator.copy.slider_labels.min}</span>
@@ -459,7 +439,6 @@ export default function HubPage({ copyDeckData }) {
               />
             </div>
 
-            {/* Energy Context & Real-Estate Impact Description */}
             <p className="text-xs text-slate-400 leading-relaxed font-medium bg-slate-950/40 p-3 rounded-lg border border-slate-900">
               📈 <strong className="text-slate-200">Rating {berBands[berIndex].band}:</strong> {berBands[berIndex].text} 
               {berBands[berIndex].propertySurge > 0 && (
@@ -484,9 +463,7 @@ export default function HubPage({ copyDeckData }) {
         </div>
       </section>
 
-      {/* ──────────────────────────────────────────────────────────────
-          SCREEN 5: THE ACTIONABLE ROADMAP (Secure Stripe €49 Survey)
-          ────────────────────────────────────────────────────────────── */}
+      {/* SCREEN 5: THE ACTIONABLE ROADMAP */}
       <section
         ref={sectionRefs.screen5}
         className="min-h-[100dvh] w-full flex flex-col justify-between items-center px-6 py-24 relative bg-slate-900/20 h-[100dvh] snap-start"
@@ -506,10 +483,7 @@ export default function HubPage({ copyDeckData }) {
             {screens.screen_5_actionable_roadmap.copy.subheadline}
           </p>
 
-          {/* Conversion Details & Checkout UI */}
           <div className="w-full bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
-            
-            {/* List of features from JSON Copy Deck */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
               {screens.screen_5_actionable_roadmap.copy.features.map((feature, i) => (
                 <div key={i} className="flex items-center gap-2.5">
@@ -523,7 +497,6 @@ export default function HubPage({ copyDeckData }) {
               ))}
             </div>
 
-            {/* Mock Payment Gateway CTA - Production Secure Stripe API Hook */}
             <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center mb-4">
               <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
                 💳 Secure Live Payment Gateway
@@ -547,7 +520,6 @@ export default function HubPage({ copyDeckData }) {
           </div>
         </div>
 
-        {/* Custom Footer of Landing Hub */}
         <footer className="w-full max-w-md text-center pb-4 pt-8 border-t border-slate-900/60 z-10">
           <p className="text-[10px] text-slate-600 font-semibold tracking-wider uppercase">
             © {new Date().getFullYear()} {copyDeck.metadata.project} IE • ALL 32 COUNTIES SERVED • INDEPENDENT CODES

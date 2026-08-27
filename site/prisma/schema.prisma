@@ -1,0 +1,83 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum PropertyArchetype {
+  DETACHED      @map("detached")
+  SEMI_DETACHED @map("semi-detached")
+  TERRACED      @map("terraced")
+  APARTMENT     @map("apartment")
+}
+
+enum BerRating {
+  A1
+  A2
+  A3
+  B1
+  B2
+  B3
+  C1
+  C2
+  C3
+  D1
+  D2
+  E1
+  E2
+  F
+  G
+}
+
+enum FuelType {
+  OIL        @map("oil")
+  GAS        @map("gas")
+  ELECTRICAL @map("electricity")
+  SOLID_FUEL @map("solid_fuel")
+  HEAT_PUMP  @map("heat_pump")
+}
+
+enum PaymentStatus {
+  PENDING  @map("pending")
+  PAID     @map("paid")
+  FAILED   @map("failed")
+  REFUNDED @map("refunded")
+}
+
+model SurveyProfile {
+  id                     String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  propertyType           PropertyArchetype @map("property_type")
+  currentBer             BerRating         @map("current_ber")
+  fuelType               FuelType          @map("fuel_type")
+  annualEnergyBill       Decimal           @map("annual_energy_bill") @db.Decimal(10, 2)
+  boilerImageUrl         String?           @map("boiler_image_url")
+  estimatedSeaiGrant     Decimal           @map("estimated_seai_grant") @db.Decimal(10, 2) @default(0.00)
+  estimatedAnnualSavings Decimal           @map("estimated_annual_savings") @db.Decimal(10, 2) @default(0.00)
+  targetBerRating        BerRating         @default(A2) @map("target_ber_rating")
+  userIp                 String?           @map("user_ip")
+  createdAt              DateTime          @default(now()) @map("created_at")
+  orders                 Order[]
+
+  @@map("survey_profiles")
+}
+
+model Order {
+  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  surveyProfileId   String?       @map("survey_profile_id") @db.Uuid
+  surveyProfile     SurveyProfile? @relation(fields: [surveyProfileId], references: [id], onDelete: SetNull)
+  customerEmail     String        @map("customer_email")
+  customerPhone     String        @map("customer_phone")
+  stripeSessionId   String        @unique @map("stripe_session_id")
+  paymentStatus     PaymentStatus @default(PENDING) @map("payment_status")
+  amountTotal       Decimal       @map("amount_total") @db.Decimal(10, 2) @default(49.00)
+  currency          String        @default("EUR")
+  whatsappDelivered  Boolean       @default(false) @map("whatsapp_delivered")
+  whatsappSentAt    DateTime?     @map("whatsapp_sent_at")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
+
+  @@map("orders")
+}

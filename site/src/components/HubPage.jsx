@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import OnboardingWizard from './OnboardingWizard';
 
 export default function HubPage({ copyDeckData }) {
+  const [showWizard, setShowWizard] = useState(false);
+
   const copyDeck = copyDeckData || {
     "metadata": {
       "project": "EcoSmartHome",
@@ -151,6 +154,12 @@ export default function HubPage({ copyDeckData }) {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-950 overflow-x-hidden">
       
+      {/* Interactive Modal Wizard */}
+      {showWizard && (
+        <OnboardingWizard onClose={() => setShowWizard(false)} copyData={copyDeck} />
+      )}
+
+      {/* Sticky Segmented Navigation Indicator for Viewport Management */}
       <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-slate-900/80 backdrop-blur-md px-4 py-2.5 rounded-full border border-slate-800/60 shadow-lg shadow-slate-950/50 flex items-center gap-2 max-w-[95vw] overflow-x-auto">
         <span className="text-xs font-bold text-emerald-500 mr-2 tracking-wide uppercase whitespace-nowrap hidden sm:inline-block">
           {copyDeck.metadata.project}
@@ -167,7 +176,7 @@ export default function HubPage({ copyDeckData }) {
         ))}
       </nav>
 
-      {/* SCREEN 1: THE HERO */}
+      {/* SCREEN 1: THE HERO (Carbon Tax Shield) */}
       <section
         ref={sectionRefs.screen1}
         className="min-h-[100dvh] w-full flex flex-col justify-between items-center px-6 py-24 md:py-32 relative bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-slate-900/80 h-[100dvh] snap-start"
@@ -192,8 +201,8 @@ export default function HubPage({ copyDeckData }) {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
-              onClick={() => scrollToSection('screen2')}
-              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-all hover:scale-[1.02] shadow-lg shadow-emerald-500/20 active:scale-[0.98] text-center"
+              onClick={() => setShowWizard(true)}
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-all hover:scale-[1.02] shadow-lg shadow-emerald-500/20 active:scale-[0.98] text-center cursor-pointer"
             >
               {screens.screen_1_hero.copy.cta_primary}
             </button>
@@ -212,7 +221,7 @@ export default function HubPage({ copyDeckData }) {
         </div>
       </section>
 
-      {/* SCREEN 2: VISION SCANNER */}
+      {/* SCREEN 2: GEMINI 2.5 FLASH VISION SCANNER */}
       <section
         ref={sectionRefs.screen2}
         className="min-h-[100dvh] w-full flex flex-col justify-between items-center px-6 py-24 relative bg-slate-950 border-b border-slate-900/80 h-[100dvh] snap-start"
