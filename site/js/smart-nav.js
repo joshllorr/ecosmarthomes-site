@@ -586,22 +586,24 @@
   };
 
   window.copyDaftListingBlurb = function() {
-    const textEl = document.getElementById('lbl-daft-blurb-text');
-    if (!textEl) return;
-    const text = textEl.innerText;
-    window.copyTextToClipboard(text, 'Copied Daft.ie Listing Blurb to Clipboard!');
-    const btn = document.getElementById('btn-copy-daft-action');
-    if (btn) {
-      const orig = btn.innerHTML;
-      btn.innerHTML = '✅ Copied to Clipboard! Ready for Daft.ie';
-      btn.style.background = '#10b981';
-      btn.style.color = '#001711';
-      setTimeout(() => {
-        btn.innerHTML = orig;
-        btn.style.background = '';
-        btn.style.color = '';
-      }, 2400);
-    }
+    window.requireFreemiumPass(() => {
+      const textEl = document.getElementById('lbl-daft-blurb-text');
+      if (!textEl) return;
+      const text = textEl.innerText;
+      window.copyTextToClipboard(text, 'Copied Daft.ie Listing Blurb to Clipboard!');
+      const btn = document.getElementById('btn-copy-daft-action');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied to Clipboard! Ready for Daft.ie';
+        btn.style.background = '#10b981';
+        btn.style.color = '#001711';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2400);
+      }
+    });
   };
 
   // ==========================================================================
@@ -704,22 +706,25 @@
   };
 
   window.copyInstallerTenderDraft = function() {
-    const textEl = document.getElementById('lbl-installer-tender-text');
-    if (!textEl) return;
-    const text = textEl.innerText;
-    window.copyTextToClipboard(text, 'Copied SEAI Tender Draft to Clipboard!');
-    const btn = document.getElementById('btn-copy-tender-action');
-    if (btn) {
-      const orig = btn.innerHTML;
-      btn.innerHTML = '✅ Copied SEAI Tender Draft to Clipboard!';
-      btn.style.background = '#38bdf8';
-      btn.style.color = '#001a2c';
-      setTimeout(() => {
-        btn.innerHTML = orig;
-        btn.style.background = '';
-        btn.style.color = '';
-      }, 2400);
-    }
+    window.requireFreemiumPass(() => {
+      const textEl = document.getElementById('lbl-installer-tender-text');
+      if (!textEl) return;
+      const text = textEl.innerText;
+
+      window.copyTextToClipboard(text, 'Copied SEAI Tender Draft to Clipboard!');
+      const btn = document.getElementById('btn-copy-tender-action');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied SEAI Tender Draft to Clipboard!';
+        btn.style.background = '#38bdf8';
+        btn.style.color = '#001a2c';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2200);
+      }
+    });
   };
 
   // Auto-init ticker on load
@@ -904,4 +909,146 @@
   } else {
     initMobileIOSAppDock();
   }
+
+  // ==========================================================================
+  // FREEMIUM ENGINE STEP 1: OPEN ACCESS HOOK & EXPORT GATE
+  // ==========================================================================
+
+  let pendingFreemiumAction = null;
+
+  window.hasFreemiumPass = function() {
+    try {
+      const token = localStorage.getItem('esh_freemium_token');
+      return !!token;
+    } catch (e) {
+      return false;
+    }
+  };
+
+  window.requireFreemiumPass = function(callback) {
+    if (window.hasFreemiumPass()) {
+      if (typeof callback === 'function') callback();
+      return true;
+    }
+
+    pendingFreemiumAction = callback;
+    window.openFreemiumModal();
+    return false;
+  };
+
+  window.openFreemiumModal = function() {
+    let overlay = document.getElementById('esh-freemium-modal-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'esh-freemium-modal-overlay';
+      overlay.innerHTML = `
+        <div class="freemium-modal-card">
+          <button type="button" class="freemium-close-btn" onclick="window.closeFreemiumModal()" aria-label="Close">✕</button>
+          
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(52, 245, 197, 0.15); border: 2px solid #34f5c5; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 16px auto; box-shadow: 0 0 25px rgba(52, 245, 197, 0.45);">
+            🎫
+          </div>
+
+          <h2 style="font-size: clamp(1.4rem, 3.5vw, 1.7rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.25;">
+            Unlock 30 Days of Unlimited Premium Exports
+          </h2>
+          
+          <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.5; margin: 0 auto 16px auto; max-width: 390px;">
+            Join 1,200+ Irish property professionals and homeowners using EcoSmartHomes to eliminate unbilled administrative desk work.
+          </p>
+
+          <!-- Trust Checkmark Badges -->
+          <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; font-size: 0.74rem; color: #34f5c5; font-weight: 700; font-family: 'IBM Plex Mono', monospace;">
+            <span style="background: rgba(52, 245, 197, 0.1); border: 1px solid rgba(52, 245, 197, 0.25); padding: 4px 10px; border-radius: 9999px;">✓ No Credit Card Required</span>
+            <span style="background: rgba(52, 245, 197, 0.1); border: 1px solid rgba(52, 245, 197, 0.25); padding: 4px 10px; border-radius: 9999px;">✓ 1-Tap Copy Active</span>
+            <span style="background: rgba(52, 245, 197, 0.1); border: 1px solid rgba(52, 245, 197, 0.25); padding: 4px 10px; border-radius: 9999px;">✓ Instant PDF Downloads</span>
+          </div>
+
+          <form id="freemium-signup-form" onsubmit="window.activateFreemiumPass(event)">
+            
+            <div style="text-align: left; margin-bottom: 12px;">
+              <label for="freemium-name" style="display: block; font-size: 0.76rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'IBM Plex Mono', monospace;">
+                Your First Name *
+              </label>
+              <input type="text" id="freemium-name" class="freemium-input" placeholder="e.g., Seán" required />
+            </div>
+
+            <div style="text-align: left; margin-bottom: 12px;">
+              <label for="freemium-email" style="display: block; font-size: 0.76rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'IBM Plex Mono', monospace;">
+                Professional Email Address *
+              </label>
+              <input type="email" id="freemium-email" class="freemium-input" placeholder="e.g., sean@property.ie" required />
+            </div>
+
+            <div style="text-align: left; margin-bottom: 16px;">
+              <label for="freemium-role" style="display: block; font-size: 0.76rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'IBM Plex Mono', monospace;">
+                Select Your Industry Role *
+              </label>
+              <select id="freemium-role" class="freemium-input" style="appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%2334f5c5\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 10px center;">
+                <option value="Homeowner">🏠 Homeowner (Carbon Tax Shielding)</option>
+                <option value="Estate Agent">💼 Estate Agent / Auctioneer (Daft.ie Enhancements)</option>
+                <option value="Installer">⚡ Installer / Retrofitter (NSAI SR50-2 Compliance)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="freemium-btn-amber">
+              <span>🔘 Activate My Free 30-Day Pass →</span>
+            </button>
+          </form>
+
+          <div style="margin-top: 16px; font-size: 0.74rem; color: #94a3b8; line-height: 1.4;">
+            By activating, you get 100% free premium access to all 11 tool modules for 30 days. No auto-charges. No lock-ins.
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }
+
+    overlay.classList.add('active');
+  };
+
+  window.closeFreemiumModal = function() {
+    const overlay = document.getElementById('esh-freemium-modal-overlay');
+    if (overlay) {
+      overlay.classList.remove('active');
+    }
+  };
+
+  window.activateFreemiumPass = function(event) {
+    if (event) event.preventDefault();
+    const name = (document.getElementById('freemium-name')?.value || 'Friend').trim();
+    const email = (document.getElementById('freemium-email')?.value || '').trim();
+    const role = document.getElementById('freemium-role')?.value || 'Homeowner';
+
+    const tokenData = {
+      token: 'esh_free_' + Date.now(),
+      name: name,
+      email: email,
+      role: role,
+      activatedAt: new Date().toISOString()
+    };
+
+    try {
+      localStorage.setItem('esh_freemium_token', tokenData.token);
+      localStorage.setItem('esh_user_lead', JSON.stringify(tokenData));
+    } catch (e) {
+      console.warn('LocalStorage error:', e);
+    }
+
+    window.closeFreemiumModal();
+    
+    if (window.showEshToast) {
+      window.showEshToast('🎉 Free 30-Day Pass Activated! Copying to clipboard...', '✨');
+    }
+
+    // Automatically execute the pending export action with zero friction
+    if (typeof pendingFreemiumAction === 'function') {
+      const action = pendingFreemiumAction;
+      pendingFreemiumAction = null;
+      setTimeout(() => {
+        action();
+      }, 300);
+    }
+  };
+
 
