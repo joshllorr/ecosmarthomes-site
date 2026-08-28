@@ -761,6 +761,7 @@
     if (!document.getElementById('esh-mobile-dock')) {
       const dock = document.createElement('nav');
       dock.id = 'esh-mobile-dock';
+      dock.className = 'mobile-app-bottom-dock';
       dock.setAttribute('aria-label', 'iOS Native Mobile Navigation');
       dock.innerHTML = `
         <button type="button" class="dock-item active" onclick="window.onMobileDockHome()" aria-label="Home">

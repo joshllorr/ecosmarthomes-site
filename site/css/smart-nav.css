@@ -1836,4 +1836,62 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
   box-shadow: 0 12px 30px rgba(245, 158, 11, 0.5);
 }
 
+/* ==========================================================================
+   FIXED BOTTOM DOCK VIEWPORT ANCHORING & DUPLICATE PROFILE REMOVAL
+   ========================================================================== */
+
+#esh-mobile-dock, .mobile-app-bottom-dock {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 65px !important;
+  z-index: 999999 !important;
+  background: rgba(4, 26, 20, 0.94) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-top: 1px solid rgba(52, 245, 197, 0.25) !important;
+  padding-bottom: env(safe-area-inset-bottom, 10px) !important;
+  will-change: transform !important;
+  transform: translateZ(0) !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+  /* Complete elimination of duplicate profile pills on mobile */
+  .persona-filter-bar,
+  .persona-scroll-track,
+  .nav-inner .persona-filter-bar,
+  .nav-inner .persona-scroll-track {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+  
+  .mobile-persona-dropdown-wrapper {
+    display: inline-block !important;
+    visibility: visible !important;
+  }
+}
+
+@media (min-width: 769px) {
+  #esh-mobile-dock, .mobile-app-bottom-dock {
+    display: none !important;
+  }
+  .persona-filter-bar {
+    display: flex !important;
+  }
+  .mobile-persona-dropdown-wrapper {
+    display: none !important;
+  }
+}
+
+
 
