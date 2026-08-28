@@ -227,6 +227,91 @@
       </div>
     </section>
 
+    <!-- 💼 3-STEP "COMMISSION-BOOSTER" ESTATE AGENT WIZARD -->
+    <section id="agent-rescue-wizard" aria-label="3-Step Estate Agent Equity & Commission Booster">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div class="agent-step-badge">
+          💼 Step 1 of 3: Instant 5-Second Listing Valuation
+        </div>
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
+          Unlock Up to +€38,500 in Hidden Equity for Your Vendor
+        </h2>
+        <p style="font-size: 0.92rem; color: #94a3b8; max-width: 620px; margin: 0 auto; line-height: 1.5;">
+          A poor BER can discount property values by 8% to 10%. Turn cold listings into high-converting Green Mortgage assets.
+        </p>
+      </div>
+
+      <!-- Question A: Current BER Rating -->
+      <div>
+        <label style="font-size: 0.78rem; font-weight: 800; color: #fbbf24; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;">
+          A. Current Listing BER Rating:
+        </label>
+        <div class="agent-ber-grid">
+          <button type="button" class="agent-ber-pill" data-ber="G" onclick="window.setAgentBER('G')">G</button>
+          <button type="button" class="agent-ber-pill" data-ber="F" onclick="window.setAgentBER('F')">F</button>
+          <button type="button" class="agent-ber-pill" data-ber="E" onclick="window.setAgentBER('E')">E</button>
+          <button type="button" class="agent-ber-pill active" data-ber="D" onclick="window.setAgentBER('D')">D</button>
+          <button type="button" class="agent-ber-pill" data-ber="C" onclick="window.setAgentBER('C')">C</button>
+          <button type="button" class="agent-ber-pill" data-ber="B" onclick="window.setAgentBER('B')">B</button>
+          <button type="button" class="agent-ber-pill" data-ber="A" onclick="window.setAgentBER('A')">A</button>
+        </div>
+      </div>
+
+      <!-- Question B: Estimated Property Value -->
+      <div class="spend-slider-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label for="agent-price-slider" style="font-size: 0.78rem; font-weight: 800; color: #fbbf24; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;">
+            B. Estimated Current Asking Price:
+          </label>
+          <span id="lbl-agent-price-val" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; font-family: 'IBM Plex Mono', monospace;">
+            €350,000
+          </span>
+        </div>
+        <input type="range" id="agent-price-slider" class="spend-slider" min="175000" max="950000" step="25000" value="350000" oninput="window.onAgentPriceSliderChange(this.value)" />
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+          <button type="button" class="tactile-preset-chip" onclick="window.setAgentPricePreset(275000)">€275k</button>
+          <button type="button" class="tactile-preset-chip" onclick="window.setAgentPricePreset(350000)">€350k</button>
+          <button type="button" class="tactile-preset-chip" onclick="window.setAgentPricePreset(450000)">€450k</button>
+          <button type="button" class="tactile-preset-chip" onclick="window.setAgentPricePreset(650000)">€650k</button>
+          <button type="button" class="tactile-preset-chip" onclick="window.setAgentPricePreset(850000)">€850k+</button>
+        </div>
+      </div>
+
+      <!-- Step 2: The Equity Surge Reveal -->
+      <div class="equity-surge-container">
+        <div style="font-size: 0.78rem; font-weight: 800; color: #fde68a; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em;">
+          📈 Step 2: Property Equity Surge Unlocked (Target: A Rating)
+        </div>
+        <div id="lbl-agent-equity-surge" class="equity-surge-digital">
+          +€24,500
+        </div>
+        <div id="lbl-agent-surge-sub" style="font-size: 0.85rem; font-weight: 700; color: #fde68a; font-family: 'IBM Plex Mono', monospace;">
+          Post-Retrofit Value: <strong>€374,500</strong> · Adds <strong>+€368</strong> to sales commission
+        </div>
+      </div>
+
+      <!-- Step 3: Daft.ie Description Generator & Vendor Pack -->
+      <div style="margin-top: 20px;">
+        <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; margin-bottom: 8px;">
+          📋 Step 3: Instant Buyer Cheat-Sheet (Daft.ie / MyHome.ie Ready)
+        </div>
+        <div class="daft-copy-box">
+          <p id="lbl-daft-blurb-text" style="margin: 0;">
+            🏡 Prime Energy & Equity Upgrade Potential: Pre-assessed for SEAI grant funding with up to €25,500 in direct government grants available. Upgrading to an A-rating unlocks an estimated +€24,500 in property value and qualifies prospective purchasers for 3.45% Green Mortgage interest rates (~€214/month monthly mortgage reduction). Full independent engineering specification and grant breakdown available upon request.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+          <button type="button" id="btn-copy-daft-action" class="btn-copy-daft" onclick="window.copyDaftListingBlurb()">
+            <span>📋 Copy Green Bulletpoints for Daft.ie Listing</span>
+          </button>
+          <a href="/checkout/" class="btn-hero-primary-star" style="text-align: center; padding: 14px 20px; font-size: 0.95rem;">
+            ⭐ Book €49 Survey for Vendor Pack →
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- ──────────────────────────────────────────────────────────────
         SCREEN 2: GEMINI 2.5 FLASH VISION SCANNER
         ────────────────────────────────────────────────────────────── -->

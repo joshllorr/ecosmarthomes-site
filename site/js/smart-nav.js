@@ -113,6 +113,23 @@
       else if (personaKey === 'installer') lbl.innerText = 'Installer NSAI Sizing & Tender Suite';
       else lbl.innerText = 'All Independent Energy Tools';
     }
+
+    // Toggle Wizard Views on Persona Switch
+    const homeownerWizard = document.getElementById('wallet-rescue-wizard');
+    const agentWizard = document.getElementById('agent-rescue-wizard');
+
+    if (personaKey === 'agent') {
+      if (homeownerWizard) homeownerWizard.style.display = 'none';
+      if (agentWizard) {
+        agentWizard.style.display = 'block';
+        if (typeof updateAgentSurgeCalculations === 'function') {
+          updateAgentSurgeCalculations();
+        }
+      }
+    } else {
+      if (agentWizard) agentWizard.style.display = 'none';
+      if (homeownerWizard) homeownerWizard.style.display = 'block';
+    }
   };
 
   // 4. Tactile Preset One-Click Controller (Zero Keyboard Friction)
@@ -380,6 +397,89 @@
         }
       }, 25);
     }
+  };
+
+  // ==========================================================================
+  // 3-STEP ESTATE AGENT COMMISSION-BOOSTER ENGINE
+  // ==========================================================================
+  let agentCurrentBER = 'D';
+  let agentPropertyVal = 350000;
+
+  // ESRI / Irish Property Value Surge Scaling (% increase when jumping to A/B)
+  const BER_SURGE_MULTIPLIERS = {
+    G: 0.108, // +10.8% equity jump
+    F: 0.095,
+    E: 0.082,
+    D: 0.070, // +7.0% equity jump (~€24,500 on €350k)
+    C: 0.048,
+    B: 0.025,
+    A: 0.012
+  };
+
+  function updateAgentSurgeCalculations() {
+    const surgePct = BER_SURGE_MULTIPLIERS[agentCurrentBER] || 0.070;
+    const equitySurge = Math.round(agentPropertyVal * surgePct);
+    const postVal = agentPropertyVal + equitySurge;
+    const extraCommission = Math.round(equitySurge * 0.015); // Standard 1.5% agent fee
+
+    // Update Digital Display
+    const surgeDisp = document.getElementById('lbl-agent-equity-surge');
+    if (surgeDisp) surgeDisp.innerText = `+€${equitySurge.toLocaleString()}`;
+
+    const subDisp = document.getElementById('lbl-agent-surge-sub');
+    if (subDisp) {
+      subDisp.innerHTML = `Post-Retrofit Value: <strong>€${postVal.toLocaleString()}</strong> · Adds <strong>+€${extraCommission}</strong> to sales commission`;
+    }
+
+    const priceDisp = document.getElementById('lbl-agent-price-val');
+    if (priceDisp) priceDisp.innerText = `€${agentPropertyVal.toLocaleString()}`;
+
+    // Update Daft.ie Blurb Preview
+    const daftBox = document.getElementById('lbl-daft-blurb-text');
+    if (daftBox) {
+      daftBox.innerText = `🏡 Prime Energy & Equity Upgrade Potential: Pre-assessed for SEAI grant funding with up to €25,500 in direct government grants available. Upgrading to an A-rating unlocks an estimated +€${equitySurge.toLocaleString()} in property value and qualifies prospective purchasers for 3.45% Green Mortgage interest rates (~€214/month monthly mortgage reduction). Full independent engineering specification and grant breakdown available upon request.`;
+    }
+  }
+
+  window.setAgentBER = function(ber) {
+    agentCurrentBER = ber;
+    document.querySelectorAll('.agent-ber-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.getAttribute('data-ber') === ber);
+    });
+    updateAgentSurgeCalculations();
+  };
+
+  window.onAgentPriceSliderChange = function(val) {
+    agentPropertyVal = Number(val);
+    updateAgentSurgeCalculations();
+  };
+
+  window.setAgentPricePreset = function(val) {
+    agentPropertyVal = Number(val);
+    const slider = document.getElementById('agent-price-slider');
+    if (slider) slider.value = val;
+    updateAgentSurgeCalculations();
+  };
+
+  window.copyDaftListingBlurb = function() {
+    const textEl = document.getElementById('lbl-daft-blurb-text');
+    if (!textEl) return;
+    const text = textEl.innerText;
+
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('btn-copy-daft-action');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied to Clipboard! Ready for Daft.ie';
+        btn.style.background = '#10b981';
+        btn.style.color = '#001711';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2200);
+      }
+    });
   };
 
   // Auto-init ticker on load
