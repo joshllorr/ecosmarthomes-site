@@ -158,6 +158,20 @@
       }
     }, { passive: true });
 
+    // Auto-Hide floating widgets when keyboard / input is focused on mobile
+    function setupInputFocusSafety() {
+      const inputs = document.querySelectorAll('input, textarea, select');
+      inputs.forEach(el => {
+        el.addEventListener('focus', () => {
+          document.body.classList.add('floating-widgets-hidden');
+        });
+        el.addEventListener('blur', () => {
+          document.body.classList.remove('floating-widgets-hidden');
+        });
+      });
+    }
+    setupInputFocusSafety();
+
     // Initialize Default Persona
     window.setPersona('homeowner');
   }
