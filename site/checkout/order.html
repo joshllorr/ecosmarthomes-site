@@ -396,7 +396,12 @@
         msg.style.color = '#34f5c5';
         msg.innerHTML = `✔ Reservation details recorded. Redirecting to confirmation...`;
         setTimeout(() => {
-          window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&eircode=${encodeURIComponent(payload.customer.county)}`;
+          const params = new URLSearchParams(window.location.search);
+          const role = params.get('role') || 'homeowner';
+          const town = params.get('town') || '';
+          const county = params.get('county') || '';
+          const archetype = encodeURIComponent(payload.property_profile.archetype);
+          window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&role=${role}&town=${town}&county=${county}&eircode=${encodeURIComponent(payload.customer.county)}&archetype=${archetype}`;
         }, 1200);
       }
     } catch (err) {
@@ -405,7 +410,12 @@
       msg.style.color = '#34f5c5';
       msg.innerHTML = `✔ Reservation recorded. Connecting with Joe...`;
       setTimeout(() => {
-        window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&eircode=${encodeURIComponent(payload.customer.county)}`;
+        const params = new URLSearchParams(window.location.search);
+        const role = params.get('role') || 'homeowner';
+        const town = params.get('town') || '';
+        const county = params.get('county') || '';
+        const archetype = encodeURIComponent(payload.property_profile.archetype);
+        window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&role=${role}&town=${town}&county=${county}&eircode=${encodeURIComponent(payload.customer.county)}&archetype=${archetype}`;
       }, 1200);
     }
   }

@@ -1618,3 +1618,58 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
   font-weight: 500;
   display: block;
 }
+
+/* ==========================================================================
+   POST-CHECKOUT WHATSAPP AUTOMATION STYLES
+   ========================================================================== */
+
+@keyframes pulseWhatsApp {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+    transform: scale(1.02);
+  }
+}
+
+.btn-whatsapp-pulse {
+  background: #25d366;
+  color: #00241b !important;
+  font-weight: 900;
+  font-size: 1.05rem;
+  padding: 16px 24px;
+  border-radius: 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  animation: pulseWhatsApp 2s infinite ease-in-out;
+  transition: background 0.2s, transform 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-whatsapp-pulse:hover {
+  background: #20ba5a;
+  transform: translateY(-2px);
+}
+
+.whatsapp-preview-box {
+  background: #001711;
+  border: 1.5px dashed rgba(37, 211, 102, 0.4);
+  border-radius: 14px;
+  padding: 18px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  color: #bae6fd;
+  line-height: 1.6;
+  text-align: left;
+  margin: 18px 0;
+  white-space: pre-wrap;
+}
+
