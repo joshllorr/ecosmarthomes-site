@@ -321,6 +321,32 @@
         }, 1200);
       }
     }
+
+    // Auto-populate form from URL Search Parameters (e.g. ?county=cork&town=kinsale&archetype=detached)
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const county = params.get('county') || params.get('location') || '';
+      const town = params.get('town') || '';
+      const archetype = params.get('archetype') || '';
+
+      const eircodeInput = document.getElementById('cust-eircode');
+      const archSelect = document.getElementById('cust-archetype');
+
+      if (eircodeInput && (town || county)) {
+        const locString = town && county ? `${town.charAt(0).toUpperCase() + town.slice(1)}, Co. ${county.charAt(0).toUpperCase() + county.slice(1)}` : (town || county);
+        eircodeInput.value = locString;
+        eircodeInput.style.borderColor = '#34f5c5';
+      }
+
+      if (archSelect && archetype) {
+        for (let option of archSelect.options) {
+          if (option.value.toLowerCase().includes(archetype.toLowerCase())) {
+            archSelect.value = option.value;
+            break;
+          }
+        }
+      }
+    });
   </script>
 
   <script src="/js/smart-nav.js" defer></script>

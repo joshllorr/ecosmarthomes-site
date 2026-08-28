@@ -4,6 +4,53 @@
 (function() {
   'use strict';
 
+  // Global Toast Notification Helper
+  window.showEshToast = function(msg, icon = '✅') {
+    let toast = document.getElementById('esh-global-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'esh-global-toast';
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = `<span style="font-size: 1.1rem;">${icon}</span> <span>${msg}</span>`;
+    toast.classList.add('show');
+    clearTimeout(window.eshToastTimer);
+    window.eshToastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2800);
+  };
+
+  // Robust Clipboard Copier with Fallback
+  window.copyTextToClipboard = function(text, successMsg = 'Copied to Clipboard!') {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        window.showEshToast(successMsg, '✅');
+      }).catch(() => {
+        fallbackCopyText(text, successMsg);
+      });
+    } else {
+      fallbackCopyText(text, successMsg);
+    }
+  };
+
+  function fallbackCopyText(text, successMsg) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      window.showEshToast(successMsg, '✅');
+    } catch (err) {
+      window.showEshToast('Press Ctrl+C to copy', '📋');
+    }
+    document.body.removeChild(textArea);
+  }
+
   let currentPersona = 'homeowner';
 
   // 1. High-Performance Easing Counter (easeOutExpo)
@@ -323,19 +370,30 @@
     const leakDisp = document.getElementById('lbl-wizard-monthly-leak');
     if (leakDisp) leakDisp.innerText = `Leaking: €${monthlyLeak}.00 / month straight to the taxman`;
 
-    // Dynamic Ambient Warning Background Shift
+    // Smooth Continuous Ambient Interpolation (€100 to €650)
     const wizardCard = document.getElementById('wallet-rescue-wizard');
     if (wizardCard) {
-      if (monthlyHeatingBill > 400) {
-        wizardCard.style.borderColor = '#ef4444';
-        wizardCard.style.boxShadow = '0 20px 60px rgba(239, 68, 68, 0.4)';
-      } else if (monthlyHeatingBill > 250) {
-        wizardCard.style.borderColor = '#f59e0b';
-        wizardCard.style.boxShadow = '0 20px 60px rgba(245, 158, 11, 0.35)';
+      const ratio = Math.min(Math.max((monthlyHeatingBill - 100) / 550, 0), 1);
+      // Interpolate from Mint (16, 185, 129) -> Amber (245, 158, 11) -> Crimson (239, 68, 68)
+      let r, g, b, borderColor, shadowColor;
+      if (ratio < 0.5) {
+        const localRatio = ratio / 0.5;
+        r = Math.round(16 + (245 - 16) * localRatio);
+        g = Math.round(185 + (158 - 185) * localRatio);
+        b = Math.round(129 + (11 - 129) * localRatio);
+        borderColor = `rgba(${r}, ${g}, ${b}, 0.5)`;
+        shadowColor = `rgba(${r}, ${g}, ${b}, 0.3)`;
       } else {
-        wizardCard.style.borderColor = 'rgba(52, 245, 197, 0.35)';
-        wizardCard.style.boxShadow = '0 20px 60px rgba(0,0,0,0.6)';
+        const localRatio = (ratio - 0.5) / 0.5;
+        r = Math.round(245 + (239 - 245) * localRatio);
+        g = Math.round(158 + (68 - 158) * localRatio);
+        b = Math.round(11 + (68 - 11) * localRatio);
+        borderColor = `rgba(${r}, ${g}, ${b}, 0.7)`;
+        shadowColor = `rgba(${r}, ${g}, ${b}, 0.4)`;
       }
+      wizardCard.style.background = `radial-gradient(120% 120% at 50% 0%, rgba(${r}, ${g}, ${b}, 0.25) 0%, #00241b 55%, #001711 100%)`;
+      wizardCard.style.borderColor = borderColor;
+      wizardCard.style.boxShadow = `0 20px 60px ${shadowColor}`;
     }
   }
 
@@ -474,21 +532,19 @@
     const textEl = document.getElementById('lbl-daft-blurb-text');
     if (!textEl) return;
     const text = textEl.innerText;
-
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('btn-copy-daft-action');
-      if (btn) {
-        const orig = btn.innerHTML;
-        btn.innerHTML = '✅ Copied to Clipboard! Ready for Daft.ie';
-        btn.style.background = '#10b981';
-        btn.style.color = '#001711';
-        setTimeout(() => {
-          btn.innerHTML = orig;
-          btn.style.background = '';
-          btn.style.color = '';
-        }, 2200);
-      }
-    });
+    window.copyTextToClipboard(text, 'Copied Daft.ie Listing Blurb to Clipboard!');
+    const btn = document.getElementById('btn-copy-daft-action');
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ Copied to Clipboard! Ready for Daft.ie';
+      btn.style.background = '#10b981';
+      btn.style.color = '#001711';
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 2400);
+    }
   };
 
   // ==========================================================================
@@ -594,21 +650,19 @@
     const textEl = document.getElementById('lbl-installer-tender-text');
     if (!textEl) return;
     const text = textEl.innerText;
-
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('btn-copy-tender-action');
-      if (btn) {
-        const orig = btn.innerHTML;
-        btn.innerHTML = '✅ Copied SEAI Tender Draft to Clipboard!';
-        btn.style.background = '#38bdf8';
-        btn.style.color = '#001a2c';
-        setTimeout(() => {
-          btn.innerHTML = orig;
-          btn.style.background = '';
-          btn.style.color = '';
-        }, 2200);
-      }
-    });
+    window.copyTextToClipboard(text, 'Copied SEAI Tender Draft to Clipboard!');
+    const btn = document.getElementById('btn-copy-tender-action');
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ Copied SEAI Tender Draft to Clipboard!';
+      btn.style.background = '#38bdf8';
+      btn.style.color = '#001a2c';
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 2400);
+    }
   };
 
   // Auto-init ticker on load
