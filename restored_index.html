@@ -312,6 +312,95 @@
       </div>
     </section>
 
+    <!-- ⚡ 3-STEP "VAN-TO-VERDICT" INSTALLER WIZARD -->
+    <section id="installer-rescue-wizard" aria-label="3-Step Installer Van-to-Verdict Sizing Portal">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div class="installer-step-badge">
+          ⚡ Step 1 of 3: Rapid Site Intake (Zero Typing)
+        </div>
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
+          NSAI SR50-2 Low-Flow Sizing & Tender Generator
+        </h2>
+        <p style="font-size: 0.92rem; color: #94a3b8; max-width: 620px; margin: 0 auto; line-height: 1.5;">
+          Eliminate 3 hours of unbilled spreadsheet work. Calculate room radiator outputs and export client-ready SEAI tenders in 90 seconds.
+        </p>
+      </div>
+
+      <!-- Question A: Property Footprint -->
+      <div>
+        <label style="font-size: 0.78rem; font-weight: 800; color: #38bdf8; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;">
+          A. Select Property Archetype:
+        </label>
+        <div class="installer-archetype-grid">
+          <button type="button" class="installer-archetype-btn active" data-arch="semi" onclick="window.setInstallerArchetype('semi')">
+            <span style="font-size: 1.4rem;">🏡</span>
+            <span>3-Bed Semi (115m²)</span>
+          </button>
+          <button type="button" class="installer-archetype-btn" data-arch="detached" onclick="window.setInstallerArchetype('detached')">
+            <span style="font-size: 1.4rem;">🏠</span>
+            <span>4-Bed Detached (175m²)</span>
+          </button>
+          <button type="button" class="installer-archetype-btn" data-arch="bungalow" onclick="window.setInstallerArchetype('bungalow')">
+            <span style="font-size: 1.4rem;">🛖</span>
+            <span>3-Bed Bungalow (130m²)</span>
+          </button>
+          <button type="button" class="installer-archetype-btn" data-arch="apt" onclick="window.setInstallerArchetype('apt')">
+            <span style="font-size: 1.4rem;">🏢</span>
+            <span>2-Bed Apt (75m²)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: NSAI SR50-2 Compliance Matrix -->
+      <div style="background: rgba(0, 18, 13, 0.95); border: 2px solid #38bdf8; border-radius: 18px; padding: 24px; margin-bottom: 24px; box-shadow: 0 0 30px rgba(56, 189, 248, 0.25);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">
+              📐 Step 2: NSAI SR50-2:2024 Low-Flow Heat Pump Matrix
+            </div>
+            <div id="lbl-installer-hp-size" style="font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-top: 2px;">
+              8.5 kW Monobloc Heat Pump
+            </div>
+          </div>
+          <div id="lbl-installer-heat-loss" style="font-size: 0.78rem; font-weight: 700; color: #bae6fd; font-family: 'IBM Plex Mono', monospace;">
+            Total Heat Loss: 7.8 kW @ -3°C · ΔT30 Standard
+          </div>
+        </div>
+
+        <div id="installer-room-container" class="room-compliance-grid">
+          <!-- Populated dynamically with room cards -->
+        </div>
+      </div>
+
+      <!-- Step 3: SEAI Tender RFP Generator & Survey Hand-Off -->
+      <div style="margin-top: 20px;">
+        <div style="font-size: 0.78rem; font-weight: 800; color: #38bdf8; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; margin-bottom: 8px;">
+          📋 Step 3: Client-Ready SEAI Tender Specification Draft
+        </div>
+        <div class="tender-draft-box">
+          <pre id="lbl-installer-tender-text" style="margin: 0; white-space: pre-wrap; font-family: inherit;">
+📋 ECOSMARTHOMES NSAI SR50-2 TENDER SPECIFICATION
+Property: 3-Bed Semi-Detached (115m²)
+Proposed Heat Source: 8.5 kW Monobloc Heat Pump (7.8 kW @ -3°C)
+Radiator Compliance Schedule:
+• 2 Rooms Compliant with 50°C Low-Flow Heat Delivery
+• 2 Rooms Specified for Type 22 Convector Upgrades
+Direct SEAI Grant Deduction: -€12,500
+Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
+          </pre>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+          <button type="button" id="btn-copy-tender-action" class="btn-copy-tender" onclick="window.copyInstallerTenderDraft()">
+            <span>📋 Copy Client-Ready SEAI Tender Draft</span>
+          </button>
+          <a href="/checkout/" class="btn-hero-primary-star" style="text-align: center; padding: 14px 20px; font-size: 0.95rem;">
+            ⭐ Outsource Technical Survey & DEAP (€49) →
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- ──────────────────────────────────────────────────────────────
         SCREEN 2: GEMINI 2.5 FLASH VISION SCANNER
         ────────────────────────────────────────────────────────────── -->

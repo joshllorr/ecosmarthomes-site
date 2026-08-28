@@ -894,5 +894,155 @@
   box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
 }
 
+/* ==========================================================================
+   3-STEP "VAN-TO-VERDICT" INSTALLER / RETROFITTER ONBOARDING FLOW
+   ========================================================================== */
 
+#installer-rescue-wizard {
+  display: none;
+  background: radial-gradient(120% 120% at 50% 0%, #002d4a 0%, #001a2c 55%, #001711 100%);
+  border: 2px solid rgba(56, 189, 248, 0.45);
+  border-radius: 24px;
+  padding: 36px 28px;
+  max-width: 860px;
+  margin: 0 auto 50px auto;
+  box-shadow: 0 20px 60px rgba(56, 189, 248, 0.25);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
+.installer-step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 18, 13, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 9999px;
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #38bdf8;
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* Archetype Grid */
+.installer-archetype-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 14px 0 24px 0;
+}
+
+.installer-archetype-btn {
+  background: #001711;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 16px 12px;
+  color: #cbd5e1;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.installer-archetype-btn:hover {
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.installer-archetype-btn.active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
+  transform: scale(1.02);
+}
+
+/* Room Compliance Card List */
+.room-compliance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.installer-room-card {
+  background: #001711;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: left;
+}
+
+.badge-status-ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10b981;
+  color: #34f5c5;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.badge-status-warn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid #f59e0b;
+  color: #fbbf24;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+/* Tender Draft Box */
+.tender-draft-box {
+  background: #001711;
+  border: 1.5px dashed rgba(56, 189, 248, 0.4);
+  border-radius: 14px;
+  padding: 18px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  color: #bae6fd;
+  line-height: 1.6;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.btn-copy-tender {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1.5px solid #38bdf8;
+  color: #38bdf8;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 14px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+}
+
+.btn-copy-tender:hover {
+  background: #38bdf8;
+  color: #001a2c;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
+}

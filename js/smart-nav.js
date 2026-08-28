@@ -117,9 +117,19 @@
     // Toggle Wizard Views on Persona Switch
     const homeownerWizard = document.getElementById('wallet-rescue-wizard');
     const agentWizard = document.getElementById('agent-rescue-wizard');
+    const installerWizard = document.getElementById('installer-rescue-wizard');
 
-    if (personaKey === 'agent') {
-      if (homeownerWizard) homeownerWizard.style.display = 'none';
+    // Hide all first
+    if (homeownerWizard) homeownerWizard.style.display = 'none';
+    if (agentWizard) agentWizard.style.display = 'none';
+    if (installerWizard) installerWizard.style.display = 'none';
+
+    if (personaKey === 'installer') {
+      if (installerWizard) {
+        installerWizard.style.display = 'block';
+        updateInstallerComplianceMatrix();
+      }
+    } else if (personaKey === 'agent') {
       if (agentWizard) {
         agentWizard.style.display = 'block';
         if (typeof updateAgentSurgeCalculations === 'function') {
@@ -127,7 +137,6 @@
         }
       }
     } else {
-      if (agentWizard) agentWizard.style.display = 'none';
       if (homeownerWizard) homeownerWizard.style.display = 'block';
     }
   };
@@ -473,6 +482,126 @@
         btn.innerHTML = '✅ Copied to Clipboard! Ready for Daft.ie';
         btn.style.background = '#10b981';
         btn.style.color = '#001711';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2200);
+      }
+    });
+  };
+
+  // ==========================================================================
+  // 3-STEP INSTALLER "VAN-TO-VERDICT" ENGINE
+  // ==========================================================================
+  let installerArchetype = 'semi';
+
+  const ARCHETYPE_ROOM_SCHEDULES = {
+    semi: {
+      name: '3-Bed Semi-Detached (115m²)',
+      hpCapacity: '8.5 kW Monobloc Heat Pump',
+      heatLoss: '7.8 kW @ -3°C',
+      rooms: [
+        { name: 'Living Room (26m²)', req: 2100, exist: 2350, status: 'ok', rec: 'Existing rad delivers required wattage at 50°C flow.' },
+        { name: 'Master Bedroom (18m²)', req: 1250, exist: 850, status: 'warn', rec: 'Upgrade to Type 22 Double Convector 1200x600 (+400W needed).' },
+        { name: 'Kitchen / Dining (22m²)', req: 1750, exist: 1900, status: 'ok', rec: 'Compliant with NSAI SR50-2 low-flow benchmark.' },
+        { name: 'Bedroom 2 / Office (14m²)', req: 950, exist: 650, status: 'warn', rec: 'Upgrade to Type 21 Compact Convector (+300W needed).' }
+      ]
+    },
+    detached: {
+      name: '4-Bed Detached (175m²)',
+      hpCapacity: '12.0 kW Monobloc Heat Pump',
+      heatLoss: '11.4 kW @ -3°C',
+      rooms: [
+        { name: 'Living Room (34m²)', req: 2800, exist: 2950, status: 'ok', rec: 'Existing radiator capacity compliant.' },
+        { name: 'Master Suite (24m²)', req: 1650, exist: 1200, status: 'warn', rec: 'Upgrade to Type 22 1400x600 (+450W needed).' },
+        { name: 'Kitchen / Family (32m²)', req: 2400, exist: 2600, status: 'ok', rec: 'Meets Delta-T 30 output requirement.' },
+        { name: 'Bedrooms 2 & 3 (28m²)', req: 1900, exist: 1400, status: 'warn', rec: 'Replace 2x single panels with Type 21 convectors.' }
+      ]
+    },
+    bungalow: {
+      name: '3-Bed Bungalow (130m²)',
+      hpCapacity: '9.5 kW Monobloc Heat Pump',
+      heatLoss: '9.1 kW @ -3°C',
+      rooms: [
+        { name: 'Lounge (28m²)', req: 2300, exist: 2450, status: 'ok', rec: 'Compliant low-flow heat output.' },
+        { name: 'Master Bed (20m²)', req: 1400, exist: 1050, status: 'warn', rec: 'Type 22 upgrade recommended (+350W).' },
+        { name: 'Kitchen / Dining (26m²)', req: 2100, exist: 2200, status: 'ok', rec: 'Flow rate adequate at 48°C.' },
+        { name: 'Rear Bedroom (16m²)', req: 1100, exist: 800, status: 'warn', rec: 'Oversizing required to eliminate cold spots.' }
+      ]
+    },
+    apt: {
+      name: '2-Bed Apartment (75m²)',
+      hpCapacity: '5.0 kW Compact Heat Pump',
+      heatLoss: '4.6 kW @ -3°C',
+      rooms: [
+        { name: 'Open Plan Living (28m²)', req: 1850, exist: 2000, status: 'ok', rec: 'Compliant heat delivery.' },
+        { name: 'Master Bed (16m²)', req: 1050, exist: 1100, status: 'ok', rec: 'Compliant flow rate.' },
+        { name: 'Bedroom 2 (12m²)', req: 800, exist: 600, status: 'warn', rec: 'Type 21 compact upgrade (+200W).' }
+      ]
+    }
+  };
+
+  function updateInstallerComplianceMatrix() {
+    const data = ARCHETYPE_ROOM_SCHEDULES[installerArchetype] || ARCHETYPE_ROOM_SCHEDULES.semi;
+
+    // Update HP Sizing Header
+    const hpDisp = document.getElementById('lbl-installer-hp-size');
+    if (hpDisp) hpDisp.innerText = data.hpCapacity;
+
+    const lossDisp = document.getElementById('lbl-installer-heat-loss');
+    if (lossDisp) lossDisp.innerText = `Total Heat Loss: ${data.heatLoss} · NSAI SR50-2:2024 ΔT30 Standard`;
+
+    // Render Room Cards
+    const container = document.getElementById('installer-room-container');
+    if (container) {
+      container.innerHTML = data.rooms.map(r => `
+        <div class="installer-room-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <strong style="color: #ffffff; font-size: 0.88rem;">${r.name}</strong>
+            ${r.status === 'ok' 
+              ? '<span class="badge-status-ok">🟢 Compliant OK</span>' 
+              : '<span class="badge-status-warn">⚠️ Oversizing Required</span>'}
+          </div>
+          <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px; font-family: \'IBM Plex Mono\', monospace;">
+            Req: <span style="color: #fff; font-weight: 700;">${r.req}W</span> · Existing: <span style="color: ${r.status==='ok'?'#34f5c5':'#fbbf24'}; font-weight: 700;">${r.exist}W</span>
+          </div>
+          <div style="font-size: 0.72rem; color: ${r.status==='ok'?'#94a3b8':'#fde68a'}; line-height: 1.4;">
+            ${r.rec}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Update Tender Draft Text
+    const tenderBox = document.getElementById('lbl-installer-tender-text');
+    if (tenderBox) {
+      const warnCount = data.rooms.filter(r => r.status === 'warn').length;
+      const okCount = data.rooms.length - warnCount;
+      tenderBox.innerText = `📋 ECOSMARTHOMES NSAI SR50-2 TENDER SPECIFICATION\nProperty: ${data.name}\nProposed Heat Source: ${data.hpCapacity} (${data.heatLoss})\nRadiator Compliance Schedule:\n• ${okCount} Rooms Compliant with 50°C Low-Flow Heat Delivery\n• ${warnCount} Rooms Specified for Type 22 Convector Upgrades\nDirect SEAI Grant Deduction: -€12,500\nMilestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass`;
+    }
+  }
+
+  window.setInstallerArchetype = function(key) {
+    installerArchetype = key;
+    document.querySelectorAll('.installer-archetype-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-arch') === key);
+    });
+    updateInstallerComplianceMatrix();
+  };
+
+  window.copyInstallerTenderDraft = function() {
+    const textEl = document.getElementById('lbl-installer-tender-text');
+    if (!textEl) return;
+    const text = textEl.innerText;
+
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('btn-copy-tender-action');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied SEAI Tender Draft to Clipboard!';
+        btn.style.background = '#38bdf8';
+        btn.style.color = '#001a2c';
         setTimeout(() => {
           btn.innerHTML = orig;
           btn.style.background = '';
