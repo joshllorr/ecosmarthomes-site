@@ -118,10 +118,15 @@ class SiteValidator:
             return False
 
         html_files = list(self.target_dir.rglob("*.html"))
-        # Exclude vendor / node_modules / temp files
+        # Exclude vendor, scratch, verification tokens, and partial fragments
+        excluded_substrings = [
+            "node_modules", ".git", ".system_generated", ".gemini", "scratch",
+            "google0250da2336b94516", "home_content.html", "scratch-test.html",
+            "_partial.html", "_content.html"
+        ]
         html_files = [
             f for f in html_files 
-            if "node_modules" not in str(f) and ".git" not in str(f) and ".system_generated" not in str(f)
+            if not any(ex in str(f) for ex in excluded_substrings)
         ]
 
         self.total_files = len(html_files)
