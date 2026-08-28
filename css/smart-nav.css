@@ -1673,3 +1673,41 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
   white-space: pre-wrap;
 }
 
+/* ==========================================================================
+   MOBILE VIEWPORT CLEANUP & DESKTOP PARITY ENHANCEMENTS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* 1. Hide intrusive static right-side tab toggle on mobile */
+  #esh-side-tab-toggle {
+    display: none !important;
+  }
+
+  /* 2. Hide redundant linear persona filter bar on mobile (handled by top-right dropdown) */
+  .persona-filter-bar {
+    display: none !important;
+  }
+
+  /* 3. Ensure top-right adaptive dropdown is visible on mobile */
+  .mobile-persona-dropdown-wrapper {
+    display: inline-block !important;
+  }
+}
+
+@media (min-width: 769px) {
+  /* 1. Ensure desktop displays segmented persona filter bar cleanly */
+  .persona-filter-bar {
+    display: flex !important;
+  }
+
+  /* 2. Ensure desktop displays side drawer toggle */
+  #esh-side-tab-toggle {
+    display: flex !important;
+  }
+
+  /* 3. Hide mobile dropdown on wide screens */
+  .mobile-persona-dropdown-wrapper {
+    display: none !important;
+  }
+}
+
