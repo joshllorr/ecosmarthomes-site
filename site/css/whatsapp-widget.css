@@ -138,3 +138,18 @@
   background: #20ba59;
   transform: scale(1.02);
 }
+
+/* MOBILE ANTI-COLLISION MODE (< 768px): Compact Icon Badge */
+@media (max-width: 768px) {
+  #esh-whatsapp-floating-btn {
+    bottom: 20px !important;
+    left: 16px !important;
+    padding: 10px 14px !important;
+    font-size: 0.75rem !important;
+    gap: 6px !important;
+    max-width: 145px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45) !important;
+  }
+}

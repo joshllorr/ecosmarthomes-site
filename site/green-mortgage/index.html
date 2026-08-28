@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  <link rel="stylesheet" href="/css/smart-nav.css">
   <script src="../js/energy-metrics.js"></script>
 
   <style>
@@ -127,7 +128,8 @@
         <a href="../roadmap/index.html" class="nav-link">📄 Roadmap PDF</a>
       </nav>
 
-      <div class="header-actions">
+      <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
         <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="padding: 9px 16px; font-size: 0.85rem; background: var(--color-amber-gold); color: #000; font-weight: 800;">
           💳 Book €49 Survey
         </a>
@@ -437,5 +439,6 @@
   </script>
 
   <script src="/js/whatsapp-widget.js" defer></script>
+  <script src="/js/smart-nav.js" defer></script>
 </body>
 </html>

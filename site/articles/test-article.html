@@ -6,6 +6,7 @@
   <title id="title">Loading... | EcoSmartHomes</title>
   <meta id="description" name="description" content="">
   <link rel="stylesheet" href="/css/styles.css?v=2">
+  <link rel="stylesheet" href="/css/smart-nav.css">
   <style>
     .article-layout {
       display: flex;
@@ -113,6 +114,7 @@
         <li><a href="/index.html#heatpump">Heat Pump Test</a></li>
         <li><a href="/index.html#grants">Grant Assessment</a></li>
         <li><a href="/index.html#contact">Contact</a></li>
+        <li><button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer" style="margin-left: 8px;">☰ Tools</button></li>
       </ul>
     </nav>
   </div>
@@ -191,5 +193,6 @@ async function loadArticle() {
 loadArticle();
 </script>
 
+  <script src="/js/smart-nav.js" defer></script>
 </body>
 </html>

@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="/css/style.css?v=5">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  <link rel="stylesheet" href="/css/smart-nav.css">
 
   <style>
     :root {
@@ -232,7 +233,8 @@
         <a href="/contractors/" class="nav-link-item">👔 For Installers</a>
       </nav>
 
-      <div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
         <a href="/checkout/" target="_blank" rel="noopener" class="btn-book-nav">
           💳 Book €49 Survey
         </a>
@@ -447,6 +449,6 @@
 
   <script src="/js/solar-estimator.js"></script>
   <script src="/js/whatsapp-widget.js" defer></script>
-
+  <script src="/js/smart-nav.js" defer></script>
 </body>
 </html>

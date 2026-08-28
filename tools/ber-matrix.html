@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="/css/style.css?v=5">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  <link rel="stylesheet" href="/css/smart-nav.css">
   
   <!-- jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -246,7 +247,8 @@
         <a href="/battery-arbitrage/" class="nav-link-item">⚡ Battery Arbitrage</a>
       </nav>
 
-      <div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
         <a href="/checkout/" class="btn-book-nav">
           💳 Book €49 Survey
         </a>
@@ -631,5 +633,6 @@
     });
   </script>
 
+  <script src="/js/smart-nav.js" defer></script>
 </body>
 </html>

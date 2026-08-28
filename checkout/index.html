@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="/css/style.css?v=5">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  <link rel="stylesheet" href="/css/smart-nav.css">
   
   <!-- Stripe JS SDK -->
   <script src="https://js.stripe.com/v3/"></script>
@@ -157,8 +158,9 @@
         <span style="font-size: 1.4rem;">🏡</span>
         <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: var(--color-mint);">Homes</strong></span>
       </a>
-      <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 600;">
-        ⭐ Secure Survey Booking
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
+        <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 600;">⭐ Secure Survey Booking</span>
       </div>
     </div>
   </header>
@@ -321,5 +323,6 @@
     }
   </script>
 
+  <script src="/js/smart-nav.js" defer></script>
 </body>
 </html>

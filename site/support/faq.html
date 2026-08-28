@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="/css/style.css?v=5">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  <link rel="stylesheet" href="/css/smart-nav.css">
   <script src="/js/whatsapp-widget.js" defer></script>
 </head>
 <body style="background: #001711; color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 0;">
@@ -28,9 +29,12 @@
         <span style="font-size: 1.4rem;">🏡</span>
         <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff;">EcoSmart<strong style="color: #34f5c5;">Homes</strong></span>
       </a>
-      <a href="/checkout/" style="background: #f59e0b; color: #00241b; font-weight: 800; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 0.82rem;">
-        💳 Book €49 Survey
-      </a>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
+        <a href="/checkout/" style="background: #f59e0b; color: #00241b; font-weight: 800; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 0.82rem;">
+          💳 Book €49 Survey
+        </a>
+      </div>
     </div>
   </header>
 
@@ -105,5 +109,6 @@
     © 2026 EcoSmartHomes.ie · 100% Conflict-Free Energy Advisory
   </footer>
 
+  <script src="/js/smart-nav.js" defer></script>
 </body>
 </html>

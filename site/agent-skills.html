@@ -879,6 +879,7 @@
       .nav-links { display: none; }
     }
   </style>
+  <link rel="stylesheet" href="/css/smart-nav.css">
 </head>
 <body>
 
@@ -896,9 +897,12 @@
         <li><a href="/ai/">AI Advisory</a></li>
         <li><a href="/dashboard.html">Dashboard</a></li>
       </ul>
-      <div class="badge-live">
-        <div class="pulse-dot"></div>
-        <span>Score: 100/100 Agent-Ready</span>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
+        <div class="badge-live">
+          <div class="pulse-dot"></div>
+          <span>Score: 100/100 Agent-Ready</span>
+        </div>
       </div>
     </div>
   </header>
@@ -1475,5 +1479,6 @@ Payback Period (Years) = Net Out of Pocket Cost / Total Annual Cashflow Benefit
       }
     }
   </script>
+  <script src="/js/smart-nav.js" defer></script>
 </body>
 </html>
