@@ -310,21 +310,12 @@
         <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: #34f5c5;">Homes</strong></span>
       </a>
 
-      <nav class="nav-links-wrap" aria-label="Main Navigation">
-        <a href="/" class="nav-link-item" style="color: #34f5c5;">Home</a>
-        <a href="/tender-generator/" class="nav-link-item">📋 Tender RFP</a>
-        <a href="/ber-matrix/" class="nav-link-item">🏡 15-Band BER Matrix</a>
-        <a href="/retrofit-loan/" class="nav-link-item">💶 0% Loan Stacker</a>
-        <a href="/radiator-sizer/" class="nav-link-item">📐 Radiator Sizer</a>
-        <a href="/green-mortgage/" class="nav-link-item">🏛️ Green Mortgage</a>
-        <a href="/quote-auditor/" class="nav-link-item">🛡️ Quote Auditor</a>
-        <a href="/solar/" class="nav-link-item">☀️ Solar PV</a>
-        <a href="/battery-arbitrage/" class="nav-link-item">⚡ Battery Arbitrage</a>
-        <a href="/carbon-tax/" class="nav-link-item">⚡ Carbon Tax</a>
-        <a href="/roadmap/" class="nav-link-item">📄 Roadmap PDF</a>
-        <a href="/locations/" class="nav-link-item">📍 Towns Hub</a>
-        <a href="/contractors/" class="nav-link-item">👔 For Installers</a>
-      </nav>
+      <div class="persona-filter-bar" role="tablist" aria-label="Audience Persona Filter">
+        <button type="button" class="persona-pill active" data-persona="homeowner" onclick="window.setPersona('homeowner')">🏠 Homeowner</button>
+        <button type="button" class="persona-pill" data-persona="agent" onclick="window.setPersona('agent')">💼 Estate Agent</button>
+        <button type="button" class="persona-pill" data-persona="installer" onclick="window.setPersona('installer')">⚡ Installer / Retrofitter</button>
+        <button type="button" class="persona-pill" data-persona="all" onclick="window.setPersona('all')">🔍 View All</button>
+      </div>
 
       <div style="display: flex; align-items: center; gap: 10px;">
         <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
@@ -364,12 +355,12 @@
         Dublin, Cork, or Limerick—rising oil levies are quietly eating your savings. Secure a 100% independent roadmap to slash your heating bills from €5,400 to €650 a year using up to €25,500 in direct SEAI grants. No sales pitches. No contractor kickbacks.
       </p>
 
-      <div class="hero-cta-row">
-        <a href="#interactive-suite" class="btn-hero-primary">
-          🛡️ Activate My Shield (Diagnostic Scan)
+      <div class="hero-cta-row" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
+        <a href="/checkout/" class="btn-hero-primary-star">
+          ⭐ Order €49 Independent Survey
         </a>
-        <a href="/checkout/" target="_blank" rel="noopener" class="btn-hero-secondary">
-          💳 Order €49 Independent Survey
+        <a href="#interactive-suite" class="btn-hero-ghost-secondary">
+          🛡️ Free Diagnostic Scan (Self-Serve)
         </a>
       </div>
 
@@ -409,6 +400,9 @@
         <h2 style="font-size: 2.4rem; font-weight: 900; color: #ffffff; margin-top: 8px;">
           Choose Your Independent Tool
         </h2>
+        <div id="active-persona-title" style="font-size: 1.1rem; font-weight: 800; color: #34f5c5; margin-top: 6px; font-family: 'IBM Plex Mono', monospace;">
+          Homeowner Energy & Savings Suite
+        </div>
         <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 8px;">
           Every tool is private, self-serve, and 100% free of salesperson tracking.
         </p>
@@ -416,7 +410,7 @@
 
       <div class="tool-showcase-grid">
         <!-- Tool: NSAI Contractor Tender RFP Generator -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="installer homeowner">
           <div>
             <span style="font-size: 2.2rem;">📋</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">Contractor Tender RFP Generator</h3>
@@ -430,7 +424,7 @@
         </div>
 
         <!-- Tool: 15-Band BER Certificate What-If Matrix -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="agent homeowner">
           <div>
             <span style="font-size: 2.2rem;">🏡</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">15-Band BER "What-If" Matrix</h3>
@@ -444,7 +438,7 @@
         </div>
 
         <!-- Tool: 0% Out of Pocket SBCI Loan Stacker -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="homeowner agent">
           <div>
             <span style="font-size: 2.2rem;">💶</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">0% Out-of-Pocket Loan Stacker</h3>
@@ -458,7 +452,7 @@
         </div>
 
         <!-- Tool 0: Radiator Flow & Heat Pump Sizer -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="installer homeowner">
           <div>
             <span style="font-size: 2.2rem;">📐</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">Radiator Flow & Heat Pump Sizer</h3>
@@ -472,7 +466,7 @@
         </div>
 
         <!-- Tool 1: Green Mortgage Arbitrage -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="homeowner agent">
           <div>
             <span style="font-size: 2.2rem;">🏛️</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">Green Mortgage Arbitrage</h3>
@@ -486,7 +480,7 @@
         </div>
 
         <!-- Tool 2: AI Quote Red-Liner -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="homeowner installer">
           <div>
             <span style="font-size: 2.2rem;">🛡️</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">AI Quote Red-Liner</h3>
@@ -500,7 +494,7 @@
         </div>
 
         <!-- Tool 3: Rooftop Solar & Clean Export -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="homeowner installer">
           <div>
             <span style="font-size: 2.2rem;">☀️</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">Solar PV & CEG Estimator</h3>
@@ -514,7 +508,7 @@
         </div>
 
         <!-- Tool 4: Smart Meter & Battery Arbitrage -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="homeowner installer">
           <div>
             <span style="font-size: 2.2rem;">🔋</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">Smart Meter & Battery Arbitrage</h3>
@@ -528,7 +522,7 @@
         </div>
 
         <!-- Tool 4: Carbon Tax Shield Ticker -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="homeowner">
           <div>
             <span style="font-size: 2.2rem;">⚡</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">Carbon Tax Liability Ticker</h3>
@@ -542,7 +536,7 @@
         </div>
 
         <!-- Tool 5: Retrofit Roadmap PDF Generator -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="homeowner agent">
           <div>
             <span style="font-size: 2.2rem;">📄</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">1-Click Roadmap PDF</h3>
@@ -556,7 +550,7 @@
         </div>
 
         <!-- Tool 6: 3000 Towns SEO Hub -->
-        <div class="tool-showcase-box">
+        <div class="tool-showcase-box" data-personas="homeowner agent installer">
           <div>
             <span style="font-size: 2.2rem;">📍</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">32-County Towns Hub</h3>

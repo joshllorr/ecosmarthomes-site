@@ -214,3 +214,178 @@
     margin-bottom: 8px !important;
   }
 }
+
+/* ==========================================================================
+   ECOSMARTHOMES DESKTOP BLUEPRINT: PERSONA FILTER BAR & CTA HIERARCHY
+   ========================================================================== */
+
+/* 1. Segmented Persona Filter Bar */
+.persona-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 23, 17, 0.7);
+  border: 1px solid rgba(52, 245, 197, 0.25);
+  border-radius: 9999px;
+  padding: 4px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.persona-pill {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #94a3b8;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.persona-pill:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.persona-pill.active {
+  background: #34f5c5;
+  color: #00241b;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(52, 245, 197, 0.4);
+}
+
+.persona-pill.active[data-persona="agent"] {
+  background: #fbbf24;
+  color: #00241b;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+}
+
+.persona-pill.active[data-persona="installer"] {
+  background: #38bdf8;
+  color: #00241b;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+/* 2. Hero CTA Visual Hierarchy: Primary Solid vs Secondary Ghost */
+.btn-hero-primary-star {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #f59e0b;
+  color: #00241b;
+  font-weight: 900;
+  font-size: 1.05rem;
+  padding: 16px 28px;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(245, 158, 11, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+}
+
+.btn-hero-primary-star:hover {
+  background: #fbbf24;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(245, 158, 11, 0.55);
+}
+
+.btn-hero-ghost-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(0, 36, 27, 0.5);
+  color: #34f5c5;
+  font-weight: 800;
+  font-size: 1.05rem;
+  padding: 15px 26px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1.5px solid #34f5c5;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-hero-ghost-secondary:hover {
+  background: rgba(52, 245, 197, 0.15);
+  color: #ffffff;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(52, 245, 197, 0.25);
+}
+
+/* 3. Bloomberg-Terminal Split Layout for Desktop (>= 1024px) */
+@media (min-width: 1024px) {
+  .bloomberg-split-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .desktop-tool-sidebar {
+    background: #00241b;
+    border: 1px solid rgba(52, 245, 197, 0.25);
+    border-radius: 16px;
+    padding: 20px;
+    position: sticky;
+    top: 90px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  }
+  .sidebar-rail-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #34f5c5;
+    text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .sidebar-rail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: all 0.15s;
+    margin-bottom: 6px;
+    border: 1px solid transparent;
+  }
+  .sidebar-rail-item:hover {
+    background: #001711;
+    border-color: rgba(52, 245, 197, 0.3);
+    color: #ffffff;
+    transform: translateX(4px);
+  }
+  .sidebar-rail-item.active {
+    background: rgba(52, 245, 197, 0.15);
+    border-color: #34f5c5;
+    color: #ffffff;
+  }
+}
+
+/* 4. Tool Card Filter Fade Effects */
+.tool-showcase-box {
+  transition: opacity 0.3s ease, transform 0.3s ease, border-color 0.25s;
+}
+.tool-showcase-box.persona-hidden {
+  display: none !important;
+}
+.tool-showcase-box.persona-highlight {
+  border-color: #34f5c5 !important;
+  box-shadow: 0 0 20px rgba(52, 245, 197, 0.35) !important;
+  transform: translateY(-4px) !important;
+}
+
