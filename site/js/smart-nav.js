@@ -263,6 +263,127 @@
 
     // Initialize Default Persona
     window.setPersona('homeowner');
+  // ==========================================================================
+  // 3-STEP WALLET-HIT ONBOARDING RESCUE ENGINE
+  // ==========================================================================
+  let selectedFuel = 'oil';
+  let monthlyHeatingBill = 350;
+  let cumulativePenalty = 4320;
+  let penaltyInterval = null;
+  let isShieldDeployed = false;
+
+  // Irish Carbon Tax Escalator Factors (€7.50/tonne annual statutory escalator to 2030)
+  const FUEL_ESCALATOR_FACTORS = {
+    oil: { baseMultiplier: 12.35, monthlyDrainPct: 0.206, label: 'Kerosene Home Heating Oil' },
+    gas: { baseMultiplier: 8.85, monthlyDrainPct: 0.162, label: 'Mains Natural Gas' },
+    electric: { baseMultiplier: 7.90, monthlyDrainPct: 0.145, label: 'Electric / Storage Radiators' }
+  };
+
+  function updatePenaltyCalculations() {
+    if (isShieldDeployed) return;
+    const factor = FUEL_ESCALATOR_FACTORS[selectedFuel] || FUEL_ESCALATOR_FACTORS.oil;
+    // Cumulative 2026-2030 penalty calculation
+    cumulativePenalty = Math.round(monthlyHeatingBill * factor.baseMultiplier);
+    const monthlyLeak = Math.round(monthlyHeatingBill * factor.monthlyDrainPct);
+
+    // Update Slider Display
+    const billDisp = document.getElementById('lbl-wizard-monthly-bill');
+    if (billDisp) billDisp.innerText = `€${monthlyHeatingBill}/month`;
+
+    // Update Penalty Display
+    const penaltyDisp = document.getElementById('lbl-wizard-penalty-clock');
+    if (penaltyDisp) penaltyDisp.innerText = `€${cumulativePenalty.toLocaleString()}.00`;
+
+    const leakDisp = document.getElementById('lbl-wizard-monthly-leak');
+    if (leakDisp) leakDisp.innerText = `Leaking: €${monthlyLeak}.00 / month straight to the taxman`;
+
+    // Dynamic Ambient Warning Background Shift
+    const wizardCard = document.getElementById('wallet-rescue-wizard');
+    if (wizardCard) {
+      if (monthlyHeatingBill > 400) {
+        wizardCard.style.borderColor = '#ef4444';
+        wizardCard.style.boxShadow = '0 20px 60px rgba(239, 68, 68, 0.4)';
+      } else if (monthlyHeatingBill > 250) {
+        wizardCard.style.borderColor = '#f59e0b';
+        wizardCard.style.boxShadow = '0 20px 60px rgba(245, 158, 11, 0.35)';
+      } else {
+        wizardCard.style.borderColor = 'rgba(52, 245, 197, 0.35)';
+        wizardCard.style.boxShadow = '0 20px 60px rgba(0,0,0,0.6)';
+      }
+    }
+  }
+
+  window.setWizardFuel = function(fuelKey) {
+    selectedFuel = fuelKey;
+    document.querySelectorAll('.wizard-fuel-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-fuel') === fuelKey);
+    });
+    updatePenaltyCalculations();
+  };
+
+  window.onWizardSliderChange = function(sliderVal) {
+    monthlyHeatingBill = Number(sliderVal);
+    updatePenaltyCalculations();
+  };
+
+  // Live Micro-Cent Penalty Ticker (The Shock)
+  function startLivePenaltyTicker() {
+    if (penaltyInterval) clearInterval(penaltyInterval);
+    let subCents = 0;
+    penaltyInterval = setInterval(() => {
+      if (isShieldDeployed) {
+        clearInterval(penaltyInterval);
+        return;
+      }
+      subCents += 0.03;
+      const penaltyDisp = document.getElementById('lbl-wizard-penalty-clock');
+      if (penaltyDisp) {
+        const total = (cumulativePenalty + subCents).toFixed(2);
+        penaltyDisp.innerText = `€${Number(total).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      }
+    }, 120);
+  }
+
+  // Deploy Carbon Tax Shield (The Rescue)
+  window.deployCarbonShield = function() {
+    isShieldDeployed = true;
+    if (penaltyInterval) clearInterval(penaltyInterval);
+
+    const clockContainer = document.querySelector('.penalty-clock-container');
+    const penaltyDisp = document.getElementById('lbl-wizard-penalty-clock');
+    const deployBtn = document.getElementById('btn-wizard-deploy-shield');
+    const rescueContainer = document.getElementById('shield-deployed-container');
+
+    // Shatter Clock Transition
+    if (clockContainer) {
+      clockContainer.style.borderColor = '#34f5c5';
+      clockContainer.style.boxShadow = '0 0 40px rgba(52, 245, 197, 0.6)';
+      clockContainer.style.background = 'rgba(0, 36, 27, 0.95)';
+    }
+
+    if (penaltyDisp) {
+      penaltyDisp.style.color = '#34f5c5';
+      penaltyDisp.style.textShadow = '0 0 25px rgba(52, 245, 197, 0.8)';
+      // Countdown to 0
+      let countdown = cumulativePenalty;
+      const step = Math.ceil(cumulativePenalty / 20);
+      const timer = setInterval(() => {
+        countdown -= step;
+        if (countdown <= 0) {
+          countdown = 0;
+          clearInterval(timer);
+          penaltyDisp.innerText = '€0.00 (TAX PENALTY WIPED OUT)';
+          if (deployBtn) deployBtn.style.display = 'none';
+          if (rescueContainer) rescueContainer.style.display = 'block';
+        } else {
+          penaltyDisp.innerText = `€${countdown.toLocaleString()}.00`;
+        }
+      }, 25);
+    }
+  };
+
+  // Auto-init ticker on load
+  setTimeout(startLivePenaltyTicker, 800);
   }
 
   if (document.readyState === 'loading') {
