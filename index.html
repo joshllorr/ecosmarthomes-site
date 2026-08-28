@@ -311,6 +311,44 @@
         <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: #34f5c5;">Homes</strong></span>
       </a>
 
+      <!-- Adaptive Mobile Persona Dropdown Trigger Capsule (< 768px) -->
+      <div class="mobile-persona-dropdown-wrapper">
+        <button type="button" id="mobile-persona-toggle-btn" class="mobile-persona-dropdown-trigger" onclick="window.togglePersonaDropdown(event)" aria-haspopup="true" aria-expanded="false">
+          <span id="mobile-current-persona-label">🏠 Homeowner</span>
+          <span class="persona-arrow-bounce">▾</span>
+        </button>
+        <div id="mobile-persona-dropdown-panel" class="persona-dropdown-panel" role="menu">
+          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('homeowner')">
+            <span style="font-size: 1.3rem;">🏠</span>
+            <div>
+              <div>Homeowner</div>
+              <span class="option-desc">Fuel Tax Shield & €25.5k Grants</span>
+            </div>
+          </button>
+          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('agent')">
+            <span style="font-size: 1.3rem;">💼</span>
+            <div>
+              <div>Estate Agent</div>
+              <span class="option-desc">Equity Surge & 1-Click Daft.ie Blurb</span>
+            </div>
+          </button>
+          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('installer')">
+            <span style="font-size: 1.3rem;">⚡</span>
+            <div>
+              <div>Installer / Retrofitter</div>
+              <span class="option-desc">NSAI SR50-2 Sizing & Tender RFP</span>
+            </div>
+          </button>
+          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('all')">
+            <span style="font-size: 1.3rem;">🔍</span>
+            <div>
+              <div>View All Tools</div>
+              <span class="option-desc">Explore All 11 Energy Engines</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
       <div class="persona-filter-bar" role="tablist" aria-label="Audience Persona Filter">
         <nav class="persona-scroll-track" style="padding: 0; margin: 0; display: flex; gap: 6px;">
           <button type="button" class="persona-pill persona-chip active active-homeowner" data-persona="homeowner" onclick="window.setPersona('homeowner')">🏠 Homeowner</button>

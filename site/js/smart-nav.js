@@ -134,6 +134,24 @@
       }
     });
 
+    // Sync Mobile Persona Dropdown Capsule
+    const mobileLabel = document.getElementById('mobile-current-persona-label');
+    const mobileTrigger = document.getElementById('mobile-persona-toggle-btn');
+    if (mobileLabel && mobileTrigger) {
+      mobileTrigger.classList.remove('agent-active', 'installer-active');
+      if (personaKey === 'agent') {
+        mobileLabel.innerText = '💼 Estate Agent';
+        mobileTrigger.classList.add('agent-active');
+      } else if (personaKey === 'installer') {
+        mobileLabel.innerText = '⚡ Installer';
+        mobileTrigger.classList.add('installer-active');
+      } else if (personaKey === 'all') {
+        mobileLabel.innerText = '🔍 All Tools';
+      } else {
+        mobileLabel.innerText = '🏠 Homeowner';
+      }
+    }
+
     const metric = PERSONA_METRICS[personaKey] || PERSONA_METRICS.homeowner;
 
     // Animate Dopamine Tickers
@@ -807,12 +825,17 @@
   };
 
   window.onMobileDockProfiles = function() {
-    const bar = document.querySelector('.persona-filter-bar');
-    if (bar) {
-      bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      bar.style.boxShadow = '0 0 30px rgba(52, 245, 197, 0.8)';
-      setTimeout(() => bar.style.boxShadow = '', 1600);
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      const panel = document.getElementById('mobile-persona-dropdown-panel');
+      if (panel) panel.classList.add('open');
+      const bar = document.querySelector('.persona-filter-bar');
+      if (bar) {
+        bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        bar.style.boxShadow = '0 0 30px rgba(52, 245, 197, 0.8)';
+        setTimeout(() => bar.style.boxShadow = '', 1600);
+      }
+    }, 250);
   };
 
   window.onMobileDockShield = function() {
@@ -837,6 +860,43 @@
       document.body.style.overflow = '';
     }
   };
+
+  // ==========================================================================
+  // ADAPTIVE PERSONA DROPDOWN CONTROLLER
+  // ==========================================================================
+
+  window.togglePersonaDropdown = function(e) {
+    if (e) e.stopPropagation();
+    const panel = document.getElementById('mobile-persona-dropdown-panel');
+    if (!panel) return;
+    const isOpen = panel.classList.contains('open');
+    if (isOpen) {
+      panel.classList.remove('open');
+    } else {
+      panel.classList.add('open');
+    }
+  };
+
+  window.selectPersonaFromDropdown = function(personaKey) {
+    const panel = document.getElementById('mobile-persona-dropdown-panel');
+    if (panel) panel.classList.remove('open');
+
+    // Call Master Switcher
+    if (window.setPersona) {
+      window.setPersona(personaKey);
+    }
+  };
+
+  // Close dropdown on click outside
+  document.addEventListener('click', (e) => {
+    const panel = document.getElementById('mobile-persona-dropdown-panel');
+    const trigger = document.getElementById('mobile-persona-toggle-btn');
+    if (panel && panel.classList.contains('open')) {
+      if (!panel.contains(e.target) && (!trigger || !trigger.contains(e.target))) {
+        panel.classList.remove('open');
+      }
+    }
+  });
 
   // Auto-init on load
   if (document.readyState === 'loading') {
