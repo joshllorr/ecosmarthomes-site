@@ -1084,3 +1084,396 @@
 #wallet-rescue-wizard {
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
+
+/* ==========================================================================
+   NATIVE IOS MOBILE APP UI/UX REFACTOR (< 768px)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  body {
+    background: linear-gradient(180deg, #061a14 0%, #0a221a 100%) !important;
+    padding-bottom: 95px !important;
+  }
+
+  /* 1. Fixed iOS 5-Item Bottom Navigation Dock */
+  #esh-mobile-dock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    background: rgba(4, 26, 20, 0.92);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(52, 245, 197, 0.2);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 12px env(safe-area-inset-bottom, 8px) 12px;
+    z-index: 99999;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
+  }
+
+  .dock-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 12px;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .dock-item .dock-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .dock-item.active, .dock-item:active {
+    color: #34f5c5;
+  }
+
+  /* Elevated Central Circular Shield FAB */
+  .dock-fab-center {
+    position: relative;
+    top: -14px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #34f5c5 0%, #10b981 100%);
+    border: 3px solid #041a14;
+    color: #00241b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 6px 20px rgba(52, 245, 197, 0.5);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .dock-fab-center:active {
+    transform: scale(0.92);
+  }
+
+  /* 2. Dense Visual Grid Tiles for Fuel / Archetypes */
+  .mobile-visual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 14px 0 20px 0;
+  }
+
+  .mobile-fuel-tile {
+    background: #001711;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    user-select: none;
+  }
+
+  .mobile-fuel-tile .tile-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin: 0 auto 10px auto;
+    transition: transform 0.2s;
+  }
+
+  .mobile-fuel-tile .tile-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .mobile-fuel-tile .tile-sub {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .mobile-fuel-tile.active {
+    border-color: #34f5c5 !important;
+    background: rgba(52, 245, 197, 0.14) !important;
+    box-shadow: 0 0 20px rgba(52, 245, 197, 0.4) !important;
+  }
+
+  .mobile-fuel-tile.active .tile-icon-box {
+    transform: scale(1.1);
+    background: rgba(52, 245, 197, 0.2);
+  }
+
+  /* 3. Gliding Dynamic Value Slider Bubble */
+  .slider-bubble-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 6px;
+    height: 32px;
+  }
+
+  .gliding-slider-bubble {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    background: #34f5c5;
+    color: #00241b;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 900;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    box-shadow: 0 4px 12px rgba(52, 245, 197, 0.5);
+    white-space: nowrap;
+    pointer-events: none;
+    transition: left 0.05s ease-out;
+  }
+
+  .gliding-slider-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px 4px 0;
+    border-style: solid;
+    border-color: #34f5c5 transparent transparent;
+  }
+
+  /* 4. Slide-Up Full-Screen Mobile Tool Sheet Modal */
+  #esh-mobile-tool-sheet {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 18, 13, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 100000;
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 24px 20px 90px 20px;
+    box-sizing: border-box;
+    animation: sheetSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  #esh-mobile-tool-sheet.open {
+    display: flex;
+  }
+
+  @keyframes sheetSlideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .sheet-handle-bar {
+    width: 40px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 9999px;
+    margin: 0 auto 16px auto;
+  }
+}
+
+/* ==========================================================================
+   EXACT MOBILE APP SPECIFICATIONS (< 768px)
+   ========================================================================== */
+
+/* 1. Core App Workspace Overrides */
+#mobile-app-container, .mobile-app-wrapper {
+    background: linear-gradient(180deg, #061a14 0%, #0a221a 100%);
+    min-height: 100vh;
+    padding-bottom: 85px; /* Ensures zero collision with bottom dock */
+    overflow-x: hidden;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 2. Horizontal Persona Slider Chips */
+.persona-scroll-track {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 12px 16px;
+    scrollbar-width: none; /* Hides horizontal bars on mobile Chrome/Safari */
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+}
+.persona-scroll-track::-webkit-scrollbar {
+    display: none;
+}
+.persona-chip {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    color: #cbd5e1;
+    user-select: none;
+}
+/* Active States based on current persona selections */
+.persona-chip.active-homeowner { 
+    background: #10b981 !important; 
+    border-color: #34f5c5 !important; 
+    color: #00241b !important;
+    font-weight: 800 !important;
+    box-shadow: 0 0 14px rgba(52, 245, 197, 0.4);
+}
+.persona-chip.active-agent { 
+    background: #f59e0b !important; 
+    border-color: #fbbf24 !important; 
+    color: #00241b !important;
+    font-weight: 800 !important;
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.4);
+}
+.persona-chip.active-installer { 
+    background: #0284c7 !important; 
+    border-color: #38bdf8 !important; 
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.4);
+}
+
+/* 3. Hardware-Accelerated Mobile Spend Slider */
+input[type="range"].mobile-spend-slider::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+    height: 6px;
+    border-radius: 3px;
+}
+input[type="range"].mobile-spend-slider::-moz-range-track {
+    background: linear-gradient(to right, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+    height: 6px;
+    border-radius: 3px;
+}
+
+/* Floating Dynamic Value Bubble (GPU-Accelerated) */
+.slider-value-bubble {
+    position: absolute;
+    top: -35px;
+    background: rgba(10, 34, 26, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #34f5c5;
+    box-shadow: 0 0 10px rgba(52, 245, 197, 0.2);
+    will-change: transform; /* Forces GPU acceleration for smooth sliding */
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+/* 4. Pinned 5-Item Navigation Dock & Safety Architecture */
+.mobile-app-bottom-dock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    background: rgba(6, 26, 20, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    text-align: center;
+    z-index: 9999; /* Guarantees it sits above all tool layers */
+    padding-bottom: env(safe-area-inset-bottom, 8px); /* Fixes iOS bottom bar spacing */
+}
+/* ==========================================================================
+   STRIPE CHECKOUT MOBILE VIEWPORT REFACTOR (< 768px)
+   ========================================================================== */
+
+#mobile-checkout-wrapper {
+  background: #061a14;
+  min-height: 100vh;
+  padding: 16px 12px;
+  padding-bottom: env(safe-area-inset-bottom, 24px);
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.checkout-card-premium {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px !important;
+  padding: 24px 18px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+.location-summary-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1.5px solid #10b981;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  color: #ffffff;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.location-summary-chip .chip-badge {
+  background: #10b981;
+  color: #00241b;
+  font-weight: 800;
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  margin-left: auto;
+  letter-spacing: 0.02em;
+}
+
+.btn-pay-amber-block {
+  width: 100%;
+  background: #f59e0b;
+  color: #001711;
+  font-weight: 900;
+  font-size: 1.05rem;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.btn-pay-amber-block:hover {
+  background: #fbbf24;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(245, 158, 11, 0.5);
+}

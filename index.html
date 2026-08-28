@@ -288,6 +288,7 @@
   <link rel="stylesheet" href="/css/smart-nav.css">
 </head>
 <body>
+<div id="mobile-app-container" class="mobile-app-wrapper">
 
   <!-- Top Notification Telemetry -->
   <aside class="top-bar-custom" aria-label="Regulatory live updates">
@@ -311,10 +312,12 @@
       </a>
 
       <div class="persona-filter-bar" role="tablist" aria-label="Audience Persona Filter">
-        <button type="button" class="persona-pill active" data-persona="homeowner" onclick="window.setPersona('homeowner')">🏠 Homeowner</button>
-        <button type="button" class="persona-pill" data-persona="agent" onclick="window.setPersona('agent')">💼 Estate Agent</button>
-        <button type="button" class="persona-pill" data-persona="installer" onclick="window.setPersona('installer')">⚡ Installer / Retrofitter</button>
-        <button type="button" class="persona-pill" data-persona="all" onclick="window.setPersona('all')">🔍 View All</button>
+        <nav class="persona-scroll-track" style="padding: 0; margin: 0; display: flex; gap: 6px;">
+          <button type="button" class="persona-pill persona-chip active active-homeowner" data-persona="homeowner" onclick="window.setPersona('homeowner')">🏠 Homeowner</button>
+          <button type="button" class="persona-pill persona-chip" data-persona="agent" onclick="window.setPersona('agent')">💼 Estate Agent</button>
+          <button type="button" class="persona-pill persona-chip" data-persona="installer" onclick="window.setPersona('installer')">⚡ Installer / Retrofitter</button>
+          <button type="button" class="persona-pill persona-chip" data-persona="all" onclick="window.setPersona('all')">🔍 View All</button>
+        </nav>
       </div>
 
       <div style="display: flex; align-items: center; gap: 10px;">
@@ -472,13 +475,17 @@
       <div class="spend-slider-container">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <label for="wizard-spend-range" style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;">
-            B. Average Winter Heating Spend:
+            B. Average Winter Heating Spend ℹ️:
           </label>
-          <span id="lbl-wizard-monthly-bill" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; font-family: 'IBM Plex Mono', monospace;">
+          <span id="lbl-wizard-monthly-bill" style="font-size: 1.25rem; font-weight: 900; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">
             €350/month
           </span>
         </div>
-        <input type="range" id="wizard-spend-range" class="spend-slider" min="100" max="650" step="25" value="350" oninput="window.onWizardSliderChange(this.value)" />
+        <!-- Gliding Dynamic Value Bubble -->
+        <div class="slider-bubble-wrapper">
+          <div id="gliding-spend-bubble" class="gliding-slider-bubble slider-value-bubble" style="left: 45%;">€350/mo</div>
+        </div>
+        <input type="range" id="wizard-spend-range" class="spend-slider mobile-spend-slider" min="100" max="650" step="25" value="350" oninput="window.onWizardSliderChange(this.value)" />
         <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; font-family: 'IBM Plex Mono', monospace;">
           <span>€100/mo (Small Apartment)</span>
           <span>€350/mo (National Average)</span>
@@ -586,7 +593,7 @@
             €350,000
           </span>
         </div>
-        <input type="range" id="agent-price-slider" class="spend-slider" min="175000" max="950000" step="25000" value="350000" oninput="window.onAgentPriceSliderChange(this.value)" />
+        <input type="range" id="agent-price-slider" class="spend-slider mobile-spend-slider" min="175000" max="950000" step="25000" value="350000" oninput="window.onAgentPriceSliderChange(this.value)" />
         <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
           <button type="button" class="tactile-preset-chip" onclick="window.setAgentPricePreset(275000)">€275k</button>
           <button type="button" class="tactile-preset-chip" onclick="window.setAgentPricePreset(350000)">€350k</button>
@@ -1006,5 +1013,6 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
 
   <script src="/js/whatsapp-widget.js" defer></script>
   <script src="/js/smart-nav.js" defer></script>
+</div>
 </body>
 </html>

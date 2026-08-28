@@ -54,8 +54,8 @@
   <script src="js/webmcp-init.js" defer></script>
   <script src="js/retrofit-pipeline.js" defer></script>
   <script src="js/voice-advisor.js" defer></script>
-</head>
 <body style="background-color: #020617; color: #f8fafc; font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif; overflow-x: hidden;">
+<div id="mobile-app-container" class="mobile-app-wrapper">
 
   <!-- Sticky App Navigation Pill -->
   <header style="position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 999; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 8px 16px; border-radius: 9999px; border: 1px solid rgba(30, 41, 59, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 12px; max-width: 95vw; overflow-x: auto;">
@@ -153,11 +153,15 @@
       <div class="spend-slider-container">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <label for="wizard-spend-range" style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;">
-            B. Average Winter Heating Spend:
+            B. Average Winter Heating Spend ℹ️:
           </label>
-          <span id="lbl-wizard-monthly-bill" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; font-family: 'IBM Plex Mono', monospace;">
+          <span id="lbl-wizard-monthly-bill" style="font-size: 1.25rem; font-weight: 900; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">
             €350/month
           </span>
+        </div>
+        <!-- Gliding Dynamic Value Bubble -->
+        <div class="slider-bubble-wrapper">
+          <div id="gliding-spend-bubble" class="gliding-slider-bubble" style="left: 45%;">€350/mo</div>
         </div>
         <input type="range" id="wizard-spend-range" class="spend-slider" min="100" max="650" step="25" value="350" oninput="window.onWizardSliderChange(this.value)" />
         <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; font-family: 'IBM Plex Mono', monospace;">
@@ -591,5 +595,6 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
 
   </main>
   <script src="/js/smart-nav.js" defer></script>
+</div>
 </body>
 </html>

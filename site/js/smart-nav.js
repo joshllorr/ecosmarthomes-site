@@ -123,6 +123,16 @@
     document.querySelectorAll('.persona-pill').forEach(pill => {
       pill.classList.toggle('active', pill.getAttribute('data-persona') === personaKey);
     });
+    // Sync persona-chips
+    document.querySelectorAll('.persona-chip').forEach(chip => {
+      const p = chip.getAttribute('data-persona');
+      chip.classList.remove('active-homeowner', 'active-agent', 'active-installer');
+      if (p === personaKey) {
+        if (p === 'homeowner') chip.classList.add('active-homeowner');
+        else if (p === 'agent') chip.classList.add('active-agent');
+        else if (p === 'installer') chip.classList.add('active-installer');
+      }
+    });
 
     const metric = PERSONA_METRICS[personaKey] || PERSONA_METRICS.homeowner;
 
@@ -408,6 +418,9 @@
   window.onWizardSliderChange = function(sliderVal) {
     monthlyHeatingBill = Number(sliderVal);
     updatePenaltyCalculations();
+    if (typeof updateGlidingBubble === 'function') {
+      updateGlidingBubble(document.getElementById('wizard-spend-range'));
+    }
   };
 
   // Live Micro-Cent Penalty Ticker (The Shock)
@@ -675,3 +688,134 @@
     initSmartNav();
   }
 })();
+
+  // ==========================================================================
+  // NATIVE IOS MOBILE APP DOCK & GLIDING SLIDER BUBBLE CONTROLLER
+  // ==========================================================================
+
+  function updateGlidingBubble(slider) {
+    if (!slider) return;
+    const bubbles = document.querySelectorAll('.slider-value-bubble, #gliding-spend-bubble');
+    const min = Number(slider.min) || 100;
+    const max = Number(slider.max) || 650;
+    const val = Number(slider.value) || 350;
+    const ratio = (val - min) / (max - min);
+
+    bubbles.forEach(bubble => {
+      bubble.innerText = `€${val}/mo`;
+      bubble.style.left = `${ratio * 100}%`;
+    });
+  }
+
+  function initMobileIOSAppDock() {
+    // 1. Create Fixed Bottom Dock if not present
+    if (!document.getElementById('esh-mobile-dock')) {
+      const dock = document.createElement('nav');
+      dock.id = 'esh-mobile-dock';
+      dock.setAttribute('aria-label', 'iOS Native Mobile Navigation');
+      dock.innerHTML = `
+        <button type="button" class="dock-item active" onclick="window.onMobileDockHome()" aria-label="Home">
+          <span class="dock-icon">🏠</span>
+          <span>Home</span>
+        </button>
+        <button type="button" class="dock-item" onclick="window.onMobileDockProfiles()" aria-label="Profiles">
+          <span class="dock-icon">🎛️</span>
+          <span>Profiles</span>
+        </button>
+        <button type="button" class="dock-fab-center" onclick="window.onMobileDockShield()" aria-label="Quick Shield Scan">
+          <span>🔄</span>
+        </button>
+        <button type="button" class="dock-item" onclick="window.onMobileDockReports()" aria-label="Reports & Tools">
+          <span class="dock-icon">📋</span>
+          <span>Reports</span>
+        </button>
+        <a href="/checkout/" class="dock-item" aria-label="Checkout Survey">
+          <span class="dock-icon">👤</span>
+          <span>Checkout</span>
+        </a>
+      `;
+      document.body.appendChild(dock);
+    }
+
+    // 2. Create Mobile Tool Sheet Modal if not present
+    if (!document.getElementById('esh-mobile-tool-sheet')) {
+      const sheet = document.createElement('div');
+      sheet.id = 'esh-mobile-tool-sheet';
+      sheet.setAttribute('role', 'dialog');
+      sheet.setAttribute('aria-modal', 'true');
+      sheet.innerHTML = `
+        <div class="sheet-handle-bar"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <strong style="font-size: 1.2rem; color: #ffffff;">📋 Reports & Energy Engines</strong>
+          <button type="button" onclick="window.closeMobileToolSheet()" style="background: rgba(255,255,255,0.1); border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer;">✕</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="/solar/" class="drawer-link-item"><span class="tool-icon">☀️</span><div><div>Solar PV & CEG Simulator</div><div style="font-size:0.72rem;color:#94a3b8;">Eircode irradiance & 24c export cash</div></div></a>
+          <a href="/battery-arbitrage/" class="drawer-link-item"><span class="tool-icon">🔋</span><div><div>Smart Battery Arbitrage</div><div style="font-size:0.72rem;color:#94a3b8;">Charge at 7c, slash 38c peak bills</div></div></a>
+          <a href="/radiator-sizer/" class="drawer-link-item"><span class="tool-icon">📐</span><div><div>Radiator Low-Flow Sizer</div><div style="font-size:0.72rem;color:#94a3b8;">NSAI SR50-2:2024 compliance</div></div></a>
+          <a href="/retrofit-loan/" class="drawer-link-item"><span class="tool-icon">💶</span><div><div>0% Loan & Grant Stacker</div><div style="font-size:0.72rem;color:#94a3b8;">SBCI 3.55% subsidized cashflow</div></div></a>
+          <a href="/ber-matrix/" class="drawer-link-item"><span class="tool-icon">🏡</span><div><div>Simplified BER Matrix (A0-G)</div><div style="font-size:0.72rem;color:#94a3b8;">May 2026 SEAI scale & value surge</div></div></a>
+          <a href="/tender-generator/" class="drawer-link-item"><span class="tool-icon">📋</span><div><div>Contractor Tender RFP</div><div style="font-size:0.72rem;color:#94a3b8;">NSAI SR50 tender spec & milestone terms</div></div></a>
+        </div>
+        <div style="margin-top: 24px;">
+          <a href="/checkout/" class="btn-hero-primary-star" style="width: 100%; box-sizing: border-box; text-align: center;">
+            ⭐ Book Joe's €49 Survey →
+          </a>
+        </div>
+      `;
+      document.body.appendChild(sheet);
+    }
+
+    // 3. Attach Slider Bubble Tracking
+    const slider = document.getElementById('wizard-spend-range');
+    if (slider) {
+      slider.addEventListener('input', () => updateGlidingBubble(slider));
+      updateGlidingBubble(slider);
+    }
+  }
+
+  // Mobile Dock Handlers
+  window.onMobileDockHome = function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.setPersona('homeowner');
+  };
+
+  window.onMobileDockProfiles = function() {
+    const bar = document.querySelector('.persona-filter-bar');
+    if (bar) {
+      bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      bar.style.boxShadow = '0 0 30px rgba(52, 245, 197, 0.8)';
+      setTimeout(() => bar.style.boxShadow = '', 1600);
+    }
+  };
+
+  window.onMobileDockShield = function() {
+    const wizard = document.getElementById('wallet-rescue-wizard');
+    if (wizard) {
+      wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  window.onMobileDockReports = function() {
+    const sheet = document.getElementById('esh-mobile-tool-sheet');
+    if (sheet) {
+      sheet.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  window.closeMobileToolSheet = function() {
+    const sheet = document.getElementById('esh-mobile-tool-sheet');
+    if (sheet) {
+      sheet.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  };
+
+  // Auto-init on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileIOSAppDock);
+  } else {
+    initMobileIOSAppDock();
+  }
+

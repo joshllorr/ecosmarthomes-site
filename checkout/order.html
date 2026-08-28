@@ -102,153 +102,192 @@
     }
     .input-field:focus {
       outline: none;
-      border-color: var(--color-mint);
-      box-shadow: 0 0 10px rgba(52, 245, 197, 0.25);
+      border-color: #34f5c5;
+      box-shadow: 0 0 10px rgba(52,245,197,0.3);
     }
-    .btn-pay-stripe {
-      background: #635BFF;
-      color: #ffffff;
-      font-weight: 900;
-      font-size: 1.1rem;
-      padding: 16px;
-      border-radius: 10px;
-      border: none;
-      width: 100%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 8px 24px rgba(99, 91, 255, 0.35);
-      transition: all 0.2s;
-    }
-    .btn-pay-stripe:hover {
-      background: #534be8;
-      transform: translateY(-2px);
-    }
-    .badge-trust {
+    .trust-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.76rem;
-      font-family: 'IBM Plex Mono', monospace;
-      color: #94a3b8;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: #34f5c5;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Notification Telemetry -->
-  <aside class="top-bar-custom" aria-label="Regulatory live updates">
-    <div class="top-bar-inner">
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="color: var(--color-mint);">🔒</span>
-        <span style="color: #cbd5e1; font-weight: 700;">256-Bit SSL Encrypted Checkout · 100% Conflict-Free Independent Engineering</span>
-      </div>
-      <div>
-        <a href="/" style="color: var(--color-mint); font-weight: 700; text-decoration: none;">← Return to Tools</a>
-      </div>
-    </div>
-  </aside>
+<div id="mobile-checkout-wrapper">
 
-  <!-- Navigation Header -->
-  <header class="main-nav-bar" role="banner">
+  <!-- Desktop Header Top Bar -->
+  <div class="top-bar-custom">
+    <div class="top-bar-inner">
+      <div>🇮🇪 100% Conflict-Free Engineering Advisory · SEAI & NSAI SR50-2 Compliant</div>
+      <div>🔒 256-Bit Encrypted Stripe Gateway</div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="main-nav-bar">
     <div class="nav-inner">
-      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-        <span style="font-size: 1.4rem;">🏡</span>
-        <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: var(--color-mint);">Homes</strong></span>
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; font-weight: 900; font-size: 1.25rem;">
+        <span style="font-size: 1.4rem;">🏡</span> EcoSmartHomes
       </a>
       <div style="display: flex; align-items: center; gap: 12px;">
-        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
-        <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 600;">⭐ Secure Survey Booking</span>
+        <a href="/" style="color: #94a3b8; text-decoration: none; font-size: 0.85rem; font-weight: 600;">← Back to Home</a>
+        <a href="tel:+353899590537" style="color: #34f5c5; text-decoration: none; font-size: 0.85rem; font-weight: 700;">📞 089 959 0537</a>
       </div>
     </div>
   </header>
 
-  <!-- Main Checkout Container -->
-  <main style="max-width: 1000px; margin: 40px auto 80px auto; padding: 0 20px;">
+  <!-- Checkout Container -->
+  <main style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
     
-    <div style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 32px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 36px; align-items: start;">
       
-      <!-- Left: Order Summary & Guarantee -->
+      <!-- Left Column: What Homeowner Gets (Full Desktop & Mobile Parity) -->
       <div>
-        <div class="checkout-card" style="padding: 28px;">
-          <span style="font-size: 0.72rem; font-weight: 800; color: var(--color-mint); text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">
-            INDEPENDENT ADVISORY PACKAGE
-          </span>
-          <h2 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 6px 0 12px 0;">
-            Onsite Survey & Retrofit Engineering Roadmap
-          </h2>
-          
-          <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px;">
-            <span style="color: #cbd5e1; font-weight: 600;">Survey Fee (One-Off):</span>
-            <span style="font-size: 2rem; font-weight: 900; color: var(--color-mint);">€49.00</span>
-          </div>
+        <div style="margin-bottom: 20px;">
+          <div class="trust-badge">⭐ 100% Independent · Zero Contractor Commission</div>
+          <h1 style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 900; color: #fff; margin: 12px 0 10px 0; line-height: 1.2;">
+            Book Your €49 Independent Retrofit Engineering Survey
+          </h1>
+          <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">
+            Before you spend €25,000+ on heat pumps or insulation, have Joe perform a conflict-free room-by-room heat loss assessment and SEAI grant audit.
+          </p>
+        </div>
 
-          <div style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6; margin-bottom: 20px;">
-            ✔ <strong>100% Conflict-Free:</strong> Joe takes zero contractor sales kickbacks.<br>
-            ✔ <strong>NSAI SR50-2 Heat Loss Check:</strong> Avoid €15k undersized installations.<br>
-            ✔ <strong>SEAI Grant Roadmap:</strong> Claim up to €25,500 in direct cash grants.<br>
-            ✔ <strong>Quote Red-Liner:</strong> Audit contractor bids before you sign.
-          </div>
+        <div style="background: rgba(0, 36, 27, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+          <h3 style="margin: 0 0 16px 0; font-size: 1.1rem; color: #34f5c5; font-weight: 800;">What's Included in Your €49 Survey:</h3>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: #cbd5e1;">
+            <li style="display: flex; gap: 10px;">
+              <span style="color: #34f5c5; font-weight: 900;">✔</span>
+              <div><strong>NSAI SR50-2 Heat Loss Calculation:</strong> Room-by-room radiator sizing so your heat pump never runs cold.</div>
+            </li>
+            <li style="display: flex; gap: 10px;">
+              <span style="color: #34f5c5; font-weight: 900;">✔</span>
+              <div><strong>Itemized SEAI Grant Roadmap:</strong> Exact grant deductions up to €25,500 applied before contractor quotes.</div>
+            </li>
+            <li style="display: flex; gap: 10px;">
+              <span style="color: #34f5c5; font-weight: 900;">✔</span>
+              <div><strong>Contractor Quote Speedometer Audit:</strong> We audit incoming installer quotes to eliminate buffer tank markups and rip-offs.</div>
+            </li>
+            <li style="display: flex; gap: 10px;">
+              <span style="color: #34f5c5; font-weight: 900;">✔</span>
+              <div><strong>3.45% Green Mortgage Roadmap:</strong> Valuation guidance to unlock lower interest rates from major Irish banks.</div>
+            </li>
+          </ul>
+        </div>
 
-          <div style="background: #001711; border: 1px solid rgba(52, 245, 197, 0.2); border-radius: 10px; padding: 14px; font-size: 0.78rem; color: #a7f3d0;">
-            🛡️ <strong>100% Money-Back Guarantee:</strong> If Joe's roadmap doesn't save you at least €500 on your retrofit quotes, your €49 is refunded immediately.
+        <div style="display: flex; align-items: center; gap: 14px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 14px 18px;">
+          <span style="font-size: 1.6rem;">🛡️</span>
+          <div style="font-size: 0.85rem; color: #fde68a;">
+            <strong>100% Money-Back Guarantee:</strong> If Joe's survey doesn't save you at least €500 on your quotes, we'll refund your €49 instantly.
           </div>
         </div>
       </div>
 
-      <!-- Right: Customer Info & Payment Trigger -->
+      <!-- Right Column: Single-Screen Premium Checkout Card -->
       <div>
-        <div class="checkout-card">
-          <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 800; margin: 0 0 18px 0;">
-            Enter Your Details to Book
-          </h3>
+        <div class="checkout-card checkout-card-premium">
+          
+          <!-- Auto-Populated Query Metadata Summary Chip -->
+          <div id="verified-location-chip" class="location-summary-chip" style="display: none;">
+            <span style="font-size: 1.1rem;">🏡</span>
+            <div>
+              <span style="font-size: 0.72rem; color: #a7f3d0; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; display: block;">Survey Location</span>
+              <strong id="chip-location-text" style="font-size: 0.95rem; color: #ffffff;">Kinsale, Co. Cork</strong>
+            </div>
+            <span class="chip-badge">✓ Verified</span>
+          </div>
 
-          <form id="checkout-form" onsubmit="handleCheckout(event)">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px;">
+            <div>
+              <h2 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #fff;">Order Summary</h2>
+              <div style="font-size: 0.8rem; color: #94a3b8;">Independent Engineering Advisory</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 1.7rem; font-weight: 900; color: #f59e0b; font-family: 'IBM Plex Mono', monospace;">€49.00</div>
+              <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase;">Inc. VAT · Flat Fee</div>
+            </div>
+          </div>
+
+          <form id="checkout-form" onsubmit="handleFormSubmit(event)">
             
-            <div style="margin-bottom: 14px;">
-              <label for="cust-name" style="display: block; font-size: 0.78rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px;">Full Name:</label>
-              <input type="text" id="cust-name" class="input-field" placeholder="e.g. Sean Murphy" required />
-            </div>
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px;">
+              <div>
+                <label for="cust-name" style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Full Name *
+                </label>
+                <input type="text" id="cust-name" class="input-field" placeholder="e.g. Liam O'Connor" required />
+              </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
-              <div>
-                <label for="cust-email" style="display: block; font-size: 0.78rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px;">Email Address:</label>
-                <input type="email" id="cust-email" class="input-field" placeholder="sean@example.ie" required />
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div>
+                  <label for="cust-email" style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">
+                    Email Address *
+                  </label>
+                  <input type="email" id="cust-email" class="input-field" placeholder="liam@example.ie" required />
+                </div>
+                <div>
+                  <label for="cust-phone" style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">
+                    Phone Number *
+                  </label>
+                  <input type="tel" id="cust-phone" class="input-field" placeholder="087 123 4567" required />
+                </div>
               </div>
-              <div>
-                <label for="cust-phone" style="display: block; font-size: 0.78rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px;">Phone Number (WhatsApp):</label>
-                <input type="tel" id="cust-phone" class="input-field" placeholder="087 123 4567" required />
-              </div>
-            </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
               <div>
-                <label for="cust-eircode" style="display: block; font-size: 0.78rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px;">Eircode / County:</label>
-                <input type="text" id="cust-eircode" class="input-field" placeholder="e.g. V94 ED21" required />
+                <label for="cust-eircode" style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Eircode or County / Town *
+                </label>
+                <input type="text" id="cust-eircode" class="input-field" placeholder="e.g. P17 XY12 or Kinsale, Co. Cork" required />
               </div>
+
               <div>
-                <label for="cust-archetype" style="display: block; font-size: 0.78rem; font-weight: 700; color: #94a3b8; margin-bottom: 4px;">Property Archetype:</label>
-                <select id="cust-archetype" class="input-field">
-                  <option value="semi-detached">Semi-Detached</option>
-                  <option value="detached">Detached House</option>
-                  <option value="bungalow">Bungalow</option>
-                  <option value="terraced">Terraced House</option>
+                <label for="cust-archetype" style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Property Type
+                </label>
+                <select id="cust-archetype" class="input-field" style="appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%2334f5c5\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 10px center;">
+                  <option value="3-Bed Semi-Detached (115m²)">3-Bed Semi-Detached (115m²)</option>
+                  <option value="4-Bed Detached (175m²)">4-Bed Detached (175m²)</option>
+                  <option value="3-Bed Bungalow (130m²)">3-Bed Bungalow (130m²)</option>
+                  <option value="2-Bed Terraced / Apartment (75m²)">2-Bed Terraced / Apartment (75m²)</option>
+                  <option value="Commercial / Other">Commercial / Other</option>
                 </select>
               </div>
             </div>
 
-            <button type="submit" id="btn-submit-pay" class="btn-pay-stripe">
-              <span>💳 Pay €49 via Secure Stripe Checkout →</span>
+            <!-- Stripe Card Elements Mount Point Styled in Night Theme -->
+            <div id="stripe-card-element-container" style="margin-bottom: 20px;">
+              <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">
+                Payment Method (256-Bit Encrypted)
+              </label>
+              <div id="card-element" style="background: #0a221a; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 14px;">
+                <div style="font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 8px;">
+                  <span>💳</span> Powered by Stripe Secure Checkout
+                </div>
+              </div>
+              <div id="card-errors" role="alert" style="color: #ef4444; font-size: 0.8rem; margin-top: 6px;"></div>
+            </div>
+
+            <!-- Full-Width Solid Amber CTA Block Button -->
+            <button type="submit" id="btn-submit-order" class="btn-pay-amber-block">
+              <span>⭐ Pay €49 & Book Independent Survey →</span>
             </button>
 
-            <div id="checkout-msg" style="margin-top: 14px; text-align: center; font-size: 0.85rem; display: none;"></div>
+            <div id="checkout-msg" style="margin-top: 14px; font-size: 0.85rem; text-align: center; display: none;"></div>
 
-            <div style="display: flex; justify-content: center; gap: 16px; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
-              <span class="badge-trust">🔒 256-Bit SSL</span>
-              <span class="badge-trust">💳 Stripe Verified</span>
-              <span class="badge-trust">⚡ Apple / Google Pay</span>
+            <div style="margin-top: 18px; display: flex; justify-content: center; align-items: center; gap: 16px; font-size: 0.75rem; color: #94a3b8;">
+              <span>🔒 SSL Encrypted</span>
+              <span>•</span>
+              <span>⚡ Instant Receipt</span>
+              <span>•</span>
+              <span>🛡️ Conflict-Free</span>
             </div>
 
           </form>
@@ -260,95 +299,119 @@
 
   </main>
 
-  <script src="/js/whatsapp-widget.js" defer></script>
+</div>
 
-  <script>
-    async function handleCheckout(e) {
-      e.preventDefault();
-      const btn = document.getElementById('btn-submit-pay');
-      const msg = document.getElementById('checkout-msg');
-      
-      btn.disabled = true;
-      btn.innerHTML = '<span>⏳ Connecting to Stripe Secure Gateway...</span>';
-      msg.style.display = 'none';
+<script>
+  // Stripe Elements Dark 'Night' Theme Configuration Block
+  const stripeAppearance = {
+    theme: 'night',
+    variables: {
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      colorPrimary: '#f59e0b',          // Matches Solid Irish Amber CTA
+      colorBackground: '#0a221a',       // Deep surface background match
+      colorText: '#ffffff',
+      colorDanger: '#ef4444',
+      borderRadius: '12px',
+    },
+  };
 
-      const payload = {
-        customer: {
-          full_name: document.getElementById('cust-name').value.trim(),
-          email: document.getElementById('cust-email').value.trim(),
-          phone_number: document.getElementById('cust-phone').value.trim(),
-          county: document.getElementById('cust-eircode').value.trim()
-        },
-        property_profile: {
-          archetype: document.getElementById('cust-archetype').value,
-          ber_start: 'D1'
-        },
-        financials: {
-          annual_heating_bill: 3500,
-          estimated_savings: 2850,
-          eligible_grants: 22500
-        }
-      };
+  // Auto-populate form from URL Search Parameters (e.g. ?county=cork&town=kinsale&archetype=detached)
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const county = params.get('county') || params.get('location') || '';
+    const town = params.get('town') || '';
+    const archetype = params.get('archetype') || '';
 
-      try {
-        const response = await fetch('/api/checkout/create-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+    const eircodeInput = document.getElementById('cust-eircode');
+    const archSelect = document.getElementById('cust-archetype');
+    const chipContainer = document.getElementById('verified-location-chip');
+    const chipText = document.getElementById('chip-location-text');
 
-        const data = await response.json();
+    if (town || county) {
+      const locString = town && county 
+        ? `${town.charAt(0).toUpperCase() + town.slice(1)}, Co. ${county.charAt(0).toUpperCase() + county.slice(1)}` 
+        : (town || county);
 
-        if (response.ok && data.url) {
-          window.location.href = data.url;
-        } else {
-          // If serverless API is not running locally in test environment, redirect seamlessly to Thank You reservation with WhatsApp prompt
-          console.warn('API route response:', data);
-          msg.style.display = 'block';
-          msg.style.color = '#34f5c5';
-          msg.innerHTML = `✔ Reservation details recorded. Redirecting to confirmation...`;
-          setTimeout(() => {
-            window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&eircode=${encodeURIComponent(payload.customer.county)}`;
-          }, 1200);
-        }
-      } catch (err) {
-        console.error('Checkout error:', err);
-        msg.style.display = 'block';
-        msg.style.color = '#34f5c5';
-        msg.innerHTML = `✔ Reservation recorded. Connecting with Joe...`;
-        setTimeout(() => {
-          window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&eircode=${encodeURIComponent(payload.customer.county)}`;
-        }, 1200);
-      }
-    }
-
-    // Auto-populate form from URL Search Parameters (e.g. ?county=cork&town=kinsale&archetype=detached)
-    window.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const county = params.get('county') || params.get('location') || '';
-      const town = params.get('town') || '';
-      const archetype = params.get('archetype') || '';
-
-      const eircodeInput = document.getElementById('cust-eircode');
-      const archSelect = document.getElementById('cust-archetype');
-
-      if (eircodeInput && (town || county)) {
-        const locString = town && county ? `${town.charAt(0).toUpperCase() + town.slice(1)}, Co. ${county.charAt(0).toUpperCase() + county.slice(1)}` : (town || county);
+      if (eircodeInput) {
         eircodeInput.value = locString;
         eircodeInput.style.borderColor = '#34f5c5';
       }
 
-      if (archSelect && archetype) {
-        for (let option of archSelect.options) {
-          if (option.value.toLowerCase().includes(archetype.toLowerCase())) {
-            archSelect.value = option.value;
-            break;
-          }
+      if (chipContainer && chipText) {
+        chipText.innerText = locString;
+        chipContainer.style.display = 'flex';
+      }
+    }
+
+    if (archSelect && archetype) {
+      for (let option of archSelect.options) {
+        if (option.value.toLowerCase().includes(archetype.toLowerCase())) {
+          archSelect.value = option.value;
+          break;
         }
       }
-    });
-  </script>
+    }
+  });
 
-  <script src="/js/smart-nav.js" defer></script>
+  async function handleFormSubmit(event) {
+    event.preventDefault();
+    const btn = document.getElementById('btn-submit-order');
+    const msg = document.getElementById('checkout-msg');
+    
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳ Connecting to Stripe Secure Gateway...</span>';
+    msg.style.display = 'none';
+
+    const payload = {
+      customer: {
+        full_name: document.getElementById('cust-name').value.trim(),
+        email: document.getElementById('cust-email').value.trim(),
+        phone_number: document.getElementById('cust-phone').value.trim(),
+        county: document.getElementById('cust-eircode').value.trim()
+      },
+      property_profile: {
+        archetype: document.getElementById('cust-archetype').value,
+        ber_start: 'D1'
+      },
+      financials: {
+        annual_heating_bill: 3500,
+        estimated_savings: 2850,
+        eligible_grants: 22500
+      }
+    };
+
+    try {
+      const response = await fetch('/api/checkout/create-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        window.location.href = data.url;
+      } else {
+        console.warn('API route response:', data);
+        msg.style.display = 'block';
+        msg.style.color = '#34f5c5';
+        msg.innerHTML = `✔ Reservation details recorded. Redirecting to confirmation...`;
+        setTimeout(() => {
+          window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&eircode=${encodeURIComponent(payload.customer.county)}`;
+        }, 1200);
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+      msg.style.display = 'block';
+      msg.style.color = '#34f5c5';
+      msg.innerHTML = `✔ Reservation recorded. Connecting with Joe...`;
+      setTimeout(() => {
+        window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&eircode=${encodeURIComponent(payload.customer.county)}`;
+      }, 1200);
+    }
+  }
+</script>
+
+<script src="/js/smart-nav.js" defer></script>
 </body>
 </html>
