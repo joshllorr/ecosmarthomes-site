@@ -289,6 +289,7 @@
   <script src="/js/retrofit-pipeline.js" defer></script>
   <script src="/js/voice-advisor.js" defer></script>
   <script src="/js/energy-metrics.js" defer></script>
+  <script src="/js/calculator-data-core.js" defer></script>
   <link rel="stylesheet" href="/css/smart-nav.css">
 </head>
 <body>
@@ -326,7 +327,7 @@
             <span style="font-size: 1.3rem;">🏠</span>
             <div>
               <div>Homeowner</div>
-              <span class="option-desc">Fuel Tax Shield & €25.5k Grants</span>
+              <span class="option-desc">Fuel Tax Shield & €35k Grants</span>
             </div>
           </button>
           <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('agent')">
@@ -385,7 +386,7 @@
           ⚡ 24c/kWh Clean Export (CEG)
         </a>
         <a href="/ber-advisor/" class="badge-pill" style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: #93c5fd;">
-          💶 Up to €25,500 SEAI Grants
+          💶 Up to €35,000 SEAI Grants
         </a>
         <a href="/quote-auditor/" class="badge-pill" style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); color: #d8b4fe;">
           🛡️ AI Quote Red-Liner
@@ -397,7 +398,7 @@
       </h1>
 
       <p class="hero-sub">
-        Dublin, Cork, or Limerick—rising oil levies are quietly eating your savings. Secure a 100% independent roadmap to slash your heating bills from €5,400 to €650 a year using up to €25,500 in direct SEAI grants. No sales pitches. No contractor kickbacks.
+        Dublin, Cork, or Limerick—rising oil levies are quietly eating your savings. Secure a 100% independent roadmap to slash your heating bills from €5,400 to €650 a year using up to €35,000 in direct SEAI grants. No sales pitches. No contractor kickbacks.
       </p>
 
       <!-- 🚀 1-CLICK DAFT.IE & EIRCODE PROPERTY AUDITOR HERO SCANNER -->
@@ -601,7 +602,7 @@
         <div class="savings-stack-grid">
           <div class="savings-stack-item">
             <div style="font-size: 0.72rem; color: #34f5c5; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">SEAI CASH GRANTS</div>
-            <div style="font-size: 1.3rem; font-weight: 900; color: #ffffff; margin: 4px 0;">-€25,500 Direct</div>
+            <div style="font-size: 1.3rem; font-weight: 900; color: #ffffff; margin: 4px 0;">-€35,000 Direct</div>
             <div style="font-size: 0.74rem; color: #94a3b8;">Heat pump, wrap, attic & solar deducted upfront.</div>
           </div>
           <div class="savings-stack-item">
@@ -695,7 +696,7 @@
         </div>
         <div class="daft-copy-box">
           <p id="lbl-daft-blurb-text" style="margin: 0;">
-            🏡 Prime Energy & Equity Upgrade Potential: Pre-assessed for SEAI grant funding with up to €25,500 in direct government grants available. Upgrading to an A-rating unlocks an estimated +€24,500 in property value and qualifies prospective purchasers for 3.45% Green Mortgage interest rates (~€214/month monthly mortgage reduction). Full independent engineering specification and grant breakdown available upon request.
+            🏡 Prime Energy & Equity Upgrade Potential: Pre-assessed for SEAI grant funding with up to €35,000 in direct government grants available. Upgrading to an A-rating unlocks an estimated +€24,500 in property value and qualifies prospective purchasers for 3.45% Green Mortgage interest rates (~€214/month monthly mortgage reduction). Full independent engineering specification and grant breakdown available upon request.
           </p>
         </div>
 
@@ -858,7 +859,7 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
             <span style="font-size: 2.2rem;">💶</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">0% Out-of-Pocket Loan Stacker</h3>
             <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 8px; line-height: 1.5;">
-              Stack 3.55% SBCI government loans with €25,500 in SEAI grants. Prove positive monthly cashflow from Month 1 (+€54/mo profit).
+              Stack 3.55% SBCI government loans with €35,000 in SEAI grants. Prove positive monthly cashflow from Month 1 (+€54/mo profit).
             </p>
           </div>
           <a href="/retrofit-loan/" style="margin-top: 20px; color: #34f5c5; font-weight: 800; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
@@ -990,14 +991,14 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
           SEAI Grant & Payback Calculator
         </h2>
         <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 8px; margin-bottom: 32px;">
-          Drag the slider to calculate your grant allocation up to €25,500 and annual fuel savings.
+          Drag the slider to calculate your grant allocation up to €35,000 and annual fuel savings.
         </p>
 
         <div style="background: #001711; border: 1px solid rgba(52, 245, 197, 0.2); border-radius: 16px; padding: 28px; box-shadow: 0 16px 36px rgba(0,0,0,0.5);">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
             <div style="background: #00241b; padding: 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); text-align: left;">
               <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px;">Total SEAI Grants</span>
-              <span id="hero-grant-val" style="font-size: 1.8rem; font-weight: 900; color: #34f5c5;">€25,500</span>
+              <span id="hero-grant-val" style="font-size: 1.8rem; font-weight: 900; color: #34f5c5;">€35,000</span>
             </div>
             <div style="background: #00241b; padding: 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); text-align: left;">
               <span style="font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px;">Target Heating Bills</span>
@@ -1019,7 +1020,7 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
                 {b:'D', g:9500, bill:3100},
                 {b:'C', g:14000, bill:2200},
                 {b:'B', g:19500, bill:1400},
-                {b:'A2', g:25500, bill:650}
+                {b:'A2', g:35000, bill:650}
               ];
               const item = bands[this.value];
               document.getElementById('hero-grant-val').innerText = '€' + item.g.toLocaleString();

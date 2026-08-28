@@ -53,7 +53,7 @@
   };
 
   window.copyDaftListingBlurb = function() {
-    const blurb = "EcoSmartHomes Energy Intelligence: Upgraded to A-Rating potential. Unlocks €25,500 in SEAI Direct Grants and 3.45% Green Mortgage eligibility. Heating costs reduced by up to 75%. Full NSAI heat loss report available.";
+    const blurb = "EcoSmartHomes Energy Intelligence: Upgraded to A-Rating potential. Unlocks €35,000 in SEAI Direct Grants and 3.45% Green Mortgage eligibility. Heating costs reduced by up to 75%. Full NSAI heat loss report available.";
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(blurb).then(() => {
         if (window.showEshToast) window.showEshToast('Copied Daft.ie Listing Blurb to clipboard!', '📋');
@@ -128,7 +128,7 @@
       const status = document.getElementById('radar-status-text');
       const sub = document.getElementById('radar-sub-text');
       if (status) status.innerText = 'Matching 2026 SEAI Direct Grant Pot & Green Mortgage Rates...';
-      if (sub) sub.innerText = `Applying -€25,500 Grant Deductions & 3.45% Mortgage Discount...`;
+      if (sub) sub.innerText = `Applying -€35,000 Grant Deductions & 3.45% Mortgage Discount...`;
     }, 1800);
 
     setTimeout(() => {
@@ -161,7 +161,7 @@
           </div>
           <div style="text-align: right;">
             <div style="font-size: 0.72rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">Total Grants Unlocked</div>
-            <div style="font-size: 1.8rem; font-weight: 900; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">€25,500</div>
+            <div style="font-size: 1.8rem; font-weight: 900; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">€35,000</div>
           </div>
         </div>
 

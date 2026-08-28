@@ -271,7 +271,7 @@
           <span style="background: #f59e0b; color: #000; font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; font-weight: 800; text-transform: uppercase;">EPBD 2030 Rule</span>
         </div>
         <p style="margin: 6px 0 0 0; font-size: 0.92rem; color: #cbd5e1; max-width: 680px;">
-          Under the official simplified SEAI scale, lowest-rated dwellings (<strong>G & F</strong>) qualify for up to <strong>€25,500+ in SEAI grants</strong> and unlock an estimated <strong>€4,850/year in heating bill savings</strong>.
+          Under the official simplified SEAI scale, lowest-rated dwellings (<strong>G & F</strong>) qualify for up to <strong>€35,000 in SEAI grants</strong> and unlock an estimated <strong>€4,850/year in heating bill savings</strong>.
         </p>
       </div>
     </div>
@@ -328,7 +328,7 @@
 
         <div style="background:#eff6ff; border:1.5px solid #bfdbfe; padding:16px; border-radius:12px; text-align:center;">
           <small style="color:#1d4ed8; font-weight:700; text-transform:uppercase; font-size:0.75rem;">Claimable SEAI Grants</small>
-          <div id="berGrantOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#1e40af; margin-top:4px;">€25,500 Max</div>
+          <div id="berGrantOut" style="font-family:'Outfit',sans-serif; font-size:1.8rem; font-weight:800; color:#1e40af; margin-top:4px;">€35,000 Max</div>
         </div>
 
         <div style="background:#fffbeb; border:1.5px solid #fde68a; padding:16px; border-radius:12px; text-align:center;">
@@ -471,7 +471,7 @@
           <tr style="background: #fefce8; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #ca8a04;">D</td><td style="padding: 8px 12px;">200 – 280 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #ca8a04;">~€2,650 / yr</td><td style="padding: 8px 12px;">4.1 t/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #854d0e;">Moderate Efficiency · External Wrap & Heat Pump Candidate</td></tr>
           <tr style="background: #fff7ed; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #d97706;">E</td><td style="padding: 8px 12px;">280 – 360 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #c2410c;">~€3,400 / yr</td><td style="padding: 8px 12px;">5.4 t/yr</td><td style="padding: 8px 12px;">Lower Efficiency · Uninsulated Walls & Inefficient Boiler</td></tr>
           <tr style="background: #fff1f2; border-bottom: 1px solid #e2e8f0;"><td style="padding: 8px 12px; font-weight: 800; color: #b91c1c;">F</td><td style="padding: 8px 12px;">360 – 450 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #991b1b;">~€4,200 / yr</td><td style="padding: 8px 12px;">6.6 t/yr</td><td style="padding: 8px 12px; color: #991b1b; font-weight: 700;">Poor Performance · EU EPBD Mandatory Retrofit Priority Target</td></tr>
-          <tr style="background: #fef2f2;"><td style="padding: 8px 12px; font-weight: 800; color: #991b1b;">G</td><td style="padding: 8px 12px;">&gt; 450 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #7f1d1d;">~€5,400+ / yr</td><td style="padding: 8px 12px;">8.5+ t/yr</td><td style="padding: 8px 12px; color: #7f1d1d; font-weight: 800;">Lowest Efficiency · Priority SEAI Up to €25,500+ Deep Grants</td></tr>
+          <tr style="background: #fef2f2;"><td style="padding: 8px 12px; font-weight: 800; color: #991b1b;">G</td><td style="padding: 8px 12px;">&gt; 450 kWh/m²/yr</td><td style="padding: 8px 12px; font-weight: 700; color: #7f1d1d;">~€5,400+ / yr</td><td style="padding: 8px 12px;">8.5+ t/yr</td><td style="padding: 8px 12px; color: #7f1d1d; font-weight: 800;">Lowest Efficiency · Priority SEAI Up to €35,000 Deep Grants</td></tr>
         </tbody>
       </table>
     </div>
@@ -544,13 +544,13 @@ function simulateBER() {
   const co2Saved = Math.max(0, (cur.co2 - tar.co2)).toFixed(1);
   
   // SEAI Grant estimation
-  let grantEst = "€25,500 Max (One-Stop-Shop)";
+  let grantEst = "€35,000 Max (One-Stop-Shop)";
   if (['C', 'C1', 'C2', 'C3'].includes(targetKey)) grantEst = "€16,500 (Attic & Controls)";
   if (['B', 'B3', 'B2'].includes(targetKey)) grantEst = "€21,000 (Cost-Optimal Target)";
   if (targetKey === 'B1') grantEst = "€22,500 (3.45% Green Mortgage)";
-  if (['A', 'A3'].includes(targetKey)) grantEst = "€25,500 (Deep Retrofit / Heat Pump)";
-  if (targetKey === 'A2') grantEst = "€25,500 (Official NZEB Standard)";
-  if (['A1', 'A0'].includes(targetKey)) grantEst = "€26,500+ (Zero-Emission ZEB)";
+  if (['A', 'A3'].includes(targetKey)) grantEst = "€35,000 (Deep Retrofit / Heat Pump)";
+  if (targetKey === 'A2') grantEst = "€35,000 (Official NZEB Standard)";
+  if (['A1', 'A0'].includes(targetKey)) grantEst = "€35,000+ (Zero-Emission ZEB)";
 
   // Value boost
   let valueBoost = "+10% to +14%";

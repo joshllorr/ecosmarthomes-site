@@ -62,7 +62,7 @@
           </div>
           <div class="wa-topic-chip" id="chip-grant" onclick="window.setWaTopic('grant')">
             <span>🎙️</span>
-            <span>Send Voice Note about Eircode & €25,500 SEAI Grants</span>
+            <span>Send Voice Note about Eircode & €35,000 SEAI Grants</span>
           </div>
           <div class="wa-topic-chip" id="chip-quote" onclick="window.setWaTopic('quote')">
             <span>📑</span>
@@ -121,7 +121,7 @@
       if (currentTopic === 'boiler') {
         msg = `Hi Joe, I'm looking at upgrading my ${ber} home in ${eircode}. I'd like your independent advice on heat pump readiness. Attached is a photo of my current boiler / cylinder setup...`;
       } else if (currentTopic === 'grant') {
-        msg = `Hi Joe, I have a property in ${eircode} (BER: ${ber}) and want to understand how to claim up to €25,500 in SEAI grants. Sending you a quick voice note with details...`;
+        msg = `Hi Joe, I have a property in ${eircode} (BER: ${ber}) and want to understand how to claim up to €35,000 in SEAI grants. Sending you a quick voice note with details...`;
       } else {
         msg = `Hi Joe, I received a contractor quote for my ${ber} home in ${eircode}. Can you red-line it against fair Irish market benchmarks? Sending the quote details now...`;
       }

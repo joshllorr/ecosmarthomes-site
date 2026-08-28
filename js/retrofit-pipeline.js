@@ -614,7 +614,7 @@
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9.5);
     doc.setTextColor(71, 85, 105);
-    const intro = `This certified independent energy advisory dossier aggregates your property specifications, verified May 2026 SEAI grant entitlements (€25,500 maximum funding), and Heat Loss Index (HLI) compliance parameters for Irish domestic dwellings.`;
+    const intro = `This certified independent energy advisory dossier aggregates your property specifications, verified 2026 SEAI grant entitlements (€35,000 maximum deep retrofit funding), and Heat Loss Index (HLI) compliance parameters for Irish domestic dwellings.`;
     y += drawWrappedText(intro, margin, y, contentWidth, 4.8) + 6;
 
     // Section 1: Property & Client Profile
@@ -655,14 +655,16 @@
     y = boxY + boxHeight + 10;
 
     // Section 2: SEAI Grant Breakdown Table
-    y = drawSectionHeader('2. May 2026 Claimable SEAI Grant Breakdown', y);
+    y = drawSectionHeader('2. 2026 Claimable SEAI Grant Breakdown', y);
 
     const grants = [
-      { measure: 'Air-to-Water Heat Pump System', rule: 'Requires HLI < 2.0 W/K/m²', grant: '€12,500' },
+      { measure: 'Air-to-Water Heat Pump Total Package', rule: 'Requires HLI < 2.0 W/K/m² (Base + Rads + Bonus)', grant: '€12,500' },
       { measure: 'External Wall Insulation (The Wrap)', rule: 'Certified NSAI Agrément System', grant: '€8,000' },
+      { measure: 'Triple Glazed Windows & Doors', rule: 'Certified Low-E Thermal Enclosure', grant: '€5,600' },
       { measure: 'High-Density Attic Insulation (300mm)', rule: 'U-Value <= 0.16 W/m²K', grant: '€2,500' },
       { measure: 'Rooftop Solar PV Panels (10-Panel)', rule: '0% VAT + 24c/kWh Clean Export', grant: '€1,800' },
-      { measure: 'Smart Heating Controls Upgrade', rule: '7-Day Multi-Zone Programmers', grant: '€700' }
+      { measure: 'Smart Heating Controls Upgrade', rule: '7-Day Multi-Zone Programmers', grant: '€700' },
+      { measure: 'One Stop Shop Deep Retrofit Stack Bonus', rule: 'Whole-House Multi-Measure Standard', grant: '€3,900' }
     ];
 
     let rowY = y;
@@ -706,7 +708,7 @@
     doc.setFontSize(9.5);
     doc.setTextColor(6, 95, 70);
     doc.text('TOTAL MAXIMUM SEAI GRANT FUNDING', margin + 4, rowY + 6);
-    doc.text('€25,500', margin + contentWidth - 32, rowY + 6);
+    doc.text('€35,000', margin + contentWidth - 32, rowY + 6);
 
     y = rowY + 16;
 

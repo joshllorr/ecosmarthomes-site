@@ -1,11 +1,7 @@
 /**
  * calculator-data-core.js
  * Core Calculator Data Architecture & Statutory Regulations Engine
- * EcoSmartHomes Ireland
- * 
- * 1. Static Data Repository (SEAI Grants, NSAI SR50-2 ΔT30 low-temperature sizing)
- * 2. Unstructured Quote & PDF Text Parser (Regex matching)
- * 3. Data Integrity Lock (Frozen statutory baselines)
+ * EcoSmartHomes Ireland (Updated 2026 SEAI Grant Matrices)
  */
 
 (function(root) {
@@ -13,18 +9,22 @@
 
   // 1. STATIC STATUTORY REPOSITORY (Deeply Frozen & Immutable)
   const IRISH_ENERGY_REGULATIONS_2026 = Object.freeze({
-    // SEAI 2026 Grant Matrix
+    // SEAI 2026 Grant Matrix (Reflecting 2026 Renewable Heat Bonus & Glazing Upgrades)
     SEAI_GRANTS: Object.freeze({
-      HEAT_PUMP_AIR_TO_WATER: 6500,
-      HEAT_PUMP_GROUND_SOURCE: 6500,
-      SOLAR_PV_MAX: 2100,
-      EXTERNAL_WALL_INSULATION: 8000,
-      ATTIC_INSULATION: 1500,
-      HEATING_CONTROLS: 700,
+      HEAT_PUMP_BASE_UNIT: 6500,
+      HEAT_PUMP_RADIATOR_UPGRADE: 2000,
+      RENEWABLE_HEAT_BONUS: 4000,
+      HEAT_PUMP_TOTAL_PACKAGE: 12500,            // Base + Radiators + Bonus
+      EXTERNAL_WALL_INSULATION_SEMI: 8000,
+      EXTERNAL_WALL_INSULATION_DETACHED: 12000,
+      WINDOWS_COMPLETE_HOUSE: 4000,
+      EXTERNAL_DOORS_MAX: 1600,
+      SOLAR_PV_MAX: 1800,
+      ATTIC_INSULATION_MAX: 2000,
       CAVITY_WALL_INSULATION: 1700,
-      INTERNAL_DRY_LINING: 4500,
       HEAT_PUMP_TECHNICAL_ASSESSMENT: 200,
-      DEEP_RETROFIT_MAX_CAP: 25500,
+      DEEP_RETROFIT_TYPICAL_CAP: 35000,          // Standard One Stop Shop Deep Stack
+      DEEP_RETROFIT_MAX_DETACHED: 53000,         // Extensive Detached Deep Retrofit Cap
       SBCI_RETROFIT_LOAN_MAX: 75000,
       SBCI_LOAN_INTEREST_RATE_SUBSIDIZED: 0.0345 // 3.45%
     }),
@@ -82,7 +82,7 @@
     const bufferMatch = text.match(/(\d{2,3})\s*(?:l|litre|liter|ltr)\s*(?:buffer|volumiser|cylinder|tank)/i);
     const bufferLitres = bufferMatch ? parseInt(bufferMatch[1], 10) : null;
 
-    // D. Extract SEAI Grant Line Item (e.g., "SEAI Grant: €6,500", "Grant Deduction €25,500")
+    // D. Extract SEAI Grant Line Item (e.g., "SEAI Grant: €12,500", "Grant Deduction €35,000")
     const grantMatch = text.match(/(?:seai|grant|deduction|rebate)\s*[:=]?\s*€?\s*([0-9,]+)/i);
     let quotedGrant = null;
     if (grantMatch) {
@@ -156,14 +156,16 @@
 
     // Check SEAI Grant Claimed
     if (data.quotedGrant) {
-      const maxSingleHP = regulations.SEAI_GRANTS.HEAT_PUMP_AIR_TO_WATER;
-      const maxDeep = regulations.SEAI_GRANTS.DEEP_RETROFIT_MAX_CAP;
-      if (data.quotedGrant === maxSingleHP) {
-        findings.push(`✔ Standard SEAI Heat Pump Grant deduction (€${maxSingleHP.toLocaleString()}) correctly applied.`);
+      const maxHPBundle = regulations.SEAI_GRANTS.HEAT_PUMP_TOTAL_PACKAGE;
+      const maxDeep = regulations.SEAI_GRANTS.DEEP_RETROFIT_TYPICAL_CAP;
+      if (data.quotedGrant === regulations.SEAI_GRANTS.HEAT_PUMP_BASE_UNIT) {
+        findings.push(`✔ Base SEAI Heat Pump Grant deduction (€${regulations.SEAI_GRANTS.HEAT_PUMP_BASE_UNIT.toLocaleString()}) applied.`);
+      } else if (data.quotedGrant === maxHPBundle) {
+        findings.push(`✔ Full 2026 SEAI Heat Pump System Bundle (€${maxHPBundle.toLocaleString()} including Renewable Heat Bonus & Radiators) applied.`);
       } else if (data.quotedGrant <= maxDeep) {
-        findings.push(`✔ Multi-measure SEAI Grant package (€${data.quotedGrant.toLocaleString()}) applied.`);
+        findings.push(`✔ Multi-measure One Stop Shop SEAI Grant package (€${data.quotedGrant.toLocaleString()}) applied.`);
       } else {
-        redFlags.push(`⚠️ Overstated Grant Deduction: Quote claims €${data.quotedGrant.toLocaleString()} SEAI grant, exceeding national single-measure heat pump baseline (€${maxSingleHP.toLocaleString()}).`);
+        redFlags.push(`⚠️ Overstated Grant Deduction: Quote claims €${data.quotedGrant.toLocaleString()} SEAI grant, exceeding standard national One Stop Shop baseline (€${maxDeep.toLocaleString()}).`);
         complianceScore -= 15;
       }
     }
@@ -176,7 +178,8 @@
       statutoryStandardsApplied: {
         flowTemp: `${regulations.NSAI_SR50_2.DESIGN_FLOW_TEMP_C}°C (ΔT30)`,
         oversizingFactor: `${regulations.NSAI_SR50_2.OVERSIZING_MULTIPLIER}x`,
-        standardGrant: `€${regulations.SEAI_GRANTS.HEAT_PUMP_AIR_TO_WATER.toLocaleString()}`
+        heatPumpBundleGrant: `€${regulations.SEAI_GRANTS.HEAT_PUMP_TOTAL_PACKAGE.toLocaleString()}`,
+        deepRetrofitTypicalGrant: `€${regulations.SEAI_GRANTS.DEEP_RETROFIT_TYPICAL_CAP.toLocaleString()}`
       }
     };
   };
