@@ -1,148 +1,83 @@
 # EcoSmartHome Disaster Recovery Runbook
 
-**Version:** 1.0.0  
-**Last Updated:** August 27, 2026  
-**Classification:** Internal Technical Operations  
+**Version:** 2.1.0  
+**Last Updated:** August 28, 2026  
+**Classification:** Internal Technical Operations & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
-This document serves as the absolute operational standard for responding to, diagnosing, and recovering from technical failures across the EcoSmartHome production ecosystem. It covers Vercel hosting, Supabase PostgreSQL databases, Stripe payment webhooks, and Cron reporter networks.
+This document serves as the operational standard for monitoring, diagnosing, recovering, and maintaining the EcoSmartHome production ecosystem. It covers the Vercel hosting platform, static Hub & Spoke architecture, Supabase PostgreSQL telemetry databases, dedicated Stripe `/checkout/` gateway, off-canvas smart navigation, and the complete 11-tool energy suite.
 
 ---
 
 ## 🚨 Incident Response Protocol (Quick Start)
 
-If the live production site is reported down, or if payments are failing, execute these three steps immediately:
+If the live production site is reported down, or if payments/tools fail, execute these three steps immediately:
 
 ### 1. Check Status Dashboards
-- **Vercel Status:** [status.vercel.com](https://status.vercel.com) *(Hosting & Edge Functions)*
-- **Supabase Status:** [status.supabase.com](https://status.supabase.com) *(Database, Auth, API Rest)*
-- **Stripe Status:** [status.stripe.com](https://status.stripe.com) *(Payments & Webhook delivery)*
+- **Vercel Status:** [status.vercel.com](https://status.vercel.com) *(Edge Functions & Static Hosting)*
+- **Supabase Status:** [status.supabase.com](https://status.supabase.com) *(Database & APIs)*
+- **Stripe Status:** [status.stripe.com](https://status.stripe.com) *(Payments & Webhooks)*
 
 ### 2. Isolate the Failure Domain
-- **HTTP 500 / 502 / 504 on Webpages:** Vercel CDN or Static Spoke generation issue.
-- **HTTP 500 on `/api/checkout` or `/api/webhooks/stripe`:** Serverless function failure or Supabase database timeout.
-- **"Database Connection Refused" in Logs:** Supabase connection limit reached or database paused.
+- **HTTP 500 / 502 / 504 on Webpages:** Vercel edge deployment or DNS configuration issue.
+- **HTTP 500 on `/api/checkout/create-session` or `/api/webhooks/stripe`:** Stripe API secret key mismatch or Supabase database timeout.
+- **Client-Side Script Errors in Tools:** Verify asset integrity in `/js/smart-nav.js`, `/js/whatsapp-widget.js`, `/js/solar-estimator.js`.
 
-### 3. Notify Key Stakeholders
-- Alert Joe of active downtime and estimate time to resolution (TTR).
-- Update status indicators if public-facing dashboards are deployed.
+### 3. Immediate Git / Vercel Rollback Protocol
+```pwsh
+cd c:\xampp\htdocs\EcoSmartHome\site
+# 1. Fetch latest git remote state
+git fetch origin main
 
----
+# 2. Revert to verified stable commit
+git reset --hard HEAD~1
 
-## 1. Database Outages & Recovery (Supabase)
-
-The core database hosts customer survey profiles, pending orders, and telemetry tracking event rows (`ecosmarthomes-schema.sql` and `analytics-funnel-schema.sql`).
-
-### Scenario A: Supabase Connection Timeout or API Rate Limits
-- **Symptom:** API routes return `504 Gateway Timeout` or `429 Too Many Requests` when trying to save wizard steps.
-- **Immediate Recovery Steps:**
-  1. Log into the [Supabase Dashboard](https://supabase.com).
-  2. Navigate to **Project Settings ➔ Database** and check **Active Connections**.
-  3. If connections exceed plan limits (e.g., due to high concurrent telemetry pings), temporarily **Disable Telemetry Logging** by setting the environment variable in Vercel:
-     ```env
-     NEXT_PUBLIC_TELEMETRY_ENABLED=false
-     ```
-  4. Re-deploy the main branch to instantly kill telemetry traffic and free up Postgres connections.
-  5. Scale database pooling in Supabase by switching connection strings from direct PG connection (`port 5432`) to the connection pooler (PgBouncer on `port 6543`).
-
-### Scenario B: Accidental Table Deletion or Schema Corruption
-- **Symptom:** Database tables are dropped, or a migration corrupts enums.
-- **Immediate Recovery Steps:**
-  1. Navigate to **Supabase Dashboard ➔ Database ➔ Backups**.
-  2. Identify the latest daily physical backup.
-  3. Click **Restore Backup** to roll back the database state.
-  4. **If on a free tier (manual recovery required):**
-     - Re-run structural SQL DDL files: `ecosmarthomes-schema.sql` first, followed by `analytics-funnel-schema.sql`.
-     - Restore transactional integrity by executing a CSV data import using backup spreadsheets from off-site storage.
+# 3. Force-push to trigger instant Vercel CI/CD redeployment (< 90 seconds)
+git push origin main --force
+```
 
 ---
 
-## 2. Payment Webhook Failures & Order Re-Sync (Stripe)
+## 🏗️ Production System Architecture & Endpoints (August 28, 2026)
 
-Stripe securely charges €49 for Joe's custom energy roadmaps, then fires a webhook payload to `/api/webhooks/stripe` to log the completed order.
+### 1. Multi-Audience Onboarding Triumvirate (`index.html`)
+- **🏠 Homeowner Carbon Tax Rescue (`#wallet-rescue-wizard`):**
+  - Fuel selector (`🔥 Oil`, `💨 Gas`, `⚡ Electric`) + winter spend slider (€100–€650/mo).
+  - Live ticking Carbon Tax Penalty Clock calculating statutory 2026–2030 compounding liability (€4,320.00).
+  - Shield Deployment animation: shatters penalty clock down to `€0.00` and displays customized grant breakdown (-€25.5k SEAI grants, -€180/mo Green Mortgage, €54/mo net bill).
+- **💼 Estate Agent Commission Booster (`#agent-rescue-wizard`):**
+  - Simplified 8-category BER rating selector (G to A) + property asking price presets (€175k–€950k).
+  - Live ESRI-calibrated Property Equity Surge engine (e.g. `+€24,500` equity, `+€368` extra commission).
+  - 1-Click Daft.ie Listing Blurb Copy tool with animated clipboard toast.
+- **⚡ Installer / Retrofitter Van-to-Verdict Portal (`#installer-rescue-wizard`):**
+  - Rapid archetype intake (`3-Bed Semi`, `4-Bed Detached`, `3-Bed Bungalow`, `2-Bed Apt`).
+  - NSAI SR50-2:2024 low-flow radiator matrix with live `🟢 Compliant OK` and `⚠️ Oversizing Required` badges.
+  - 1-Click SEAI-Compliant Tender Draft Generator + Outsource Technical Survey €49 Hand-Off.
 
-### Scenario A: Stripe Webhook Payload Fails Cryptographic Signature Check
-- **Symptom:** Stripe logs show `400 Bad Request` on webhook attempts; Joe's WhatsApp alerts are not firing.
-- **Diagnosis:** The `STRIPE_WEBHOOK_SECRET` environment variable in Vercel does not match the active Webhook signing secret in Stripe's developer dashboard.
-- **Immediate Recovery Steps:**
-  1. Go to **Stripe Dashboard ➔ Developers ➔ Webhooks**.
-  2. Select your Vercel endpoint URL: `https://ecosmarthomes.ie/api/webhooks/stripe`.
-  3. Locate the **Signing Secret** (starts with `whsec_`) and copy it.
-  4. Log into **Vercel Dashboard ➔ Project Settings ➔ Environment Variables**.
-  5. Edit `STRIPE_WEBHOOK_SECRET`, paste the new secret, and click **Save**.
-  6. Re-deploy the latest deployment in Vercel to load the active variable.
+### 2. Complete 11-Tool Energy Engine Suite
+1. **Solar PV & 24c Clean Export Simulator:** `/solar/` (`solar/index.html`)
+2. **Contractor Quote Speedometer Gauge:** `/quote-auditor/` (`quote-auditor/index.html`)
+3. **Smart Meter & Battery Arbitrage Slasher:** `/battery-arbitrage/` (`battery-arbitrage/index.html`)
+4. **Radiator Flow & Low-Flow Heat Pump Sizer:** `/radiator-sizer/` (`radiator-sizer/index.html`)
+5. **Zero-Out-of-Pocket SBCI Loan & Grant Stacker:** `/retrofit-loan/` (`retrofit-loan/index.html`)
+6. **Simplified 8-Category BER (A0 to G) Matrix:** `/ber-matrix/` (`ber-matrix/index.html`)
+7. **Contractor Tender Specification RFP Generator:** `/tender-generator/` (`tender-generator/index.html`)
+8. **Carbon Tax Liability Ticker:** `/carbon-tax/` (`carbon-tax/index.html`)
+9. **Green Mortgage 3.45% Arbitrage Slasher:** `/green-mortgage/` (`green-mortgage/index.html`)
+10. **33 Irish Towns Regional SEO Directory:** `/locations/` (`locations/index.html`)
+11. **Ask Aoife Voice & AI Energy Advisor:** `/tools/voice-aoife.html` (`tools/voice-aoife.html`)
 
-### Scenario B: Missed Events (Webhook Server Offline)
-- **Symptom:** Customers successfully pay Stripe, but their surveys remain marked as `pending` in Supabase, and Joe does not receive notification to complete the roadmap.
-- **Immediate Recovery Steps:**
-  1. Once Vercel / Supabase service is restored, go to **Stripe Dashboard ➔ Developers ➔ Webhooks**.
-  2. Click on the failed events history.
-  3. Click **Resend Event** for all failed transactions in the last 24 hours. Stripe will re-fire the signed POST requests.
-  4. **Manual Sync SQL Script:** If Stripe's automated retry window has closed, run this in your Supabase SQL editor:
-     ```sql
-     -- 1. Locate unpaid profiles matching paid customer emails from Stripe export
-     SELECT session_id, email, status, created_at 
-     FROM public.survey_profiles 
-     WHERE status = 'pending' 
-       AND email IN ('customer-email@domain.ie');
+### 3. Payment & Booking Architecture
+- Dedicated on-site gateway: `/checkout/` (`checkout/index.html`, `checkout/order.html`, `checkout/thank-you.html`)
+- Handles the €49 Independent Retrofit Engineering Survey with Joe.
+- Triggers `/api/checkout/create-session` and posts customer metadata (Name, Email, Phone, Eircode) directly to Supabase and Stripe.
 
-     -- 2. Manually upgrade user status to paid to release roadmap generation
-     UPDATE public.survey_profiles 
-     SET status = 'paid' 
-     WHERE email = 'customer-email@domain.ie' 
-       AND status = 'pending';
-     ```
-
----
-
-## 3. Deployment Rollbacks (Vercel & GitHub)
-
-A developer pushes a commit that introduces an unhandled exception on Chrome/Safari, breaking the live onboarding wizard on production.
-
-### Scenario A: Quick-Rollback via Vercel Dashboard (Fastest — < 10 Seconds)
-- **Symptom:** Mobile or desktop users face page compile crashes.
-- **Immediate Recovery Steps:**
-  1. Log into your [Vercel Dashboard](https://vercel.com/joshllorr/ecosmarthomes-site).
-  2. Select the **EcoSmartHome** project.
-  3. Navigate to the **Deployments** tab.
-  4. Locate the last 100% verified, stable deployment (e.g. commit `6da339c`).
-  5. Click the three horizontal dots icon `...` next to that deployment and select **Instant Rollback**.
-  6. Confirm the rollback. Vercel will instantly point production DNS traffic back to that cached deployment with zero downtime.
-
-### Scenario B: Rollback via Git CLI
-- **Symptom:** GitHub main branch is corrupted or has broken merge commits.
-- **Immediate Recovery Steps:**
-  ```pwsh
-  cd c:\xampp\htdocs\EcoSmartHome\site
-  # 1. Fetch latest remote state
-  git fetch origin main
-
-  # 2. Hard reset local main branch to known stable commit (e.g., 6da339c)
-  git reset --hard 6da339c
-
-  # 3. Force-push the reverted main branch back to GitHub
-  git push origin main --force
-  ```
-  *This push triggers an automated Vercel CI/CD rebuild deploying the stable release code in < 90 seconds.*
-
----
-
-## 4. Weekly Email Cron Scheduling Failures
-
-The Vercel Cron is scheduled to fire `api/cron/monday-report.js` every Monday at 08:00 AM UTC.
-
-### Scenario A: Cron Task Fails to Boot or Email Service (Resend/SendGrid) Offline
-- **Symptom:** Monday morning passes, and Joe does not receive his weekly funnel conversion report in his inbox.
-- **Immediate Recovery Steps:**
-  1. Inspect Vercel Serverless logs: **Vercel Dashboard ➔ Logs ➔ Filter by path `/api/cron/monday-report`**.
-  2. If logs show `401 Unauthorized`: Confirm that the Vercel system-injected variable `CRON_SECRET` matches your project settings.
-  3. **Trigger the Email Report Manually (No waiting for next Monday):**
-     Run a secure `curl` request passing the secret token directly:
-     ```bash
-     curl -X GET https://ecosmarthomes.ie/api/cron/monday-report \
-       -H "Authorization: Bearer YOUR_ACTUAL_CRON_SECRET_KEY_HERE"
-     ```
-  4. If successful, the endpoint returns an `HTTP 200 OK` JSON response and immediately dispatches the styled HTML report to `joe@ecosmarthomes.ie`.
+### 4. Smart Scroll & Mobile Navigation
+- **`css/smart-nav.css` & `js/smart-nav.js`:**
+  - Header glides away on scroll down (`translateY(-110%)`) and returns instantly on scroll up.
+  - Off-canvas slide-out drawer (`#esh-side-drawer`) hosting all 11 tools.
+  - Input Focus Auto-Hide: Floating WhatsApp pill and Aoife launcher auto-fade during mobile keyboard input.
+  - 75px bottom safety margin on mobile viewports (< 768px).
 
 ---
 
@@ -151,7 +86,7 @@ The Vercel Cron is scheduled to fire `api/cron/monday-report.js` every Monday at
 | Role | Contact Name | Channel | Response SLA |
 |:---|:---|:---|:---|
 | **System Owner** | Joe | WhatsApp / Direct Call | Immediate |
-| **Lead Developer** | Antigravity AI Engineer | GitHub Issues / Slack | < 1 hour (Critical) |
-| **Hosting Support** | Vercel Enterprise Support | Ticket Portal | < 2 hours (Pro Tier) |
-| **Database Support** | Supabase Support | Dashboard Portal | < 4 hours (Pro Tier) |
-| **Payment Gateway** | Stripe Support | dashboard.stripe.com | < 2 hours (Enterprise) |
+| **Lead Developer** | Antigravity AI Engineering | GitHub / Workspace | < 1 hour (Critical) |
+| **Hosting Support** | Vercel Support | vercel.com/help | < 2 hours (Pro) |
+| **Payment Gateway** | Stripe Support | dashboard.stripe.com | < 2 hours (Priority) |
+| **Database Support** | Supabase Support | supabase.com/dashboard | < 4 hours (Pro) |
