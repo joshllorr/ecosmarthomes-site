@@ -586,22 +586,24 @@
   };
 
   window.copyDaftListingBlurb = function() {
-    const textEl = document.getElementById('lbl-daft-blurb-text');
-    if (!textEl) return;
-    const text = textEl.innerText;
-    window.copyTextToClipboard(text, 'Copied Daft.ie Listing Blurb to Clipboard!');
-    const btn = document.getElementById('btn-copy-daft-action');
-    if (btn) {
-      const orig = btn.innerHTML;
-      btn.innerHTML = '✅ Copied to Clipboard! Ready for Daft.ie';
-      btn.style.background = '#10b981';
-      btn.style.color = '#001711';
-      setTimeout(() => {
-        btn.innerHTML = orig;
-        btn.style.background = '';
-        btn.style.color = '';
-      }, 2400);
-    }
+    window.requireFreemiumPass(() => {
+      const textEl = document.getElementById('lbl-daft-blurb-text');
+      if (!textEl) return;
+      const text = textEl.innerText;
+      window.copyTextToClipboard(text, 'Copied Daft.ie Listing Blurb to Clipboard!');
+      const btn = document.getElementById('btn-copy-daft-action');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied to Clipboard! Ready for Daft.ie';
+        btn.style.background = '#10b981';
+        btn.style.color = '#001711';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2400);
+      }
+    });
   };
 
   // ==========================================================================
@@ -704,22 +706,25 @@
   };
 
   window.copyInstallerTenderDraft = function() {
-    const textEl = document.getElementById('lbl-installer-tender-text');
-    if (!textEl) return;
-    const text = textEl.innerText;
-    window.copyTextToClipboard(text, 'Copied SEAI Tender Draft to Clipboard!');
-    const btn = document.getElementById('btn-copy-tender-action');
-    if (btn) {
-      const orig = btn.innerHTML;
-      btn.innerHTML = '✅ Copied SEAI Tender Draft to Clipboard!';
-      btn.style.background = '#38bdf8';
-      btn.style.color = '#001a2c';
-      setTimeout(() => {
-        btn.innerHTML = orig;
-        btn.style.background = '';
-        btn.style.color = '';
-      }, 2400);
-    }
+    window.requireFreemiumPass(() => {
+      const textEl = document.getElementById('lbl-installer-tender-text');
+      if (!textEl) return;
+      const text = textEl.innerText;
+
+      window.copyTextToClipboard(text, 'Copied SEAI Tender Draft to Clipboard!');
+      const btn = document.getElementById('btn-copy-tender-action');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied SEAI Tender Draft to Clipboard!';
+        btn.style.background = '#38bdf8';
+        btn.style.color = '#001a2c';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2200);
+      }
+    });
   };
 
   // Auto-init ticker on load
@@ -904,4 +909,116 @@
   } else {
     initMobileIOSAppDock();
   }
+
+  // ==========================================================================
+  // FREEMIUM ENGINE STEP 1: OPEN ACCESS HOOK & EXPORT GATE
+  // ==========================================================================
+
+  let pendingFreemiumAction = null;
+
+  window.hasFreemiumPass = function() {
+    try {
+      const token = localStorage.getItem('esh_freemium_token');
+      return !!token;
+    } catch (e) {
+      return false;
+    }
+  };
+
+  window.requireFreemiumPass = function(callback) {
+    if (window.hasFreemiumPass()) {
+      if (typeof callback === 'function') callback();
+      return true;
+    }
+
+    pendingFreemiumAction = callback;
+    window.openFreemiumModal();
+    return false;
+  };
+
+  window.openFreemiumModal = function() {
+    let overlay = document.getElementById('esh-freemium-modal-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'esh-freemium-modal-overlay';
+      overlay.innerHTML = `
+        <div class="freemium-modal-card">
+          <button type="button" class="freemium-close-btn" onclick="window.closeFreemiumModal()" aria-label="Close">✕</button>
+          <div class="freemium-badge">✨ 30-Day Free Pass</div>
+          <h2 style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.25;">
+            Unlock 30 Days of Unlimited Premium Exports
+          </h2>
+          <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin: 0 auto 20px auto;">
+            Join 1,200+ Irish property professionals and homeowners saving hours of administrative desk work. No credit card required.
+          </p>
+
+          <form id="freemium-signup-form" onsubmit="window.activateFreemiumPass(event)">
+            <input type="text" id="freemium-name" class="freemium-input" placeholder="Your First Name" required />
+            <input type="email" id="freemium-email" class="freemium-input" placeholder="Your Work/Personal Email" required />
+            <select id="freemium-role" class="freemium-input" style="appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%2334f5c5\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 10px center;">
+              <option value="Homeowner">I am a... Homeowner</option>
+              <option value="Estate Agent">I am a... Estate Agent / Auctioneer</option>
+              <option value="Installer">I am a... Installer / Retrofitter</option>
+            </select>
+
+            <button type="submit" class="freemium-btn-amber">
+              <span>🔘 Activate My Free 30-Day Pass →</span>
+            </button>
+          </form>
+
+          <div style="margin-top: 14px; font-size: 0.72rem; color: #64748b;">
+            🔒 Zero Spam · One-Click Unsubscribe · Instant Access
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }
+
+    overlay.classList.add('active');
+  };
+
+  window.closeFreemiumModal = function() {
+    const overlay = document.getElementById('esh-freemium-modal-overlay');
+    if (overlay) {
+      overlay.classList.remove('active');
+    }
+  };
+
+  window.activateFreemiumPass = function(event) {
+    if (event) event.preventDefault();
+    const name = (document.getElementById('freemium-name')?.value || 'Friend').trim();
+    const email = (document.getElementById('freemium-email')?.value || '').trim();
+    const role = document.getElementById('freemium-role')?.value || 'Homeowner';
+
+    const tokenData = {
+      token: 'esh_free_' + Date.now(),
+      name: name,
+      email: email,
+      role: role,
+      activatedAt: new Date().toISOString()
+    };
+
+    try {
+      localStorage.setItem('esh_freemium_token', tokenData.token);
+      localStorage.setItem('esh_user_lead', JSON.stringify(tokenData));
+    } catch (e) {
+      console.warn('LocalStorage error:', e);
+    }
+
+    window.closeFreemiumModal();
+    
+    if (window.showEshToast) {
+      window.showEshToast('🎉 Free 30-Day Pass Activated! Copying to clipboard...', '✨');
+    }
+
+    // Automatically execute the pending export action with zero friction
+    if (typeof pendingFreemiumAction === 'function') {
+      const action = pendingFreemiumAction;
+      pendingFreemiumAction = null;
+      setTimeout(() => {
+        action();
+      }, 300);
+    }
+  };
+
 
