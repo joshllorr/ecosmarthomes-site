@@ -355,6 +355,45 @@
         Dublin, Cork, or Limerick—rising oil levies are quietly eating your savings. Secure a 100% independent roadmap to slash your heating bills from €5,400 to €650 a year using up to €25,500 in direct SEAI grants. No sales pitches. No contractor kickbacks.
       </p>
 
+      <!-- Tactile "One-Click Magic" Presets (Zero Keyboard Friction) -->
+      <div style="background: rgba(0, 36, 27, 0.7); border: 1px solid rgba(52, 245, 197, 0.3); border-radius: 18px; padding: 20px; max-width: 680px; margin: 0 auto 36px auto; box-shadow: 0 12px 35px rgba(0,0,0,0.4);">
+        <div style="font-size: 0.76rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">
+          ⚡ Instant Diagnostic: Tap Your Current Heating Fuel
+        </div>
+        <div class="tactile-preset-group">
+          <button type="button" class="tactile-preset-chip active" data-fuel="oil" onclick="window.selectFuelPreset('oil')">
+            🔥 Kerosene Oil (€300/mo)
+          </button>
+          <button type="button" class="tactile-preset-chip" data-fuel="gas" onclick="window.selectFuelPreset('gas')">
+            💨 Natural Gas (€180/mo)
+          </button>
+          <button type="button" class="tactile-preset-chip" data-fuel="storage" onclick="window.selectFuelPreset('storage')">
+            ⚡ Storage Radiators (€250/mo)
+          </button>
+        </div>
+
+        <!-- Instant Impact Dynamic Visualization -->
+        <div class="impact-bar-track">
+          <div class="bar-row">
+            <div class="bar-row-label">
+              <span style="color: #f87171;">⚠️ Projected 2026-2030 Carbon Tax Penalty:</span>
+              <span id="stat-fuel-penalty-val" style="color: #f87171; font-weight: 900;">+€3,420 Tax Penalty</span>
+            </div>
+            <div class="bar-visual-bg">
+              <div id="bar-fill-penalty" class="bar-visual-fill" style="width: 88%; background: linear-gradient(90deg, #ef4444, #dc2626); box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);"></div>
+            </div>
+          </div>
+          <div class="bar-row" style="margin-bottom: 0;">
+            <div class="bar-row-label">
+              <span style="color: #34f5c5;">🛡️ EcoSmart Carbon Shield Net Savings:</span>
+              <span id="stat-shield-savings-val" style="color: #34f5c5; font-weight: 900;">-€2,750/yr Saved</span>
+            </div>
+            <div class="bar-visual-bg">
+              <div id="bar-fill-shield" class="bar-visual-fill" style="width: 92%; background: linear-gradient(90deg, #10b981, #34f5c5); box-shadow: 0 0 12px rgba(52, 245, 197, 0.6);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="hero-cta-row" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
         <a href="/checkout/" class="btn-hero-primary-star">
           ⭐ Order €49 Independent Survey
@@ -400,8 +439,15 @@
         <h2 style="font-size: 2.4rem; font-weight: 900; color: #ffffff; margin-top: 8px;">
           Choose Your Independent Tool
         </h2>
-        <div id="active-persona-title" style="font-size: 1.1rem; font-weight: 800; color: #34f5c5; margin-top: 6px; font-family: 'IBM Plex Mono', monospace;">
-          Homeowner Energy & Savings Suite
+        <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap;">
+          <div id="active-persona-title" style="font-size: 1.05rem; font-weight: 800; color: #ffffff; font-family: 'IBM Plex Mono', monospace;">
+            Homeowner Energy & Savings Suite
+          </div>
+          <!-- Dopamine Drip Live Value Ticker -->
+          <div class="dopamine-ticker-badge">
+            <span class="dopamine-label-target">🛡️ Avg. Lifetime Fuel Tax Shielded: </span>
+            <span class="count-number dopamine-counter-target">€4,750</span>
+          </div>
         </div>
         <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 8px;">
           Every tool is private, self-serve, and 100% free of salesperson tracking.

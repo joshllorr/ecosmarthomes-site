@@ -1,12 +1,74 @@
 /**
- * EcoSmartHomes Smart Scroll Navigation & Persona Filter Controller
+ * EcoSmartHomes Smart Scroll Navigation, Persona Filter & Wow Factor Controller
  */
 (function() {
   'use strict';
 
   let currentPersona = 'homeowner';
 
-  // 1. Reactive Persona Filter Method
+  // 1. High-Performance Easing Counter (easeOutExpo)
+  function animateValueCounter(element, start, end, duration, prefix = '', suffix = '') {
+    if (!element) return;
+    const startTime = performance.now();
+    const isCurrency = prefix.includes('€');
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutExpo
+      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const currentVal = Math.round(start + (end - start) * ease);
+
+      if (isCurrency) {
+        element.innerText = `${prefix}${currentVal.toLocaleString()}${suffix}`;
+      } else {
+        element.innerText = `${prefix}${currentVal}${suffix}`;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+    requestAnimationFrame(update);
+  }
+
+  // 2. Persona Metrics Table
+  const PERSONA_METRICS = {
+    homeowner: {
+      target: 4750,
+      prefix: '€',
+      suffix: '',
+      label: 'Avg. Lifetime Fuel Tax Shielded: ',
+      icon: '🛡️',
+      glowClass: 'persona-highlight-mint'
+    },
+    agent: {
+      target: 15000,
+      prefix: '€',
+      suffix: '+',
+      label: 'Avg. Property Equity Surge: ',
+      icon: '📈',
+      glowClass: 'persona-highlight-gold'
+    },
+    installer: {
+      target: 4.2,
+      prefix: '~',
+      suffix: ' hrs',
+      label: 'NSAI Compliance Time Saved: ',
+      icon: '⚡',
+      glowClass: 'persona-highlight-blue'
+    },
+    all: {
+      target: 25500,
+      prefix: '€',
+      suffix: '',
+      label: 'Total Grants & Savings Unlocked: ',
+      icon: '🏆',
+      glowClass: 'persona-highlight-mint'
+    }
+  };
+
+  // 3. Reactive Persona Filter Method
   window.setPersona = function(personaKey) {
     currentPersona = personaKey;
 
@@ -15,24 +77,35 @@
       pill.classList.toggle('active', pill.getAttribute('data-persona') === personaKey);
     });
 
-    // Filter Tool Showcase Grid
+    const metric = PERSONA_METRICS[personaKey] || PERSONA_METRICS.homeowner;
+
+    // Animate Dopamine Tickers
+    const counterElements = document.querySelectorAll('.dopamine-counter-target');
+    counterElements.forEach(el => {
+      animateValueCounter(el, 0, metric.target, 550, metric.prefix, metric.suffix);
+    });
+
+    const labelElements = document.querySelectorAll('.dopamine-label-target');
+    labelElements.forEach(el => {
+      el.innerHTML = `${metric.icon} ${metric.label}`;
+    });
+
+    // Filter Tool Showcase Grid & Apply Breathing Glow
     const cards = document.querySelectorAll('.tool-showcase-box');
     cards.forEach(card => {
+      card.classList.remove('persona-highlight-mint', 'persona-highlight-gold', 'persona-highlight-blue');
       const personas = card.getAttribute('data-personas') || 'all';
       if (personaKey === 'all' || personas.includes(personaKey) || personas.includes('all')) {
         card.classList.remove('persona-hidden');
         if (personas.includes(personaKey) && personaKey !== 'all') {
-          card.classList.add('persona-highlight');
-        } else {
-          card.classList.remove('persona-highlight');
+          card.classList.add(metric.glowClass);
         }
       } else {
         card.classList.add('persona-hidden');
-        card.classList.remove('persona-highlight');
       }
     });
 
-    // Update Filter Label if present
+    // Update Filter Header
     const lbl = document.getElementById('active-persona-title');
     if (lbl) {
       if (personaKey === 'homeowner') lbl.innerText = 'Homeowner Energy & Savings Suite';
@@ -42,6 +115,33 @@
     }
   };
 
+  // 4. Tactile Preset One-Click Controller (Zero Keyboard Friction)
+  const PRESET_DATA = {
+    oil: { name: 'Kerosene Oil', bill: 300, taxPenalty: 3420, shieldSavings: 2750, pctPenalty: 88, pctShield: 92 },
+    gas: { name: 'Natural Gas', bill: 180, taxPenalty: 2150, shieldSavings: 1850, pctPenalty: 55, pctShield: 80 },
+    storage: { name: 'Night Storage / Electric', bill: 250, taxPenalty: 1980, shieldSavings: 2200, pctPenalty: 65, pctShield: 85 }
+  };
+
+  window.selectFuelPreset = function(fuelKey) {
+    document.querySelectorAll('.tactile-preset-chip[data-fuel]').forEach(chip => {
+      chip.classList.toggle('active', chip.getAttribute('data-fuel') === fuelKey);
+    });
+
+    const data = PRESET_DATA[fuelKey] || PRESET_DATA.oil;
+    
+    // Update Dynamic Bar Metrics
+    const penaltyVal = document.getElementById('stat-fuel-penalty-val');
+    const shieldVal = document.getElementById('stat-shield-savings-val');
+    const penaltyBar = document.getElementById('bar-fill-penalty');
+    const shieldBar = document.getElementById('bar-fill-shield');
+
+    if (penaltyVal) penaltyVal.innerText = `+€${data.taxPenalty.toLocaleString()} Tax Penalty`;
+    if (shieldVal) shieldVal.innerText = `-€${data.shieldSavings.toLocaleString()}/yr Saved`;
+    if (penaltyBar) penaltyBar.style.width = `${data.pctPenalty}%`;
+    if (shieldBar) shieldBar.style.width = `${data.pctShield}%`;
+  };
+
+  // 5. Drawer & Smart Scroll
   let lastScrollY = window.scrollY;
   let ticking = false;
   const SCROLL_THRESHOLD = 50;
@@ -49,7 +149,6 @@
   function initSmartNav() {
     const header = document.querySelector('.main-nav-bar') || document.querySelector('.header');
     
-    // Create Side Tab Floating Toggle if not present
     if (!document.getElementById('esh-side-tab-toggle')) {
       const sideTab = document.createElement('button');
       sideTab.id = 'esh-side-tab-toggle';
@@ -63,7 +162,6 @@
       document.body.appendChild(sideTab);
     }
 
-    // Create Drawer Overlay and Panel if not present
     if (!document.getElementById('esh-drawer-overlay')) {
       const overlay = document.createElement('div');
       overlay.id = 'esh-drawer-overlay';
@@ -112,7 +210,6 @@
       document.body.appendChild(drawer);
     }
 
-    // Global Drawer Open/Close Handlers
     window.openToolsDrawer = function() {
       const overlay = document.getElementById('esh-drawer-overlay');
       const drawer = document.getElementById('esh-side-drawer');
@@ -137,7 +234,6 @@
       if (e.key === 'Escape') window.closeToolsDrawer();
     });
 
-    // Smart Scroll Listener
     window.addEventListener('scroll', function() {
       if (!ticking) {
         window.requestAnimationFrame(function() {
@@ -159,18 +255,11 @@
     }, { passive: true });
 
     // Auto-Hide floating widgets when keyboard / input is focused on mobile
-    function setupInputFocusSafety() {
-      const inputs = document.querySelectorAll('input, textarea, select');
-      inputs.forEach(el => {
-        el.addEventListener('focus', () => {
-          document.body.classList.add('floating-widgets-hidden');
-        });
-        el.addEventListener('blur', () => {
-          document.body.classList.remove('floating-widgets-hidden');
-        });
-      });
-    }
-    setupInputFocusSafety();
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(el => {
+      el.addEventListener('focus', () => document.body.classList.add('floating-widgets-hidden'));
+      el.addEventListener('blur', () => document.body.classList.remove('floating-widgets-hidden'));
+    });
 
     // Initialize Default Persona
     window.setPersona('homeowner');
