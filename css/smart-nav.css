@@ -94,25 +94,27 @@
   opacity: 1;
 }
 
-/* 6. Off-Canvas Side Drawer Panel */
+/* 6. Off-Canvas Side Drawer Panel (Left-Hand Side) */
 #esh-side-drawer {
   position: fixed;
   top: 0;
-  right: 0;
-  width: 380px;
+  left: 0;
+  right: auto;
+  width: 360px;
   max-width: 88vw;
   height: 100vh;
   height: 100dvh;
   background: #00241b;
-  border-left: 1.5px solid rgba(52, 245, 197, 0.3);
-  box-shadow: -15px 0 40px rgba(0,0,0,0.6);
+  border-right: 1.5px solid rgba(52, 245, 197, 0.3);
+  border-left: none;
+  box-shadow: 15px 0 40px rgba(0,0,0,0.7);
   z-index: 100001;
-  transform: translateX(100%);
+  transform: translateX(-100%);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 24px;
+  padding: 24px 18px;
   box-sizing: border-box;
   color: #f8fafc;
   font-family: 'Inter', sans-serif;
@@ -1948,3 +1950,348 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
 }
+
+/* ==========================================================================
+   LEFT-HAND SIDE BAR & PERSONA ACCORDION HUBS
+   ========================================================================== */
+
+/* Anchor Drawer to Left Hand Side */
+#esh-side-drawer {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: auto !important;
+  width: 360px !important;
+  max-width: 88vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  background: #00241b !important;
+  border-right: 1.5px solid rgba(52, 245, 197, 0.3) !important;
+  border-left: none !important;
+  box-shadow: 15px 0 40px rgba(0, 0, 0, 0.7) !important;
+  z-index: 1000001 !important;
+  transform: translateX(-100%) !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
+  padding: 24px 18px !important;
+  box-sizing: border-box !important;
+  color: #f8fafc !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+#esh-side-drawer.open {
+  transform: translateX(0) !important;
+}
+
+/* Accordion Tab Styles */
+@keyframes fadeInAccordion {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.drawer-accordion-group {
+  margin-bottom: 12px;
+}
+
+.drawer-accordion-btn {
+  width: 100%;
+  background: #001711;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.drawer-accordion-btn:hover {
+  border-color: #34f5c5;
+  background: #00241b;
+}
+
+.drawer-accordion-btn.active {
+  border-color: #34f5c5;
+  background: rgba(52, 245, 197, 0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.drawer-accordion-btn .accordion-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.25s ease;
+  color: #34f5c5;
+}
+
+.drawer-accordion-btn.active .accordion-arrow {
+  transform: rotate(180deg);
+}
+
+.drawer-accordion-panel {
+  display: none;
+  padding: 8px 4px 4px 6px;
+}
+
+.drawer-accordion-panel.active {
+  display: block;
+  animation: fadeInAccordion 0.2s ease-out forwards;
+}
+
+.drawer-tool-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(0, 23, 17, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  transition: all 0.2s;
+}
+
+.drawer-tool-item:hover {
+  border-color: #34f5c5;
+  background: rgba(52, 245, 197, 0.1);
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.drawer-tool-item .tool-icon {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+.drawer-badge-pill {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* ==========================================================================
+   MOBILE VIEWPORT AUTOMATIC FIT & VIEWER EXPERIENCE REFINEMENT
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Header Flexbox Alignment - Zero Overflow */
+  .main-nav-bar {
+    padding: 10px 14px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 99990 !important;
+    background: rgba(0, 24, 18, 0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(52, 245, 197, 0.2) !important;
+  }
+
+  .nav-inner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  /* Compact Brand Logo */
+  .nav-inner a[href="/"] {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    text-decoration: none !important;
+    flex-shrink: 0 !important;
+  }
+
+  .nav-inner a[href="/"] span:last-child {
+    font-size: 1.05rem !important;
+  }
+
+  /* Right Header Controls Group */
+  .mobile-persona-dropdown-wrapper {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+  }
+
+  .mobile-persona-dropdown-trigger {
+    padding: 6px 12px !important;
+    font-size: 0.78rem !important;
+    border-radius: 9999px !important;
+    white-space: nowrap !important;
+  }
+
+  .btn-tools-drawer-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 6px 10px !important;
+    font-size: 0.76rem !important;
+    border-radius: 8px !important;
+    white-space: nowrap !important;
+    background: rgba(52, 245, 197, 0.12) !important;
+    border: 1px solid #34f5c5 !important;
+    color: #34f5c5 !important;
+  }
+
+  /* Compact Horizontal Badge Container */
+  .badge-pill-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    margin-top: 14px !important;
+    margin-bottom: 16px !important;
+    max-width: 100% !important;
+  }
+
+  .badge-pill {
+    font-size: 0.68rem !important;
+    padding: 4px 10px !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+  }
+
+  /* Mobile Hero Headline Auto-Fit */
+  .hero-h1 {
+    font-size: clamp(1.65rem, 5.5vw, 2.2rem) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+    margin: 12px 0 10px 0 !important;
+  }
+
+  .hero-sub {
+    font-size: 0.88rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 18px !important;
+  }
+
+  /* Avoid Floating Widget Collisions with Bottom Dock */
+  #whatsapp-floating-btn,
+  .whatsapp-floating-btn,
+  #aoife-voice-pill,
+  .aoife-voice-pill {
+    bottom: 78px !important; /* Floats cleanly above the 68px bottom dock */
+  }
+}
+
+/* ==========================================================================
+   PERFECT MOBILE VIEWER FIT & ZERO CLIPPING (CSS/SMART-NAV.CSS)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* 1. Header Zero-Clipping Flex Layout */
+  .main-nav-bar {
+    padding: 8px 12px !important;
+    overflow-x: hidden !important;
+  }
+
+  .nav-inner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 6px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Hide bulky Book button inside mobile header to prevent squishing */
+  .btn-book-nav {
+    display: none !important;
+  }
+
+  /* Compact Brand */
+  .nav-inner a[href="/"] {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .nav-inner a[href="/"] span:last-child {
+    font-size: 1.05rem !important;
+  }
+
+  /* Controls Group on Right */
+  .mobile-persona-dropdown-wrapper {
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .mobile-persona-dropdown-trigger {
+    padding: 6px 10px !important;
+    font-size: 0.76rem !important;
+    border-radius: 9999px !important;
+  }
+
+  .btn-tools-drawer-toggle {
+    padding: 6px 10px !important;
+    font-size: 0.76rem !important;
+    border-radius: 8px !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  /* 2. Badge Pills: Horizontal Multi-Line Wrapping (Saves 140px vertical height) */
+  .badge-pill-container {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin: 12px auto 14px auto !important;
+    max-width: 100% !important;
+    padding: 0 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .badge-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    padding: 4px 10px !important;
+    border-radius: 9999px !important;
+    text-decoration: none !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
+  }
+
+  /* 3. Hero Typography Auto-Fit */
+  .hero-h1 {
+    font-size: clamp(1.6rem, 5.2vw, 2.1rem) !important;
+    line-height: 1.2 !important;
+    margin: 10px 0 10px 0 !important;
+  }
+
+  .hero-sub {
+    font-size: 0.86rem !important;
+    line-height: 1.45 !important;
+    margin-bottom: 16px !important;
+    padding: 0 4px !important;
+  }
+
+  /* 4. Bottom Dock Safe Padding & Clearance */
+  #esh-mobile-dock, .mobile-app-bottom-dock {
+    height: 65px !important;
+    padding-bottom: max(env(safe-area-inset-bottom, 8px), 8px) !important;
+  }
+}
+
+

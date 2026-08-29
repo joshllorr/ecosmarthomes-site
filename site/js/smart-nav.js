@@ -268,46 +268,238 @@
       overlay.id = 'esh-drawer-overlay';
       overlay.onclick = window.closeToolsDrawer;
       document.body.appendChild(overlay);
+    }
 
+    // 2. Off-Canvas Side Drawer with Persona Accordion Tabs (Left Hand Side)
+    if (!document.getElementById('esh-side-drawer')) {
       const drawer = document.createElement('aside');
       drawer.id = 'esh-side-drawer';
-      drawer.setAttribute('role', 'dialog');
-      drawer.setAttribute('aria-modal', 'true');
-      drawer.setAttribute('aria-label', 'All EcoSmartHome Independent Tools');
+      drawer.setAttribute('aria-label', 'Tools and Resources Left Sidebar');
       drawer.innerHTML = `
         <div class="drawer-header">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 1.4rem;">🏡</span>
-            <strong style="font-size: 1.15rem; color: #ffffff;">EcoSmart<span style="color: #34f5c5;">Homes</span></strong>
+            <div>
+              <span style="font-size: 1.1rem; font-weight: 900; color: #ffffff;">EcoSmart<strong style="color: #34f5c5;">Homes</strong></span>
+              <div style="font-size: 0.72rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">Tool & Resource Directory</div>
+            </div>
           </div>
-          <button type="button" class="drawer-close-btn" onclick="window.closeToolsDrawer()" aria-label="Close drawer">✕</button>
+          <button type="button" class="drawer-close-btn" onclick="window.closeToolsDrawer()" aria-label="Close Drawer">✕</button>
         </div>
 
-        <div style="margin-bottom: 14px;">
-          <a href="/checkout/" class="btn-hero-primary-star" style="display: block; text-align: center; padding: 12px; font-size: 0.92rem; border-radius: 8px;">
+        <div style="flex: 1; overflow-y: auto; padding-bottom: 20px;">
+          
+          <!-- 1. HOMEOWNER HUB -->
+          <div class="drawer-accordion-group">
+            <button type="button" id="accordion-btn-homeowner" class="drawer-accordion-btn active" onclick="window.toggleDrawerAccordion('homeowner')">
+              <span style="display:flex;align-items:center;gap:8px;">
+                <span>🏠</span>
+                <span>Homeowner Tools</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:6px;">
+                <span class="drawer-badge-pill" style="background:rgba(16,185,129,0.15);color:#34f5c5;border:1px solid #10b981;">5 Tools</span>
+                <span class="accordion-arrow">▼</span>
+              </span>
+            </button>
+            <div id="accordion-panel-homeowner" class="drawer-accordion-panel active">
+              <a href="/carbon-tax/" class="drawer-tool-item">
+                <span class="tool-icon">🛡️</span>
+                <div>
+                  <div>Carbon Tax Shield & Bill Sizer</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Avoid €4.3k in statutory fuel hikes</div>
+                </div>
+              </a>
+              <a href="/ber-advisor/" class="drawer-tool-item">
+                <span class="tool-icon">💶</span>
+                <div>
+                  <div>€35,000 SEAI Grant Stack</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Deep retrofit & heat pump grants</div>
+                </div>
+              </a>
+              <a href="/solar/" class="drawer-tool-item">
+                <span class="tool-icon">☀️</span>
+                <div>
+                  <div>Solar PV Simulator</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Microgeneration & export income</div>
+                </div>
+              </a>
+              <a href="/battery-arbitrage/" class="drawer-tool-item">
+                <span class="tool-icon">🔋</span>
+                <div>
+                  <div>Battery Arbitrage Engine</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Night rate tariff optimization</div>
+                </div>
+              </a>
+              <a href="/retrofit-loan/" class="drawer-tool-item">
+                <span class="tool-icon">🏦</span>
+                <div>
+                  <div>3.45% SBCI Retrofit Loan</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Low-cost green loan calculator</div>
+                </div>
+              </a>
+              <a href="/tools/voice-aoife.html" class="drawer-tool-item">
+                <span class="tool-icon">🤖</span>
+                <div>
+                  <div>Aoife AI 24/7 Voice Advisor</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Interactive audio engineering Q&A</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- 2. ESTATE AGENT HUB -->
+          <div class="drawer-accordion-group">
+            <button type="button" id="accordion-btn-agent" class="drawer-accordion-btn" onclick="window.toggleDrawerAccordion('agent')">
+              <span style="display:flex;align-items:center;gap:8px;">
+                <span>💼</span>
+                <span>Estate Agent Hub</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:6px;">
+                <span class="drawer-badge-pill" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid #f59e0b;">5 Tools</span>
+                <span class="accordion-arrow">▼</span>
+              </span>
+            </button>
+            <div id="accordion-panel-agent" class="drawer-accordion-panel">
+              <a href="/property-auditor/" class="drawer-tool-item">
+                <span class="tool-icon">🚀</span>
+                <div>
+                  <div>1-Click Daft.ie Property Auditor</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Instant link & Eircode grant scanner</div>
+                </div>
+              </a>
+              <a href="/#agent-rescue-wizard" class="drawer-tool-item" onclick="window.setPersona('agent'); window.closeToolsDrawer();">
+                <span class="tool-icon">📈</span>
+                <div>
+                  <div>Capital Equity Surge Calculator</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">A-Rating property value uplift</div>
+                </div>
+              </a>
+              <a href="/ber-matrix/" class="drawer-tool-item">
+                <span class="tool-icon">📊</span>
+                <div>
+                  <div>Official Simplified BER Matrix</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">8-Category Irish SEAI scale</div>
+                </div>
+              </a>
+              <a href="/checkout/?role=agent" class="drawer-tool-item">
+                <span class="tool-icon">📜</span>
+                <div>
+                  <div>Pre-Listing Verification Pack</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Buyer-ready engineer certs (€49)</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- 3. INSTALLER & RETROFITTER HUB -->
+          <div class="drawer-accordion-group">
+            <button type="button" id="accordion-btn-installer" class="drawer-accordion-btn" onclick="window.toggleDrawerAccordion('installer')">
+              <span style="display:flex;align-items:center;gap:8px;">
+                <span>⚡</span>
+                <span>Installer & Retrofitter</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:6px;">
+                <span class="drawer-badge-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid #38bdf8;">5 Tools</span>
+                <span class="accordion-arrow">▼</span>
+              </span>
+            </button>
+            <div id="accordion-panel-installer" class="drawer-accordion-panel">
+              <a href="/radiator-sizer/" class="drawer-tool-item">
+                <span class="tool-icon">📐</span>
+                <div>
+                  <div>NSAI SR50-2 Radiator Sizer</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">55°C ΔT30 heat loss calculation</div>
+                </div>
+              </a>
+              <a href="/tender-generator/" class="drawer-tool-item">
+                <span class="tool-icon">📝</span>
+                <div>
+                  <div>1-Click SEAI Tender RFP Draft</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Compliant contractor quotes</div>
+                </div>
+              </a>
+              <a href="/quote-auditor/" class="drawer-tool-item">
+                <span class="tool-icon">🔍</span>
+                <div>
+                  <div>Contractor Quote Auditor</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Buffer tank & pricing red-liner</div>
+                </div>
+              </a>
+              <a href="/heat-pump-suitability.html" class="drawer-tool-item">
+                <span class="tool-icon">🌡️</span>
+                <div>
+                  <div>Heat Pump Suitability Sizer</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Flow temp & kW requirements</div>
+                </div>
+              </a>
+              <a href="/checkout/?role=installer" class="drawer-tool-item">
+                <span class="tool-icon">📋</span>
+                <div>
+                  <div>Trade Sub-Contract Survey</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Hand off desk admin to Joe (€49)</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- 4. RESOURCES & SUPPORT HUB -->
+          <div class="drawer-accordion-group">
+            <button type="button" id="accordion-btn-resources" class="drawer-accordion-btn" onclick="window.toggleDrawerAccordion('resources')">
+              <span style="display:flex;align-items:center;gap:8px;">
+                <span>📚</span>
+                <span>Resources & Support</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:6px;">
+                <span class="drawer-badge-pill" style="background:rgba(255,255,255,0.1);color:#cbd5e1;border:1px solid rgba(255,255,255,0.2);">5 Links</span>
+                <span class="accordion-arrow">▼</span>
+              </span>
+            </button>
+            <div id="accordion-panel-resources" class="drawer-accordion-panel">
+              <a href="/roadmap/" class="drawer-tool-item">
+                <span class="tool-icon">🗺️</span>
+                <div>
+                  <div>2026 Retrofit Roadmap</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Irish engineering dossiers</div>
+                </div>
+              </a>
+              <a href="/locations/" class="drawer-tool-item">
+                <span class="tool-icon">📍</span>
+                <div>
+                  <div>26-County Location Hub</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Regional installers & grants</div>
+                </div>
+              </a>
+              <a href="/contractors/" class="drawer-tool-item">
+                <span class="tool-icon">👷</span>
+                <div>
+                  <div>SEAI Registered Contractors</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Verified installer directory</div>
+                </div>
+              </a>
+              <a href="/support/faq.html" class="drawer-tool-item">
+                <span class="tool-icon">❓</span>
+                <div>
+                  <div>FAQ & Help Center</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Grants, loans, and technical queries</div>
+                </div>
+              </a>
+              <a href="/privacy-policy.html" class="drawer-tool-item">
+                <span class="tool-icon">🔒</span>
+                <div>
+                  <div>Privacy & Data Security</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">GDPR & statutory compliance</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+          <a href="/checkout/" class="btn-hero-primary-star" style="display: block; text-align: center; padding: 12px 16px; font-size: 0.92rem; text-decoration: none;">
             ⭐ Book Joe's €49 Survey →
           </a>
         </div>
-
-        <div class="drawer-section-title">⚡ ENERGY CALCULATORS & SIMULATORS</div>
-        <a href="/property-auditor/" class="drawer-link-item"><span class="tool-icon">🚀</span><div><div>1-Click Property Auditor</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">Daft.ie & Eircode grant scanner</div></div></a>
-        <a href="/solar/" class="drawer-link-item"><span class="tool-icon">☀️</span><div><div>Solar PV & CEG Simulator</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">Eircode irradiance & 24c export cash</div></div></a>
-        <a href="/battery-arbitrage/" class="drawer-link-item"><span class="tool-icon">🔋</span><div><div>Smart Battery Arbitrage</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">Charge at 7c, slash 38c peak bills</div></div></a>
-        <a href="/radiator-sizer/" class="drawer-link-item"><span class="tool-icon">📐</span><div><div>Radiator Low-Flow Sizer</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">NSAI SR50-2:2024 heat pump compliance</div></div></a>
-        <a href="/retrofit-loan/" class="drawer-link-item"><span class="tool-icon">💶</span><div><div>0% Loan & Grant Stacker</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">SBCI 3.55% subsidized cashflow</div></div></a>
-        <a href="/ber-matrix/" class="drawer-link-item"><span class="tool-icon">🏡</span><div><div>Simplified BER Matrix (A0-G)</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">May 2026 SEAI scale & value surge</div></div></a>
-        <a href="/carbon-tax/" class="drawer-link-item"><span class="tool-icon">⚡</span><div><div>Carbon Tax Ticker</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">2026–2030 fossil fuel penalty audit</div></div></a>
-        <a href="/green-mortgage/" class="drawer-link-item"><span class="tool-icon">🏛️</span><div><div>Green Mortgage Arbitrage</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">Unlock 3.45% discounted interest</div></div></a>
-
-        <div class="drawer-section-title">🛡️ AUDITING & TENDERING</div>
-        <a href="/quote-auditor/" class="drawer-link-item"><span class="tool-icon">🛡️</span><div><div>Contractor Quote Speedometer</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">Anti-scam quote red-liner & PDF</div></div></a>
-        <a href="/tender-generator/" class="drawer-link-item"><span class="tool-icon">📋</span><div><div>Contractor Tender RFP</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">NSAI SR50 tender spec & milestone terms</div></div></a>
-        <a href="/contractors/" class="drawer-link-item"><span class="tool-icon">👔</span><div><div>For Registered Installers</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">SEAI compliance & pre-screened jobs</div></div></a>
-
-        <div class="drawer-section-title">📍 DIRECTORY & SUPPORT</div>
-        <a href="/locations/" class="drawer-link-item"><span class="tool-icon">📍</span><div><div>33 Irish Towns SEO Hub</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">Local micro-climate & survey directory</div></div></a>
-        <a href="/tools/voice-aoife.html" class="drawer-link-item"><span class="tool-icon">🎙️</span><div><div>Ask Aoife (Voice AI)</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">Interactive voice energy advisor</div></div></a>
-        <a href="/support/faq.html" class="drawer-link-item"><span class="tool-icon">❓</span><div><div>Knowledgebase & FAQ</div><div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">SEAI grant guides & conflict-free charter</div></div></a>
       `;
       document.body.appendChild(drawer);
     }
@@ -365,6 +557,8 @@
 
     // Initialize Default Persona
     window.setPersona('homeowner');
+  }
+
   // ==========================================================================
   // 3-STEP WALLET-HIT ONBOARDING RESCUE ENGINE
   // ==========================================================================
@@ -730,14 +924,12 @@
 
   // Auto-init ticker on load
   setTimeout(startLivePenaltyTicker, 800);
-  }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSmartNav);
   } else {
     initSmartNav();
   }
-})();
 
   // ==========================================================================
   // NATIVE IOS MOBILE APP DOCK & GLIDING SLIDER BUBBLE CONTROLLER
@@ -1053,5 +1245,26 @@
       }, 300);
     }
   };
+
+  // Drawer Persona Accordion Controller
+  window.toggleDrawerAccordion = function(hubKey) {
+    const btn = document.getElementById('accordion-btn-' + hubKey);
+    const panel = document.getElementById('accordion-panel-' + hubKey);
+    if (!btn || !panel) return;
+
+    const isActive = btn.classList.contains('active');
+    
+    // Optional: Collapse other panels for a clean, focused view
+    const allBtns = document.querySelectorAll('.drawer-accordion-btn');
+    const allPanels = document.querySelectorAll('.drawer-accordion-panel');
+    allBtns.forEach(b => b.classList.remove('active'));
+    allPanels.forEach(p => p.classList.remove('active'));
+
+    if (!isActive) {
+      btn.classList.add('active');
+      panel.classList.add('active');
+    }
+  };
+})();
 
 
