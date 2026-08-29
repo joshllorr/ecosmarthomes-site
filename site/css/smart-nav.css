@@ -1939,14 +1939,50 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
   padding: 4px 6px !important;
 }
 
-/* 3. Modal View Overlay Check: Full-Screen Modals cleanly overlay the dock with zero reflow */
-#esh-mobile-tool-sheet,
+/* ==========================================================================
+   MOBILE TOOL SHEET & DOCK VIEWPORT VISIBILITY ISOLATION
+   ========================================================================== */
+
+/* 1. Strictly hide mobile tool sheet and bottom dock by default and on desktop (>= 769px) */
+#esh-mobile-tool-sheet {
+  display: none !important;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1000000 !important;
+  background: rgba(0, 18, 13, 0.97) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
+  padding: 24px 20px 90px 20px !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 769px) {
+  #esh-mobile-tool-sheet,
+  #esh-mobile-dock,
+  .mobile-app-bottom-dock {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* 2. Show mobile tool sheet only when .open on mobile viewports (< 768px) */
+@media (max-width: 768px) {
+  #esh-mobile-tool-sheet.open {
+    display: flex !important;
+    animation: sheetSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  }
+}
+
+/* 3. Modal View Overlay Check: Full-Screen Modals */
 #esh-freemium-modal-overlay,
 #ai-quote-modal-overlay,
 .scanner-modal-overlay {
   position: fixed !important;
   inset: 0 !important;
-  z-index: 1000000 !important; /* Strictly higher than dock to prevent bleed-through */
+  z-index: 1000000 !important;
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
 }
@@ -2294,4 +2330,54 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
   }
 }
 
+/* ==========================================================================
+   ZERO AUTO-POPUPS: STRICT INITIAL CLEAN VIEWPORT ENFORCEMENT
+   ========================================================================== */
 
+/* 1. All modals, sheets, dropdowns, and overlays strictly hidden on initial page load */
+#esh-mobile-tool-sheet,
+#esh-freemium-modal-overlay,
+#ai-quote-modal-overlay,
+.scanner-modal-overlay,
+#esh-drawer-overlay,
+.persona-dropdown-panel,
+#esh-wa-modal-overlay,
+.voice-advisor-modal,
+#voice-modal,
+.popup-overlay {
+  display: none !important;
+}
+
+/* 2. Overlays only display when explicitly triggered by user click */
+#esh-freemium-modal-overlay.active,
+#ai-quote-modal-overlay.active,
+.scanner-modal-overlay.active,
+.popup-overlay.active {
+  display: flex !important;
+}
+
+#esh-drawer-overlay.active {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.persona-dropdown-panel.open {
+  display: flex !important;
+}
+
+@media (max-width: 768px) {
+  #esh-mobile-tool-sheet.open {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 769px) {
+  #esh-mobile-tool-sheet,
+  #esh-mobile-dock,
+  .mobile-app-bottom-dock,
+  .mobile-persona-dropdown-wrapper {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}

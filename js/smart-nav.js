@@ -1005,6 +1005,7 @@
     if (!document.getElementById('esh-mobile-tool-sheet')) {
       const sheet = document.createElement('div');
       sheet.id = 'esh-mobile-tool-sheet';
+      sheet.style.display = 'none';
       sheet.setAttribute('role', 'dialog');
       sheet.setAttribute('aria-modal', 'true');
       sheet.innerHTML = `
@@ -1070,6 +1071,7 @@
   window.onMobileDockReports = function() {
     const sheet = document.getElementById('esh-mobile-tool-sheet');
     if (sheet) {
+      sheet.style.display = 'flex';
       sheet.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -1079,6 +1081,7 @@
     const sheet = document.getElementById('esh-mobile-tool-sheet');
     if (sheet) {
       sheet.classList.remove('open');
+      sheet.style.display = 'none';
       document.body.style.overflow = '';
     }
   };
@@ -1091,17 +1094,22 @@
     if (e) e.stopPropagation();
     const panel = document.getElementById('mobile-persona-dropdown-panel');
     if (!panel) return;
-    const isOpen = panel.classList.contains('open');
-    if (isOpen) {
-      panel.classList.remove('open');
-    } else {
+    const isHidden = panel.style.display === 'none' || !panel.style.display || !panel.classList.contains('open');
+    if (isHidden) {
+      panel.style.display = 'flex';
       panel.classList.add('open');
+    } else {
+      panel.style.display = 'none';
+      panel.classList.remove('open');
     }
   };
 
   window.selectPersonaFromDropdown = function(personaKey) {
     const panel = document.getElementById('mobile-persona-dropdown-panel');
-    if (panel) panel.classList.remove('open');
+    if (panel) {
+      panel.style.display = 'none';
+      panel.classList.remove('open');
+    }
 
     // Call Master Switcher
     if (window.setPersona) {
@@ -1113,8 +1121,9 @@
   document.addEventListener('click', (e) => {
     const panel = document.getElementById('mobile-persona-dropdown-panel');
     const trigger = document.getElementById('mobile-persona-toggle-btn');
-    if (panel && panel.classList.contains('open')) {
+    if (panel && (panel.classList.contains('open') || panel.style.display === 'flex')) {
       if (!panel.contains(e.target) && (!trigger || !trigger.contains(e.target))) {
+        panel.style.display = 'none';
         panel.classList.remove('open');
       }
     }
