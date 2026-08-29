@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>1-Tap Contractor Quote Comparator & WhatsApp Dispute Generator | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Compare 2-3 contractor retrofit quotes side-by-side. Detect missing buffer tanks, undersized NSAI radiators, and grant markup discrepancies. Generate 1-tap WhatsApp negotiation scripts.">
+  <link rel="canonical" href="https://ecosmarthomes.ie/quote-comparator/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/smart-nav.css">
+  <style>
+    .comparator-hero {
+      padding: 40px 20px 24px 20px;
+      text-align: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .comparator-preset-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0 28px 0;
+    }
+    .comparator-preset-btn {
+      background: rgba(0, 24, 18, 0.85);
+      border: 1.5px solid rgba(52, 245, 197, 0.3);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .comparator-preset-btn:hover, .comparator-preset-btn.active {
+      background: #34f5c5;
+      color: #00241b;
+      border-color: #34f5c5;
+      box-shadow: 0 0 20px rgba(52, 245, 197, 0.4);
+      transform: translateY(-2px);
+    }
+    .comparator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto 30px auto;
+    }
+    @media (max-width: 768px) {
+      .comparator-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .quote-card {
+      background: rgba(0, 24, 18, 0.95);
+      border-radius: 18px;
+      padding: 24px;
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .quote-card.card-warn {
+      border: 2px solid #ef4444;
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.2);
+    }
+    .quote-card.card-ok {
+      border: 2px solid #34f5c5;
+      box-shadow: 0 8px 30px rgba(52, 245, 197, 0.25);
+    }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.88rem;
+    }
+    .badge-ok {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      color: #34f5c5;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+    .badge-warn {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+    .dispute-box-card {
+      background: #001711;
+      border: 2px solid #f59e0b;
+      border-radius: 18px;
+      padding: 24px;
+      max-width: 1000px;
+      margin: 0 auto 40px auto;
+      box-shadow: 0 10px 40px rgba(245, 158, 11, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Bar -->
+  <aside class="top-emergency-bar" aria-label="Announcement">
+    <span>🚀 2026-2030 Irish Carbon Tax & Fuel Cost Impact</span>
+    <a href="/checkout/" class="top-emergency-link">★ Book €49 Survey →</a>
+  </aside>
+
+  <!-- Navigation -->
+  <header class="main-nav-bar">
+    <div class="nav-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-size: 1.4rem;">🏡</span>
+        <span style="font-size: 1.15rem; font-weight: 900; color: #ffffff;">EcoSmart<strong style="color: #34f5c5;">Homes</strong></span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
+        <a href="/checkout/" class="btn-book-nav">💳 Book €49 Survey</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="comparator-hero">
+      <div class="badge-pill-container">
+        <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34f5c5;">
+          ● 100% CONFLICT-FREE CONSUMER WATCHDOG
+        </span>
+        <span class="badge-pill" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #fcd34d;">
+          ⚖️ NSAI SR50-2 & SEAI COMPLIANCE CHECK
+        </span>
+      </div>
+
+      <h1 class="hero-h1">
+        1-Tap Contractor Quote Comparator & Dispute Generator
+      </h1>
+
+      <p class="hero-sub">
+        Never get gouged on a retrofit quote. Compare competing heat pump and deep retrofit quotes side-by-side to expose omitted buffer tanks, undersized radiators, and inflated grant deductions—with a 1-tap WhatsApp negotiation script.
+      </p>
+
+      <!-- Preset Selector Bar -->
+      <div class="comparator-preset-bar">
+        <button type="button" class="comparator-preset-btn active" data-preset="dublin-semi" onclick="window.loadComparatorPreset('dublin-semi')">
+          🏡 Dublin Semi-D (Gouger vs Compliant)
+        </button>
+        <button type="button" class="comparator-preset-btn" data-preset="cork-detached" onclick="window.loadComparatorPreset('cork-detached')">
+          🏠 Cork Detached (Missing Buffer vs Full)
+        </button>
+        <button type="button" class="comparator-preset-btn" data-preset="galway-retrofit" onclick="window.loadComparatorPreset('galway-retrofit')">
+          🛖 Galway Retrofit (Markup vs Itemized)
+        </button>
+      </div>
+    </div>
+
+    <!-- Paste Custom Quotes Section -->
+    <div style="max-width: 1000px; margin: 0 auto 30px auto; padding: 0 20px;">
+      <details style="background: rgba(0, 24, 18, 0.85); border: 1px solid rgba(52, 245, 197, 0.25); border-radius: 14px; padding: 14px 20px; color: #cbd5e1; cursor: pointer;">
+        <summary style="font-weight: 700; color: #34f5c5; font-size: 0.92rem;">
+          📋 Have your own contractor quotes? Paste them here to compare →
+        </summary>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+          <div>
+            <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace;">QUOTE A (PASTE TEXT / LINE ITEMS):</label>
+            <textarea id="input-raw-quote-a" placeholder="Paste quote text or email lines (e.g. Heat pump €18,500, SEAI grant -€6,500, re-use existing radiators...)" style="width: 100%; height: 100px; background: #001711; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; padding: 10px; font-family: inherit; font-size: 0.85rem; box-sizing: border-box;"></textarea>
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace;">QUOTE B (PASTE TEXT / LINE ITEMS):</label>
+            <textarea id="input-raw-quote-b" placeholder="Paste quote B text (e.g. 8.5kW Heat pump €22,000, 50L buffer tank included, NSAI Type 22 radiators €2,000, SEAI grant -€12,500...)" style="width: 100%; height: 100px; background: #001711; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: #fff; padding: 10px; font-family: inherit; font-size: 0.85rem; box-sizing: border-box;"></textarea>
+          </div>
+        </div>
+        <div style="text-align: right; margin-top: 12px;">
+          <button type="button" onclick="window.parseCustomQuotes()" style="background: #34f5c5; color: #00241b; font-weight: 900; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.88rem;">
+            ⚡ Compare My Quotes Side-by-Side →
+          </button>
+        </div>
+      </details>
+    </div>
+
+    <!-- Results Section -->
+    <div id="comparator-results-section" style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
+      
+      <!-- Verdict Banner -->
+      <div id="comparator-verdict-banner" style="background: rgba(6, 26, 20, 0.95); border: 2px solid #34f5c5; border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 8px 30px rgba(52, 245, 197, 0.2);">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Side-by-Side Cards -->
+      <div class="comparator-grid">
+        
+        <!-- CARD A -->
+        <div class="quote-card card-warn">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="font-size: 0.78rem; font-weight: 800; color: #ef4444; font-family: 'IBM Plex Mono', monospace;">QUOTE A (HIGH RISK)</span>
+            <span class="badge-warn">⚠️ Gaps Detected</span>
+          </div>
+          <h3 id="card-a-contractor" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0 0 16px 0;">Contractor A</h3>
+
+          <div class="price-row">
+            <span style="color: #94a3b8;">Gross Quote Price:</span>
+            <strong id="card-a-gross" style="color: #ffffff; font-family: 'IBM Plex Mono', monospace;">€19,800</strong>
+          </div>
+          <div class="price-row">
+            <span style="color: #94a3b8;">SEAI Grant Deducted:</span>
+            <strong id="card-a-grant" style="color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">-€6,500</strong>
+          </div>
+          <div class="price-row" style="border-bottom: 2px solid rgba(255,255,255,0.2); padding: 12px 0;">
+            <span style="font-size: 1rem; font-weight: 700; color: #ffffff;">True Net Out-of-Pocket:</span>
+            <strong id="card-a-net" style="font-size: 1.3rem; font-weight: 900; color: #fca5a5; font-family: 'IBM Plex Mono', monospace;">€13,300</strong>
+          </div>
+
+          <div style="margin-top: 16px; font-size: 0.84rem; line-height: 1.5; color: #cbd5e1; flex: 1;">
+            <div style="margin-bottom: 8px;"><strong>Heat Pump:</strong> <span id="card-a-hp">8kW Unit</span></div>
+            <div style="margin-bottom: 8px;"><strong>Buffer Tank / Volumizer:</strong> <div id="card-a-buffer"></div></div>
+            <div style="margin-bottom: 8px;"><strong>Radiator Sizing (55°C):</strong> <div id="card-a-rads"></div></div>
+            <div style="margin-bottom: 12px;"><strong>Warranty:</strong> <span id="card-a-warranty">2 Years</span></div>
+            <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; padding: 10px; border-radius: 6px; font-size: 0.78rem; color: #fca5a5;">
+              <span id="card-a-notes"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD B -->
+        <div class="quote-card card-ok">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">QUOTE B (ENGINEER RECOMMENDED)</span>
+            <span class="badge-ok">✓ 100% NSAI Compliant</span>
+          </div>
+          <h3 id="card-b-contractor" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0 0 16px 0;">Contractor B</h3>
+
+          <div class="price-row">
+            <span style="color: #94a3b8;">Gross Quote Price:</span>
+            <strong id="card-b-gross" style="color: #ffffff; font-family: 'IBM Plex Mono', monospace;">€22,400</strong>
+          </div>
+          <div class="price-row">
+            <span style="color: #94a3b8;">SEAI Grant Deducted:</span>
+            <strong id="card-b-grant" style="color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">-€12,500</strong>
+          </div>
+          <div class="price-row" style="border-bottom: 2px solid rgba(255,255,255,0.2); padding: 12px 0;">
+            <span style="font-size: 1rem; font-weight: 700; color: #ffffff;">True Net Out-of-Pocket:</span>
+            <strong id="card-b-net" style="font-size: 1.3rem; font-weight: 900; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">€9,900</strong>
+          </div>
+
+          <div style="margin-top: 16px; font-size: 0.84rem; line-height: 1.5; color: #cbd5e1; flex: 1;">
+            <div style="margin-bottom: 8px;"><strong>Heat Pump:</strong> <span id="card-b-hp">8.5kW Split (SCOP 4.85)</span></div>
+            <div style="margin-bottom: 8px;"><strong>Buffer Tank / Volumizer:</strong> <div id="card-b-buffer"></div></div>
+            <div style="margin-bottom: 8px;"><strong>Radiator Sizing (55°C):</strong> <div id="card-b-rads"></div></div>
+            <div style="margin-bottom: 12px;"><strong>Warranty:</strong> <span id="card-b-warranty">7 Years SEAI Certified</span></div>
+            <div style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; padding: 10px; border-radius: 6px; font-size: 0.78rem; color: #34f5c5;">
+              <span id="card-b-notes"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 1-Tap WhatsApp Dispute / Negotiation Box -->
+      <div class="dispute-box-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.5rem;">💬</span>
+            <div>
+              <h3 style="margin: 0; font-size: 1.1rem; font-weight: 900; color: #ffffff;">1-Tap WhatsApp Contractor Negotiation Script</h3>
+              <div style="font-size: 0.74rem; color: #f59e0b; font-family: 'IBM Plex Mono', monospace;">Cites NSAI SR50-2:2024 standards & statutory SEAI grant formulas</div>
+            </div>
+          </div>
+          <button type="button" onclick="window.copyDisputeScript()" style="background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; color: #fcd34d; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+            📋 1-Tap Copy Script
+          </button>
+        </div>
+
+        <textarea id="whatsapp-dispute-text" readonly style="width: 100%; height: 160px; background: #000e0b; border: 1.5px solid rgba(245,158,11,0.3); border-radius: 10px; color: #e2e8f0; padding: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; line-height: 1.45; resize: vertical; box-sizing: border-box; margin-bottom: 16px;"></textarea>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <a id="btn-send-whatsapp-dispute" href="https://wa.me/" target="_blank" rel="noopener" style="background: #25D366; color: #00241b; font-weight: 900; text-decoration: none; padding: 12px 20px; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.92rem; box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);">
+            <span>💬 Send via WhatsApp to Contractor →</span>
+          </a>
+
+          <a href="/checkout/" style="background: #f59e0b; color: #000; font-weight: 900; text-decoration: none; padding: 12px 20px; border-radius: 10px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.92rem;">
+            <span>⭐ Have Joe Review My Quotes (€49) →</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #00120e; border-top: 1px solid rgba(52, 245, 197, 0.2); padding: 30px 20px 90px 20px; text-align: center; color: #94a3b8; font-size: 0.82rem;">
+    <p>© 2026 EcoSmartHomes Ireland. 100% Conflict-Free Energy Advisory. Not an installer, no contractor kickbacks.</p>
+  </footer>
+
+  <script src="/js/contact-form.js"></script>
+  <script src="/js/calculator-data-core.js"></script>
+  <script src="/js/smart-nav.js"></script>
+  <script src="/js/quote-comparator.js"></script>
+</body>
+</html>

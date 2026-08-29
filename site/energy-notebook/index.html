@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Private Energy Notebook & Bank-Ready PDF Dossier | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Generate official Irish Bank-Ready Green Mortgage Dossiers and SEAI Grant Packets. Certified D-to-A2 BER progression, €35k grant schedules, and 3.45% mortgage discount certificates.">
+  <link rel="canonical" href="https://ecosmarthomes.ie/energy-notebook/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/smart-nav.css">
+  <style>
+    .notebook-container {
+      max-width: 1100px;
+      margin: 0 auto 50px auto;
+      padding: 0 20px;
+    }
+    .notebook-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 28px;
+    }
+    @media (max-width: 860px) {
+      .notebook-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .notebook-form-card {
+      background: rgba(0, 24, 18, 0.95);
+      border: 1.5px solid rgba(52, 245, 197, 0.3);
+      border-radius: 20px;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+    .nb-input {
+      width: 100%;
+      background: #00120e;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 10px 12px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      box-sizing: border-box;
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .nb-input:focus {
+      border-color: #34f5c5;
+      box-shadow: 0 0 10px rgba(52, 245, 197, 0.25);
+    }
+    .nb-label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    
+    /* Bank Dossier Official Document Card */
+    .dossier-preview-card {
+      background: #001711;
+      border: 2px solid #34f5c5;
+      border-radius: 20px;
+      padding: 28px;
+      box-sizing: border-box;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(52, 245, 197, 0.2);
+      position: relative;
+    }
+    .dossier-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(52, 245, 197, 0.15);
+      border: 1.5px solid #34f5c5;
+      color: #34f5c5;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+    .dossier-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.84rem;
+    }
+    .dossier-table th {
+      text-align: left;
+      color: #94a3b8;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 4px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+    }
+    .dossier-table td {
+      padding: 8px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+    }
+
+    /* ZERO-BLOAT NATIVE PRINT STYLESHEET */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-family: 'Inter', sans-serif !important;
+      }
+      .top-emergency-bar, .main-nav-bar, .notebook-form-card, footer, #esh-mobile-dock, #esh-side-drawer, #esh-drawer-overlay, .btn-print-hide {
+        display: none !important;
+      }
+      .notebook-container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .notebook-layout {
+        display: block !important;
+      }
+      .dossier-preview-card {
+        background: #ffffff !important;
+        border: 2px solid #000000 !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 20px !important;
+      }
+      .dossier-stamp {
+        border-color: #000000 !important;
+        color: #000000 !important;
+        background: none !important;
+      }
+      .dossier-table th {
+        color: #333333 !important;
+        border-bottom: 2px solid #000000 !important;
+      }
+      .dossier-table td {
+        color: #000000 !important;
+        border-bottom: 1px solid #cccccc !important;
+      }
+      strong, h1, h2, h3 {
+        color: #000000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <aside class="top-emergency-bar" aria-label="Announcement">
+    <span>🚀 2026-2030 Irish Carbon Tax & Fuel Cost Impact</span>
+    <a href="/checkout/" class="top-emergency-link">★ Book €49 Survey →</a>
+  </aside>
+
+  <!-- Header -->
+  <header class="main-nav-bar">
+    <div class="nav-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-size: 1.4rem;">🏡</span>
+        <span style="font-size: 1.15rem; font-weight: 900; color: #ffffff;">EcoSmart<strong style="color: #34f5c5;">Homes</strong></span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
+        <a href="/checkout/" class="btn-book-nav">💳 Book €49 Survey</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="notebook-container">
+      
+      <div style="text-align: center; padding: 36px 0 24px 0;">
+        <div class="badge-pill-container">
+          <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34f5c5;">
+            ● 100% PRIVATE CLIENT-SIDE NOTEBOOK
+          </span>
+          <span class="badge-pill" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #93c5fd;">
+            🏦 BANK-READY GREEN MORTGAGE DOSSIER
+          </span>
+        </div>
+
+        <h1 class="hero-h1">
+          Private Energy Notebook & Bank-Ready PDF Export
+        </h1>
+
+        <p class="hero-sub" style="max-width: 780px; margin: 0 auto 24px auto;">
+          Automatically compile your BER transformation, statutory €35k SEAI grant pot, and 3.45% Green Mortgage interest savings into an official bank underwriter dossier.
+        </p>
+      </div>
+
+      <div class="notebook-layout">
+        
+        <!-- LEFT: EDITABLE NOTEBOOK CONTROLS -->
+        <div class="notebook-form-card btn-print-hide">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h2 style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin: 0;">
+              📓 Notebook Editor
+            </h2>
+            <span style="font-size: 0.72rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">AUTO-SAVED LOCAL</span>
+          </div>
+
+          <label class="nb-label">Property Street Address:</label>
+          <input type="text" id="nb-address" class="nb-input" placeholder="e.g. 14 Meadow Grove, Blackrock" oninput="window.saveEnergyNotebook()" />
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label class="nb-label">County:</label>
+              <input type="text" id="nb-county" class="nb-input" placeholder="e.g. Dublin" oninput="window.saveEnergyNotebook()" />
+            </div>
+            <div>
+              <label class="nb-label">Eircode:</label>
+              <input type="text" id="nb-eircode" class="nb-input" placeholder="e.g. A94 XY82" oninput="window.saveEnergyNotebook()" />
+            </div>
+          </div>
+
+          <label class="nb-label">Property Archetype:</label>
+          <select id="nb-archetype" class="nb-input" onchange="window.saveEnergyNotebook()">
+            <option value="3-Bed Semi-Detached (115m²)">3-Bed Semi-Detached (115m²)</option>
+            <option value="4-Bed Detached (175m²)">4-Bed Detached (175m²)</option>
+            <option value="3-Bed Bungalow (130m²)">3-Bed Bungalow (130m²)</option>
+            <option value="2-Bed Mid-Terrace / Apt (75m²)">2-Bed Mid-Terrace / Apt (75m²)</option>
+          </select>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label class="nb-label">Current BER:</label>
+              <select id="nb-current-ber" class="nb-input" onchange="window.saveEnergyNotebook()">
+                <option value="G">G Rating</option>
+                <option value="F">F Rating</option>
+                <option value="E2">E2 Rating</option>
+                <option value="E1">E1 Rating</option>
+                <option value="D2">D2 Rating</option>
+                <option value="D1" selected>D1 Rating</option>
+                <option value="C3">C3 Rating</option>
+                <option value="C1">C1 Rating</option>
+              </select>
+            </div>
+            <div>
+              <label class="nb-label">Target BER:</label>
+              <select id="nb-target-ber" class="nb-input" onchange="window.saveEnergyNotebook()">
+                <option value="A2" selected>A2 (Green Mortgage Eligible)</option>
+                <option value="A1">A1 (Ultra-Low Carbon)</option>
+                <option value="A0">A0 (Net Zero / Passive)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
+            <div>
+              <label class="nb-label">Mortgage Lender:</label>
+              <select id="nb-lender" class="nb-input" onchange="window.saveEnergyNotebook()">
+                <option value="AIB (Allied Irish Banks)">AIB (-0.35% Green Rate)</option>
+                <option value="Bank of Ireland">Bank of Ireland (Eco Green)</option>
+                <option value="Permanent TSB">Permanent TSB (Green Rate)</option>
+                <option value="Avant Money">Avant Money (Green 3.45%)</option>
+                <option value="EBS Building Society">EBS Green Mortgage</option>
+              </select>
+            </div>
+            <div>
+              <label class="nb-label">Mortgage Loan (€):</label>
+              <input type="number" id="nb-balance" class="nb-input" value="320000" step="10000" oninput="window.saveEnergyNotebook()" />
+            </div>
+          </div>
+
+          <label class="nb-label">Custom Retrofit Notes & Scope:</label>
+          <textarea id="nb-notes" class="nb-input" style="height: 70px; resize: vertical;" oninput="window.saveEnergyNotebook()"></textarea>
+
+          <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button type="button" onclick="window.saveEnergyNotebook()" style="flex: 1; background: rgba(52, 245, 197, 0.15); border: 1px solid #34f5c5; color: #34f5c5; font-weight: 700; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;">
+              💾 Save to Notebook
+            </button>
+            <button type="button" onclick="window.downloadBankReadyPDF()" style="flex: 1.3; background: #34f5c5; border: none; color: #00241b; font-weight: 900; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 0.88rem;">
+              📄 Download PDF Dossier →
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT: OFFICIAL BANK-READY DOSSIER CARD -->
+        <div class="dossier-preview-card" id="bank-ready-dossier-document">
+          
+          <!-- Dossier Header -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid rgba(52, 245, 197, 0.4); padding-bottom: 16px; margin-bottom: 20px;">
+            <div>
+              <div style="font-size: 1.3rem; font-weight: 900; color: #ffffff;">
+                EcoSmart<strong style="color: #34f5c5;">Homes</strong> <span style="font-size: 0.85rem; font-weight: normal; color: #94a3b8;">· Technical Advisory</span>
+              </div>
+              <div style="font-size: 0.74rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; margin-top: 2px;">
+                OFFICIAL IRISH RESIDENTIAL RETROFIT DOSSIER & GREEN MORTGAGE CERTIFICATE
+              </div>
+            </div>
+            <div class="dossier-stamp">
+              <span>🛡️ 2026 STATUTORY VERIFIED</span>
+            </div>
+          </div>
+
+          <!-- Property & Underwriting Summary -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85rem; margin-bottom: 18px;">
+            <div>
+              <div style="color: #94a3b8; font-size: 0.72rem; font-family: 'IBM Plex Mono', monospace;">PROPERTY ADDRESS:</div>
+              <strong id="dossier-address" style="color: #ffffff;">14 Meadow Grove, Blackrock</strong>
+              <div id="dossier-eircode" style="color: #cbd5e1; font-size: 0.78rem;">A94 XY82 · Dublin</div>
+            </div>
+            <div>
+              <div style="color: #94a3b8; font-size: 0.72rem; font-family: 'IBM Plex Mono', monospace;">PROPERTY ARCHETYPE:</div>
+              <strong id="dossier-archetype" style="color: #ffffff;">3-Bed Semi-Detached (115m²)</strong>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85rem; margin-bottom: 18px;">
+            <div>
+              <div style="color: #94a3b8; font-size: 0.72rem; font-family: 'IBM Plex Mono', monospace;">BER TRANSFORMATION:</div>
+              <strong id="dossier-ber-progression" style="color: #34f5c5; font-weight: 900;">D1 ➔ A2 (Compliant)</strong>
+            </div>
+            <div>
+              <div style="color: #94a3b8; font-size: 0.72rem; font-family: 'IBM Plex Mono', monospace;">LENDER & GREEN RATE:</div>
+              <strong id="dossier-lender" style="color: #ffffff;">AIB (-0.35% Green Rate)</strong>
+            </div>
+          </div>
+
+          <!-- SEAI Statutory Grant Breakdown Schedule -->
+          <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; margin-bottom: 6px;">
+            💶 SEAI Statutory Grant Deduction Schedule (2026 Scheme):
+          </div>
+          <table class="dossier-table">
+            <thead>
+              <tr>
+                <th>Energy Measure</th>
+                <th>Standard</th>
+                <th style="text-align: right;">Grant Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Heat Pump System + NSAI Rads Bundle</td>
+                <td>NSAI SR50-2 (55°C ΔT30)</td>
+                <td style="text-align: right; font-weight: 700; color: #34f5c5;">€12,500</td>
+              </tr>
+              <tr>
+                <td>External Wall Wrap Insulation</td>
+                <td>0.21 W/m²K U-value</td>
+                <td style="text-align: right; font-weight: 700; color: #34f5c5;">€8,000</td>
+              </tr>
+              <tr>
+                <td>Triple Glazed Windows & Doors</td>
+                <td>U-value ≤ 0.8 W/m²K</td>
+                <td style="text-align: right; font-weight: 700; color: #34f5c5;">€5,600</td>
+              </tr>
+              <tr>
+                <td>Solar PV Microgeneration (4.2kWp)</td>
+                <td>CEG 24c/kWh Ready</td>
+                <td style="text-align: right; font-weight: 700; color: #34f5c5;">€1,800</td>
+              </tr>
+              <tr>
+                <td>Attic & Rafter Mineral Insulation</td>
+                <td>300mm Depth</td>
+                <td style="text-align: right; font-weight: 700; color: #34f5c5;">€2,000</td>
+              </tr>
+              <tr style="border-top: 2px solid rgba(52, 245, 197, 0.4);">
+                <td colspan="2" style="font-weight: 900; color: #ffffff;">TOTAL STATUTORY SEAI GRANT POT:</td>
+                <td id="dossier-grants-total" style="text-align: right; font-weight: 900; color: #34f5c5; font-size: 1.05rem;">€35,000</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Financial & Mortgage Underwriting Impact -->
+          <div style="background: rgba(52, 245, 197, 0.08); border-left: 3px solid #34f5c5; padding: 12px 14px; border-radius: 8px; margin: 16px 0; font-size: 0.82rem; line-height: 1.45;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span style="color: #cbd5e1;">🏦 Green Mortgage Interest Reduction:</span>
+              <strong id="dossier-mortgage-slash" style="color: #34f5c5;">-€93/mo (-€1,120/yr)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: #cbd5e1;">🛡️ 2026-2030 Carbon Tax Levies Avoided:</span>
+              <strong id="dossier-carbon-avoided" style="color: #34f5c5;">€3,952 Saved</strong>
+            </div>
+          </div>
+
+          <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 12px;">
+            <strong>Engineer Notes:</strong> <span id="dossier-notes-display"></span>
+          </div>
+
+          <!-- Bottom Print Action Button -->
+          <div style="margin-top: 24px; text-align: center;" class="btn-print-hide">
+            <button type="button" onclick="window.downloadBankReadyPDF()" style="background: #34f5c5; color: #00241b; font-weight: 900; border: none; padding: 14px 28px; border-radius: 12px; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 25px rgba(52, 245, 197, 0.4); width: 100%;">
+              📄 Print & Download Bank-Ready Dossier (PDF) →
+            </button>
+            <div style="margin-top: 10px; font-size: 0.74rem; color: #94a3b8;">
+              Formatted for direct submission to AIB, BOI, Permanent TSB, and SEAI One-Stop-Shop partners.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #00120e; border-top: 1px solid rgba(52, 245, 197, 0.2); padding: 30px 20px 90px 20px; text-align: center; color: #94a3b8; font-size: 0.82rem;" class="btn-print-hide">
+    <p>© 2026 EcoSmartHomes Ireland. 100% Conflict-Free Energy Advisory. Not an installer, no contractor kickbacks.</p>
+  </footer>
+
+  <script src="/js/contact-form.js"></script>
+  <script src="/js/calculator-data-core.js"></script>
+  <script src="/js/smart-nav.js"></script>
+  <script src="/js/energy-notebook.js"></script>
+</body>
+</html>

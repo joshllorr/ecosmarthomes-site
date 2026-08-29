@@ -337,6 +337,20 @@
                   <div style="font-size:0.72rem;color:#94a3b8;">Low-cost green loan calculator</div>
                 </div>
               </a>
+              <a href="/energy-notebook/" class="drawer-tool-item">
+                <span class="tool-icon">📓</span>
+                <div>
+                  <div>Private Energy Notebook & PDF Pack</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">1-Click Bank-Ready Green Mortgage Pack</div>
+                </div>
+              </a>
+              <a href="/quote-comparator/" class="drawer-tool-item">
+                <span class="tool-icon">⚖️</span>
+                <div>
+                  <div>Contractor Quote Comparator</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">1-Tap WhatsApp dispute generator</div>
+                </div>
+              </a>
               <a href="/tools/voice-aoife.html" class="drawer-tool-item">
                 <span class="tool-icon">🤖</span>
                 <div>
