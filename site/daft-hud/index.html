@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>1-Click Daft.ie & MyHome.ie Browser Bookmarklet (EcoSmart HUD) | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Add the 1-Click EcoSmart HUD Bookmarklet to your browser. Instantly calculate €35k SEAI grants, equity surges, and green mortgage savings while browsing Daft.ie or MyHome.ie.">
+  <link rel="canonical" href="https://ecosmarthomes.ie/daft-hud/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/smart-nav.css">
+  <style>
+    .hud-hero {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 36px 20px 20px 20px;
+    }
+    .install-box {
+      background: rgba(0, 24, 18, 0.95);
+      border: 2px solid #34f5c5;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 780px;
+      margin: 20px auto 40px auto;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(52, 245, 197, 0.25);
+      text-align: center;
+    }
+    .btn-drag-bookmarklet {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #34f5c5;
+      color: #00241b;
+      font-size: 1.15rem;
+      font-weight: 900;
+      padding: 16px 32px;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 0 30px rgba(52, 245, 197, 0.5);
+      cursor: move;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin: 16px 0;
+    }
+    .btn-drag-bookmarklet:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 45px rgba(52, 245, 197, 0.8);
+    }
+    .daft-mock-listing {
+      background: #00120e;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 780px;
+      margin: 0 auto 50px auto;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Emergency Bar -->
+  <aside class="top-emergency-bar" aria-label="Announcement">
+    <span>🚀 2026-2030 Irish Carbon Tax & Fuel Cost Impact</span>
+    <a href="/checkout/" class="top-emergency-link">★ Book €49 Survey →</a>
+  </aside>
+
+  <!-- Navigation -->
+  <header class="main-nav-bar">
+    <div class="nav-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span style="font-size: 1.4rem;">🏡</span>
+        <span style="font-size: 1.15rem; font-weight: 900; color: #ffffff;">EcoSmart<strong style="color: #34f5c5;">Homes</strong></span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
+        <a href="/checkout/" class="btn-book-nav">💳 Book €49 Survey</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="hud-hero">
+      <div class="badge-pill-container">
+        <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34f5c5;">
+          ● ZERO-INSTALL BROWSER BOOKMARKLET
+        </span>
+        <span class="badge-pill" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #fcd34d;">
+          🚀 DAFT.IE & MYHOME.IE LIVE HUD
+        </span>
+      </div>
+
+      <h1 class="hero-h1">
+        1-Click Daft.ie Property Auditor Bookmarklet (EcoSmart HUD)
+      </h1>
+
+      <p class="hero-sub">
+        Browse Daft.ie or MyHome.ie like a professional building surveyor. Click the bookmarklet on any listing to trigger a slide-over HUD showing the <strong>Equity Surge (+€38k)</strong>, <strong>€35k SEAI Grants</strong>, and <strong>3.45% Green Mortgage Slashes</strong>.
+      </p>
+    </div>
+
+    <!-- INSTALLATION CARD -->
+    <div class="install-box">
+      <div style="font-size: 0.8rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em;">
+        🖥️ DESKTOP SETUP (CHROME / SAFARI / EDGE / FIREFOX)
+      </div>
+
+      <h2 style="font-size: 1.3rem; font-weight: 900; color: #ffffff; margin: 8px 0 12px 0;">
+        Drag this button directly to your Bookmarks Bar:
+      </h2>
+
+      <a id="drag-bookmarklet-btn" href="javascript:void(0)" class="btn-drag-bookmarklet" title="Drag to Bookmarks Bar">
+        <span>⚡ EcoSmart HUD</span>
+      </a>
+
+      <div style="font-size: 0.82rem; color: #94a3b8; margin-top: 8px; line-height: 1.4;">
+        👉 <em>Don't see your bookmarks bar? Press <strong>Ctrl + Shift + B</strong> (Windows) or <strong>Cmd + Shift + B</strong> (Mac) to show it.</em>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 24px 0;">
+
+      <div style="font-size: 0.8rem; font-weight: 800; color: #f59e0b; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">
+        📱 MOBILE SETUP (IPHONE SAFARI / ANDROID CHROME)
+      </div>
+      <p style="font-size: 0.84rem; color: #cbd5e1; margin: 8px 0 14px 0;">
+        Bookmark any random webpage, edit the bookmark URL, and paste the EcoSmart code:
+      </p>
+      <button type="button" onclick="window.copyBookmarkletCode()" style="background: rgba(245, 158, 11, 0.15); border: 1.5px solid #f59e0b; color: #fcd34d; font-weight: 700; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;">
+        📋 1-Tap Copy Mobile Bookmarklet Code
+      </button>
+    </div>
+
+    <!-- LIVE DAFT.IE SIMULATOR -->
+    <div class="daft-mock-listing">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+        <span style="font-size: 0.76rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">
+          🧪 LIVE SIMULATOR: TEST THE HUD ON THIS MOCK LISTING
+        </span>
+        <button type="button" onclick="window.triggerSimulatorHud()" style="background: #34f5c5; color: #00241b; font-weight: 900; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; box-shadow: 0 0 15px rgba(52, 245, 197, 0.4);">
+          ⚡ Test EcoSmart HUD Now →
+        </button>
+      </div>
+
+      <div style="background: rgba(0, 24, 18, 0.9); border: 1px solid rgba(52, 245, 197, 0.2); border-radius: 12px; padding: 20px;">
+        <h3 style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0 0 6px 0;">
+          18 Oakley Road, Ranelagh, Dublin 6
+        </h3>
+        <div style="font-size: 1.4rem; font-weight: 900; color: #34f5c5; margin-bottom: 10px; font-family: 'IBM Plex Mono', monospace;">
+          €525,000
+        </div>
+        <div style="display: flex; gap: 12px; font-size: 0.84rem; color: #cbd5e1; margin-bottom: 12px;">
+          <span>🏠 3 Bed</span>
+          <span>🛁 2 Bath</span>
+          <span>📐 115 m²</span>
+          <span style="color: #f59e0b; font-weight: 800;">BER: E1</span>
+        </div>
+        <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.45; margin: 0;">
+          Charming red-brick semi-detached family residence situated in prime Ranelagh with gas central heating, single-glazed timber sash windows, and original suspended timber floors. Outstanding potential for modern deep retrofit.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #00120e; border-top: 1px solid rgba(52, 245, 197, 0.2); padding: 30px 20px 90px 20px; text-align: center; color: #94a3b8; font-size: 0.82rem;">
+    <p>© 2026 EcoSmartHomes Ireland. 100% Conflict-Free Energy Advisory. Not an installer, no contractor kickbacks.</p>
+  </footer>
+
+  <script src="/js/contact-form.js"></script>
+  <script src="/js/calculator-data-core.js"></script>
+  <script src="/js/smart-nav.js"></script>
+  <script src="/js/daft-hud.js"></script>
+</body>
+</html>

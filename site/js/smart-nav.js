@@ -374,6 +374,13 @@
               </span>
             </button>
             <div id="accordion-panel-agent" class="drawer-accordion-panel">
+              <a href="/daft-hud/" class="drawer-tool-item">
+                <span class="tool-icon">⚡</span>
+                <div>
+                  <div>Daft.ie 1-Click Bookmarklet (HUD)</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Zero-install live listing overlay</div>
+                </div>
+              </a>
               <a href="/property-auditor/" class="drawer-tool-item">
                 <span class="tool-icon">🚀</span>
                 <div>
@@ -1007,6 +1014,7 @@
           <button type="button" onclick="window.closeMobileToolSheet()" style="background: rgba(255,255,255,0.1); border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer;">✕</button>
         </div>
         <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a href="/daft-hud/" class="drawer-link-item"><span class="tool-icon">⚡</span><div><div>Daft.ie 1-Click Bookmarklet (HUD)</div><div style="font-size:0.72rem;color:#94a3b8;">Zero-install live listing overlay</div></div></a>
           <a href="/property-auditor/" class="drawer-link-item"><span class="tool-icon">🚀</span><div><div>1-Click Property Auditor</div><div style="font-size:0.72rem;color:#94a3b8;">Daft.ie & Eircode grant scanner</div></div></a>
           <a href="/solar/" class="drawer-link-item"><span class="tool-icon">☀️</span><div><div>Solar PV & CEG Simulator</div><div style="font-size:0.72rem;color:#94a3b8;">Eircode irradiance & 24c export cash</div></div></a>
           <a href="/battery-arbitrage/" class="drawer-link-item"><span class="tool-icon">🔋</span><div><div>Smart Battery Arbitrage</div><div style="font-size:0.72rem;color:#94a3b8;">Charge at 7c, slash 38c peak bills</div></div></a>
