@@ -17,11 +17,11 @@ module.exports = {
       colors: {
         // Elite visual identity bypassing the generic "Indigo-to-Violet" AI Slop
         brand: {
-          // Deep Slate representing security, authority, and the "Carbon Tax Shield"
+          // Deep Forest representing security, authority, and the "Carbon Tax Shield"
           navy: {
-            950: '#020617', // Main background for height-locked viewports
-            900: '#0f172a', // Card backgrounds, structured sections
-            800: '#1e293b', // Hover states, borders
+            950: '#001711', // Deep Forest Base Canvas
+            900: '#00241b', // Elevated Command Center Surface & Nav
+            800: '#003f2d', // Hover states, glowing cards
           },
           // Rich Irish Emerald representing environmental compliance and SEAI grant viability
           emerald: {

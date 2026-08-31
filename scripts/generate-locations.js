@@ -113,7 +113,12 @@ function generateTownHtml(county, town, siblingTowns) {
   </script>
 
   <style>
-    .loc-hero { background: linear-gradient(135deg, #003f2d 0%, #064e3b 100%); color: #fff; padding: 70px 0 50px 0; }
+    .loc-hero {
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      color: #fff;
+      padding: 70px 20px 50px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
     .stat-pill { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; text-align: center; }
     .stat-val { font-size: 1.8rem; font-weight: 800; color: #10b981; }
     .stat-lbl { font-size: 0.8rem; text-transform: uppercase; color: #cbd5e1; font-weight: 600; }
@@ -122,17 +127,18 @@ function generateTownHtml(county, town, siblingTowns) {
     .faq-a { color: #475569; font-size: 0.92rem; line-height: 1.6; margin: 0; }
   </style>
 </head>
-<body>
+<body style="background: #f8fafc; color: #1e293b;">
 
   <!-- Header Navigation -->
-  <header style="background: #003f2d; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 0;">
+  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
     <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none; display: flex; align-items: center; gap: 8px;">
-        <span>🏡</span> EcoSmartHomes
+      <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
+        <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong>
       </a>
       <div style="display: flex; gap: 15px; align-items: center;">
-        <a href="/locations/" style="color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600;">Irish Towns Directory</a>
-        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
+        <a href="/locations/" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Town Directory</a>
+        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #00241b; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);">Book €49 Survey</a>
       </div>
     </div>
   </header>
@@ -143,7 +149,7 @@ function generateTownHtml(county, town, siblingTowns) {
       <a href="/" style="color: #003f2d; text-decoration: none;">Home</a> &gt; 
       <a href="/locations/" style="color: #003f2d; text-decoration: none;">Locations</a> &gt; 
       <a href="/locations/#${county.slug}" style="color: #003f2d; text-decoration: none;">Co. ${county.county}</a> &gt; 
-      <span style="color: #0f172a; font-weight: 600;">${town.name}</span>
+      <span style="color: #00241b; font-weight: 600;">${town.name}</span>
     </div>
   </div>
 
@@ -313,19 +319,24 @@ function generateDirectoryIndex(counties) {
   <link rel="canonical" href="https://www.ecosmarthomes.ie/locations/">
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body style="background: #f8fafc; color: #0f172a;">
+<body style="background: #f8fafc; color: #1e293b;">
 
-  <header style="background: #003f2d; padding: 18px 0;">
+  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
     <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none;">🏡 EcoSmartHomes</a>
-      <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
+      <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
+        <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong>
+      </a>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
+        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #00241b; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);">Book €49 Survey</a>
+      </div>
     </div>
   </header>
 
-  <div style="background: #003f2d; color: #fff; padding: 60px 0 40px 0; text-align: center;">
+  <div style="background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%); color: #fff; padding: 60px 20px 45px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
     <div class="container">
-      <h1 style="font-size: 2.4rem; margin: 0 0 12px 0;">Irish Towns & Counties SEAI Grant Directory</h1>
-      <p style="color: #cbd5e1; font-size: 1.1rem; max-width: 700px; margin: 0 auto 20px auto;">
+      <h1 style="font-size: 2.4rem; margin: 0 0 12px 0; font-weight: 900; letter-spacing: -0.02em;">Irish Towns & Counties SEAI Grant Directory</h1>
+      <p style="color: #cbd5e1; font-size: 1.1rem; max-width: 700px; margin: 0 auto 20px auto; line-height: 1.6;">
         Find local BER housing statistics, typical heat pump payback periods, and official May 2026 SEAI grant figures for your town.
       </p>
     </div>

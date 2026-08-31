@@ -192,8 +192,8 @@ function getStepFriendlyName(step) {
 
 function convertMarkdownToHtml(md, title) {
   let html = md
-    .replace(/^# (.*$)/gim, '<h1 style="color: #020617; font-family: sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">$1</h1>')
-    .replace(/^### (.*$)/gim, '<h3 style="color: #1e293b; font-family: sans-serif; font-size: 14px; font-weight: 700; margin-top: 18px; margin-bottom: 8px;">$1</h3>')
+    .replace(/^# (.*$)/gim, '<h1 style="color: #00241b; font-family: sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">$1</h1>')
+    .replace(/^### (.*$)/gim, '<h3 style="color: #003f2d; font-family: sans-serif; font-size: 14px; font-weight: 700; margin-top: 18px; margin-bottom: 8px;">$1</h3>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>');
 

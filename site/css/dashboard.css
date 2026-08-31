@@ -224,12 +224,13 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: 260px;
-  background: #0f172a;
+  background: #00241b;
   color: #f8fafc;
   font-size: 0.82rem;
   padding: 14px;
   border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  border: 1px solid rgba(52, 245, 197, 0.25);
   z-index: 100;
   margin-bottom: 10px;
   line-height: 1.4;
@@ -243,7 +244,7 @@ body {
   transform: translateX(-50%);
   border-width: 6px;
   border-style: solid;
-  border-color: #0f172a transparent transparent transparent;
+  border-color: #00241b transparent transparent transparent;
 }
 
 .kpi-card:hover .tooltip-popup.active,
@@ -503,7 +504,7 @@ body {
 
 /* Dashboard Footer Accent */
 .dashboard-footer {
-  background: #0f172a;
+  background: #00241b;
   color: #94a3b8;
   padding: 40px 20px 20px;
   text-align: center;

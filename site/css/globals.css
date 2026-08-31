@@ -10,7 +10,7 @@
 
 @layer base {
   :root {
-    --brand-navy: #020617;
+    --brand-navy: #001711;
     --brand-emerald: #10b981;
     --brand-accent: #eab308;
     --text-body: #94a3b8;
@@ -180,7 +180,7 @@
     height: 24px;
     border-radius: 50%;
     background: var(--brand-emerald);
-    border: 3px solid #0f172a; /* brand-navy-light coordinate */
+    border: 3px solid #00241b; /* brand-forest-dark coordinate */
     box-shadow: 0 0 10px rgba(16, 185, 129, 0.5), 0 4px 6px rgba(0, 0, 0, 0.3);
     transition: transform 0.1s ease;
   }
@@ -195,7 +195,7 @@
   .custom-slider::-moz-range-thumb {
     width: 18px;
     height: 18px;
-    border: 3px solid #0f172a;
+    border: 3px solid #00241b;
     border-radius: 50%;
     background: var(--brand-emerald);
     box-shadow: 0 0 10px rgba(16, 185, 129, 0.5), 0 4px 6px rgba(0, 0, 0, 0.3);

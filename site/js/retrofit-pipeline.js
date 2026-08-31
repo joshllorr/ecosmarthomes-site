@@ -880,7 +880,7 @@
             <input type="radio" name="checkout-tier" id="tier-survey" value="49.00" style="margin-top: 3px; accent-color: #f59e0b; width: 17px; height: 17px;" />
             <div style="flex: 1;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong style="color: #0f172a; font-size: 0.94rem;">In-Person Onsite Survey with Joe</strong>
+                <strong style="color: #00241b; font-size: 0.94rem;">In-Person Onsite Survey with Joe</strong>
                 <span style="background: #f59e0b; color: #000; font-weight: 800; font-size: 0.82rem; padding: 2px 7px; border-radius: 6px;">€49.00</span>
               </div>
               <p style="color: #64748b; font-size: 0.78rem; margin: 3px 0 0 0; line-height: 1.35;">
@@ -1156,5 +1156,3 @@
     try { initWrapSimulator(); } catch (e) { console.warn('Wrap sim init notice:', e); }
   }
 })();
-
-

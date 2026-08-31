@@ -10,7 +10,14 @@
   <link rel="stylesheet" href="/css/smart-nav.css">
   
   <style>
-    .contractor-hero { background: linear-gradient(135deg, #00261b 0%, #003f2d 100%); color: #fff; padding: 75px 0 60px 0; text-align: center; }
+    .contractor-hero {
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      color: #fff;
+      padding: 75px 20px 60px 20px;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
     .tier-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column; justify-content: space-between; }
     .tier-card:hover { transform: translateY(-4px); box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1); }
     .tier-featured { border: 2px solid #10b981; position: relative; box-shadow: 0 15px 35px -5px rgba(16,185,129,0.2); }
@@ -18,18 +25,18 @@
     .feature-check { color: #10b981; font-weight: 800; margin-right: 8px; }
   </style>
 </head>
-<body style="background: #f8fafc; color: #0f172a;">
+<body style="background: #f8fafc; color: #1e293b;">
 
   <!-- Header -->
-  <header style="background: #00261b; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0;">
+  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
     <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none; display: flex; align-items: center; gap: 8px;">
-        <span>🏡</span> EcoSmartHomes <span style="font-size: 0.8rem; background: #10b981; color: #fff; padding: 2px 8px; border-radius: 12px; font-weight: 700;">B2B PORTAL</span>
+      <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
+        <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong> <span style="font-size: 0.75rem; background: rgba(52,245,197,0.2); color: #34f5c5; border: 1px solid rgba(52,245,197,0.3); padding: 2px 8px; border-radius: 12px; font-weight: 700;">B2B PORTAL</span>
       </a>
       <div style="display: flex; gap: 15px; align-items: center;">
-        <a href="#pricing" style="color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600;">Pricing Tiers</a>
+        <a href="#pricing" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Pricing Tiers</a>
         <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
-        <a href="#register" class="btn-primary" style="background: #10b981; color: #fff; font-weight: 800; text-decoration: none; padding: 8px 18px; border-radius: 6px; font-size: 0.85rem;">Join Installer Network →</a>
+        <a href="#register" class="btn-primary" style="background: #10b981; color: #00241b; font-weight: 800; text-decoration: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; box-shadow: 0 4px 14px rgba(16,185,129,0.35);">Join Installer Network →</a>
       </div>
     </div>
   </header>

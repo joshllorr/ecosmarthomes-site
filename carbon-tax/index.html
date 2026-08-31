@@ -11,19 +11,29 @@
   <link rel="stylesheet" href="/css/smart-nav.css">
 
   <style>
-    .tax-hero { background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); color: #fff; padding: 75px 0 50px 0; text-align: center; }
+    .tax-hero {
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      color: #fff;
+      padding: 70px 20px 50px 20px;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
     .tax-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.07); }
     
     /* Live National Ticker */
     .national-ticker-bar {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      padding: 12px 24px;
+      background: rgba(0, 36, 27, 0.85);
+      border: 1.5px solid rgba(239, 68, 68, 0.45);
+      padding: 10px 22px;
       border-radius: 50px;
       display: inline-flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 25px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     .ticker-pulse {
       width: 12px; height: 12px;
@@ -37,8 +47,8 @@
       100% { transform: scale(2); opacity: 0; }
     }
     .ticker-digits {
-      font-family: 'Fira Code', monospace, monospace;
-      font-size: 1.4rem;
+      font-family: 'IBM Plex Mono', 'Fira Code', monospace;
+      font-size: 1.35rem;
       font-weight: 800;
       color: #fca5a5;
     }
@@ -71,19 +81,33 @@
     .cell-rate { font-size: 0.72rem; color: #94a3b8; font-weight: 600; }
   </style>
 </head>
-<body style="background: #f8fafc; color: #0f172a;">
+<body style="background: #f8fafc; color: #1e293b;">
+
+  <!-- Top Notification Telemetry -->
+  <aside class="top-bar-custom" aria-label="Regulatory live updates" style="background: #00120d; color: #94a3b8; padding: 7px 0; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.06);">
+    <div class="top-bar-inner" style="max-width: 1280px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: #34f5c5;">🚀</span>
+        <a href="/carbon-tax/" style="color: #cbd5e1; text-decoration: none; font-weight: 700;">2026-2030 Irish Carbon Tax & Fuel Cost Impact</a>
+      </div>
+      <div>
+        <a href="/checkout/" target="_blank" rel="noopener" style="color: #f59e0b; font-weight: 800; text-decoration: none;">⭐ Book €49 Survey →</a>
+      </div>
+    </div>
+  </aside>
 
   <!-- Header -->
-  <header style="background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0;">
+  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
     <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none; display: flex; align-items: center; gap: 8px;">
-        <span>🏡</span> EcoSmartHomes
+      <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
+        <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong>
       </a>
-      <div style="display: flex; gap: 15px; align-items: center;">
-        <a href="/solar/" style="color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600;">Solar PV</a>
-        <a href="/locations/" style="color: #cbd5e1; text-decoration: none; font-size: 0.9rem; font-weight: 600;">Town Directory</a>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <a href="/solar/" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Solar PV</a>
+        <a href="/green-mortgage/" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Green Mortgage</a>
+        <a href="/locations/" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Town Directory</a>
         <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
-        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 18px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
+        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #00241b; font-weight: 800; text-decoration: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);">Book €49 Survey</a>
       </div>
     </div>
   </header>
@@ -95,15 +119,15 @@
       <!-- Live National Clock -->
       <div class="national-ticker-bar">
         <div class="ticker-pulse"></div>
-        <span style="font-size: 0.82rem; text-transform: uppercase; font-weight: 700; color: #cbd5e1;">Irish Domestic Carbon Taxes Paid (Live):</span>
+        <span style="font-size: 0.82rem; text-transform: uppercase; font-weight: 700; color: #a7f3d0; font-family: 'IBM Plex Mono', monospace;">Irish Domestic Carbon Taxes Paid (Live):</span>
         <span id="national-carbon-ticker" class="ticker-digits">€428,500,000</span>
       </div>
 
-      <h1 style="font-size: 2.6rem; margin: 0 0 14px 0; line-height: 1.2;">
+      <h1 style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900; color: #ffffff; margin: 0 0 16px 0; line-height: 1.2; letter-spacing: -0.02em;">
         Irish Carbon Tax & Oil Penalty Ticker (2026–2030)
       </h1>
-      <p style="font-size: 1.15rem; color: #cbd5e1; margin-bottom: 25px; line-height: 1.6;">
-        The Irish Carbon Tax is legally scheduled to rise to <strong>€100 per tonne by 2030</strong>. See exactly how much extra your household will lose on kerosene oil or gas, and how to build an authentic <strong>Carbon Tax Shield</strong>.
+      <p style="font-size: 1.15rem; color: #cbd5e1; margin-bottom: 25px; line-height: 1.6; max-width: 760px; margin-left: auto; margin-right: auto;">
+        The Irish Carbon Tax is legally scheduled to rise to <strong style="color: #ffffff;">€100 per tonne by 2030</strong>. See exactly how much extra your household will lose on kerosene oil or gas, and how to build an authentic <strong style="color: #34f5c5;">Carbon Tax Shield</strong>.
       </p>
     </div>
   </section>

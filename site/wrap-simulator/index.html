@@ -30,11 +30,11 @@
     }
 
     .wrap-hero {
-      background: radial-gradient(circle at 50% 0%, #003f2d 0%, #00241b 100%);
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
       color: #ffffff;
-      padding: 60px 0 40px 0;
+      padding: 60px 20px 45px 20px;
       text-align: center;
-      border-bottom: 1px solid rgba(52, 245, 197, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .sim-card {
@@ -46,7 +46,7 @@
     }
 
     .visualizer-stage {
-      background: #0f172a;
+      background: #001711;
       border-radius: 12px;
       padding: 30px;
       color: #ffffff;
@@ -57,7 +57,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      border: 2px solid rgba(52, 245, 197, 0.3);
+      border: 2px solid rgba(52, 245, 197, 0.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     .wall-cross-section {
@@ -67,7 +68,7 @@
       border-radius: 8px;
       display: flex;
       overflow: hidden;
-      border: 3px solid #334155;
+      border: 3px solid rgba(52, 245, 197, 0.3);
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -84,19 +85,19 @@
     }
   </style>
 </head>
-<body style="background: #f8fafc; color: #0f172a;">
+<body style="background: #f8fafc; color: #1e293b;">
 
   <!-- Header Navigation -->
-  <header style="background: #00241b; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0;">
+  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
     <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="/" style="color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none; display: flex; align-items: center; gap: 8px;">
-        <span>🏡</span> EcoSmartHomes
+      <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
+        <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong>
       </a>
       <div style="display: flex; gap: 14px; align-items: center;">
-        <a href="/green-mortgage/" style="color: #34f5c5; text-decoration: none; font-size: 0.9rem; font-weight: 700;">🏦 Green Mortgage</a>
-        <a href="/quote-auditor/" style="color: #fca5a5; text-decoration: none; font-size: 0.9rem; font-weight: 700;">🛡️ Quote Auditor</a>
+        <a href="/green-mortgage/" style="color: #34f5c5; text-decoration: none; font-size: 0.85rem; font-weight: 700;">🏦 Green Mortgage</a>
+        <a href="/quote-auditor/" style="color: #fca5a5; text-decoration: none; font-size: 0.85rem; font-weight: 700;">🛡️ Quote Auditor</a>
         <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
-        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem;">€49 Survey →</a>
+        <a href="/checkout/" target="_blank" rel="noopener" class="btn-primary" style="background: #f59e0b; color: #00241b; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);">Book €49 Survey</a>
       </div>
     </div>
   </header>
