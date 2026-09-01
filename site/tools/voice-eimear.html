@@ -11,8 +11,8 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ask Eimear · Real Estate AI Energy Advisor | EcoSmartHomes Ireland</title>
-  <meta name="description" content="Meet Eimear, your dedicated Real Estate Energy Advisor. Help buyers and sellers understand BER ratings, €38k valuation uplift, and 3.45% green mortgages.">
+  <title>Ask Eimear · 50-Script Estate Agent Pack | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Meet Eimear, your dedicated Real Estate Energy Advisor. Explore 50 scripts on BER disclosure, +€38k valuation uplift, and 3.45% green mortgages.">
   <link rel="canonical" href="https://www.ecosmarthomes.ie/tools/voice-eimear.html">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,15 +33,25 @@
       --bg-dark: #001711;
       --bg-card: #00241b;
       --color-gold: #fbbf24;
-      --color-amber: #f59e0b;
       --color-mint: #34f5c5;
+      --color-amber: #f59e0b;
     }
     body {
       background: var(--bg-dark);
       color: #fff;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       margin: 0;
       padding: 0;
+    }
+    .question-card:hover {
+      border-color: var(--color-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 14px rgba(251, 191, 36, 0.15);
+    }
+    .btn-listen-card:hover {
+      background: var(--color-gold);
+      color: #001711;
+      transform: scale(1.04);
     }
   </style>
 </head>
@@ -76,9 +86,10 @@
   </header>
 
   <!-- Main Stage -->
-  <main style="max-width: 900px; margin: 40px auto 80px auto; padding: 0 20px;">
+  <main style="max-width: 960px; margin: 40px auto 80px auto; padding: 0 20px;">
     
-    <div style="background: radial-gradient(120% 120% at 50% 0%, #003628 0%, #00241b 100%); border: 1.5px solid rgba(251, 191, 36, 0.4); border-radius: 24px; padding: 40px 24px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 40px;">
+    <!-- Hero Persona Stage -->
+    <div style="background: radial-gradient(120% 120% at 50% 0%, #003628 0%, #00241b 100%); border: 1.5px solid rgba(251, 191, 36, 0.4); border-radius: 24px; padding: 40px 24px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 50px;">
       <div style="width: 80px; height: 80px; border-radius: 50%; background: #003628; border: 3px solid #fbbf24; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 16px auto; box-shadow: 0 0 25px rgba(251, 191, 36, 0.35);">
         💼
       </div>
@@ -102,47 +113,1294 @@
       </div>
     </div>
 
-    <!-- Quick Viewing Q&A Cards -->
-    <h2 style="font-size: 1.5rem; font-weight: 900; margin: 0 0 18px 0;">Top Real Estate Viewing Scenarios</h2>
-    <div style="display: flex; flex-direction: column; gap: 14px;">
-      
-      <div style="background: #00241b; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px;">
-        <strong style="color: #fbbf24; font-size: 1.05rem; display: block; margin-bottom: 6px;">
-          💬 "How much does a BER uplift increase property value in Ireland?"
-        </strong>
-        <p style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
-          "A higher BER doesn't just reduce bills — it increases buyer confidence and improves valuation. Stepping a standard home from G or D to an A rating yields an average of thirty-eight thousand euro in capital equity surge in the Irish market."
-        </p>
-        <div style="font-size: 0.78rem; color: #94a3b8; font-family: 'IBM Plex Mono', monospace;">
-          📜 DEAP 4.2.2 & ESRI Irish Housing Data · +€38,000 Avg Valuation Surge
-        </div>
+    <!-- 50-Script Knowledge Directory -->
+    <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <h2 style="font-size: 1.6rem; font-weight: 900; margin: 0 0 4px 0;">💼 Eimear's 50-Script Real Estate Starter Pack</h2>
+        <p style="color: #94a3b8; font-size: 0.9rem; margin: 0;">Click any category to expand scripts, or tap "Listen" to hear Eimear's polished Irish voice answer.</p>
       </div>
-
-      <div style="background: #00241b; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px;">
-        <strong style="color: #fbbf24; font-size: 1.05rem; display: block; margin-bottom: 6px;">
-          💬 "How do I explain 3.45% Green Mortgage savings to buyers during viewings?"
-        </strong>
-        <p style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
-          "When buyers view a home rated B3 or better, they qualify for green mortgage rates around 3.45 percent. On an average Irish mortgage balance, that saves them about two hundred and thirty euro every month in interest alone."
-        </p>
-        <div style="font-size: 0.78rem; color: #94a3b8; font-family: 'IBM Plex Mono', monospace;">
-          📜 BPFI Green Mortgage Benchmark · ~€2,760 Annual Interest Saved
-        </div>
+      <div>
+        <button type="button" onclick="expandAllCats()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; margin-right: 6px;">Expand All</button>
+        <button type="button" onclick="collapseAllCats()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer;">Collapse All</button>
       </div>
-
-      <div style="background: #00241b; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px;">
-        <strong style="color: #fbbf24; font-size: 1.05rem; display: block; margin-bottom: 6px;">
-          💬 "What's the quickest pre-sale BER boost sequence?"
-        </strong>
-        <p style="color: #cbd5e1; font-size: 0.92rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
-          "For this property, the quickest uplift is attic insulation and heating controls. Great value, fast turnaround, and it can bump a D rating up to C or B within days."
-        </p>
-        <div style="font-size: 0.78rem; color: #94a3b8; font-family: 'IBM Plex Mono', monospace;">
-          📜 SEAI SR54:2024 & Controls Grants
-        </div>
-      </div>
-
     </div>
+
+    
+    <div style="background: #00241b; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 20px; overflow: hidden;">
+      <div style="background: rgba(0, 36, 27, 0.95); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleCat('cat-BER-Ratings-and-Buyer-Expectations')">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">🏷️</span>
+          <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff;">BER Ratings & Buyer Expectations</h3>
+          <span style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; font-family: 'IBM Plex Mono', monospace;">10 Scripts</span>
+        </div>
+        <span class="cat-arrow" id="arrow-cat-BER-Ratings-and-Buyer-Expectations" style="color: #94a3b8; font-size: 0.9rem;">▼</span>
+      </div>
+
+      <div id="cat-BER-Ratings-and-Buyer-Expectations" class="cat-panel" style="padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255,255,255,0.06);">
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER basics”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “A BER rating simply shows how efficient the home is. Buyers love seeing a clear, honest rating — it builds trust straight away.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 DEAP 4.2.2 & SEAI BER Register
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Estate Agent Energy Pack (€99)
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('A BER rating simply shows how efficient the home is. Buyers love seeing a clear, honest rating — it builds trust straight away.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Why BER matters”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “A stronger BER means lower bills and better comfort. It’s one of the first things buyers ask about now.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Domestic Energy Benchmark
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 1-Click Property Auditor
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('A stronger BER means lower bills and better comfort. It’s one of the first things buyers ask about now.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER uplift explanation”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Even one band of improvement can make a big difference to buyer confidence — and often to valuation.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 ESRI / Daft.ie Real Estate Energy Index
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Simulate BER Uplift
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Even one band of improvement can make a big difference to buyer confidence — and often to valuation.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER and mortgage rates”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Green mortgages reward better BER ratings with lower interest. Buyers are very tuned into this.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 BPFI Green Mortgage Schedule
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Green Mortgage Calculator
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Green mortgages reward better BER ratings with lower interest. Buyers are very tuned into this.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER and resale value”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “A better BER doesn’t just save money — it makes the home more attractive when you go to sell.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EU Energy Performance of Buildings Directive
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Order Agent Pack (€99)
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('A better BER doesn’t just save money — it makes the home more attractive when you go to sell.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER for older homes”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Older homes can absolutely improve their BER. Buyers appreciate seeing a clear upgrade path.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI SR54:2024 Domestic Retrofit Code
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Property Auditor
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Older homes can absolutely improve their BER. Buyers appreciate seeing a clear upgrade path.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER and comfort”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “A good BER usually means the home feels warmer, steadier, and less draughty — buyers notice that instantly.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 NSAI Comfort Standard ISO 7730
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Viewing Advice
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('A good BER usually means the home feels warmer, steadier, and less draughty — buyers notice that instantly.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER documentation”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “I’ll help you present the BER clearly in your listing so buyers understand exactly what it means.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 S.I. 243/2012 BER Advertising Regulations
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Generate Brochure Insert (€99)
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('I’ll help you present the BER clearly in your listing so buyers understand exactly what it means.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER vs EPC”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “In Ireland we use BER, not EPC — but the concept is the same: energy performance and running costs.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI National DEAP Framework
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Daft.ie Auditor
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('In Ireland we use BER, not EPC — but the concept is the same: energy performance and running costs.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER questions during viewings”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “If buyers ask about BER, just tell them the basics — I’ll handle the technical bits for you.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EcoSmartHomes Viewing Playbook
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Download Viewing Cheat Sheet
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('If buyers ask about BER, just tell them the basics — I’ll handle the technical bits for you.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="background: #00241b; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 20px; overflow: hidden;">
+      <div style="background: rgba(0, 36, 27, 0.95); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleCat('cat-Valuation-Listings-and-Buyer-Psychology')">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">📈</span>
+          <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff;">Valuation, Listings & Buyer Psychology</h3>
+          <span style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; font-family: 'IBM Plex Mono', monospace;">10 Scripts</span>
+        </div>
+        <span class="cat-arrow" id="arrow-cat-Valuation-Listings-and-Buyer-Psychology" style="color: #94a3b8; font-size: 0.9rem;">▼</span>
+      </div>
+
+      <div id="cat-Valuation-Listings-and-Buyer-Psychology" class="cat-panel" style="padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255,255,255,0.06);">
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Value uplift”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Energy upgrades often add value because buyers know they won’t face big bills or major works.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 ESRI Real Estate Research
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Calculate Equity Surge
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Energy upgrades often add value because buyers know they won’t face big bills or major works.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “First impressions”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “A warm, steady home makes a huge difference during viewings — buyers feel it immediately.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 Irish Auctioneers & Valuers Institute
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Viewing Advice
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('A warm, steady home makes a huge difference during viewings — buyers feel it immediately.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Listing language”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “I’ll help you phrase the energy features in a way that’s clear, honest, and appealing.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EcoSmartHomes Marketing Suite
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 1-Click Listing Blurb
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('I’ll help you phrase the energy features in a way that’s clear, honest, and appealing.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Buyer confidence”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Buyers love seeing a home that’s been cared for — insulation, heating controls, and a good BER all signal that.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 Society of Chartered Surveyors Ireland
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Order Agent Pack (€99)
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Buyers love seeing a home that’s been cared for — insulation, heating controls, and a good BER all signal that.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Avoiding oversell”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “We’ll keep everything factual and friendly — buyers trust that far more than sales talk.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 Consumer Protection Code & SEAI Guidelines
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Daft.ie HUD Tool
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('We’ll keep everything factual and friendly — buyers trust that far more than sales talk.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Highlighting upgrades”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Even small upgrades like attic insulation or new controls are worth mentioning — they reassure buyers.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Energy Measures Database
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Property Auditor
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Even small upgrades like attic insulation or new controls are worth mentioning — they reassure buyers.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Energy features in ads”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Energy features should be near the top of the listing — they’re becoming a major decision factor.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 Daft.ie Buyer Search Trends 2026
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Listing Optimizer
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Energy features should be near the top of the listing — they’re becoming a major decision factor.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Comfort language”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Use phrases like ‘steady warmth’ and ‘low running costs’ — buyers relate to that instantly.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EcoSmartHomes Copyplaybook
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Explore Scripts
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Use phrases like ‘steady warmth’ and ‘low running costs’ — buyers relate to that instantly.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Viewing preparation”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “A quick warm-up of the home before viewings helps buyers feel the comfort straight away.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 Estate Agent Viewing Protocol
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Download Checklist
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('A quick warm-up of the home before viewings helps buyers feel the comfort straight away.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Buyer questions”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “If a buyer asks about bills or comfort, I’ll give you a simple, confident line to use.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 DEAP 4.2.2 Calculation Engine
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Property Auditor
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('If a buyer asks about bills or comfort, I’ll give you a simple, confident line to use.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="background: #00241b; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 20px; overflow: hidden;">
+      <div style="background: rgba(0, 36, 27, 0.95); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleCat('cat-Grants-and-Upgrade-Options')">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">💶</span>
+          <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff;">Grants & Upgrade Options</h3>
+          <span style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; font-family: 'IBM Plex Mono', monospace;">10 Scripts</span>
+        </div>
+        <span class="cat-arrow" id="arrow-cat-Grants-and-Upgrade-Options" style="color: #94a3b8; font-size: 0.9rem;">▼</span>
+      </div>
+
+      <div id="cat-Grants-and-Upgrade-Options" class="cat-panel" style="padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255,255,255,0.06);">
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “SEAI grants overview”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “There are excellent grants available — up to €35,000 for deep retrofits as of May 2026.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI National Retrofit Grant Scheme
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Explore Grants
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('There are excellent grants available — up to €35,000 for deep retrofits as of May 2026.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Heat pump grant”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “The heat pump grant is €6,500 — buyers love knowing that upgrade is supported.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Heat Pump Scheme Clause 2
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Suitability Check
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('The heat pump grant is €6,500 — buyers love knowing that upgrade is supported.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Solar grant”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Solar PV has a €2,100 grant — great for reducing bills and boosting BER.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Domestic Solar PV Scheme
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Solar Yield Tool
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Solar PV has a €2,100 grant — great for reducing bills and boosting BER.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Insulation grants”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Attic and wall insulation grants are strong — and they’re quick upgrades.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Better Energy Homes
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Insulation Calculator
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Attic and wall insulation grants are strong — and they’re quick upgrades.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Grant eligibility”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “I’ll help you explain which upgrades the home qualifies for — buyers appreciate clarity.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Eligibility Criteria 2026
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Check Eircode Eligibility
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('I’ll help you explain which upgrades the home qualifies for — buyers appreciate clarity.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Upgrade roadmap”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “A simple upgrade roadmap helps buyers see the home’s potential without feeling overwhelmed.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI SR54:2024 Phased Retrofit Code
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Download Roadmap PDF
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('A simple upgrade roadmap helps buyers see the home’s potential without feeling overwhelmed.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Cost vs value”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Energy upgrades often pay back through comfort, lower bills, and stronger resale value.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 Irish Banking & Property Economics
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Calculate ROI
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Energy upgrades often pay back through comfort, lower bills, and stronger resale value.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Quick wins”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Attic insulation and heating controls are the fastest, cheapest upgrades — buyers love hearing that.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Fast-Track Upgrades
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Order Agent Pack (€99)
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Attic insulation and heating controls are the fastest, cheapest upgrades — buyers love hearing that.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Deep retrofit explanation”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “A deep retrofit is a full upgrade package — brilliant for older homes aiming for A-ratings.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI National Home Retrofit Scheme
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Masterplan (€299)
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('A deep retrofit is a full upgrade package — brilliant for older homes aiming for A-ratings.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Grant paperwork”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “SEAI paperwork is straightforward — I’ll help you explain the basics to buyers.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Portal Administration
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Grant Guide
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('SEAI paperwork is straightforward — I’ll help you explain the basics to buyers.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="background: #00241b; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 20px; overflow: hidden;">
+      <div style="background: rgba(0, 36, 27, 0.95); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleCat('cat-Comfort-Heating-and-Everyday-Living')">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">🛋️</span>
+          <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff;">Comfort, Heating & Everyday Living</h3>
+          <span style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; font-family: 'IBM Plex Mono', monospace;">10 Scripts</span>
+        </div>
+        <span class="cat-arrow" id="arrow-cat-Comfort-Heating-and-Everyday-Living" style="color: #94a3b8; font-size: 0.9rem;">▼</span>
+      </div>
+
+      <div id="cat-Comfort-Heating-and-Everyday-Living" class="cat-panel" style="padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255,255,255,0.06);">
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Comfort explanation”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Comfort is a huge selling point — steady warmth, no cold spots, and lower bills.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI SR54:2024 Comfort Benchmark
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Viewing Advice
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Comfort is a huge selling point — steady warmth, no cold spots, and lower bills.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Heat pump comfort”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Heat pumps give a lovely even warmth — buyers often comment on it during viewings.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 NSAI SR50 Heating Standards
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Heat Pump Guide
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Heat pumps give a lovely even warmth — buyers often comment on it during viewings.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Radiator upgrades”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Modern radiators heat rooms faster and more evenly — worth mentioning if they’re installed.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 NSAI SR50-1 Radiator Sizing
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Radiator Sizer
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Modern radiators heat rooms faster and more evenly — worth mentioning if they’re installed.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Draught reduction”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Simple airtightness improvements make the home feel instantly cosier.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 DEAP 4.2.2 Ventilation Standards
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Fabric Guide
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Simple airtightness improvements make the home feel instantly cosier.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Heating controls”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Smart controls are a great selling point — buyers love convenience.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Controls Grant Criteria
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Controls Advisor
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Smart controls are a great selling point — buyers love convenience.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Hot water”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Modern cylinders give fast, reliable hot water — a big comfort upgrade.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 NSAI SR50 Plumbing Standards
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 DHW Guide
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Modern cylinders give fast, reliable hot water — a big comfort upgrade.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Noise concerns”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Modern heat pumps are very quiet — like a fridge outside.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 Irish Building Regulations Part L
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Acoustic Advisor
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Modern heat pumps are very quiet — like a fridge outside.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Winter comfort”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Energy upgrades make a huge difference in winter — buyers appreciate that reassurance.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 NSAI SR50 Climatic Design Parameters
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Winter Guide
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Energy upgrades make a huge difference in winter — buyers appreciate that reassurance.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Summer comfort”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Solar diverters give free hot water in summer — lovely bonus.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Microgeneration Guidance
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Solar Simulator
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Solar diverters give free hot water in summer — lovely bonus.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Running costs”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “Buyers always ask about bills — I’ll help you give clear, confident answers.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 DEAP 4.2.2 Energy Cost Schedules
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Calculate Running Costs
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('Buyers always ask about bills — I’ll help you give clear, confident answers.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="background: #00241b; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 20px; overflow: hidden;">
+      <div style="background: rgba(0, 36, 27, 0.95); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleCat('cat-Estate-Agent-Workflow-and-Professional-Support')">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.4rem;">💼</span>
+          <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff;">Estate Agent Workflow & Professional Support</h3>
+          <span style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; font-family: 'IBM Plex Mono', monospace;">10 Scripts</span>
+        </div>
+        <span class="cat-arrow" id="arrow-cat-Estate-Agent-Workflow-and-Professional-Support" style="color: #94a3b8; font-size: 0.9rem;">▼</span>
+      </div>
+
+      <div id="cat-Estate-Agent-Workflow-and-Professional-Support" class="cat-panel" style="padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255,255,255,0.06);">
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Listing-ready energy summary”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “I’ll prepare a clean, simple energy summary you can drop straight into your listing.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EcoSmartHomes Professional B2B Framework
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Order Agent Pack (€99)
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('I’ll prepare a clean, simple energy summary you can drop straight into your listing.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “BER uplift simulation”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “I can simulate the BER uplift for buyers — very helpful during viewings.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 DEAP 4.2.2 Simulator Engine
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Simulate BER Uplift
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('I can simulate the BER uplift for buyers — very helpful during viewings.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Pre-listing advice”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “A quick energy check before listing helps you highlight the right features.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EcoSmartHomes Advisory
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Pre-Listing Pack (€99)
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('A quick energy check before listing helps you highlight the right features.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Viewing scripts”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “I’ll give you simple lines to use during viewings — clear, confident, and easy to remember.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EcoSmartHomes Viewing Playbook
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Explore Scripts
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('I’ll give you simple lines to use during viewings — clear, confident, and easy to remember.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Buyer follow-ups”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “If buyers ask for more detail, I’ll prepare a short summary you can send them.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EcoSmartHomes CRM Automation
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Property Auditor
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('If buyers ask for more detail, I’ll prepare a short summary you can send them.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Agent confidence”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “I’m here to make you sound confident and informed — without needing technical knowledge.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EcoSmartHomes AI Advisory
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Ask Eimear Live
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('I’m here to make you sound confident and informed — without needing technical knowledge.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Avoiding jargon”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “We’ll keep everything simple — buyers prefer plain English.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 Plain English Advisory Standard
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Listing Blurb
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('We’ll keep everything simple — buyers prefer plain English.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Handling tricky questions”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “If a buyer asks something awkward, I’ll give you a calm, clear line to use.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI SR54:2024
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Ask Eimear
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('If a buyer asks something awkward, I’ll give you a calm, clear line to use.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Property potential”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “I’ll help you highlight the home’s potential without overselling.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 SEAI Grant Framework
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Property Auditor
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('I’ll help you highlight the home’s potential without overselling.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="question-card" style="background: #001711; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1;">
+              <strong style="color: #fbbf24; font-size: 0.95rem; display: block; margin-bottom: 6px;">
+                💬 “Closing conversations”
+              </strong>
+              <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 10px 0; font-style: italic;">
+                “End with reassurance — buyers love knowing the home is comfortable, efficient, and upgrade-ready.”
+              </p>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; font-family: 'IBM Plex Mono', monospace;">
+                  📜 EcoSmartHomes Viewing Playbook
+                </span>
+                <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">
+                  👉 Order Agent Pack (€99)
+                </span>
+              </div>
+            </div>
+            <button type="button" class="btn-listen-card" onclick="speakText('End with reassurance — buyers love knowing the home is comfortable, efficient, and upgrade-ready.')" style="background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.4); color: #fbbf24; font-weight: 800; font-size: 0.78rem; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s;">
+              <span>🔊 Listen</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
 
   </main>
 
@@ -150,6 +1408,49 @@
     <p style="color: #fff; font-weight: 700; margin-bottom: 4px;">EcoSmartHomes Ireland · Real Estate Advisory Hub</p>
     <p style="margin: 0;">© 2026 EcoSmartHomes.ie · Phone: 083 449 3934 · Grounded in DEAP 4.2.2 & SEAI May 2026 Grants</p>
   </footer>
+
+  <script>
+    function toggleCat(catId) {
+      const panel = document.getElementById(catId);
+      const arrow = document.getElementById('arrow-' + catId);
+      if (panel.style.display === 'none') {
+        panel.style.display = 'flex';
+        if (arrow) arrow.innerText = '▼';
+      } else {
+        panel.style.display = 'none';
+        if (arrow) arrow.innerText = '▶';
+      }
+    }
+
+    function expandAllCats() {
+      document.querySelectorAll('.cat-panel').forEach(p => p.style.display = 'flex');
+      document.querySelectorAll('.cat-arrow').forEach(a => a.innerText = '▼');
+    }
+
+    function collapseAllCats() {
+      document.querySelectorAll('.cat-panel').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.cat-arrow').forEach(a => a.innerText = '▶');
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.0;
+        utterance.pitch = 1.05;
+        
+        const voices = window.speechSynthesis.getVoices();
+        const selectedVoice = voices.find(v => v.lang === 'en-IE' || v.name.includes('Ireland')) ||
+                              voices.find(v => v.lang === 'en-GB' && (v.name.includes('Female') || v.name.includes('Natural'))) ||
+                              voices.find(v => v.lang.startsWith('en')) || null;
+        if (selectedVoice) utterance.voice = selectedVoice;
+
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert(text);
+      }
+    }
+  </script>
 
   <script src="/js/smart-nav.js" defer></script>
 </body>

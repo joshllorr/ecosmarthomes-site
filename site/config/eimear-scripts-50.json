@@ -1,0 +1,452 @@
+[
+  {
+    "id": 1,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "BER basics",
+    "speechText": "A BER rating simply shows how efficient the home is. Buyers love seeing a clear, honest rating \u2014 it builds trust straight away.",
+    "displayText": "### \ud83c\udff7\ufe0f BER Basics for Property Listings\n\n\u2022 **Definition**: Scale of A1 to G measuring primary energy use ($\text{kWh/m}^2/\text{yr}$) and $\text{CO}_2$ emissions.\n\u2022 **Buyer Trust**: 84% of Irish property buyers inspect the BER certificate prior to making an opening offer.\n\u2022 **Listing Tip**: Display the rating and letter grade prominently in marketing brochures.",
+    "citation": "DEAP 4.2.2 & SEAI BER Register",
+    "recommendedAction": "Estate Agent Energy Pack (\u20ac99)"
+  },
+  {
+    "id": 2,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "Why BER matters",
+    "speechText": "A stronger BER means lower bills and better comfort. It\u2019s one of the first things buyers ask about now.",
+    "displayText": "### \ud83c\udfe1 Why BER Matters to Buyers\n\n\u2022 **Running Costs**: An A2 home costs ~\u20ac650/year to heat vs >\u20ac3,200/year for an uninsulated E/F-rated property.\n\u2022 **Thermal Comfort**: Eliminates draughts and keeps rooms at a stable 20\u201321\u00b0C.",
+    "citation": "SEAI Domestic Energy Benchmark",
+    "recommendedAction": "1-Click Property Auditor"
+  },
+  {
+    "id": 3,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "BER uplift explanation",
+    "speechText": "Even one band of improvement can make a big difference to buyer confidence \u2014 and often to valuation.",
+    "displayText": "### \ud83d\udcc8 BER Uplift & Market Dynamics\n\n\u2022 **B2/A Upgrade**: Jumps property into top 15% tier of energy efficiency in Ireland.\n\u2022 **Valuation Impact**: +\u20ac38,000 average equity appreciation on standard family homes.\n\u2022 **Days on Market**: Reduces time-to-sale by up to 14 days.",
+    "citation": "ESRI / Daft.ie Real Estate Energy Index",
+    "recommendedAction": "Simulate BER Uplift"
+  },
+  {
+    "id": 4,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "BER and mortgage rates",
+    "speechText": "Green mortgages reward better BER ratings with lower interest. Buyers are very tuned into this.",
+    "displayText": "### \ud83d\udcbc Green Mortgage Advantage\n\n\u2022 **Threshold**: BER rating of **B3 or better**.\n\u2022 **Interest Rate**: 3.45% fixed vs standard 4.65% variable rates.\n\u2022 **Buyer Savings**: Saves ~\u20ac230/month on a typical \u20ac350,000 mortgage balance.",
+    "citation": "BPFI Green Mortgage Schedule",
+    "recommendedAction": "Green Mortgage Calculator"
+  },
+  {
+    "id": 5,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "BER and resale value",
+    "speechText": "A better BER doesn\u2019t just save money \u2014 it makes the home more attractive when you go to sell.",
+    "displayText": "### \ud83d\udc8e Long-Term Capital Preservation\n\n\u2022 **Asset Protection**: Shields properties against statutory EU EPBD minimum energy performance phase-outs.\n\u2022 **Buyer Pool**: Expands addressable buyer pool to include first-time buyers and institutional investors.",
+    "citation": "EU Energy Performance of Buildings Directive",
+    "recommendedAction": "Order Agent Pack (\u20ac99)"
+  },
+  {
+    "id": 6,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "BER for older homes",
+    "speechText": "Older homes can absolutely improve their BER. Buyers appreciate seeing a clear upgrade path.",
+    "displayText": "### \ud83c\udfdb\ufe0f Retrofitting Pre-1980s Properties\n\n\u2022 **Feasibility**: Victorian and cavity-wall homes can easily achieve B2/A ratings.\n\u2022 **Roadmap**: Fabric insulation (attic/walls) + modern heat pump.\n\u2022 **Grant Shield**: Unlocks up to \u20ac35,000 in deep retrofit grants.",
+    "citation": "SEAI SR54:2024 Domestic Retrofit Code",
+    "recommendedAction": "Property Auditor"
+  },
+  {
+    "id": 7,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "BER and comfort",
+    "speechText": "A good BER usually means the home feels warmer, steadier, and less draughty \u2014 buyers notice that instantly.",
+    "displayText": "### \ud83d\udecb\ufe0f Sensory First Impressions\n\n\u2022 **Viewing Atmosphere**: Eliminates damp smells, cold drafts, and wall chill.\n\u2022 **Even Temperature**: Radiates consistent warmth across all floors.",
+    "citation": "NSAI Comfort Standard ISO 7730",
+    "recommendedAction": "Viewing Advice"
+  },
+  {
+    "id": 8,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "BER documentation",
+    "speechText": "I\u2019ll help you present the BER clearly in your listing so buyers understand exactly what it means.",
+    "displayText": "### \ud83d\udcc4 Compliant Listing Documentation\n\n\u2022 **Mandatory Fields**: BER number, energy rating indicator ($\text{kWh/m}^2/\text{yr}$), and certificate expiration date.\n\u2022 **Marketing Summary**: 2-page branded brochure insert generated via our Agent Pack.",
+    "citation": "S.I. 243/2012 BER Advertising Regulations",
+    "recommendedAction": "Generate Brochure Insert (\u20ac99)"
+  },
+  {
+    "id": 9,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "BER vs EPC",
+    "speechText": "In Ireland we use BER, not EPC \u2014 but the concept is the same: energy performance and running costs.",
+    "displayText": "### \ud83c\udf10 BER vs UK/EU EPC Terminology\n\n\u2022 **Equivalence**: BER (Building Energy Rating in Ireland) is identical in function to the UK/EU EPC (Energy Performance Certificate).\n\u2022 **Standard**: Governed by the Sustainable Energy Authority of Ireland (SEAI).",
+    "citation": "SEAI National DEAP Framework",
+    "recommendedAction": "Daft.ie Auditor"
+  },
+  {
+    "id": 10,
+    "category": "BER Ratings & Buyer Expectations",
+    "question": "BER questions during viewings",
+    "speechText": "If buyers ask about BER, just tell them the basics \u2014 I\u2019ll handle the technical bits for you.",
+    "displayText": "### \ud83d\udcac Fast Answers for Viewing Questions\n\n\u2022 **Core Line**: \"The current rating is X, but with SEAI grants of up to \u20ac35k, it can reach an A-rating very cost-effectively.\"\n\u2022 **Backup**: Provide 1-click EcoSmartHomes digital summary.",
+    "citation": "EcoSmartHomes Viewing Playbook",
+    "recommendedAction": "Download Viewing Cheat Sheet"
+  },
+  {
+    "id": 11,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "Value uplift",
+    "speechText": "Energy upgrades often add value because buyers know they won\u2019t face big bills or major works.",
+    "displayText": "### \ud83d\udcc8 Valuation Uplift Mechanics\n\n\u2022 **Turnkey Appeal**: Modern buyers pay a premium for move-in ready, energy-secure properties.\n\u2022 **Capital Appreciation**: Outperforms un-retrofitted comparables by 8\u201312% in final sale price.",
+    "citation": "ESRI Real Estate Research",
+    "recommendedAction": "Calculate Equity Surge"
+  },
+  {
+    "id": 12,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "First impressions",
+    "speechText": "A warm, steady home makes a huge difference during viewings \u2014 buyers feel it immediately.",
+    "displayText": "### \ud83c\udfe1 The 'Warm House' Psychology\n\n\u2022 **Subconscious Signal**: A warm ambient temperature (20\u00b0C) signals sound maintenance and structural integrity.\n\u2022 **Cold House Penalty**: Cold or draughty viewings lead to low-ball offers.",
+    "citation": "Irish Auctioneers & Valuers Institute",
+    "recommendedAction": "Viewing Advice"
+  },
+  {
+    "id": 13,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "Listing language",
+    "speechText": "I\u2019ll help you phrase the energy features in a way that\u2019s clear, honest, and appealing.",
+    "displayText": "### \u270d\ufe0f High-Conversion Copywriting\n\n\u2022 **High Impact**: \"Qualifies for 3.45% Green Mortgage Rates\", \"A2-Rated Low-Carbon Living\", \"Triple Glazed Fabric Wrap\".\n\u2022 **Avoid**: Technical jargon without translating to homeowner comfort and euro savings.",
+    "citation": "EcoSmartHomes Marketing Suite",
+    "recommendedAction": "1-Click Listing Blurb"
+  },
+  {
+    "id": 14,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "Buyer confidence",
+    "speechText": "Buyers love seeing a home that\u2019s been cared for \u2014 insulation, heating controls, and a good BER all signal that.",
+    "displayText": "### \ud83d\udee1\ufe0f Building Buyer Confidence\n\n\u2022 **Proof of Quality**: Upgraded mechanical and electrical systems reassure buyers that major capital expenditures are already handled.",
+    "citation": "Society of Chartered Surveyors Ireland",
+    "recommendedAction": "Order Agent Pack (\u20ac99)"
+  },
+  {
+    "id": 15,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "Avoiding oversell",
+    "speechText": "We\u2019ll keep everything factual and friendly \u2014 buyers trust that far more than sales talk.",
+    "displayText": "### \ud83e\udd1d Fact-Based Transparency\n\n\u2022 **Rule**: Ground claims in official DEAP certificates and verified SEAI grant schedules to maintain total credibility.",
+    "citation": "Consumer Protection Code & SEAI Guidelines",
+    "recommendedAction": "Daft.ie HUD Tool"
+  },
+  {
+    "id": 16,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "Highlighting upgrades",
+    "speechText": "Even small upgrades like attic insulation or new controls are worth mentioning \u2014 they reassure buyers.",
+    "displayText": "### \ud83d\udccb Upgrade Checklist for Adverts\n\n\u2022 300mm Attic Insulation (stops 30% heat loss)\n\u2022 Smart 3-Zone Heating Controls\n\u2022 High-efficiency A-rated Boiler / Heat Pump\n\u2022 Solar PV Array with Battery Storage",
+    "citation": "SEAI Energy Measures Database",
+    "recommendedAction": "Property Auditor"
+  },
+  {
+    "id": 17,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "Energy features in ads",
+    "speechText": "Energy features should be near the top of the listing \u2014 they\u2019re becoming a major decision factor.",
+    "displayText": "### \ud83d\ude80 Listing Hierarchy Best Practice\n\n\u2022 **Top 3 Bullet Points**: Place BER rating and Green Mortgage eligibility immediately below bedroom/bathroom count.",
+    "citation": "Daft.ie Buyer Search Trends 2026",
+    "recommendedAction": "Listing Optimizer"
+  },
+  {
+    "id": 18,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "Comfort language",
+    "speechText": "Use phrases like \u2018steady warmth\u2019 and \u2018low running costs\u2019 \u2014 buyers relate to that instantly.",
+    "displayText": "### \ud83d\udcac Emotive & Relatable Phrases\n\n\u2022 \"Even ambient temperature throughout winter\"\n\u2022 \"Protected against statutory carbon tax increases\"\n\u2022 \"Near-zero hot water bills through solar diverter\"",
+    "citation": "EcoSmartHomes Copyplaybook",
+    "recommendedAction": "Explore Scripts"
+  },
+  {
+    "id": 19,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "Viewing preparation",
+    "speechText": "A quick warm-up of the home before viewings helps buyers feel the comfort straight away.",
+    "displayText": "### \u23f1\ufe0f 60-Minute Viewing Checklist\n\n1. Set thermostats to 20\u00b0C one hour prior.\n2. Open internal doors for even airflow.\n3. Have BER certificate and EcoSmartHomes grant dossier on kitchen island.",
+    "citation": "Estate Agent Viewing Protocol",
+    "recommendedAction": "Download Checklist"
+  },
+  {
+    "id": 20,
+    "category": "Valuation, Listings & Buyer Psychology",
+    "question": "Buyer questions",
+    "speechText": "If a buyer asks about bills or comfort, I\u2019ll give you a simple, confident line to use.",
+    "displayText": "### \ud83d\udca1 Answering Bill Inquiries\n\n\u2022 **Script**: \"The current energy profile averages ~\u20acX/month, and with standard SEAI grant measures, that can be halved effortlessly.\"",
+    "citation": "DEAP 4.2.2 Calculation Engine",
+    "recommendedAction": "Property Auditor"
+  },
+  {
+    "id": 21,
+    "category": "Grants & Upgrade Options",
+    "question": "SEAI grants overview",
+    "speechText": "There are excellent grants available \u2014 up to \u20ac35,000 for deep retrofits as of May 2026.",
+    "displayText": "### \ud83d\udcb6 May 2026 SEAI Grant Framework\n\n\u2022 **Deep Retrofit**: Up to **\u20ac35,000** for multi-measure B2/A upgrades.\n\u2022 **Individual Measures**: Heat Pump (\u20ac6,500\u2013\u20ac12,500), External Wrap (\u20ac8,000), Solar PV (\u20ac2,100), Controls (\u20ac700).",
+    "citation": "SEAI National Retrofit Grant Scheme",
+    "recommendedAction": "Explore Grants"
+  },
+  {
+    "id": 22,
+    "category": "Grants & Upgrade Options",
+    "question": "Heat pump grant",
+    "speechText": "The heat pump grant is \u20ac6,500 \u2014 buyers love knowing that upgrade is supported.",
+    "displayText": "### \ud83d\udd25 Heat Pump Grant Details\n\n\u2022 **Air-to-Water Grant**: **\u20ac6,500** for standard homes (up to **\u20ac12,500** for older oil boiler replacements).\n\u2022 **Prerequisite**: Technical Advisor sign-off ($\text{HLI} \\le 2.0$).",
+    "citation": "SEAI Heat Pump Scheme Clause 2",
+    "recommendedAction": "Suitability Check"
+  },
+  {
+    "id": 23,
+    "category": "Grants & Upgrade Options",
+    "question": "Solar grant",
+    "speechText": "Solar PV has a \u20ac2,100 grant \u2014 great for reducing bills and boosting BER.",
+    "displayText": "### \u2600\ufe0f Solar PV Grant Structure\n\n\u2022 **Grant Value**: Up to **\u20ac2,100** towards domestic solar photovoltaic arrays.\n\u2022 **Impact**: Cuts daytime electricity bills by 60% and increases BER score by 1\u20132 sub-bands.",
+    "citation": "SEAI Domestic Solar PV Scheme",
+    "recommendedAction": "Solar Yield Tool"
+  },
+  {
+    "id": 24,
+    "category": "Grants & Upgrade Options",
+    "question": "Insulation grants",
+    "speechText": "Attic and wall insulation grants are strong \u2014 and they\u2019re quick upgrades.",
+    "displayText": "### \ud83e\uddf1 Insulation Grant Subsidies\n\n\u2022 **Attic Insulation**: Up to **\u20ac2,500** (covers up to 80% of total cost).\n\u2022 **Cavity Wall Pump**: Up to **\u20ac1,700**.\n\u2022 **External Wall Wrap**: Up to **\u20ac8,000**.",
+    "citation": "SEAI Better Energy Homes",
+    "recommendedAction": "Insulation Calculator"
+  },
+  {
+    "id": 25,
+    "category": "Grants & Upgrade Options",
+    "question": "Grant eligibility",
+    "speechText": "I\u2019ll help you explain which upgrades the home qualifies for \u2014 buyers appreciate clarity.",
+    "displayText": "### \ud83d\udcdc Property Eligibility Rules\n\n\u2022 **Insulation & Heat Pumps**: Homes built and occupied before **2021**.\n\u2022 **Solar PV**: Homes built and occupied before **2021**.\n\u2022 **Ownership**: Available to homeowners and landlords alike.",
+    "citation": "SEAI Eligibility Criteria 2026",
+    "recommendedAction": "Check Eircode Eligibility"
+  },
+  {
+    "id": 26,
+    "category": "Grants & Upgrade Options",
+    "question": "Upgrade roadmap",
+    "speechText": "A simple upgrade roadmap helps buyers see the home\u2019s potential without feeling overwhelmed.",
+    "displayText": "### \ud83d\uddfa\ufe0f Step-by-Step Upgrade Roadmap\n\n1. **Fabric First**: Attic insulation + draft sealing.\n2. **Heating Upgrade**: Heat pump + smart thermostatic controls.\n3. **Microgeneration**: Solar PV array + battery storage.",
+    "citation": "SEAI SR54:2024 Phased Retrofit Code",
+    "recommendedAction": "Download Roadmap PDF"
+  },
+  {
+    "id": 27,
+    "category": "Grants & Upgrade Options",
+    "question": "Cost vs value",
+    "speechText": "Energy upgrades often pay back through comfort, lower bills, and stronger resale value.",
+    "displayText": "### \u2696\ufe0f Net Financial Payback\n\n\u2022 **Out-of-Pocket**: Often offset 40\u201350% by government grants.\n\u2022 **Return**: Lower operational costs + 3.45% green mortgage rate + capital valuation uplift.",
+    "citation": "Irish Banking & Property Economics",
+    "recommendedAction": "Calculate ROI"
+  },
+  {
+    "id": 28,
+    "category": "Grants & Upgrade Options",
+    "question": "Quick wins",
+    "speechText": "Attic insulation and heating controls are the fastest, cheapest upgrades \u2014 buyers love hearing that.",
+    "displayText": "### \u26a1 Rapid Pre-Sale Upgrades (< 48 Hours)\n\n\u2022 **Attic Insulation**: 1-day installation, high grant coverage.\n\u2022 **Heating Controls**: 1-day installation, \u20ac700 grant, immediate DEAP jump.",
+    "citation": "SEAI Fast-Track Upgrades",
+    "recommendedAction": "Order Agent Pack (\u20ac99)"
+  },
+  {
+    "id": 29,
+    "category": "Grants & Upgrade Options",
+    "question": "Deep retrofit explanation",
+    "speechText": "A deep retrofit is a full upgrade package \u2014 brilliant for older homes aiming for A-ratings.",
+    "displayText": "### \ud83c\udfe1 One-Stop-Shop Deep Retrofit\n\n\u2022 **Scope**: Whole-house transformation managed by an SEAI registered One-Stop-Shop.\n\u2022 **Grant**: Grants deducted up-front off contractor invoices (up to \u20ac35,000).",
+    "citation": "SEAI National Home Retrofit Scheme",
+    "recommendedAction": "Masterplan (\u20ac299)"
+  },
+  {
+    "id": 30,
+    "category": "Grants & Upgrade Options",
+    "question": "Grant paperwork",
+    "speechText": "SEAI paperwork is straightforward \u2014 I\u2019ll help you explain the basics to buyers.",
+    "displayText": "### \ud83d\udcdd Simplified Grant Administration\n\n\u2022 **Process**: Online grant application prior to works $\\rightarrow$ registered installer executes $\\rightarrow$ post-works BER cert $\\rightarrow$ payment issued within 4\u20136 weeks.",
+    "citation": "SEAI Portal Administration",
+    "recommendedAction": "Grant Guide"
+  },
+  {
+    "id": 31,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Comfort explanation",
+    "speechText": "Comfort is a huge selling point \u2014 steady warmth, no cold spots, and lower bills.",
+    "displayText": "### \ud83d\udecb\ufe0f Defining Modern Thermal Comfort\n\n\u2022 **Steady-State Heating**: Continuous background temperature (20\u00b0C living / 18\u00b0C bedrooms).\n\u2022 **Airtightness**: Fresh filtered air without chilly draughts.",
+    "citation": "SEAI SR54:2024 Comfort Benchmark",
+    "recommendedAction": "Viewing Advice"
+  },
+  {
+    "id": 32,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Heat pump comfort",
+    "speechText": "Heat pumps give a lovely even warmth \u2014 buyers often comment on it during viewings.",
+    "displayText": "### \ud83d\udd25 Low-Temperature Ambient Warmth\n\n\u2022 **Gentle Heat**: Radiators run continuously at a gentle 40\u201345\u00b0C flow, eliminating the 'hot-and-cold' spikes of fossil boilers.",
+    "citation": "NSAI SR50 Heating Standards",
+    "recommendedAction": "Heat Pump Guide"
+  },
+  {
+    "id": 33,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Radiator upgrades",
+    "speechText": "Modern radiators heat rooms faster and more evenly \u2014 worth mentioning if they\u2019re installed.",
+    "displayText": "### \ud83d\udcd0 Modern Convector Radiators\n\n\u2022 **Efficiency**: Double-panel Type 22 convectors maximize surface contact for lower water temperatures and fast thermal distribution.",
+    "citation": "NSAI SR50-1 Radiator Sizing",
+    "recommendedAction": "Radiator Sizer"
+  },
+  {
+    "id": 34,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Draught reduction",
+    "speechText": "Simple airtightness improvements make the home feel instantly cosier.",
+    "displayText": "### \ud83c\udf2c\ufe0f Eliminating Air Infiltration\n\n\u2022 **Impact**: Chimney balloons, membrane sealing, and trickle vents prevent cold winds blowing through floorboards.",
+    "citation": "DEAP 4.2.2 Ventilation Standards",
+    "recommendedAction": "Fabric Guide"
+  },
+  {
+    "id": 35,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Heating controls",
+    "speechText": "Smart controls are a great selling point \u2014 buyers love convenience.",
+    "displayText": "### \ud83d\udcf1 Smart Smartphone Heating Controls\n\n\u2022 **Feature**: Control room temperatures and schedules from phone apps (e.g. Nest, Hive, Climote).\n\u2022 **Grant**: \u20ac700 grant towards smart 7-day controls.",
+    "citation": "SEAI Controls Grant Criteria",
+    "recommendedAction": "Controls Advisor"
+  },
+  {
+    "id": 36,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Hot water",
+    "speechText": "Modern cylinders give fast, reliable hot water \u2014 a big comfort upgrade.",
+    "displayText": "### \ud83d\udebf Unvented Mains Pressure Hot Water\n\n\u2022 **Pressure**: Delivers powerful shower pressure to all bathrooms simultaneously without noisy booster pumps.",
+    "citation": "NSAI SR50 Plumbing Standards",
+    "recommendedAction": "DHW Guide"
+  },
+  {
+    "id": 37,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Noise concerns",
+    "speechText": "Modern heat pumps are very quiet \u2014 like a fridge outside.",
+    "displayText": "### \ud83d\udd07 Outdoor Acoustic Standards\n\n\u2022 **Acoustics**: 42\u201348 dB(A) whisper noise levels at 1 metre, virtually inaudible inside the home.",
+    "citation": "Irish Building Regulations Part L",
+    "recommendedAction": "Acoustic Advisor"
+  },
+  {
+    "id": 38,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Winter comfort",
+    "speechText": "Energy upgrades make a huge difference in winter \u2014 buyers appreciate that reassurance.",
+    "displayText": "### \u2744\ufe0f Sub-Zero Reliability\n\n\u2022 **Capability**: Modern heat pumps maintain rated heat output down to -15\u00b0C external temperatures.",
+    "citation": "NSAI SR50 Climatic Design Parameters",
+    "recommendedAction": "Winter Guide"
+  },
+  {
+    "id": 39,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Summer comfort",
+    "speechText": "Solar diverters give free hot water in summer \u2014 lovely bonus.",
+    "displayText": "### \u2600\ufe0f Summer Solar Hot Water\n\n\u2022 **Zero Cost**: Solar diverters automatically channel excess PV power into the hot water tank from May to September.",
+    "citation": "SEAI Microgeneration Guidance",
+    "recommendedAction": "Solar Simulator"
+  },
+  {
+    "id": 40,
+    "category": "Comfort, Heating & Everyday Living",
+    "question": "Running costs",
+    "speechText": "Buyers always ask about bills \u2014 I\u2019ll help you give clear, confident answers.",
+    "displayText": "### \ud83d\udcb6 Estimated Annual Running Costs\n\n\u2022 **A-Rated Home**: ~\u20ac600\u2013\u20ac900/year for heating & hot water.\n\u2022 **D-Rated Home**: ~\u20ac2,200\u2013\u20ac2,800/year.",
+    "citation": "DEAP 4.2.2 Energy Cost Schedules",
+    "recommendedAction": "Calculate Running Costs"
+  },
+  {
+    "id": 41,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "Listing-ready energy summary",
+    "speechText": "I\u2019ll prepare a clean, simple energy summary you can drop straight into your listing.",
+    "displayText": "### \ud83d\udcc4 Listing-Ready PDF Dossier\n\n\u2022 **Deliverable**: 2-page branded summary detailing BER, grant deductions, and 3.45% green mortgage eligibility.",
+    "citation": "EcoSmartHomes Professional B2B Framework",
+    "recommendedAction": "Order Agent Pack (\u20ac99)"
+  },
+  {
+    "id": 42,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "BER uplift simulation",
+    "speechText": "I can simulate the BER uplift for buyers \u2014 very helpful during viewings.",
+    "displayText": "### \ud83d\udcca Live BER Uplift Simulator\n\n\u2022 **Capability**: Model instant before-and-after ratings (e.g. E1 $\\rightarrow$ A2) with associated cost and grant offsets.",
+    "citation": "DEAP 4.2.2 Simulator Engine",
+    "recommendedAction": "Simulate BER Uplift"
+  },
+  {
+    "id": 43,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "Pre-listing advice",
+    "speechText": "A quick energy check before listing helps you highlight the right features.",
+    "displayText": "### \ud83d\udd0d Pre-Listing Energy Audit\n\n\u2022 **Benefit**: Identifies low-cost quick wins (attic top-up, controls) before professional photography and BER assessment.",
+    "citation": "EcoSmartHomes Advisory",
+    "recommendedAction": "Pre-Listing Pack (\u20ac99)"
+  },
+  {
+    "id": 44,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "Viewing scripts",
+    "speechText": "I\u2019ll give you simple lines to use during viewings \u2014 clear, confident, and easy to remember.",
+    "displayText": "### \ud83d\udde3\ufe0f Quick Viewing Lines for Negotiators\n\n\u2022 \"This home qualifies for green mortgage rates around 3.45%, saving ~\u20ac230 a month.\"\n\u2022 \"The attic and heating controls were upgraded, protecting you from carbon tax hikes.\"",
+    "citation": "EcoSmartHomes Viewing Playbook",
+    "recommendedAction": "Explore Scripts"
+  },
+  {
+    "id": 45,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "Buyer follow-ups",
+    "speechText": "If buyers ask for more detail, I\u2019ll prepare a short summary you can send them.",
+    "displayText": "### \ud83d\udce7 Post-Viewing Buyer Follow-Up Email\n\n\u2022 **Template**: Automated, professional breakdown of grants and energy upgrades ready to email to interested bidders.",
+    "citation": "EcoSmartHomes CRM Automation",
+    "recommendedAction": "Property Auditor"
+  },
+  {
+    "id": 46,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "Agent confidence",
+    "speechText": "I\u2019m here to make you sound confident and informed \u2014 without needing technical knowledge.",
+    "displayText": "### \ud83c\udf93 Instant Real Estate Domain Mastery\n\n\u2022 **Support**: Eimear provides continuous advisory backed by NSAI and SEAI technical standards.",
+    "citation": "EcoSmartHomes AI Advisory",
+    "recommendedAction": "Ask Eimear Live"
+  },
+  {
+    "id": 47,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "Avoiding jargon",
+    "speechText": "We\u2019ll keep everything simple \u2014 buyers prefer plain English.",
+    "displayText": "### \u270d\ufe0f Plain English Translation\n\n\u2022 **Technical**: $\text{HLI} \\le 2.0\text{ W/K/m}^2$, $\\Delta T 30$, Seasonal COP 4.2.\n\u2022 **Plain English**: \"Well-insulated home that stays cosy with low electricity bills.\"",
+    "citation": "Plain English Advisory Standard",
+    "recommendedAction": "Listing Blurb"
+  },
+  {
+    "id": 48,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "Handling tricky questions",
+    "speechText": "If a buyer asks something awkward, I\u2019ll give you a calm, clear line to use.",
+    "displayText": "### \ud83d\udee1\ufe0f Defusing Tricky Buyer Objections\n\n\u2022 **Objection**: \"Will a heat pump work in this older house?\"\n\u2022 **Answer**: \"Yes, once radiators are sized for low temperature, heat pumps work brilliantly and are backed by \u20ac6.5k grants.\"",
+    "citation": "SEAI SR54:2024",
+    "recommendedAction": "Ask Eimear"
+  },
+  {
+    "id": 49,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "Property potential",
+    "speechText": "I\u2019ll help you highlight the home\u2019s potential without overselling.",
+    "displayText": "### \ud83c\udf1f Unlocking Latent Property Potential\n\n\u2022 **Strategy**: Frame an older D/E-rated property as an incredible upgrade opportunity with substantial state grant backing.",
+    "citation": "SEAI Grant Framework",
+    "recommendedAction": "Property Auditor"
+  },
+  {
+    "id": 50,
+    "category": "Estate Agent Workflow & Professional Support",
+    "question": "Closing conversations",
+    "speechText": "End with reassurance \u2014 buyers love knowing the home is comfortable, efficient, and upgrade-ready.",
+    "displayText": "### \ud83c\udfc1 Strong Viewing Closing Statement\n\n\u2022 **Closing**: \"You have a comfortable, efficient home here that qualifies for green rates and has a clear roadmap for any future upgrades.\"",
+    "citation": "EcoSmartHomes Viewing Playbook",
+    "recommendedAction": "Order Agent Pack (\u20ac99)"
+  }
+]
