@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "question": "How much does a BER uplift increase property value in Ireland?",
+    "speechText": "A higher BER doesn't just reduce bills \u2014 it increases buyer confidence and improves valuation. Stepping a standard home from G or D to an A rating yields an average of thirty-eight thousand euro in capital equity surge in the Irish market.",
+    "displayText": "### \ud83d\udcc8 Property Valuation Uplift (Irish Market)\n\n\u2022 **Equity Surge**: +**\u20ac38,000** average property valuation uplift on standard 3-bed semi-detached.\n\u2022 **Buyer Appetite**: 78% of active Irish home buyers specifically search for B3+ ratings to unlock 3.45% Green Mortgages.\n\u2022 **Daft.ie Premium**: A-rated properties sell up to 14 days faster on average.",
+    "citation": "DEAP 4.2.2 & ESRI Irish Housing Research",
+    "recommendedAction": "Generate Estate Agent Pack (\u20ac99)"
+  },
+  {
+    "id": 2,
+    "question": "How do I explain 3.45% Green Mortgage savings to potential buyers during viewings?",
+    "speechText": "When buyers view a home rated B3 or better, they qualify for green mortgage rates around 3.45 percent. On an average Irish mortgage balance, that saves them about two hundred and thirty euro every month in interest alone.",
+    "displayText": "### \ud83d\udcbc 3.45% Green Mortgage Value Pitch\n\n\u2022 **Interest Slasher**: 3.45% fixed rate vs standard 4.65% variable.\n\u2022 **Monthly Savings**: ~**\u20ac230/month** on typical \u20ac350,000 mortgage balance.\n\u2022 **30-Year Wealth Retained**: Over **\u20ac82,000** in interest savings.",
+    "citation": "BPFI Green Mortgage Benchmark",
+    "recommendedAction": "1-Click Property Auditor"
+  },
+  {
+    "id": 3,
+    "question": "What's the quickest, high-ROI upgrade to boost a listing's BER before sale?",
+    "speechText": "For this property, the quickest uplift is attic insulation and heating controls. Great value, fast turnaround, and it can bump a D rating up to C or B within days.",
+    "displayText": "### \u26a1 Rapid Pre-Sale BER Boost Sequence\n\n1. **300mm Attic Insulation**: 1-day install, stops 30% heat loss, \u20ac2,500 SEAI grant.\n2. **Smart Heating Controls**: \u20ac700 grant, immediately reduces DEAP primary energy consumption.\n3. **Result**: Jumps 1\u20132 full BER bands before listing photography.",
+    "citation": "SEAI SR54:2024 & DEAP 4.2.2",
+    "recommendedAction": "Order Estate Agent Pack (\u20ac99)"
+  },
+  {
+    "id": 4,
+    "question": "What is the Estate Agent Energy Pack and what do buyers get?",
+    "speechText": "The Estate Agent Energy Pack is a ninety-nine euro listing-ready dossier. It includes a 2-page marketing summary, buyer-friendly upgrade roadmap, green mortgage savings, and carbon tax shield projections.",
+    "displayText": "### \ud83d\udcdc Estate Agent Energy Pack (\u20ac99 Deliverable)\n\n\u2022 **Listing Ready**: 2-Page branded PDF summary for brochure inserts.\n\u2022 **Buyer Roadmap**: Itemized grant deductions up to \u20ac35,000 applied.\n\u2022 **Mortgage Certificate**: Document certifying Green Rate eligibility.",
+    "citation": "EcoSmartHomes Professional B2B Framework",
+    "recommendedAction": "Order Pack (\u20ac99)"
+  },
+  {
+    "id": 5,
+    "question": "How do I answer buyers who ask about Irish carbon tax on an older house?",
+    "speechText": "No stress at all \u2014 energy questions are becoming very common in viewings. You can explain that statutory carbon taxes are locked in to rise each year until 2030, but retrofitting with SEAI grants shields them completely.",
+    "displayText": "### \ud83d\udee1\ufe0f Carbon Tax Disclosure for Viewings\n\n\u2022 **Statutory Escalator**: Carbon tax rises annually to \u20ac100/tonne by 2030.\n\u2022 **Oil/Gas Exposure**: An uninsulated D-rated home faces up to \u20ac4,300 in cumulative tax hikes.\n\u2022 **Solution**: Highlighting SEAI grants turns a liability into a clear upgrade opportunity.",
+    "citation": "Finance Act & Carbon Tax Schedule to 2030",
+    "recommendedAction": "Carbon Tax Ticker"
+  }
+]

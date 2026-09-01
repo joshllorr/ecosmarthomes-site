@@ -214,6 +214,11 @@
     } else {
       if (homeownerWizard) homeownerWizard.style.display = 'block';
     }
+
+    // Synchronize Voice AI Advisor Persona (Aoife vs Eimear)
+    if (typeof window.setVoicePersona === 'function') {
+      window.setVoicePersona(personaKey === 'agent' ? 'agent' : 'homeowner');
+    }
   };
 
   // 4. Tactile Preset One-Click Controller (Zero Keyboard Friction)
@@ -369,11 +374,18 @@
                 <span>Estate Agent Hub</span>
               </span>
               <span style="display:flex;align-items:center;gap:6px;">
-                <span class="drawer-badge-pill" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid #f59e0b;">5 Tools</span>
+                <span class="drawer-badge-pill" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid #f59e0b;">6 Tools</span>
                 <span class="accordion-arrow">▼</span>
               </span>
             </button>
             <div id="accordion-panel-agent" class="drawer-accordion-panel">
+              <a href="/tools/voice-eimear.html" class="drawer-tool-item">
+                <span class="tool-icon">🎙️</span>
+                <div>
+                  <div>Ask Eimear (Real Estate AI)</div>
+                  <div style="font-size:0.72rem;color:#fbbf24;font-weight:700;">Voice advisor for property listings</div>
+                </div>
+              </a>
               <a href="/daft-hud/" class="drawer-tool-item">
                 <span class="tool-icon">⚡</span>
                 <div>
