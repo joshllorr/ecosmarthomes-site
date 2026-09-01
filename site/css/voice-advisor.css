@@ -1,12 +1,67 @@
 /**
  * site/css/voice-advisor.css
- * Ambient Hologram Waveform, Voice Resonance, Edge Glow, Color Wash & Hands-Free Styling
+ * Ambient Hologram Waveform, Particle Shimmer, Voice Resonance & Hands-Free Styling
  */
 
 :root {
   --persona-accent: #34f5c5;
   --persona-glow: rgba(52, 245, 197, 0.5);
   --persona-bg: #00241b;
+}
+
+/* ===============================
+   Particle Shimmer Layer
+   =============================== */
+#personaParticleLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1; /* behind cards, above wash */
+  border-radius: 28px;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: particleFloat 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-130px) scale(1.1);
+    opacity: 0;
+  }
+}
+
+/* Persona Particle Colors */
+.particle-aoife {
+  background: rgba(52, 245, 197, 0.85);
+  box-shadow: 0 0 12px rgba(30, 143, 75, 0.8);
+}
+
+.particle-eimear {
+  background: rgba(251, 191, 36, 0.85);
+  box-shadow: 0 0 12px rgba(242, 201, 76, 0.8);
+}
+
+.particle-declan {
+  background: rgba(56, 189, 248, 0.85);
+  box-shadow: 0 0 12px rgba(0, 180, 255, 0.8);
 }
 
 /* ===============================
@@ -129,7 +184,7 @@
   justify-content: space-between;
   position: relative;
   overflow: hidden;
-  z-index: 1;
+  z-index: 2;
 }
 
 .persona-card:hover, .esh-onboarding-card:hover {

@@ -1,6 +1,6 @@
 /**
  * /js/persona-router.js
- * EcoSmartHomes Master Persona Switchboard with Voice Resonance & Edge Glow Orchestration
+ * EcoSmartHomes Master Persona Switchboard with Particle Shimmer, Voice Resonance & Edge Glow
  * Supports: Aoife (Homeowner), Eimear (Estate Agent), Declan (Installer)
  */
 
@@ -138,7 +138,33 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   };
 
   // ===============================
-  // Voice Resonance Glow (Micro Pulse)
+  // Persona Particle Shimmer System
+  // ===============================
+  window.AG.spawnPersonaParticles = function(personaName) {
+    const layer = document.getElementById("personaParticleLayer");
+    if (!layer) return;
+
+    layer.innerHTML = ""; // Clear previous particles
+    const count = 18;
+
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement("div");
+      p.classList.add("particle", `particle-${personaName}`);
+
+      // Random horizontal position
+      p.style.left = Math.random() * 100 + "%";
+      // Random vertical baseline
+      p.style.bottom = (Math.random() * 40) + "px";
+      // Random animation duration & delay
+      p.style.animationDuration = (4.5 + Math.random() * 3) + "s";
+      p.style.animationDelay = (Math.random() * 2) + "s";
+
+      layer.appendChild(p);
+    }
+  };
+
+  // ===============================
+  // Voice Resonance Glow
   // ===============================
   window.AG.triggerVoiceResonance = function() {
     const wash = document.getElementById("personaColorWash");
@@ -159,9 +185,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // ===============================
-  // Dynamic Theming Engine
-  // ===============================
+  // Dynamic Theming
   function applyPersonaTheme(persona) {
     if (!persona) return;
     document.documentElement.style.setProperty('--persona-accent', persona.accentColor);
@@ -190,9 +214,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     waves.forEach(w => w.style.borderColor = persona.accentColor);
   }
 
-  // ===============================
-  // Color Wash Background Transition
-  // ===============================
+  // Color Wash
   window.AG.triggerColorWash = function(personaName) {
     const wash = document.getElementById("personaColorWash");
     if (!wash) return;
@@ -209,9 +231,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }, 900);
   };
 
-  // ===============================
-  // Persona Ripple Effect
-  // ===============================
+  // Ripple
   window.AG.triggerPersonaRipple = function(personaName) {
     const card = document.querySelector(`[data-persona="${personaName}"]`);
     if (!card) return;
@@ -226,9 +246,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     setTimeout(() => ripple.remove(), 1000);
   };
 
-  // ===============================
-  // Cinematic Persona Switch Animation
-  // ===============================
+  // Card Switch Animation
   window.AG.animatePersonaSwitch = function(oldPersona, newPersona) {
     const oldCard = document.querySelector(`[data-persona="${oldPersona}"]`);
     const newCard = document.querySelector(`[data-persona="${newPersona}"]`);
@@ -274,7 +292,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // Load Saved Persona from Memory
+  // Load Saved Persona
   window.AG.loadSavedPersona = function() {
     try {
       const params = new URLSearchParams(window.location.search);
@@ -324,29 +342,30 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // ==========================================
-  // Orchestrated Persona Switch (All in Sync)
-  // ==========================================
+  // Master Orchestrated Activation
   window.AG.setVoicePersona = function(personaName, autoSpeak = false) {
     const key = (personaName || 'aoife').toLowerCase();
     const canonicalKey = AGPersonas[key]?.key || 'aoife';
     const previous = (window.AG.currentPersona?.key || '').toLowerCase();
 
-    // 1. Trigger Ripple
+    // 1. Ripple
     window.AG.triggerPersonaRipple(canonicalKey);
 
-    // 2. Trigger Background Color Wash
+    // 2. Color Wash
     window.AG.triggerColorWash(canonicalKey);
 
-    // 3. Animate Card Transitions
+    // 3. Card Animations
     if (previous && previous !== canonicalKey) {
       window.AG.animatePersonaSwitch(previous, canonicalKey);
     }
 
-    // 4. Apply Modal Edge Glow
+    // 4. Modal Edge Glow
     window.AG.applyPersonaEdgeGlow(canonicalKey);
 
-    // 5. Persona Activation
+    // 5. Spawn Floating Particles
+    window.AG.spawnPersonaParticles(canonicalKey);
+
+    // 6. Persona Activation
     const persona = AGPersonas[canonicalKey] || AGPersonas.aoife;
     window.AG.currentPersona = persona;
 
@@ -368,18 +387,17 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       window.setVoicePersona(persona.personaKey, false);
     }
 
-    // 6. Voice Synthesis with Resonance Pulse Callback
+    // 7. Speech Synthesis + Resonance
     if (autoSpeak && window.AG.voice && typeof window.AG.voice.say === 'function') {
       window.AG.voice.say(persona.greeting, () => {
         window.AG.triggerVoiceResonance();
       });
     }
 
-    // 7. Save to Memory
+    // 8. Save Memory
     window.AG.savePersona(persona.key);
   };
 
-  // First Time Check
   function checkFirstTimeOnboarding() {
     try {
       const hasSeen = localStorage.getItem("ESH_hasSeenOnboarding");
@@ -390,7 +408,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     } catch (e) {}
   }
 
-  // Re-Openable Persona Picker Modal
   window.openPersonaPickerModal = function() {
     let modal = document.querySelector("#personaModal");
     if (!modal) {
@@ -424,7 +441,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // Inject Re-Usable Modal Structure
   function injectPersonaModalDOM() {
     if (document.getElementById('personaModal')) return;
 
@@ -447,9 +463,12 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         <!-- Background Color Wash Layer -->
         <div id="personaColorWash"></div>
 
-        <button onclick="dismissPersonaModal('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; z-index: 2;">✕</button>
+        <!-- Particle Shimmer Layer -->
+        <div id="personaParticleLayer"></div>
+
+        <button onclick="dismissPersonaModal('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; z-index: 3;">✕</button>
         
-        <div style="position: relative; z-index: 1;">
+        <div style="position: relative; z-index: 2;">
           <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px;">
             Welcome to EcoSmartHomes Ireland
           </div>
