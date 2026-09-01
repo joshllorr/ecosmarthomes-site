@@ -1,13 +1,15 @@
 /**
  * site/js/voice-advisor.js
- * Multi-Persona Browser Voice AI Advisor
- * Supports Aoife (Homeowner) and Eimear (Real Estate Agent)
+ * 3-Persona Browser Voice AI Advisor Engine
+ * - Aoife: Homeowner Energy Advisor (Warm & Neighbourly)
+ * - Eimear: Real Estate Energy Advisor (Polished & Articulate)
+ * - Declan: Installer Technical Advisor (Practical & Straight-Talking)
  */
 
 (function() {
   'use strict';
 
-  let currentPersona = 'homeowner'; // 'homeowner' | 'agent'
+  let currentPersona = 'homeowner'; // 'homeowner' | 'agent' | 'installer'
   let isListening = false;
   let isSpeaking = false;
   let conversationHistory = [];
@@ -47,6 +49,23 @@
         { query: "How do I explain 3.45% Green Mortgage savings to buyers during viewings?", label: "💼 3.45% Green Mortgage" },
         { query: "What's the quickest pre-sale BER boost sequence?", label: "⚡ Rapid Pre-Sale Boost" },
         { query: "What is the Estate Agent Energy Pack and what do buyers get?", label: "📜 Agent Pack (€99)" }
+      ]
+    },
+    installer: {
+      name: 'Declan · Installer AI',
+      subtitle: 'NSAI SR50 Technical Advisor · Online',
+      avatar: '⚡',
+      avatarBg: '#38bdf8',
+      launcherText: '🎙️ Ask Declan (Installer AI)',
+      welcome: "How's it going? I'm Declan — here to help with sizing, SR50 checks, and anything technical you need.",
+      apiEndpoint: '/api/voice-declan',
+      rate: 0.92,
+      pitch: 0.98,
+      chips: [
+        { query: "How do I calculate radiator output at 45 degrees flow temperature for SR50?", label: "📐 SR50 ΔT30 Sizing" },
+        { query: "What's the exact HLI rule for heat pump grant sign-off?", label: "🛡️ HLI ≤ 2.0 Sign-Off" },
+        { query: "Do I need a buffer tank on an 8kW monobloc heat pump?", label: "🛢️ Buffer vs Volumiser" },
+        { query: "What pipe size is required for heat pump primary flow and return?", label: "🚰 Primary Pipework" }
       ]
     }
   };
@@ -166,7 +185,7 @@
       const loadVoices = () => {
         const voices = window.speechSynthesis.getVoices();
         selectedVoice = voices.find(v => v.lang === 'en-IE' || v.name.includes('Ireland')) ||
-                        voices.find(v => v.lang === 'en-GB' && (v.name.includes('Female') || v.name.includes('Natural'))) ||
+                        voices.find(v => v.lang === 'en-GB' && (v.name.includes('Female') || v.name.includes('Natural') || v.name.includes('Male'))) ||
                         voices.find(v => v.lang.startsWith('en')) || null;
       };
       loadVoices();

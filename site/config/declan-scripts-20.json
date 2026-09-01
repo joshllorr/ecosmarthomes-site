@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "question": "How do I calculate radiator output at 45 degrees flow temperature for SR50?",
+    "speechText": "Standard radiator catalogs quote outputs at Delta T 50, which is 75 degrees flow. For a heat pump running at 45 degrees flow with 35 return, you're at Delta T 30. Multiply the catalog rating by zero point five one to get your true output.",
+    "displayText": "### \ud83d\udcd0 SR50 Delta-T Conversion Formula\n\n\u2022 **Standard Rating**: Quoted at $\\Delta T 50^{\\circ}\\text{C}$ (75\u00b0C flow / 65\u00b0C return).\n\u2022 **Heat Pump Rating**: $\\Delta T 30^{\\circ}\\text{C}$ (45\u00b0C flow / 35\u00b0C return).\n\u2022 **Conversion Factor**: $\\text{Output}_{45^{\\circ}\\text{C}} = \\text{Catalog Watts} \\times 0.51$.\n\u2022 **Example**: A 2,000W catalog rad delivers **1,020 Watts** at 45\u00b0C flow.",
+    "citation": "NSAI SR50-1:2021 Section 4",
+    "recommendedAction": "Radiator Sizer Engine"
+  },
+  {
+    "id": 2,
+    "question": "What's the exact HLI rule for heat pump grant sign-off?",
+    "speechText": "SEAI rules require the Heat Loss Indicator to be at two point zero Watts per Kelvin per square metre or lower. If the home has solid walls or single glazing, you'll need fabric upgrades first to pass.",
+    "displayText": "### \ud83d\udee1\ufe0f SEAI Heat Loss Indicator (HLI) Rule\n\n\u2022 **Threshold**: $\\text{HLI} \\le 2.0\\text{ W/K/m}^2$ (or $\\le 2.3\\text{ W/K/m}^2$ with committed fabric roadmap).\n\u2022 **Seasonal Performance Factor**: Ensures system achieves $\\text{SPF} \\ge 3.0$ under Irish climatic loads.\n\u2022 **Certification**: Requires independent Technical Advisor sign-off.",
+    "citation": "SEAI Domestic Technical Guidance Clause 3.4",
+    "recommendedAction": "Upload Photos for Pack (\u20ac49)"
+  },
+  {
+    "id": 3,
+    "question": "Do I need a buffer tank on an 8kW monobloc heat pump?",
+    "speechText": "Only if your system minimum water volume is below fifty litres when zone valves close. If you have open zones or a volumiser bottle, you can skip the buffer tank and save the homeowner twelve hundred euro.",
+    "displayText": "### \ud83d\udee2\ufe0f Buffer Tank vs Volumiser Decision Matrix\n\n\u2022 **Minimum System Volume**: Rule of thumb is 10\u201312 litres per kW of compressor capacity.\n\u2022 **When to Omit**: If 2+ zones (e.g. hallway/bathrooms) are permanently open without thermostatic zone valve interlock.\n\u2022 **Cost Advantage**: Eliminates unnecessary secondary circulation pump and \u20ac1,200 hardware markups.",
+    "citation": "NSAI SR50-2 Hydraulic Design",
+    "recommendedAction": "Quote Red-Liner Tool"
+  },
+  {
+    "id": 4,
+    "question": "What pipe size is required for heat pump primary flow and return?",
+    "speechText": "For units up to 9 kW, 28mm copper or 32mm multilayer is your best bet to keep water velocity under one metre per second. 22mm is only grand for smaller 5 kW units or short boiler replacements.",
+    "displayText": "### \ud83d\udeb0 Primary Flow & Return Sizing\n\n\u2022 **5 kW \u2013 6 kW Units**: 22mm copper (flow rate ~14 l/min).\n\u2022 **8 kW \u2013 12 kW Units**: **28mm copper** / 32mm multilayer (flow rate ~22\u201328 l/min).\n\u2022 **Velocity Limit**: Maintain water velocity $< 1.0\\text{ m/s}$ to prevent pipe noise and high pump head loss.",
+    "citation": "NSAI SR50 Clause 6.2",
+    "recommendedAction": "Heat Pump Tender Pack (\u20ac199)"
+  },
+  {
+    "id": 5,
+    "question": "What's in the \u20ac49 Installer Data Pack?",
+    "speechText": "You send us room dimensions and photos. We send you back room-by-room heat loss in Watts, radiator sizing for 45 degrees, pipe recommendations, and an installer-ready PDF in twenty-four to forty-eight hours.",
+    "displayText": "### \ud83d\udce6 \u20ac49 Digital Installer Pack\n\n\u2022 **Turnaround**: 24\u201348 hours from upload.\n\u2022 **Deliverables**: Room-by-room heat loss table, Delta-T30 radiator sizes, flow rates, and pre-formatted grant compliance documentation.",
+    "citation": "EcoSmartHomes Technical Advisory",
+    "recommendedAction": "Upload Room Data (\u20ac49)"
+  }
+]

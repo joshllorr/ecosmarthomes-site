@@ -215,9 +215,15 @@
       if (homeownerWizard) homeownerWizard.style.display = 'block';
     }
 
-    // Synchronize Voice AI Advisor Persona (Aoife vs Eimear)
+    // Synchronize Voice AI Advisor Persona (Aoife vs Eimear vs Declan)
     if (typeof window.setVoicePersona === 'function') {
-      window.setVoicePersona(personaKey === 'agent' ? 'agent' : 'homeowner');
+      if (personaKey === 'agent') {
+        window.setVoicePersona('agent');
+      } else if (personaKey === 'installer') {
+        window.setVoicePersona('installer');
+      } else {
+        window.setVoicePersona('homeowner');
+      }
     }
   };
 
@@ -432,11 +438,18 @@
                 <span>Installer & Retrofitter</span>
               </span>
               <span style="display:flex;align-items:center;gap:6px;">
-                <span class="drawer-badge-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid #38bdf8;">5 Tools</span>
+                <span class="drawer-badge-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid #38bdf8;">6 Tools</span>
                 <span class="accordion-arrow">▼</span>
               </span>
             </button>
             <div id="accordion-panel-installer" class="drawer-accordion-panel">
+              <a href="/tools/voice-declan.html" class="drawer-tool-item">
+                <span class="tool-icon">🎙️</span>
+                <div>
+                  <div>Ask Declan (Installer AI)</div>
+                  <div style="font-size:0.72rem;color:#38bdf8;font-weight:700;">NSAI SR50 technical advisor</div>
+                </div>
+              </a>
               <a href="/radiator-sizer/" class="drawer-tool-item">
                 <span class="tool-icon">📐</span>
                 <div>
