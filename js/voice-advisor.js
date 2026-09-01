@@ -1,9 +1,9 @@
 /**
  * site/js/voice-advisor.js
- * 3-Persona Browser Voice AI Advisor Engine
- * - Aoife: Homeowner Energy Advisor (Warm & Neighbourly)
- * - Eimear: Real Estate Energy Advisor (Polished & Articulate)
- * - Declan: Installer Technical Advisor (Practical & Straight-Talking)
+ * Multi-Persona Browser Voice AI Advisor Engine (Toolbar-Aware)
+ * - Aoife: Homeowner Energy Advisor (Warm & Neighbourly Irish Accent)
+ * - Eimear: Real Estate Energy Advisor (Polished & Articulate Dublin/South-East Blend)
+ * - Declan: Installer Technical Advisor (Practical & Straight-Talking Limerick/Cork Tradesman)
  */
 
 (function() {
@@ -18,6 +18,8 @@
 
   const PERSONA_CONFIGS = {
     homeowner: {
+      key: 'homeowner',
+      advisorName: 'Aoife',
       name: 'Aoife · Senior Retrofit AI',
       subtitle: 'EcoSmartHomes Ireland · Online',
       avatar: '👩‍💼',
@@ -27,6 +29,7 @@
       apiEndpoint: '/api/voice-advisor',
       rate: 0.94,
       pitch: 1.02,
+      toastMsg: 'Switched to Aoife (Homeowner Advisor)',
       chips: [
         { query: "Can I keep my open fireplace with a heat pump?", label: "🔥 Open Fireplace (SR54)" },
         { query: "What is the HLI 2.0 requirement for heat pumps?", label: "📐 HLI ≤ 2.0 Rule" },
@@ -35,6 +38,8 @@
       ]
     },
     agent: {
+      key: 'agent',
+      advisorName: 'Eimear',
       name: 'Eimear · Real Estate AI',
       subtitle: 'Property Energy & Valuation Advisor · Online',
       avatar: '💼',
@@ -44,6 +49,7 @@
       apiEndpoint: '/api/voice-eimear',
       rate: 1.0,
       pitch: 1.05,
+      toastMsg: 'Switched to Eimear (Real Estate Advisor)',
       chips: [
         { query: "How much does a BER uplift increase property value in Ireland?", label: "📈 +€38k Valuation Surge" },
         { query: "How do I explain 3.45% Green Mortgage savings to buyers during viewings?", label: "💼 3.45% Green Mortgage" },
@@ -52,6 +58,8 @@
       ]
     },
     installer: {
+      key: 'installer',
+      advisorName: 'Declan',
       name: 'Declan · Installer AI',
       subtitle: 'NSAI SR50 Technical Advisor · Online',
       avatar: '⚡',
@@ -61,6 +69,7 @@
       apiEndpoint: '/api/voice-declan',
       rate: 0.92,
       pitch: 0.98,
+      toastMsg: 'Switched to Declan (Installer Technical Advisor)',
       chips: [
         { query: "How do I calculate radiator output at 45 degrees flow temperature for SR50?", label: "📐 SR50 ΔT30 Sizing" },
         { query: "What's the exact HLI rule for heat pump grant sign-off?", label: "🛡️ HLI ≤ 2.0 Sign-Off" },
@@ -70,10 +79,11 @@
     }
   };
 
-  window.setVoicePersona = function(personaKey) {
+  window.setVoicePersona = function(personaKey, showToast = false) {
     if (!PERSONA_CONFIGS[personaKey]) personaKey = 'homeowner';
     currentPersona = personaKey;
     const cfg = PERSONA_CONFIGS[personaKey];
+    conversationHistory = [];
 
     // Update Launcher
     const launcherLabel = document.querySelector('#voice-launcher span');
@@ -90,9 +100,9 @@
       avatarEl.style.background = cfg.avatarBg;
     }
 
-    // Update Initial Welcome Message if empty or default
+    // Update Welcome Message
     const chatBody = document.getElementById('voice-chat-body');
-    if (chatBody && chatBody.children.length <= 1) {
+    if (chatBody) {
       chatBody.innerHTML = `<div class="voice-msg advisor">${cfg.welcome}</div>`;
     }
 
@@ -104,12 +114,35 @@
       `).join('');
       attachChipListeners();
     }
+
+    if (showToast && typeof window.showEshToast === 'function') {
+      window.showEshToast(cfg.toastMsg, cfg.avatar);
+    }
   };
+
+  function detectContextPersona() {
+    const params = new URLSearchParams(window.location.search);
+    const urlPersona = params.get('persona') || params.get('role');
+    if (urlPersona && PERSONA_CONFIGS[urlPersona]) {
+      return urlPersona;
+    }
+
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes('agent') || path.includes('property-auditor') || path.includes('daft-hud') || path.includes('eimear')) {
+      return 'agent';
+    }
+    if (path.includes('installer') || path.includes('radiator-sizer') || path.includes('tender-generator') || path.includes('declan') || path.includes('contractor')) {
+      return 'installer';
+    }
+    return 'homeowner';
+  }
 
   function injectVoiceAdvisorUI() {
     if (document.getElementById('voice-advisor-container')) return;
 
-    const initialCfg = PERSONA_CONFIGS.homeowner;
+    const initialKey = detectContextPersona();
+    currentPersona = initialKey;
+    const initialCfg = PERSONA_CONFIGS[initialKey];
 
     const container = document.createElement('div');
     container.id = 'voice-advisor-container';
@@ -247,7 +280,7 @@
 
     utterance.onstart = () => {
       isSpeaking = true;
-      updateAcousticUI(true, `${cfg.name.split(' ')[0]} speaking...`);
+      updateAcousticUI(true, `${cfg.advisorName} speaking...`);
     };
 
     utterance.onend = () => {
@@ -379,7 +412,7 @@
   };
 
   window.openPersonaVoiceModal = function(personaKey) {
-    window.setVoicePersona(personaKey);
+    window.setVoicePersona(personaKey, false);
     window.openVoiceAdvisorModal();
   };
 
