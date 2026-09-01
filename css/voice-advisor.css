@@ -1,7 +1,13 @@
 /**
  * site/css/voice-advisor.css
- * Styles for Browser-Based Voice AI Advisor (Aoife)
+ * Ambient Hologram Waveform & Hands-Free Audio Console Styling
  */
+
+:root {
+  --persona-accent: #34f5c5;
+  --persona-glow: rgba(52, 245, 197, 0.5);
+  --persona-bg: #00241b;
+}
 
 /* Floating Launcher */
 .voice-advisor-launcher {
@@ -12,44 +18,84 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, #003f2d 0%, #064e3b 100%);
+  background: linear-gradient(135deg, #00241b 0%, #001711 100%);
   color: #ffffff;
-  border: 2px solid #10b981;
+  border: 1.5px solid var(--persona-accent);
   padding: 10px 18px;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(0, 63, 45, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--persona-glow);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(12px);
 }
 
 .voice-advisor-launcher:hover {
   transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 14px 30px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6), 0 0 28px var(--persona-glow);
 }
 
-.voice-launcher-pulse {
-  width: 14px;
-  height: 14px;
-  background: #10b981;
-  border-radius: 50%;
+/* Fluid Hologram Pulse Rings */
+.hologram-orb-container {
   position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.voice-launcher-pulse::after {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border: 2px solid #10b981;
+.hologram-avatar {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  animation: pulse-ring 1.8s infinite;
+  background: #003628;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  position: relative;
+  z-index: 2;
+  border: 2px solid var(--persona-accent);
+  box-shadow: 0 0 14px var(--persona-glow);
+  transition: all 0.3s ease;
 }
 
-@keyframes pulse-ring {
-  0% { transform: scale(0.9); opacity: 1; }
-  100% { transform: scale(2.2); opacity: 0; }
+.hologram-wave {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--persona-accent);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Active Voice Speaking Waves */
+.speaking .hologram-avatar {
+  animation: avatarThrob 1.2s infinite ease-in-out;
+}
+
+.speaking .wave-1 {
+  animation: hologramPulse 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
+}
+
+.speaking .wave-2 {
+  animation: hologramPulse 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1) 0.45s;
+}
+
+.speaking .wave-3 {
+  animation: hologramPulse 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1) 0.9s;
+}
+
+@keyframes hologramPulse {
+  0% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 8px var(--persona-accent); }
+  50% { opacity: 0.5; }
+  100% { transform: scale(2.3); opacity: 0; box-shadow: 0 0 25px var(--persona-accent); }
+}
+
+@keyframes avatarThrob {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 14px var(--persona-glow); }
+  50% { transform: scale(1.08); box-shadow: 0 0 26px var(--persona-accent); }
 }
 
 /* Modal Drawer */
@@ -57,16 +103,19 @@
   position: fixed;
   bottom: 90px;
   right: 24px;
-  width: 380px;
-  max-width: 90vw;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 63, 45, 0.25);
-  border: 1px solid rgba(0, 63, 45, 0.1);
+  width: 400px;
+  max-width: 92vw;
+  max-height: 82vh;
+  background: #001f17;
+  color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px var(--persona-glow);
+  border: 1.5px solid var(--persona-accent);
   overflow: hidden;
   z-index: 10000;
   display: none;
   flex-direction: column;
+  backdrop-filter: blur(16px);
 }
 
 .voice-advisor-modal.open {
@@ -74,27 +123,90 @@
   animation: slideUp 0.3s ease-out;
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Hands-Free Minimized Ambient HUD Mode */
+.voice-advisor-modal.hands-free-minimized {
+  width: auto;
+  max-width: 320px;
+  bottom: 24px;
+  right: 24px;
+  border-radius: 35px;
+  background: rgba(0, 28, 20, 0.95);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 25px var(--persona-accent);
+  padding: 6px 12px;
 }
 
-/* MOBILE ANTI-COLLISION MODE (< 768px): Compact Icon Badge */
+.voice-advisor-modal.hands-free-minimized .voice-chat-body,
+.voice-advisor-modal.hands-free-minimized .voice-modal-footer,
+.voice-advisor-modal.hands-free-minimized #voice-action-toolbar,
+.voice-advisor-modal.hands-free-minimized .eircode-voice-bar {
+  display: none !important;
+}
+
+.voice-advisor-modal.hands-free-minimized .voice-modal-header {
+  border-bottom: none;
+  padding: 6px 4px;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Voice Message Bubbles */
+.voice-modal-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 380px;
+}
+
+.voice-msg {
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  max-width: 88%;
+}
+
+.voice-msg.advisor {
+  background: #002e22;
+  color: #e2e8f0;
+  border-left: 3.5px solid var(--persona-accent);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.voice-msg.user {
+  background: var(--persona-accent);
+  color: #001711;
+  font-weight: 700;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.voice-msg.advisor.thinking {
+  background: rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+/* Mobile Anti-Collision Mode */
 @media (max-width: 768px) {
   .voice-advisor-launcher {
     bottom: 20px !important;
     right: 16px !important;
     padding: 10px 14px !important;
     font-size: 0.75rem !important;
-    gap: 6px !important;
     max-width: 145px !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45) !important;
   }
   .voice-advisor-modal {
     right: 12px !important;
     bottom: 76px !important;
     width: calc(100vw - 24px) !important;
+    max-height: 75vh !important;
   }
 }
