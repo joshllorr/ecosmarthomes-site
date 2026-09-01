@@ -1,9 +1,10 @@
 /**
  * site/js/voice-advisor.js
- * Multi-Persona Browser Voice AI Advisor Engine (Antigravity Switchboard Integrated)
- * - Aoife: Homeowner Energy Advisor (Warm & Neighbourly Irish Accent)
- * - Eimear: Real Estate Energy Advisor (Polished & Articulate Dublin/South-East Blend)
- * - Declan: Installer Technical Advisor (Practical & Straight-Talking Limerick/Cork Tradesman)
+ * Multi-Persona Browser Voice AI Advisor Engine
+ * Features:
+ * - 3 Personas: Aoife (Homeowner), Eimear (Estate Agent), Declan (Installer)
+ * - 1-Click PDF Energy Summary & Consultation Dossier Generator
+ * - WhatsApp Direct Transcript & Upgrade Sync (083 449 3934)
  */
 
 (function() {
@@ -23,10 +24,12 @@
       key: 'homeowner',
       aliases: ['aoife', 'homeowner'],
       advisorName: 'Aoife',
+      title: 'Senior Retrofit Advisor',
       name: 'Aoife · Senior Retrofit AI',
       subtitle: 'EcoSmartHomes Ireland · Online',
       avatar: '👩‍💼',
       avatarBg: '#10b981',
+      accentColor: '#34f5c5',
       launcherText: '🎙️ Ask Aoife (Voice AI)',
       welcome: "Dia dhuit! I'm Aoife, your independent energy advisor. Ask me anything about SEAI grants, radiator sizing, or keeping your home cosy without overpaying.",
       apiEndpoint: '/api/voice-advisor',
@@ -48,10 +51,12 @@
       key: 'agent',
       aliases: ['eimear', 'agent', 'estate-agent'],
       advisorName: 'Eimear',
+      title: 'Estate Agent Energy Advisor',
       name: 'Eimear · Real Estate AI',
       subtitle: 'Property Energy & Valuation Advisor · Online',
       avatar: '💼',
       avatarBg: '#f59e0b',
+      accentColor: '#fbbf24',
       launcherText: '🎙️ Ask Eimear (Real Estate AI)',
       welcome: "Hello, I’m Eimear — your energy advisor for property listings. Let’s make your BER and upgrade options crystal clear for buyers.",
       apiEndpoint: '/api/voice-eimear',
@@ -73,10 +78,12 @@
       key: 'installer',
       aliases: ['declan', 'installer', 'contractor'],
       advisorName: 'Declan',
+      title: 'NSAI SR50 Technical Advisor',
       name: 'Declan · Installer AI',
       subtitle: 'NSAI SR50 Technical Advisor · Online',
       avatar: '⚡',
       avatarBg: '#38bdf8',
+      accentColor: '#38bdf8',
       launcherText: '🎙️ Ask Declan (Installer AI)',
       welcome: "How's it going? I'm Declan — here to help with sizing, SR50 checks, and anything technical you need.",
       apiEndpoint: '/api/voice-declan',
@@ -141,30 +148,13 @@
       attachChipListeners();
     }
 
+    // Hide PDF toolbar on reset
+    const pdfBar = document.getElementById('voice-action-toolbar');
+    if (pdfBar) pdfBar.style.display = 'none';
+
     if (showToast && typeof window.showEshToast === 'function') {
       window.showEshToast(cfg.toastMsg, cfg.avatar);
     }
-  };
-
-  // Antigravity Bridge
-  window.AG = window.AG || {};
-  window.AG.setVoicePersona = function(personaName) {
-    window.setVoicePersona(personaName, false);
-  };
-  window.AG.setVoiceSettings = function(settings) {
-    customVoiceSettings = settings;
-  };
-  window.AG.setSystemPrompt = function(prompt) {
-    customSystemPrompt = prompt;
-  };
-  window.AG.voice = {
-    say: function(text) {
-      speakAdvisor(text);
-    }
-  };
-  window.AG.onClick = function(elementId, handler) {
-    const el = document.getElementById(elementId);
-    if (el) el.addEventListener('click', handler);
   };
 
   function detectContextPersona() {
@@ -211,7 +201,22 @@
               <div id="voice-advisor-sub" style="font-size: 0.75rem; color: #a7f3d0;">${initialCfg.subtitle}</div>
             </div>
           </div>
-          <button id="voice-close-btn" aria-label="Close Voice Advisor" style="background: none; border: none; color: #94a3b8; font-size: 1.3rem; cursor: pointer; padding: 4px;">✕</button>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <button id="voice-close-btn" aria-label="Close Voice Advisor" style="background: none; border: none; color: #94a3b8; font-size: 1.3rem; cursor: pointer; padding: 4px;">✕</button>
+          </div>
+        </div>
+
+        <!-- 1-Click Action Toolbar (PDF & WhatsApp) -->
+        <div id="voice-action-toolbar" style="display: none; background: #001f17; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 8px 14px; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="font-size: 0.75rem; color: #94a3b8; font-family: 'IBM Plex Mono', monospace;">📄 Session Dossier Ready</span>
+          <div style="display: flex; gap: 6px;">
+            <button type="button" id="btn-download-pdf" onclick="window.downloadConversationPDF()" style="background: #34f5c5; color: #001711; font-weight: 800; font-size: 0.75rem; padding: 5px 10px; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+              <span>📥 Download PDF</span>
+            </button>
+            <button type="button" id="btn-whatsapp-sync" onclick="window.sendConversationToWhatsApp()" style="background: #25d366; color: #fff; font-weight: 800; font-size: 0.75rem; padding: 5px 10px; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+              <span>💬 WhatsApp</span>
+            </button>
+          </div>
         </div>
 
         <div id="voice-chat-body" class="voice-modal-body">
@@ -375,7 +380,7 @@
         const advisorBubble = document.createElement('div');
         advisorBubble.className = 'voice-msg advisor';
         
-        let formattedHtml = displayText ? displayText.replace(/\\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') : speechText;
+        let formattedHtml = displayText ? displayText.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') : speechText;
         
         if (citation) {
           formattedHtml += `<div style="margin-top:8px;font-size:0.75rem;color:#047857;font-family:'IBM Plex Mono',monospace;">📜 Standard: ${citation}</div>`;
@@ -390,7 +395,11 @@
         chatBody.scrollTop = chatBody.scrollHeight;
 
         conversationHistory.push({ sender: 'user', text: text });
-        conversationHistory.push({ sender: 'advisor', text: speechText || displayText });
+        conversationHistory.push({ sender: 'advisor', text: speechText || displayText, citation });
+
+        // Reveal Action Toolbar
+        const pdfBar = document.getElementById('voice-action-toolbar');
+        if (pdfBar) pdfBar.style.display = 'flex';
 
         if (speechText) speakAdvisor(speechText);
       } else {
@@ -407,6 +416,163 @@
       chatBody.appendChild(errorBubble);
     }
   }
+
+  // ==========================================
+  // 1-Click PDF Summary Generator
+  // ==========================================
+  window.downloadConversationPDF = function() {
+    if (!conversationHistory || conversationHistory.length === 0) {
+      alert("Please ask at least one question to generate your consultation summary.");
+      return;
+    }
+
+    const cfg = PERSONA_CONFIGS[currentPersona];
+    const docId = `ESH-CONSULT-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    const dateStr = new Date().toLocaleDateString('en-IE', { day: '2-digit', month: 'short', year: 'numeric' });
+
+    let qAndAHtml = "";
+    let currentQ = "";
+    for (const item of conversationHistory) {
+      if (item.sender === 'user') {
+        currentQ = item.text;
+      } else if (item.sender === 'advisor') {
+        qAndAHtml += `
+          <div style="margin-bottom: 16px; padding: 14px 16px; background: #f8fafc; border-left: 4px solid #003f2d; border-radius: 6px;">
+            <div style="font-weight: 800; font-size: 0.92rem; color: #00241b; margin-bottom: 6px;">
+              💬 Question: "${currentQ}"
+            </div>
+            <div style="font-size: 0.86rem; color: #334155; line-height: 1.5; margin-bottom: 6px;">
+              ${item.text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}
+            </div>
+            ${item.citation ? `<div style="font-size: 0.72rem; color: #059669; font-family: monospace; font-weight: 700;">📜 Technical Standard: ${item.citation}</div>` : ''}
+          </div>
+        `;
+      }
+    }
+
+    const printHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EcoSmartHomes Consultation Dossier · ${docId}</title>
+  <style>
+    @page { size: A4; margin: 15mm; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #0f172a; margin: 0; padding: 0; line-height: 1.45; }
+    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #003f2d; padding-bottom: 12px; margin-bottom: 18px; }
+    .logo-text { font-size: 1.4rem; font-weight: 900; color: #00241b; }
+    .logo-text span { color: #10b981; }
+    .meta-box { font-size: 0.78rem; text-align: right; color: #64748b; font-family: monospace; }
+    .advisor-pill { display: inline-flex; align-items: center; gap: 6px; background: #ecfdf5; border: 1px solid #10b981; color: #065f46; padding: 4px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 700; margin-bottom: 14px; }
+    .grants-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+    .grant-card { background: #f0fdf4; border: 1px solid #86efac; padding: 10px 12px; border-radius: 8px; }
+    .cta-box { background: #00241b; color: #fff; padding: 16px 20px; border-radius: 10px; margin-top: 20px; text-align: center; }
+    .cta-box a { color: #34f5c5; font-weight: 800; text-decoration: none; }
+    @media print { .no-print { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="no-print" style="background: #00241b; color: #34f5c5; padding: 10px 20px; text-align: center; font-weight: 800; font-size: 0.85rem; margin-bottom: 20px;">
+    🖨️ Click "Print" or "Save as PDF" in your browser's print dialog to save your consultation summary.
+    <button onclick="window.print()" style="margin-left: 14px; background: #34f5c5; color: #001711; font-weight: 900; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer;">Print / Save PDF</button>
+  </div>
+
+  <div class="header">
+    <div>
+      <div class="logo-text">EcoSmart<span>Homes</span> Ireland</div>
+      <div style="font-size: 0.78rem; color: #059669; font-weight: 700;">100% Conflict-Free Independent Energy Advisory</div>
+    </div>
+    <div class="meta-box">
+      <div><strong>Dossier ID:</strong> ${docId}</div>
+      <div><strong>Date:</strong> ${dateStr}</div>
+      <div><strong>Status:</strong> Verified AI Consultation</div>
+    </div>
+  </div>
+
+  <div class="advisor-pill">
+    <span>${cfg.avatar}</span>
+    <span>Consultation Lead: ${cfg.advisorName} (${cfg.title})</span>
+  </div>
+
+  <h2 style="font-size: 1.15rem; color: #00241b; margin: 0 0 10px 0;">📋 Key Inquiries & Engineering Findings</h2>
+  ${qAndAHtml}
+
+  <h2 style="font-size: 1.15rem; color: #00241b; margin: 18px 0 8px 0;">💶 2026 Irish Retrofit Grant & Financial Safeguards</h2>
+  <div class="grants-grid">
+    <div class="grant-card">
+      <strong style="color: #065f46; font-size: 0.82rem; display: block;">SEAI Deep Retrofit Grant</strong>
+      <span style="font-size: 1.1rem; font-weight: 900; color: #00241b;">Up to €35,000</span>
+      <p style="font-size: 0.72rem; color: #475569; margin: 2px 0 0 0;">For multi-measure B2/A-rating upgrades (attic, external wrap, heat pump).</p>
+    </div>
+    <div class="grant-card">
+      <strong style="color: #065f46; font-size: 0.82rem; display: block;">Heat Pump & Radiator Grant</strong>
+      <span style="font-size: 1.1rem; font-weight: 900; color: #00241b;">€6,500 – €12,500</span>
+      <p style="font-size: 0.72rem; color: #475569; margin: 2px 0 0 0;">NSAI SR50 compliant low-flow heating & boiler replacement.</p>
+    </div>
+    <div class="grant-card">
+      <strong style="color: #065f46; font-size: 0.82rem; display: block;">Solar PV + Battery Storage</strong>
+      <span style="font-size: 1.1rem; font-weight: 900; color: #00241b;">€2,100 Grant + 24c/kWh Export</span>
+      <p style="font-size: 0.72rem; color: #475569; margin: 2px 0 0 0;">Cuts electricity bills by 60% with day/night arbitrage.</p>
+    </div>
+    <div class="grant-card">
+      <strong style="color: #065f46; font-size: 0.82rem; display: block;">3.45% Green Mortgage Slasher</strong>
+      <span style="font-size: 1.1rem; font-weight: 900; color: #00241b;">~€230/month Saved</span>
+      <p style="font-size: 0.72rem; color: #475569; margin: 2px 0 0 0;">Unlocks discount mortgage rates on B3 or better ratings.</p>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h3 style="margin: 0 0 6px 0; font-size: 1.05rem; color: #fff;">Need an On-Site Engineer Inspection or NSAI Verification?</h3>
+    <p style="font-size: 0.82rem; color: #cbd5e1; margin: 0 0 10px 0;">
+      Book our 32-County Home Energy Diagnostic Survey (€149) or WhatsApp our engineering desk.
+    </p>
+    <div style="font-size: 0.85rem;">
+      <a href="https://www.ecosmarthomes.ie/checkout/?tier=survey&price=149">🏡 Book On-Site Survey (€149)</a> · 
+      <a href="https://wa.me/353834493934">💬 WhatsApp: 083 449 3934</a>
+    </div>
+  </div>
+
+  <div style="margin-top: 18px; text-align: center; font-size: 0.7rem; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 8px;">
+    EcoSmartHomes Ireland · Grounded in NSAI SR50, SEAI SR54:2024 & DEAP 4.2.2 · Phone: 083 449 3934 · info@ecosmarthomes.ie
+  </div>
+</body>
+</html>
+    `;
+
+    const printWin = window.open('', '_blank');
+    if (printWin) {
+      printWin.document.open();
+      printWin.document.write(printHtml);
+      printWin.document.close();
+    } else {
+      alert("Please allow pop-ups to download or view your PDF summary.");
+    }
+  };
+
+  // ==========================================
+  // 1-Tap WhatsApp Direct Sync
+  // ==========================================
+  window.sendConversationToWhatsApp = function() {
+    if (!conversationHistory || conversationHistory.length === 0) {
+      alert("Please ask a question first to send your summary to WhatsApp.");
+      return;
+    }
+
+    const cfg = PERSONA_CONFIGS[currentPersona];
+    let msg = `*EcoSmartHomes Ireland — AI Consultation Summary*\n`;
+    msg += `*Advisor:* ${cfg.advisorName} (${cfg.title})\n\n`;
+
+    conversationHistory.forEach(item => {
+      if (item.sender === 'user') {
+        msg += `*Q:* ${item.text}\n`;
+      } else if (item.sender === 'advisor') {
+        msg += `*A:* ${item.text.replace(/<[^>]*>?/gm, '').slice(0, 180)}...\n\n`;
+      }
+    });
+
+    msg += `I'd like to discuss the next steps with an EcoSmartHomes engineer.`;
+    const waUrl = `https://wa.me/353834493934?text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, '_blank');
+  };
 
   function initVoiceEvents() {
     const launcher = document.getElementById('voice-launcher');
