@@ -1337,3 +1337,58 @@
 })();
 
 
+
+  // Antigravity Persona Toolbar & Hub Event Handlers
+  function initAntigravityVoiceHubListeners() {
+    if (typeof window.AG === 'undefined') return;
+
+    // 1. Installer Hub -> Activate Declan
+    const installerTriggers = ['installer-hub', 'accordion-btn-installer', 'persona-chip-installer'];
+    installerTriggers.forEach(id => {
+      const el = document.getElementById(id) || document.querySelector(`[data-persona="installer"]`);
+      if (el) {
+        el.addEventListener('click', () => {
+          if (window.AG && window.AG.setVoicePersona) {
+            window.AG.setVoicePersona("declan");
+            if (window.AG.setVoiceSettings) {
+              window.AG.setVoiceSettings({ rate: 0.92, pitch: 0.98, voiceHint: "en-IE" });
+            }
+          }
+        });
+      }
+    });
+
+    // 2. Estate Agent Hub -> Activate Eimear
+    const agentTriggers = ['estate-agent-hub', 'accordion-btn-agent', 'persona-chip-agent'];
+    agentTriggers.forEach(id => {
+      const el = document.getElementById(id) || document.querySelector(`[data-persona="agent"]`);
+      if (el) {
+        el.addEventListener('click', () => {
+          if (window.AG && window.AG.setVoicePersona) {
+            window.AG.setVoicePersona("eimear");
+            if (window.AG.setVoiceSettings) {
+              window.AG.setVoiceSettings({ rate: 1.0, pitch: 1.05, voiceHint: "en-IE" });
+            }
+          }
+        });
+      }
+    });
+
+    // 3. Homeowner Hub -> Activate Aoife
+    const homeownerTriggers = ['homeowner-hub', 'accordion-btn-homeowner', 'persona-chip-homeowner'];
+    homeownerTriggers.forEach(id => {
+      const el = document.getElementById(id) || document.querySelector(`[data-persona="homeowner"]`);
+      if (el) {
+        el.addEventListener('click', () => {
+          if (window.AG && window.AG.setVoicePersona) {
+            window.AG.setVoicePersona("aoife");
+            if (window.AG.setVoiceSettings) {
+              window.AG.setVoiceSettings({ rate: 0.94, pitch: 1.02, voiceHint: "en-IE" });
+            }
+          }
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initAntigravityVoiceHubListeners);
