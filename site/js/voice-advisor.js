@@ -1,6 +1,6 @@
 /**
  * site/js/voice-advisor.js
- * Multi-Persona Browser Voice AI Advisor Engine (Toolbar & AG Interface Aware)
+ * Multi-Persona Browser Voice AI Advisor Engine (Antigravity Switchboard Integrated)
  * - Aoife: Homeowner Energy Advisor (Warm & Neighbourly Irish Accent)
  * - Eimear: Real Estate Energy Advisor (Polished & Articulate Dublin/South-East Blend)
  * - Declan: Installer Technical Advisor (Practical & Straight-Talking Limerick/Cork Tradesman)
@@ -34,10 +34,14 @@
       pitch: 1.02,
       toastMsg: 'Switched to Aoife (Homeowner Advisor)',
       chips: [
-        { query: "Can I keep my open fireplace with a heat pump?", label: "🔥 Open Fireplace (SR54)" },
-        { query: "What is the HLI 2.0 requirement for heat pumps?", label: "📐 HLI ≤ 2.0 Rule" },
-        { query: "How much is the heat pump grant?", label: "💶 €12.5k Grant" },
-        { query: "Do I qualify with a D-rated home?", label: "🏷️ D Rating Check" }
+        { label: "📉 Lower Heating Bills", query: "How can I lower my heating bills this winter?" },
+        { label: "💶 2026 Grant Eligibility", query: "What grants am I eligible for in 2026?" },
+        { label: "🔥 Heat Pump Check", query: "Is my home suitable for a heat pump?" },
+        { label: "📐 Radiator Sizing", query: "Can you check if my radiators are big enough?" },
+        { label: "🏷️ Improve BER Rating", query: "How do I improve my BER rating?" },
+        { label: "⚡ Cheapest High-Impact Upgrade", query: "What’s the cheapest upgrade with the biggest impact?" },
+        { label: "🛡️ Carbon Tax Projections", query: "Can you explain carbon tax increases for my home?" },
+        { label: "☀️ Solar PV Suitability", query: "Is solar worth it for my roof?" }
       ]
     },
     agent: {
@@ -55,10 +59,14 @@
       pitch: 1.05,
       toastMsg: 'Switched to Eimear (Real Estate Advisor)',
       chips: [
-        { query: "How much does a BER uplift increase property value in Ireland?", label: "📈 +€38k Valuation Surge" },
-        { query: "How do I explain 3.45% Green Mortgage savings to buyers during viewings?", label: "💼 3.45% Green Mortgage" },
-        { query: "What's the quickest pre-sale BER boost sequence?", label: "⚡ Rapid Pre-Sale Boost" },
-        { query: "What is the Estate Agent Energy Pack and what do buyers get?", label: "📜 Agent Pack (€99)" }
+        { label: "🏷️ Explain BER to Buyers", query: "How do I explain the BER rating to buyers?" },
+        { label: "📈 BER Uplift with Insulation", query: "What’s the BER uplift if the homeowner adds insulation?" },
+        { label: "📄 Listing Energy Summary", query: "Can you prepare a listing-ready energy summary?" },
+        { label: "💎 Energy Valuation Uplift", query: "How do energy upgrades affect valuation?" },
+        { label: "💶 Viewing Grant Script", query: "What grants should I mention during viewings?" },
+        { label: "✍️ Listing Copywriting", query: "What’s the best way to phrase energy features in a listing?" },
+        { label: "💡 Running Cost Queries", query: "How do I answer buyer questions about running costs?" },
+        { label: "📊 Simulate BER Uplift", query: "Can you simulate the BER uplift for this property?" }
       ]
     },
     installer: {
@@ -76,10 +84,14 @@
       pitch: 0.98,
       toastMsg: 'Switched to Declan (Installer Technical Advisor)',
       chips: [
-        { query: "How do I calculate radiator output at 45 degrees flow temperature for SR50?", label: "📐 SR50 ΔT30 Sizing" },
-        { query: "What's the exact HLI rule for heat pump grant sign-off?", label: "🛡️ HLI ≤ 2.0 Sign-Off" },
-        { query: "Do I need a buffer tank on an 8kW monobloc heat pump?", label: "🛢️ Buffer vs Volumiser" },
-        { query: "What pipe size is required for heat pump primary flow and return?", label: "🚰 Primary Pipework" }
+        { label: "📐 Room Heat Loss (Watts)", query: "What’s the heat loss for this room?" },
+        { label: "🌡️ Rad Sizing at 45°C Flow", query: "Is this radiator big enough at 45 degrees?" },
+        { label: "⚡ Heat Pump kW Sizing", query: "What size heat pump does this house need?" },
+        { label: "📜 NSAI SR50 Check", query: "Can you check SR50 compliance for this layout?" },
+        { label: "🛢️ Buffer Tank Audit", query: "Do I need a buffer tank here?" },
+        { label: "📊 Low-Temp Rad Output", query: "What’s the output of this rad at low temp?" },
+        { label: "🚰 Primary Pipe Sizing", query: "Is the pipework okay for a heat pump?" },
+        { label: "📈 Optimal Flow Temp", query: "Can you give me the proper flow temperature?" }
       ]
     }
   };
@@ -134,7 +146,7 @@
     }
   };
 
-  // Unified Antigravity API Interface
+  // Antigravity Bridge
   window.AG = window.AG || {};
   window.AG.setVoicePersona = function(personaName) {
     window.setVoicePersona(personaName, false);
