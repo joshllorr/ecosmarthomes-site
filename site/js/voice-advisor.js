@@ -45,7 +45,7 @@
         <div id="voice-chat-body" class="voice-modal-body">
           <div class="voice-msg advisor">
             👋 <strong>"Aoife, will my radiators freeze if I install a heat pump?"</strong><br><br>
-            Tap below to talk live with Ireland's senior independent energy AI. Ask her how to avoid the 9% double VAT fuel penalty and what upgrades you actually need in plain, neighborly English.
+            Dia dhuit! I'm Aoife, your independent energy advisor. Ask me anything about SEAI grants, radiator sizing, or keeping your home cosy without overpaying.
           </div>
         </div>
 
@@ -222,7 +222,8 @@
       const cleanSpoken = text.replace(/\*\*/g, '').replace(/[#_`]/g, '').trim();
       const utterance = new SpeechSynthesisUtterance(cleanSpoken);
       if (selectedVoice) utterance.voice = selectedVoice;
-      utterance.rate = 1.0;
+      utterance.rate = 0.94; // Gentle, medium pace
+    utterance.pitch = 1.02; // Warm, natural vocal colour
       utterance.pitch = 1.0;
 
       utterance.onstart = () => {

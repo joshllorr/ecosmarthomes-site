@@ -1,7 +1,8 @@
 /**
  * /api/voice-advisor.js
  * Vercel Serverless Function: Voice AI Retrofit Advisor (Aoife)
- * Powered by Gemini 2.5 Flash
+ * Powered by Google Gemini 2.5 Flash
+ * Persona: Warm, friendly Irish energy advisor (Limerick/Dublin soft blend)
  */
 
 export default async function handler(req, res) {
@@ -28,54 +29,70 @@ export default async function handler(req, res) {
 
     // SEAI Grounded Engineering Knowledge Base (SR50, SR54:2024, DEAP 4.2.2, May 2026 Code of Practice)
     const SEAI_GROUNDING_DATABASE = `
-[SEAI TECHNICAL CITATIONS KNOWLEDGE BASE]:
+[SEAI TECHNICAL CITATIONS & KNOWLEDGE BASE]:
 1. Open Fireplace & Chimneys with Heat Pumps:
    - Citation: SEAI Technical Guidance SR54:2024 Section 4.2 & DEAP 4.2.2 Rule 3.4
-   - Rule: Open flues cause massive uncontrolled ventilation and draft losses. To qualify for a heat pump grant (HLI <= 2.0 W/K/m²), open fireplaces must be permanently sealed or fitted with room-sealed / balanced-flue appliances with dedicated external air intake.
+   - Rule: Open flues cause massive uncontrolled ventilation and draft losses. To qualify for a heat pump grant (HLI <= 2.0 W/K/m²), open fireplaces must be permanently sealed or fitted with room-sealed appliances with dedicated external air intake.
 2. Heat Loss Indicator (HLI) 2.0 Requirement:
    - Citation: SEAI Domestic Technical Guidance SR50-2 Clause 3.4
-   - Rule: Prior to heat pump grant approval, a registered Technical Advisor must certify HLI <= 2.0 W/K/m² (or <= 2.3 with fabric roadmap) to ensure Seasonal Performance Factor (SPF) >= 3.0.
+   - Rule: Technical Advisor must certify HLI <= 2.0 W/K/m² (or <= 2.3 with fabric roadmap) to ensure Seasonal Performance Factor (SPF) >= 3.0.
 3. Low-Temperature Radiator Sizing (Delta T 30):
    - Citation: NSAI SR50-1:2021 Code of Practice for Domestic Wet Central Heating Systems
-   - Rule: Heat pumps run at 45°C flow / 35°C return (Delta T 30°C). Existing radiators must be audited; undersized single-panel radiators must be replaced with high-output double-panel convector (Type 22) units.
+   - Rule: Heat pumps run at 45°C flow / 35°C return (Delta T 30°C). Undersized single-panel radiators must be upgraded to double-panel convector (Type 22) units.
 4. External Wall Insulation (The Wrap):
    - Citation: SEAI May 2026 Code of Practice & NSAI Agrément I.S. EN 13163 / SR54 Clause 5.3
    - Rule: EWI wrap must achieve U-Value <= 0.18 W/m²K with NSAI Agrément certified insulation.
 5. Attic Insulation & Ventilation:
    - Citation: SEAI Domestic Technical Guidance SR54 Clause 6.1 & BS 5250
-   - Rule: 300mm mineral wool (U <= 0.16 W/m²K) with a mandatory 50mm continuous eaves ventilation gap.
+   - Rule: 300mm mineral wool (U <= 0.16 W/m²K) with mandatory 50mm continuous eaves ventilation.
 6. Solar PV & Clean Export Guarantee (CEG):
    - Citation: Commission for Regulation of Utilities (CRU) Decision & Finance Act 2023 0% VAT
-   - Rule: Suppliers pay ~24c/kWh for exported power under CEG. Permanent 0% VAT applies to domestic solar.
-7. May 2026 Grant Rates:
-   - Heat Pump: €12,500 | Wall Wrap: €8,000 | Attic: €2,500 | Solar PV: €1,800 | Heating Controls: €700.
+   - Rule: Suppliers pay ~24c/kWh for exported power under CEG. Permanent 0% VAT applies.
+7. May 2026 Grant Rates & Pricing Framework:
+   - Grants: Heat Pump up to €12,500 | Wall Wrap up to €8,000 | Attic up to €2,500 | Solar PV up to €1,800 | Deep Retrofit up to €35,000.
+   - EcoSmartHomes Advisory: On-Site Diagnostic Survey (€149) | Full Masterplan (€299) | Digital Installer Pack (€49) | 100% Conflict-Free.
 `;
 
     const systemPrompt = `
-You are "Aoife", Senior Technical Retrofit Advisor for EcoSmartHomes Ireland (www.ecosmarthomes.ie).
-You are answering an Irish homeowner asking via voice/chat about SEAI energy upgrades (location context: ${town}).
+=== SYSTEM VOICE STYLE & PERSONA INSTRUCTIONS ===
 
-Core Directive:
-Ground your answers directly in official Irish engineering standards (SR54:2024, SR50-1, SR50-2, DEAP 4.2.2, May 2026 SEAI rates).
-When answering technical questions, cite the exact SEAI/NSAI standard (e.g. "Under SEAI Technical Guidance SR54 Section 4.2...").
+Identity:
+You are Aoife, the EcoSmartHomes voice advisor — friendly, trustworthy, and 100% independent (no equipment sales, no contractor commissions).
 
-Tone & Style:
-- Professional, authentic, warm, and direct.
-- Keep "speechText" conversational and concise (2-4 sentences max) for clear voice readout.
-- In "displayText", include the exact standard citation and structured bullet points.
-- Always highlight 100% independent advisory (no installer kickbacks).
-- Invite them to order our €49 Independent Retrofit Survey for their exact calculations.
+Voice Style:
+Speak in a warm, friendly Irish accent — soft Limerick/Dublin blend, gentle rhythm, clear diction.
+
+Tone:
+Professional but never stiff. Warm, reassuring, neighbourly, and easy to listen to.
+
+Personality:
+Helpful, calm, confident, and kind. Sound like a knowledgeable Irish energy advisor who genuinely wants to help homeowners save money and feel comfortable.
+
+Delivery:
+- Medium pace
+- Soft edges on sentences
+- Light Irish inflection (e.g. natural, friendly phrasing like "Now, the first thing we look at...", "You're in good shape there", "Not to worry")
+- Warm vocal colour
+- No sales tone
+- No jargon unless explaining it clearly and simply
+
+Behaviour:
+- Always explain things simply and clearly
+- Keep homeowners at ease
+- Stay positive and encouraging
+- Maintain professional engineering accuracy citing official Irish standards (SR54, SR50, DEAP)
+
+Response Format Requirement:
+You must return a valid JSON object with:
+1. "speechText": The exact words Aoife speaks aloud (2-4 gentle, clear, conversational sentences formatted for natural speech synthesis).
+2. "displayText": A nicely formatted text answer with bullet points, bold highlights, and standard citations for the screen.
+3. "citation": Exact Irish engineering standard (e.g. "SR54:2024 Section 4.2").
+4. "recommendedAction": Practical next step (e.g. "On-Site Survey (€149)", "Solar Check", "Radiator Sizing").
+5. "surveyCta": true or false.
+
+Location Context: ${town || 'Ireland'}
 
 ${SEAI_GROUNDING_DATABASE}
-
-Return a JSON object in this format without markdown backticks:
-{
-  "speechText": "Spoken conversational response (2-4 sentences max) citing key standard if relevant.",
-  "displayText": "Structured display text with bold headings, bullet points, and exact clause citation (e.g. '• **Standard**: SR54:2024 Section 4.2').",
-  "citation": "SR54:2024 Section 4.2 | SR50-2 Clause 3.4 | DEAP 4.2.2",
-  "recommendedAction": "€49 Survey | Solar PV | Attic Insulation | Heat Pump Check",
-  "surveyCta": true
-}
 `;
 
     if (apiKey) {
@@ -96,7 +113,7 @@ Return a JSON object in this format without markdown backticks:
         body: JSON.stringify({
           contents,
           generationConfig: {
-            temperature: 0.2,
+            temperature: 0.25,
             responseMimeType: "application/json"
           }
         })
@@ -104,38 +121,31 @@ Return a JSON object in this format without markdown backticks:
 
       if (geminiRes.ok) {
         const geminiData = await geminiRes.json();
-        const rawJsonText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (rawJsonText) {
+        const rawJson = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (rawJson) {
           try {
-            const parsed = JSON.parse(rawJsonText);
+            const parsed = JSON.parse(rawJson);
             return res.status(200).json({ success: true, data: parsed });
           } catch (pErr) {
-            console.error('JSON parse error from Gemini Voice:', pErr);
+            console.error('JSON parse error from Gemini Voice Advisor:', pErr);
           }
         }
       }
     }
 
-    // High-fidelity grounded fallback response
-    const msgLower = (message || '').toLowerCase();
-    let fallback = {
-      speechText: `Under SEAI Technical Guidance SR54 and May 2026 grant rules, Irish homeowners can access up to €12,500 for a heat pump, €8,000 for wall insulation, and €1,800 for solar PV. To guarantee your home qualifies for the Heat Loss Index limit of 2.0, we recommend our €49 independent survey.`,
-      displayText: `Under **SEAI Technical Guidance SR54:2024 & May 2026 Code of Practice**:\n• **Heat Pump System**: Up to **€12,500** grant (Requires HLI ≤ 2.0 W/K/m²)\n• **External Wall Insulation (Wrap)**: Up to **€8,000** grant (U-Value ≤ 0.18 W/m²K)\n• **Attic Insulation**: Up to **€2,500** grant (300mm minimum)\n• **Solar PV Panels**: Up to **€1,800** grant + 24c/kWh Clean Export (0% VAT)\n\n• **Standard Reference**: NSAI SR50-1 & SR54:2024 Clause 3.4`,
-      citation: "SR54:2024 Section 4.2 / SR50-2",
-      recommendedAction: "€49 Survey",
+    // Warm Irish Fallback Response
+    const fallbackResponse = {
+      speechText: `Hello there! I'm Aoife from EcoSmartHomes. For homes in Ireland, heat pump grants up to twelve thousand five hundred euro require your heat loss indicator to be verified at two point zero or lower under NSAI SR50-2. We can check your radiators and grants during an on-site survey whenever you're ready.`,
+      displayText: `### 🏡 Heat Pump & Grant Eligibility\n\n• **Standard**: NSAI SR50-2:2024 & SEAI Code of Practice\n• **Requirement**: Heat Loss Indicator (HLI) ≤ 2.0 W/K/m²\n• **Grant Available**: Up to **€12,500** for heat pumps + **€8,000** for external wall wrap.\n• **Independence**: 100% conflict-free advisory—no contractor kickbacks.`,
+      citation: "NSAI SR50-2:2024 Clause 3.4",
+      recommendedAction: "Book On-Site Survey (€149)",
       surveyCta: true
     };
 
-    if (msgLower.includes('fireplace') || msgLower.includes('chimney') || msgLower.includes('open fire')) {
-      fallback.speechText = `Under SEAI Technical Guidance SR54 Section 4.2, open fireplaces cannot remain in use with a heat pump because of excessive draft losses. The chimney must be permanently sealed or fitted with a room-sealed appliance to meet the Heat Loss requirement.`;
-      fallback.displayText = `**Open Fireplaces & SEAI Heat Pump Rules**:\n• **Official Standard**: *SEAI Technical Guidance SR54:2024 Section 4.2 & DEAP 4.2.2 Rule 3.4*\n• **Rule**: Open flues create massive uncontrolled ventilation heat loss. To achieve the required **Heat Loss Indicator (HLI ≤ 2.0 W/K/m²)**, open fireplaces must be permanently sealed at the throat or replaced with a room-sealed stove with dedicated external air intake.\n• **Advisory**: Our **€49 Independent Survey** inspects your chimneys and ventilation pathways to guarantee grant compliance.`;
-      fallback.citation = "SR54:2024 Section 4.2";
-    }
-
-    return res.status(200).json({ success: true, data: fallback });
+    return res.status(200).json({ success: true, data: fallbackResponse, fallback: true });
 
   } catch (err) {
-    console.error('Error in voice-advisor API:', err);
-    return res.status(500).json({ error: 'Voice advisor failed: ' + (err.message || err) });
+    console.error('Voice Advisor API Error:', err);
+    return res.status(500).json({ error: 'Internal server error in voice advisor.' });
   }
 }
