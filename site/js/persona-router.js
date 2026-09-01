@@ -20,10 +20,10 @@
       rate: 0.94,
       pitch: 1.02,
       voiceHint: "en-IE",
-      avatar: "👩‍💼",
+      avatar: "🏡",
       avatarBg: "#10b981",
       accentColor: "#34f5c5",
-      glowColor: "rgba(52, 245, 197, 0.4)",
+      glowColor: "rgba(52, 245, 197, 0.45)",
       launcherText: "🎙️ Ask Aoife (Voice AI)",
       greeting: "Dia dhuit! I'm Aoife, your independent energy advisor.",
       systemPrompt: `
@@ -56,7 +56,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       avatar: "💼",
       avatarBg: "#f59e0b",
       accentColor: "#fbbf24",
-      glowColor: "rgba(251, 191, 36, 0.4)",
+      glowColor: "rgba(251, 191, 36, 0.45)",
       launcherText: "🎙️ Ask Eimear (Real Estate AI)",
       greeting: "Hello, I’m Eimear — your energy advisor for property listings.",
       systemPrompt: `
@@ -90,7 +90,7 @@ Ground all advice in Irish standards: DEAP 4.2.2, SR54:2024, and SEAI May 2026 g
       avatar: "⚡",
       avatarBg: "#38bdf8",
       accentColor: "#38bdf8",
-      glowColor: "rgba(56, 189, 248, 0.4)",
+      glowColor: "rgba(56, 189, 248, 0.45)",
       launcherText: "🎙️ Ask Declan (Installer AI)",
       greeting: "How’s it going? I’m Declan — here to help with sizing and SR50 checks.",
       systemPrompt: `
@@ -130,20 +130,25 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
     const launcher = document.getElementById('voice-launcher');
     if (launcher) {
-      launcher.style.boxShadow = `0 4px 20px ${persona.glowColor}`;
+      launcher.style.boxShadow = `0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px ${persona.glowColor}`;
       launcher.style.borderColor = persona.accentColor;
     }
 
-    const pulse = document.querySelector('.voice-launcher-pulse');
-    if (pulse) {
-      pulse.style.background = persona.accentColor;
+    const modal = document.getElementById('voice-modal');
+    if (modal) {
+      modal.style.borderColor = persona.accentColor;
+      modal.style.boxShadow = `0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px ${persona.glowColor}`;
     }
 
-    const avatar = document.getElementById('voice-advisor-avatar');
-    if (avatar) {
-      avatar.style.background = persona.avatarBg;
-      avatar.innerText = persona.avatar;
-    }
+    const avatars = document.querySelectorAll('.hologram-avatar');
+    avatars.forEach(av => {
+      av.innerText = persona.avatar;
+      av.style.background = persona.avatarBg;
+      av.style.borderColor = persona.accentColor;
+    });
+
+    const waves = document.querySelectorAll('.hologram-wave');
+    waves.forEach(w => w.style.borderColor = persona.accentColor);
   }
 
   // ===============================
@@ -223,20 +228,28 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   };
 
   // ===============================
-  // First-Time Persona Onboarding Modal
+  // First-Time & Re-Openable Persona Welcome Modal (with Memory Highlight)
   // ===============================
   function checkFirstTimeOnboarding() {
     try {
       const hasSeen = localStorage.getItem("ESH_hasSeenOnboarding");
       const isHome = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname === '';
       if (!hasSeen && isHome) {
-        setTimeout(renderOnboardingModal, 1200);
+        setTimeout(() => window.openPersonaPickerModal(), 1200);
       }
     } catch (e) {}
   }
 
-  function renderOnboardingModal() {
+  window.openPersonaPickerModal = function() {
     if (document.getElementById('esh-persona-onboarding-modal')) return;
+
+    const savedPersona = (localStorage.getItem("ESH_lastPersona") || '').toLowerCase();
+    const isAoifeSaved = savedPersona === 'aoife' || savedPersona === 'homeowner';
+    const isEimearSaved = savedPersona === 'eimear' || savedPersona === 'agent';
+    const isDeclanSaved = savedPersona === 'declan' || savedPersona === 'installer';
+    const hasAnySaved = isAoifeSaved || isEimearSaved || isDeclanSaved;
+
+    const rememberedName = isAoifeSaved ? 'Aoife' : isEimearSaved ? 'Eimear' : isDeclanSaved ? 'Declan' : 'Aoife';
 
     const modal = document.createElement('div');
     modal.id = 'esh-persona-onboarding-modal';
@@ -253,93 +266,106 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     modal.innerHTML = `
       <style>
         @keyframes eshFadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        @keyframes rememberedPulse { 0%, 100% { transform: translateY(0); box-shadow: 0 0 20px rgba(52, 245, 197, 0.3); } 50% { transform: translateY(-3px); box-shadow: 0 0 35px rgba(52, 245, 197, 0.6); } }
         .esh-onboarding-card {
           background: #00241b; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 22px 18px;
           cursor: pointer; transition: all 0.25s ease; text-align: left; display: flex; flex-direction: column; justify-content: space-between;
+          position: relative;
         }
         .esh-onboarding-card:hover {
-          transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+          transform: translateY(-4px); box-shadow: 0 14px 35px rgba(0,0,0,0.6);
         }
-        .card-homeowner:hover { border-color: #34f5c5; box-shadow: 0 0 25px rgba(52,245,197,0.25); }
-        .card-agent:hover { border-color: #fbbf24; box-shadow: 0 0 25px rgba(251,191,36,0.25); }
-        .card-installer:hover { border-color: #38bdf8; box-shadow: 0 0 25px rgba(56,189,248,0.25); }
+        .card-homeowner:hover { border-color: #34f5c5; box-shadow: 0 0 28px rgba(52,245,197,0.3); }
+        .card-agent:hover { border-color: #fbbf24; box-shadow: 0 0 28px rgba(251,191,36,0.3); }
+        .card-installer:hover { border-color: #38bdf8; box-shadow: 0 0 28px rgba(56,189,248,0.3); }
+        
+        .is-remembered-card {
+          border-width: 2px !important;
+          animation: rememberedPulse 2.4s infinite ease-in-out;
+        }
+        .card-homeowner.is-remembered-card { border-color: #34f5c5 !important; }
+        .card-agent.is-remembered-card { border-color: #fbbf24 !important; }
+        .card-installer.is-remembered-card { border-color: #38bdf8 !important; }
       </style>
-      <div style="background: #001f17; border: 1.5px solid rgba(52, 245, 197, 0.35); border-radius: 28px; max-width: 860px; width: 100%; padding: clamp(24px, 4vw, 40px); box-shadow: 0 25px 60px rgba(0,0,0,0.8); text-align: center; position: relative;">
-        <button onclick="dismissOnboarding('aoife')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">✕</button>
+      <div style="background: #001f17; border: 1.5px solid rgba(52, 245, 197, 0.35); border-radius: 28px; max-width: 880px; width: 100%; padding: clamp(24px, 4vw, 40px); box-shadow: 0 25px 60px rgba(0,0,0,0.8); text-align: center; position: relative;">
+        <button onclick="dismissOnboarding('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">✕</button>
         
         <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px;">
-          Welcome to EcoSmartHomes Ireland
+          ${hasAnySaved ? `✨ Welcome back to EcoSmartHomes Ireland` : `Welcome to EcoSmartHomes Ireland`}
         </div>
         <h2 style="color: #ffffff; font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 900; margin: 0 0 10px 0;">
           Who are you exploring for today?
         </h2>
-        <p style="color: #cbd5e1; font-size: 0.95rem; max-width: 620px; margin: 0 auto 30px auto; line-height: 1.5;">
-          Select your role to personalize your tools and activate your dedicated 100% conflict-free Irish AI Energy Advisor.
+        <p style="color: #cbd5e1; font-size: 0.95rem; max-width: 620px; margin: 0 auto 28px auto; line-height: 1.5;">
+          ${hasAnySaved ? `You previously explored with <strong>${rememberedName}</strong>. Select below to continue or switch your advisor:` : `Select your role to personalize your tools and activate your dedicated 100% conflict-free Irish AI Energy Advisor.`}
         </p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px;">
           
-          <!-- Homeowner -->
-          <div class="esh-onboarding-card card-homeowner" onclick="dismissOnboarding('aoife')">
+          <!-- Homeowner (Aoife) -->
+          <div class="esh-onboarding-card card-homeowner ${isAoifeSaved ? 'is-remembered-card' : ''}" data-persona="aoife" onclick="dismissOnboarding('aoife')">
             <div>
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                 <span style="font-size: 2rem;">🏡</span>
                 <span style="background: rgba(52,245,197,0.15); color: #34f5c5; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Aoife</span>
               </div>
+              ${isAoifeSaved ? `<div style="display: inline-flex; align-items: center; gap: 4px; background: rgba(52,245,197,0.2); color: #34f5c5; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px;">✨ Last Selected Advisor</div>` : ''}
               <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 0 0 6px 0;">Homeowner</h3>
               <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
                 Lower heating bills, size radiators, and claim up to €35,000 in SEAI retrofit grants.
               </p>
             </div>
-            <div style="margin-top: 16px; font-size: 0.8rem; color: #34f5c5; font-weight: 800;">
-              Select Homeowner →
+            <div style="margin-top: 16px; font-size: 0.82rem; color: #34f5c5; font-weight: 800;">
+              ${isAoifeSaved ? `Continue with Aoife →` : `Select Homeowner →`}
             </div>
           </div>
 
-          <!-- Estate Agent -->
-          <div class="esh-onboarding-card card-agent" onclick="dismissOnboarding('eimear')">
+          <!-- Estate Agent (Eimear) -->
+          <div class="esh-onboarding-card card-agent ${isEimearSaved ? 'is-remembered-card' : ''}" data-persona="eimear" onclick="dismissOnboarding('eimear')">
             <div>
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                 <span style="font-size: 2rem;">💼</span>
                 <span style="background: rgba(251,191,36,0.15); color: #fbbf24; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Eimear</span>
               </div>
+              ${isEimearSaved ? `<div style="display: inline-flex; align-items: center; gap: 4px; background: rgba(251,191,36,0.2); color: #fbbf24; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px;">✨ Last Selected Advisor</div>` : ''}
               <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 0 0 6px 0;">Estate Agent / Valuer</h3>
               <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
                 Explain BER uplift, unlock +€38k valuation equity surge, and highlight 3.45% green mortgages.
               </p>
             </div>
-            <div style="margin-top: 16px; font-size: 0.8rem; color: #fbbf24; font-weight: 800;">
-              Select Estate Agent →
+            <div style="margin-top: 16px; font-size: 0.82rem; color: #fbbf24; font-weight: 800;">
+              ${isEimearSaved ? `Continue with Eimear →` : `Select Estate Agent →`}
             </div>
           </div>
 
-          <!-- Installer -->
-          <div class="esh-onboarding-card card-installer" onclick="dismissOnboarding('declan')">
+          <!-- Installer (Declan) -->
+          <div class="esh-onboarding-card card-installer ${isDeclanSaved ? 'is-remembered-card' : ''}" data-persona="declan" onclick="dismissOnboarding('declan')">
             <div>
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                 <span style="font-size: 2rem;">⚡</span>
                 <span style="background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Declan</span>
               </div>
+              ${isDeclanSaved ? `<div style="display: inline-flex; align-items: center; gap: 4px; background: rgba(56,189,248,0.2); color: #38bdf8; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px;">✨ Last Selected Advisor</div>` : ''}
               <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 0 0 6px 0;">Installer / Trades</h3>
               <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
                 NSAI SR50 low-temperature radiator sizing, heat loss formulas, and €49 digital data packs.
               </p>
             </div>
-            <div style="margin-top: 16px; font-size: 0.8rem; color: #38bdf8; font-weight: 800;">
-              Select Installer →
+            <div style="margin-top: 16px; font-size: 0.82rem; color: #38bdf8; font-weight: 800;">
+              ${isDeclanSaved ? `Continue with Declan →` : `Select Installer →`}
             </div>
           </div>
 
         </div>
 
-        <button onclick="dismissOnboarding('aoife')" style="background: none; border: none; color: #64748b; font-size: 0.82rem; cursor: pointer; text-decoration: underline;">
+        <button onclick="dismissOnboarding('')" style="background: none; border: none; color: #64748b; font-size: 0.82rem; cursor: pointer; text-decoration: underline;">
           Explore all tools without selecting a role
         </button>
       </div>
     `;
 
     document.body.appendChild(modal);
-  }
+  };
 
   window.dismissOnboarding = function(personaKey) {
     try {
