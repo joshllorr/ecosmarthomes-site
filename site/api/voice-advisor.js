@@ -1,14 +1,473 @@
 /**
  * /api/voice-advisor.js
  * Vercel Serverless Function: Voice AI Retrofit Advisor (Aoife)
- * Powered by Google Gemini 2.5 Flash
- *
- * AOIFE PERSONA CARD:
- * - Name: Aoife
- * - Role: Independent Irish Home Energy Advisor (EcoSmartHomes Ireland)
- * - Voice: Warm Irish accent (soft Limerick/Dublin blend), neighbourly, tea-table friendly
- * - Cadence: Rate 0.94 | Pitch 1.02 | en-IE voice priority
+ * Powered by Google Gemini 2.5 Flash + 50 Grounded Irish Script Knowledge Base
  */
+
+const AOIFE_50_SCRIPTS = [
+  {
+    "id": 1,
+    "category": "Heat Pumps",
+    "question": "Do heat pumps work in older homes?",
+    "speechText": "Absolutely \u2014 older homes can work brilliantly with heat pumps once the radiators are sized correctly. The key is hitting about 45 degrees flow temperature. If your rads can manage that, you're flying.",
+    "displayText": "### \ud83c\udfe1 Heat Pumps in Older Irish Homes\n\n\u2022 **Standard**: NSAI SR50-2:2024 & SEAI Code of Practice\n\u2022 **Core Requirement**: Low-temperature flow (~45\u00b0C) to achieve high Seasonal Performance Factor (SPF \u2265 3.0).\n\u2022 **Key Check**: Radiator output audit and Heat Loss Indicator (HLI) verification.\n\u2022 **Advisory**: 100% independent calculations before committing to installer quotes.",
+    "citation": "NSAI SR50-2:2024 Clause 3.4",
+    "recommendedAction": "Book On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 2,
+    "category": "Heat Pumps",
+    "question": "Do I need new radiators?",
+    "speechText": "Not always. I'll check each room's heat loss and see if your current radiators can keep it cosy at low temperatures. If they can, you're grand. If not, we'll flag the few that need upgrading.",
+    "displayText": "### \ud83d\udcd0 Radiator Sizing for Heat Pumps\n\n\u2022 **Standard**: NSAI SR50-1:2021 (Delta-T 30\u00b0C output check)\n\u2022 **Assessment**: Room-by-room thermal load matching.\n\u2022 **Typical Result**: Many existing double radiators are already sufficient; only specific rooms usually need Type 22 upgrades.",
+    "citation": "NSAI SR50-1:2021",
+    "recommendedAction": "Installer Radiator Pack (\u20ac49)"
+  },
+  {
+    "id": 3,
+    "category": "Heat Pumps",
+    "question": "What's SR50 and why does it matter?",
+    "speechText": "SR50 is the Irish design standard for heat pumps. It makes sure your radiators, pipework, and heat pump are all sized properly so you don't end up cold or overspending.",
+    "displayText": "### \ud83d\udee1\ufe0f NSAI SR50 Standard Explained\n\n\u2022 **Definition**: National Standard Authority of Ireland Code of Practice for Domestic Wet Central Heating Systems.\n\u2022 **Purpose**: Prevents installer undersizing, ensures flow balance, and protects SEAI grant eligibility.",
+    "citation": "NSAI SR50-2:2024",
+    "recommendedAction": "Heat Pump Tender Pack (\u20ac199)"
+  },
+  {
+    "id": 4,
+    "category": "Heat Pumps",
+    "question": "Is a heat pump cheaper to run?",
+    "speechText": "Once the home is set up right, yes. A well-designed heat pump can cut bills by 40 to 60%, especially with night-rate electricity and good insulation.",
+    "displayText": "### \ud83d\udcb6 Heat Pump Running Costs\n\n\u2022 **Bill Reduction**: 40%\u201360% annual heating cost savings compared to oil/gas.\n\u2022 **Efficiency**: Coefficient of Performance (COP) between 3.5 and 4.2.\n\u2022 **Tariff Optimization**: Smart EV/Night boost rates reduce kWh unit costs to ~7c\u201312c.",
+    "citation": "DEAP 4.2.2 & SEAI Case Studies",
+    "recommendedAction": "Carbon Tax Shield Simulator"
+  },
+  {
+    "id": 5,
+    "category": "Heat Pumps",
+    "question": "What size heat pump do I need?",
+    "speechText": "We size it based on your home's heat loss \u2014 not guesswork. Oversizing wastes money, undersizing leaves you cold. I'll calculate the exact kilowatts for you.",
+    "displayText": "### \u26a1 Heat Pump Capacity Sizing\n\n\u2022 **Methodology**: Engineering room-by-room Watts calculation (HLI).\n\u2022 **Risk Avoidance**: Prevents compressor short-cycling (oversizing) and insufficient winter heat (undersizing).",
+    "citation": "NSAI SR50-2 Clause 4.1",
+    "recommendedAction": "On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 6,
+    "category": "Heat Pumps",
+    "question": "Will a heat pump heat my home fast?",
+    "speechText": "It heats steadily rather than in big blasts like oil or gas. The comfort is lovely \u2014 always warm, always even.",
+    "displayText": "### \ud83c\udf21\ufe0f Steady-State Thermal Comfort\n\n\u2022 **Operating Mode**: Continuous low-flow temperature (weather compensation).\n\u2022 **Comfort Advantage**: Eliminates cold room spikes and draft cycles.",
+    "citation": "SEAI Domestic Technical Guidance",
+    "recommendedAction": "Full Retrofit Masterplan (\u20ac299)"
+  },
+  {
+    "id": 7,
+    "category": "Heat Pumps",
+    "question": "Do I need underfloor heating?",
+    "speechText": "No, not at all. Radiators work perfectly once they're sized for low-temperature heating.",
+    "displayText": "### \ud83c\udfe0 Radiators vs Underfloor Heating\n\n\u2022 **Suitability**: Modern high-efficiency radiators (Type 21/22) operate seamlessly at 45\u00b0C flow.\n\u2022 **Cost Saving**: Avoids disruptive floor excavation in existing homes.",
+    "citation": "NSAI SR50-1 Section 5",
+    "recommendedAction": "Radiator Sizer Tool"
+  },
+  {
+    "id": 8,
+    "category": "Heat Pumps",
+    "question": "Is a buffer tank required?",
+    "speechText": "Only in certain designs. Many homes don't need one. I'll check your layout and tell you straight.",
+    "displayText": "### \ud83d\udee2\ufe0f Buffer Tank Audit\n\n\u2022 **Independent Check**: We audit contractor quotes to prevent unnecessary \u20ac1,200+ buffer tank markups.\n\u2022 **Requirement Criteria**: System minimum water volume and zone valve configuration.",
+    "citation": "NSAI SR50-2 Hydraulic Design",
+    "recommendedAction": "Quote Red-Liner Audit"
+  },
+  {
+    "id": 9,
+    "category": "Heat Pumps",
+    "question": "What's the SEAI heat pump grant now?",
+    "speechText": "As of May 2026, it's \u20ac6,500 for standalone heat pumps and up to \u20ac12,500 in deep retrofit packages. You qualify once the home passes the technical assessment.",
+    "displayText": "### \ud83d\udcb6 May 2026 SEAI Heat Pump Grants\n\n\u2022 **Standalone Grant**: \u20ac6,500 towards air-to-water heat pump.\n\u2022 **Deep Retrofit Tier**: Up to \u20ac12,500 with fabric insulation.\n\u2022 **Prerequisite**: Technical Advisor sign-off on HLI \u2264 2.0.",
+    "citation": "SEAI May 2026 Grant Schedule",
+    "recommendedAction": "Check Grant Eligibility"
+  },
+  {
+    "id": 10,
+    "category": "Heat Pumps",
+    "question": "Should I talk to installers first?",
+    "speechText": "Honestly, no. Get your independent sizing done first \u2014 it avoids overselling and keeps everything compliant.",
+    "displayText": "### \ud83d\udee1\ufe0f Independent Advisory First\n\n\u2022 **Why Independent**: Installers often specify the units they stock. Our independent engineering ensures exact sizing and milestone contracts before quotes.",
+    "citation": "EcoSmartHomes Conflict-Free Charter",
+    "recommendedAction": "Order Tender Pack (\u20ac199)"
+  },
+  {
+    "id": 11,
+    "category": "Radiators & Heat Loss",
+    "question": "How do I know if my radiators are big enough?",
+    "speechText": "We check each room's heat loss and match it to the radiator output at 45 degrees. If the numbers line up, you're sorted.",
+    "displayText": "### \ud83d\udd0d Radiator Output Matching\n\n\u2022 **Delta-T Calculation**: Converts standard 75\u00b0C output to 45\u00b0C heat pump flow.\n\u2022 **Verification**: Room heat loss (Watts) \u2264 Radiator Delta-T30 output (Watts).",
+    "citation": "NSAI SR50-1 Delta-T30 Table",
+    "recommendedAction": "Installer Radiator Pack (\u20ac49)"
+  },
+  {
+    "id": 12,
+    "category": "Radiators & Heat Loss",
+    "question": "Why do installers oversize radiators?",
+    "speechText": "Some do it to be safe, but it's not always needed. Oversizing costs more and can make the system cycle. I'll size them properly.",
+    "displayText": "### \u2696\ufe0f Balanced Radiator Engineering\n\n\u2022 **Objective**: Exact heat load matching to avoid unnecessary capital expense and aesthetic wall clutter.",
+    "citation": "NSAI SR50-2",
+    "recommendedAction": "Radiator Sizer Engine"
+  },
+  {
+    "id": 13,
+    "category": "Radiators & Heat Loss",
+    "question": "What's a heat loss calculation?",
+    "speechText": "It's a room-by-room check of how much heat each space needs. It's the backbone of proper heating design.",
+    "displayText": "### \ud83d\udcd0 Heat Loss Calculation (HLI)\n\n\u2022 **Components**: Fabric loss (walls, roof, floor, windows) + ventilation air changes.\n\u2022 **Target**: Heat Loss Indicator \u2264 2.0 W/K/m\u00b2.",
+    "citation": "DEAP 4.2.2 & SR50",
+    "recommendedAction": "On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 14,
+    "category": "Radiators & Heat Loss",
+    "question": "Can I upload photos instead of a home visit?",
+    "speechText": "Of course \u2014 that's what the \u20ac49 digital pack is for. Quick, simple, and installer-ready.",
+    "displayText": "### \ud83d\udce6 Digital Installer Pack (\u20ac49)\n\n\u2022 **Process**: Upload room measurements and radiator photos.\n\u2022 **Deliverable**: Complete SR50-2 heat loss and radiator spec sheet in 24\u201348 hours.",
+    "citation": "EcoSmartHomes Digital Advisory",
+    "recommendedAction": "Upload Photos (\u20ac49)"
+  },
+  {
+    "id": 15,
+    "category": "Radiators & Heat Loss",
+    "question": "Do double radiators help?",
+    "speechText": "They can, but only if the room needs the extra output. We size based on need, not guesswork.",
+    "displayText": "### \ud83e\uddf1 Single vs Double Convectors\n\n\u2022 **Type 22 (Double Panel, Double Convector)**: Delivers ~2x output for low flow temperatures without expanding wall width.",
+    "citation": "NSAI SR50-1",
+    "recommendedAction": "Radiator Sizer"
+  },
+  {
+    "id": 16,
+    "category": "Radiators & Heat Loss",
+    "question": "My rooms heat unevenly \u2014 why?",
+    "speechText": "Usually it's radiator sizing or flow balancing. Nothing dramatic \u2014 we can sort it.",
+    "displayText": "### \u2696\ufe0f Hydraulic Balancing & Flow Rates\n\n\u2022 **Cause**: Unbalanced lockshield valves or undersized pipe branches.\n\u2022 **Solution**: System hydraulic balancing and TRV flow calibration.",
+    "citation": "SR50 Wet Heating Code",
+    "recommendedAction": "On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 17,
+    "category": "Radiators & Heat Loss",
+    "question": "Is my pipework okay for a heat pump?",
+    "speechText": "Most homes are fine. I'll check pipe diameters and layout to be sure.",
+    "displayText": "### \ud83d\udeb0 Pipework Velocity & Diameter Check\n\n\u2022 **Inspection**: 22mm main flow/return and 15mm/10mm drops checked against water flow rates (l/min).",
+    "citation": "NSAI SR50 Section 6",
+    "recommendedAction": "Heat Pump Tender Pack (\u20ac199)"
+  },
+  {
+    "id": 18,
+    "category": "Radiators & Heat Loss",
+    "question": "What's the ideal flow temperature?",
+    "speechText": "About 45 degrees for comfort and efficiency. That's the magic number.",
+    "displayText": "### \ud83c\udf21\ufe0f 45\u00b0C Flow Temperature Efficiency\n\n\u2022 **Why 45\u00b0C**: Keeps heat pump operating at maximum seasonal COP (3.8+) while delivering consistent ambient warmth.",
+    "citation": "SEAI Technical Guidelines",
+    "recommendedAction": "Masterplan (\u20ac299)"
+  },
+  {
+    "id": 19,
+    "category": "BER, Insulation & Retrofit",
+    "question": "How do I improve my BER rating?",
+    "speechText": "Insulation, airtightness, and heating upgrades. Even small changes can bump you up a band.",
+    "displayText": "### \ud83c\udfe1 Stepping Up the 8-Band BER Scale\n\n\u2022 **Sequence**: 1. Attic (300mm) \u2794 2. Wall Wrap (U\u22640.18) \u2794 3. Heat Pump \u2794 4. Solar PV.\n\u2022 **Result**: Moves properties from G/D to A0 NZEB.",
+    "citation": "DEAP 4.2.2 & 8-Band Model",
+    "recommendedAction": "8-Band BER Matrix"
+  },
+  {
+    "id": 20,
+    "category": "BER, Insulation & Retrofit",
+    "question": "What's DEAP?",
+    "speechText": "It's the Irish system that calculates BER ratings. I translate the technical bits into plain English.",
+    "displayText": "### \ud83d\udcca Dwelling Energy Assessment Procedure (DEAP)\n\n\u2022 **Role**: Official methodology for Irish Building Energy Rating and Part L compliance.",
+    "citation": "DEAP Version 4.2.2",
+    "recommendedAction": "BER Report (\u20ac29)"
+  },
+  {
+    "id": 21,
+    "category": "BER, Insulation & Retrofit",
+    "question": "Is external insulation worth it?",
+    "speechText": "For many homes, yes \u2014 it's the biggest comfort upgrade you can do. But we'll check your walls first.",
+    "displayText": "### \ud83e\uddf1 External Wall Insulation (The Wrap)\n\n\u2022 **Grant**: Up to \u20ac8,000 SEAI grant.\n\u2022 **Comfort**: Eliminates cold bridges, seals cracks, and restores facade.",
+    "citation": "SEAI SR54 Clause 5.3",
+    "recommendedAction": "Wall Wrap Simulator"
+  },
+  {
+    "id": 22,
+    "category": "BER, Insulation & Retrofit",
+    "question": "Should I insulate the attic?",
+    "speechText": "Definitely. It's cheap, fast, and gives instant comfort.",
+    "displayText": "### \ud83c\udfe0 Attic Insulation (300mm)\n\n\u2022 **Grant**: Up to \u20ac2,500 SEAI grant.\n\u2022 **Impact**: Stops 25\u201330% of total dwelling heat loss.",
+    "citation": "SEAI SR54 Section 6",
+    "recommendedAction": "Book Survey (\u20ac149)"
+  },
+  {
+    "id": 23,
+    "category": "BER, Insulation & Retrofit",
+    "question": "What's the BER uplift from a heat pump?",
+    "speechText": "Usually 2 to 3 bands, depending on insulation. I'll simulate it for you.",
+    "displayText": "### \ud83d\udcc8 Primary Energy & Carbon Uplift\n\n\u2022 **Uplift**: Typically improves rating by 2\u20133 full letter bands (e.g. D1 \u2794 B1 or A3).",
+    "citation": "DEAP 4.2.2 Renewable Factor",
+    "recommendedAction": "BER Simulator"
+  },
+  {
+    "id": 24,
+    "category": "BER, Insulation & Retrofit",
+    "question": "Does BER affect mortgage rates?",
+    "speechText": "It does \u2014 green mortgages can save you thousands. I'll show you the numbers.",
+    "displayText": "### \ud83d\udcbc 3.45% Green Mortgage Interest Slasher\n\n\u2022 **Requirement**: BER rating of B3 or better.\n\u2022 **Benefit**: Saves ~\u20ac2,800/year on average Irish mortgage balance.",
+    "citation": "Irish Banking Green Rate Schedule",
+    "recommendedAction": "Green Mortgage Calculator"
+  },
+  {
+    "id": 25,
+    "category": "BER, Insulation & Retrofit",
+    "question": "What's the SEAI retrofit grant?",
+    "speechText": "Up to \u20ac35,000 for deep retrofits as of May 2026.",
+    "displayText": "### \ud83d\udcb6 National Deep Retrofit Grants\n\n\u2022 **Grant Pool**: Up to \u20ac35,000 for comprehensive multi-measure home upgrades via One-Stop-Shop.",
+    "citation": "SEAI May 2026 Schedule",
+    "recommendedAction": "Full Masterplan (\u20ac299)"
+  },
+  {
+    "id": 26,
+    "category": "BER, Insulation & Retrofit",
+    "question": "Do I need a BER before applying for grants?",
+    "speechText": "Yes \u2014 but I'll guide you through the whole process.",
+    "displayText": "### \ud83d\udccb Grant Prerequisite Steps\n\n\u2022 **Pre-Works BER**: Establishes baseline energy performance and grant path.",
+    "citation": "SEAI Grant Terms",
+    "recommendedAction": "On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 27,
+    "category": "BER, Insulation & Retrofit",
+    "question": "Is cavity wall insulation still recommended?",
+    "speechText": "For suitable homes, absolutely. Quick, clean, and effective.",
+    "displayText": "### \ud83e\uddf1 Cavity Bead Insulation\n\n\u2022 **Grant**: Up to \u20ac1,700 SEAI grant.\n\u2022 **Suitability**: Cavity block or twin-leaf brick walls with inspection scope.",
+    "citation": "NSAI Agr\u00e9ment Certified Bead",
+    "recommendedAction": "Book Survey (\u20ac149)"
+  },
+  {
+    "id": 28,
+    "category": "BER, Insulation & Retrofit",
+    "question": "What's airtightness?",
+    "speechText": "It's about stopping draughts. Makes the home warmer and cheaper to heat.",
+    "displayText": "### \ud83d\udca8 Airtightness & Controlled Ventilation\n\n\u2022 **Target**: Eliminate uncontrolled air leakage while maintaining fresh air intake via trickle vents or MEV.",
+    "citation": "Part L Building Regulations",
+    "recommendedAction": "Masterplan (\u20ac299)"
+  },
+  {
+    "id": 29,
+    "category": "Solar PV & Batteries",
+    "question": "Is solar worth it in Ireland?",
+    "speechText": "It is \u2014 even in winter. Modern panels work brilliantly with our daylight levels.",
+    "displayText": "### \u2600\ufe0f Irish Solar Yield\n\n\u2022 **Annual Generation**: 850\u20131,050 kWh per kWp installed across Irish counties.",
+    "citation": "Commission for Regulation of Utilities",
+    "recommendedAction": "Solar Simulator"
+  },
+  {
+    "id": 30,
+    "category": "Solar PV & Batteries",
+    "question": "How much can I earn from exporting?",
+    "speechText": "With the CEG rate, many homes earn \u20ac250 to \u20ac450 a year.",
+    "displayText": "### \u26a1 Clean Export Guarantee (CEG)\n\n\u2022 **Export Tariff**: ~24c/kWh paid directly into your electricity account.",
+    "citation": "CRU Microgeneration Framework",
+    "recommendedAction": "Solar Report (\u20ac29)"
+  },
+  {
+    "id": 31,
+    "category": "Solar PV & Batteries",
+    "question": "Do I need a battery?",
+    "speechText": "Not always. Batteries help if you're home in the evenings or want night-rate charging.",
+    "displayText": "### \ud83d\udd0b Battery Storage Evaluation\n\n\u2022 **Night Rate Arbitrage**: Charge at 7c/kWh at night; discharge during peak 38c/kWh hours.",
+    "citation": "EcoSmartHomes Battery Engine",
+    "recommendedAction": "Battery Arbitrage Tool"
+  },
+  {
+    "id": 32,
+    "category": "Solar PV & Batteries",
+    "question": "How big should my solar system be?",
+    "speechText": "Usually 4 to 6 kWp for Irish homes. I'll model it for you.",
+    "displayText": "### \ud83d\udcd0 System Sizing\n\n\u2022 **Recommendation**: 10\u201314 panels (4.2kWp\u20135.8kWp) paired with 5kWh battery.",
+    "citation": "SEAI Domestic Microgen Guide",
+    "recommendedAction": "Solar Simulator"
+  },
+  {
+    "id": 33,
+    "category": "Solar PV & Batteries",
+    "question": "What's the solar grant now?",
+    "speechText": "\u20ac2,100 as of May 2026.",
+    "displayText": "### \ud83d\udcb6 Solar PV Grant (May 2026)\n\n\u2022 **Grant**: \u20ac2,100 towards domestic rooftop solar installation.",
+    "citation": "SEAI Solar Grant Schedule",
+    "recommendedAction": "Check Solar Grants"
+  },
+  {
+    "id": 34,
+    "category": "Solar PV & Batteries",
+    "question": "Will solar work on my roof?",
+    "speechText": "If you've decent pitch and no heavy shading, you're grand.",
+    "displayText": "### \ud83c\udfe0 Roof Pitch & Azimuth Check\n\n\u2022 **Optimal**: South/East/West orientation with pitch between 30\u00b0 and 45\u00b0.",
+    "citation": "EcoSmartHomes Solar Geocoding",
+    "recommendedAction": "Solar Geocoder"
+  },
+  {
+    "id": 35,
+    "category": "Solar PV & Batteries",
+    "question": "What's battery arbitrage?",
+    "speechText": "It's charging the battery at cheap night rates and using it during the day. Lovely savings.",
+    "displayText": "### \ud83d\udcc8 Day/Night Smart Arbitrage\n\n\u2022 **Savings**: Up to \u20ac680/year by shifting load away from peak utility hours.",
+    "citation": "EcoSmartHomes Battery Model",
+    "recommendedAction": "Battery Arbitrage Tool"
+  },
+  {
+    "id": 36,
+    "category": "Solar PV & Batteries",
+    "question": "Can solar heat my water?",
+    "speechText": "Yes \u2014 with a diverter. Great for summer.",
+    "displayText": "### \ud83d\udebf Solar Hot Water Diverter (Eddi / Myenergi)\n\n\u2022 **Function**: Automatically routes surplus solar power to your immersion cylinder.",
+    "citation": "Microgen Technical Guide",
+    "recommendedAction": "Solar Simulator"
+  },
+  {
+    "id": 37,
+    "category": "Grants, Costs & Money",
+    "question": "What grants am I eligible for?",
+    "speechText": "I'll check your home type, BER, and upgrade plans \u2014 then map out every grant you qualify for.",
+    "displayText": "### \ud83d\udccb SEAI Grant Eligibility Mapping\n\n\u2022 **Coverage**: Individual grant measure vs One-Stop-Shop deep retrofit grant matrix.",
+    "citation": "SEAI Domestic Grant Code",
+    "recommendedAction": "On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 38,
+    "category": "Grants, Costs & Money",
+    "question": "How long do grants take?",
+    "speechText": "Usually a few weeks for approval. I'll guide you through the paperwork.",
+    "displayText": "### \u23f1\ufe0f SEAI Grant Processing Timeline\n\n\u2022 **Approval**: ~2\u20133 weeks post technical assessment submission.",
+    "citation": "SEAI Operations",
+    "recommendedAction": "Tender Pack (\u20ac199)"
+  },
+  {
+    "id": 39,
+    "category": "Grants, Costs & Money",
+    "question": "What's the cost of a heat pump?",
+    "speechText": "Most homes land between \u20ac10,000 and \u20ac14,000 before grants \u2014 but I'll give you exact numbers.",
+    "displayText": "### \ud83d\udcb6 Capital Expense vs Grant Deductions\n\n\u2022 **Typical Gross Cost**: \u20ac11,000\u2013\u20ac14,000.\n\u2022 **Net Cost After \u20ac6,500 Grant**: \u20ac4,500\u2013\u20ac7,500.",
+    "citation": "Irish Retrofit Market Benchmark",
+    "recommendedAction": "On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 40,
+    "category": "Grants, Costs & Money",
+    "question": "Is the \u20ac149 survey worth it?",
+    "speechText": "It is \u2014 it prevents overspending, avoids bad quotes, and gives you a clear roadmap.",
+    "displayText": "### \ud83d\udee1\ufe0f 100% Money-Back Guarantee\n\n\u2022 **Guarantee**: If our survey does not identify at least \u20ac500 in quote savings, we refund your \u20ac149 immediately.",
+    "citation": "EcoSmartHomes Guarantee",
+    "recommendedAction": "Book On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 41,
+    "category": "Grants, Costs & Money",
+    "question": "What's included in the \u20ac49 digital pack?",
+    "speechText": "Radiator sizing, heat loss, flow temperature, and an installer-ready PDF.",
+    "displayText": "### \ud83d\udce6 \u20ac49 Digital Deliverables\n\n\u2022 **Deliverables**: Room-by-room Watts calculation, radiator sizing table, flow recommendations.",
+    "citation": "EcoSmartHomes Digital Service",
+    "recommendedAction": "Upload Photos (\u20ac49)"
+  },
+  {
+    "id": 42,
+    "category": "Grants, Costs & Money",
+    "question": "Can I get a green mortgage?",
+    "speechText": "If your BER hits B3 or better, yes \u2014 and the savings are lovely.",
+    "displayText": "### \ud83c\udfe6 Green Mortgage Rates (3.45% Fixed)\n\n\u2022 **Availability**: AIB, Bank of Ireland, PTSB, Haven.\n\u2022 **Threshold**: Official BER rating of B3 or higher.",
+    "citation": "Banking & Payments Federation Ireland",
+    "recommendedAction": "Green Mortgage Tool"
+  },
+  {
+    "id": 43,
+    "category": "Grants, Costs & Money",
+    "question": "Will upgrades increase my home value?",
+    "speechText": "Usually, yes. Better BER = better comfort = better price.",
+    "displayText": "### \ud83d\udcc8 Property Equity Surge\n\n\u2022 **Valuation Impact**: +\u20ac38,000 average equity increase on standard 3-bed semi-detached.",
+    "citation": "ESRI & Daft.ie Research",
+    "recommendedAction": "BER Matrix"
+  },
+  {
+    "id": 44,
+    "category": "Grants, Costs & Money",
+    "question": "What's the cheapest upgrade with the biggest impact?",
+    "speechText": "Attic insulation. Quick, cheap, and instantly cosy.",
+    "displayText": "### \ud83d\udca1 Highest ROI Energy Measure\n\n\u2022 **Measure**: 300mm Attic mineral wool roll.\n\u2022 **Net Cost**: ~\u20ac300\u2013\u20ac600 after \u20ac2,500 SEAI grant.\n\u2022 **Payback**: Under 1.5 years.",
+    "citation": "SEAI SR54",
+    "recommendedAction": "Book Survey (\u20ac149)"
+  },
+  {
+    "id": 45,
+    "category": "Comfort, Noise & Living",
+    "question": "Are heat pumps noisy?",
+    "speechText": "Modern ones are very quiet \u2014 like a fridge outside. I'll check placement for you.",
+    "displayText": "### \ud83d\udd07 Acoustic Performance\n\n\u2022 **Sound Level**: 42\u201348 dB(A) at 1 metre (whisper / quiet library level).",
+    "citation": "NSAI Acoustic Guidance",
+    "recommendedAction": "Survey (\u20ac149)"
+  },
+  {
+    "id": 46,
+    "category": "Comfort, Noise & Living",
+    "question": "Will my home feel warmer?",
+    "speechText": "Yes \u2014 heat pumps give a steady, cosy warmth all day.",
+    "displayText": "### \u2615 All-Day Thermal Comfort\n\n\u2022 **Continuous Heat**: Maintains continuous 20\u00b0C\u201321\u00b0C comfort without cold morning drops.",
+    "citation": "SEAI Retrofit Quality Code",
+    "recommendedAction": "Full Masterplan (\u20ac299)"
+  },
+  {
+    "id": 47,
+    "category": "Comfort, Noise & Living",
+    "question": "Why is my home cold upstairs?",
+    "speechText": "Usually airflow or radiator sizing. Nothing dramatic \u2014 we'll sort it.",
+    "displayText": "### \ud83d\udd0d Thermal Gradient Diagnosis\n\n\u2022 **Cause**: Ceiling heat loss, attic bypass draughts, or undersized upper rads.",
+    "citation": "SR54 Domestic Guidance",
+    "recommendedAction": "On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 48,
+    "category": "Comfort, Noise & Living",
+    "question": "Do heat pumps work in freezing weather?",
+    "speechText": "They do \u2014 even at minus temperatures. Irish winters are no bother.",
+    "displayText": "### \u2744\ufe0f Sub-Zero Ambient Heating\n\n\u2022 **Rating**: Modern R290/R32 units maintain COP > 2.8 at -7\u00b0C external temperature.",
+    "citation": "NSAI SR50 Winter Design Temp",
+    "recommendedAction": "Check Heat Pumps"
+  },
+  {
+    "id": 49,
+    "category": "Comfort, Noise & Living",
+    "question": "Will I still need my boiler?",
+    "speechText": "No \u2014 once the heat pump is sized right, it replaces the boiler fully.",
+    "displayText": "### \ud83d\udeab 100% Fossil Fuel Displacement\n\n\u2022 **System**: Monobloc or split heat pump provides 100% of space heating and domestic hot water.",
+    "citation": "SEAI Code of Practice",
+    "recommendedAction": "Heat Pump Tender Pack (\u20ac199)"
+  },
+  {
+    "id": 50,
+    "category": "Comfort, Noise & Living",
+    "question": "Can I keep my existing thermostats?",
+    "speechText": "Most homes can, but smart controls give better comfort. I'll check your setup.",
+    "displayText": "### \ud83d\udcf1 Smart Heating Controls\n\n\u2022 **Grant**: \u20ac700 SEAI heating controls grant.\n\u2022 **Benefit**: Multi-zone weather compensation and remote scheduling.",
+    "citation": "SEAI Controls Grant Schedule",
+    "recommendedAction": "On-Site Survey (\u20ac149)"
+  }
+];
+
+function findDirectScriptMatch(query) {
+  if (!query) return null;
+  const cleanQ = query.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
+  
+  for (const s of AOIFE_50_SCRIPTS) {
+    const cleanQuestion = s.question.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').trim();
+    if (cleanQ === cleanQuestion) return s;
+    if (cleanQ.includes(cleanQuestion) || cleanQuestion.includes(cleanQ)) return s;
+  }
+  return null;
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -30,6 +489,22 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'No message provided' });
     }
 
+    // Check direct 50-script knowledge base first for instant zero-latency match
+    const directMatch = findDirectScriptMatch(message);
+    if (directMatch) {
+      return res.status(200).json({
+        success: true,
+        source: 'GROUNDED_SCRIPT_PACK',
+        data: {
+          speechText: directMatch.speechText,
+          displayText: directMatch.displayText,
+          citation: directMatch.citation,
+          recommendedAction: directMatch.recommendedAction,
+          surveyCta: true
+        }
+      });
+    }
+
     const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
 
     const SYSTEM_PERSONA_INSTRUCTIONS = `
@@ -49,38 +524,27 @@ Purpose: Help Irish homeowners understand energy upgrades, avoid overspending, a
 
 3. DELIVERY & PHRASING HABITS
 - Medium pace, soft sentence endings, light Irish inflection.
-- Naturally uses relatable Irish phrasing where appropriate:
-  * "Right so, let's break this down simply."
-  * "Don't worry at all — this is very common."
-  * "You're grand."
-  * "A small bit of clarity now can save you thousands later."
-  * "You're doing the right thing by asking."
-- No sales tone, no fear/urgency tactics, no jargon unless immediately explained.
+- Naturally uses relatable Irish phrasing ("Right so, let's break this down simply", "Don't worry at all", "You're grand").
+- No sales tone, no fear tactics, no jargon unless immediately explained.
 
 4. TECHNICAL KNOWLEDGE & GROUNDING
-- NSAI SR50: Low-temperature radiator sizing (45°C flow / Delta-T 30) for heat pump readiness.
-- SEAI SR54:2024: Domestic retrofit guidance (open fireplaces must be sealed or room-sealed with external air intake to satisfy HLI ≤ 2.0).
-- DEAP 4.2.2: Official 8-band Irish BER scale (A0 to G) where 'B' rating unlocks 3.45% Green Mortgages.
-- SEAI Grants (May 2026): Deep Retrofit up to €35,000 | Heat Pump up to €12,500 | External Wall Wrap up to €8,000 | Solar PV up to €1,800 | Attic up to €2,500.
+- NSAI SR50: Low-temperature radiator sizing (45°C flow / Delta-T 30) for heat pumps.
+- SEAI SR54:2024: Domestic retrofit guidance (chimneys/fireplaces, HLI ≤ 2.0).
+- DEAP 4.2.2: Official 8-band Irish BER scale (A0 to G).
+- May 2026 Grants: Deep Retrofit (€35k), Heat Pump (€6.5k standalone / €12.5k deep), Solar PV (€2.1k), Wrap (€8k), Attic (€2.5k).
 - EcoSmartHomes 2026 Pricing:
-  * On-Site Diagnostic Survey: €149 (Full 32-county on-site inspection + 12-page roadmap PDF)
-  * Full Retrofit Masterplan: €299 (Solar geocoding, battery arbitrage, contractor tender RFP)
-  * Heat Pump Compliance & Tender Pack: €199 (SR50-2 verification & quote red-liner)
-  * Installer Radiator & Heat Loss Pack: €49 (Digital deliverable within 24-48 hours)
+  * On-Site Survey: €149
+  * Full Masterplan: €299
+  * Tender Pack: €199
+  * Digital Installer Pack: €49
 
-5. FORBIDDEN BEHAVIOURS
-- NEVER use a sales tone or pressure.
-- NEVER recommend specific commercial contractors or brands with bias.
-- NEVER sound robotic, cold, or monotone.
-- NEVER give non-Irish regulatory advice.
-
-6. RESPONSE FORMAT
+5. RESPONSE FORMAT
 Return a valid JSON object strictly matching this schema:
 {
   "speechText": "Spoken conversational response in Aoife's warm Irish voice (2-4 gentle sentences for voice synthesis).",
   "displayText": "Structured display text with bold headings, bullet points, and exact Irish standard citations.",
-  "citation": "NSAI SR50-2:2024 Clause 3.4 | SR54:2024 Section 4.2 | DEAP 4.2.2",
-  "recommendedAction": "Book On-Site Survey (€149) | Solar PV Check | Digital Installer Pack (€49)",
+  "citation": "NSAI SR50-2:2024 | SR54:2024 | DEAP 4.2.2",
+  "recommendedAction": "Book On-Site Survey (€149) | Solar PV | Digital Installer Pack (€49)",
   "surveyCta": true
 }
 
@@ -125,11 +589,11 @@ Location Context: ${town || 'Ireland'}
       }
     }
 
-    // Warm, Neighborly Irish Fallback Response
+    // Fallback response
     const fallbackResponse = {
-      speechText: `Right so, let's break this down simply! For homes in Ireland, heat pump grants up to twelve thousand five hundred euro require your heat loss indicator to be verified at two point zero or lower under NSAI SR50. You're grand to start with an on-site survey for one hundred and forty-nine euro whenever you're ready.`,
-      displayText: `### 🏡 Heat Pump & Grant Eligibility\n\n• **Standard**: NSAI SR50-2:2024 & SEAI Code of Practice\n• **Requirement**: Heat Loss Indicator (HLI) ≤ 2.0 W/K/m²\n• **Grants Available**: Up to **€12,500** for heat pumps, **€8,000** for wall wrap, **€1,800** for solar PV, and **€35,000** for deep retrofits.\n• **Independence**: 100% conflict-free advisory—no equipment sales or contractor commissions.`,
-      citation: "NSAI SR50-2:2024 Clause 3.4",
+      speechText: "Right so, let's break this down simply. For Irish homes, heat pump grants up to twelve thousand five hundred euro require your heat loss indicator to be certified at two point zero or lower under NSAI SR50. You're grand to start with an on-site survey whenever you're ready.",
+      displayText: "### 🏡 Heat Pump & Grant Eligibility\n\n• **Standard**: NSAI SR50-2:2024\n• **HLI Requirement**: ≤ 2.0 W/K/m²\n• **Grants**: Up to €12,500 for heat pumps and €35,000 for deep retrofits.\n• **Independence**: 100% conflict-free advisory.",
+      citation: "NSAI SR50-2:2024",
       recommendedAction: "Book On-Site Survey (€149)",
       surveyCta: true
     };
