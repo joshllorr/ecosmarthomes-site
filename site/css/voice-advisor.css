@@ -1,12 +1,82 @@
 /**
  * site/css/voice-advisor.css
- * Ambient Hologram Waveform, Cinematic Bloom Halo & Hands-Free Audio Console Styling
+ * Ambient Hologram Waveform, Color Wash Background, Ripple & Hands-Free Audio Console Styling
  */
 
 :root {
   --persona-accent: #34f5c5;
   --persona-glow: rgba(52, 245, 197, 0.5);
   --persona-bg: #00241b;
+}
+
+/* ===============================
+   Background Color Wash Layer
+   =============================== */
+#personaColorWash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: transparent;
+  transition: opacity 0.8s ease, background 0.8s ease;
+  z-index: 0;
+  border-radius: 28px;
+}
+
+.colorwash-aoife {
+  background: linear-gradient(
+    135deg,
+    rgba(30, 143, 75, 0.45),
+    rgba(30, 143, 75, 0.25),
+    rgba(30, 143, 75, 0.15)
+  ) !important;
+}
+
+.colorwash-eimear {
+  background: linear-gradient(
+    135deg,
+    rgba(242, 201, 76, 0.45),
+    rgba(242, 201, 76, 0.25),
+    rgba(242, 201, 76, 0.15)
+  ) !important;
+}
+
+.colorwash-declan {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 180, 255, 0.45),
+    rgba(0, 180, 255, 0.25),
+    rgba(0, 180, 255, 0.15)
+  ) !important;
+}
+
+.colorwash-animate-in {
+  opacity: 1 !important;
+}
+
+.colorwash-animate-out {
+  opacity: 0 !important;
+}
+
+/* ===============================
+   Card Ripple Orb
+   =============================== */
+.persona-ripple-orb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transform: translate(-50%, -50%) scale(0);
+  animation: personaRippleAnim 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes personaRippleAnim {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(25); opacity: 0; }
 }
 
 /* ===============================
@@ -24,6 +94,8 @@
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .persona-card:hover, .esh-onboarding-card:hover {

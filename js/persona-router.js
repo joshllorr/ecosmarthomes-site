@@ -1,7 +1,7 @@
 /**
  * /js/persona-router.js
- * EcoSmartHomes Master Persona Switchboard with Cinematic Bloom Transitions
- * Controls dynamic persona switching, voice synthesis parameters, dynamic colour themes, and cinematic card handoffs
+ * EcoSmartHomes Master Persona Switchboard with Color Wash & Cinematic Bloom Transitions
+ * Controls dynamic persona switching, background color washes, ripple animations, and session memory
  * Supports: Aoife (Homeowner), Eimear (Estate Agent), Declan (Installer)
  */
 
@@ -150,6 +150,47 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   }
 
   // ===============================
+  // Color Wash Background Transition
+  // ===============================
+  window.AG.triggerColorWash = function(personaName) {
+    const wash = document.getElementById("personaColorWash");
+    if (!wash) return;
+
+    // Reset classes
+    wash.className = "";
+
+    // Apply persona color wash
+    wash.classList.add(`colorwash-${personaName}`);
+
+    // Force reflow and animate in
+    void wash.offsetWidth;
+    wash.classList.add("colorwash-animate-in");
+
+    // Fade out after 900ms
+    setTimeout(() => {
+      wash.classList.remove("colorwash-animate-in");
+      wash.classList.add("colorwash-animate-out");
+    }, 900);
+  };
+
+  // ===============================
+  // Persona Ripple Effect
+  // ===============================
+  window.AG.triggerPersonaRipple = function(personaName) {
+    const card = document.querySelector(`[data-persona="${personaName}"]`);
+    if (!card) return;
+
+    const existing = card.querySelector('.persona-ripple-orb');
+    if (existing) existing.remove();
+
+    const ripple = document.createElement('div');
+    ripple.className = 'persona-ripple-orb';
+    card.appendChild(ripple);
+
+    setTimeout(() => ripple.remove(), 1000);
+  };
+
+  // ===============================
   // Cinematic Persona Switch Animation
   // ===============================
   window.AG.animatePersonaSwitch = function(oldPersona, newPersona) {
@@ -262,9 +303,13 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     const canonicalKey = AGPersonas[key]?.key || 'aoife';
     const previous = (window.AG.currentPersona?.key || '').toLowerCase();
 
-    // Trigger Cinematic Transition if switching between distinct personas
+    // Trigger Color Wash Background
+    window.AG.triggerColorWash(canonicalKey);
+
+    // Trigger Ripple & Cinematic Transition
     if (previous && previous !== canonicalKey) {
       window.AG.animatePersonaSwitch(previous, canonicalKey);
+      window.AG.triggerPersonaRipple(canonicalKey);
     }
 
     const persona = AGPersonas[canonicalKey] || AGPersonas.aoife;
@@ -340,7 +385,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // Inject Re-Usable Modal Structure
+  // Inject Re-Usable Modal Structure with Color Wash Layer
   function injectPersonaModalDOM() {
     if (document.getElementById('personaModal')) return;
 
@@ -358,80 +403,86 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     `;
 
     modal.innerHTML = `
-      <div style="background: #001f17; border: 1.5px solid rgba(52, 245, 197, 0.35); border-radius: 28px; max-width: 880px; width: 100%; padding: clamp(24px, 4vw, 40px); box-shadow: 0 25px 60px rgba(0,0,0,0.8); text-align: center; position: relative;">
-        <button onclick="dismissPersonaModal('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">✕</button>
+      <div style="background: #001f17; border: 1.5px solid rgba(52, 245, 197, 0.35); border-radius: 28px; max-width: 880px; width: 100%; padding: clamp(24px, 4vw, 40px); box-shadow: 0 25px 60px rgba(0,0,0,0.8); text-align: center; position: relative; overflow: hidden;">
         
-        <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px;">
-          Welcome to EcoSmartHomes Ireland
+        <!-- Background Color Wash Layer -->
+        <div id="personaColorWash"></div>
+
+        <button onclick="dismissPersonaModal('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; z-index: 2;">✕</button>
+        
+        <div style="position: relative; z-index: 1;">
+          <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px;">
+            Welcome to EcoSmartHomes Ireland
+          </div>
+          <h2 style="color: #ffffff; font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 900; margin: 0 0 10px 0;">
+            Who are you exploring for today?
+          </h2>
+          <p class="persona-subtitle" style="color: #cbd5e1; font-size: 0.95rem; max-width: 620px; margin: 0 auto 28px auto; line-height: 1.5;">
+            Select your role to personalize your tools and activate your dedicated 100% conflict-free Irish AI Energy Advisor.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px;">
+            
+            <!-- Homeowner (Aoife) -->
+            <div class="persona-card esh-onboarding-card card-homeowner" data-persona="aoife" onclick="dismissPersonaModal('aoife')">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                  <span style="font-size: 2rem;">🏡</span>
+                  <span style="background: rgba(52,245,197,0.15); color: #34f5c5; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Aoife</span>
+                </div>
+                <span class="persona-badge">✨ Last Selected Advisor</span>
+                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Homeowner</h3>
+                <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
+                  Lower heating bills, size radiators, and claim up to €35,000 in SEAI retrofit grants.
+                </p>
+              </div>
+              <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #34f5c5; font-weight: 800;">
+                Select Homeowner →
+              </div>
+            </div>
+
+            <!-- Estate Agent (Eimear) -->
+            <div class="persona-card esh-onboarding-card card-agent" data-persona="eimear" onclick="dismissPersonaModal('eimear')">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                  <span style="font-size: 2rem;">💼</span>
+                  <span style="background: rgba(251,191,36,0.15); color: #fbbf24; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Eimear</span>
+                </div>
+                <span class="persona-badge">✨ Last Selected Advisor</span>
+                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Estate Agent / Valuer</h3>
+                <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
+                  Explain BER uplift, unlock +€38k valuation equity surge, and highlight 3.45% green mortgages.
+                </p>
+              </div>
+              <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #fbbf24; font-weight: 800;">
+                Select Estate Agent →
+              </div>
+            </div>
+
+            <!-- Installer (Declan) -->
+            <div class="persona-card esh-onboarding-card card-installer" data-persona="declan" onclick="dismissPersonaModal('declan')">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                  <span style="font-size: 2rem;">⚡</span>
+                  <span style="background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Declan</span>
+                </div>
+                <span class="persona-badge">✨ Last Selected Advisor</span>
+                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Installer / Trades</h3>
+                <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
+                  NSAI SR50 low-temperature radiator sizing, heat loss formulas, and €49 digital data packs.
+                </p>
+              </div>
+              <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #38bdf8; font-weight: 800;">
+                Select Installer →
+              </div>
+            </div>
+
+          </div>
+
+          <button onclick="dismissPersonaModal('')" style="background: none; border: none; color: #64748b; font-size: 0.82rem; cursor: pointer; text-decoration: underline;">
+            Explore all tools without selecting a role
+          </button>
         </div>
-        <h2 style="color: #ffffff; font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 900; margin: 0 0 10px 0;">
-          Who are you exploring for today?
-        </h2>
-        <p class="persona-subtitle" style="color: #cbd5e1; font-size: 0.95rem; max-width: 620px; margin: 0 auto 28px auto; line-height: 1.5;">
-          Select your role to personalize your tools and activate your dedicated 100% conflict-free Irish AI Energy Advisor.
-        </p>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px;">
-          
-          <!-- Homeowner (Aoife) -->
-          <div class="persona-card esh-onboarding-card card-homeowner" data-persona="aoife" onclick="dismissPersonaModal('aoife')">
-            <div>
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                <span style="font-size: 2rem;">🏡</span>
-                <span style="background: rgba(52,245,197,0.15); color: #34f5c5; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Aoife</span>
-              </div>
-              <span class="persona-badge">✨ Last Selected Advisor</span>
-              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Homeowner</h3>
-              <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
-                Lower heating bills, size radiators, and claim up to €35,000 in SEAI retrofit grants.
-              </p>
-            </div>
-            <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #34f5c5; font-weight: 800;">
-              Select Homeowner →
-            </div>
-          </div>
-
-          <!-- Estate Agent (Eimear) -->
-          <div class="persona-card esh-onboarding-card card-agent" data-persona="eimear" onclick="dismissPersonaModal('eimear')">
-            <div>
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                <span style="font-size: 2rem;">💼</span>
-                <span style="background: rgba(251,191,36,0.15); color: #fbbf24; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Eimear</span>
-              </div>
-              <span class="persona-badge">✨ Last Selected Advisor</span>
-              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Estate Agent / Valuer</h3>
-              <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
-                Explain BER uplift, unlock +€38k valuation equity surge, and highlight 3.45% green mortgages.
-              </p>
-            </div>
-            <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #fbbf24; font-weight: 800;">
-              Select Estate Agent →
-            </div>
-          </div>
-
-          <!-- Installer (Declan) -->
-          <div class="persona-card esh-onboarding-card card-installer" data-persona="declan" onclick="dismissPersonaModal('declan')">
-            <div>
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                <span style="font-size: 2rem;">⚡</span>
-                <span style="background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Declan</span>
-              </div>
-              <span class="persona-badge">✨ Last Selected Advisor</span>
-              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Installer / Trades</h3>
-              <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
-                NSAI SR50 low-temperature radiator sizing, heat loss formulas, and €49 digital data packs.
-              </p>
-            </div>
-            <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #38bdf8; font-weight: 800;">
-              Select Installer →
-            </div>
-          </div>
-
-        </div>
-
-        <button onclick="dismissPersonaModal('')" style="background: none; border: none; color: #64748b; font-size: 0.82rem; cursor: pointer; text-decoration: underline;">
-          Explore all tools without selecting a role
-        </button>
       </div>
     `;
 
