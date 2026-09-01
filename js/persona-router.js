@@ -1,7 +1,7 @@
 /**
  * /js/persona-router.js
- * EcoSmartHomes Master Persona Switchboard with Persona Memory & Halo Glow Integration
- * Controls dynamic persona switching, voice synthesis parameters, dynamic colour themes, and re-openable welcome modal
+ * EcoSmartHomes Master Persona Switchboard with Cinematic Bloom Transitions
+ * Controls dynamic persona switching, voice synthesis parameters, dynamic colour themes, and cinematic card handoffs
  * Supports: Aoife (Homeowner), Eimear (Estate Agent), Declan (Installer)
  */
 
@@ -149,6 +149,51 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     waves.forEach(w => w.style.borderColor = persona.accentColor);
   }
 
+  // ===============================
+  // Cinematic Persona Switch Animation
+  // ===============================
+  window.AG.animatePersonaSwitch = function(oldPersona, newPersona) {
+    const oldCard = document.querySelector(`[data-persona="${oldPersona}"]`);
+    const newCard = document.querySelector(`[data-persona="${newPersona}"]`);
+
+    // Remove previous animation classes
+    document.querySelectorAll(".persona-card, .esh-onboarding-card").forEach(card => {
+      card.classList.remove("halo-fade-in", "halo-fade-out", "active-halo");
+      card.querySelector(".persona-badge")?.classList.remove("visible");
+      card.querySelector(".primary-action")?.classList.remove("cta-pop");
+    });
+
+    // Fade out old persona
+    if (oldCard) {
+      oldCard.classList.add("halo-fade-out");
+    }
+
+    // Delay before blooming new persona
+    setTimeout(() => {
+      if (newCard) {
+        newCard.classList.add("halo-fade-in", "active-halo");
+
+        // Badge + CTA animation
+        const badge = newCard.querySelector(".persona-badge");
+        const cta = newCard.querySelector(".primary-action");
+
+        if (badge) {
+          badge.classList.add("visible");
+        }
+        if (cta) {
+          cta.classList.add("cta-pop");
+          const name = AGPersonas[newPersona]?.name || 'Advisor';
+          cta.textContent = `Continue with ${name} →`;
+        }
+
+        const subtitle = document.querySelector(".persona-subtitle");
+        if (subtitle && AGPersonas[newPersona]) {
+          subtitle.textContent = `You previously explored with ${AGPersonas[newPersona].name}. Select below to continue or switch your advisor:`;
+        }
+      }
+    }, 300);
+  };
+
   // Save Persona
   window.AG.savePersona = function(personaName) {
     try {
@@ -158,9 +203,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // ===============================
-  // Persona Memory + Halo Glow Integration
-  // ===============================
+  // Load Saved Persona from Memory
   window.AG.loadSavedPersona = function() {
     try {
       const params = new URLSearchParams(window.location.search);
@@ -188,16 +231,16 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         // Highlight the saved card
         const card = document.querySelector(`[data-persona="${canonicalKey}"]`);
         if (card) {
-          document.querySelectorAll('.persona-card, .esh-onboarding-card').forEach(c => c.classList.remove('active-halo'));
-          card.classList.add("active-halo");
+          document.querySelectorAll('.persona-card, .esh-onboarding-card').forEach(c => c.classList.remove('active-halo', 'halo-fade-in'));
+          card.classList.add("active-halo", "halo-fade-in");
           card.querySelector(".persona-badge")?.classList.add("visible");
           const primaryBtn = card.querySelector(".primary-action");
           if (primaryBtn) {
             primaryBtn.textContent = `Continue with ${AGPersonas[canonicalKey].name} →`;
+            primaryBtn.classList.add("cta-pop");
           }
         }
 
-        // Update subtitle dynamically
         const subtitle = document.querySelector(".persona-subtitle");
         if (subtitle) {
           subtitle.textContent = `You previously explored with ${AGPersonas[canonicalKey].name}. Select below to continue or switch your advisor:`;
@@ -211,12 +254,22 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // Set Voice Persona
+  // ===============================
+  // Hooked Persona Activation Function
+  // ===============================
   window.AG.setVoicePersona = function(personaName, autoSpeak = false) {
     const key = (personaName || 'aoife').toLowerCase();
-    const persona = AGPersonas[key] || AGPersonas.aoife;
+    const canonicalKey = AGPersonas[key]?.key || 'aoife';
+    const previous = (window.AG.currentPersona?.key || '').toLowerCase();
 
+    // Trigger Cinematic Transition if switching between distinct personas
+    if (previous && previous !== canonicalKey) {
+      window.AG.animatePersonaSwitch(previous, canonicalKey);
+    }
+
+    const persona = AGPersonas[canonicalKey] || AGPersonas.aoife;
     window.AG.currentPersona = persona;
+
     applyPersonaTheme(persona);
 
     if (typeof window.AG.setVoiceSettings === 'function') {
@@ -263,7 +316,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     if (modal) {
       modal.classList.add("open");
       modal.style.display = "flex";
-      // Refresh memory highlight state
       window.AG.loadSavedPersona();
     }
   };
