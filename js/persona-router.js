@@ -1,7 +1,6 @@
 /**
  * /js/persona-router.js
- * EcoSmartHomes Master Persona Switchboard with Color Wash & Cinematic Bloom Transitions
- * Controls dynamic persona switching, background color washes, ripple animations, and session memory
+ * EcoSmartHomes Master Persona Switchboard with Voice Resonance & Edge Glow Orchestration
  * Supports: Aoife (Homeowner), Eimear (Estate Agent), Declan (Installer)
  */
 
@@ -120,7 +119,49 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
   window.AGPersonas = AGPersonas;
 
-  // Dynamic Theming
+  // Voice Interface
+  window.AG.voice = window.AG.voice || {
+    say: function(text, onComplete) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        if (window.AG.currentPersona) {
+          utterance.rate = window.AG.currentPersona.rate;
+          utterance.pitch = window.AG.currentPersona.pitch;
+        }
+        utterance.onend = function() {
+          if (typeof onComplete === 'function') onComplete();
+        };
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+  };
+
+  // ===============================
+  // Voice Resonance Glow (Micro Pulse)
+  // ===============================
+  window.AG.triggerVoiceResonance = function() {
+    const wash = document.getElementById("personaColorWash");
+    if (wash) {
+      wash.classList.add("wash-resonate");
+      setTimeout(() => wash.classList.remove("wash-resonate"), 450);
+    }
+  };
+
+  // ===============================
+  // Persona Accent Edge Glow
+  // ===============================
+  window.AG.applyPersonaEdgeGlow = function(personaName) {
+    const modal = document.querySelector(".modal-container");
+    if (modal) {
+      modal.classList.remove("persona-edge-aoife", "persona-edge-eimear", "persona-edge-declan");
+      modal.classList.add("persona-edge-" + personaName);
+    }
+  };
+
+  // ===============================
+  // Dynamic Theming Engine
+  // ===============================
   function applyPersonaTheme(persona) {
     if (!persona) return;
     document.documentElement.style.setProperty('--persona-accent', persona.accentColor);
@@ -156,17 +197,12 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     const wash = document.getElementById("personaColorWash");
     if (!wash) return;
 
-    // Reset classes
     wash.className = "";
-
-    // Apply persona color wash
     wash.classList.add(`colorwash-${personaName}`);
 
-    // Force reflow and animate in
     void wash.offsetWidth;
     wash.classList.add("colorwash-animate-in");
 
-    // Fade out after 900ms
     setTimeout(() => {
       wash.classList.remove("colorwash-animate-in");
       wash.classList.add("colorwash-animate-out");
@@ -197,30 +233,24 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     const oldCard = document.querySelector(`[data-persona="${oldPersona}"]`);
     const newCard = document.querySelector(`[data-persona="${newPersona}"]`);
 
-    // Remove previous animation classes
     document.querySelectorAll(".persona-card, .esh-onboarding-card").forEach(card => {
       card.classList.remove("halo-fade-in", "halo-fade-out", "active-halo");
       card.querySelector(".persona-badge")?.classList.remove("visible");
       card.querySelector(".primary-action")?.classList.remove("cta-pop");
     });
 
-    // Fade out old persona
     if (oldCard) {
       oldCard.classList.add("halo-fade-out");
     }
 
-    // Delay before blooming new persona
     setTimeout(() => {
       if (newCard) {
         newCard.classList.add("halo-fade-in", "active-halo");
 
-        // Badge + CTA animation
         const badge = newCard.querySelector(".persona-badge");
         const cta = newCard.querySelector(".primary-action");
 
-        if (badge) {
-          badge.classList.add("visible");
-        }
+        if (badge) badge.classList.add("visible");
         if (cta) {
           cta.classList.add("cta-pop");
           const name = AGPersonas[newPersona]?.name || 'Advisor';
@@ -269,7 +299,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         const canonicalKey = AGPersonas[saved.toLowerCase()].key;
         window.AG.setVoicePersona(canonicalKey, false);
 
-        // Highlight the saved card
         const card = document.querySelector(`[data-persona="${canonicalKey}"]`);
         if (card) {
           document.querySelectorAll('.persona-card, .esh-onboarding-card').forEach(c => c.classList.remove('active-halo', 'halo-fade-in'));
@@ -295,23 +324,29 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // ===============================
-  // Hooked Persona Activation Function
-  // ===============================
+  // ==========================================
+  // Orchestrated Persona Switch (All in Sync)
+  // ==========================================
   window.AG.setVoicePersona = function(personaName, autoSpeak = false) {
     const key = (personaName || 'aoife').toLowerCase();
     const canonicalKey = AGPersonas[key]?.key || 'aoife';
     const previous = (window.AG.currentPersona?.key || '').toLowerCase();
 
-    // Trigger Color Wash Background
+    // 1. Trigger Ripple
+    window.AG.triggerPersonaRipple(canonicalKey);
+
+    // 2. Trigger Background Color Wash
     window.AG.triggerColorWash(canonicalKey);
 
-    // Trigger Ripple & Cinematic Transition
+    // 3. Animate Card Transitions
     if (previous && previous !== canonicalKey) {
       window.AG.animatePersonaSwitch(previous, canonicalKey);
-      window.AG.triggerPersonaRipple(canonicalKey);
     }
 
+    // 4. Apply Modal Edge Glow
+    window.AG.applyPersonaEdgeGlow(canonicalKey);
+
+    // 5. Persona Activation
     const persona = AGPersonas[canonicalKey] || AGPersonas.aoife;
     window.AG.currentPersona = persona;
 
@@ -333,10 +368,14 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       window.setVoicePersona(persona.personaKey, false);
     }
 
+    // 6. Voice Synthesis with Resonance Pulse Callback
     if (autoSpeak && window.AG.voice && typeof window.AG.voice.say === 'function') {
-      window.AG.voice.say(persona.greeting);
+      window.AG.voice.say(persona.greeting, () => {
+        window.AG.triggerVoiceResonance();
+      });
     }
 
+    // 7. Save to Memory
     window.AG.savePersona(persona.key);
   };
 
@@ -385,7 +424,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // Inject Re-Usable Modal Structure with Color Wash Layer
+  // Inject Re-Usable Modal Structure
   function injectPersonaModalDOM() {
     if (document.getElementById('personaModal')) return;
 
@@ -403,7 +442,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     `;
 
     modal.innerHTML = `
-      <div style="background: #001f17; border: 1.5px solid rgba(52, 245, 197, 0.35); border-radius: 28px; max-width: 880px; width: 100%; padding: clamp(24px, 4vw, 40px); box-shadow: 0 25px 60px rgba(0,0,0,0.8); text-align: center; position: relative; overflow: hidden;">
+      <div class="modal-container" style="background: #001f17; border: 1.5px solid rgba(52, 245, 197, 0.35); border-radius: 28px; max-width: 880px; width: 100%; padding: clamp(24px, 4vw, 40px); box-shadow: 0 25px 60px rgba(0,0,0,0.8); text-align: center; position: relative; overflow: hidden; transition: box-shadow 0.6s ease, border-color 0.6s ease;">
         
         <!-- Background Color Wash Layer -->
         <div id="personaColorWash"></div>

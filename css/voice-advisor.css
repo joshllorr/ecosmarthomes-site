@@ -1,6 +1,6 @@
 /**
  * site/css/voice-advisor.css
- * Ambient Hologram Waveform, Color Wash Background, Ripple & Hands-Free Audio Console Styling
+ * Ambient Hologram Waveform, Voice Resonance, Edge Glow, Color Wash & Hands-Free Styling
  */
 
 :root {
@@ -10,7 +10,33 @@
 }
 
 /* ===============================
-   Background Color Wash Layer
+   Persona Voice Resonance Glow (Greeting Pulse)
+   =============================== */
+.wash-resonate {
+  filter: brightness(1.18) saturate(1.15) !important;
+  transition: filter 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ===============================
+   Persona Accent Edge Glow (Modal Border Highlight)
+   =============================== */
+.modal-container.persona-edge-aoife {
+  box-shadow: 0 0 16px rgba(30, 143, 75, 0.55), 0 25px 60px rgba(0, 0, 0, 0.8) !important;
+  border-color: rgba(52, 245, 197, 0.8) !important;
+}
+
+.modal-container.persona-edge-eimear {
+  box-shadow: 0 0 16px rgba(242, 201, 76, 0.55), 0 25px 60px rgba(0, 0, 0, 0.8) !important;
+  border-color: rgba(251, 191, 36, 0.8) !important;
+}
+
+.modal-container.persona-edge-declan {
+  box-shadow: 0 0 16px rgba(0, 180, 255, 0.55), 0 25px 60px rgba(0, 0, 0, 0.8) !important;
+  border-color: rgba(56, 189, 248, 0.8) !important;
+}
+
+/* ===============================
+   Background Color Wash Layer & Ambient Drift
    =============================== */
 #personaColorWash {
   position: absolute;
@@ -19,7 +45,7 @@
   opacity: 0;
   background: transparent;
   background-size: 200% 200%;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), background 0.8s ease;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), background 0.8s ease, filter 0.45s ease;
   z-index: 0;
   border-radius: 28px;
   animation: washDrift 12s ease-in-out infinite alternate;
