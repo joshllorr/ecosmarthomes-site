@@ -1,7 +1,7 @@
 /**
  * /js/persona-router.js
- * EcoSmartHomes Master Persona Switchboard (Antigravity Architecture)
- * Controls dynamic persona switching, voice synthesis parameters, and system prompts
+ * EcoSmartHomes Master Persona Switchboard with Persona Memory System
+ * Controls dynamic persona switching, voice synthesis parameters, and LocalStorage persistence
  * Supports: Aoife (Homeowner), Eimear (Estate Agent), Declan (Installer)
  */
 
@@ -109,7 +109,51 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   window.AGPersonas = AGPersonas;
 
   // ===============================
-  // Persona Activation Functions
+  // Persona Memory System
+  // ===============================
+
+  // Save persona to memory
+  window.AG.savePersona = function(personaName) {
+    try {
+      localStorage.setItem("ESH_lastPersona", personaName);
+    } catch (e) {
+      console.warn("LocalStorage unavailable for Persona Memory:", e);
+    }
+  };
+
+  // Load saved persona from memory
+  window.AG.loadSavedPersona = function() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlPersona = params.get('persona') || params.get('role');
+      if (urlPersona && AGPersonas[urlPersona.toLowerCase()]) {
+        window.AG.setVoicePersona(urlPersona.toLowerCase(), false);
+        return;
+      }
+
+      const path = window.location.pathname.toLowerCase();
+      if (path.includes('property-auditor') || path.includes('daft-hud') || path.includes('eimear')) {
+        window.AG.setVoicePersona('eimear', false);
+        return;
+      }
+      if (path.includes('radiator-sizer') || path.includes('tender-generator') || path.includes('declan')) {
+        window.AG.setVoicePersona('declan', false);
+        return;
+      }
+
+      const saved = localStorage.getItem("ESH_lastPersona");
+      if (saved && AGPersonas[saved.toLowerCase()]) {
+        window.AG.setVoicePersona(saved.toLowerCase(), false);
+      } else {
+        window.AG.setVoicePersona("aoife", false); // default fallback
+      }
+    } catch (e) {
+      window.AG.setVoicePersona("aoife", false);
+    }
+  };
+
+  // ===============================
+  // Persona Activation Function
   // ===============================
 
   window.AG.setVoicePersona = function(personaName, autoSpeak = false) {
@@ -138,6 +182,9 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     if (autoSpeak && window.AG.voice && typeof window.AG.voice.say === 'function') {
       window.AG.voice.say(persona.greeting);
     }
+
+    // Save persona to persistent memory
+    window.AG.savePersona(persona.key);
   };
 
   // Click Router Helper
@@ -159,5 +206,12 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   window.AG.onClick("homeowner-hub", () => window.AG.setVoicePersona("aoife", false));
   window.AG.onClick("estate-agent-hub", () => window.AG.setVoicePersona("eimear", false));
   window.AG.onClick("installer-hub", () => window.AG.setVoicePersona("declan", false));
+
+  // Auto-bootstrap persona memory on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => window.AG.loadSavedPersona());
+  } else {
+    window.AG.loadSavedPersona();
+  }
 
 })(window);
