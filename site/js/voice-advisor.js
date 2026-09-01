@@ -1,6 +1,6 @@
 /**
  * site/js/voice-advisor.js
- * Multi-Persona Browser Voice AI Advisor Engine (Toolbar-Aware)
+ * Multi-Persona Browser Voice AI Advisor Engine (Toolbar & AG Interface Aware)
  * - Aoife: Homeowner Energy Advisor (Warm & Neighbourly Irish Accent)
  * - Eimear: Real Estate Energy Advisor (Polished & Articulate Dublin/South-East Blend)
  * - Declan: Installer Technical Advisor (Practical & Straight-Talking Limerick/Cork Tradesman)
@@ -15,10 +15,13 @@
   let conversationHistory = [];
   let recognition = null;
   let selectedVoice = null;
+  let customSystemPrompt = null;
+  let customVoiceSettings = null;
 
   const PERSONA_CONFIGS = {
     homeowner: {
       key: 'homeowner',
+      aliases: ['aoife', 'homeowner'],
       advisorName: 'Aoife',
       name: 'Aoife · Senior Retrofit AI',
       subtitle: 'EcoSmartHomes Ireland · Online',
@@ -39,6 +42,7 @@
     },
     agent: {
       key: 'agent',
+      aliases: ['eimear', 'agent', 'estate-agent'],
       advisorName: 'Eimear',
       name: 'Eimear · Real Estate AI',
       subtitle: 'Property Energy & Valuation Advisor · Online',
@@ -59,6 +63,7 @@
     },
     installer: {
       key: 'installer',
+      aliases: ['declan', 'installer', 'contractor'],
       advisorName: 'Declan',
       name: 'Declan · Installer AI',
       subtitle: 'NSAI SR50 Technical Advisor · Online',
@@ -79,10 +84,19 @@
     }
   };
 
+  function resolvePersonaKey(key) {
+    if (!key) return 'homeowner';
+    const cleanKey = key.toLowerCase();
+    for (const [pKey, cfg] of Object.entries(PERSONA_CONFIGS)) {
+      if (pKey === cleanKey || cfg.aliases.includes(cleanKey)) return pKey;
+    }
+    return 'homeowner';
+  }
+
   window.setVoicePersona = function(personaKey, showToast = false) {
-    if (!PERSONA_CONFIGS[personaKey]) personaKey = 'homeowner';
-    currentPersona = personaKey;
-    const cfg = PERSONA_CONFIGS[personaKey];
+    const resolvedKey = resolvePersonaKey(personaKey);
+    currentPersona = resolvedKey;
+    const cfg = PERSONA_CONFIGS[resolvedKey];
     conversationHistory = [];
 
     // Update Launcher
@@ -120,12 +134,31 @@
     }
   };
 
+  // Unified Antigravity API Interface
+  window.AG = window.AG || {};
+  window.AG.setVoicePersona = function(personaName) {
+    window.setVoicePersona(personaName, false);
+  };
+  window.AG.setVoiceSettings = function(settings) {
+    customVoiceSettings = settings;
+  };
+  window.AG.setSystemPrompt = function(prompt) {
+    customSystemPrompt = prompt;
+  };
+  window.AG.voice = {
+    say: function(text) {
+      speakAdvisor(text);
+    }
+  };
+  window.AG.onClick = function(elementId, handler) {
+    const el = document.getElementById(elementId);
+    if (el) el.addEventListener('click', handler);
+  };
+
   function detectContextPersona() {
     const params = new URLSearchParams(window.location.search);
     const urlPersona = params.get('persona') || params.get('role');
-    if (urlPersona && PERSONA_CONFIGS[urlPersona]) {
-      return urlPersona;
-    }
+    if (urlPersona) return resolvePersonaKey(urlPersona);
 
     const path = window.location.pathname.toLowerCase();
     if (path.includes('agent') || path.includes('property-auditor') || path.includes('daft-hud') || path.includes('eimear')) {
@@ -274,8 +307,8 @@
 
     const cfg = PERSONA_CONFIGS[currentPersona];
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = cfg.rate;
-    utterance.pitch = cfg.pitch;
+    utterance.rate = customVoiceSettings?.rate || cfg.rate;
+    utterance.pitch = customVoiceSettings?.pitch || cfg.pitch;
     if (selectedVoice) utterance.voice = selectedVoice;
 
     utterance.onstart = () => {
@@ -316,6 +349,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: text,
+          persona: cfg.key,
           history: conversationHistory.slice(-4)
         })
       });
