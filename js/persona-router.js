@@ -1,7 +1,7 @@
 /**
  * /js/persona-router.js
- * EcoSmartHomes Master Persona Switchboard with Persona Memory & Onboarding System
- * Controls dynamic persona switching, voice synthesis parameters, dynamic colour themes, and first-time onboarding
+ * EcoSmartHomes Master Persona Switchboard with Persona Memory & Halo Glow Integration
+ * Controls dynamic persona switching, voice synthesis parameters, dynamic colour themes, and re-openable welcome modal
  * Supports: Aoife (Homeowner), Eimear (Estate Agent), Declan (Installer)
  */
 
@@ -23,7 +23,7 @@
       avatar: "🏡",
       avatarBg: "#10b981",
       accentColor: "#34f5c5",
-      glowColor: "rgba(52, 245, 197, 0.45)",
+      glowColor: "rgba(30, 143, 75, 0.6)",
       launcherText: "🎙️ Ask Aoife (Voice AI)",
       greeting: "Dia dhuit! I'm Aoife, your independent energy advisor.",
       systemPrompt: `
@@ -56,7 +56,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       avatar: "💼",
       avatarBg: "#f59e0b",
       accentColor: "#fbbf24",
-      glowColor: "rgba(251, 191, 36, 0.45)",
+      glowColor: "rgba(242, 201, 76, 0.6)",
       launcherText: "🎙️ Ask Eimear (Real Estate AI)",
       greeting: "Hello, I’m Eimear — your energy advisor for property listings.",
       systemPrompt: `
@@ -90,7 +90,7 @@ Ground all advice in Irish standards: DEAP 4.2.2, SR54:2024, and SEAI May 2026 g
       avatar: "⚡",
       avatarBg: "#38bdf8",
       accentColor: "#38bdf8",
-      glowColor: "rgba(56, 189, 248, 0.45)",
+      glowColor: "rgba(0, 180, 255, 0.6)",
       launcherText: "🎙️ Ask Declan (Installer AI)",
       greeting: "How’s it going? I’m Declan — here to help with sizing and SR50 checks.",
       systemPrompt: `
@@ -120,9 +120,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
   window.AGPersonas = AGPersonas;
 
-  // ===============================
-  // Dynamic Colour Theming Engine
-  // ===============================
+  // Dynamic Theming
   function applyPersonaTheme(persona) {
     if (!persona) return;
     document.documentElement.style.setProperty('--persona-accent', persona.accentColor);
@@ -151,9 +149,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     waves.forEach(w => w.style.borderColor = persona.accentColor);
   }
 
-  // ===============================
-  // Persona Memory System
-  // ===============================
+  // Save Persona
   window.AG.savePersona = function(personaName) {
     try {
       localStorage.setItem("ESH_lastPersona", personaName);
@@ -162,6 +158,9 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
+  // ===============================
+  // Persona Memory + Halo Glow Integration
+  // ===============================
   window.AG.loadSavedPersona = function() {
     try {
       const params = new URLSearchParams(window.location.search);
@@ -183,7 +182,26 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
       const saved = localStorage.getItem("ESH_lastPersona");
       if (saved && AGPersonas[saved.toLowerCase()]) {
-        window.AG.setVoicePersona(saved.toLowerCase(), false);
+        const canonicalKey = AGPersonas[saved.toLowerCase()].key;
+        window.AG.setVoicePersona(canonicalKey, false);
+
+        // Highlight the saved card
+        const card = document.querySelector(`[data-persona="${canonicalKey}"]`);
+        if (card) {
+          document.querySelectorAll('.persona-card, .esh-onboarding-card').forEach(c => c.classList.remove('active-halo'));
+          card.classList.add("active-halo");
+          card.querySelector(".persona-badge")?.classList.add("visible");
+          const primaryBtn = card.querySelector(".primary-action");
+          if (primaryBtn) {
+            primaryBtn.textContent = `Continue with ${AGPersonas[canonicalKey].name} →`;
+          }
+        }
+
+        // Update subtitle dynamically
+        const subtitle = document.querySelector(".persona-subtitle");
+        if (subtitle) {
+          subtitle.textContent = `You previously explored with ${AGPersonas[canonicalKey].name}. Select below to continue or switch your advisor:`;
+        }
       } else {
         window.AG.setVoicePersona("aoife", false);
         checkFirstTimeOnboarding();
@@ -193,15 +211,12 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // ===============================
-  // Persona Activation Function
-  // ===============================
+  // Set Voice Persona
   window.AG.setVoicePersona = function(personaName, autoSpeak = false) {
     const key = (personaName || 'aoife').toLowerCase();
     const persona = AGPersonas[key] || AGPersonas.aoife;
 
     window.AG.currentPersona = persona;
-
     applyPersonaTheme(persona);
 
     if (typeof window.AG.setVoiceSettings === 'function') {
@@ -227,9 +242,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     window.AG.savePersona(persona.key);
   };
 
-  // ===============================
-  // First-Time & Re-Openable Persona Welcome Modal (with Memory Highlight)
-  // ===============================
+  // First Time Check
   function checkFirstTimeOnboarding() {
     try {
       const hasSeen = localStorage.getItem("ESH_hasSeenOnboarding");
@@ -240,149 +253,138 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     } catch (e) {}
   }
 
+  // Re-Openable Persona Picker Modal
   window.openPersonaPickerModal = function() {
-    if (document.getElementById('esh-persona-onboarding-modal')) return;
+    let modal = document.querySelector("#personaModal");
+    if (!modal) {
+      injectPersonaModalDOM();
+      modal = document.querySelector("#personaModal");
+    }
+    if (modal) {
+      modal.classList.add("open");
+      modal.style.display = "flex";
+      // Refresh memory highlight state
+      window.AG.loadSavedPersona();
+    }
+  };
 
-    const savedPersona = (localStorage.getItem("ESH_lastPersona") || '').toLowerCase();
-    const isAoifeSaved = savedPersona === 'aoife' || savedPersona === 'homeowner';
-    const isEimearSaved = savedPersona === 'eimear' || savedPersona === 'agent';
-    const isDeclanSaved = savedPersona === 'declan' || savedPersona === 'installer';
-    const hasAnySaved = isAoifeSaved || isEimearSaved || isDeclanSaved;
+  window.dismissPersonaModal = function(personaKey) {
+    try {
+      localStorage.setItem("ESH_hasSeenOnboarding", "true");
+    } catch (e) {}
 
-    const rememberedName = isAoifeSaved ? 'Aoife' : isEimearSaved ? 'Eimear' : isDeclanSaved ? 'Declan' : 'Aoife';
+    const modal = document.querySelector("#personaModal");
+    if (modal) {
+      modal.classList.remove("open");
+      modal.style.display = "none";
+    }
+
+    if (personaKey) {
+      window.AG.setVoicePersona(personaKey, false);
+      if (typeof window.setPersona === 'function') {
+        const mapping = { aoife: 'homeowner', eimear: 'agent', declan: 'installer' };
+        window.setPersona(mapping[personaKey] || 'homeowner');
+      }
+    }
+  };
+
+  // Inject Re-Usable Modal Structure
+  function injectPersonaModalDOM() {
+    if (document.getElementById('personaModal')) return;
 
     const modal = document.createElement('div');
-    modal.id = 'esh-persona-onboarding-modal';
+    modal.id = 'personaModal';
+    modal.className = 'persona-modal-overlay';
     modal.style.cssText = `
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 18, 13, 0.88);
       backdrop-filter: blur(16px);
       z-index: 99999;
-      display: flex; align-items: center; justify-content: center;
+      display: none; align-items: center; justify-content: center;
       padding: 20px;
       animation: eshFadeIn 0.3s ease-out forwards;
     `;
 
     modal.innerHTML = `
-      <style>
-        @keyframes eshFadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
-        @keyframes rememberedPulse { 0%, 100% { transform: translateY(0); box-shadow: 0 0 20px rgba(52, 245, 197, 0.3); } 50% { transform: translateY(-3px); box-shadow: 0 0 35px rgba(52, 245, 197, 0.6); } }
-        .esh-onboarding-card {
-          background: #00241b; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 22px 18px;
-          cursor: pointer; transition: all 0.25s ease; text-align: left; display: flex; flex-direction: column; justify-content: space-between;
-          position: relative;
-        }
-        .esh-onboarding-card:hover {
-          transform: translateY(-4px); box-shadow: 0 14px 35px rgba(0,0,0,0.6);
-        }
-        .card-homeowner:hover { border-color: #34f5c5; box-shadow: 0 0 28px rgba(52,245,197,0.3); }
-        .card-agent:hover { border-color: #fbbf24; box-shadow: 0 0 28px rgba(251,191,36,0.3); }
-        .card-installer:hover { border-color: #38bdf8; box-shadow: 0 0 28px rgba(56,189,248,0.3); }
-        
-        .is-remembered-card {
-          border-width: 2px !important;
-          animation: rememberedPulse 2.4s infinite ease-in-out;
-        }
-        .card-homeowner.is-remembered-card { border-color: #34f5c5 !important; }
-        .card-agent.is-remembered-card { border-color: #fbbf24 !important; }
-        .card-installer.is-remembered-card { border-color: #38bdf8 !important; }
-      </style>
       <div style="background: #001f17; border: 1.5px solid rgba(52, 245, 197, 0.35); border-radius: 28px; max-width: 880px; width: 100%; padding: clamp(24px, 4vw, 40px); box-shadow: 0 25px 60px rgba(0,0,0,0.8); text-align: center; position: relative;">
-        <button onclick="dismissOnboarding('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">✕</button>
+        <button onclick="dismissPersonaModal('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">✕</button>
         
         <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px;">
-          ${hasAnySaved ? `✨ Welcome back to EcoSmartHomes Ireland` : `Welcome to EcoSmartHomes Ireland`}
+          Welcome to EcoSmartHomes Ireland
         </div>
         <h2 style="color: #ffffff; font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 900; margin: 0 0 10px 0;">
           Who are you exploring for today?
         </h2>
-        <p style="color: #cbd5e1; font-size: 0.95rem; max-width: 620px; margin: 0 auto 28px auto; line-height: 1.5;">
-          ${hasAnySaved ? `You previously explored with <strong>${rememberedName}</strong>. Select below to continue or switch your advisor:` : `Select your role to personalize your tools and activate your dedicated 100% conflict-free Irish AI Energy Advisor.`}
+        <p class="persona-subtitle" style="color: #cbd5e1; font-size: 0.95rem; max-width: 620px; margin: 0 auto 28px auto; line-height: 1.5;">
+          Select your role to personalize your tools and activate your dedicated 100% conflict-free Irish AI Energy Advisor.
         </p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px;">
           
           <!-- Homeowner (Aoife) -->
-          <div class="esh-onboarding-card card-homeowner ${isAoifeSaved ? 'is-remembered-card' : ''}" data-persona="aoife" onclick="dismissOnboarding('aoife')">
+          <div class="persona-card esh-onboarding-card card-homeowner" data-persona="aoife" onclick="dismissPersonaModal('aoife')">
             <div>
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                 <span style="font-size: 2rem;">🏡</span>
                 <span style="background: rgba(52,245,197,0.15); color: #34f5c5; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Aoife</span>
               </div>
-              ${isAoifeSaved ? `<div style="display: inline-flex; align-items: center; gap: 4px; background: rgba(52,245,197,0.2); color: #34f5c5; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px;">✨ Last Selected Advisor</div>` : ''}
-              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 0 0 6px 0;">Homeowner</h3>
+              <span class="persona-badge">✨ Last Selected Advisor</span>
+              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Homeowner</h3>
               <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
                 Lower heating bills, size radiators, and claim up to €35,000 in SEAI retrofit grants.
               </p>
             </div>
-            <div style="margin-top: 16px; font-size: 0.82rem; color: #34f5c5; font-weight: 800;">
-              ${isAoifeSaved ? `Continue with Aoife →` : `Select Homeowner →`}
+            <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #34f5c5; font-weight: 800;">
+              Select Homeowner →
             </div>
           </div>
 
           <!-- Estate Agent (Eimear) -->
-          <div class="esh-onboarding-card card-agent ${isEimearSaved ? 'is-remembered-card' : ''}" data-persona="eimear" onclick="dismissOnboarding('eimear')">
+          <div class="persona-card esh-onboarding-card card-agent" data-persona="eimear" onclick="dismissPersonaModal('eimear')">
             <div>
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                 <span style="font-size: 2rem;">💼</span>
                 <span style="background: rgba(251,191,36,0.15); color: #fbbf24; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Eimear</span>
               </div>
-              ${isEimearSaved ? `<div style="display: inline-flex; align-items: center; gap: 4px; background: rgba(251,191,36,0.2); color: #fbbf24; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px;">✨ Last Selected Advisor</div>` : ''}
-              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 0 0 6px 0;">Estate Agent / Valuer</h3>
+              <span class="persona-badge">✨ Last Selected Advisor</span>
+              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Estate Agent / Valuer</h3>
               <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
                 Explain BER uplift, unlock +€38k valuation equity surge, and highlight 3.45% green mortgages.
               </p>
             </div>
-            <div style="margin-top: 16px; font-size: 0.82rem; color: #fbbf24; font-weight: 800;">
-              ${isEimearSaved ? `Continue with Eimear →` : `Select Estate Agent →`}
+            <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #fbbf24; font-weight: 800;">
+              Select Estate Agent →
             </div>
           </div>
 
           <!-- Installer (Declan) -->
-          <div class="esh-onboarding-card card-installer ${isDeclanSaved ? 'is-remembered-card' : ''}" data-persona="declan" onclick="dismissOnboarding('declan')">
+          <div class="persona-card esh-onboarding-card card-installer" data-persona="declan" onclick="dismissPersonaModal('declan')">
             <div>
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                 <span style="font-size: 2rem;">⚡</span>
                 <span style="background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Declan</span>
               </div>
-              ${isDeclanSaved ? `<div style="display: inline-flex; align-items: center; gap: 4px; background: rgba(56,189,248,0.2); color: #38bdf8; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px;">✨ Last Selected Advisor</div>` : ''}
-              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 0 0 6px 0;">Installer / Trades</h3>
+              <span class="persona-badge">✨ Last Selected Advisor</span>
+              <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Installer / Trades</h3>
               <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
                 NSAI SR50 low-temperature radiator sizing, heat loss formulas, and €49 digital data packs.
               </p>
             </div>
-            <div style="margin-top: 16px; font-size: 0.82rem; color: #38bdf8; font-weight: 800;">
-              ${isDeclanSaved ? `Continue with Declan →` : `Select Installer →`}
+            <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #38bdf8; font-weight: 800;">
+              Select Installer →
             </div>
           </div>
 
         </div>
 
-        <button onclick="dismissOnboarding('')" style="background: none; border: none; color: #64748b; font-size: 0.82rem; cursor: pointer; text-decoration: underline;">
+        <button onclick="dismissPersonaModal('')" style="background: none; border: none; color: #64748b; font-size: 0.82rem; cursor: pointer; text-decoration: underline;">
           Explore all tools without selecting a role
         </button>
       </div>
     `;
 
     document.body.appendChild(modal);
-  };
-
-  window.dismissOnboarding = function(personaKey) {
-    try {
-      localStorage.setItem("ESH_hasSeenOnboarding", "true");
-    } catch (e) {}
-
-    const modal = document.getElementById('esh-persona-onboarding-modal');
-    if (modal) modal.remove();
-
-    if (personaKey) {
-      window.AG.setVoicePersona(personaKey, false);
-      if (typeof window.setPersona === 'function') {
-        const personaMapping = { aoife: 'homeowner', eimear: 'agent', declan: 'installer' };
-        window.setPersona(personaMapping[personaKey] || 'homeowner');
-      }
-    }
-  };
+  }
 
   // Click Router Helper
   window.AG.onClick = function(elementId, handler) {
