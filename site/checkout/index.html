@@ -11,8 +11,8 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Joe's €49 Independent Retrofit Survey | EcoSmartHomes Ireland</title>
-  <meta name="description" content="Book a 100% conflict-free home energy survey with Joe for €49. Get an itemized SEAI grant roadmap, heat loss calculations, and quote audit.">
+  <title>Reserve Independent Advisory & Engineering Package | EcoSmartHomes Ireland</title>
+  <meta name="description" content="Book your 100% conflict-free home energy survey, retrofit masterplan, or digital installer pack. 32-county Irish coverage.">
   <link rel="canonical" href="https://www.ecosmarthomes.ie/checkout/">
   
   <!-- Fonts -->
@@ -26,9 +26,6 @@
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/whatsapp-widget.css">
   <link rel="stylesheet" href="/css/smart-nav.css">
-  
-  <!-- Stripe JS SDK -->
-  <script src="https://js.stripe.com/v3/"></script>
 
   <style>
     :root {
@@ -82,103 +79,164 @@
       align-items: center;
       gap: 16px;
     }
-    .checkout-card {
+    .checkout-card-premium {
       background: var(--bg-card);
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(52, 245, 197, 0.35);
       border-radius: 20px;
-      padding: 36px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.55);
+      padding: 32px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(52, 245, 197, 0.15);
     }
     .input-field {
       width: 100%;
-      padding: 12px 14px;
       background: #001711;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      border-radius: 8px;
-      color: #ffffff;
-      font-size: 0.95rem;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
       box-sizing: border-box;
-      transition: border-color 0.2s;
     }
     .input-field:focus {
-      outline: none;
-      border-color: #34f5c5;
-      box-shadow: 0 0 10px rgba(52,245,197,0.3);
+      border-color: var(--color-mint);
+      box-shadow: 0 0 10px rgba(52, 245, 197, 0.3);
+    }
+    .btn-pay-amber-block {
+      width: 100%;
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      color: #001711;
+      font-size: 1.05rem;
+      font-weight: 900;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-pay-amber-block:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.6);
+      filter: brightness(1.05);
     }
     .trust-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
+      background: rgba(52, 245, 197, 0.1);
+      border: 1px solid rgba(52, 245, 197, 0.3);
       color: #34f5c5;
-      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .tier-pill-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .tier-pill-btn {
+      flex: 1;
+      min-width: 120px;
+      background: rgba(0, 23, 17, 0.7);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+      cursor: pointer;
+      color: #cbd5e1;
+      font-size: 0.78rem;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .tier-pill-btn.active {
+      background: rgba(52, 245, 197, 0.15);
+      border-color: var(--color-mint);
+      color: var(--color-mint);
+      box-shadow: 0 0 12px rgba(52, 245, 197, 0.25);
     }
   </style>
 </head>
+
 <body>
 
-<div id="mobile-checkout-wrapper">
-
-  <!-- Desktop Header Top Bar -->
+  <!-- Top Notification & Telemetry Bar -->
   <div class="top-bar-custom">
     <div class="top-bar-inner">
-      <div>🇮🇪 100% Conflict-Free Engineering Advisory · SEAI & NSAI SR50-2 Compliant</div>
-      <div>🔒 256-Bit Encrypted Stripe Gateway</div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: #34f5c5;">●</span>
+        <span><strong>100% Conflict-Free Engineering:</strong> Zero contractor kickbacks · Independent advisory only.</span>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: center;">
+        <span>📞 <a href="tel:0834493934" style="color: #cbd5e1; text-decoration: none; font-weight: 700;">083 449 3934</a></span>
+        <span>Mon–Fri 09:00–17:00</span>
+      </div>
     </div>
   </div>
 
-  <!-- Navigation Bar -->
+  <!-- Header Navigation -->
   <header class="main-nav-bar">
     <div class="nav-inner">
-      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; font-weight: 900; font-size: 1.25rem;">
-        <span style="font-size: 1.4rem;">🏡</span> EcoSmartHomes
+      <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
+        <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong>
       </a>
-      <div style="display: flex; align-items: center; gap: 12px;">
+
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <a href="/pricing/" style="color: var(--color-mint); text-decoration: none; font-size: 0.85rem; font-weight: 700;">🏷️ View All Pricing Tiers</a>
         <a href="/" style="color: #94a3b8; text-decoration: none; font-size: 0.85rem; font-weight: 600;">← Back to Home</a>
-        <a href="tel:+353899590537" style="color: #34f5c5; text-decoration: none; font-size: 0.85rem; font-weight: 700;">📞 089 959 0537</a>
       </div>
     </div>
   </header>
 
   <!-- Checkout Container -->
-  <main style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
+  <main style="max-width: 1150px; margin: 40px auto 80px auto; padding: 0 20px;">
     
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 36px; align-items: start;">
       
-      <!-- Left Column: What Homeowner Gets (Full Desktop & Mobile Parity) -->
+      <!-- Left Column: What Homeowner Gets -->
       <div>
         <div style="margin-bottom: 20px;">
           <div class="trust-badge">⭐ 100% Independent · Zero Contractor Commission</div>
-          <h1 style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 900; color: #fff; margin: 12px 0 10px 0; line-height: 1.2;">
-            Book Your €49 Independent Retrofit Engineering Survey
+          <h1 id="tier-display-title" style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 900; color: #fff; margin: 12px 0 10px 0; line-height: 1.2;">
+            Book Your Home Energy Diagnostic Survey
           </h1>
-          <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">
+          <p id="tier-display-desc" style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">
             Before you spend €25,000+ on heat pumps or insulation, have Joe perform a conflict-free room-by-room heat loss assessment and SEAI grant audit.
           </p>
         </div>
 
+        <!-- Dynamic Deliverables Card -->
         <div style="background: rgba(0, 36, 27, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; margin-bottom: 24px;">
-          <h3 style="margin: 0 0 16px 0; font-size: 1.1rem; color: #34f5c5; font-weight: 800;">What's Included in Your €49 Survey:</h3>
-          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: #cbd5e1;">
+          <h3 id="tier-deliverables-title" style="margin: 0 0 16px 0; font-size: 1.1rem; color: #34f5c5; font-weight: 800;">
+            What's Included in This Package:
+          </h3>
+          <ul id="tier-deliverables-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: #cbd5e1;">
             <li style="display: flex; gap: 10px;">
               <span style="color: #34f5c5; font-weight: 900;">✔</span>
-              <div><strong>NSAI SR50-2 Heat Loss Calculation:</strong> Room-by-room radiator sizing so your heat pump never runs cold.</div>
+              <div><strong>Full On-Site Inspection:</strong> Physical assessment of attic, walls, glazing, and electrical supply.</div>
             </li>
             <li style="display: flex; gap: 10px;">
               <span style="color: #34f5c5; font-weight: 900;">✔</span>
-              <div><strong>Itemized SEAI Grant Roadmap:</strong> Exact grant deductions up to €35,000 applied before contractor quotes.</div>
+              <div><strong>NSAI SR50-2 Radiator Flow Test:</strong> 45°C flow sizing check to prevent cold rooms and high bills.</div>
             </li>
             <li style="display: flex; gap: 10px;">
               <span style="color: #34f5c5; font-weight: 900;">✔</span>
-              <div><strong>Contractor Quote Speedometer Audit:</strong> We audit incoming installer quotes to eliminate buffer tank markups and rip-offs.</div>
+              <div><strong>Official 8-Band BER Roadmap (G ➔ A0):</strong> Sequence upgrades to reach NZEB standards and unlock 3.45% Green Mortgages.</div>
             </li>
             <li style="display: flex; gap: 10px;">
               <span style="color: #34f5c5; font-weight: 900;">✔</span>
-              <div><strong>3.45% Green Mortgage Roadmap:</strong> Valuation guidance to unlock lower interest rates from major Irish banks.</div>
+              <div><strong>12-Page Personalised Upgrade Dossier (PDF):</strong> Complete engineering blueprint delivered within 48 hours.</div>
             </li>
           </ul>
         </div>
@@ -186,32 +244,33 @@
         <div style="display: flex; align-items: center; gap: 14px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 14px 18px;">
           <span style="font-size: 1.6rem;">🛡️</span>
           <div style="font-size: 0.85rem; color: #fde68a;">
-            <strong>100% Money-Back Guarantee:</strong> If Joe's survey doesn't save you at least €500 on your quotes, we'll refund your €49 instantly.
+            <strong>100% Money-Back Guarantee:</strong> If our engineering advice doesn't identify at least €500 in contractor savings or grant optimizations, we'll refund your advisory fee instantly.
           </div>
         </div>
       </div>
 
-      <!-- Right Column: Single-Screen Premium Checkout Card -->
+      <!-- Right Column: Single-Screen Checkout Card -->
       <div>
-        <div class="checkout-card checkout-card-premium">
+        <div class="checkout-card-premium">
           
-          <!-- Auto-Populated Query Metadata Summary Chip -->
-          <div id="verified-location-chip" class="location-summary-chip" style="display: none;">
-            <span style="font-size: 1.1rem;">🏡</span>
-            <div>
-              <span style="font-size: 0.72rem; color: #a7f3d0; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; display: block;">Survey Location</span>
-              <strong id="chip-location-text" style="font-size: 0.95rem; color: #ffffff;">Kinsale, Co. Cork</strong>
-            </div>
-            <span class="chip-badge">✓ Verified</span>
+          <!-- Quick Tier Switcher -->
+          <label style="display: block; font-size: 0.72rem; font-weight: 800; color: #a7f3d0; text-transform: uppercase; margin-bottom: 8px; font-family: 'IBM Plex Mono', monospace;">
+            Select Advisory Package:
+          </label>
+          <div class="tier-pill-selector">
+            <button type="button" class="tier-pill-btn active" id="pill-survey" onclick="switchTier('survey')">🏡 On-Site Survey<br><strong style="color:#f59e0b;">€149</strong></button>
+            <button type="button" class="tier-pill-btn" id="pill-masterplan" onclick="switchTier('masterplan')">🧭 Masterplan<br><strong style="color:#f59e0b;">€299</strong></button>
+            <button type="button" class="tier-pill-btn" id="pill-tender" onclick="switchTier('tender')">📐 Tender Pack<br><strong style="color:#f59e0b;">€199</strong></button>
+            <button type="button" class="tier-pill-btn" id="pill-installer" onclick="switchTier('installer')">📦 Digital Pack<br><strong style="color:#f59e0b;">€49</strong></button>
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px;">
             <div>
-              <h2 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #fff;">Order Summary</h2>
-              <div style="font-size: 0.8rem; color: #94a3b8;">Independent Engineering Advisory</div>
+              <h2 id="order-package-name" style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #fff;">Home Energy Survey</h2>
+              <div id="order-package-sub" style="font-size: 0.8rem; color: #94a3b8;">Full On-Site Engineering Assessment</div>
             </div>
             <div style="text-align: right;">
-              <div style="font-size: 1.7rem; font-weight: 900; color: #f59e0b; font-family: 'IBM Plex Mono', monospace;">€49.00</div>
+              <div id="order-price-display" style="font-size: 1.8rem; font-weight: 900; color: #f59e0b; font-family: 'IBM Plex Mono', monospace;">€149.00</div>
               <div style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase;">Inc. VAT · Flat Fee</div>
             </div>
           </div>
@@ -252,7 +311,7 @@
                 <label for="cust-archetype" style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;">
                   Property Type
                 </label>
-                <select id="cust-archetype" class="input-field" style="appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%2334f5c5\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 10px center;">
+                <select id="cust-archetype" class="input-field">
                   <option value="3-Bed Semi-Detached (115m²)">3-Bed Semi-Detached (115m²)</option>
                   <option value="4-Bed Detached (175m²)">4-Bed Detached (175m²)</option>
                   <option value="3-Bed Bungalow (130m²)">3-Bed Bungalow (130m²)</option>
@@ -262,34 +321,20 @@
               </div>
             </div>
 
-            <!-- Stripe Card Elements Mount Point Styled in Night Theme -->
-            <div id="stripe-card-element-container" style="margin-bottom: 20px;">
-              <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em;">
-                Payment Method (256-Bit Encrypted)
-              </label>
-              <div id="card-element" style="background: #0a221a; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 14px;">
-                <div style="font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 8px;">
-                  <span>💳</span> Powered by Stripe Secure Checkout
-                </div>
-              </div>
-              <div id="card-errors" role="alert" style="color: #ef4444; font-size: 0.8rem; margin-top: 6px;"></div>
-            </div>
-
             <!-- Full-Width Solid Amber CTA Block Button -->
             <button type="submit" id="btn-submit-order" class="btn-pay-amber-block">
-              <span>⭐ Pay €49 & Book Independent Survey →</span>
+              <span id="btn-submit-label">⭐ Pay €149 & Book On-Site Survey →</span>
             </button>
 
-            <div id="checkout-msg" style="margin-top: 14px; font-size: 0.85rem; text-align: center; display: none;"></div>
+            <div id="checkout-msg" style="display: none; margin-top: 14px; text-align: center; font-size: 0.88rem; font-weight: 700;"></div>
 
-            <div style="margin-top: 18px; display: flex; justify-content: center; align-items: center; gap: 16px; font-size: 0.75rem; color: #94a3b8;">
-              <span>🔒 SSL Encrypted</span>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 16px; font-size: 0.75rem; color: #94a3b8;">
+              <span>🔒 256-Bit SSL Encrypted</span>
               <span>•</span>
-              <span>⚡ Instant Receipt</span>
+              <span>💳 Powered by Stripe Gateway</span>
               <span>•</span>
-              <span>🛡️ Conflict-Free</span>
+              <span>🛡️ 100% Conflict-Free</span>
             </div>
-
           </form>
 
         </div>
@@ -299,129 +344,205 @@
 
   </main>
 
-</div>
+  <!-- Footer -->
+  <footer style="background: #00120d; border-top: 1px solid rgba(255,255,255,0.08); padding: 40px 20px 20px; font-size: 0.85rem; color: #64748b; text-align: center;">
+    <p style="color: #fff; font-weight: 700; margin-bottom: 6px;">EcoSmartHomes Ireland · Independent Retrofit Engineering</p>
+    <p>© 2026 EcoSmartHomes.ie · Phone: 083 449 3934 · 12 Butterfield Avenue, Limerick</p>
+  </footer>
 
-<script>
-  // Stripe Elements Dark 'Night' Theme Configuration Block
-  const stripeAppearance = {
-    theme: 'night',
-    variables: {
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-      colorPrimary: '#f59e0b',          // Matches Solid Irish Amber CTA
-      colorBackground: '#0a221a',       // Deep surface background match
-      colorText: '#ffffff',
-      colorDanger: '#ef4444',
-      borderRadius: '12px',
-    },
-  };
-
-  // Auto-populate form from URL Search Parameters (e.g. ?county=cork&town=kinsale&archetype=detached)
-  window.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const county = params.get('county') || params.get('location') || '';
-    const town = params.get('town') || '';
-    const archetype = params.get('archetype') || '';
-
-    const eircodeInput = document.getElementById('cust-eircode');
-    const archSelect = document.getElementById('cust-archetype');
-    const chipContainer = document.getElementById('verified-location-chip');
-    const chipText = document.getElementById('chip-location-text');
-
-    if (town || county) {
-      const locString = town && county 
-        ? `${town.charAt(0).toUpperCase() + town.slice(1)}, Co. ${county.charAt(0).toUpperCase() + county.slice(1)}` 
-        : (town || county);
-
-      if (eircodeInput) {
-        eircodeInput.value = locString;
-        eircodeInput.style.borderColor = '#34f5c5';
-      }
-
-      if (chipContainer && chipText) {
-        chipText.innerText = locString;
-        chipContainer.style.display = 'flex';
-      }
-    }
-
-    if (archSelect && archetype) {
-      for (let option of archSelect.options) {
-        if (option.value.toLowerCase().includes(archetype.toLowerCase())) {
-          archSelect.value = option.value;
-          break;
-        }
-      }
-    }
-  });
-
-  async function handleFormSubmit(event) {
-    event.preventDefault();
-    const btn = document.getElementById('btn-submit-order');
-    const msg = document.getElementById('checkout-msg');
-    
-    btn.disabled = true;
-    btn.innerHTML = '<span>⏳ Connecting to Stripe Secure Gateway...</span>';
-    msg.style.display = 'none';
-
-    const payload = {
-      customer: {
-        full_name: document.getElementById('cust-name').value.trim(),
-        email: document.getElementById('cust-email').value.trim(),
-        phone_number: document.getElementById('cust-phone').value.trim(),
-        county: document.getElementById('cust-eircode').value.trim()
+  <script>
+    const TIERS = {
+      'survey': {
+        title: 'Book Your Home Energy Diagnostic Survey',
+        desc: 'Before you spend €25,000+ on heat pumps or insulation, have Joe perform a conflict-free room-by-room heat loss assessment and SEAI grant audit.',
+        orderName: 'Home Energy Survey (On-Site)',
+        sub: 'Full On-Site Engineering Assessment (32 Counties)',
+        priceStr: '€149.00',
+        btnText: '⭐ Pay €149 & Book On-Site Survey →',
+        deliverables: [
+          '<strong>Full On-Site Inspection:</strong> Physical assessment of attic, walls, glazing, and electrical supply.',
+          '<strong>NSAI SR50-2 Radiator Flow Test:</strong> 45°C flow sizing check to prevent cold rooms and high bills.',
+          '<strong>Official 8-Band BER Roadmap (G ➔ A0):</strong> Sequence upgrades to reach NZEB standards and unlock 3.45% Green Mortgages.',
+          '<strong>12-Page Personalised Upgrade Dossier (PDF):</strong> Complete engineering blueprint delivered within 48 hours.'
+        ]
       },
-      property_profile: {
-        archetype: document.getElementById('cust-archetype').value,
-        ber_start: 'D1'
+      'masterplan': {
+        title: 'Book Your Full Retrofit Masterplan',
+        desc: 'For homeowners planning deep, multi-measure upgrades (Heat Pump + Solar + External Insulation + Battery). Complete RFP tender pack included.',
+        orderName: 'Full Retrofit Masterplan',
+        sub: 'Deep Retrofit Engineering + Contractor RFP',
+        priceStr: '€299.00',
+        btnText: '⭐ Pay €299 & Book Masterplan →',
+        deliverables: [
+          '<strong>Everything in the €149 On-Site Survey:</strong> Full thermal scan, HLI calculation, and BER uplift roadmap.',
+          '<strong>Solar PV Geocoding & Battery Arbitrage:</strong> Roof pitch modeling, CEG 24c/kWh export yield, and day/night tariff optimization.',
+          '<strong>Contractor Tender Pack (RFP):</strong> 10/40/50 milestone payment protections and low-temperature radiator specs.',
+          '<strong>Quote Red-Lining Service:</strong> Independent audit of installer quotes to catch oversizing and markups.',
+          '<strong>20-Page Complete Retrofit Masterplan (PDF):</strong> Turnkey dossier ready for banks and contractors.'
+        ]
       },
-      financials: {
-        annual_heating_bill: 3500,
-        estimated_savings: 2850,
-        eligible_grants: 22500
+      'tender': {
+        title: 'Order Heat Pump Compliance & Tender Pack',
+        desc: 'For homeowners actively speaking with installers who need independent engineering verification and milestone payment protections before signing.',
+        orderName: 'Heat Pump Compliance & Tender Pack',
+        sub: 'Independent Quote Audit & Contractor RFP',
+        priceStr: '€199.00',
+        btnText: '⭐ Pay €199 & Order Tender Pack →',
+        deliverables: [
+          '<strong>Radiator Sizing Verification:</strong> 45°C low-flow compliance calculations for heat pump readiness.',
+          '<strong>SR50-2 Grant Eligibility Sign-Off:</strong> Verified HLI ≤ 2.0 calculations for SEAI approval.',
+          '<strong>Installer Quote Red-Lining:</strong> Eliminates buffer tank markups and oversized heat pumps.',
+          '<strong>Milestone Contract Template:</strong> 10% deposit / 40% mid / 50% test completion protection.'
+        ]
+      },
+      'installer': {
+        title: 'Order Installer Radiator & Heat Loss Pack',
+        desc: 'Digital-only deliverable. Upload photos and room dimensions to receive SR50-2 heat loss & radiator delta-T50 tables within 24–48 hours.',
+        orderName: 'Installer Radiator & Heat Loss Pack',
+        sub: 'Digital Deliverable (24-48h Turnaround)',
+        priceStr: '€49.00',
+        btnText: '⭐ Pay €49 & Get Installer Pack →',
+        deliverables: [
+          '<strong>Room-by-Room Heat Loss Calculations:</strong> NSAI SR50-2 compliant sizing.',
+          '<strong>Radiator Dimension & Delta-T50 Table:</strong> Quick-fit installer output spec sheet.',
+          '<strong>Flow Temperature Recommendations:</strong> 45°C and 50°C heat pump optimization.',
+          '<strong>No On-Site Visit Required:</strong> Fast digital turnaround from your uploaded photos.'
+        ]
+      },
+      'ber-report': {
+        title: 'Generate BER Upgrade Simulator Report',
+        desc: 'Instant digital projection of your official 8-band BER uplift, property value surge, and 3.45% Green Mortgage interest savings.',
+        orderName: 'BER Upgrade Simulator Report',
+        sub: 'Instant Digital PDF Download',
+        priceStr: '€29.00',
+        btnText: '⭐ Pay €29 & Generate BER Report →',
+        deliverables: [
+          '<strong>Official 8-Band BER Uplift Simulation:</strong> Step-by-step jump from G/D to A0.',
+          '<strong>+€38,000 Property Equity Surge Model:</strong> Real estate valuation impact.',
+          '<strong>3.45% Green Mortgage Roadmap:</strong> Exact monthly interest rate savings breakdown.'
+        ]
+      },
+      'solar-report': {
+        title: 'Generate Solar PV + Battery Yield Report',
+        desc: 'Instant microclimate geocoding report calculating your regional solar generation, Clean Export Guarantee (CEG) income, and battery payback.',
+        orderName: 'Solar PV + Battery Yield Report',
+        sub: 'Instant Digital PDF Download',
+        priceStr: '€29.00',
+        btnText: '⭐ Pay €29 & Generate Solar Report →',
+        deliverables: [
+          '<strong>Regional Solar Irradiance Geocoding:</strong> Local kWh/kWp microclimate yield.',
+          '<strong>Clean Export Guarantee (CEG) Income:</strong> 24c/kWh grid export model.',
+          '<strong>Battery Day/Night Arbitrage:</strong> Payback period and annual electricity bill savings.'
+        ]
       }
     };
 
-    try {
-      const response = await fetch('/api/checkout/create-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+    let currentTier = 'survey';
 
-      const data = await response.json();
+    function switchTier(tierKey) {
+      if (!TIERS[tierKey]) tierKey = 'survey';
+      currentTier = tierKey;
 
-      if (response.ok && data.url) {
-        window.location.href = data.url;
+      const t = TIERS[tierKey];
+      document.getElementById('tier-display-title').innerText = t.title;
+      document.getElementById('tier-display-desc').innerText = t.desc;
+      document.getElementById('order-package-name').innerText = t.orderName;
+      document.getElementById('order-package-sub').innerText = t.sub;
+      document.getElementById('order-price-display').innerText = t.priceStr;
+      document.getElementById('btn-submit-label').innerText = t.btnText;
+
+      const listEl = document.getElementById('tier-deliverables-list');
+      listEl.innerHTML = t.deliverables.map(item => `
+        <li style="display: flex; gap: 10px;">
+          <span style="color: #34f5c5; font-weight: 900;">✔</span>
+          <div>${item}</div>
+        </li>
+      `).join('');
+
+      document.querySelectorAll('.tier-pill-btn').forEach(btn => btn.classList.remove('active'));
+      const activePill = document.getElementById(`pill-${tierKey}`);
+      if (activePill) activePill.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const urlTier = params.get('tier');
+      if (urlTier && TIERS[urlTier]) {
+        switchTier(urlTier);
       } else {
-        console.warn('API route response:', data);
+        switchTier('survey');
+      }
+
+      const prefillTown = params.get('town');
+      const prefillCounty = params.get('county');
+      const eircodeField = document.getElementById('cust-eircode');
+      if (eircodeField && (prefillTown || prefillCounty)) {
+        eircodeField.value = [prefillTown, prefillCounty].filter(Boolean).join(', ');
+      }
+    });
+
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+      const btn = document.getElementById('btn-submit-order');
+      const msg = document.getElementById('checkout-msg');
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳ Initializing Secure Stripe Checkout...</span>';
+      msg.style.display = 'none';
+
+      const payload = {
+        tier: currentTier,
+        customer: {
+          full_name: document.getElementById('cust-name').value.trim(),
+          email: document.getElementById('cust-email').value.trim(),
+          phone_number: document.getElementById('cust-phone').value.trim(),
+          county: document.getElementById('cust-eircode').value.trim()
+        },
+        property_profile: {
+          archetype: document.getElementById('cust-archetype').value,
+          ber_start: 'D1'
+        },
+        financials: {
+          annual_heating_bill: 3500,
+          estimated_savings: 2850,
+          eligible_grants: 22500
+        }
+      };
+
+      try {
+        const response = await fetch('/api/checkout/create-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.url) {
+          window.location.href = data.url;
+        } else {
+          msg.style.display = 'block';
+          msg.style.color = '#34f5c5';
+          msg.innerHTML = `✔ Reservation details recorded. Redirecting to confirmation...`;
+          setTimeout(() => {
+            const params = new URLSearchParams(window.location.search);
+            const town = params.get('town') || '';
+            const county = params.get('county') || '';
+            window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&tier=${currentTier}&town=${town}&county=${county}&eircode=${encodeURIComponent(payload.customer.county)}&price=${encodeURIComponent(TIERS[currentTier].priceStr)}`;
+          }, 1000);
+        }
+      } catch (err) {
+        console.error('Checkout error:', err);
         msg.style.display = 'block';
         msg.style.color = '#34f5c5';
-        msg.innerHTML = `✔ Reservation details recorded. Redirecting to confirmation...`;
+        msg.innerHTML = `✔ Reservation recorded. Redirecting...`;
         setTimeout(() => {
-          const params = new URLSearchParams(window.location.search);
-          const role = params.get('role') || 'homeowner';
-          const town = params.get('town') || '';
-          const county = params.get('county') || '';
-          const archetype = encodeURIComponent(payload.property_profile.archetype);
-          window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&role=${role}&town=${town}&county=${county}&eircode=${encodeURIComponent(payload.customer.county)}&archetype=${archetype}`;
-        }, 1200);
+          window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&tier=${currentTier}&eircode=${encodeURIComponent(payload.customer.county)}&price=${encodeURIComponent(TIERS[currentTier].priceStr)}`;
+        }, 1000);
       }
-    } catch (err) {
-      console.error('Checkout error:', err);
-      msg.style.display = 'block';
-      msg.style.color = '#34f5c5';
-      msg.innerHTML = `✔ Reservation recorded. Connecting with Joe...`;
-      setTimeout(() => {
-        const params = new URLSearchParams(window.location.search);
-        const role = params.get('role') || 'homeowner';
-        const town = params.get('town') || '';
-        const county = params.get('county') || '';
-        const archetype = encodeURIComponent(payload.property_profile.archetype);
-        window.location.href = `/checkout/thank-you.html?name=${encodeURIComponent(payload.customer.full_name)}&role=${role}&town=${town}&county=${county}&eircode=${encodeURIComponent(payload.customer.county)}&archetype=${archetype}`;
-      }, 1200);
     }
-  }
-</script>
+  </script>
 
-<script src="/js/smart-nav.js" defer></script>
+  <script src="/js/smart-nav.js" defer></script>
 </body>
 </html>

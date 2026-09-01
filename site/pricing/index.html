@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Global Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-3013797648"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-3013797648', {'allow_enhanced_conversions': true});
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoSmartHomes Pricing | 100% Independent Home Energy Advisory (2026)</title>
+  <meta name="description" content="Professional pricing framework for Irish homeowners, installers, and estate agents. Conflict-free on-site energy surveys (€149), retrofit masterplans (€299), and digital engineering packs (€49).">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/pricing/">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/style.css?v=5">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  <link rel="stylesheet" href="/css/smart-nav.css">
+
+  <style>
+    :root {
+      --bg-dark: #001711;
+      --bg-card: #00241b;
+      --bg-card-light: #003628;
+      --color-mint: #34f5c5;
+      --color-emerald: #10b981;
+      --color-amber: #f59e0b;
+      --color-gold: #fbbf24;
+      --color-sky: #38bdf8;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .top-bar-custom {
+      background: #00120d;
+      color: #94a3b8;
+      padding: 7px 0;
+      font-size: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .top-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-nav-bar {
+      background: rgba(0, 36, 27, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-links-wrap {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .nav-link-item {
+      color: #cbd5e1;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.15s;
+    }
+    .nav-link-item:hover {
+      color: var(--color-mint);
+    }
+    .btn-tools-drawer-toggle {
+      background: rgba(52, 245, 197, 0.12);
+      border: 1px solid rgba(52, 245, 197, 0.35);
+      color: var(--color-mint);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-tools-drawer-toggle:hover {
+      background: var(--color-mint);
+      color: #001711;
+    }
+    .pricing-hero {
+      background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+      padding: 65px 20px 50px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .pricing-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34f5c5;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+    .pricing-tier-card {
+      background: var(--bg-card);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .pricing-tier-card:hover {
+      border-color: rgba(52, 245, 197, 0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(52, 245, 197, 0.15);
+    }
+    .pricing-tier-card.featured {
+      border-color: var(--color-mint);
+      background: radial-gradient(120% 120% at 50% 0%, #003628 0%, #00241b 100%);
+      box-shadow: 0 16px 45px rgba(0,0,0,0.6), 0 0 24px rgba(52, 245, 197, 0.2);
+    }
+    .popular-chip {
+      position: absolute;
+      top: -12px;
+      right: 24px;
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      color: #001711;
+      font-weight: 900;
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .price-value {
+      font-size: 2.8rem;
+      font-weight: 900;
+      font-family: 'IBM Plex Mono', monospace;
+      color: #ffffff;
+      line-height: 1;
+      margin: 14px 0 6px 0;
+    }
+    .price-period {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 22px 0 28px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.45;
+    }
+    .feature-list li .check-icon {
+      color: var(--color-mint);
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .btn-buy-tier {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+    .btn-buy-primary {
+      background: #f59e0b;
+      color: #001711;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);
+    }
+    .btn-buy-primary:hover {
+      background: #fbbf24;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+    }
+    .btn-buy-secondary {
+      background: rgba(255,255,255,0.08);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-buy-secondary:hover {
+      background: rgba(52, 245, 197, 0.15);
+      border-color: var(--color-mint);
+      color: var(--color-mint);
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      font-size: 0.88rem;
+    }
+    .comparison-table th {
+      background: #00241b;
+      padding: 16px;
+      text-align: left;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #ffffff;
+      font-weight: 800;
+    }
+    .comparison-table td {
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #cbd5e1;
+    }
+    .comparison-table tr:nth-child(even) td {
+      background: rgba(0, 36, 27, 0.4);
+    }
+    .faq-accordion-box {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 14px;
+    }
+    .faq-q-title {
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 1.05rem;
+      margin: 0 0 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .faq-a-body {
+      color: #94a3b8;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Notification & Telemetry Bar -->
+  <div class="top-bar-custom">
+    <div class="top-bar-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: #34f5c5;">●</span>
+        <span><strong>100% Conflict-Free Engineering:</strong> Zero contractor kickbacks · Zero equipment sales · Independent advisory only.</span>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: center;">
+        <span>📞 <a href="tel:0834493934" style="color: #cbd5e1; text-decoration: none; font-weight: 700;">083 449 3934</a></span>
+        <span>Mon–Fri 09:00–17:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="main-nav-bar">
+    <div class="nav-inner">
+      <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
+        <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong>
+      </a>
+
+      <nav class="nav-links-wrap" aria-label="Main Navigation">
+        <a href="/" class="nav-link-item">Home</a>
+        <a href="/pricing/" class="nav-link-item" style="color: var(--color-mint);">🏷️ Pricing</a>
+        <a href="/carbon-tax/" class="nav-link-item">🔥 Carbon Tax Ticker</a>
+        <a href="/solar/" class="nav-link-item">☀️ Solar PV Simulator</a>
+        <a href="/ber-matrix/" class="nav-link-item">🏡 8-Band BER Matrix</a>
+        <a href="/wrap-simulator/" class="nav-link-item">🧱 Wall Wrap Simulator</a>
+        <a href="/locations/" class="nav-link-item">📍 Town Directory</a>
+        <a href="/articles/" class="nav-link-item">📚 Knowledgebase</a>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
+        <a href="/checkout/?tier=survey&price=149" class="btn-primary" style="background: #f59e0b; color: #001711; font-weight: 800; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.82rem; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);">Book Survey (€149)</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pricing Hero Banner -->
+  <section class="pricing-hero">
+    <div style="max-width: 960px; margin: 0 auto;">
+      <div class="pricing-badge">
+        <span>⭐</span> 100% Conflict-Free Engineering Advisory
+      </div>
+      
+      <h1 style="font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 900; line-height: 1.15; margin: 0 0 18px 0; letter-spacing: -0.03em;">
+        Transparent, Professional Pricing for Irish Retrofits
+      </h1>
+
+      <p style="font-size: clamp(1rem, 2vw, 1.2rem); color: #cbd5e1; max-width: 780px; margin: 0 auto 30px auto; line-height: 1.6;">
+        Rising Irish carbon and fuel taxes are locked in through 2030. We provide independent on-site engineering diagnostics and digital data packs so you never overpay installers or buy undersized heat pumps.
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+        <a href="#homeowner-onsite" class="btn-buy-tier btn-buy-primary" style="width: auto; padding: 12px 24px;">🏡 On-Site Surveys (€149–€299)</a>
+        <a href="#digital-tools" class="btn-buy-tier btn-buy-secondary" style="width: auto; padding: 12px 24px;">📦 Digital Installer Packs (€49)</a>
+        <a href="#b2b-professional" class="btn-buy-tier btn-buy-secondary" style="width: auto; padding: 12px 24px;">🧰 Estate Agent & B2B Packs (€99)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Container -->
+  <main style="max-width: 1280px; margin: 0 auto; padding: 60px 20px 100px 20px;">
+
+    <!-- ========================================== -->
+    <!-- PILLAR 1: HOMEOWNER ON-SITE SERVICES       -->
+    <!-- ========================================== -->
+    <section id="homeowner-onsite" style="margin-bottom: 80px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span style="font-size: 0.82rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">
+          Pillar 1 · In-Person Diagnostics
+        </span>
+        <h2 style="font-size: 2.2rem; font-weight: 900; margin: 8px 0 10px 0;">Homeowner On-Site Services</h2>
+        <p style="color: #94a3b8; font-size: 1.05rem; max-width: 700px; margin: 0 auto;">
+          Premium engineering assessments conducted in-person by Joe across Dublin, Cork, Limerick, and all 32 counties.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;">
+        
+        <!-- Service A: Home Energy Diagnostic Survey (€149) -->
+        <div class="pricing-tier-card featured">
+          <div class="popular-chip">Most Popular</div>
+          <div>
+            <span style="font-size: 2rem;">🔍</span>
+            <h3 style="font-size: 1.4rem; font-weight: 900; color: #fff; margin: 12px 0 6px 0;">Home Energy Diagnostic Survey</h3>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin: 0 0 18px 0; line-height: 1.5;">
+              Full on-site engineering assessment designed to slash heating bills and unlock up to €35,000 in SEAI grants.
+            </p>
+
+            <div class="price-value">€149</div>
+            <div class="price-period">Flat Fee · Inc. VAT · Full On-Site Visit</div>
+
+            <ul class="feature-list">
+              <li><span class="check-icon">✔</span> <strong>Full on-site property inspection</strong> (attic, walls, glazing, boiler)</li>
+              <li><span class="check-icon">✔</span> <strong>Radiator sizing audit</strong> (NSAI SR50-2 compliant 45°C flow test)</li>
+              <li><span class="check-icon">✔</span> <strong>Heat Loss Indicator (HLI) calculation</strong> (Target ≤ 2.0 W/K/m²)</li>
+              <li><span class="check-icon">✔</span> <strong>BER uplift roadmap</strong> on official 8-band scale (G ➔ A0)</li>
+              <li><span class="check-icon">✔</span> <strong>SEAI grant eligibility matrix</strong> & deductions applied upfront</li>
+              <li><span class="check-icon">✔</span> <strong>Carbon tax exposure projections</strong> through 2030</li>
+              <li><span class="check-icon">✔</span> <strong>12-Page Personalised Upgrade Plan (PDF)</strong></li>
+            </ul>
+          </div>
+
+          <a href="/checkout/?tier=survey&price=149" class="btn-buy-tier btn-buy-primary">Book On-Site Survey — €149 →</a>
+        </div>
+
+        <!-- Service B: Full Retrofit Masterplan (€299) -->
+        <div class="pricing-tier-card">
+          <div>
+            <span style="font-size: 2rem;">🧭</span>
+            <h3 style="font-size: 1.4rem; font-weight: 900; color: #fff; margin: 12px 0 6px 0;">Full Retrofit Masterplan</h3>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin: 0 0 18px 0; line-height: 1.5;">
+              For homeowners undertaking multi-measure deep retrofits (Heat Pump + Solar + External Insulation + Battery).
+            </p>
+
+            <div class="price-value">€299</div>
+            <div class="price-period">Complete House Package · In-Person + RFP</div>
+
+            <ul class="feature-list">
+              <li><span class="check-icon">✔</span> <strong>Everything included in the €149 survey</strong></li>
+              <li><span class="check-icon">✔</span> <strong>Solar PV yield geocoding</strong> (roof azimuth, pitch, CEG export)</li>
+              <li><span class="check-icon">✔</span> <strong>Battery arbitrage financial model</strong> (night vs peak tariff savings)</li>
+              <li><span class="check-icon">✔</span> <strong>Heat pump flow temperature optimisation</strong></li>
+              <li><span class="check-icon">✔</span> <strong>Contractor Tender Pack (RFP)</strong> with 10/40/50 milestone protections</li>
+              <li><span class="check-icon">✔</span> <strong>Quote Red-Lining Service</strong> (catch oversizing & markups)</li>
+              <li><span class="check-icon">✔</span> <strong>20-Page Complete Retrofit Masterplan (PDF)</strong></li>
+            </ul>
+          </div>
+
+          <a href="/checkout/?tier=masterplan&price=299" class="btn-buy-tier btn-buy-secondary">Book Masterplan — €299 →</a>
+        </div>
+
+        <!-- Service C: Heat Pump Compliance & Tender Pack (€199) -->
+        <div class="pricing-tier-card">
+          <div>
+            <span style="font-size: 2rem;">📐</span>
+            <h3 style="font-size: 1.4rem; font-weight: 900; color: #fff; margin: 12px 0 6px 0;">Heat Pump Compliance & Tender Pack</h3>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin: 0 0 18px 0; line-height: 1.5;">
+              For homeowners actively talking to installers who need independent engineering verification before signing contracts.
+            </p>
+
+            <div class="price-value">€199</div>
+            <div class="price-period">Tender Verification · Independent Audit</div>
+
+            <ul class="feature-list">
+              <li><span class="check-icon">✔</span> <strong>Radiator sizing verification</strong> (45°C low-flow compliance)</li>
+              <li><span class="check-icon">✔</span> <strong>NSAI SR50-2 grant eligibility sign-off</strong></li>
+              <li><span class="check-icon">✔</span> <strong>Installer quote red-lining</strong> (eliminates buffer tank markups)</li>
+              <li><span class="check-icon">✔</span> <strong>Milestone contract template</strong> (10% deposit / 40% mid / 50% test)</li>
+              <li><span class="check-icon">✔</span> <strong>SEAI grant application paperwork guidance</strong></li>
+              <li><span class="check-icon">✔</span> <strong>100% independent engineer sign-off</strong></li>
+            </ul>
+          </div>
+
+          <a href="/checkout/?tier=tender&price=199" class="btn-buy-tier btn-buy-secondary">Order Tender Pack — €199 →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PILLAR 2: DIGITAL TOOLS & INSTALLER PACKS  -->
+    <!-- ========================================== -->
+    <section id="digital-tools" style="margin-bottom: 80px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span style="font-size: 0.82rem; font-weight: 800; color: #f59e0b; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">
+          Pillar 2 · Digital Deliverables (No On-Site Visit Required)
+        </span>
+        <h2 style="font-size: 2.2rem; font-weight: 900; margin: 8px 0 10px 0;">Digital Tools & Installer Data Packs</h2>
+        <p style="color: #94a3b8; font-size: 1.05rem; max-width: 700px; margin: 0 auto;">
+          Instant data models and photo-based engineering packs for installers, remote homeowners, and estate agents.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+        
+        <!-- Digital Product A: Installer Data Pack (€49) -->
+        <div class="pricing-tier-card">
+          <div>
+            <span style="font-size: 1.8rem;">🔧</span>
+            <h3 style="font-size: 1.25rem; font-weight: 900; color: #fff; margin: 10px 0 6px 0;">Installer Radiator & Heat Loss Pack</h3>
+            <p style="color: #94a3b8; font-size: 0.82rem; margin: 0 0 14px 0;">
+              Upload room measurements + photos. We return complete SR50-2 heat loss & radiator calculations within 24–48 hours.
+            </p>
+
+            <div class="price-value" style="font-size: 2.3rem;">€49</div>
+            <div class="price-period">Digital Deliverable · 24-48h Turnaround</div>
+
+            <ul class="feature-list" style="font-size: 0.84rem;">
+              <li><span class="check-icon">✔</span> Room-by-room heat loss calculations</li>
+              <li><span class="check-icon">✔</span> Radiator dimension & delta-T50 output table</li>
+              <li><span class="check-icon">✔</span> Flow temperature recommendations (45°C/50°C)</li>
+              <li><span class="check-icon">✔</span> Quick-fit installer PDF spec sheet</li>
+            </ul>
+          </div>
+
+          <a href="/checkout/?tier=installer&price=49" class="btn-buy-tier btn-buy-primary">Upload Photos — €49 →</a>
+        </div>
+
+        <!-- Digital Product B: BER Upgrade Report (€29) -->
+        <div class="pricing-tier-card">
+          <div>
+            <span style="font-size: 1.8rem;">📊</span>
+            <h3 style="font-size: 1.25rem; font-weight: 900; color: #fff; margin: 10px 0 6px 0;">BER Upgrade Simulator Report</h3>
+            <p style="color: #94a3b8; font-size: 0.82rem; margin: 0 0 14px 0;">
+              Simulate stepping your rating from G/D to A on the official 8-band scale with property equity projections.
+            </p>
+
+            <div class="price-value" style="font-size: 2.3rem;">€29</div>
+            <div class="price-period">Instant Digital PDF Download</div>
+
+            <ul class="feature-list" style="font-size: 0.84rem;">
+              <li><span class="check-icon">✔</span> Official 8-band BER uplift model</li>
+              <li><span class="check-icon">✔</span> +€38,000 property equity surge projection</li>
+              <li><span class="check-icon">✔</span> 3.45% Green Mortgage interest savings</li>
+              <li><span class="check-icon">✔</span> SEAI grant eligibility breakdown</li>
+            </ul>
+          </div>
+
+          <a href="/checkout/?tier=ber-report&price=29" class="btn-buy-tier btn-buy-secondary">Generate BER Report — €29 →</a>
+        </div>
+
+        <!-- Digital Product C: Solar PV + Battery Report (€29) -->
+        <div class="pricing-tier-card">
+          <div>
+            <span style="font-size: 1.8rem;">☀️</span>
+            <h3 style="font-size: 1.25rem; font-weight: 900; color: #fff; margin: 10px 0 6px 0;">Solar PV + Battery Yield Report</h3>
+            <p style="color: #94a3b8; font-size: 0.82rem; margin: 0 0 14px 0;">
+              Regional Irish solar irradiance geocoding, Clean Export Guarantee (CEG) income, and battery payback.
+            </p>
+
+            <div class="price-value" style="font-size: 2.3rem;">€29</div>
+            <div class="price-period">Instant Digital PDF Download</div>
+
+            <ul class="feature-list" style="font-size: 0.84rem;">
+              <li><span class="check-icon">✔</span> Regional kWh/kWp microclimate yield</li>
+              <li><span class="check-icon">✔</span> 24c/kWh Clean Export Guarantee (CEG) income</li>
+              <li><span class="check-icon">✔</span> Day/Night rate battery arbitrage modeling</li>
+              <li><span class="check-icon">✔</span> Exact payback period & ROI timeline</li>
+            </ul>
+          </div>
+
+          <a href="/checkout/?tier=solar-report&price=29" class="btn-buy-tier btn-buy-secondary">Generate Solar Report — €29 →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PILLAR 3: PROFESSIONAL & B2B SERVICES      -->
+    <!-- ========================================== -->
+    <section id="b2b-professional" style="margin-bottom: 80px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span style="font-size: 0.82rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">
+          Pillar 3 · B2B Partnerships & Real Estate
+        </span>
+        <h2 style="font-size: 2.2rem; font-weight: 900; margin: 8px 0 10px 0;">Professional & Commercial Services</h2>
+        <p style="color: #94a3b8; font-size: 1.05rem; max-width: 700px; margin: 0 auto;">
+          Turnkey compliance, marketing roadmaps, and multi-unit audits for Irish Estate Agents, Landlords, and Property Developers.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+        
+        <!-- B2B A: Estate Agent Pack (€99) -->
+        <div class="pricing-tier-card">
+          <div>
+            <span style="font-size: 1.8rem;">🏠</span>
+            <h3 style="font-size: 1.25rem; font-weight: 900; color: #fff; margin: 10px 0 6px 0;">Estate Agent Energy Pack</h3>
+            <p style="color: #94a3b8; font-size: 0.82rem; margin: 0 0 14px 0;">
+              High-converting energy dossiers for residential property listings to accelerate sales and attract green mortgage buyers.
+            </p>
+
+            <div class="price-value" style="font-size: 2.3rem;">€99</div>
+            <div class="price-period">Per Property Listing</div>
+
+            <ul class="feature-list" style="font-size: 0.84rem;">
+              <li><span class="check-icon">✔</span> Official 8-band BER uplift simulation</li>
+              <li><span class="check-icon">✔</span> Listing-ready 2-page marketing summary</li>
+              <li><span class="check-icon">✔</span> Buyer-friendly upgrade cost vs savings roadmap</li>
+              <li><span class="check-icon">✔</span> Carbon tax escalator liability summary</li>
+            </ul>
+          </div>
+
+          <a href="/support/contact.html?topic=estate-agent" class="btn-buy-tier btn-buy-secondary">Inquire for Estate Agents →</a>
+        </div>
+
+        <!-- B2B B: Landlord Multi-Unit (€99/unit) -->
+        <div class="pricing-tier-card">
+          <div>
+            <span style="font-size: 1.8rem;">🏢</span>
+            <h3 style="font-size: 1.25rem; font-weight: 900; color: #fff; margin: 10px 0 6px 0;">Landlord Multi-Unit Survey</h3>
+            <p style="color: #94a3b8; font-size: 0.82rem; margin: 0 0 14px 0;">
+              Bulk portfolio assessments for landlords modernizing rental properties to meet EPBD minimum efficiency standards.
+            </p>
+
+            <div class="price-value" style="font-size: 2.3rem;">€99</div>
+            <div class="price-period">Per Unit (Minimum 5 Units)</div>
+
+            <ul class="feature-list" style="font-size: 0.84rem;">
+              <li><span class="check-icon">✔</span> Portfolio-wide energy grading</li>
+              <li><span class="check-icon">✔</span> Priority sequence for highest grant return</li>
+              <li><span class="check-icon">✔</span> Tenant disruption mitigation strategy</li>
+              <li><span class="check-icon">✔</span> Consolidated SEAI grant tax report</li>
+            </ul>
+          </div>
+
+          <a href="/support/contact.html?topic=landlord-portfolio" class="btn-buy-tier btn-buy-secondary">Book Multi-Unit Portfolio →</a>
+        </div>
+
+        <!-- B2B C: Developer Audit (€499) -->
+        <div class="pricing-tier-card">
+          <div>
+            <span style="font-size: 1.8rem;">🏗️</span>
+            <h3 style="font-size: 1.25rem; font-weight: 900; color: #fff; margin: 10px 0 6px 0;">Developer Pre-Retrofit Audit</h3>
+            <p style="color: #94a3b8; font-size: 0.82rem; margin: 0 0 14px 0;">
+              Exhaustive engineering audit and NZEB Part L compliance strategy for residential redevelopment projects.
+            </p>
+
+            <div class="price-value" style="font-size: 2.3rem;">€499</div>
+            <div class="price-period">Per Development Building</div>
+
+            <ul class="feature-list" style="font-size: 0.84rem;">
+              <li><span class="check-icon">✔</span> Full structural thermal bridge review</li>
+              <li><span class="check-icon">✔</span> NZEB Part L zero-emission roadmap</li>
+              <li><span class="check-icon">✔</span> Mechanical & electrical tender specifications</li>
+              <li><span class="check-icon">✔</span> Direct engineering consultation session</li>
+            </ul>
+          </div>
+
+          <a href="/support/contact.html?topic=developer-audit" class="btn-buy-tier btn-buy-secondary">Schedule Developer Audit →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- COMPARISON TABLE                           -->
+    <!-- ========================================== -->
+    <section style="margin-bottom: 80px; background: rgba(0, 36, 27, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 36px 28px;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <h2 style="font-size: 1.8rem; font-weight: 900; margin: 0 0 8px 0;">Deliverables Comparison Matrix</h2>
+        <p style="color: #94a3b8; font-size: 0.95rem; margin: 0;">Compare what is included in each EcoSmartHomes advisory package.</p>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature / Deliverable</th>
+              <th style="text-align: center;">Digital (€49)</th>
+              <th style="text-align: center; background: #003628; color: #34f5c5;">On-Site Survey (€149)</th>
+              <th style="text-align: center;">Masterplan (€299)</th>
+              <th style="text-align: center;">Tender Pack (€199)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>On-Site In-Person Visit by Joe</td>
+              <td style="text-align: center; color: #64748b;">— (Photo Upload)</td>
+              <td style="text-align: center; color: #34f5c5; font-weight: 800;">✔ Full 32 Counties</td>
+              <td style="text-align: center; color: #34f5c5; font-weight: 800;">✔ Full 32 Counties</td>
+              <td style="text-align: center; color: #34f5c5; font-weight: 800;">✔ Full 32 Counties</td>
+            </tr>
+            <tr>
+              <td>SR50-2 Radiator Heat Loss Calculations</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+            </tr>
+            <tr>
+              <td>Official 8-Band BER Uplift Roadmap (G ➔ A0)</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+            </tr>
+            <tr>
+              <td>Solar PV & Battery Arbitrage Model</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+            </tr>
+            <tr>
+              <td>Contractor Tender RFP with 10/40/50 Milestones</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+            </tr>
+            <tr>
+              <td>Quote Red-Lining & Mark-Up Elimination</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+            </tr>
+            <tr>
+              <td>3.45% Green Mortgage Valuation Document</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #34f5c5;">✔</td>
+              <td style="text-align: center; color: #64748b;">—</td>
+            </tr>
+            <tr>
+              <td>PDF Deliverable Document Length</td>
+              <td style="text-align: center;">4-Page Spec</td>
+              <td style="text-align: center; font-weight: 800; color: #ffffff;">12-Page Plan</td>
+              <td style="text-align: center; font-weight: 800; color: #34f5c5;">20-Page Dossier</td>
+              <td style="text-align: center;">10-Page RFP</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- FAQ SECTION                                -->
+    <!-- ========================================== -->
+    <section style="margin-bottom: 80px;">
+      <div style="text-align: center; margin-bottom: 36px;">
+        <span style="font-size: 0.82rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">
+          Common Questions
+        </span>
+        <h2 style="font-size: 2rem; font-weight: 900; margin: 8px 0 10px 0;">Frequently Asked Questions</h2>
+        <p style="color: #94a3b8; font-size: 0.95rem;">Straight answers about our pricing, travel, and independence.</p>
+      </div>
+
+      <div style="max-width: 860px; margin: 0 auto;">
+        
+        <div class="faq-accordion-box">
+          <h3 class="faq-q-title"><span>🛡️</span> Why are you 100% independent? Do you sell heat pumps or insulation?</h3>
+          <p class="faq-a-body">
+            We do NOT sell hardware, install equipment, or accept commissions from retrofit companies. When an installer visits your house for a "free quote", their incentive is to sell you the most expensive unit they stock. Our incentive is 100% aligned with yours: giving you conflict-free engineering calculations so you get the exact right size, avoid overpaying, and maximize SEAI grants.
+          </p>
+        </div>
+
+        <div class="faq-accordion-box">
+          <h3 class="faq-q-title"><span>📍</span> Do you travel to all 32 counties in Ireland?</h3>
+          <p class="faq-a-body">
+            Yes! We regularly conduct on-site engineering surveys across Dublin, Cork, Limerick, Galway, Waterford, Kerry, Kildare, Wicklow, and all other Irish counties. Travel across Ireland is included in our flat on-site fees.
+          </p>
+        </div>
+
+        <div class="faq-accordion-box">
+          <h3 class="faq-q-title"><span>💶</span> What is the difference between the €49 pack and the €149 survey?</h3>
+          <p class="faq-a-body">
+            The <strong>€49 Installer Pack</strong> is a digital-only deliverable: you upload photos and room dimensions, and we return calculated radiator outputs and heat loss within 24–48 hours. The <strong>€149 Home Energy Diagnostic Survey</strong> is a comprehensive, in-person on-site visit by Joe, where we perform physical thermal scans, inspect your attic and walls, check electrical supply, and create your complete 12-page SEAI grant roadmap.
+          </p>
+        </div>
+
+        <div class="faq-accordion-box">
+          <h3 class="faq-q-title"><span>🤝</span> How does the 100% Money-Back Guarantee work?</h3>
+          <p class="faq-a-body">
+            If our on-site survey and quote audit do not identify at least €500 in contractor savings or grant optimizations for your home retrofit, simply let us know and we will refund your survey fee in full. No hassle.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- FINAL CTA HERO                             -->
+    <!-- ========================================== -->
+    <section style="background: radial-gradient(120% 120% at 50% 0%, #004d38 0%, #00241b 100%); border: 2px solid var(--color-mint); border-radius: 20px; padding: 45px 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+      <h2 style="font-size: 2.2rem; font-weight: 900; margin: 0 0 12px 0; color: #fff;">
+        Ready to Protect Your Home from Rising Energy Taxes?
+      </h2>
+      <p style="color: #cbd5e1; font-size: 1.1rem; max-width: 700px; margin: 0 auto 28px auto; line-height: 1.6;">
+        Book your independent on-site survey or order a digital installer pack today. Serving all 32 counties across Ireland.
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+        <a href="/checkout/?tier=survey&price=149" class="btn-buy-tier btn-buy-primary" style="width: auto; padding: 14px 28px; font-size: 1rem;">Book On-Site Survey — €149 →</a>
+        <a href="/checkout/?tier=masterplan&price=299" class="btn-buy-tier btn-buy-secondary" style="width: auto; padding: 14px 28px; font-size: 1rem;">Book Masterplan — €299 →</a>
+        <a href="/checkout/?tier=installer&price=49" class="btn-buy-tier btn-buy-secondary" style="width: auto; padding: 14px 28px; font-size: 1rem;">Installer Pack — €49 →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: #00120d; border-top: 1px solid rgba(255,255,255,0.08); padding: 50px 20px 30px; font-size: 0.85rem; color: #64748b;">
+    <div style="max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <div style="color: #fff; font-weight: 900; font-size: 1.15rem; margin-bottom: 6px;">🏡 EcoSmart<strong style="color: #34f5c5;">Homes</strong></div>
+        <p style="margin: 0; color: #94a3b8;">100% Conflict-Free Energy Engineering & Advisory across Ireland.</p>
+      </div>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <a href="/" style="color: #cbd5e1; text-decoration: none;">Home</a>
+        <a href="/pricing/" style="color: #34f5c5; text-decoration: none; font-weight: 700;">Pricing</a>
+        <a href="/locations/" style="color: #cbd5e1; text-decoration: none;">Town Directory</a>
+        <a href="/articles/" style="color: #cbd5e1; text-decoration: none;">Knowledgebase</a>
+        <a href="/privacy-policy.html" style="color: #cbd5e1; text-decoration: none;">Privacy Policy</a>
+      </div>
+    </div>
+    <div style="max-width: 1280px; margin: 24px auto 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; color: #475569; font-size: 0.78rem;">
+      © 2026 EcoSmartHomes Ireland. All rights reserved. Registered independent energy advisory.
+    </div>
+  </footer>
+
+  <!-- Smart Nav Tools Drawer Script -->
+  <script src="/js/smart-nav.js" defer></script>
+</body>
+</html>

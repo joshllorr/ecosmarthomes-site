@@ -861,30 +861,44 @@
         <!-- Package Tier Selector -->
         <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
           
-          <!-- Option 1: Instant PDF Report (€9.99) -->
-          <label id="tier-card-dossier" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 2px solid #10b981; background: #f0fdf4; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;">
-            <input type="radio" name="checkout-tier" id="tier-dossier" value="9.99" checked style="margin-top: 3px; accent-color: #10b981; width: 17px; height: 17px;" />
+          <!-- Option 1: Instant BER Simulator Report (€29.00) -->
+          <label id="tier-card-dossier" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1.5px solid #cbd5e1; background: #ffffff; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;">
+            <input type="radio" name="checkout-tier" id="tier-dossier" value="29.00" style="margin-top: 3px; accent-color: #10b981; width: 17px; height: 17px;" />
             <div style="flex: 1;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong style="color: #003f2d; font-size: 0.94rem;">Certified 2-Page Dossier (PDF)</strong>
-                <span style="background: #10b981; color: #fff; font-weight: 800; font-size: 0.82rem; padding: 2px 7px; border-radius: 6px;">€9.99</span>
+                <strong style="color: #003f2d; font-size: 0.94rem;">Instant BER & Grant Report (PDF)</strong>
+                <span style="background: #10b981; color: #fff; font-weight: 800; font-size: 0.82rem; padding: 2px 7px; border-radius: 6px;">€29.00</span>
               </div>
               <p style="color: #047857; font-size: 0.78rem; margin: 3px 0 0 0; line-height: 1.35;">
-                Instant WhatsApp & Email PDF • May 2026 SEAI Table • <strong>100% credited</strong> toward full survey.
+                Instant WhatsApp & Email PDF • Official 8-Band SEAI Table • <strong>100% credited</strong> toward full survey.
               </p>
             </div>
           </label>
 
-          <!-- Option 2: Full Onsite Technical Survey with Joe (€49.00) -->
-          <label id="tier-card-survey" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1.5px solid #cbd5e1; background: #ffffff; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;">
-            <input type="radio" name="checkout-tier" id="tier-survey" value="49.00" style="margin-top: 3px; accent-color: #f59e0b; width: 17px; height: 17px;" />
+          <!-- Option 2: Full Onsite Technical Survey with Joe (€149.00) -->
+          <label id="tier-card-survey" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 2px solid #f59e0b; background: #fffbeb; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;">
+            <input type="radio" name="checkout-tier" id="tier-survey" value="149.00" checked style="margin-top: 3px; accent-color: #f59e0b; width: 17px; height: 17px;" />
             <div style="flex: 1;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong style="color: #00241b; font-size: 0.94rem;">In-Person Onsite Survey with Joe</strong>
-                <span style="background: #f59e0b; color: #000; font-weight: 800; font-size: 0.82rem; padding: 2px 7px; border-radius: 6px;">€49.00</span>
+                <strong style="color: #00241b; font-size: 0.94rem;">In-Person On-Site Survey with Joe</strong>
+                <span style="background: #f59e0b; color: #000; font-weight: 800; font-size: 0.82rem; padding: 2px 7px; border-radius: 6px;">€149.00</span>
               </div>
               <p style="color: #64748b; font-size: 0.78rem; margin: 3px 0 0 0; line-height: 1.35;">
-                Full room-by-room thermal scan, radiator flow test & guaranteed grant blueprint across Ireland.
+                Full 32-county on-site inspection, radiator flow test & 12-page SEAI grant roadmap across Ireland.
+              </p>
+            </div>
+          </label>
+
+          <!-- Option 3: Full House Retrofit Masterplan (€299.00) -->
+          <label id="tier-card-masterplan" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1.5px solid #cbd5e1; background: #ffffff; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;">
+            <input type="radio" name="checkout-tier" id="tier-masterplan" value="299.00" style="margin-top: 3px; accent-color: #38bdf8; width: 17px; height: 17px;" />
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="color: #00241b; font-size: 0.94rem;">Full Retrofit Masterplan + Tender RFP</strong>
+                <span style="background: #38bdf8; color: #000; font-weight: 800; font-size: 0.82rem; padding: 2px 7px; border-radius: 6px;">€299.00</span>
+              </div>
+              <p style="color: #64748b; font-size: 0.78rem; margin: 3px 0 0 0; line-height: 1.35;">
+                Deep retrofit package: Solar PV geocoding, battery arbitrage model, and 20-page contractor tender dossier.
               </p>
             </div>
           </label>

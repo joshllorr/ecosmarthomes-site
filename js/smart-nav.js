@@ -476,6 +476,13 @@
               </span>
             </button>
             <div id="accordion-panel-resources" class="drawer-accordion-panel">
+              <a href="/pricing/" class="drawer-tool-item">
+                <span class="tool-icon">🏷️</span>
+                <div>
+                  <div>2026 Pricing Framework</div>
+                  <div style="font-size:0.72rem;color:#34f5c5;font-weight:700;">On-site surveys & digital packs</div>
+                </div>
+              </a>
               <a href="/roadmap/" class="drawer-tool-item">
                 <span class="tool-icon">🗺️</span>
                 <div>
@@ -486,7 +493,7 @@
               <a href="/locations/" class="drawer-tool-item">
                 <span class="tool-icon">📍</span>
                 <div>
-                  <div>26-County Location Hub</div>
+                  <div>32-County Location Hub</div>
                   <div style="font-size:0.72rem;color:#94a3b8;">Regional installers & grants</div>
                 </div>
               </a>
@@ -516,9 +523,12 @@
 
         </div>
 
-        <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
-          <a href="/checkout/" class="btn-hero-primary-star" style="display: block; text-align: center; padding: 12px 16px; font-size: 0.92rem; text-decoration: none;">
-            ⭐ Book Joe's €49 Survey →
+        <div style="padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 8px;">
+          <a href="/checkout/?tier=survey&price=149" class="btn-hero-primary-star" style="display: block; text-align: center; padding: 12px 16px; font-size: 0.88rem; text-decoration: none;">
+            ⭐ Book On-Site Survey (€149) →
+          </a>
+          <a href="/pricing/" style="display: block; text-align: center; font-size: 0.78rem; color: #34f5c5; font-weight: 700; text-decoration: none;">
+            View All Pricing Packages & Tiers →
           </a>
         </div>
       `;
@@ -1024,9 +1034,12 @@
           <a href="/ber-matrix/" class="drawer-link-item"><span class="tool-icon">🏡</span><div><div>Simplified BER Matrix (A0-G)</div><div style="font-size:0.72rem;color:#94a3b8;">May 2026 SEAI scale & value surge</div></div></a>
           <a href="/tender-generator/" class="drawer-link-item"><span class="tool-icon">📋</span><div><div>Contractor Tender RFP</div><div style="font-size:0.72rem;color:#94a3b8;">NSAI SR50 tender spec & milestone terms</div></div></a>
         </div>
-        <div style="margin-top: 24px;">
-          <a href="/checkout/" class="btn-hero-primary-star" style="width: 100%; box-sizing: border-box; text-align: center;">
-            ⭐ Book Joe's €49 Survey →
+        <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 8px;">
+          <a href="/checkout/?tier=survey&price=149" class="btn-hero-primary-star" style="width: 100%; box-sizing: border-box; text-align: center;">
+            ⭐ Book On-Site Survey (€149) →
+          </a>
+          <a href="/pricing/" style="text-align: center; font-size: 0.8rem; color: #34f5c5; font-weight: 700; text-decoration: none;">
+            View All Pricing Packages →
           </a>
         </div>
       `;
