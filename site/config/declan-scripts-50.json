@@ -1,0 +1,452 @@
+[
+  {
+    "id": 1,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Room heat loss",
+    "speechText": "Right, that room\u2019s losing about 1.4 kW at design temp. You\u2019ll need a rad that can hit that at 45 degrees, not 70.",
+    "displayText": "### \ud83d\udcd0 Room Heat Loss Calculation\n\n\u2022 **Design Load**: 1.4 kW at -3\u00b0C external design temperature.\n\u2022 **Flow Target**: Sized at **45\u00b0C flow** (Delta-T 30), not legacy 70\u00b0C.\n\u2022 **Action**: Verify room dimension and U-values on NSAI SR50 table.",
+    "citation": "NSAI SR50-1:2021 Clause 4",
+    "recommendedAction": "Radiator Sizer Engine"
+  },
+  {
+    "id": 2,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Undersized radiator",
+    "speechText": "That rad\u2019s too small for low-temp heating. You\u2019ll need to bump it up a size or go double-panel.",
+    "displayText": "### \u26a0\ufe0f Undersized Radiator Remediation\n\n\u2022 **Issue**: Output at 45\u00b0C drops by ~50% compared to 75\u00b0C catalogue ratings.\n\u2022 **Solution**: Upgrade to double-panel convector (Type 22) or increase length by 30%.\n\u2022 **Grant Rule**: Ensures room reaches 21\u00b0C comfort setpoint.",
+    "citation": "SEAI SR54:2024 Domestic Retrofit",
+    "recommendedAction": "Upload Photos for Pack (\u20ac49)"
+  },
+  {
+    "id": 3,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Oversized radiator",
+    "speechText": "That one\u2019s oversized. It\u2019ll work, but it\u2019s costing the homeowner more than needed. I\u2019ll give you the proper output.",
+    "displayText": "### \ud83d\udd0d Radiator Oversizing Audit\n\n\u2022 **Status**: Exceeds required room heat loss by >40%.\n\u2022 **Impact**: Causes minor thermal overshoot and unnecessary capital cost.\n\u2022 **Proper Output**: Calculated precisely at Delta-T 30.",
+    "citation": "NSAI SR50-2 Design Guidelines",
+    "recommendedAction": "Digital Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 4,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Quick heat loss check",
+    "speechText": "Give me the room dimensions and window type \u2014 I\u2019ll run the heat loss in seconds.",
+    "displayText": "### \u26a1 Rapid Room Heat Loss Tool\n\n\u2022 **Inputs Needed**: Room Length \u00d7 Width \u00d7 Height (m), wall construction, and glazing type.\n\u2022 **Output**: Room loss in Watts and minimum Delta-T30 radiator sizing.",
+    "citation": "DEAP 4.2.2 Fabric Heat Loss Factors",
+    "recommendedAction": "Radiator Sizer Tool"
+  },
+  {
+    "id": 5,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Flow temperature advice",
+    "speechText": "Keep it around 45 degrees for heat pumps. Anything higher and you\u2019re losing efficiency.",
+    "displayText": "### \ud83c\udf21\ufe0f Flow Temperature Optimization\n\n\u2022 **Optimal Flow**: 45\u00b0C flow ($\text{COP} \\ge 3.8$).\n\u2022 **Efficiency Loss**: Every 5\u00b0C increase in flow temperature reduces seasonal COP by ~7%.\n\u2022 **NSAI Rule**: Design for 45\u00b0C on radiators and 35\u00b0C on underfloor.",
+    "citation": "NSAI SR50-1 Section 3",
+    "recommendedAction": "Suitability Sizer"
+  },
+  {
+    "id": 6,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Pipework check",
+    "speechText": "Your pipework looks grand \u2014 16mm is fine for most runs. I\u2019ll flag any bottlenecks.",
+    "displayText": "### \ud83d\udeb0 Distribution Pipe Sizing Audit\n\n\u2022 **Branch Runs**: 16mm multilayer or 15mm copper suitable for up to 1.8 kW heat loads.\n\u2022 **Main Headers**: 22mm or 28mm copper required for high flow rates.\n\u2022 **Velocity**: Maintained under $0.8\text{ m/s}$ to eliminate turbulence.",
+    "citation": "NSAI SR50 Clause 6",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 7,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Balancing issues",
+    "speechText": "If the room\u2019s slow to heat, it\u2019s usually balancing. Quick job \u2014 nothing dramatic.",
+    "displayText": "### \u2696\ufe0f Hydraulic System Balancing\n\n\u2022 **Symptom**: Distant radiators take hours to warm up.\n\u2022 **Fix**: Adjust lockshield valves to ensure uniform return temperatures across all circuits ($\\Delta T \u0007pprox 5\text{-}7^{\\circ}\text{C}$).",
+    "citation": "NSAI SR50 Hydraulic Balancing Standard",
+    "recommendedAction": "Quote Red-Liner"
+  },
+  {
+    "id": 8,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Double vs single panel",
+    "speechText": "Go double-panel if the room needs the extra wattage. No point in guessing \u2014 I\u2019ll give you the numbers.",
+    "displayText": "### \ud83d\udd04 Type 11 (Single) vs Type 22 (Double) Rads\n\n\u2022 **Type 11**: Single panel, low convective surface area.\n\u2022 **Type 22**: Double panel, double convector (+80% output for identical wall length).\n\u2022 **Recommendation**: Upgrade Type 11 to Type 22 when wall width is constrained.",
+    "citation": "NSAI SR50-1 Radiator Conversion",
+    "recommendedAction": "Radiator Sizer Engine"
+  },
+  {
+    "id": 9,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Radiator output tables",
+    "speechText": "I\u2019ll give you the exact output at 45\u00b0C, not the catalogue number at 70\u00b0C. Makes a big difference.",
+    "displayText": "### \ud83d\udcca True Delta-T 30 Output Table\n\n\u2022 **Catalogue Rating**: Calculated at $\\Delta T 50^{\\circ}\text{C}$ (75\u00b0C flow).\n\u2022 **True Low-Temp Rating**: $\text{Watts}_{45^{\\circ}\text{C}} = \text{Catalogue Watts} \times 0.51$.\n\u2022 **Standard**: Eliminates cold-room callbacks.",
+    "citation": "NSAI SR50-1:2021 Table B.2",
+    "recommendedAction": "Download Output Tables"
+  },
+  {
+    "id": 10,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Old radiators",
+    "speechText": "Some of these older rads are fine. We\u2019ll only replace what\u2019s actually undersized.",
+    "displayText": "### \ud83d\udee0\ufe0f Existing Radiator Retention Check\n\n\u2022 **Audit First**: Keep oversized existing rads if they meet Delta-T 30 load requirements.\n\u2022 **Savings**: Homeowner saves \u20ac180\u2013\u20ac300 per retained radiator.\n\u2022 **Requirement**: Chemical flush and magnetic filter installation mandatory.",
+    "citation": "SEAI SR54:2024 Retrofit Code",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 11,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Aluminium radiators",
+    "speechText": "Aluminium heats fast but drops fast. Steel panels are grand for heat pumps.",
+    "displayText": "### \ud83e\uddf2 Aluminium vs Steel Radiators\n\n\u2022 **Aluminium**: Fast thermal response, low water content, higher material cost.\n\u2022 **Steel Panels**: Higher thermal inertia, ideal for continuous low-temperature heat pump operation.",
+    "citation": "NSAI SR50 Materials Specification",
+    "recommendedAction": "Radiator Sizer"
+  },
+  {
+    "id": 12,
+    "category": "Radiator Sizing & Heat Loss",
+    "question": "Towel rails",
+    "speechText": "Towel rails are decorative \u2014 they don\u2019t heat rooms. You\u2019ll need a proper rad in there.",
+    "displayText": "### \ud83d\udebf Bathroom Heating & Towel Rails\n\n\u2022 **Reality**: Ladder towel rails deliver under 250 Watts at 45\u00b0C flow.\n\u2022 **Best Practice**: Add dedicated compact radiator or underfloor electric mat for primary space heating.",
+    "citation": "NSAI SR50 Bathroom Space Heating Standards",
+    "recommendedAction": "Radiator Sizer"
+  },
+  {
+    "id": 13,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Heat pump sizing",
+    "speechText": "That house needs about 6 kW. Don\u2019t oversize \u2014 it\u2019ll short-cycle and annoy everyone.",
+    "displayText": "### \u26a1 Heat Pump Capacity Sizing\n\n\u2022 **Calculated Heat Loss**: 5.4 kW at -3\u00b0C external load.\n\u2022 **Recommended Unit**: **6 kW inverter monobloc**.\n\u2022 **Why Not 10 kW**: Oversizing causes compressor short-cycling, high standby draw, and premature wear.",
+    "citation": "NSAI SR50-2 Heat Pump Sizing Rules",
+    "recommendedAction": "Heat Pump Sizer"
+  },
+  {
+    "id": 14,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "SR50 compliance",
+    "speechText": "SR50 just means the system is designed properly \u2014 rads, pipework, and heat pump all matched. I\u2019ll check it for you.",
+    "displayText": "### \ud83d\udcdc NSAI SR50 Compliance Sign-Off\n\n\u2022 **Core Standard**: NSAI SR50 Code of Practice for domestic wet central heating systems.\n\u2022 **Checks**: Flow temperature, radiator Delta-T, system water volume, hydraulic balancing, and insulation.",
+    "citation": "NSAI SR50-1 & SR50-2",
+    "recommendedAction": "Order Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 15,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Buffer tank",
+    "speechText": "You don\u2019t need a buffer tank unless the layout demands it. I\u2019ll tell you straight.",
+    "displayText": "### \ud83d\udee2\ufe0f Buffer Tank vs Direct Volumiser\n\n\u2022 **Direct Connection**: Prefer direct connection with a 25\u201350L volumiser bottle if 2+ circuits are open.\n\u2022 **Buffer Tank**: Only needed on highly zoned, multi-manifold systems with complex secondary mixing circuits.",
+    "citation": "NSAI SR50-2 Hydraulic Topologies",
+    "recommendedAction": "Quote Red-Liner"
+  },
+  {
+    "id": 16,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Flow temp too high",
+    "speechText": "If you\u2019re running at 55 or 60 degrees, something\u2019s off. We\u2019ll fix the sizing.",
+    "displayText": "### \u26a0\ufe0f High Flow Temperature Diagnosis\n\n\u2022 **Threshold**: If operating flow $> 50^{\\circ}\text{C}$ in mild weather ($> 5^{\\circ}\text{C}$ ambient).\n\u2022 **Root Cause**: Severely undersized radiators or incorrect weather compensation curve.\n\u2022 **Fix**: Resize bottleneck radiators to drop flow back to 45\u00b0C.",
+    "citation": "DEAP 4.2.2 COP Efficiency Curves",
+    "recommendedAction": "Radiator Sizer"
+  },
+  {
+    "id": 17,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Outdoor unit placement",
+    "speechText": "Stick it somewhere with airflow and low echo. Modern units are quiet enough.",
+    "displayText": "### \ud83c\udfe1 Outdoor Monobloc Placement\n\n\u2022 **Clearances**: Minimum 300mm rear clearance, 1,000mm front clearance for unhindered airflow.\n\u2022 **Acoustics**: Avoid narrow alcoves or mounting under bedroom windows.",
+    "citation": "SEAI SR54:2024 Installation Guidelines",
+    "recommendedAction": "Suitability Sizer"
+  },
+  {
+    "id": 18,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Defrost cycles",
+    "speechText": "Defrost is normal \u2014 don\u2019t panic. If it\u2019s happening too often, we\u2019ll check the setup.",
+    "displayText": "### \u2744\ufe0f Defrost Cycle Operation\n\n\u2022 **Normal Operation**: Occurs in cold, humid weather (0\u00b0C to 4\u00b0C ambient) every 45\u201390 minutes.\n\u2022 **Excessive Defrost**: Indicates restricted evaporator airflow or low refrigerant charge.",
+    "citation": "NSAI SR50 Monobloc Maintenance",
+    "recommendedAction": "Tender Pack (\u20ac199)"
+  },
+  {
+    "id": 19,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Heat pump brand differences",
+    "speechText": "They\u2019re all grand once sized right. The design matters more than the badge.",
+    "displayText": "### \ud83c\udff7\ufe0f Heat Pump Manufacturer Assessment\n\n\u2022 **Key Metric**: Seasonal Coefficient of Performance ($\text{SCOP} \\ge 4.2$).\n\u2022 **Reality**: System design, low flow temperature, and hydraulic balancing determine 85% of real-world efficiency.",
+    "citation": "SEAI Heat Pump Register Criteria",
+    "recommendedAction": "Quote Auditor"
+  },
+  {
+    "id": 20,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Hybrid systems",
+    "speechText": "Hybrid is only worth it in certain cases. Most homes are fine with full heat pump.",
+    "displayText": "### \ud83d\udd04 Hybrid Heat Pump vs Full Retrofit\n\n\u2022 **Hybrid**: Retains existing gas/oil boiler for sub-zero peak loads.\n\u2022 **Full Heat Pump**: Unlocks maximum SEAI grants (\u20ac6,500\u2013\u20ac12,500) and completely eliminates fossil fuels.",
+    "citation": "SEAI Grant Schemes May 2026",
+    "recommendedAction": "Explore Grants"
+  },
+  {
+    "id": 21,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Hot water cylinder",
+    "speechText": "You\u2019ll need a proper cylinder for heat pumps \u2014 the old coil ones won\u2019t cut it.",
+    "displayText": "### \ud83d\udee2\ufe0f Heat Pump Domestic Hot Water Cylinder\n\n\u2022 **Requirement**: High-surface-area internal heat exchanger coil ($\\ge 2.5\text{ m}^2$).\n\u2022 **Legacy Boiler Cylinders**: $0.8\text{ m}^2$ coils cannot transfer heat at 50\u00b0C flow, leading to extreme reheat times.",
+    "citation": "NSAI SR50 DHW Specifications",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 22,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Noise concerns",
+    "speechText": "Modern units are fridge-quiet. Placement matters more than the brand.",
+    "displayText": "### \ud83d\udd07 Acoustic Performance Standards\n\n\u2022 **Sound Pressure**: Modern inverter units operate at 42\u201348 dB(A) at 1 metre.\n\u2022 **Boundary Compliance**: Must meet $< 43\text{ dB(A)}$ at neighboring property boundaries.",
+    "citation": "Irish Planning & Building Regulations Part L",
+    "recommendedAction": "Acoustic Advisor"
+  },
+  {
+    "id": 23,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Weather compensation",
+    "speechText": "Use weather comp \u2014 it\u2019s free efficiency. Keeps the flow temp nice and steady.",
+    "displayText": "### \ud83d\udcc8 Weather Compensation Curves\n\n\u2022 **Function**: Automatically modulates flow temperature based on outdoor sensor readings.\n\u2022 **Mild Weather (10\u00b0C)**: Lowers flow to 35\u00b0C ($\text{COP} \u0007pprox 4.8$).\n\u2022 **Cold Weather (-3\u00b0C)**: Increases flow to 45\u00b0C.",
+    "citation": "NSAI SR50 Controls Specification",
+    "recommendedAction": "Controls Advisor"
+  },
+  {
+    "id": 24,
+    "category": "Heat Pumps & SR50 Compliance",
+    "question": "Installer mistakes",
+    "speechText": "The biggest mistake is oversizing. We\u2019ll avoid that by doing the numbers properly.",
+    "displayText": "### \ud83d\udeab Top 3 Heat Pump Installation Pitfalls\n\n1. **Oversizing the unit** (leads to short-cycling and premature failure).\n2. **Leaving legacy boiler cylinders** in place (poor hot water recovery).\n3. **Skipping low-temp radiator sizing** (results in cold rooms).",
+    "citation": "SEAI Quality Assurance Framework",
+    "recommendedAction": "Installer Data Pack (\u20ac49)"
+  },
+  {
+    "id": 25,
+    "category": "Pipework, Controls & System Layout",
+    "question": "Pipe diameter",
+    "speechText": "16mm is fine for most runs. If you\u2019ve long circuits, we\u2019ll check pressure drop.",
+    "displayText": "### \ud83d\udcd0 Pipe Diameter & Flow Velocity\n\n\u2022 **Standard Runs**: 16mm multilayer handles up to 1.8 kW at $\\Delta T 5^{\\circ}\text{C}$.\n\u2022 **Long Circuit Runs**: Upgrade to 20mm to avoid excessive circuit pressure drops ($> 25\text{ kPa}$).",
+    "citation": "NSAI SR50 Hydraulic Tables",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 26,
+    "category": "Pipework, Controls & System Layout",
+    "question": "Manifold layout",
+    "speechText": "Manifolds are handy for zoning. I\u2019ll tell you if it\u2019s worth adding.",
+    "displayText": "### \ud83d\udd00 Manifold vs Traditional Tee Plumbing\n\n\u2022 **Manifolds**: Provide dedicated individual pipe runs, zero joint leaks under floors, and built-in flowmeters.\n\u2022 **Tee System**: Suitable for standard retrofits when existing pipework is sound.",
+    "citation": "NSAI SR50 Best Practice",
+    "recommendedAction": "System Layout Review"
+  },
+  {
+    "id": 27,
+    "category": "Pipework, Controls & System Layout",
+    "question": "Thermostats",
+    "speechText": "Smart stats help, but the main thing is proper flow temp. Controls won\u2019t fix bad sizing.",
+    "displayText": "### \ud83c\udf9b\ufe0f Thermostatic Controls & Smart Stats\n\n\u2022 **Principle**: Heating controls provide scheduling and setback temperatures.\n\u2022 **Rule**: Controls cannot compensate for undersized radiators or incorrect water flow rates.",
+    "citation": "SEAI Heating Controls Grant Guidelines",
+    "recommendedAction": "Controls Advisor"
+  },
+  {
+    "id": 28,
+    "category": "Pipework, Controls & System Layout",
+    "question": "TRVs",
+    "speechText": "TRVs are grand, but don\u2019t choke the system. Keep the main circuit open.",
+    "displayText": "### \ud83d\uded1 Thermostatic Radiator Valves (TRVs)\n\n\u2022 **Bypass Rule**: Keep at least 2 primary radiators (hallway/bathrooms) without TRVs to maintain minimum water circulation.\n\u2022 **Alternative**: Automatic differential pressure bypass valve.",
+    "citation": "NSAI SR50 Minimum Flow Criteria",
+    "recommendedAction": "Hydraulic Check"
+  },
+  {
+    "id": 29,
+    "category": "Pipework, Controls & System Layout",
+    "question": "Circulation pump",
+    "speechText": "Make sure the pump can handle low-temp flow. I\u2019ll check the curve.",
+    "displayText": "### \ud83d\udd04 Circulation Pump Sizing\n\n\u2022 **Heat Pump Flow**: Requires higher flow rates ($\\Delta T = 5^{\\circ}\text{C}$ vs $\\Delta T = 20^{\\circ}\text{C}$ on gas boilers).\n\u2022 **Pump Curve**: High-efficiency variable speed pump with $\\ge 6\text{m}$ head recommended.",
+    "citation": "NSAI SR50 Pump Sizing Guide",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 30,
+    "category": "Pipework, Controls & System Layout",
+    "question": "Zoning",
+    "speechText": "Heat pumps prefer fewer zones. Keep it simple \u2014 steady heat wins.",
+    "displayText": "### \ud83c\udfe0 Heat Pump Zoning Strategy\n\n\u2022 **Ideal**: 2 simple zones (Living / Sleeping) or open-plan steady-state.\n\u2022 **Over-Zoning**: Micro-zoning every room causes heat pumps to hunt and short-cycle.",
+    "citation": "SEAI SR54:2024 Best Practice",
+    "recommendedAction": "Retrofit Masterplan"
+  },
+  {
+    "id": 31,
+    "category": "Pipework, Controls & System Layout",
+    "question": "Return temperature",
+    "speechText": "Keep the return temp low \u2014 that\u2019s where the efficiency comes from.",
+    "displayText": "### \ud83d\udcc9 Return Temperature Management\n\n\u2022 **Target**: $\\Delta T$ of $5^{\\circ}\text{C}$ to $7^{\\circ}\text{C}$ (e.g. 45\u00b0C flow, 38\u00b0C\u201340\u00b0C return).\n\u2022 **Impact**: Lower return temperature maximizes refrigerant sub-cooling and system COP.",
+    "citation": "NSAI SR50 Thermodynamic Performance",
+    "recommendedAction": "Sizing Engine"
+  },
+  {
+    "id": 32,
+    "category": "Pipework, Controls & System Layout",
+    "question": "Pipe insulation",
+    "speechText": "Insulate everything. Bare pipes are just heating the attic.",
+    "displayText": "### \ud83d\udee1\ufe0f Thermal Pipe Insulation\n\n\u2022 **Requirement**: Minimum 19mm\u201325mm wall thickness closed-cell insulation on all unheated space runs (attics/crawlspaces).\n\u2022 **External Monobloc Runs**: UV-resistant, weatherproof insulation mandatory.",
+    "citation": "Building Regulations Part L & NSAI SR50",
+    "recommendedAction": "Tender Pack"
+  },
+  {
+    "id": 33,
+    "category": "Pipework, Controls & System Layout",
+    "question": "Cylinder coil",
+    "speechText": "Make sure the coil is heat-pump rated. Old coils take forever.",
+    "displayText": "### \ud83d\udee2\ufe0f Cylinder Coil Surface Area\n\n\u2022 **Heat Pump Coil**: Minimum $2.5\text{ m}^2$ internal surface area.\n\u2022 **Heat Transfer**: Allows 50\u00b0C heat pump flow to reheat a 200L tank in under 45 minutes.",
+    "citation": "NSAI SR50 DHW Design",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 34,
+    "category": "Pipework, Controls & System Layout",
+    "question": "Flow balancing",
+    "speechText": "Balance the rads properly \u2014 it\u2019s the difference between cosy and cranky.",
+    "displayText": "### \u2696\ufe0f Commissioning Flow Balancing\n\n\u2022 **Procedure**: Set flow rates across every circuit using lockshields or manifold flow meters.\n\u2022 **Result**: Every room receives its exact designed wattage simultaneously.",
+    "citation": "NSAI SR50 Commissioning Checklist",
+    "recommendedAction": "Commissioning Pack"
+  },
+  {
+    "id": 35,
+    "category": "Solar, Batteries & Diverters",
+    "question": "Solar sizing",
+    "speechText": "4 to 6 kWp suits most homes. I\u2019ll check shading and pitch.",
+    "displayText": "### \u2600\ufe0f Solar PV Array Sizing\n\n\u2022 **Standard Array**: 10 to 14 panels (4.4 kWp \u2013 6.0 kWp).\n\u2022 **Annual Generation**: 4,200 to 5,500 kWh/year under Irish irradiance.\n\u2022 **Grant**: \u20ac2,100 SEAI Solar PV grant available.",
+    "citation": "SEAI Solar PV Scheme May 2026",
+    "recommendedAction": "Solar Yield Simulator"
+  },
+  {
+    "id": 36,
+    "category": "Solar, Batteries & Diverters",
+    "question": "Diverter",
+    "speechText": "A diverter is great \u2014 free hot water in summer.",
+    "displayText": "### \u26a1 Solar Immersion Diverter (eddi / Solar iBoost)\n\n\u2022 **Function**: Diverts excess solar export directly to the hot water immersion coil.\n\u2022 **Benefit**: Zero-cost domestic hot water from April through October.",
+    "citation": "SEAI Solar Thermal / PV Guidelines",
+    "recommendedAction": "Solar Simulator"
+  },
+  {
+    "id": 37,
+    "category": "Solar, Batteries & Diverters",
+    "question": "Battery sizing",
+    "speechText": "A 5 kWh battery is grand for most homes. Bigger only if they\u2019re heavy users.",
+    "displayText": "### \ud83d\udd0b Battery Storage Sizing\n\n\u2022 **Optimal Size**: 5.12 kWh to 10.24 kWh LiFePO4 battery pack.\n\u2022 **Self-Consumption**: Bumps solar self-consumption from 40% up to 85%.",
+    "citation": "Irish Microgeneration Scheme",
+    "recommendedAction": "Battery Calculator"
+  },
+  {
+    "id": 38,
+    "category": "Solar, Batteries & Diverters",
+    "question": "Night-rate charging",
+    "speechText": "Charge the battery at night and use it during the day \u2014 lovely savings.",
+    "displayText": "### \ud83c\udf19 Night-Rate Battery Arbitrage\n\n\u2022 **Night Rate (EV Tariff)**: ~7c \u2013 11c / kWh (2 AM \u2013 5 AM).\n\u2022 **Day Rate**: ~34c \u2013 38c / kWh.\n\u2022 **Savings**: ~\u20ac750/year in pure grid arbitrage alone.",
+    "citation": "CRU Electricity Tariff Benchmark",
+    "recommendedAction": "Battery Arbitrage Modeler"
+  },
+  {
+    "id": 39,
+    "category": "Solar, Batteries & Diverters",
+    "question": "Inverter choice",
+    "speechText": "Hybrid inverter keeps things tidy. Less boxes, less hassle.",
+    "displayText": "### \ud83d\udd0c Hybrid vs AC-Coupled Inverters\n\n\u2022 **Hybrid Inverter**: Manages both solar PV DC inputs and battery storage in a single compact enclosure.\n\u2022 **AC-Coupled**: Preferred when retrofitting a battery to an existing pre-installed solar array.",
+    "citation": "ESB Networks NC6 Microgeneration",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 40,
+    "category": "Solar, Batteries & Diverters",
+    "question": "Export payments",
+    "speechText": "CEG pays well enough \u2014 but self-use is where the real savings are.",
+    "displayText": "### \ud83d\udcb6 Clean Export Guarantee (CEG)\n\n\u2022 **Export Tariff**: ~21c \u2013 24c / kWh paid by Irish suppliers for exported power.\n\u2022 **Priority**: Self-consumption (displacing 36c retail power) yields 50% greater financial value than export.",
+    "citation": "CRU Clean Export Framework",
+    "recommendedAction": "Solar Simulator"
+  },
+  {
+    "id": 41,
+    "category": "Solar, Batteries & Diverters",
+    "question": "Solar + heat pump",
+    "speechText": "They work great together. Solar knocks a chunk off the running costs.",
+    "displayText": "### \u26a1 Solar PV + Heat Pump Synergy\n\n\u2022 **Synergy**: Solar PV powers the heat pump compressor and domestic hot water generation.\n\u2022 **DEAP 4.2.2**: Dual installation propels homes straight into the A1 / A2 BER band.",
+    "citation": "DEAP 4.2.2 Primary Energy Benchmark",
+    "recommendedAction": "Retrofit Masterplan (\u20ac299)"
+  },
+  {
+    "id": 42,
+    "category": "Solar, Batteries & Diverters",
+    "question": "Roof suitability",
+    "speechText": "If the roof has decent pitch and no shading, you\u2019re laughing.",
+    "displayText": "### \ud83c\udfe0 Roof Orientation & Pitch Sizing\n\n\u2022 **Ideal**: South-facing, 30\u00b0\u201340\u00b0 pitch (100% yield).\n\u2022 **East/West**: 82%\u201386% yield (generates broad morning/evening generation profile).",
+    "citation": "SEAI Solar Photovoltaic Guidance",
+    "recommendedAction": "Solar Yield Tool"
+  },
+  {
+    "id": 43,
+    "category": "Troubleshooting & Quick Fixes",
+    "question": "Cold room",
+    "speechText": "If one room\u2019s cold, it\u2019s usually the rad. Quick swap and you\u2019re sorted.",
+    "displayText": "### \u2744\ufe0f Single Cold Room Troubleshooting\n\n1. Check if radiator is sized for 45\u00b0C flow.\n2. Check lockshield valve balancing.\n3. Bleed air from top valve.\n4. Upgrade to double-panel convector if heat loss exceeds output.",
+    "citation": "NSAI SR50 Troubleshooting Code",
+    "recommendedAction": "Radiator Sizer"
+  },
+  {
+    "id": 44,
+    "category": "Troubleshooting & Quick Fixes",
+    "question": "High bills",
+    "speechText": "High bills mean high flow temp. We\u2019ll bring it down.",
+    "displayText": "### \ud83d\udcb6 High Energy Bill Diagnostics\n\n\u2022 **Common Culprit**: Flow temperature set above 50\u00b0C or immersion heater operating constantly.\n\u2022 **Remedy**: Re-engage weather compensation curve and verify heat pump cylinder sensor calibration.",
+    "citation": "DEAP 4.2.2 Performance Metrics",
+    "recommendedAction": "On-Site Survey (\u20ac149)"
+  },
+  {
+    "id": 45,
+    "category": "Troubleshooting & Quick Fixes",
+    "question": "Noisy pipes",
+    "speechText": "Probably air or flow rate. Easy fix.",
+    "displayText": "### \ud83d\udd0a Pipework Acoustic Diagnostics\n\n\u2022 **Clicking/Ticking**: Pipe thermal expansion against joists (notch clearances needed).\n\u2022 **Hissing/Whistling**: Water velocity $> 1.0\text{ m/s}$ (modulate circulation pump down).",
+    "citation": "NSAI SR50 Acoustic Guidelines",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 46,
+    "category": "Troubleshooting & Quick Fixes",
+    "question": "Slow heating",
+    "speechText": "Heat pumps heat steady, not fast. Check the rad sizing.",
+    "displayText": "### \u23f3 Slow Heat-Up Time Analysis\n\n\u2022 **Design Principle**: Heat pumps maintain steady continuous warmth rather than rapid fossil boiler blast heating.\n\u2022 **Verification**: Confirm radiator sizing supports low-flow delta-T.",
+    "citation": "SEAI SR54:2024 Comfort Principles",
+    "recommendedAction": "Suitability Sizer"
+  },
+  {
+    "id": 47,
+    "category": "Troubleshooting & Quick Fixes",
+    "question": "Short cycling",
+    "speechText": "Oversized unit. We\u2019ll fix it with proper design.",
+    "displayText": "### \ud83d\udd04 Compressor Short-Cycling Fix\n\n\u2022 **Issue**: Unit starts and stops every few minutes.\n\u2022 **Root Cause**: Oversized heat pump or low system water volume.\n\u2022 **Solution**: Increase minimum open volume with volumiser or widen thermostat deadband differential.",
+    "citation": "NSAI SR50-2 System Protection",
+    "recommendedAction": "Quote Red-Liner"
+  },
+  {
+    "id": 48,
+    "category": "Troubleshooting & Quick Fixes",
+    "question": "Poor hot water",
+    "speechText": "Old cylinder coil. Swap it for a heat-pump coil.",
+    "displayText": "### \ud83d\udebf Domestic Hot Water Recovery Diagnostics\n\n\u2022 **Symptom**: Water takes hours to reach 50\u00b0C.\n\u2022 **Root Cause**: Legacy standard cylinder with small $0.8\text{ m}^2$ coil.\n\u2022 **Fix**: Replace with dedicated heat-pump cylinder ($\\ge 2.5\text{ m}^2$ coil).",
+    "citation": "NSAI SR50 DHW Specifications",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 49,
+    "category": "Troubleshooting & Quick Fixes",
+    "question": "Radiator cold at bottom",
+    "speechText": "Sludge. Needs a flush.",
+    "displayText": "### \ud83e\uddea Magnetite Sludge Accumulation\n\n\u2022 **Symptom**: Radiator hot across top, cold in center/bottom.\n\u2022 **Remedy**: Power flush system and install a high-capacity magnetic inline filter on primary return.",
+    "citation": "NSAI SR50 Chemical Water Treatment",
+    "recommendedAction": "Installer Pack (\u20ac49)"
+  },
+  {
+    "id": 50,
+    "category": "Troubleshooting & Quick Fixes",
+    "question": "System keeps tripping",
+    "speechText": "Could be pump load or wiring. We\u2019ll check the basics first.",
+    "displayText": "### \u26a1 Electrical & Breaker Trip Diagnostics\n\n\u2022 **Check 1**: Dedicated Type B RCBO breaker installed for inverter heat pump compressor.\n\u2022 **Check 2**: Rotary isolator wiring and immersion backup heater circuit load.",
+    "citation": "ETCI National Rules for Electrical Installations",
+    "recommendedAction": "Contractor Pack (\u20ac199)"
+  }
+]
