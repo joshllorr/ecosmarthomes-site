@@ -444,6 +444,9 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     const canonicalKey = AGPersonas[key]?.key || 'aoife';
     const previous = (window.AG.currentPersona?.key || '').toLowerCase();
 
+    // 0. Play Acoustic Handoff Chime
+    window.AG.playPersonaHandoffChime(canonicalKey);
+
     // 1. Ripple
     window.AG.triggerPersonaRipple(canonicalKey);
 
@@ -661,15 +664,176 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   window.AG.onClick("estate-agent-hub", () => window.AG.setVoicePersona("eimear", false));
   window.AG.onClick("installer-hub", () => window.AG.setVoicePersona("declan", false));
 
+  
+  // =========================================================
+  // Synthesized Spatial Web Audio Engine (Zero External Files)
+  // =========================================================
+  let audioCtx = null;
+
+  function getAudioContext() {
+    if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  window.AG.playTone = function(freq, duration = 0.2, type = 'sine', gainVal = 0.08) {
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+      gain.gain.setValueAtTime(gainVal, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    } catch (e) {}
+  };
+
+  // 1. Advisor Wakeup Chime (Warm C5 -> E5 Ascending Major Third)
+  window.AG.playWakeupChime = function() {
+    try {
+      window.AG.playTone(523.25, 0.25, 'triangle', 0.07);
+      setTimeout(() => window.AG.playTone(659.25, 0.35, 'sine', 0.09), 110);
+    } catch (e) {}
+  };
+
+  // 2. Persona Handoff Acoustic Chimes
+  window.AG.playPersonaHandoffChime = function(personaKey) {
+    try {
+      if (personaKey === 'aoife') {
+        // Aoife: Warm Organic Celtic Chime (C5 -> G5)
+        window.AG.playTone(523.25, 0.2, 'sine', 0.08);
+        setTimeout(() => window.AG.playTone(783.99, 0.35, 'triangle', 0.08), 90);
+      } else if (personaKey === 'eimear') {
+        // Eimear: Polished Radiant Gold Chime (D5 -> A5)
+        window.AG.playTone(587.33, 0.2, 'triangle', 0.08);
+        setTimeout(() => window.AG.playTone(880.00, 0.35, 'sine', 0.08), 90);
+      } else if (personaKey === 'declan') {
+        // Declan: Resonant Trades Solid Tone (F4 -> C5)
+        window.AG.playTone(349.23, 0.22, 'square', 0.04);
+        setTimeout(() => window.AG.playTone(523.25, 0.32, 'triangle', 0.08), 90);
+      }
+    } catch (e) {}
+  };
+
+  // 3. Mic Start / Stop Beeps
+  window.AG.playMicStartChime = function() {
+    window.AG.playTone(440, 0.12, 'sine', 0.05);
+    setTimeout(() => window.AG.playTone(880, 0.15, 'sine', 0.06), 70);
+  };
+
+  window.AG.playMicStopChime = function() {
+    window.AG.playTone(880, 0.12, 'sine', 0.06);
+    setTimeout(() => window.AG.playTone(440, 0.15, 'sine', 0.05), 70);
+  };
+
+  // =========================================================
+  // Global Push-to-Talk Spacebar HUD
+  // =========================================================
+  let isSpacebarPressed = false;
+  let pttHudElement = null;
+
+  function injectPttHudDOM() {
+    if (document.getElementById('eshPttHud')) return;
+    pttHudElement = document.createElement('div');
+    pttHudElement.id = 'eshPttHud';
+    pttHudElement.className = 'spacebar-ptt-hud';
+    pttHudElement.innerHTML = `
+      <div style="font-size: 1.4rem;">🎙️</div>
+      <div class="ptt-wave-anim">
+        <div class="ptt-bar"></div>
+        <div class="ptt-bar"></div>
+        <div class="ptt-bar"></div>
+        <div class="ptt-bar"></div>
+        <div class="ptt-bar"></div>
+      </div>
+      <div>
+        <div class="ptt-text" id="pttAdvisorStatus">Listening to Voice...</div>
+        <div class="ptt-hint">Release [Spacebar] to Send</div>
+      </div>
+    `;
+    document.body.appendChild(pttHudElement);
+  }
+
+  function initPushToTalk() {
+    injectPttHudDOM();
+
+    window.addEventListener('keydown', (e) => {
+      // Ignore if user is currently typing in an input, textarea or contenteditable element
+      const activeEl = document.activeElement;
+      const isInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable);
+      
+      if (e.code === 'Space' && !isInput && !isSpacebarPressed) {
+        isSpacebarPressed = true;
+        e.preventDefault();
+
+        // 1. Play Acoustic Mic Chime
+        window.AG.playMicStartChime();
+
+        // 2. Show PTT HUD
+        const hud = document.getElementById('eshPttHud');
+        const pName = window.AG.currentPersona?.name || 'Aoife';
+        const statusEl = document.getElementById('pttAdvisorStatus');
+        if (statusEl) statusEl.innerText = `Speaking to ${pName}...`;
+
+        if (hud) {
+          hud.classList.add('active');
+        }
+
+        // 3. Trigger Voice Recognition
+        if (typeof window.startVoiceRecognition === 'function') {
+          window.startVoiceRecognition();
+        }
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (e.code === 'Space' && isSpacebarPressed) {
+        isSpacebarPressed = false;
+        e.preventDefault();
+
+        // 1. Play Mic Stop Chime
+        window.AG.playMicStopChime();
+
+        // 2. Hide PTT HUD
+        const hud = document.getElementById('eshPttHud');
+        if (hud) {
+          hud.classList.remove('active');
+        }
+
+        // 3. Stop Voice Recognition & Submit Query
+        if (typeof window.stopVoiceRecognition === 'function') {
+          window.stopVoiceRecognition();
+        }
+      }
+    });
+  }
+
+
   // Auto-bootstrap persona memory & contextual engine on page load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       window.AG.loadSavedPersona();
       initContextualEngine();
+      initPushToTalk();
     });
   } else {
     window.AG.loadSavedPersona();
     initContextualEngine();
+      initPushToTalk();
   }
 
 })(window);
