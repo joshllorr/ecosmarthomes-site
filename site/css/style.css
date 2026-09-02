@@ -1995,3 +1995,205 @@ body {
 /* iPhone Notch Protection Safe Areas */
 .padding-top-safe { padding-top: env(safe-area-inset-top, 0px); }
 .padding-bottom-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+
+/* ==========================================================================
+   HIGH-VISIBILITY BOUNDARY BOX & HEADER SYSTEM (Emerald Command Center)
+   ========================================================================== */
+
+/* Universal Reset: Prevent any browser default purple visited link bleed */
+a, a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 1. Brand Logo: Crisp, High-Contrast & Larger */
+.logo, a.logo, .logo-text, .brand-title {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  letter-spacing: -0.02em !important;
+  transition: transform 0.2s ease, color 0.2s ease !important;
+}
+
+.logo:hover, a.logo:hover, .logo-text:hover {
+  color: #34f5c5 !important;
+  transform: translateY(-1px);
+}
+
+.logo strong, .logo-text strong {
+  color: #34f5c5 !important;
+  font-weight: 900 !important;
+}
+
+.logo-icon {
+  font-size: 1.45rem !important;
+}
+
+/* 2. Top Emergency / Notification Bar: High Contrast Boundary Box System */
+.top-bar, .top-emergency-bar, .top-bar-custom, aside.top-bar {
+  background: #00120d !important;
+  border-bottom: 1px solid rgba(52, 245, 197, 0.25) !important;
+  color: #f1f5f9 !important;
+  padding: 8px 20px !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  position: relative !important;
+  z-index: 1001 !important;
+}
+
+.top-bar-container, .top-bar-inner {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+}
+
+.top-bar-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  color: #e2e8f0 !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  flex-wrap: wrap !important;
+}
+
+/* Protocol / Arbitrage Badge Boundary Box */
+.protocol-tag, .top-bar-badge, .top-emergency-badge {
+  background: rgba(52, 245, 197, 0.12) !important;
+  border: 1px solid rgba(52, 245, 197, 0.4) !important;
+  color: #34f5c5 !important;
+  padding: 3px 10px !important;
+  border-radius: 6px !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Top Bar CTA Button: High-Contrast Glowing Amber Boundary Box */
+.top-bar-cta, .top-emergency-link, a.top-bar-cta, a.top-emergency-link {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border: 1.5px solid #f59e0b !important;
+  color: #fbbf24 !important;
+  padding: 4px 14px !important;
+  border-radius: 9999px !important;
+  font-size: 0.78rem !important;
+  font-weight: 800 !important;
+  font-family: 'Inter', sans-serif !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.25) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  white-space: nowrap !important;
+}
+
+.top-bar-cta:hover, .top-emergency-link:hover, a.top-bar-cta:hover, a.top-emergency-link:hover {
+  background: #f59e0b !important;
+  color: #001711 !important;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.6) !important;
+  transform: translateY(-1px) scale(1.02) !important;
+}
+
+/* 3. Navigation Links & Badges Boundary Box Styling */
+.header, .main-nav-bar {
+  background: rgba(0, 31, 23, 0.96) !important;
+  border-bottom: 1px solid rgba(52, 245, 197, 0.2) !important;
+  padding: 12px 20px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
+.nav a, .nav-link, .nav-link-item {
+  color: #cbd5e1 !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid transparent !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.nav a:hover, .nav-link:hover, .nav-link-item:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.nav a.active, .nav-link.active, .nav-link-item.active {
+  color: #34f5c5 !important;
+  background: rgba(52, 245, 197, 0.12) !important;
+  border-color: rgba(52, 245, 197, 0.35) !important;
+  font-weight: 700 !important;
+}
+
+/* 4. Action Buttons (Tools Drawer & Book Survey) */
+.btn-tools-drawer-toggle, button.btn-tools-drawer-toggle {
+  background: rgba(52, 245, 197, 0.12) !important;
+  border: 1.5px solid rgba(52, 245, 197, 0.4) !important;
+  color: #34f5c5 !important;
+  padding: 8px 14px !important;
+  border-radius: 8px !important;
+  font-weight: 800 !important;
+  font-size: 0.82rem !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s !important;
+}
+
+.btn-tools-drawer-toggle:hover, button.btn-tools-drawer-toggle:hover {
+  background: rgba(52, 245, 197, 0.25) !important;
+  box-shadow: 0 0 16px rgba(52, 245, 197, 0.35) !important;
+  transform: scale(1.02) !important;
+}
+
+.btn-book-nav, a.btn-book-nav, .header-actions a.btn-primary {
+  background: #f59e0b !important;
+  color: #001711 !important;
+  font-weight: 800 !important;
+  font-size: 0.82rem !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  border: 1.5px solid transparent !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35) !important;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.btn-book-nav:hover, a.btn-book-nav:hover, .header-actions a.btn-primary:hover {
+  background: #fbbf24 !important;
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.6) !important;
+  transform: scale(1.03) !important;
+}
