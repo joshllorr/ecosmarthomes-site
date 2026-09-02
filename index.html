@@ -1018,6 +1018,121 @@
     </section>
 
 
+    
+    <!-- 🏦 LIVE GREEN MORTGAGE BANK TICKER & COMPARISON WIDGET -->
+    <section class="mortgage-ticker-section" id="green-mortgage-ticker" aria-label="Live Irish Green Mortgage Bank Ticker">
+      <div class="mortgage-ticker-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <span class="county-badge-pill" style="background: rgba(52, 245, 197, 0.15); border-color: #34f5c5; color: #34f5c5;">
+            🏦 LIVE IRISH BANK ARBITRAGE TICKER (MAY 2026)
+          </span>
+          <span style="font-size: 0.75rem; color: #fbbf24; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+            ● AIB · Bank of Ireland · PTSB · Haven Green Rate Index
+          </span>
+        </div>
+
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
+          Irish Green Mortgage Bank Interest Slasher
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.92rem; max-width: 780px; margin: 0 0 20px 0; line-height: 1.5;">
+          Upgrading your home to a <strong>BER B3 or A-Rating</strong> unlocks Ireland’s lowest green fixed rates (~3.45% vs 4.75% standard variable). Compare all 4 major lenders and simulate your 25-year interest savings below.
+        </p>
+
+        <!-- 4 Major Bank Ticker Cards -->
+        <div class="bank-ticker-grid">
+          <!-- AIB -->
+          <div class="bank-ticker-card lowest-rate active" data-bank="aib" onclick="window.selectMortgageBank('aib')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">AIB Green 5-Yr</span>
+              <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 6px;">⭐ TOP PICK</span>
+            </div>
+            <div class="bank-rate-badge">3.45% <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">APRC</span></div>
+            <div style="font-size: 0.74rem; color: #cbd5e1;">BER A1-B3 · €3,000 Switch Cashback</div>
+          </div>
+
+          <!-- Haven -->
+          <div class="bank-ticker-card lowest-rate" data-bank="haven" onclick="window.selectMortgageBank('haven')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">Haven Green (Broker)</span>
+              <span style="background: rgba(52, 245, 197, 0.2); color: #34f5c5; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 6px;">LOW BROKER</span>
+            </div>
+            <div class="bank-rate-badge">3.45% <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">APRC</span></div>
+            <div style="font-size: 0.74rem; color: #cbd5e1;">BER A1-B3 · €5,000 Switch Incentive</div>
+          </div>
+
+          <!-- BOI -->
+          <div class="bank-ticker-card" data-bank="boi" onclick="window.selectMortgageBank('boi')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">Bank of Ireland</span>
+              <span style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; font-size: 0.68rem; font-weight: 700; padding: 2px 6px; border-radius: 6px;">EcoSaver</span>
+            </div>
+            <div class="bank-rate-badge" style="color: #38bdf8;">3.55% <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">APRC</span></div>
+            <div style="font-size: 0.74rem; color: #cbd5e1;">BER Tiered Rate · €2,500 Cashback</div>
+          </div>
+
+          <!-- PTSB -->
+          <div class="bank-ticker-card" data-bank="ptsb" onclick="window.selectMortgageBank('ptsb')">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">PTSB Green 4-Yr</span>
+              <span style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; font-size: 0.68rem; font-weight: 700; padding: 2px 6px; border-radius: 6px;">2% Back</span>
+            </div>
+            <div class="bank-rate-badge" style="color: #fbbf24;">3.60% <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">APRC</span></div>
+            <div style="font-size: 0.74rem; color: #cbd5e1;">2% Drawdown + Explore Account</div>
+          </div>
+        </div>
+
+        <!-- Interactive Mortgage Simulator Panel -->
+        <div class="mortgage-calc-panel">
+          <div class="mortgage-calc-grid">
+            <div>
+              <div class="mortgage-slider-control">
+                <div class="mortgage-slider-label">
+                  <span>Mortgage Balance:</span>
+                  <span class="mortgage-slider-val" id="mortgageBalanceVal">€350,000</span>
+                </div>
+                <input type="range" min="150000" max="750000" step="10000" value="350000" class="transformation-range-input" id="mortgageBalanceSlider" oninput="window.updateMortgageSimulation()" />
+              </div>
+
+              <div class="mortgage-slider-control">
+                <div class="mortgage-slider-label">
+                  <span>Mortgage Term:</span>
+                  <span class="mortgage-slider-val" id="mortgageTermVal">25 Years</span>
+                </div>
+                <input type="range" min="15" max="35" step="5" value="25" class="transformation-range-input" id="mortgageTermSlider" oninput="window.updateMortgageSimulation()" />
+              </div>
+            </div>
+
+            <!-- Result Readout -->
+            <div class="mortgage-result-card">
+              <div style="font-size: 0.72rem; color: #94a3b8; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+                ⚡ MONTHLY BANK INTEREST SLASH
+              </div>
+              <div style="font-size: 2.2rem; font-weight: 900; color: #34f5c5; margin: 4px 0;" id="mortgageMonthlySavingsVal">
+                -€254 / mo
+              </div>
+              <div style="font-size: 0.84rem; color: #cbd5e1; margin-bottom: 12px;" id="mortgageTotalSavingsVal">
+                <strong>€76,200 Total Interest Saved</strong> over 25 years
+              </div>
+              <div style="background: rgba(52, 245, 197, 0.12); border: 1px solid #34f5c5; border-radius: 8px; padding: 6px 12px; font-size: 0.74rem; color: #34f5c5; font-family: monospace;">
+                ● Comparing 4.75% SVR vs 3.45% Green Rate
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
+            <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiMortgageAdvice()">
+              🎙️ Ask Eimear: Explain My €76,200 Bank Savings →
+            </button>
+            <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestGreenMortgageWhatsApp()">
+              💬 WhatsApp Green Mortgage Broker Pack (083 966 2197) →
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
     <!-- 🗺️ 3-STEP "WALLET-HIT" FINANCIAL RESCUE WIZARD -->
     <section id="wallet-rescue-wizard" aria-label="3-Step Carbon Tax Shield Onboarding">
       <div style="text-align: center; margin-bottom: 24px;">
@@ -2320,6 +2435,108 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         const msg = encodeURIComponent(`Hi Joe! I am comparing SEAI One-Stop-Shop vs Individual Grants on EcoSmartHomes for: ${activeScope.toUpperCase()}.\n\nOSS Net: ${data.ossNet} vs Direct Trade Net: ${data.diyNet}.\n\nCan you review my quotes and advise which pathway is best for my home?`);
         window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
       };
+    })();
+  </script>
+
+
+  <!-- 🏦 Green Mortgage Bank Ticker & Calculator Engine -->
+  <script>
+    (function() {
+      const bankRates = {
+        aib: { name: 'AIB Green 5-Yr Fixed', rate: 3.45, cashback: '€3,000' },
+        haven: { name: 'Haven Green Broker Fixed', rate: 3.45, cashback: '€5,000' },
+        boi: { name: 'Bank of Ireland EcoSaver', rate: 3.55, cashback: '€2,500' },
+        ptsb: { name: 'PTSB Green 4-Yr Fixed', rate: 3.60, cashback: '2% Drawdown' }
+      };
+
+      let selectedBank = 'aib';
+
+      function calculateMonthlyPayment(principal, annualRate, years) {
+        const monthlyRate = (annualRate / 100) / 12;
+        const totalMonths = years * 12;
+        return principal * (monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+      }
+
+      window.selectMortgageBank = function(bankKey) {
+        selectedBank = bankKey;
+        document.querySelectorAll('.bank-ticker-card').forEach(card => {
+          card.classList.toggle('active', card.dataset.bank === bankKey);
+        });
+        window.updateMortgageSimulation();
+      };
+
+      window.updateMortgageSimulation = function() {
+        const balanceSlider = document.getElementById('mortgageBalanceSlider');
+        const termSlider = document.getElementById('mortgageTermSlider');
+        const balanceLabel = document.getElementById('mortgageBalanceVal');
+        const termLabel = document.getElementById('mortgageTermVal');
+        const monthlySavEl = document.getElementById('mortgageMonthlySavingsVal');
+        const totalSavEl = document.getElementById('mortgageTotalSavingsVal');
+
+        if (!balanceSlider || !termSlider) return;
+
+        const principal = parseInt(balanceSlider.value, 10);
+        const years = parseInt(termSlider.value, 10);
+        const greenRate = bankRates[selectedBank]?.rate || 3.45;
+        const standardRate = 4.75;
+
+        if (balanceLabel) balanceLabel.innerText = `€${principal.toLocaleString()}`;
+        if (termLabel) termLabel.innerText = `${years} Years`;
+
+        const standardMonthly = calculateMonthlyPayment(principal, standardRate, years);
+        const greenMonthly = calculateMonthlyPayment(principal, greenRate, years);
+
+        const monthlyDiff = Math.round(standardMonthly - greenMonthly);
+        const totalDiff = Math.round(monthlyDiff * 12 * years);
+
+        if (monthlySavEl) monthlySavEl.innerText = `-€${monthlyDiff.toLocaleString()} / mo`;
+        if (totalSavEl) totalSavEl.innerHTML = `<strong>€${totalDiff.toLocaleString()} Total Interest Saved</strong> over ${years} years`;
+      };
+
+      window.askVoiceAiMortgageAdvice = function() {
+        const bank = bankRates[selectedBank];
+        const principal = document.getElementById('mortgageBalanceSlider')?.value || '350000';
+        const years = document.getElementById('mortgageTermSlider')?.value || '25';
+        const prompt = `Hi Eimear! I am looking at switching my €${parseInt(principal).toLocaleString()} mortgage over ${years} years to ${bank.name} at ${bank.rate}%. How does upgrading my home to an A/B BER rating slash my interest payments and what valuation uplift should I expect?`;
+
+        if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+          window.AG.setVoicePersona('eimear', false);
+        }
+
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else {
+          const launcher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          if (launcher) launcher.click();
+        }
+
+        setTimeout(() => {
+          const input = document.getElementById('voice-text-input');
+          const sendBtn = document.getElementById('btn-send-voice');
+          if (input && sendBtn) {
+            input.value = prompt;
+            sendBtn.click();
+          } else if (typeof window.submitVoiceQuery === 'function') {
+            window.submitVoiceQuery(prompt);
+          }
+        }, 600);
+      };
+
+      window.requestGreenMortgageWhatsApp = function() {
+        const phone = '353839662197';
+        const bank = bankRates[selectedBank];
+        const principal = document.getElementById('mortgageBalanceSlider')?.value || '350000';
+        const years = document.getElementById('mortgageTermSlider')?.value || '25';
+        const msg = encodeURIComponent(`Hi Joe! I am simulating the Green Mortgage Rate on EcoSmartHomes for a €${parseInt(principal).toLocaleString()} balance with ${bank.name} (${bank.rate}%). Can you send me the Green Mortgage Broker Assessment Pack?`);
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      };
+
+      // Bootstrap simulation
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => window.updateMortgageSimulation());
+      } else {
+        window.updateMortgageSimulation();
+      }
     })();
   </script>
 

@@ -3041,3 +3041,114 @@ a, a:visited {
   border-radius: 10px;
   padding: 12px 14px;
 }
+
+
+/* =========================================================
+   Live Green Mortgage Bank Ticker & Comparative Widget
+   ========================================================= */
+.mortgage-ticker-section {
+  background: linear-gradient(180deg, #001711 0%, #00261c 50%, #001711 100%);
+  padding: 70px 20px;
+  border-top: 1px solid rgba(52, 245, 197, 0.2);
+  border-bottom: 1px solid rgba(52, 245, 197, 0.2);
+  position: relative;
+  text-align: center;
+}
+
+.mortgage-ticker-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  background: rgba(0, 36, 27, 0.9);
+  border: 1.5px solid rgba(52, 245, 197, 0.35);
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(52, 245, 197, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: left;
+}
+
+.bank-ticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 20px 0 28px 0;
+}
+
+.bank-ticker-card {
+  background: #001f17;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 18px 16px;
+  transition: all 0.25s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.bank-ticker-card:hover, .bank-ticker-card.active {
+  background: rgba(52, 245, 197, 0.12);
+  border-color: #34f5c5;
+  box-shadow: 0 8px 24px rgba(52, 245, 197, 0.25);
+  transform: translateY(-2px);
+}
+
+.bank-ticker-card.lowest-rate {
+  border-color: #f59e0b;
+}
+
+.bank-rate-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: #34f5c5;
+  margin: 6px 0;
+}
+
+.mortgage-calc-panel {
+  background: #00140e;
+  border: 1.5px solid rgba(52, 245, 197, 0.3);
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.mortgage-calc-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+@media (max-width: 850px) {
+  .mortgage-calc-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mortgage-slider-control {
+  margin: 16px 0;
+}
+
+.mortgage-slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  margin-bottom: 6px;
+}
+
+.mortgage-slider-val {
+  font-family: 'IBM Plex Mono', monospace;
+  color: #34f5c5;
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+.mortgage-result-card {
+  background: #001f17;
+  border: 1.5px solid #34f5c5;
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
