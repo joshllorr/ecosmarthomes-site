@@ -1133,6 +1133,112 @@
     </section>
 
 
+    
+    <!-- 🌟 IRISH CARBON TAX SHIELD & RETROFIT WAR ROOM TERMINAL -->
+    <section class="war-room-section" id="carbon-tax-war-room" aria-label="Irish Carbon Tax Shield & Retrofit Mission Control">
+      <div class="war-room-grid-bg"></div>
+      <div class="war-room-container" id="warRoomContainer">
+        <div class="shield-laser-sweep"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <span class="war-room-badge" id="warRoomBadge">
+            <span class="pulse-dot" style="background: #ef4444; box-shadow: 0 0 10px #ef4444;"></span>
+            ⚠️ STATUTORY IRISH CARBON TAX ESCALATOR: €64 ➔ €100/TONNE ACTIVE
+          </span>
+          <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+            ● Statutory Finance Act Escalator to 2030
+          </span>
+        </div>
+
+        <h2 style="font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.15; letter-spacing: -0.02em;">
+          Irish Retrofit Mission Control & Carbon Shield Terminal
+        </h2>
+        <p style="color: #cbd5e1; font-size: 0.95rem; max-width: 800px; margin: 0 0 24px 0; line-height: 1.55;">
+          Every unrenovated home in Ireland is leaking thousands into statutory fuel taxes every winter. Tap the defense trigger below to engage your <strong>Carbon Tax Shield</strong> and lock in up to <strong>€35,000 in direct SEAI grants</strong>.
+        </p>
+
+        <!-- Live Clock & Tax Leak vs Shield Grid -->
+        <div class="war-clock-grid">
+          <!-- UNPROTECTED TAX LEAK CARD -->
+          <div class="war-clock-card leak-active" id="unprotectedCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(239, 68, 68, 0.25); padding-bottom: 10px;">
+              <span style="font-size: 0.75rem; color: #f87171; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+                🔴 UNPROTECTED EXPOSURE
+              </span>
+              <span style="font-size: 0.72rem; color: #94a3b8;">Statutory 2026-30 Penalty</span>
+            </div>
+            <div class="war-counter-display" style="color: #f87171;" id="leakLiveCounter">
+              €4,180.00
+            </div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+              Accumulating on Kerosene Oil / Natural Gas carbon levies until 2030.
+            </div>
+          </div>
+
+          <!-- SHIELDED ZERO LEAK CARD -->
+          <div class="war-clock-card" id="shieldedCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 245, 197, 0.25); padding-bottom: 10px;">
+              <span style="font-size: 0.75rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+                🟢 ECOSMART SHIELD STATUS
+              </span>
+              <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace;" id="shieldStatusText">STANDBY</span>
+            </div>
+            <div class="war-counter-display" style="color: #34f5c5;" id="shieldLiveCounter">
+              €0.00 TAX
+            </div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+              100% Tax Immunity via Heat Pump Electrification + Solar PV Harvest.
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Live Defense Pods -->
+        <div class="defense-pods-grid">
+          <div class="defense-pod" id="podHp">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">⚡</div>
+            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">Heat Pump (COP 4.2)</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">45°C Continuous Flow</div>
+          </div>
+
+          <div class="defense-pod" id="podSolar">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">☀️</div>
+            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">6kW Solar PV Array</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">24c/kWh Clean Export</div>
+          </div>
+
+          <div class="defense-pod" id="podBattery">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">🔋</div>
+            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">10kWh Night Battery</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">7c/kWh Smart Charge</div>
+          </div>
+
+          <div class="defense-pod" id="podGrant">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">💶</div>
+            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">€35,000 SEAI Grant</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">State Funding Locked</div>
+          </div>
+        </div>
+
+        <!-- Master Trigger Button -->
+        <div style="margin-top: 24px;">
+          <button type="button" class="btn-activate-shield" id="btnEngageShield" onclick="window.engageCarbonTaxShield()">
+            <span>🛡️</span> <span id="shieldBtnLabel">ACTIVATE CARBON SHIELD DEFENSE & LOCK €35,000 GRANT →</span>
+          </button>
+        </div>
+
+        <div id="shieldActivatedControls" style="display: none; margin-top: 20px; gap: 12px; flex-wrap: wrap;">
+          <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiShieldDossier()">
+            🎙️ Ask Aoife: Explain My Carbon Shield Clearance Dossier →
+          </button>
+          <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestShieldCertWhatsApp()">
+            💬 WhatsApp My Carbon Shield Certificate to Joe (083 966 2197) →
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
     <!-- 🗺️ 3-STEP "WALLET-HIT" FINANCIAL RESCUE WIZARD -->
     <section id="wallet-rescue-wizard" aria-label="3-Step Carbon Tax Shield Onboarding">
       <div style="text-align: center; margin-bottom: 24px;">
@@ -2537,6 +2643,98 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
       } else {
         window.updateMortgageSimulation();
       }
+    })();
+  </script>
+
+
+  <!-- 🌟 Irish Carbon Tax Shield & War Room Engine -->
+  <script>
+    (function() {
+      let shieldActive = false;
+      let taxPenaltyBase = 4180.00;
+
+      // Real-time ticking penalty accumulator
+      setInterval(() => {
+        if (!shieldActive) {
+          taxPenaltyBase += 0.0025;
+          const el = document.getElementById('leakLiveCounter');
+          if (el) el.innerText = `€${taxPenaltyBase.toFixed(2)}`;
+        }
+      }, 500);
+
+      window.engageCarbonTaxShield = function() {
+        if (shieldActive) return;
+        shieldActive = true;
+
+        const container = document.getElementById('warRoomContainer');
+        const badge = document.getElementById('warRoomBadge');
+        const shieldedCard = document.getElementById('shieldedCard');
+        const shieldStatusText = document.getElementById('shieldStatusText');
+        const shieldBtnLabel = document.getElementById('shieldBtnLabel');
+        const actionControls = document.getElementById('shieldActivatedControls');
+
+        if (container) container.classList.add('shield-engaging');
+
+        // Play Triumphant Spatial Chime (C5 -> E5 -> G5 -> C6 Harmonic Fanfare)
+        if (window.AG && typeof window.AG.playTone === 'function') {
+          window.AG.playTone(523.25, 0.2, 'triangle', 0.08); // C5
+          setTimeout(() => window.AG.playTone(659.25, 0.25, 'triangle', 0.08), 120); // E5
+          setTimeout(() => window.AG.playTone(783.99, 0.3, 'sine', 0.09), 240); // G5
+          setTimeout(() => window.AG.playTone(1046.50, 0.5, 'sine', 0.1), 380); // C6
+        }
+
+        setTimeout(() => {
+          // Engage all 4 pods
+          document.querySelectorAll('.defense-pod').forEach(pod => pod.classList.add('engaged'));
+
+          if (badge) {
+            badge.className = 'war-room-badge shield-on';
+            badge.innerHTML = '<span class="pulse-dot" style="background: #34f5c5; box-shadow: 0 0 10px #34f5c5;"></span> 🛡️ 100% CARBON TAX SHIELD ACTIVE · 2026-2030 FUEL LEVIES ZEROED';
+          }
+
+          if (shieldedCard) shieldedCard.classList.add('shield-active');
+          if (shieldStatusText) shieldStatusText.innerText = 'ONLINE · 100% IMMUNITY';
+          if (shieldBtnLabel) shieldBtnLabel.innerText = '✓ CARBON SHIELD ACTIVATED · €35,000 GRANT LOCKED';
+          if (actionControls) actionControls.style.display = 'flex';
+
+          // Spoken AI Speech
+          if (window.AG && window.AG.voice && typeof window.AG.voice.say === 'function') {
+            window.AG.voice.say("Carbon Shield Activated! Your home is now fully protected against statutory Irish fuel tax escalators, with 35 thousand euros in SEAI grants locked in.");
+          }
+        }, 600);
+      };
+
+      window.askVoiceAiShieldDossier = function() {
+        const prompt = "Hi Aoife! I just activated my Irish Carbon Tax Shield on the EcoSmart War Room. Can you explain how my heat pump, solar PV, and 35 thousand euro SEAI grant shield my home from fuel tax increases through 2030?";
+
+        if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+          window.AG.setVoicePersona('aoife', false);
+        }
+
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else {
+          const launcher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          if (launcher) launcher.click();
+        }
+
+        setTimeout(() => {
+          const input = document.getElementById('voice-text-input');
+          const sendBtn = document.getElementById('btn-send-voice');
+          if (input && sendBtn) {
+            input.value = prompt;
+            sendBtn.click();
+          } else if (typeof window.submitVoiceQuery === 'function') {
+            window.submitVoiceQuery(prompt);
+          }
+        }, 600);
+      };
+
+      window.requestShieldCertWhatsApp = function() {
+        const phone = '353839662197';
+        const msg = encodeURIComponent("Hi Joe! I just activated the Irish Carbon Tax Shield on EcoSmartHomes with €35,000 SEAI Grant Lock. Can you send me my official Carbon Shield Clearance Dossier and contractor roadmap?");
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      };
     })();
   </script>
 

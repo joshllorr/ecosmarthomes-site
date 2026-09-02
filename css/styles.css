@@ -3152,3 +3152,173 @@ a, a:visited {
   padding: 20px;
   text-align: center;
 }
+
+
+/* =========================================================
+   🌟 Irish Carbon Tax Shield & Retrofit War Room Terminal
+   ========================================================= */
+.war-room-section {
+  background: radial-gradient(120% 120% at 50% 0%, #003829 0%, #001711 60%, #000c09 100%);
+  padding: 80px 20px;
+  border-top: 2px solid #34f5c5;
+  border-bottom: 2px solid #34f5c5;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.war-room-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(52, 245, 197, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 245, 197, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.war-room-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: rgba(0, 24, 18, 0.95);
+  border: 2px solid rgba(52, 245, 197, 0.5);
+  border-radius: 28px;
+  padding: clamp(24px, 5vw, 45px);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 50px rgba(52, 245, 197, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  z-index: 2;
+  text-align: left;
+}
+
+.war-room-badge {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid #ef4444;
+  color: #f87171;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.war-room-badge.shield-on {
+  background: rgba(52, 245, 197, 0.15);
+  border-color: #34f5c5;
+  color: #34f5c5;
+}
+
+.war-clock-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 24px 0;
+}
+
+@media (max-width: 768px) {
+  .war-clock-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.war-clock-card {
+  background: #00140e;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.war-clock-card.leak-active {
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.2);
+}
+
+.war-clock-card.shield-active {
+  border-color: rgba(52, 245, 197, 0.6);
+  box-shadow: 0 0 35px rgba(52, 245, 197, 0.3);
+  background: #00221a;
+}
+
+.war-counter-display {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  font-weight: 900;
+  margin: 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.defense-pods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.defense-pod {
+  background: #001811;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 16px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.6;
+}
+
+.defense-pod.engaged {
+  opacity: 1;
+  border-color: #34f5c5;
+  background: rgba(52, 245, 197, 0.08);
+  box-shadow: 0 0 16px rgba(52, 245, 197, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-activate-shield {
+  background: linear-gradient(90deg, #10b981 0%, #34f5c5 100%);
+  color: #001711;
+  font-weight: 900;
+  font-size: 1rem;
+  padding: 16px 28px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 0 30px rgba(52, 245, 197, 0.5);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+}
+
+.btn-activate-shield:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 50px rgba(52, 245, 197, 0.8);
+}
+
+.shield-laser-sweep {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #34f5c5, #ffffff, #34f5c5, transparent);
+  box-shadow: 0 0 25px #34f5c5;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.shield-engaging .shield-laser-sweep {
+  opacity: 1;
+  animation: laserSweep 1.2s ease-in-out forwards;
+}
+
+@keyframes laserSweep {
+  0% { top: 0%; }
+  100% { top: 100%; opacity: 0; }
+}
