@@ -2522,3 +2522,174 @@ a, a:visited {
   box-shadow: 0 0 20px rgba(251, 191, 36, 0.6) !important;
   transform: scale(1.03) !important;
 }
+
+
+/* =========================================================
+   26-County Irish Solar & Micro-Climate Yield Map
+   ========================================================= */
+.county-solar-section {
+  background: linear-gradient(180deg, #001711 0%, #00271d 50%, #001711 100%);
+  padding: 70px 20px;
+  border-top: 1px solid rgba(52, 245, 197, 0.2);
+  border-bottom: 1px solid rgba(52, 245, 197, 0.2);
+  position: relative;
+  text-align: center;
+}
+
+.county-solar-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  background: rgba(0, 36, 27, 0.9);
+  border: 1.5px solid rgba(52, 245, 197, 0.35);
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: left;
+}
+
+.county-badge-pill {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.province-filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.province-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #cbd5e1;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.province-chip:hover {
+  background: rgba(52, 245, 197, 0.15);
+  border-color: #34f5c5;
+  color: #34f5c5;
+}
+
+.province-chip.active {
+  background: rgba(52, 245, 197, 0.2);
+  border-color: #34f5c5;
+  color: #34f5c5;
+  font-weight: 800;
+  box-shadow: 0 0 12px rgba(52, 245, 197, 0.3);
+}
+
+.county-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 8px 4px 8px 0;
+  margin-bottom: 24px;
+}
+
+.county-chips-grid::-webkit-scrollbar {
+  width: 5px;
+}
+.county-chips-grid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+.county-chips-grid::-webkit-scrollbar-thumb {
+  background: #34f5c5;
+  border-radius: 4px;
+}
+
+.county-btn-chip {
+  background: #001f17;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.county-btn-chip:hover {
+  background: rgba(52, 245, 197, 0.12);
+  border-color: #34f5c5;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.county-btn-chip.active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: #f59e0b;
+  color: #fbbf24;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.3);
+  font-weight: 800;
+}
+
+.county-telemetry-dashboard {
+  background: #001f17;
+  border: 1.5px solid #34f5c5;
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.county-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.county-stat-card {
+  background: #00140e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.county-stat-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #94a3b8;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.county-stat-value {
+  font-size: 1.45rem;
+  font-weight: 900;
+  margin: 4px 0 2px 0;
+  letter-spacing: -0.02em;
+}
+
+.county-stat-desc {
+  font-size: 0.74rem;
+  color: #64748b;
+}

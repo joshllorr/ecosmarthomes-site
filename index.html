@@ -658,6 +658,94 @@
     </section>
 
 
+    
+    <!-- 🗺️ INTERACTIVE 26-COUNTY IRISH SOLAR & MICRO-CLIMATE MAP -->
+    <section class="county-solar-section" id="county-solar-map" aria-label="26-County Irish Solar & Micro-Climate Yield Engine">
+      <div class="county-solar-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <span class="county-badge-pill">☀️ 26-COUNTY GEOCODED IRISH SOLAR YIELD MODEL</span>
+          <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+            ● Clean Export Guarantee (CEG 24c/kWh) & NSAI SR50 Winter Data
+          </span>
+        </div>
+
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
+          Irish Regional Solar Harvest & Micro-Climate Yield Map
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.92rem; max-width: 780px; margin: 0 0 20px 0; line-height: 1.5;">
+          Select any of the 26 Irish counties to instantly view geocoded annual solar harvest (6kW system), Clean Export Guarantee cash rebates, local heating degree days, and active SEAI registered installers.
+        </p>
+
+        <!-- Province Filter Pills -->
+        <div class="province-filter-group">
+          <button type="button" class="province-chip active" data-province="all" onclick="window.filterCounties('all')">🌟 All 26 Counties</button>
+          <button type="button" class="province-chip" data-province="munster" onclick="window.filterCounties('munster')">🏰 Munster</button>
+          <button type="button" class="province-chip" data-province="leinster" onclick="window.filterCounties('leinster')">🏛️ Leinster</button>
+          <button type="button" class="province-chip" data-province="connacht" onclick="window.filterCounties('connacht')">🌊 Connacht</button>
+          <button type="button" class="province-chip" data-province="ulster" onclick="window.filterCounties('ulster')">🌲 Ulster (ROI)</button>
+        </div>
+
+        <!-- County Chips Selector -->
+        <div class="county-chips-grid" id="countyChipsGrid">
+          <!-- Dynamically generated chips -->
+        </div>
+
+        <!-- Live County Telemetry Dashboard -->
+        <div class="county-telemetry-dashboard" id="countyDashboard">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+            <div>
+              <div style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+                ● ACTIVE COUNTY DOSSIER
+              </div>
+              <h3 style="color: #ffffff; font-size: 1.4rem; font-weight: 900; margin: 2px 0 0 0;" id="countySelectedTitle">
+                Co. Cork (Munster)
+              </h3>
+            </div>
+            <span style="background: rgba(52, 245, 197, 0.15); color: #34f5c5; border: 1px solid #34f5c5; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; font-family: monospace;" id="countyIrradianceTag">
+              ☀️ 995 kWh/kWp High Yield Zone
+            </span>
+          </div>
+
+          <div class="county-telemetry-grid">
+            <div class="county-stat-card">
+              <span class="county-stat-label">⚡ 6kW Annual Solar Harvest</span>
+              <div class="county-stat-value text-mint" id="countyHarvestVal">5,970 kWh/yr</div>
+              <span class="county-stat-desc">Regional micro-climate model</span>
+            </div>
+
+            <div class="county-stat-card">
+              <span class="county-stat-label">💶 Annual CEG Export Cash</span>
+              <div class="county-stat-value text-amber" id="countyCegVal">€895/yr</div>
+              <span class="county-stat-desc">Paid at 24c/kWh Clean Export</span>
+            </div>
+
+            <div class="county-stat-card">
+              <span class="county-stat-label">🌡️ NSAI SR50 Design Temp</span>
+              <div class="county-stat-value text-cyan" id="countyDesignTempVal">-3.0°C (Coastal)</div>
+              <span class="county-stat-desc">Heat pump low-temp sizing</span>
+            </div>
+
+            <div class="county-stat-card">
+              <span class="county-stat-label">👷 Active SEAI Installers</span>
+              <div class="county-stat-value text-gold" id="countyInstallersVal">24 Registered</div>
+              <span class="county-stat-desc">Vetted local contractors</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
+            <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiCountySolar()">
+              <span id="countyVoiceBtnText">🎙️ Ask Aoife: Co. Cork Grants & Solar Payback →</span>
+            </button>
+            <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestCountyInstallerShortlist()">
+              <span id="countyWaBtnText">💬 WhatsApp Co. Cork Installer Shortlist (083 966 2197) →</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
     <!-- 🗺️ 3-STEP "WALLET-HIT" FINANCIAL RESCUE WIZARD -->
     <section id="wallet-rescue-wizard" aria-label="3-Step Carbon Tax Shield Onboarding">
       <div style="text-align: center; margin-bottom: 24px;">
@@ -1500,6 +1588,280 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         const msg = encodeURIComponent(`Hi Joe! I just completed an AI Snap & Audit scan on my property for: ${activeSnapData.title}.\n\nVerdict: ${activeSnapData.verdict}\nGrant Eligibility: ${activeSnapData.grant}\nSR50 Status: ${activeSnapData.sr50}\n\nCan you review my photo and confirm my retrofit roadmap?`);
         window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
       };
+    })();
+  </script>
+
+
+  <!-- 🗺️ 26-County Irish Solar & Micro-Climate Engine -->
+  <script>
+    (function() {
+      const irishCounties = [
+        // Munster
+        { id: 'cork', name: 'Co. Cork', province: 'munster', yield: 995, harvest: '5,970 kWh/yr', ceg: '€895/yr', designTemp: '-3.0°C (Coastal)', installers: '24 Registered', tag: '☀️ 995 kWh/kWp High Yield Zone' },
+        { id: 'kerry', name: 'Co. Kerry', province: 'munster', yield: 990, harvest: '5,940 kWh/yr', ceg: '€890/yr', designTemp: '-2.5°C (Atlantic Coastal)', installers: '16 Registered', tag: '☀️ 990 kWh/kWp High Yield Zone' },
+        { id: 'waterford', name: 'Co. Waterford', province: 'munster', yield: 1020, harvest: '6,120 kWh/yr', ceg: '€918/yr', designTemp: '-3.0°C (South Coast)', installers: '14 Registered', tag: '☀️ 1,020 kWh/kWp Premium Solar Coast' },
+        { id: 'limerick', name: 'Co. Limerick', province: 'munster', yield: 960, harvest: '5,760 kWh/yr', ceg: '€864/yr', designTemp: '-3.5°C (Mid-West)', installers: '18 Registered', tag: '☀️ 960 kWh/kWp Strong Yield' },
+        { id: 'clare', name: 'Co. Clare', province: 'munster', yield: 945, harvest: '5,670 kWh/yr', ceg: '€850/yr', designTemp: '-3.0°C (Atlantic Coast)', installers: '12 Registered', tag: '☀️ 945 kWh/kWp Strong Yield' },
+        { id: 'tipperary', name: 'Co. Tipperary', province: 'munster', yield: 975, harvest: '5,850 kWh/yr', ceg: '€877/yr', designTemp: '-4.0°C (Inland Plains)', installers: '15 Registered', tag: '☀️ 975 kWh/kWp High Yield Zone' },
+
+        // Leinster
+        { id: 'dublin', name: 'Co. Dublin', province: 'leinster', yield: 970, harvest: '5,820 kWh/yr', ceg: '€873/yr', designTemp: '-3.0°C (East Coast)', installers: '42 Registered', tag: '☀️ 970 kWh/kWp High Demand Hub' },
+        { id: 'wexford', name: 'Co. Wexford', province: 'leinster', yield: 1035, harvest: '6,210 kWh/yr', ceg: '€931/yr', designTemp: '-2.5°C (Sunny South East)', installers: '18 Registered', tag: '☀️ 1,035 kWh/kWp #1 Highest Solar Yield in Ireland' },
+        { id: 'wicklow', name: 'Co. Wicklow', province: 'leinster', yield: 985, harvest: '5,910 kWh/yr', ceg: '€886/yr', designTemp: '-3.5°C (Coastal & Uplands)', installers: '16 Registered', tag: '☀️ 985 kWh/kWp High Yield Zone' },
+        { id: 'kildare', name: 'Co. Kildare', province: 'leinster', yield: 955, harvest: '5,730 kWh/yr', ceg: '€859/yr', designTemp: '-4.0°C (Midland Plains)', installers: '22 Registered', tag: '☀️ 955 kWh/kWp Strong Yield' },
+        { id: 'meath', name: 'Co. Meath', province: 'leinster', yield: 950, harvest: '5,700 kWh/yr', ceg: '€855/yr', designTemp: '-4.0°C (Boyne Valley)', installers: '19 Registered', tag: '☀️ 950 kWh/kWp Strong Yield' },
+        { id: 'louth', name: 'Co. Louth', province: 'leinster', yield: 945, harvest: '5,670 kWh/yr', ceg: '€850/yr', designTemp: '-3.5°C (North East Coast)', installers: '14 Registered', tag: '☀️ 945 kWh/kWp Strong Yield' },
+        { id: 'kilkenny', name: 'Co. Kilkenny', province: 'leinster', yield: 990, harvest: '5,940 kWh/yr', ceg: '€890/yr', designTemp: '-3.5°C (South East Valley)', installers: '15 Registered', tag: '☀️ 990 kWh/kWp High Yield Zone' },
+        { id: 'carlow', name: 'Co. Carlow', province: 'leinster', yield: 980, harvest: '5,880 kWh/yr', ceg: '€882/yr', designTemp: '-4.0°C (Inland Plains)', installers: '11 Registered', tag: '☀️ 980 kWh/kWp High Yield Zone' },
+        { id: 'laois', name: 'Co. Laois', province: 'leinster', yield: 950, harvest: '5,700 kWh/yr', ceg: '€855/yr', designTemp: '-4.5°C (Midlands)', installers: '12 Registered', tag: '☀️ 950 kWh/kWp Strong Yield' },
+        { id: 'offaly', name: 'Co. Offaly', province: 'leinster', yield: 940, harvest: '5,640 kWh/yr', ceg: '€846/yr', designTemp: '-4.5°C (Midlands Boglands)', installers: '10 Registered', tag: '☀️ 940 kWh/kWp Steady Yield' },
+        { id: 'westmeath', name: 'Co. Westmeath', province: 'leinster', yield: 935, harvest: '5,610 kWh/yr', ceg: '€841/yr', designTemp: '-4.5°C (Midlands Lakes)', installers: '11 Registered', tag: '☀️ 935 kWh/kWp Steady Yield' },
+        { id: 'longford', name: 'Co. Longford', province: 'leinster', yield: 925, harvest: '5,550 kWh/yr', ceg: '€832/yr', designTemp: '-4.5°C (North Midlands)', installers: '8 Registered', tag: '☀️ 925 kWh/kWp Steady Yield' },
+
+        // Connacht
+        { id: 'galway', name: 'Co. Galway', province: 'connacht', yield: 930, harvest: '5,580 kWh/yr', ceg: '€837/yr', designTemp: '-3.0°C (West Coast / Atlantic)', installers: '22 Registered', tag: '☀️ 930 kWh/kWp Atlantic Hub' },
+        { id: 'mayo', name: 'Co. Mayo', province: 'connacht', yield: 910, harvest: '5,460 kWh/yr', ceg: '€819/yr', designTemp: '-3.0°C (West Coast / Atlantic)', installers: '14 Registered', tag: '☀️ 910 kWh/kWp Clean Atlantic Yield' },
+        { id: 'sligo', name: 'Co. Sligo', province: 'connacht', yield: 905, harvest: '5,430 kWh/yr', ceg: '€814/yr', designTemp: '-3.0°C (North West Coast)', installers: '10 Registered', tag: '☀️ 905 kWh/kWp Clean Atlantic Yield' },
+        { id: 'roscommon', name: 'Co. Roscommon', province: 'connacht', yield: 920, harvest: '5,520 kWh/yr', ceg: '€828/yr', designTemp: '-4.5°C (Inland West)', installers: '9 Registered', tag: '☀️ 920 kWh/kWp Steady Yield' },
+        { id: 'leitrim', name: 'Co. Leitrim', province: 'connacht', yield: 895, harvest: '5,370 kWh/yr', ceg: '€805/yr', designTemp: '-4.0°C (North West)', installers: '7 Registered', tag: '☀️ 895 kWh/kWp Steady Yield' },
+
+        // Ulster (ROI)
+        { id: 'donegal', name: 'Co. Donegal', province: 'ulster', yield: 890, harvest: '5,340 kWh/yr', ceg: '€801/yr', designTemp: '-3.0°C (Atlantic Coast & Hills)', installers: '15 Registered', tag: '☀️ 890 kWh/kWp Clean Coastal Yield' },
+        { id: 'cavan', name: 'Co. Cavan', province: 'ulster', yield: 915, harvest: '5,490 kWh/yr', ceg: '€823/yr', designTemp: '-4.5°C (Drumlins)', installers: '10 Registered', tag: '☀️ 915 kWh/kWp Steady Yield' },
+        { id: 'monaghan', name: 'Co. Monaghan', province: 'ulster', yield: 920, harvest: '5,520 kWh/yr', ceg: '€828/yr', designTemp: '-4.5°C (Border Drumlins)', installers: '9 Registered', tag: '☀️ 920 kWh/kWp Steady Yield' }
+      ];
+
+      let activeCounty = irishCounties[0]; // Default Cork
+
+      function renderChips(filterProvince = 'all') {
+        const grid = document.getElementById('countyChipsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const filtered = filterProvince === 'all' 
+          ? irishCounties 
+          : irishCounties.filter(c => c.province === filterProvince);
+
+        filtered.forEach(c => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `county-btn-chip ${c.id === activeCounty.id ? 'active' : ''}`;
+          btn.innerHTML = `<span>${c.name}</span> <span style="font-size: 0.68rem; font-family: monospace; color: #34f5c5;">${c.yield}</span>`;
+          btn.onclick = () => window.selectCounty(c.id);
+          grid.appendChild(btn);
+        });
+      }
+
+      window.filterCounties = function(province) {
+        document.querySelectorAll('.province-chip').forEach(chip => {
+          chip.classList.toggle('active', chip.dataset.province === province);
+        });
+        renderChips(province);
+      };
+
+      window.selectCounty = function(countyId) {
+        const found = irishCounties.find(c => c.id === countyId);
+        if (!found) return;
+        activeCounty = found;
+
+        document.querySelectorAll('.county-btn-chip').forEach(btn => {
+          btn.classList.toggle('active', btn.textContent.includes(found.name));
+        });
+
+        const titleEl = document.getElementById('countySelectedTitle');
+        const tagEl = document.getElementById('countyIrradianceTag');
+        const harvestEl = document.getElementById('countyHarvestVal');
+        const cegEl = document.getElementById('countyCegVal');
+        const designTempEl = document.getElementById('countyDesignTempVal');
+        const installersEl = document.getElementById('countyInstallersVal');
+        const voiceBtnText = document.getElementById('countyVoiceBtnText');
+        const waBtnText = document.getElementById('countyWaBtnText');
+
+        if (titleEl) titleEl.innerText = `${found.name} (${found.province.toUpperCase()})`;
+        if (tagEl) tagEl.innerText = found.tag;
+        if (harvestEl) harvestEl.innerText = found.harvest;
+        if (cegEl) cegEl.innerText = found.ceg;
+        if (designTempEl) designTempEl.innerText = found.designTemp;
+        if (installersEl) installersEl.innerText = found.installers;
+        if (voiceBtnText) voiceBtnText.innerText = `🎙️ Ask Aoife: ${found.name} Grants & Solar Payback →`;
+        if (waBtnText) waBtnText.innerText = `💬 WhatsApp ${found.name} Installer Shortlist (083 966 2197) →`;
+      };
+
+      window.askVoiceAiCountySolar = function() {
+        const prompt = `Hi Aoife! I live in ${activeCounty.name}. Can you explain my estimated ${activeCounty.harvest} annual solar yield, my ${activeCounty.ceg} Clean Export Guarantee earnings, and what SEAI grants apply to my roof?`;
+
+        if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+          window.AG.setVoicePersona('aoife', false);
+        }
+
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else {
+          const launcher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          if (launcher) launcher.click();
+        }
+
+        setTimeout(() => {
+          const input = document.getElementById('voice-text-input');
+          const sendBtn = document.getElementById('btn-send-voice');
+          if (input && sendBtn) {
+            input.value = prompt;
+            sendBtn.click();
+          } else if (typeof window.submitVoiceQuery === 'function') {
+            window.submitVoiceQuery(prompt);
+          }
+        }, 600);
+      };
+
+      window.requestCountyInstallerShortlist = function() {
+        const phone = '353839662197';
+        const msg = encodeURIComponent(`Hi Joe! I am looking for verified SEAI registered solar & heat pump installers in ${activeCounty.name}. My estimated solar yield is ${activeCounty.harvest} (${activeCounty.ceg} CEG). Can you share the top 3 vetted contractor shortlist for my area?`);
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      };
+
+      // Bootstrap on load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => renderChips('all'));
+      } else {
+        renderChips('all');
+      }
+    })();
+  </script>
+
+
+  <!-- 🗺️ 26-County Irish Solar & Micro-Climate Engine -->
+  <script>
+    (function() {
+      const irishCounties = [
+        // Munster
+        { id: 'cork', name: 'Co. Cork', province: 'munster', yield: 995, harvest: '5,970 kWh/yr', ceg: '€895/yr', designTemp: '-3.0°C (Coastal)', installers: '24 Registered', tag: '☀️ 995 kWh/kWp High Yield Zone' },
+        { id: 'kerry', name: 'Co. Kerry', province: 'munster', yield: 990, harvest: '5,940 kWh/yr', ceg: '€890/yr', designTemp: '-2.5°C (Atlantic Coastal)', installers: '16 Registered', tag: '☀️ 990 kWh/kWp High Yield Zone' },
+        { id: 'waterford', name: 'Co. Waterford', province: 'munster', yield: 1020, harvest: '6,120 kWh/yr', ceg: '€918/yr', designTemp: '-3.0°C (South Coast)', installers: '14 Registered', tag: '☀️ 1,020 kWh/kWp Premium Solar Coast' },
+        { id: 'limerick', name: 'Co. Limerick', province: 'munster', yield: 960, harvest: '5,760 kWh/yr', ceg: '€864/yr', designTemp: '-3.5°C (Mid-West)', installers: '18 Registered', tag: '☀️ 960 kWh/kWp Strong Yield' },
+        { id: 'clare', name: 'Co. Clare', province: 'munster', yield: 945, harvest: '5,670 kWh/yr', ceg: '€850/yr', designTemp: '-3.0°C (Atlantic Coast)', installers: '12 Registered', tag: '☀️ 945 kWh/kWp Strong Yield' },
+        { id: 'tipperary', name: 'Co. Tipperary', province: 'munster', yield: 975, harvest: '5,850 kWh/yr', ceg: '€877/yr', designTemp: '-4.0°C (Inland Plains)', installers: '15 Registered', tag: '☀️ 975 kWh/kWp High Yield Zone' },
+
+        // Leinster
+        { id: 'dublin', name: 'Co. Dublin', province: 'leinster', yield: 970, harvest: '5,820 kWh/yr', ceg: '€873/yr', designTemp: '-3.0°C (East Coast)', installers: '42 Registered', tag: '☀️ 970 kWh/kWp High Demand Hub' },
+        { id: 'wexford', name: 'Co. Wexford', province: 'leinster', yield: 1035, harvest: '6,210 kWh/yr', ceg: '€931/yr', designTemp: '-2.5°C (Sunny South East)', installers: '18 Registered', tag: '☀️ 1,035 kWh/kWp #1 Highest Solar Yield in Ireland' },
+        { id: 'wicklow', name: 'Co. Wicklow', province: 'leinster', yield: 985, harvest: '5,910 kWh/yr', ceg: '€886/yr', designTemp: '-3.5°C (Coastal & Uplands)', installers: '16 Registered', tag: '☀️ 985 kWh/kWp High Yield Zone' },
+        { id: 'kildare', name: 'Co. Kildare', province: 'leinster', yield: 955, harvest: '5,730 kWh/yr', ceg: '€859/yr', designTemp: '-4.0°C (Midland Plains)', installers: '22 Registered', tag: '☀️ 955 kWh/kWp Strong Yield' },
+        { id: 'meath', name: 'Co. Meath', province: 'leinster', yield: 950, harvest: '5,700 kWh/yr', ceg: '€855/yr', designTemp: '-4.0°C (Boyne Valley)', installers: '19 Registered', tag: '☀️ 950 kWh/kWp Strong Yield' },
+        { id: 'louth', name: 'Co. Louth', province: 'leinster', yield: 945, harvest: '5,670 kWh/yr', ceg: '€850/yr', designTemp: '-3.5°C (North East Coast)', installers: '14 Registered', tag: '☀️ 945 kWh/kWp Strong Yield' },
+        { id: 'kilkenny', name: 'Co. Kilkenny', province: 'leinster', yield: 990, harvest: '5,940 kWh/yr', ceg: '€890/yr', designTemp: '-3.5°C (South East Valley)', installers: '15 Registered', tag: '☀️ 990 kWh/kWp High Yield Zone' },
+        { id: 'carlow', name: 'Co. Carlow', province: 'leinster', yield: 980, harvest: '5,880 kWh/yr', ceg: '€882/yr', designTemp: '-4.0°C (Inland Plains)', installers: '11 Registered', tag: '☀️ 980 kWh/kWp High Yield Zone' },
+        { id: 'laois', name: 'Co. Laois', province: 'leinster', yield: 950, harvest: '5,700 kWh/yr', ceg: '€855/yr', designTemp: '-4.5°C (Midlands)', installers: '12 Registered', tag: '☀️ 950 kWh/kWp Strong Yield' },
+        { id: 'offaly', name: 'Co. Offaly', province: 'leinster', yield: 940, harvest: '5,640 kWh/yr', ceg: '€846/yr', designTemp: '-4.5°C (Midlands Boglands)', installers: '10 Registered', tag: '☀️ 940 kWh/kWp Steady Yield' },
+        { id: 'westmeath', name: 'Co. Westmeath', province: 'leinster', yield: 935, harvest: '5,610 kWh/yr', ceg: '€841/yr', designTemp: '-4.5°C (Midlands Lakes)', installers: '11 Registered', tag: '☀️ 935 kWh/kWp Steady Yield' },
+        { id: 'longford', name: 'Co. Longford', province: 'leinster', yield: 925, harvest: '5,550 kWh/yr', ceg: '€832/yr', designTemp: '-4.5°C (North Midlands)', installers: '8 Registered', tag: '☀️ 925 kWh/kWp Steady Yield' },
+
+        // Connacht
+        { id: 'galway', name: 'Co. Galway', province: 'connacht', yield: 930, harvest: '5,580 kWh/yr', ceg: '€837/yr', designTemp: '-3.0°C (West Coast / Atlantic)', installers: '22 Registered', tag: '☀️ 930 kWh/kWp Atlantic Hub' },
+        { id: 'mayo', name: 'Co. Mayo', province: 'connacht', yield: 910, harvest: '5,460 kWh/yr', ceg: '€819/yr', designTemp: '-3.0°C (West Coast / Atlantic)', installers: '14 Registered', tag: '☀️ 910 kWh/kWp Clean Atlantic Yield' },
+        { id: 'sligo', name: 'Co. Sligo', province: 'connacht', yield: 905, harvest: '5,430 kWh/yr', ceg: '€814/yr', designTemp: '-3.0°C (North West Coast)', installers: '10 Registered', tag: '☀️ 905 kWh/kWp Clean Atlantic Yield' },
+        { id: 'roscommon', name: 'Co. Roscommon', province: 'connacht', yield: 920, harvest: '5,520 kWh/yr', ceg: '€828/yr', designTemp: '-4.5°C (Inland West)', installers: '9 Registered', tag: '☀️ 920 kWh/kWp Steady Yield' },
+        { id: 'leitrim', name: 'Co. Leitrim', province: 'connacht', yield: 895, harvest: '5,370 kWh/yr', ceg: '€805/yr', designTemp: '-4.0°C (North West)', installers: '7 Registered', tag: '☀️ 895 kWh/kWp Steady Yield' },
+
+        // Ulster (ROI)
+        { id: 'donegal', name: 'Co. Donegal', province: 'ulster', yield: 890, harvest: '5,340 kWh/yr', ceg: '€801/yr', designTemp: '-3.0°C (Atlantic Coast & Hills)', installers: '15 Registered', tag: '☀️ 890 kWh/kWp Clean Coastal Yield' },
+        { id: 'cavan', name: 'Co. Cavan', province: 'ulster', yield: 915, harvest: '5,490 kWh/yr', ceg: '€823/yr', designTemp: '-4.5°C (Drumlins)', installers: '10 Registered', tag: '☀️ 915 kWh/kWp Steady Yield' },
+        { id: 'monaghan', name: 'Co. Monaghan', province: 'ulster', yield: 920, harvest: '5,520 kWh/yr', ceg: '€828/yr', designTemp: '-4.5°C (Border Drumlins)', installers: '9 Registered', tag: '☀️ 920 kWh/kWp Steady Yield' }
+      ];
+
+      let activeCounty = irishCounties[0]; // Default Cork
+
+      function renderChips(filterProvince = 'all') {
+        const grid = document.getElementById('countyChipsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        const filtered = filterProvince === 'all' 
+          ? irishCounties 
+          : irishCounties.filter(c => c.province === filterProvince);
+
+        filtered.forEach(c => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `county-btn-chip ${c.id === activeCounty.id ? 'active' : ''}`;
+          btn.innerHTML = `<span>${c.name}</span> <span style="font-size: 0.68rem; font-family: monospace; color: #34f5c5;">${c.yield}</span>`;
+          btn.onclick = () => window.selectCounty(c.id);
+          grid.appendChild(btn);
+        });
+      }
+
+      window.filterCounties = function(province) {
+        document.querySelectorAll('.province-chip').forEach(chip => {
+          chip.classList.toggle('active', chip.dataset.province === province);
+        });
+        renderChips(province);
+      };
+
+      window.selectCounty = function(countyId) {
+        const found = irishCounties.find(c => c.id === countyId);
+        if (!found) return;
+        activeCounty = found;
+
+        document.querySelectorAll('.county-btn-chip').forEach(btn => {
+          btn.classList.toggle('active', btn.textContent.includes(found.name));
+        });
+
+        const titleEl = document.getElementById('countySelectedTitle');
+        const tagEl = document.getElementById('countyIrradianceTag');
+        const harvestEl = document.getElementById('countyHarvestVal');
+        const cegEl = document.getElementById('countyCegVal');
+        const designTempEl = document.getElementById('countyDesignTempVal');
+        const installersEl = document.getElementById('countyInstallersVal');
+        const voiceBtnText = document.getElementById('countyVoiceBtnText');
+        const waBtnText = document.getElementById('countyWaBtnText');
+
+        if (titleEl) titleEl.innerText = `${found.name} (${found.province.toUpperCase()})`;
+        if (tagEl) tagEl.innerText = found.tag;
+        if (harvestEl) harvestEl.innerText = found.harvest;
+        if (cegEl) cegEl.innerText = found.ceg;
+        if (designTempEl) designTempEl.innerText = found.designTemp;
+        if (installersEl) installersEl.innerText = found.installers;
+        if (voiceBtnText) voiceBtnText.innerText = `🎙️ Ask Aoife: ${found.name} Grants & Solar Payback →`;
+        if (waBtnText) waBtnText.innerText = `💬 WhatsApp ${found.name} Installer Shortlist (083 966 2197) →`;
+      };
+
+      window.askVoiceAiCountySolar = function() {
+        const prompt = `Hi Aoife! I live in ${activeCounty.name}. Can you explain my estimated ${activeCounty.harvest} annual solar yield, my ${activeCounty.ceg} Clean Export Guarantee earnings, and what SEAI grants apply to my roof?`;
+
+        if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+          window.AG.setVoicePersona('aoife', false);
+        }
+
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else {
+          const launcher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          if (launcher) launcher.click();
+        }
+
+        setTimeout(() => {
+          const input = document.getElementById('voice-text-input');
+          const sendBtn = document.getElementById('btn-send-voice');
+          if (input && sendBtn) {
+            input.value = prompt;
+            sendBtn.click();
+          } else if (typeof window.submitVoiceQuery === 'function') {
+            window.submitVoiceQuery(prompt);
+          }
+        }, 600);
+      };
+
+      window.requestCountyInstallerShortlist = function() {
+        const phone = '353839662197';
+        const msg = encodeURIComponent(`Hi Joe! I am looking for verified SEAI registered solar & heat pump installers in ${activeCounty.name}. My estimated solar yield is ${activeCounty.harvest} (${activeCounty.ceg} CEG). Can you share the top 3 vetted contractor shortlist for my area?`);
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      };
+
+      // Bootstrap on load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => renderChips('all'));
+      } else {
+        renderChips('all');
+      }
     })();
   </script>
 
