@@ -65,9 +65,9 @@ export default function HubPage({ copyDeckData }) {
         "focus": "Stripe checkout and final delivery trigger",
         "copy": {
           "badge": "Independent Retrofit Roadmap",
-          "headline": "Get Your 100% Independent €49 Survey & Roadmap.",
+          "headline": "Get Your 100% Independent Independent Survey & Roadmap.",
           "subheadline": "Secure your certified blueprint: pass/fail Heat Pump Readiness test, radiator output check, and your custom 2026-2030 Carbon Tax Shield Model. Completed by Joe and delivered straight to your WhatsApp within 24 hours.",
-          "cta_primary": "Order Assessment for €49",
+          "cta_primary": "Book Survey Now",
           "features": [
             "100% Conflict-Free Guarantee",
             "No Installer Kickbacks",

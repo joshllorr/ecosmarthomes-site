@@ -38,7 +38,7 @@ Following the execution of the scaffolder script, your repository structure is o
 │   ├── faq.html                         # Consolidated home of the 9 technical & advisory FAQs
 │   └── contact.html                     # Contact layout with location-based contractor filter
 └── checkout/                            # SILO 5: Frictionless checkout paths (Stripe production-ready)
-    ├── index.html                       # Pitch for Joe's independent €49 survey assessment
+    ├── index.html                       # Pitch for Joe's independent Independent Survey assessment
     ├── order.html                       # Hardened checkout page (no navigation distraction)
     └── thank-you.html                   # Receipt landing page triggering the WhatsApp webhook
 ```

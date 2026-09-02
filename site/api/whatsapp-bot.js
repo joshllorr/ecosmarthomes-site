@@ -31,11 +31,11 @@ Key Knowledge Base:
 - SEAI May 2026 Grants: Air-to-Water Heat Pump (€12,500), External Wall Wrap (€8,000), Attic Insulation (€2,500), Solar PV (€1,800), Heating Controls (€700). 0% VAT on heat pumps and solar.
 - Heat Loss Index (HLI): Must be ≤ 2.0 W/K/m² for heat pump grant approval.
 - Carbon Tax: Increasing to €100/t by 2030 (+9% double VAT on oil).
-- Services: Independent Retrofit Assessment (€49 survey), 1-Click Bank-Grade Roadmap PDF.
+- Services: Independent Retrofit Assessment (Independent Survey), 1-Click Bank-Grade Roadmap PDF.
 
 Task:
 Provide a concise, helpful diagnostic answer (max 3-4 bullet points) addressing the homeowner's voice note, photo, or question.
-Always include a clear recommendation and invitation to view their Roadmap or book the €49 survey at /checkout/ or https://www.ecosmarthomes.ie/roadmap/`;
+Always include a clear recommendation and invitation to view their Roadmap or book the Independent Survey at /checkout/ or https://www.ecosmarthomes.ie/roadmap/`;
 
     let replyText = "";
 

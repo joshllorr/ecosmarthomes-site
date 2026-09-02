@@ -71,8 +71,8 @@
 
 body {
   font-family: var(--font-body);
-  background-color: #f8fafc;
-  color: var(--color-carbon);
+  background-color: #001711;
+  color: #f8fafc;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }

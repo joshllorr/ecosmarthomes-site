@@ -266,11 +266,11 @@
         if (json.reply) {
           appendMessage(json.reply, false);
         } else {
-          appendMessage("Thanks for your message! You can view your full SEAI grant breakdown at https://www.ecosmarthomes.ie/roadmap/ or order your €49 survey at https://www.ecosmarthomes.ie/checkout/", false);
+          appendMessage("Thanks for your message! You can view your full SEAI grant breakdown at https://www.ecosmarthomes.ie/roadmap/ or order your Independent Survey at https://www.ecosmarthomes.ie/checkout/", false);
         }
       } catch (err) {
         document.getElementById('bot-status').textContent = 'online · Gemini 2.5 Flash Multimodal';
-        appendMessage("Hi! Based on your home query, you qualify for up to *€12,500* in SEAI Heat Pump funding plus *€2,500* for attic insulation (0% VAT).\n\n👉 *View your roadmap*: https://www.ecosmarthomes.ie/roadmap/\n👉 *Book €49 Survey*: https://www.ecosmarthomes.ie/checkout/", false);
+        appendMessage("Hi! Based on your home query, you qualify for up to *€12,500* in SEAI Heat Pump funding plus *€2,500* for attic insulation (0% VAT).\n\n👉 *View your roadmap*: https://www.ecosmarthomes.ie/roadmap/\n👉 *Book Survey Now*: https://www.ecosmarthomes.ie/checkout/", false);
       }
     }
 

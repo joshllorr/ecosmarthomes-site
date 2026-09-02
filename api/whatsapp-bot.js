@@ -57,7 +57,7 @@ ${SEAI_GROUNDING_DATABASE}
 
 Task:
 Provide a concise, helpful diagnostic answer (max 3-4 bullet points) addressing the homeowner's voice note, photo, or question.
-Always include a clear recommendation and invitation to view their Roadmap or book the €49 survey at /checkout/ or https://www.ecosmarthomes.ie/roadmap/`;
+Always include a clear recommendation and invitation to view their Roadmap or book the Independent Survey at /checkout/ or https://www.ecosmarthomes.ie/roadmap/`;
 
     let replyText = "";
 
@@ -120,7 +120,7 @@ Under *SEAI Technical Guidance SR54:2024 Section 4.2 & DEAP 4.2.2 Rule 3.4*:
 • *Compliance*: Open fireplaces must be permanently sealed at the throat or fitted with a room-sealed stove with dedicated external combustion air.
 • *Next Step*: During our *€49 Independent Survey*, I check your chimney pathways and measure exact room heat loss to guarantee grant sign-off.
 
-👉 *Book your €49 Survey*: https://www.ecosmarthomes.ie/checkout/`;
+👉 *Book your Independent Survey*: https://www.ecosmarthomes.ie/checkout/`;
       } else {
         replyText = `Hi there! 👋 Thanks for reaching out to EcoSmartHomes.
 

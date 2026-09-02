@@ -227,7 +227,7 @@
             Book an independent pre-purchase / pre-listing site inspection. Get official NSAI room heat loss certs, buffer tank calculations, and SEAI grant sign-offs.
           </p>
           <a href="/checkout/?town=${encodeURIComponent(profile.town)}&county=${encodeURIComponent(profile.county)}&archetype=${encodeURIComponent(profile.archetype)}" class="btn-hero-primary-star" style="display: inline-block; padding: 14px 28px; font-size: 1rem; text-decoration: none;">
-            ⭐ Book Joe's €49 Survey for ${profile.town} →
+            ⭐ Book Independent On-Site Survey for ${profile.town} →
           </a>
         </div>
 

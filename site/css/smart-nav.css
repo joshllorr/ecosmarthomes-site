@@ -1,3 +1,75 @@
+/* Emerald Command Center Dark Theme Foundations */
+html, body {
+  background-color: #001711 !important;
+  color: #f8fafc !important;
+}
+
+.top-emergency-bar, .top-bar-custom {
+  background: #00120d !important;
+  color: #94a3b8 !important;
+  padding: 8px 20px !important;
+  font-size: 0.78rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.top-emergency-link {
+  color: #f59e0b !important;
+  text-decoration: none !important;
+  font-weight: 800 !important;
+  transition: opacity 0.2s ease !important;
+}
+.top-emergency-link:hover {
+  opacity: 0.85 !important;
+}
+
+.main-nav-bar {
+  background: rgba(0, 36, 27, 0.95) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 12px 20px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9998 !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+.nav-inner {
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.btn-book-nav {
+  background: #f59e0b !important;
+  color: #001711 !important;
+  font-weight: 800 !important;
+  font-size: 0.82rem !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: transform 0.2s ease, background 0.2s ease !important;
+}
+.btn-book-nav:hover {
+  background: #fbbf24 !important;
+  transform: scale(1.03) !important;
+}
+
+.hud-hero h1, .hero-h1 {
+  color: #ffffff !important;
+}
+
+.hud-hero p, .hero-sub {
+  color: #cbd5e1 !important;
+}
+
 /* EcoSmartHomes Smart Scroll-Aware Navigation & Off-Canvas Side Drawer */
 
 /* 1. Smart Scroll Behavior for Header */

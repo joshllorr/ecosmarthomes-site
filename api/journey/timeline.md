@@ -10,7 +10,7 @@ category: "Retrofit Process"
 # EcoSmartHomes: Retrofit Journey Timeline
 
 ```
-[Phase 1: Discovery] ➔ [Phase 2: Independent €49 Survey] ➔ [Phase 3: SEAI Approval] ➔ [Phase 4: Execution] ➔ [Phase 5: BER & Green Mortgage Drawdown]
+[Phase 1: Discovery] ➔ [Phase 2: Independent Independent Survey] ➔ [Phase 3: SEAI Approval] ➔ [Phase 4: Execution] ➔ [Phase 5: BER & Green Mortgage Drawdown]
 ```
 
 ## Phase Breakdown for Homeowners & AI Assistants
