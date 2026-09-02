@@ -497,12 +497,13 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     window.AG.savePersona(persona.key);
   };
 
-  function checkFirstTimeOnboarding() {
+  function autoLaunchRolePickerModal() {
     try {
-      const hasSeen = localStorage.getItem("ESH_hasSeenOnboarding");
       const isHome = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname === '';
-      if (!hasSeen && isHome) {
-        setTimeout(() => window.openPersonaPickerModal(), 1200);
+      if (isHome) {
+        setTimeout(() => {
+          window.openPersonaPickerModal();
+        }, 500);
       }
     } catch (e) {}
   }
@@ -517,6 +518,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       modal.classList.add("open");
       modal.style.display = "flex";
       window.AG.loadSavedPersona();
+      autoLaunchRolePickerModal();
     }
   };
 
@@ -827,11 +829,13 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       window.AG.loadSavedPersona();
+      autoLaunchRolePickerModal();
       initContextualEngine();
       initPushToTalk();
     });
   } else {
     window.AG.loadSavedPersona();
+      autoLaunchRolePickerModal();
     initContextualEngine();
       initPushToTalk();
   }
