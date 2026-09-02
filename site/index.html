@@ -473,12 +473,89 @@
       </div>
       <div class="hero-cta-row" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px;">
         <a href="/pricing/" class="btn-hero-primary-star">
-          ⭐ Order €49 Independent Survey
+          ⭐ Book Survey Now →
         </a>
         <a href="#interactive-suite" class="btn-hero-ghost-secondary">
           🛡️ Free Diagnostic Scan (Self-Serve)
         </a>
       </div>
+
+      
+      <!-- ⚡ INTERACTIVE 3-SECOND GRANT LOCK & CARBON TAX HERO SIMULATOR -->
+      <div class="hero-simulator-container" id="heroGrantSimulator">
+        <div class="hero-simulator-header">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+            <span class="badge-simulator">⚡ 3-SECOND INSTANT ROADMAP SIMULATOR</span>
+            <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+              ● SEAI May 2026 & Carbon Tax Escalator Model
+            </span>
+          </div>
+          <h3 style="color: #ffffff; font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 800; margin: 0 0 6px 0;">
+            Calculate Your 2026 Upgrade Yield & Penalty Shield
+          </h3>
+          <p style="color: #94a3b8; font-size: 0.86rem; margin: 0 0 18px 0; line-height: 1.45;">
+            Select your property type and primary heating fuel to instantly calculate your grant entitlement and voice-consult Aoife.
+          </p>
+        </div>
+
+        <!-- Step 1 & 2 Selectors -->
+        <div class="simulator-selectors-grid">
+          <div>
+            <label class="sim-label">1. Select House Type:</label>
+            <div class="sim-pill-group" id="simHouseGroup">
+              <button type="button" class="sim-pill active" data-house="semi" onclick="window.updateSimHouse('semi')">🏡 3-Bed Semi</button>
+              <button type="button" class="sim-pill" data-house="detached" onclick="window.updateSimHouse('detached')">🏰 4-Bed Detached</button>
+              <button type="button" class="sim-pill" data-house="bungalow" onclick="window.updateSimHouse('bungalow')">🏠 Bungalow</button>
+              <button type="button" class="sim-pill" data-house="terraced" onclick="window.updateSimHouse('terraced')">🏢 Terraced / Apt</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="sim-label">2. Current Heating Fuel:</label>
+            <div class="sim-pill-group" id="simFuelGroup">
+              <button type="button" class="sim-pill active" data-fuel="oil" onclick="window.updateSimFuel('oil')">🛢️ Oil (Kerosene)</button>
+              <button type="button" class="sim-pill" data-fuel="gas" onclick="window.updateSimFuel('gas')">💨 Natural Gas</button>
+              <button type="button" class="sim-pill" data-fuel="electric" onclick="window.updateSimFuel('electric')">⚡ Electric Storage</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Computed Telemetry Cards -->
+        <div class="simulator-telemetry-grid">
+          <div class="sim-telemetry-card">
+            <span class="sim-metric-label">💶 Max SEAI Grant Lock</span>
+            <div class="sim-metric-value text-mint" id="simGrantVal">€31,500</div>
+            <span class="sim-metric-sub">Direct grant support</span>
+          </div>
+
+          <div class="sim-telemetry-card">
+            <span class="sim-metric-label">🛡️ 2026-30 Carbon Tax Shield</span>
+            <div class="sim-metric-value text-amber" id="simTaxVal">€4,180</div>
+            <span class="sim-metric-sub">5-yr penalty avoided</span>
+          </div>
+
+          <div class="sim-telemetry-card">
+            <span class="sim-metric-label">📉 Annual Bill Slash</span>
+            <div class="sim-metric-value text-cyan" id="simBillVal">-€2,650/yr</div>
+            <span class="sim-metric-sub">Heat pump + PV savings</span>
+          </div>
+
+          <div class="sim-telemetry-card">
+            <span class="sim-metric-label">💎 Green Mortgage Uplift</span>
+            <div class="sim-metric-value text-gold" id="simMortgageVal">-1.30% APR</div>
+            <span class="sim-metric-sub">€315/mo interest slash</span>
+          </div>
+        </div>
+
+        <!-- Voice AI Bridge Action Bar -->
+        <div class="simulator-action-bar">
+          <button type="button" class="btn-sim-voice-ai" id="simVoiceCtaBtn" onclick="window.askVoiceAiSimResults()">
+            <span class="pulse-dot"></span>
+            <span id="simVoiceCtaText">🎙️ Ask Aoife to Explain My €31,500 Grant Roadmap →</span>
+          </button>
+        </div>
+      </div>
+
 
       <div class="hero-cards-grid">
         <a href="/heat-pump-suitability.html" class="hero-card">
@@ -1090,5 +1167,107 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
   <script src="/js/smart-nav.js" defer></script>
   <script src="/js/property-auditor.js" defer></script>
 </div>
+
+  <!-- Interactive 3-Second Simulator Engine -->
+  <script>
+    (function() {
+      let currentHouse = 'semi';
+      let currentFuel = 'oil';
+
+      const houseLabels = {
+        semi: '3-Bed Semi-Detached',
+        detached: '4-Bed Detached',
+        bungalow: 'Bungalow',
+        terraced: 'Terraced / Apartment'
+      };
+
+      const fuelLabels = {
+        oil: 'Home Heating Oil (Kerosene)',
+        gas: 'Natural Gas',
+        electric: 'Electric Storage Heaters'
+      };
+
+      const simMatrix = {
+        semi: {
+          oil: { grant: '€31,500', tax: '€4,180', bill: '-€2,650/yr', mortgage: '-1.30% APR' },
+          gas: { grant: '€31,500', tax: '€3,200', bill: '-€1,950/yr', mortgage: '-1.30% APR' },
+          electric: { grant: '€31,500', tax: '€2,400', bill: '-€2,950/yr', mortgage: '-1.30% APR' }
+        },
+        detached: {
+          oil: { grant: '€35,000', tax: '€5,450', bill: '-€3,400/yr', mortgage: '-1.30% APR' },
+          gas: { grant: '€35,000', tax: '€4,100', bill: '-€2,600/yr', mortgage: '-1.30% APR' },
+          electric: { grant: '€35,000', tax: '€3,150', bill: '-€3,800/yr', mortgage: '-1.30% APR' }
+        },
+        bungalow: {
+          oil: { grant: '€33,500', tax: '€4,800', bill: '-€2,850/yr', mortgage: '-1.30% APR' },
+          gas: { grant: '€33,500', tax: '€3,650', bill: '-€2,200/yr', mortgage: '-1.30% APR' },
+          electric: { grant: '€33,500', tax: '€2,800', bill: '-€3,250/yr', mortgage: '-1.30% APR' }
+        },
+        terraced: {
+          oil: { grant: '€26,500', tax: '€3,100', bill: '-€1,850/yr', mortgage: '-1.30% APR' },
+          gas: { grant: '€26,500', tax: '€2,400', bill: '-€1,450/yr', mortgage: '-1.30% APR' },
+          electric: { grant: '€26,500', tax: '€1,950', bill: '-€2,100/yr', mortgage: '-1.30% APR' }
+        }
+      };
+
+      function renderSim() {
+        const data = simMatrix[currentHouse][currentFuel];
+        document.getElementById('simGrantVal').innerText = data.grant;
+        document.getElementById('simTaxVal').innerText = data.tax;
+        document.getElementById('simBillVal').innerText = data.bill;
+        document.getElementById('simMortgageVal').innerText = data.mortgage;
+        
+        const ctaText = `🎙️ Ask Aoife to Explain My ${data.grant} Grant Roadmap →`;
+        const ctaEl = document.getElementById('simVoiceCtaText');
+        if (ctaEl) ctaEl.innerText = ctaText;
+      }
+
+      window.updateSimHouse = function(house) {
+        currentHouse = house;
+        document.querySelectorAll('#simHouseGroup .sim-pill').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.house === house);
+        });
+        renderSim();
+      };
+
+      window.updateSimFuel = function(fuel) {
+        currentFuel = fuel;
+        document.querySelectorAll('#simFuelGroup .sim-pill').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.fuel === fuel);
+        });
+        renderSim();
+      };
+
+      window.askVoiceAiSimResults = function() {
+        const data = simMatrix[currentHouse][currentFuel];
+        const hLabel = houseLabels[currentHouse];
+        const fLabel = fuelLabels[currentFuel];
+
+        const query = `Hi Aoife! I have a ${hLabel} heated by ${fLabel}. Can you explain my ${data.grant} SEAI grant breakdown and how I avoid the ${data.tax} 2026-2030 carbon tax penalty?`;
+
+        if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+          window.AG.setVoicePersona('aoife', false);
+        }
+
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else if (document.getElementById('voice-launcher')) {
+          document.getElementById('voice-launcher').click();
+        }
+
+        setTimeout(() => {
+          const input = document.getElementById('voice-text-input');
+          const sendBtn = document.getElementById('btn-send-voice');
+          if (input && sendBtn) {
+            input.value = query;
+            sendBtn.click();
+          } else if (typeof window.submitVoiceQuery === 'function') {
+            window.submitVoiceQuery(query);
+          }
+        }, 600);
+      };
+    })();
+  </script>
+
 </body>
 </html>
