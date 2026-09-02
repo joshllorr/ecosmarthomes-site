@@ -153,3 +153,34 @@
     box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45) !important;
   }
 }
+
+
+/* Mobile Anti-Collision Optimizations */
+@media (max-width: 768px) {
+  #esh-whatsapp-floating-btn {
+    bottom: 18px !important;
+    left: 14px !important;
+    padding: 9px 13px !important;
+    font-size: 0.74rem !important;
+    max-width: 140px !important;
+    gap: 6px !important;
+  }
+  #esh-whatsapp-floating-btn span:last-child {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  .esh-wa-card {
+    padding: 18px !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
+}
+
+@media (max-width: 380px) {
+  #esh-whatsapp-floating-btn {
+    padding: 9px 10px !important;
+    font-size: 0.7rem !important;
+    max-width: 125px !important;
+  }
+}
