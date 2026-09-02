@@ -1,6 +1,6 @@
 /**
  * /js/persona-router.js
- * EcoSmartHomes Master Persona Switchboard with Particle Shimmer, Voice Resonance & Edge Glow
+ * EcoSmartHomes Master Persona Switchboard with Contextual Auto-Proactive Switcher
  * Supports: Aoife (Homeowner), Eimear (Estate Agent), Declan (Installer)
  */
 
@@ -138,24 +138,120 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   };
 
   // ===============================
+  // Contextual Auto-Proactive Switcher Engine
+  // ===============================
+  let dismissedSuggestions = {};
+
+  window.AG.showContextualSuggestion = function(targetPersonaKey, message, triggerReason) {
+    if (dismissedSuggestions[targetPersonaKey]) return;
+    if (window.AG.currentPersona?.key === targetPersonaKey) return;
+
+    let toast = document.getElementById('esh-persona-suggestion-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'esh-persona-suggestion-toast';
+      toast.className = 'persona-suggestion-toast';
+      document.body.appendChild(toast);
+    }
+
+    const persona = AGPersonas[targetPersonaKey];
+    if (!persona) return;
+
+    toast.className = `persona-suggestion-toast toast-${targetPersonaKey} show`;
+    toast.innerHTML = `
+      <div class="toast-avatar" style="background: ${persona.avatarBg}; border-color: ${persona.accentColor};">
+        ${persona.avatar}
+      </div>
+      <div class="toast-content">
+        <div class="toast-title" style="color: ${persona.accentColor};">
+          💡 Advisor Suggestion · ${persona.name}
+        </div>
+        <div class="toast-message">${message}</div>
+      </div>
+      <div class="toast-actions">
+        <button type="button" class="btn-toast-switch" onclick="window.AG.acceptPersonaSuggestion('${targetPersonaKey}')" style="background: ${persona.accentColor}; color: #001711;">
+          Switch →
+        </button>
+        <button type="button" class="btn-toast-dismiss" onclick="window.AG.dismissPersonaSuggestion('${targetPersonaKey}')" aria-label="Dismiss">
+          ✕
+        </button>
+      </div>
+    `;
+  };
+
+  window.AG.acceptPersonaSuggestion = function(personaKey) {
+    window.AG.dismissPersonaSuggestion(personaKey);
+    window.AG.setVoicePersona(personaKey, true);
+  };
+
+  window.AG.dismissPersonaSuggestion = function(personaKey) {
+    dismissedSuggestions[personaKey] = true;
+    const toast = document.getElementById('esh-persona-suggestion-toast');
+    if (toast) {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      setTimeout(() => toast.remove(), 400);
+    }
+  };
+
+  // Contextual Observers (Path & User Activity Sensing)
+  function initContextualEngine() {
+    const path = window.location.pathname.toLowerCase();
+
+    // 1. URL Path Schedulers
+    if (path.includes('radiator-sizer') || path.includes('tender-generator') || path.includes('heat-pump')) {
+      setTimeout(() => {
+        window.AG.showContextualSuggestion('declan', "Sizing radiators for NSAI SR50? Declan has 45°C flow formulas ready.", "technical_path");
+      }, 3500);
+    } else if (path.includes('daft-hud') || path.includes('green-mortgage') || path.includes('property-auditor')) {
+      setTimeout(() => {
+        window.AG.showContextualSuggestion('eimear', "Evaluating property BER uplift & green mortgages? Eimear can draft listing summaries.", "property_path");
+      }, 3500);
+    } else if (path.includes('carbon-tax') || path.includes('solar') || path.includes('roadmap')) {
+      setTimeout(() => {
+        window.AG.showContextualSuggestion('aoife', "Exploring 2026 SEAI grants and fuel bill savings? Aoife has grant tables ready.", "homeowner_path");
+      }, 3500);
+    }
+
+    // 2. Interactive Slider & Input Observers
+    document.addEventListener('input', (e) => {
+      const target = e.target;
+      if (!target) return;
+
+      const id = (target.id || '').toLowerCase();
+      const name = (target.name || '').toLowerCase();
+
+      // Flow Temp or Delta-T Sliders -> Declan
+      if (id.includes('flow') || id.includes('temp') || id.includes('delta') || id.includes('pipe') || id.includes('heatloss')) {
+        window.AG.showContextualSuggestion('declan', "Testing low-temperature flow rates? Declan can check your Delta-T 30 compliance.", "slider_interaction");
+      }
+      // Mortgage or Equity Sliders -> Eimear
+      else if (id.includes('equity') || id.includes('valuation') || id.includes('mortgage') || id.includes('property') || id.includes('price')) {
+        window.AG.showContextualSuggestion('eimear', "Simulating equity uplift? Eimear is primed to calculate Daft valuation surges.", "slider_interaction");
+      }
+      // Grant or Fuel Bill Sliders -> Aoife
+      else if (id.includes('grant') || id.includes('fuel') || id.includes('bill') || id.includes('kerosene') || id.includes('ber-slider')) {
+        window.AG.showContextualSuggestion('aoife', "Calculating grant rebates? Aoife can show how to claim up to €35,000 in SEAI support.", "slider_interaction");
+      }
+    }, { passive: true });
+  }
+
+  // ===============================
   // Persona Particle Shimmer System
   // ===============================
   window.AG.spawnPersonaParticles = function(personaName) {
     const layer = document.getElementById("personaParticleLayer");
     if (!layer) return;
 
-    layer.innerHTML = ""; // Clear previous particles
+    layer.innerHTML = "";
     const count = 18;
 
     for (let i = 0; i < count; i++) {
       const p = document.createElement("div");
       p.classList.add("particle", `particle-${personaName}`);
 
-      // Random horizontal position
       p.style.left = Math.random() * 100 + "%";
-      // Random vertical baseline
       p.style.bottom = (Math.random() * 40) + "px";
-      // Random animation duration & delay
       p.style.animationDuration = (4.5 + Math.random() * 3) + "s";
       p.style.animationDelay = (Math.random() * 2) + "s";
 
@@ -565,11 +661,15 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   window.AG.onClick("estate-agent-hub", () => window.AG.setVoicePersona("eimear", false));
   window.AG.onClick("installer-hub", () => window.AG.setVoicePersona("declan", false));
 
-  // Auto-bootstrap persona memory on page load
+  // Auto-bootstrap persona memory & contextual engine on page load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => window.AG.loadSavedPersona());
+    document.addEventListener('DOMContentLoaded', () => {
+      window.AG.loadSavedPersona();
+      initContextualEngine();
+    });
   } else {
     window.AG.loadSavedPersona();
+    initContextualEngine();
   }
 
 })(window);

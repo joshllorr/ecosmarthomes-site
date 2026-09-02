@@ -1,12 +1,139 @@
 /**
  * site/css/voice-advisor.css
- * Ambient Hologram Waveform, Particle Shimmer, Voice Resonance & Hands-Free Styling
+ * Ambient Hologram Waveform, Contextual Auto-Switcher Toast, Particle Shimmer & Voice Resonance
  */
 
 :root {
   --persona-accent: #34f5c5;
   --persona-glow: rgba(52, 245, 197, 0.5);
   --persona-bg: #00241b;
+}
+
+/* ===============================
+   Contextual Auto-Proactive Switcher Toast
+   =============================== */
+.persona-suggestion-toast {
+  position: fixed;
+  bottom: 90px;
+  left: 24px;
+  z-index: 9998;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 36, 27, 0.95);
+  border: 1.5px solid var(--persona-accent);
+  border-radius: 16px;
+  padding: 12px 16px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(52, 245, 197, 0.2);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  max-width: 420px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.persona-suggestion-toast.show {
+  display: flex !important;
+  animation: toastSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.persona-suggestion-toast.hide {
+  animation: toastSlideOut 0.35s ease forwards;
+}
+
+.persona-suggestion-toast.toast-aoife {
+  border-color: #34f5c5;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 20px rgba(52, 245, 197, 0.25);
+}
+
+.persona-suggestion-toast.toast-eimear {
+  border-color: #fbbf24;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 20px rgba(251, 191, 36, 0.25);
+}
+
+.persona-suggestion-toast.toast-declan {
+  border-color: #38bdf8;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 20px rgba(56, 189, 248, 0.25);
+}
+
+.toast-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid #34f5c5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.toast-content {
+  flex: 1;
+  text-align: left;
+}
+
+.toast-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.toast-message {
+  font-size: 0.8rem;
+  color: #e2e8f0;
+  line-height: 1.35;
+}
+
+.toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-toast-switch {
+  background: #34f5c5;
+  color: #001711;
+  font-weight: 900;
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-toast-switch:hover {
+  transform: scale(1.05);
+}
+
+.btn-toast-dismiss {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.btn-toast-dismiss:hover {
+  color: #ffffff;
+}
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastSlideOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(20px) scale(0.95); }
 }
 
 /* ===============================
@@ -17,7 +144,7 @@
   inset: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 1; /* behind cards, above wash */
+  z-index: 1;
   border-radius: 28px;
 }
 
@@ -32,23 +159,12 @@
 }
 
 @keyframes particleFloat {
-  0% {
-    transform: translateY(0) scale(0.6);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.85;
-  }
-  85% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(-130px) scale(1.1);
-    opacity: 0;
-  }
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  15% { opacity: 0.85; }
+  85% { opacity: 0.6; }
+  100% { transform: translateY(-130px) scale(1.1); opacity: 0; }
 }
 
-/* Persona Particle Colors */
 .particle-aoife {
   background: rgba(52, 245, 197, 0.85);
   box-shadow: 0 0 12px rgba(30, 143, 75, 0.8);
@@ -65,7 +181,7 @@
 }
 
 /* ===============================
-   Persona Voice Resonance Glow (Greeting Pulse)
+   Persona Voice Resonance Glow
    =============================== */
 .wash-resonate {
   filter: brightness(1.18) saturate(1.15) !important;
@@ -73,7 +189,7 @@
 }
 
 /* ===============================
-   Persona Accent Edge Glow (Modal Border Highlight)
+   Persona Accent Edge Glow
    =============================== */
 .modal-container.persona-edge-aoife {
   box-shadow: 0 0 16px rgba(30, 143, 75, 0.55), 0 25px 60px rgba(0, 0, 0, 0.8) !important;
@@ -113,39 +229,19 @@
 }
 
 .colorwash-aoife {
-  background: linear-gradient(
-    135deg,
-    rgba(30, 143, 75, 0.45),
-    rgba(30, 143, 75, 0.25),
-    rgba(30, 143, 75, 0.15)
-  ) !important;
+  background: linear-gradient(135deg, rgba(30, 143, 75, 0.45), rgba(30, 143, 75, 0.25), rgba(30, 143, 75, 0.15)) !important;
 }
 
 .colorwash-eimear {
-  background: linear-gradient(
-    135deg,
-    rgba(242, 201, 76, 0.45),
-    rgba(242, 201, 76, 0.25),
-    rgba(242, 201, 76, 0.15)
-  ) !important;
+  background: linear-gradient(135deg, rgba(242, 201, 76, 0.45), rgba(242, 201, 76, 0.25), rgba(242, 201, 76, 0.15)) !important;
 }
 
 .colorwash-declan {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 180, 255, 0.45),
-    rgba(0, 180, 255, 0.25),
-    rgba(0, 180, 255, 0.15)
-  ) !important;
+  background: linear-gradient(135deg, rgba(0, 180, 255, 0.45), rgba(0, 180, 255, 0.25), rgba(0, 180, 255, 0.15)) !important;
 }
 
-.colorwash-animate-in {
-  opacity: 1 !important;
-}
-
-.colorwash-animate-out {
-  opacity: 0 !important;
-}
+.colorwash-animate-in { opacity: 1 !important; }
+.colorwash-animate-out { opacity: 0 !important; }
 
 /* ===============================
    Card Ripple Orb
@@ -192,14 +288,12 @@
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
 }
 
-/* Halo Fade-Out (Old Persona) */
 .persona-card.halo-fade-out, .esh-onboarding-card.halo-fade-out {
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
   border-color: rgba(255, 255, 255, 0.15) !important;
   transform: scale(0.98);
 }
 
-/* Halo Fade-In (Bloom for New Persona) */
 [data-persona="aoife"].halo-fade-in, [data-persona="aoife"].active-halo {
   box-shadow: 0 0 22px 8px rgba(30, 143, 75, 0.55) !important;
   border-color: rgba(30, 143, 75, 0.8) !important;
@@ -236,17 +330,8 @@
   100% { box-shadow: 0 0 22px 8px rgba(0, 180, 255, 0.55); }
 }
 
-/* ===============================
-   CTA Pop Animation & Welcome Pill
-   =============================== */
-.primary-action {
-  transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-.primary-action.cta-pop {
-  transform: translateY(-2px);
-  opacity: 1;
-}
+.primary-action { transition: transform 0.4s ease, opacity 0.4s ease; }
+.primary-action.cta-pop { transform: translateY(-2px); opacity: 1; }
 
 .persona-badge {
   display: none;
@@ -260,19 +345,8 @@
   transition: opacity 0.3s ease;
 }
 
-.persona-badge.visible {
-  display: inline-block !important;
-  opacity: 1 !important;
-}
-
-/* Re-Openable Modal Overlay */
-.persona-modal-overlay.open {
-  display: flex !important;
-}
-
-.card-homeowner:hover { border-color: #34f5c5; box-shadow: 0 0 28px rgba(52, 245, 197, 0.3); }
-.card-agent:hover { border-color: #fbbf24; box-shadow: 0 0 28px rgba(251, 191, 36, 0.3); }
-.card-installer:hover { border-color: #38bdf8; box-shadow: 0 0 28px rgba(56, 189, 248, 0.3); }
+.persona-badge.visible { display: inline-block !important; opacity: 1 !important; }
+.persona-modal-overlay.open { display: flex !important; }
 
 /* Floating Launcher */
 .voice-advisor-launcher {
@@ -335,22 +409,10 @@
   z-index: 1;
 }
 
-/* Active Voice Speaking Waves */
-.speaking .hologram-avatar {
-  animation: avatarThrob 1.2s infinite ease-in-out;
-}
-
-.speaking .wave-1 {
-  animation: hologramPulse 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1) 0s;
-}
-
-.speaking .wave-2 {
-  animation: hologramPulse 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1) 0.45s;
-}
-
-.speaking .wave-3 {
-  animation: hologramPulse 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1) 0.9s;
-}
+.speaking .hologram-avatar { animation: avatarThrob 1.2s infinite ease-in-out; }
+.speaking .wave-1 { animation: hologramPulse 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1) 0s; }
+.speaking .wave-2 { animation: hologramPulse 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1) 0.45s; }
+.speaking .wave-3 { animation: hologramPulse 1.8s infinite cubic-bezier(0.2, 0.8, 0.2, 1) 0.9s; }
 
 @keyframes hologramPulse {
   0% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 8px var(--persona-accent); }
@@ -383,10 +445,7 @@
   backdrop-filter: blur(16px);
 }
 
-.voice-advisor-modal.open {
-  display: flex;
-  animation: slideUp 0.3s ease-out;
-}
+.voice-advisor-modal.open { display: flex; animation: slideUp 0.3s ease-out; }
 
 /* Hands-Free Minimized Ambient HUD Mode */
 .voice-advisor-modal.hands-free-minimized {
@@ -422,50 +481,15 @@
   to { opacity: 1; transform: scale(1); }
 }
 
-/* Voice Message Bubbles */
-.voice-modal-body {
-  padding: 16px;
-  overflow-y: auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-height: 380px;
-}
-
-.voice-msg {
-  padding: 12px 16px;
-  border-radius: 14px;
-  font-size: 0.88rem;
-  line-height: 1.5;
-  max-width: 88%;
-}
-
-.voice-msg.advisor {
-  background: #002e22;
-  color: #e2e8f0;
-  border-left: 3.5px solid var(--persona-accent);
-  align-self: flex-start;
-  border-bottom-left-radius: 4px;
-}
-
-.voice-msg.user {
-  background: var(--persona-accent);
-  color: #001711;
-  font-weight: 700;
-  align-self: flex-end;
-  border-bottom-right-radius: 4px;
-}
-
-.voice-msg.advisor.thinking {
-  background: rgba(255, 255, 255, 0.05);
-  color: #94a3b8;
-  font-style: italic;
-  font-size: 0.8rem;
-}
-
 /* Mobile Anti-Collision Mode */
 @media (max-width: 768px) {
+  .persona-suggestion-toast {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 84px !important;
+    max-width: calc(100vw - 24px) !important;
+    padding: 10px 12px !important;
+  }
   .voice-advisor-launcher {
     bottom: 20px !important;
     right: 16px !important;
