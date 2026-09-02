@@ -19,7 +19,7 @@
       archetype: '3-Bed Semi-Detached',
       currentBer: 'D1',
       berKwh: '235 kWh/m²/yr',
-      targetBer: 'A2 (42 kWh/m²/yr)',
+      targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€2,850/yr)',
       heatLoss: '7.8 kW',
       hpSize: '8.5 kW Monobloc',
@@ -38,7 +38,7 @@
       archetype: '4-Bed Detached',
       currentBer: 'E2',
       berKwh: '340 kWh/m²/yr',
-      targetBer: 'A2 (40 kWh/m²/yr)',
+      targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Natural Gas (€3,400/yr)',
       heatLoss: '12.4 kW',
       hpSize: '14.0 kW Monobloc',
@@ -57,7 +57,7 @@
       archetype: '3-Bed Semi-Detached',
       currentBer: 'D2',
       berKwh: '275 kWh/m²/yr',
-      targetBer: 'A2 (45 kWh/m²/yr)',
+      targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€2,950/yr)',
       heatLoss: '8.4 kW',
       hpSize: '9.0 kW Monobloc',
@@ -76,7 +76,7 @@
       archetype: '4-Bed Detached',
       currentBer: 'E1',
       berKwh: '310 kWh/m²/yr',
-      targetBer: 'A2 (44 kWh/m²/yr)',
+      targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€3,650/yr)',
       heatLoss: '11.2 kW',
       hpSize: '12.0 kW Monobloc',
@@ -95,7 +95,7 @@
       archetype: '3-Bed Bungalow',
       currentBer: 'F',
       berKwh: '390 kWh/m²/yr',
-      targetBer: 'A2 (45 kWh/m²/yr)',
+      targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€3,900/yr)',
       heatLoss: '9.5 kW',
       hpSize: '10.0 kW Monobloc',
@@ -114,7 +114,7 @@
       archetype: '3-Bed Semi-Detached',
       currentBer: 'C3',
       berKwh: '210 kWh/m²/yr',
-      targetBer: 'A2 (38 kWh/m²/yr)',
+      targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Natural Gas (€2,100/yr)',
       heatLoss: '7.2 kW',
       hpSize: '8.0 kW Monobloc',
@@ -133,7 +133,7 @@
       archetype: '3-Bed Terraced',
       currentBer: 'E1',
       berKwh: '320 kWh/m²/yr',
-      targetBer: 'A2 (45 kWh/m²/yr)',
+      targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€2,700/yr)',
       heatLoss: '6.9 kW',
       hpSize: '7.5 kW Monobloc',
@@ -152,7 +152,7 @@
       archetype: '4-Bed Detached',
       currentBer: 'E2',
       berKwh: '345 kWh/m²/yr',
-      targetBer: 'A2 (42 kWh/m²/yr)',
+      targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Natural Gas (€3,200/yr)',
       heatLoss: '10.8 kW',
       hpSize: '11.5 kW Monobloc',
@@ -314,7 +314,7 @@
 
   window.askVoiceAiEircodeAudit = function() {
     const data = currentDossierData;
-    const prompt = `Hi Aoife! I looked up my property with Eircode ${data.eircode} (${data.address}, ${data.county}). It was built in ${data.yearBuilt} with ${data.floorArea} floor area and a ${data.currentBer} BER rating. Can you explain my ${data.grantCap} SEAI grant breakdown and how I reach an A2 rating?`;
+    const prompt = `Hi Aoife! I looked up my property with Eircode ${data.eircode} (${data.address}, ${data.county}). It was built in ${data.yearBuilt} with ${data.floorArea} floor area and a ${data.currentBer} BER rating. Can you explain my ${data.grantCap} SEAI grant breakdown and how I reach the 8-step A0 Net-Zero rating?`;
 
     if (window.AG && typeof window.AG.setVoicePersona === 'function') {
       window.AG.setVoicePersona('aoife', false);
@@ -342,7 +342,7 @@
   window.requestEircodeDossierWhatsApp = function() {
     const phone = '353839662197';
     const data = currentDossierData;
-    const msg = encodeURIComponent(`Hi Joe! I just completed an Eircode BER Audit for ${data.eircode} (${data.address}, ${data.county}).\\n\\nBuilt: ${data.yearBuilt} · Floor Area: ${data.floorArea}\\nCurrent BER: ${data.currentBer} ➔ Target A2\\nGrant Lock: ${data.grantCap}\\n\\nCan you review this property and send me the roadmap?`);
+    const msg = encodeURIComponent(`Hi Joe! I just completed an Eircode BER Audit for ${data.eircode} (${data.address}, ${data.county}).\\n\\nBuilt: ${data.yearBuilt} · Floor Area: ${data.floorArea}\\nCurrent BER: ${data.currentBer} ➔ Target A0 (Net-Zero)\\nGrant Lock: ${data.grantCap}\\n\\nCan you review this property and send me the roadmap?`);
     window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
   };
 

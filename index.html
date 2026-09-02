@@ -752,7 +752,7 @@
       <div class="transformation-container">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
           <span class="county-badge-pill" style="background: rgba(52, 245, 197, 0.15); border-color: #34f5c5; color: #34f5c5;">
-            📐 G ➔ A2 WHOLE-HOUSE TRANSFORMATION MODEL
+            📐 8-STEP G ➔ A0 WHOLE-HOUSE TRANSFORMATION MODEL
           </span>
           <span style="font-size: 0.75rem; color: #fbbf24; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
             ● Up to €35,000 SEAI Direct Grants & 3.45% Green Mortgage
@@ -771,7 +771,7 @@
           <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 800; font-family: 'IBM Plex Mono', monospace; margin-bottom: 8px;">
             <span style="color: #f87171;">🔴 100% BEFORE (G / F BER Rating)</span>
             <span style="color: #34f5c5;" id="sliderPercentageLabel">↔️ 50% SPLIT COMPARISON</span>
-            <span style="color: #34f5c5;">🟢 100% AFTER (A2 Deep Retrofit)</span>
+            <span style="color: #34f5c5;">🟢 100% AFTER (A0 Net-Zero Deep Retrofit)</span>
           </div>
           <input type="range" min="0" max="100" value="50" class="transformation-range-input" id="transformRangeSlider" oninput="window.updateTransformationCutaway(this.value)" />
         </div>
@@ -814,11 +814,11 @@
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 245, 197, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
               <span style="font-size: 1.4rem;">🏡</span>
               <span style="background: rgba(52, 245, 197, 0.15); color: #34f5c5; border: 1px solid #34f5c5; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; font-family: monospace;">
-                BER RATING: A2 (45 kWh/m²/yr)
+                BER RATING: A0 (0 kWh/m²/yr Net-Zero)
               </span>
             </div>
             <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 6px 0;">
-              EcoSmart A2 Deep Retrofit Sanctuary
+              EcoSmart A0 Net-Zero Deep Retrofit Sanctuary
             </h3>
             <div style="font-size: 1.45rem; font-weight: 900; color: #34f5c5; margin: 8px 0;">
               €650 / yr <span style="font-size: 0.78rem; color: #6ee7b7; font-weight: 800;">(€4,200/yr Cash Saved)</span>
@@ -860,10 +860,10 @@
         <!-- Actions -->
         <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
           <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiTransformation()">
-            🎙️ Ask Aoife: How Do I Plan My G ➔ A2 Upgrade? →
+            🎙️ Ask Aoife: How Do I Plan My G ➔ A0 Upgrade? →
           </button>
           <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestTransformationPlanWhatsApp()">
-            💬 WhatsApp My G ➔ A2 Roadmap Plan (083 966 2197) →
+            💬 WhatsApp My G ➔ A0 Roadmap Plan (083 966 2197) →
           </button>
         </div>
 
@@ -2264,7 +2264,7 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
 
         if (label) {
           if (num === 0) label.innerText = '🔴 100% UNRENOVATED G-RATING FOCUS';
-          else if (num === 100) label.innerText = '🟢 100% A2 DEEP RETROFIT FOCUS';
+          else if (num === 100) label.innerText = '🟢 100% A0 NET-ZERO FOCUS';
           else label.innerText = `↔️ ${num}% / ${100 - num}% INTERACTIVE SPLIT`;
         }
 
@@ -2316,7 +2316,7 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
 
       window.requestTransformationPlanWhatsApp = function() {
         const phone = '353839662197';
-        const msg = encodeURIComponent("Hi Joe! I am reviewing the G to A2 Retrofit Transformation Roadmap on EcoSmartHomes. Can you send me the detailed checklist for upgrading my oil heating to a heat pump with €35,000 in SEAI grants?");
+        const msg = encodeURIComponent("Hi Joe! I am reviewing the G to A0 Retrofit Transformation Roadmap on EcoSmartHomes. Can you send me the detailed checklist for upgrading my oil heating to a heat pump with €35,000 in SEAI grants?");
         window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
       };
     })();
