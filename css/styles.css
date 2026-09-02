@@ -2814,3 +2814,141 @@ a, a:visited {
   padding: 18px;
   margin-top: 20px;
 }
+
+
+/* =========================================================
+   One-Stop-Shop vs Individual SEAI Grants Decision Matrix
+   ========================================================= */
+.grant-matrix-section {
+  background: linear-gradient(180deg, #001711 0%, #00241b 50%, #001711 100%);
+  padding: 70px 20px;
+  border-top: 1px solid rgba(52, 245, 197, 0.2);
+  border-bottom: 1px solid rgba(52, 245, 197, 0.2);
+  position: relative;
+  text-align: center;
+}
+
+.grant-matrix-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  background: rgba(0, 36, 27, 0.9);
+  border: 1.5px solid rgba(52, 245, 197, 0.35);
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: left;
+}
+
+.matrix-scope-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.matrix-scope-btn {
+  background: #001f17;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.matrix-scope-btn:hover {
+  background: rgba(52, 245, 197, 0.12);
+  border-color: #34f5c5;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.matrix-scope-btn.active {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.3);
+  font-weight: 800;
+}
+
+.matrix-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .matrix-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.matrix-column-card {
+  border-radius: 18px;
+  padding: 24px;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.matrix-column-card.oss-card {
+  background: #001d16;
+  border: 1.5px solid rgba(245, 158, 11, 0.45);
+}
+
+.matrix-column-card.diy-card {
+  background: #001f19;
+  border: 1.5px solid rgba(52, 245, 197, 0.45);
+}
+
+.matrix-row-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.84rem;
+}
+
+.matrix-row-item:last-child {
+  border-bottom: none;
+}
+
+.matrix-row-label {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.matrix-row-val {
+  font-weight: 800;
+  color: #ffffff;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.matrix-net-highlight {
+  background: #00140e;
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.matrix-ai-recommendation-bar {
+  background: #00140e;
+  border: 1.5px solid #34f5c5;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}

@@ -871,6 +871,153 @@
     </section>
 
 
+    
+    <!-- 📋 "ONE-STOP-SHOP VS INDIVIDUAL GRANTS" DECISION MATRIX CALCULATOR -->
+    <section class="grant-matrix-section" id="grant-matrix-calculator" aria-label="SEAI One-Stop-Shop vs Individual Grants Decision Engine">
+      <div class="grant-matrix-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <span class="county-badge-pill" style="background: rgba(56, 189, 248, 0.15); border-color: #38bdf8; color: #38bdf8;">
+            📋 SEAI MAY 2026 FUNDING PATHWAY ENGINE
+          </span>
+          <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+            ● Turnkey OSS vs Direct Contractor Hiring Comparison
+          </span>
+        </div>
+
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
+          One-Stop-Shop vs. Individual SEAI Grants Matrix
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.92rem; max-width: 780px; margin: 0 0 20px 0; line-height: 1.5;">
+          Should you hire an SEAI registered One-Stop-Shop provider or hire registered contractors directly with individual grants? Compare gross costs, grant deductions, and net cash outlay in 1 click.
+        </p>
+
+        <!-- Scope Selector Pills -->
+        <div class="matrix-scope-group" id="matrixScopeGroup">
+          <button type="button" class="matrix-scope-btn active" data-scope="deep" onclick="window.updateMatrixScope('deep')">
+            🏠 Full Deep Retrofit (HP + Solar + Insulation)
+          </button>
+          <button type="button" class="matrix-scope-btn" data-scope="hp" onclick="window.updateMatrixScope('hp')">
+            ⚡ Heat Pump & Radiator Sizing Only
+          </button>
+          <button type="button" class="matrix-scope-btn" data-scope="solar" onclick="window.updateMatrixScope('solar')">
+            ☀️ Solar PV & 10kWh Battery Only
+          </button>
+          <button type="button" class="matrix-scope-btn" data-scope="insulation" onclick="window.updateMatrixScope('insulation')">
+            🛡️ Attic & External Wall Insulation Only
+          </button>
+        </div>
+
+        <!-- Comparison Cards -->
+        <div class="matrix-comparison-grid">
+          <!-- ONE-STOP-SHOP (OSS) COLUMN -->
+          <div class="matrix-column-card oss-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
+              <span style="font-size: 0.72rem; color: #fbbf24; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+                ROUTE A: FULLY MANAGED
+              </span>
+              <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; padding: 3px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 800;">
+                Zero Homeowner Admin
+              </span>
+            </div>
+
+            <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 14px 0;">
+              SEAI One-Stop-Shop (Turnkey)
+            </h3>
+
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Estimated Gross Quote:</span>
+              <span class="matrix-row-val text-amber" id="ossGrossVal">€58,000</span>
+            </div>
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Max SEAI Grant Deduction:</span>
+              <span class="matrix-row-val text-mint" id="ossGrantVal">-€31,500</span>
+            </div>
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Project Management Fee:</span>
+              <span class="matrix-row-val" style="color: #f87171;" id="ossFeeVal">Included (~18% Markup)</span>
+            </div>
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Minimum BER Required:</span>
+              <span class="matrix-row-val" style="color: #38bdf8;">Mandatory B2 Rating</span>
+            </div>
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Grant Cash Flow:</span>
+              <span class="matrix-row-val text-mint">Deducted at Point of Sale</span>
+            </div>
+
+            <div class="matrix-net-highlight" style="border: 1px solid rgba(245, 158, 11, 0.4);">
+              <div style="font-size: 0.72rem; color: #94a3b8; font-family: monospace; font-weight: 800;">NET CASH OUTLAY (AFTER GRANTS)</div>
+              <div style="font-size: 1.6rem; font-weight: 900; color: #fbbf24; margin-top: 4px;" id="ossNetVal">€26,500</div>
+            </div>
+          </div>
+
+          <!-- INDIVIDUAL GRANTS COLUMN -->
+          <div class="matrix-column-card diy-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 245, 197, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
+              <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+                ROUTE B: DIRECT CONTRACTOR HIRING
+              </span>
+              <span style="background: rgba(52, 245, 197, 0.15); color: #34f5c5; border: 1px solid #34f5c5; padding: 3px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 800;">
+                Lowest Total Cost
+              </span>
+            </div>
+
+            <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 14px 0;">
+              Individual SEAI Grants (Direct)
+            </h3>
+
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Estimated Gross Quote:</span>
+              <span class="matrix-row-val text-cyan" id="diyGrossVal">€39,500</span>
+            </div>
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Direct SEAI Grant Claim:</span>
+              <span class="matrix-row-val text-mint" id="diyGrantVal">-€18,500</span>
+            </div>
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Management Fee:</span>
+              <span class="matrix-row-val text-mint" id="diyFeeVal">€0 (Direct Trade Pricing)</span>
+            </div>
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Minimum BER Required:</span>
+              <span class="matrix-row-val text-mint">None (Step-by-Step Allowed)</span>
+            </div>
+            <div class="matrix-row-item">
+              <span class="matrix-row-label">Grant Cash Flow:</span>
+              <span class="matrix-row-val text-amber">Paid Retrospectively (4-6 Wks)</span>
+            </div>
+
+            <div class="matrix-net-highlight" style="border: 1px solid rgba(52, 245, 197, 0.4);">
+              <div style="font-size: 0.72rem; color: #94a3b8; font-family: monospace; font-weight: 800;">NET CASH OUTLAY (AFTER GRANTS)</div>
+              <div style="font-size: 1.6rem; font-weight: 900; color: #34f5c5; margin-top: 4px;" id="diyNetVal">€21,000</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Recommendation Bar -->
+        <div class="matrix-ai-recommendation-bar">
+          <div>
+            <div style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+              💡 AI DECISION VERDICT
+            </div>
+            <div style="font-size: 0.92rem; font-weight: 800; color: #ffffff; margin-top: 2px;" id="matrixVerdictText">
+              ⭐ Direct Contractor Route saves €5,500 net cash on this project scope.
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button type="button" class="btn-hero-primary" style="padding: 10px 18px; font-size: 0.82rem;" onclick="window.askVoiceAiMatrixAdvice()">
+              🎙️ Ask Declan: Which Route Suits My Home? →
+            </button>
+            <button type="button" class="btn-hero-secondary" style="padding: 10px 18px; font-size: 0.82rem;" onclick="window.requestMatrixGuideWhatsApp()">
+              💬 WhatsApp Funding Checklist (083 966 2197) →
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
     <!-- 🗺️ 3-STEP "WALLET-HIT" FINANCIAL RESCUE WIZARD -->
     <section id="wallet-rescue-wizard" aria-label="3-Step Carbon Tax Shield Onboarding">
       <div style="text-align: center; margin-bottom: 24px;">
@@ -2055,6 +2202,122 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
       window.requestTransformationPlanWhatsApp = function() {
         const phone = '353839662197';
         const msg = encodeURIComponent("Hi Joe! I am reviewing the G to A2 Retrofit Transformation Roadmap on EcoSmartHomes. Can you send me the detailed checklist for upgrading my oil heating to a heat pump with €35,000 in SEAI grants?");
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      };
+    })();
+  </script>
+
+
+  <!-- 📋 One-Stop-Shop vs Individual Grants Decision Engine -->
+  <script>
+    (function() {
+      const scopeMatrix = {
+        deep: {
+          ossGross: '€58,000',
+          ossGrant: '-€31,500',
+          ossNet: '€26,500',
+          ossFee: 'Included (~18% Markup)',
+          diyGross: '€39,500',
+          diyGrant: '-€18,500',
+          diyNet: '€21,000',
+          diyFee: '€0 (Direct Trade Pricing)',
+          verdict: '⭐ Direct Contractor Route saves €5,500 in net cash, but OSS offers zero-admin point-of-sale deductions.',
+          voicePrompt: 'Hi Declan! I am deciding between an SEAI One-Stop-Shop versus hiring contractors directly with individual grants for a full deep retrofit. Can you compare the net costs and management effort?'
+        },
+        hp: {
+          ossGross: '€18,500',
+          ossGrant: '-€6,500',
+          ossNet: '€12,000',
+          ossFee: 'Included (OSS Minimum Scope Required)',
+          diyGross: '€13,800',
+          diyGrant: '-€6,500',
+          diyNet: '€7,300',
+          diyFee: '€0 (Direct Heat Pump Installer)',
+          verdict: '⭐ For Heat Pump only, Individual Grants is €4,700 cheaper as OSS requires multi-measure deep retrofits.',
+          voicePrompt: 'Hi Declan! I only want to install a heat pump and size radiators. Is it better to use individual SEAI grants instead of a One-Stop-Shop?'
+        },
+        solar: {
+          ossGross: '€11,200',
+          ossGrant: '-€1,800',
+          ossNet: '€9,400',
+          ossFee: 'OSS Management Overhead',
+          diyGross: '€8,600',
+          diyGrant: '-€1,800',
+          diyNet: '€6,800',
+          diyFee: '€0 (Direct Solar Installer)',
+          verdict: '⭐ Individual Solar Grant saves €2,600 with direct registered PV installers and identical equipment.',
+          voicePrompt: 'Hi Aoife! For solar PV and battery storage, what is the exact SEAI grant and why is direct contractor hiring faster?'
+        },
+        insulation: {
+          ossGross: '€16,000',
+          ossGrant: '-€8,000',
+          ossNet: '€8,000',
+          ossFee: 'Included in Deep Retrofit',
+          diyGross: '€11,500',
+          diyGrant: '-€6,000',
+          diyNet: '€5,500',
+          diyFee: '€0 (Direct Insulation Trade)',
+          verdict: '⭐ Individual Insulation Grants save €2,500 net cash with fast turnaround and direct grant approval.',
+          voicePrompt: 'Hi Aoife! What are the SEAI grants for attic and external wall insulation when hiring contractors directly?'
+        }
+      };
+
+      let activeScope = 'deep';
+
+      window.updateMatrixScope = function(scopeKey) {
+        const data = scopeMatrix[scopeKey];
+        if (!data) return;
+        activeScope = scopeKey;
+
+        document.querySelectorAll('#matrixScopeGroup .matrix-scope-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.scope === scopeKey);
+        });
+
+        document.getElementById('ossGrossVal').innerText = data.ossGross;
+        document.getElementById('ossGrantVal').innerText = data.ossGrant;
+        document.getElementById('ossNetVal').innerText = data.ossNet;
+        document.getElementById('ossFeeVal').innerText = data.ossFee;
+
+        document.getElementById('diyGrossVal').innerText = data.diyGross;
+        document.getElementById('diyGrantVal').innerText = data.diyGrant;
+        document.getElementById('diyNetVal').innerText = data.diyNet;
+        document.getElementById('diyFeeVal').innerText = data.diyFee;
+
+        document.getElementById('matrixVerdictText').innerText = data.verdict;
+      };
+
+      window.askVoiceAiMatrixAdvice = function() {
+        const data = scopeMatrix[activeScope];
+        const prompt = data.voicePrompt;
+        const advisor = (activeScope === 'solar' || activeScope === 'insulation') ? 'aoife' : 'declan';
+
+        if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+          window.AG.setVoicePersona(advisor, false);
+        }
+
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else {
+          const launcher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          if (launcher) launcher.click();
+        }
+
+        setTimeout(() => {
+          const input = document.getElementById('voice-text-input');
+          const sendBtn = document.getElementById('btn-send-voice');
+          if (input && sendBtn) {
+            input.value = prompt;
+            sendBtn.click();
+          } else if (typeof window.submitVoiceQuery === 'function') {
+            window.submitVoiceQuery(prompt);
+          }
+        }, 600);
+      };
+
+      window.requestMatrixGuideWhatsApp = function() {
+        const phone = '353839662197';
+        const data = scopeMatrix[activeScope];
+        const msg = encodeURIComponent(`Hi Joe! I am comparing SEAI One-Stop-Shop vs Individual Grants on EcoSmartHomes for: ${activeScope.toUpperCase()}.\n\nOSS Net: ${data.ossNet} vs Direct Trade Net: ${data.diyNet}.\n\nCan you review my quotes and advise which pathway is best for my home?`);
         window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
       };
     })();
