@@ -499,8 +499,10 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
   function autoLaunchRolePickerModal() {
     try {
+      const hasChosen = localStorage.getItem("ESH_hasChosenRole");
       const isHome = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname === '';
-      if (isHome) {
+      // If first visit without a chosen role, prompt role selection popup
+      if (!hasChosen && isHome) {
         setTimeout(() => {
           window.openPersonaPickerModal();
         }, 500);
@@ -583,7 +585,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px;">
             
             <!-- Homeowner (Aoife) -->
-            <div class="persona-card esh-onboarding-card card-homeowner" data-persona="aoife" onclick="dismissPersonaModal('aoife')">
+            <div class="persona-card esh-onboarding-card card-homeowner" data-persona="aoife" onclick="window.AG.requestRoleSwitch('aoife')">
               <div>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                   <span style="font-size: 2rem;">🏡</span>
@@ -601,7 +603,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
             </div>
 
             <!-- Estate Agent (Eimear) -->
-            <div class="persona-card esh-onboarding-card card-agent" data-persona="eimear" onclick="dismissPersonaModal('eimear')">
+            <div class="persona-card esh-onboarding-card card-agent" data-persona="eimear" onclick="window.AG.requestRoleSwitch('eimear')">
               <div>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                   <span style="font-size: 2rem;">💼</span>
@@ -619,7 +621,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
             </div>
 
             <!-- Installer (Declan) -->
-            <div class="persona-card esh-onboarding-card card-installer" data-persona="declan" onclick="dismissPersonaModal('declan')">
+            <div class="persona-card esh-onboarding-card card-installer" data-persona="declan" onclick="window.AG.requestRoleSwitch('declan')">
               <div>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                   <span style="font-size: 2rem;">⚡</span>
@@ -823,6 +825,81 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       }
     });
   }
+
+
+  
+  // =========================================================
+  // Role Switch Confirmation & Persistent Login Engine
+  // =========================================================
+  let pendingSwitchPersonaKey = null;
+
+  window.AG.requestRoleSwitch = function(targetPersonaKey) {
+    const currentKey = (window.AG.currentPersona?.key || 'aoife').toLowerCase();
+    const targetKey = (targetPersonaKey || 'aoife').toLowerCase();
+
+    // If tapping the already active persona, simply continue
+    if (currentKey === targetKey) {
+      window.dismissPersonaModal(targetKey);
+      return;
+    }
+
+    pendingSwitchPersonaKey = targetKey;
+    const currentPersona = AGPersonas[currentKey] || AGPersonas.aoife;
+    const targetPersona = AGPersonas[targetKey] || AGPersonas.aoife;
+
+    let overlay = document.getElementById('eshRoleSwitchConfirm');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'eshRoleSwitchConfirm';
+      overlay.className = 'role-switch-confirm-overlay';
+      document.body.appendChild(overlay);
+    }
+
+    overlay.innerHTML = `
+      <div class="role-switch-confirm-card" role="dialog" aria-modal="true">
+        <div style="font-size: 2.2rem; margin-bottom: 8px;">🔄</div>
+        <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 8px 0;">
+          Switch Advisor to ${targetPersona.name}?
+        </h3>
+        <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 20px 0;">
+          You are currently exploring as <strong style="color: ${currentPersona.accentColor};">${currentPersona.name} (${currentPersona.role})</strong>.
+          <br><br>
+          Switching to <strong style="color: ${targetPersona.accentColor};">${targetPersona.name} (${targetPersona.role})</strong> will update your voice tuning, technical terminology, and tool calibrations.
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="btn-confirm-switch" onclick="window.AG.confirmRoleSwitch('${targetKey}')" style="background: ${targetPersona.accentColor}; color: #001711;">
+            ✓ Yes, Switch to ${targetPersona.name} →
+          </button>
+          <button type="button" class="btn-cancel-switch" onclick="window.AG.cancelRoleSwitch()">
+            Stay with ${currentPersona.name}
+          </button>
+        </div>
+      </div>
+    `;
+
+    overlay.classList.add('open');
+  };
+
+  window.AG.confirmRoleSwitch = function(targetPersonaKey) {
+    const key = targetPersonaKey || pendingSwitchPersonaKey || 'aoife';
+    const overlay = document.getElementById('eshRoleSwitchConfirm');
+    if (overlay) overlay.classList.remove('open');
+
+    // Save persistent role
+    window.AG.savePersona(key);
+    try {
+      localStorage.setItem("ESH_hasChosenRole", "true");
+    } catch (e) {}
+
+    window.dismissPersonaModal(key);
+    window.AG.setVoicePersona(key, true);
+  };
+
+  window.AG.cancelRoleSwitch = function() {
+    pendingSwitchPersonaKey = null;
+    const overlay = document.getElementById('eshRoleSwitchConfirm');
+    if (overlay) overlay.classList.remove('open');
+  };
 
 
   // Auto-bootstrap persona memory & contextual engine on page load

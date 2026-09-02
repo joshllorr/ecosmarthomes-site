@@ -668,3 +668,70 @@
     max-width: 125px !important;
   }
 }
+
+
+/* =========================================================
+   Role Switch Confirmation Modal Overlay & Card
+   ========================================================= */
+.role-switch-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 18, 13, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 100002;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: eshFadeIn 0.25s ease-out forwards;
+}
+
+.role-switch-confirm-overlay.open {
+  display: flex !important;
+}
+
+.role-switch-confirm-card {
+  background: #00241b;
+  border: 1.5px solid rgba(52, 245, 197, 0.4);
+  border-radius: 22px;
+  max-width: 480px;
+  width: 100%;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(52, 245, 197, 0.2);
+  color: #f8fafc;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.btn-confirm-switch {
+  font-weight: 900;
+  font-size: 0.86rem;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-confirm-switch:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(52, 245, 197, 0.5);
+}
+
+.btn-cancel-switch {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  font-weight: 700;
+  font-size: 0.86rem;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel-switch:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
