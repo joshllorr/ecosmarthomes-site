@@ -2181,3 +2181,142 @@ body {
   0%, 100% { transform: scale(0.9); opacity: 0.7; }
   50% { transform: scale(1.3); opacity: 1; }
 }
+
+
+/* =========================================================
+   AI Snap & Audit Diagnostic Visual Dropzone
+   ========================================================= */
+.snap-audit-section {
+  background: linear-gradient(180deg, #001711 0%, #00241b 50%, #001711 100%);
+  padding: 70px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  position: relative;
+}
+
+.snap-audit-container {
+  max-width: 980px;
+  margin: 0 auto;
+  background: rgba(0, 36, 27, 0.85);
+  border: 2px dashed rgba(52, 245, 197, 0.4);
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(52, 245, 197, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.snap-audit-container.drag-active {
+  border-color: #34f5c5;
+  background: rgba(0, 48, 36, 0.95);
+  box-shadow: 0 0 45px rgba(52, 245, 197, 0.4);
+  transform: scale(1.01);
+}
+
+.snap-badge {
+  background: rgba(52, 245, 197, 0.15);
+  border: 1px solid rgba(52, 245, 197, 0.4);
+  color: #34f5c5;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.snap-dropzone-inner {
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  background: #001a14;
+  border-radius: 18px;
+  padding: 32px 20px;
+  cursor: pointer;
+  margin: 20px 0;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.snap-dropzone-inner:hover {
+  border-color: #34f5c5;
+  background: #00221a;
+  transform: translateY(-2px);
+}
+
+.snap-laser {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #34f5c5, transparent);
+  box-shadow: 0 0 15px #34f5c5;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scanning .snap-laser {
+  opacity: 1;
+  animation: scanLaser 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes scanLaser {
+  0% { top: 5%; }
+  100% { top: 95%; }
+}
+
+.snap-demo-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.snap-demo-btn:hover {
+  background: rgba(52, 245, 197, 0.15);
+  border-color: #34f5c5;
+  color: #34f5c5;
+  transform: translateY(-2px);
+}
+
+.snap-result-card {
+  display: none;
+  background: #00221a;
+  border: 1.5px solid #34f5c5;
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 24px;
+  text-align: left;
+  animation: snapFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes snapFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.snap-result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.snap-result-item {
+  background: #001711;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+}

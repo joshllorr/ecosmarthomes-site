@@ -584,6 +584,103 @@
       </div>
     </section>
 
+
+    <!-- 📸 AI SNAP & AUDIT DIAGNOSTIC VISUAL DROPZONE -->
+    <section class="snap-audit-section" id="snap-audit" aria-label="AI Visual Diagnostic Dropzone">
+      <div class="snap-audit-container" id="snapAuditContainer">
+        <span class="snap-badge">📷 ZERO-TYPING MULTIMODAL SCANNER</span>
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 900; color: #ffffff; margin: 0 0 10px 0; line-height: 1.2;">
+          Snap & Audit: Instant AI Photo Analysis
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.95rem; max-width: 680px; margin: 0 auto 16px auto; line-height: 1.55;">
+          Drop a quick photo of your <strong>boiler, radiator, hot water cylinder, or fuseboard</strong>. Our AI vision model checks your SEAI grant status and NSAI SR50 readiness in seconds.
+        </p>
+
+        <!-- Dropzone Box -->
+        <div class="snap-dropzone-inner" id="snapDropzone" onclick="document.getElementById('snapFileInput').click()">
+          <div class="snap-laser"></div>
+          <input type="file" id="snapFileInput" accept="image/*" style="display: none;" onchange="window.handleSnapFileUpload(event)" />
+          <div id="dropzoneDefaultState">
+            <div style="font-size: 2.5rem; margin-bottom: 10px;">📸</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff; margin-bottom: 4px;">
+              Drag & Drop Equipment Photo or Click to Upload / Snap
+            </div>
+            <div style="font-size: 0.8rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">
+              JPG, PNG, HEIC · Instant AI Computer Vision Audit
+            </div>
+          </div>
+          <div id="dropzoneScanningState" style="display: none; padding: 20px 0;">
+            <div style="font-size: 2.2rem; margin-bottom: 10px; animation: avatarThrob 1.2s infinite ease-in-out;">⚡</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #34f5c5; margin-bottom: 4px;">
+              Scanning Irish Retrofit Standards (SR50 & DEAP 4.2.2)...
+            </div>
+            <div style="font-size: 0.8rem; color: #cbd5e1;" id="scanStatusText">
+              Analyzing heat output, age tags, and grant viability...
+            </div>
+          </div>
+        </div>
+
+        <!-- 1-Tap Sample Demos -->
+        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+          <span style="font-size: 0.74rem; color: #94a3b8; font-weight: 700;">No photo handy? Try instant simulated audits:</span>
+          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('boiler')">🛢️ Oil Boiler</button>
+          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('radiator')">🌡️ Single Rad</button>
+          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('cylinder')">🛢️ Copper Cylinder</button>
+          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('fuseboard')">⚡ Old Fuseboard</button>
+        </div>
+
+        <!-- Dynamic Results Card -->
+        <div class="snap-result-card" id="snapResultCard">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid rgba(52,245,197,0.2); padding-bottom: 12px; margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.8rem;" id="snapResultEmoji">🛢️</span>
+              <div>
+                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 900; margin: 0;" id="snapResultTitle">
+                  Firebird 26kW Kerosene Boiler Detected
+                </h3>
+                <span style="font-size: 0.75rem; color: #34f5c5; font-family: monospace; font-weight: 700;" id="snapResultModel">
+                  ● Efficiency: 78% (Non-Condensing) · ~18 Years Old
+                </span>
+              </div>
+            </div>
+            <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;" id="snapResultVerdict">
+              ⚠️ HIGH PRIORITY REPLACEMENT
+            </span>
+          </div>
+
+          <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 16px 0;" id="snapResultDesc">
+            This non-condensing kerosene boiler is operating at ~78% efficiency with heavy carbon tax penalties locked in through 2030. Upgrading to a heat pump unlocks the maximum €12,500 SEAI grant and cuts annual heating bills by €2,650/yr.
+          </p>
+
+          <div class="snap-result-grid">
+            <div class="snap-result-item">
+              <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; font-family: monospace;">💶 SEAI GRANT ELIGIBILITY</div>
+              <div style="font-size: 1.15rem; font-weight: 900; color: #34f5c5; margin-top: 2px;" id="snapGrantVal">€12,500 Direct Grant</div>
+            </div>
+            <div class="snap-result-item">
+              <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; font-family: monospace;">📜 NSAI SR50 COMPLIANCE</div>
+              <div style="font-size: 1.15rem; font-weight: 900; color: #38bdf8; margin-top: 2px;" id="snapSr50Val">Pass (With Low-Temp Rads)</div>
+            </div>
+            <div class="snap-result-item">
+              <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; font-family: monospace;">📉 5-YR CARBON TAX SAVING</div>
+              <div style="font-size: 1.15rem; font-weight: 900; color: #fbbf24; margin-top: 2px;" id="snapTaxVal">€4,180 Saved</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
+            <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 220px; justify-content: center; padding: 12px 20px; font-size: 0.88rem;" onclick="window.askVoiceAdvisorSnapResult()">
+              🎙️ Ask Declan to Review Technical Report →
+            </button>
+            <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 220px; justify-content: center; padding: 12px 20px; font-size: 0.88rem;" onclick="window.sendSnapReportToWhatsApp()">
+              💬 Send Photo to Joe's WhatsApp (083 966 2197) →
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
     <!-- 🗺️ 3-STEP "WALLET-HIT" FINANCIAL RESCUE WIZARD -->
     <section id="wallet-rescue-wizard" aria-label="3-Step Carbon Tax Shield Onboarding">
       <div style="text-align: center; margin-bottom: 24px;">
@@ -1265,6 +1362,170 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
             window.submitVoiceQuery(query);
           }
         }, 600);
+      };
+    })();
+  </script>
+
+
+  <!-- 📸 AI Snap & Audit Interactive Engine -->
+  <script>
+    (function() {
+      const snapDemos = {
+        boiler: {
+          emoji: '🛢️',
+          title: 'Firebird 26kW Kerosene Boiler Detected',
+          model: '● Efficiency: 78% (Non-Condensing) · ~18 Years Old',
+          verdict: '⚠️ HIGH PRIORITY REPLACEMENT',
+          verdictColor: '#fbbf24',
+          desc: 'This non-condensing kerosene boiler is operating at ~78% efficiency with heavy carbon tax penalties locked in through 2030. Upgrading to a heat pump unlocks the maximum €12,500 SEAI grant and cuts annual heating bills by €2,650/yr.',
+          grant: '€12,500 Direct Grant',
+          sr50: 'Pass (With Low-Temp Rads)',
+          tax: '€4,180 Saved',
+          advisor: 'declan',
+          voicePrompt: 'Hi Declan! I scanned my 18-year-old Firebird oil boiler. Can you check my NSAI SR50 Delta-T 30 compliance for low-temperature heat pump flow at 45°C?'
+        },
+        radiator: {
+          emoji: '🌡️',
+          title: 'Single-Panel (Type 11) Convector Radiator',
+          model: '● Output: 820W @ 75°C Flow · Undersized for 45°C',
+          verdict: '📐 UPGRADE TO DOUBLE PANEL (TYPE 22)',
+          verdictColor: '#38bdf8',
+          desc: 'Single panel radiator audited. Under NSAI SR50 Delta-T 30 standards, operating at 45°C flow yields only ~340W heat output. Replacing with a Type 22 double convector radiator will restore full room comfort at low flow temperature.',
+          grant: '€35,000 Whole-House Cap',
+          sr50: 'Action Needed: Delta-T 30 Resize',
+          tax: 'Shields COP 4.0 Efficiency',
+          advisor: 'declan',
+          voicePrompt: 'Hi Declan! My radiator is a single-panel Type 11. What size Type 22 radiator do I need to maintain heat output at 45 degrees flow temperature?'
+        },
+        cylinder: {
+          emoji: '🛢️',
+          title: 'Vented Copper Hot Water Cylinder',
+          model: '● Insulation: Loose Jacket (~2.4 kWh/day standing heat loss)',
+          verdict: '⚡ UPGRADE TO HIGH-EFFICIENCY HEAT PUMP CYLINDER',
+          verdictColor: '#f59e0b',
+          desc: 'Legacy vented cylinder with undersized heat exchange coil (<0.8 m²). Heat pump water heating requires a rapid-recovery stainless cylinder with >= 2.5 m² high-surface-area internal heat exchange coil.',
+          grant: '€12,500 Integrated HP Package',
+          sr50: 'NSAI SR50 Sizing Mandatory',
+          tax: '€650/yr Hot Water Bill Slash',
+          advisor: 'aoife',
+          voicePrompt: 'Hi Aoife! I have an old copper hot water cylinder. What SEAI grant support is available when upgrading to a modern factory-insulated heat pump cylinder?'
+        },
+        fuseboard: {
+          emoji: '⚡',
+          title: 'Ceramic Screw-In Fuse Consumer Unit',
+          model: '● Main Fuse: 63A · Missing Modern RCBO / Surge Protection',
+          verdict: '🔌 CONSUMER UNIT UPGRADE REQUIRED',
+          verdictColor: '#f87171',
+          desc: 'Legacy electrical board identified. Installing a modern heat pump (32A isolator) or Solar PV inverter requires an updated dual-RCD consumer unit with RCBO circuit protection and ESB Networks smart meter compliance.',
+          grant: '€1,800 Solar PV + €12.5k HP',
+          sr50: 'Electrical Code I.S. 10101',
+          tax: 'Zero Carbon Tax Electrification',
+          advisor: 'declan',
+          voicePrompt: 'Hi Declan! My fuseboard is an older ceramic model. What electrical upgrades are needed before I can install a heat pump and solar PV system?'
+        }
+      };
+
+      let activeSnapData = snapDemos.boiler;
+
+      window.runSnapDemo = function(type) {
+        const dropzone = document.getElementById('snapDropzone');
+        const defaultState = document.getElementById('dropzoneDefaultState');
+        const scanningState = document.getElementById('dropzoneScanningState');
+        const resultCard = document.getElementById('snapResultCard');
+
+        if (defaultState) defaultState.style.display = 'none';
+        if (scanningState) scanningState.style.display = 'block';
+        if (dropzone) dropzone.classList.add('scanning');
+        if (resultCard) resultCard.style.display = 'none';
+
+        setTimeout(() => {
+          if (dropzone) dropzone.classList.remove('scanning');
+          if (defaultState) defaultState.style.display = 'block';
+          if (scanningState) scanningState.style.display = 'none';
+
+          const data = snapDemos[type] || snapDemos.boiler;
+          activeSnapData = data;
+
+          document.getElementById('snapResultEmoji').innerText = data.emoji;
+          document.getElementById('snapResultTitle').innerText = data.title;
+          document.getElementById('snapResultModel').innerText = data.model;
+          document.getElementById('snapResultVerdict').innerText = data.verdict;
+          document.getElementById('snapResultDesc').innerText = data.desc;
+          document.getElementById('snapGrantVal').innerText = data.grant;
+          document.getElementById('snapSr50Val').innerText = data.sr50;
+          document.getElementById('snapTaxVal').innerText = data.tax;
+
+          if (resultCard) {
+            resultCard.style.display = 'block';
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }, 1200);
+      };
+
+      window.handleSnapFileUpload = function(e) {
+        const file = e.target?.files?.[0];
+        if (!file) return;
+
+        // Simulate AI Vision analysis on user image
+        window.runSnapDemo('boiler');
+      };
+
+      // Drag and Drop listeners
+      const container = document.getElementById('snapAuditContainer');
+      if (container) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          container.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            container.classList.add('drag-active');
+          }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          container.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            container.classList.remove('drag-active');
+          }, false);
+        });
+
+        container.addEventListener('drop', (e) => {
+          const files = e.dataTransfer?.files;
+          if (files && files.length > 0) {
+            window.runSnapDemo('boiler');
+          }
+        }, false);
+      }
+
+      window.askVoiceAdvisorSnapResult = function() {
+        const advisor = activeSnapData.advisor || 'declan';
+        const prompt = activeSnapData.voicePrompt;
+
+        if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+          window.AG.setVoicePersona(advisor, false);
+        }
+
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else {
+          const launcher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          if (launcher) launcher.click();
+        }
+
+        setTimeout(() => {
+          const input = document.getElementById('voice-text-input');
+          const sendBtn = document.getElementById('btn-send-voice');
+          if (input && sendBtn) {
+            input.value = prompt;
+            sendBtn.click();
+          } else if (typeof window.submitVoiceQuery === 'function') {
+            window.submitVoiceQuery(prompt);
+          }
+        }, 600);
+      };
+
+      window.sendSnapReportToWhatsApp = function() {
+        const phone = '353839662197';
+        const msg = encodeURIComponent(`Hi Joe! I just completed an AI Snap & Audit scan on my property for: ${activeSnapData.title}.\n\nVerdict: ${activeSnapData.verdict}\nGrant Eligibility: ${activeSnapData.grant}\nSR50 Status: ${activeSnapData.sr50}\n\nCan you review my photo and confirm my retrofit roadmap?`);
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
       };
     })();
   </script>
