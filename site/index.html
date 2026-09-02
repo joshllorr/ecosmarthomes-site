@@ -746,6 +746,131 @@
     </section>
 
 
+    
+    <!-- ⚡ INTERACTIVE BEFORE VS AFTER RETROFIT CUTAWAY SLIDER -->
+    <section class="transformation-section" id="transformation-slider" aria-label="Interactive Retrofit Cutaway Comparison">
+      <div class="transformation-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <span class="county-badge-pill" style="background: rgba(52, 245, 197, 0.15); border-color: #34f5c5; color: #34f5c5;">
+            📐 G ➔ A2 WHOLE-HOUSE TRANSFORMATION MODEL
+          </span>
+          <span style="font-size: 0.75rem; color: #fbbf24; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+            ● Up to €35,000 SEAI Direct Grants & 3.45% Green Mortgage
+          </span>
+        </div>
+
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
+          Before vs. After: The Irish Retrofit Transformation
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.92rem; max-width: 780px; margin: 0 0 16px 0; line-height: 1.5;">
+          Drag the interactive slider below to compare a legacy oil-heated Irish home against a fully modernized A2 heat pump & solar sanctuary.
+        </p>
+
+        <!-- Tactile Split Range Slider -->
+        <div class="transformation-slider-wrap">
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 800; font-family: 'IBM Plex Mono', monospace; margin-bottom: 8px;">
+            <span style="color: #f87171;">🔴 100% BEFORE (G / F BER Rating)</span>
+            <span style="color: #34f5c5;" id="sliderPercentageLabel">↔️ 50% SPLIT COMPARISON</span>
+            <span style="color: #34f5c5;">🟢 100% AFTER (A2 Deep Retrofit)</span>
+          </div>
+          <input type="range" min="0" max="100" value="50" class="transformation-range-input" id="transformRangeSlider" oninput="window.updateTransformationCutaway(this.value)" />
+        </div>
+
+        <!-- Before & After Comparison Cards -->
+        <div class="transformation-cards-grid">
+          <!-- BEFORE CARD -->
+          <div class="transform-card before-card" id="beforeTransformCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(239, 68, 68, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
+              <span style="font-size: 1.4rem;">🏚️</span>
+              <span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #ef4444; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; font-family: monospace;">
+                BER RATING: G (480 kWh/m²/yr)
+              </span>
+            </div>
+            <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 6px 0;">
+              Legacy Oil Boiler & Uninsulated Shell
+            </h3>
+            <div style="font-size: 1.45rem; font-weight: 900; color: #f87171; margin: 8px 0;">
+              €4,850 / yr <span style="font-size: 0.78rem; color: #94a3b8; font-weight: 500;">Heating & Electricity</span>
+            </div>
+
+            <ul class="transform-feature-list">
+              <li class="transform-feature-item">
+                <span>🛢️</span> <span><strong>18-Yr Kerosene Boiler:</strong> 78% efficiency with +€4,180 locked-in 2026-30 carbon taxes.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>🥶</span> <span><strong>Single-Panel Radiators:</strong> Scalding 75°C water flow causing cold drafts.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>🏦</span> <span><strong>Standard Mortgage Rate:</strong> Paying 4.75% SVR with €0 green mortgage discount.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>💸</span> <span><strong>Grid Reliance:</strong> 100% daytime peak electricity import @ 38c/kWh.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- AFTER CARD -->
+          <div class="transform-card after-card" id="afterTransformCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 245, 197, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
+              <span style="font-size: 1.4rem;">🏡</span>
+              <span style="background: rgba(52, 245, 197, 0.15); color: #34f5c5; border: 1px solid #34f5c5; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; font-family: monospace;">
+                BER RATING: A2 (45 kWh/m²/yr)
+              </span>
+            </div>
+            <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 6px 0;">
+              EcoSmart A2 Deep Retrofit Sanctuary
+            </h3>
+            <div style="font-size: 1.45rem; font-weight: 900; color: #34f5c5; margin: 8px 0;">
+              €650 / yr <span style="font-size: 0.78rem; color: #6ee7b7; font-weight: 800;">(€4,200/yr Cash Saved)</span>
+            </div>
+
+            <ul class="transform-feature-list">
+              <li class="transform-feature-item">
+                <span>⚡</span> <span><strong>Air-to-Water Heat Pump:</strong> COP 4.2 high-efficiency 45°C gentle continuous warmth.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>☀️</span> <span><strong>6kW Solar PV + 10kWh Battery:</strong> Generates ~6,000 kWh/yr with 24c/kWh grid export.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>💎</span> <span><strong>3.45% Green Mortgage:</strong> Unlocks -1.30% interest rate saving €315/mo (€3,780/yr).</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>💶</span> <span><strong>SEAI Cash Grants:</strong> Claimed up to €35,000 in direct state funding.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Net Financial Delta Bar -->
+        <div class="transform-delta-bar">
+          <div>
+            <div style="font-size: 0.7rem; color: #94a3b8; font-family: monospace; font-weight: 800;">💶 SEAI GRANT INJECTION</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #34f5c5; margin-top: 2px;">+€35,000 Paid</div>
+          </div>
+          <div>
+            <div style="font-size: 0.7rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📉 10-YEAR BILL SLASH</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #fbbf24; margin-top: 2px;">-€42,000 Saved</div>
+          </div>
+          <div>
+            <div style="font-size: 0.7rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📈 PROPERTY EQUITY UPLIFT</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #38bdf8; margin-top: 2px;">+€38,500 Valuation</div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
+          <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiTransformation()">
+            🎙️ Ask Aoife: How Do I Plan My G ➔ A2 Upgrade? →
+          </button>
+          <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestTransformationPlanWhatsApp()">
+            💬 WhatsApp My G ➔ A2 Roadmap Plan (083 966 2197) →
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
     <!-- 🗺️ 3-STEP "WALLET-HIT" FINANCIAL RESCUE WIZARD -->
     <section id="wallet-rescue-wizard" aria-label="3-Step Carbon Tax Shield Onboarding">
       <div style="text-align: center; margin-bottom: 24px;">
@@ -1862,6 +1987,76 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
       } else {
         renderChips('all');
       }
+    })();
+  </script>
+
+
+  <!-- ⚡ Interactive Before vs After Transformation Engine -->
+  <script>
+    (function() {
+      window.updateTransformationCutaway = function(val) {
+        const num = parseInt(val, 10);
+        const beforeCard = document.getElementById('beforeTransformCard');
+        const afterCard = document.getElementById('afterTransformCard');
+        const label = document.getElementById('sliderPercentageLabel');
+
+        if (label) {
+          if (num === 0) label.innerText = '🔴 100% UNRENOVATED G-RATING FOCUS';
+          else if (num === 100) label.innerText = '🟢 100% A2 DEEP RETROFIT FOCUS';
+          else label.innerText = `↔️ ${num}% / ${100 - num}% INTERACTIVE SPLIT`;
+        }
+
+        if (beforeCard && afterCard) {
+          if (num < 30) {
+            beforeCard.style.transform = 'scale(1.02)';
+            beforeCard.style.borderColor = '#ef4444';
+            afterCard.style.transform = 'scale(0.98)';
+            afterCard.style.opacity = '0.7';
+          } else if (num > 70) {
+            afterCard.style.transform = 'scale(1.02)';
+            afterCard.style.borderColor = '#34f5c5';
+            beforeCard.style.transform = 'scale(0.98)';
+            beforeCard.style.opacity = '0.7';
+          } else {
+            beforeCard.style.transform = 'scale(1)';
+            afterCard.style.transform = 'scale(1)';
+            beforeCard.style.opacity = '1';
+            afterCard.style.opacity = '1';
+          }
+        }
+      };
+
+      window.askVoiceAiTransformation = function() {
+        const prompt = "Hi Aoife! I want to understand how to transform my home from a G/F rating to an A2 rating. Can you explain the heat pump, solar PV, radiator sizing, and €35,000 SEAI grant breakdown?";
+
+        if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+          window.AG.setVoicePersona('aoife', false);
+        }
+
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else {
+          const launcher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          if (launcher) launcher.click();
+        }
+
+        setTimeout(() => {
+          const input = document.getElementById('voice-text-input');
+          const sendBtn = document.getElementById('btn-send-voice');
+          if (input && sendBtn) {
+            input.value = prompt;
+            sendBtn.click();
+          } else if (typeof window.submitVoiceQuery === 'function') {
+            window.submitVoiceQuery(prompt);
+          }
+        }, 600);
+      };
+
+      window.requestTransformationPlanWhatsApp = function() {
+        const phone = '353839662197';
+        const msg = encodeURIComponent("Hi Joe! I am reviewing the G to A2 Retrofit Transformation Roadmap on EcoSmartHomes. Can you send me the detailed checklist for upgrading my oil heating to a heat pump with €35,000 in SEAI grants?");
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      };
     })();
   </script>
 
