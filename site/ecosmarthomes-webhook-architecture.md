@@ -68,7 +68,7 @@ const checkoutPayload = {
   },
   customer: {
     full_name: "Seán O'Connor",
-    phone_number: "+353871234567", // E.164 formatting
+    phone_number: "+353839662197", // E.164 formatting
     email: "sean.oconnor@example.ie",
     county: "Cork"
   }
@@ -200,7 +200,7 @@ Sends a polite confirmation to the homeowner, solidifying trust and outlining th
 ```json
 {
   "messaging_product": "whatsapp",
-  "to": "+353871234567",
+  "to": "+353839662197",
   "type": "template",
   "template": {
     "name": "customer_onboarding_receipt",

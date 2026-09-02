@@ -6,7 +6,7 @@
   'use strict';
 
   // Joe's direct business WhatsApp line (international format without +)
-  const JOE_WHATSAPP_NUMBER = '353871234567';
+  const JOE_WHATSAPP_NUMBER = '353839662197';
 
   function injectWhatsAppWidget() {
     if (document.getElementById('esh-whatsapp-floating-btn')) return;

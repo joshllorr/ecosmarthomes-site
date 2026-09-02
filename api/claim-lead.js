@@ -45,7 +45,7 @@ export default async function handler(req, res) {
                   leadId.includes('SALTHILL') ? "Aoife Walsh" : "John O'Connor",
         phone: leadId.includes('DUNDRUM') ? "+353869876543" :
                leadId.includes('DOUGLAS') ? "+353854567890" :
-               leadId.includes('SALTHILL') ? "+353892345678" : "+353871234567",
+               leadId.includes('SALTHILL') ? "+353892345678" : "+353839662197",
         email: leadId.includes('DUNDRUM') ? "sarah.kelly@dublinhome.ie" :
                leadId.includes('DOUGLAS') ? "m.murphy@corkrenewables.ie" :
                leadId.includes('SALTHILL') ? "aoife.walsh@galwayenergy.ie" : "john.oconnor@munsterhome.ie",
@@ -71,8 +71,8 @@ export default async function handler(req, res) {
         dossierPdfUrl: `https://www.ecosmarthomes.ie/api/generate-roadmap?eircode=V94&format=pdf`
       },
       directActions: {
-        telUrl: "tel:+353871234567",
-        whatsappUrl: `https://wa.me/353871234567?text=${encodeURIComponent("Hi John, this is your SEAI registered partner following up on your pre-assessed EcoSmartHomes roadmap.")}`,
+        telUrl: "tel:+353839662197",
+        whatsappUrl: `https://wa.me/353839662197?text=${encodeURIComponent("Hi John, this is your SEAI registered partner following up on your pre-assessed EcoSmartHomes roadmap.")}`,
         stripeReceiptUrl: "/checkout/"
       }
     };

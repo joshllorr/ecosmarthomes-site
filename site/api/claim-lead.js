@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       claimedAt: timestamp,
       homeowner: {
         fullName: "John O'Connor",
-        phone: "+353871234567",
+        phone: "+353839662197",
         phoneFormatted: "+353 87 123 4567",
         email: "john.oconnor@munsterhome.ie",
         address: "14 Butterfield Close, Castletroy, Limerick",
@@ -56,8 +56,8 @@ export default async function handler(req, res) {
         homeownerNetBudget: "€5,700 - €9,200"
       },
       directActions: {
-        telUrl: "tel:+353871234567",
-        whatsappUrl: "https://wa.me/353871234567?text=Hi%20John,%20this%20is%20your%20SEAI%20registered%20retrofit%20partner%20following%20up%20on%20your%20EcoSmartHomes%20survey.",
+        telUrl: "tel:+353839662197",
+        whatsappUrl: "https://wa.me/353839662197?text=Hi%20John,%20this%20is%20your%20SEAI%20registered%20retrofit%20partner%20following%20up%20on%20your%20EcoSmartHomes%20survey.",
         mailtoUrl: "mailto:john.oconnor@munsterhome.ie?subject=EcoSmartHomes%20SEAI%20Retrofit%20Follow-up"
       }
     };

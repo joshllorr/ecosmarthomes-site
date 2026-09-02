@@ -105,7 +105,7 @@ export default async function handler(req, res) {
 
     if (geminiApiKey && !isUnsubscribe && !requiresHumanReview) {
       try {
-        const systemPrompt = `You are the Senior Energy Advisory Assistant for EcoSmartHomes Ireland (Phone: 083 449 3934, Hours: Mon-Fri 09:00 - 17:00).
+        const systemPrompt = `You are the Senior Energy Advisory Assistant for EcoSmartHomes Ireland (Phone: 083 966 2197, Hours: Mon-Fri 09:00 - 17:00).
 EcoSmartHomes is 100% independent (we do NOT install equipment, sell hardware, or take contractor commissions).
 SEAI Grant Rules (Verified): Heat Pump up to €12,500; External Wall Wrap up to €8,000; Solar PV up to €1,800; Attic up to €2,500.
 BER Scale: Official 8-band scale (A0 to G) where 'B' unlocks 3.45% Green Mortgages and 'A/A0' achieves NZEB standard.
@@ -164,7 +164,7 @@ Output ONLY a JSON object:
     if (!emailSubject || !emailBodyHtml) {
       if (inquiryType === 'ESCALATE' && escalationReason === 'GDPR Unsubscribe Request') {
         emailSubject = 'EcoSmartHomes Ireland · Communication Preferences Updated';
-        emailBodyHtml = `<p>Hello ${leadName},</p><p>You have been successfully opted out from EcoSmartHomes communications. Your details will no longer be contacted.</p><p>Regards,<br><strong>EcoSmartHomes Team</strong><br>083 449 3934 · hello@ecosmarthomes.ie</p>`;
+        emailBodyHtml = `<p>Hello ${leadName},</p><p>You have been successfully opted out from EcoSmartHomes communications. Your details will no longer be contacted.</p><p>Regards,<br><strong>EcoSmartHomes Team</strong><br>083 966 2197 · hello@ecosmarthomes.ie</p>`;
       } else if (inquiryType === 'HOMEOWNER_SURVEY') {
         emailSubject = `Your EcoSmartHomes Energy Survey & SEAI Grant Roadmap (${town || county || 'Ireland'})`;
         emailBodyHtml = `<p>Hello ${leadName},</p>
@@ -175,25 +175,25 @@ Output ONLY a JSON object:
   <li>Our senior technical advisor Joe will review your property details (${dwellingType || 'Domestic Home'}, BER ${currentBer || 'D'}).</li>
   <li>To confirm your in-person technical survey and room-by-room HLI heat loss scan (€49.00), you can book directly at <a href="https://ecosmarthomes.ie/checkout/">ecosmarthomes.ie/checkout/</a>.</li>
 </ul>
-<p>Feel free to reply directly to this email or call our team at <strong>083 449 3934</strong> (Mon-Fri 09:00 - 17:00).</p>
+<p>Feel free to reply directly to this email or call our team at <strong>083 966 2197</strong> (Mon-Fri 09:00 - 17:00).</p>
 <p>Warm regards,<br>
 <strong>Joe H. & The Advisory Team</strong><br>
 EcoSmartHomes Ireland<br>
-083 449 3934 · <a href="https://ecosmarthomes.ie">ecosmarthomes.ie</a></p>`;
+083 966 2197 · <a href="https://ecosmarthomes.ie">ecosmarthomes.ie</a></p>`;
       } else if (inquiryType === 'CONTRACTOR_B2B') {
         emailSubject = `EcoSmartHomes Pro Network · Partnership Inquiry (${town || county || 'Ireland'})`;
         emailBodyHtml = `<p>Hello ${leadName},</p>
 <p>Thank you for reaching out regarding our registered contractor partner network.</p>
 <p>EcoSmartHomes provides verified, pre-screened technical expressions of interest to registered SEAI contractors across Ireland, complete with heat loss calculations (NSAI SR50-2), BER assessments, and verified homeowner budgets.</p>
 <p>Our team is reviewing your details and will follow up with our contractor on-boarding pack and county coverage schedule.</p>
-<p>Regards,<br><strong>Contractor Operations Team</strong><br>EcoSmartHomes Ireland<br>083 449 3934</p>`;
+<p>Regards,<br><strong>Contractor Operations Team</strong><br>EcoSmartHomes Ireland<br>083 966 2197</p>`;
       } else {
         emailSubject = `EcoSmartHomes · Response to Your Home Energy Inquiry`;
         emailBodyHtml = `<p>Hello ${leadName},</p>
 <p>Thank you for contacting EcoSmartHomes Ireland. We have received your inquiry regarding energy upgrades and SEAI grant eligibility.</p>
 <p>One of our independent advisors is reviewing your request and will provide tailored guidance within 24 business hours.</p>
-<p>If your query is urgent, please call us directly on <strong>083 449 3934</strong> (Mon-Fri 09:00 - 17:00).</p>
-<p>Kind regards,<br><strong>EcoSmartHomes Advisory Team</strong><br>083 449 3934 · <a href="https://ecosmarthomes.ie">ecosmarthomes.ie</a></p>`;
+<p>If your query is urgent, please call us directly on <strong>083 966 2197</strong> (Mon-Fri 09:00 - 17:00).</p>
+<p>Kind regards,<br><strong>EcoSmartHomes Advisory Team</strong><br>083 966 2197 · <a href="https://ecosmarthomes.ie">ecosmarthomes.ie</a></p>`;
       }
     }
 

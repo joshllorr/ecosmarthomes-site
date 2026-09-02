@@ -523,14 +523,14 @@
       } else {
         const errorBubble = document.createElement('div');
         errorBubble.className = 'voice-msg advisor';
-        errorBubble.innerText = "Apologies, I couldn't reach the advisor network right now. Please feel free to call our team directly at 083 449 3934.";
+        errorBubble.innerText = "Apologies, I couldn't reach the advisor network right now. Please feel free to call our team directly at 083 966 2197.";
         chatBody.appendChild(errorBubble);
       }
     } catch (err) {
       thinkingBubble.remove();
       const errorBubble = document.createElement('div');
       errorBubble.className = 'voice-msg advisor';
-      errorBubble.innerText = "Network connection interrupted. Please try again or call us at 083 449 3934.";
+      errorBubble.innerText = "Network connection interrupted. Please try again or call us at 083 966 2197.";
       chatBody.appendChild(errorBubble);
     }
   }
@@ -643,12 +643,12 @@
     </p>
     <div style="font-size: 0.85rem;">
       <a href="https://www.ecosmarthomes.ie/checkout/?tier=survey&price=149">🏡 Book On-Site Survey (€149)</a> · 
-      <a href="https://wa.me/353834493934">💬 WhatsApp: 083 449 3934</a>
+      <a href="https://wa.me/353839662197">💬 WhatsApp: 083 966 2197</a>
     </div>
   </div>
 
   <div style="margin-top: 18px; text-align: center; font-size: 0.7rem; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 8px;">
-    EcoSmartHomes Ireland · Grounded in NSAI SR50, SEAI SR54:2024 & DEAP 4.2.2 · Phone: 083 449 3934 · info@ecosmarthomes.ie
+    EcoSmartHomes Ireland · Grounded in NSAI SR50, SEAI SR54:2024 & DEAP 4.2.2 · Phone: 083 966 2197 · info@ecosmarthomes.ie
   </div>
 </body>
 </html>
@@ -684,7 +684,7 @@
     });
 
     msg += `I'd like to discuss the next steps with an EcoSmartHomes engineer.`;
-    const waUrl = `https://wa.me/353834493934?text=${encodeURIComponent(msg)}`;
+    const waUrl = `https://wa.me/353839662197?text=${encodeURIComponent(msg)}`;
     window.open(waUrl, '_blank');
   };
 
