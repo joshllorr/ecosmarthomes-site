@@ -2952,3 +2952,92 @@ a, a:visited {
   flex-wrap: wrap;
   gap: 12px;
 }
+
+
+/* =========================================================
+   1-Click Irish Eircode Auto-Lookup & BER Register Bar
+   ========================================================= */
+.eircode-lookup-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.eircode-autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #001f17;
+  border: 1.5px solid #34f5c5;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(52, 245, 197, 0.25);
+  z-index: 10005;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+  text-align: left;
+  animation: eshFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.eircode-autocomplete-dropdown.open {
+  display: block !important;
+}
+
+.eircode-suggestion-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.eircode-suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.eircode-suggestion-item:hover, .eircode-suggestion-item.active {
+  background: rgba(52, 245, 197, 0.15);
+}
+
+.eircode-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eircode-pill-badge {
+  background: rgba(52, 245, 197, 0.2);
+  border: 1px solid #34f5c5;
+  color: #34f5c5;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.eircode-dossier-card {
+  background: #00221a;
+  border: 1.5px solid #34f5c5;
+  border-radius: 18px;
+  padding: 24px;
+  margin-top: 20px;
+  text-align: left;
+  animation: snapFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.eircode-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.eircode-meta-box {
+  background: #001711;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
