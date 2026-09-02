@@ -1,6 +1,6 @@
 /**
  * /js/persona-router.js
- * EcoSmartHomes Master Persona Switchboard with Contextual Auto-Proactive Switcher
+ * EcoSmartHomes Master Persona Switchboard with Voice Resonance, Spatial Audio & Instant Dismissal
  * Supports: Aoife (Homeowner), Eimear (Estate Agent), Declan (Installer)
  */
 
@@ -194,11 +194,9 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // Contextual Observers (Path & User Activity Sensing)
   function initContextualEngine() {
     const path = window.location.pathname.toLowerCase();
 
-    // 1. URL Path Schedulers
     if (path.includes('radiator-sizer') || path.includes('tender-generator') || path.includes('heat-pump')) {
       setTimeout(() => {
         window.AG.showContextualSuggestion('declan', "Sizing radiators for NSAI SR50? Declan has 45°C flow formulas ready.", "technical_path");
@@ -213,24 +211,16 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       }, 3500);
     }
 
-    // 2. Interactive Slider & Input Observers
     document.addEventListener('input', (e) => {
       const target = e.target;
       if (!target) return;
 
       const id = (target.id || '').toLowerCase();
-      const name = (target.name || '').toLowerCase();
-
-      // Flow Temp or Delta-T Sliders -> Declan
       if (id.includes('flow') || id.includes('temp') || id.includes('delta') || id.includes('pipe') || id.includes('heatloss')) {
         window.AG.showContextualSuggestion('declan', "Testing low-temperature flow rates? Declan can check your Delta-T 30 compliance.", "slider_interaction");
-      }
-      // Mortgage or Equity Sliders -> Eimear
-      else if (id.includes('equity') || id.includes('valuation') || id.includes('mortgage') || id.includes('property') || id.includes('price')) {
+      } else if (id.includes('equity') || id.includes('valuation') || id.includes('mortgage') || id.includes('property') || id.includes('price')) {
         window.AG.showContextualSuggestion('eimear', "Simulating equity uplift? Eimear is primed to calculate Daft valuation surges.", "slider_interaction");
-      }
-      // Grant or Fuel Bill Sliders -> Aoife
-      else if (id.includes('grant') || id.includes('fuel') || id.includes('bill') || id.includes('kerosene') || id.includes('ber-slider')) {
+      } else if (id.includes('grant') || id.includes('fuel') || id.includes('bill') || id.includes('kerosene') || id.includes('ber-slider')) {
         window.AG.showContextualSuggestion('aoife', "Calculating grant rebates? Aoife can show how to claim up to €35,000 in SEAI support.", "slider_interaction");
       }
     }, { passive: true });
@@ -249,12 +239,10 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     for (let i = 0; i < count; i++) {
       const p = document.createElement("div");
       p.classList.add("particle", `particle-${personaName}`);
-
       p.style.left = Math.random() * 100 + "%";
       p.style.bottom = (Math.random() * 40) + "px";
       p.style.animationDuration = (4.5 + Math.random() * 3) + "s";
       p.style.animationDelay = (Math.random() * 2) + "s";
-
       layer.appendChild(p);
     }
   };
@@ -281,7 +269,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
   };
 
-  // Dynamic Theming
   function applyPersonaTheme(persona) {
     if (!persona) return;
     document.documentElement.style.setProperty('--persona-accent', persona.accentColor);
@@ -317,7 +304,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
     wash.className = "";
     wash.classList.add(`colorwash-${personaName}`);
-
     void wash.offsetWidth;
     wash.classList.add("colorwash-animate-in");
 
@@ -360,7 +346,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     setTimeout(() => {
       if (newCard) {
         newCard.classList.add("halo-fade-in", "active-halo");
-
         const badge = newCard.querySelector(".persona-badge");
         const cta = newCard.querySelector(".primary-action");
 
@@ -383,6 +368,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   window.AG.savePersona = function(personaName) {
     try {
       localStorage.setItem("ESH_lastPersona", personaName);
+      localStorage.setItem("ESH_hasChosenRole", "true");
     } catch (e) {
       console.warn("LocalStorage unavailable for Persona Memory:", e);
     }
@@ -431,7 +417,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         }
       } else {
         window.AG.setVoicePersona("aoife", false);
-        checkFirstTimeOnboarding();
       }
     } catch (e) {
       window.AG.setVoicePersona("aoife", false);
@@ -445,7 +430,9 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     const previous = (window.AG.currentPersona?.key || '').toLowerCase();
 
     // 0. Play Acoustic Handoff Chime
-    window.AG.playPersonaHandoffChime(canonicalKey);
+    if (window.AG.playPersonaHandoffChime) {
+      window.AG.playPersonaHandoffChime(canonicalKey);
+    }
 
     // 1. Ripple
     window.AG.triggerPersonaRipple(canonicalKey);
@@ -497,11 +484,11 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     window.AG.savePersona(persona.key);
   };
 
+  // Auto-Launch Role Picker Modal for first-time or explicit requests
   function autoLaunchRolePickerModal() {
     try {
       const hasChosen = localStorage.getItem("ESH_hasChosenRole");
       const isHome = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname === '';
-      // If first visit without a chosen role, prompt role selection popup
       if (!hasChosen && isHome) {
         setTimeout(() => {
           window.openPersonaPickerModal();
@@ -510,6 +497,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     } catch (e) {}
   }
 
+  // Open Modal
   window.openPersonaPickerModal = function() {
     let modal = document.querySelector("#personaModal");
     if (!modal) {
@@ -518,28 +506,41 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     }
     if (modal) {
       modal.classList.add("open");
-      modal.style.display = "flex";
+      modal.style.setProperty("display", "flex", "important");
+      modal.style.pointerEvents = "auto";
       window.AG.loadSavedPersona();
-      autoLaunchRolePickerModal();
     }
   };
 
+  // Forcefully Dismiss Modal on User Role Selection
   window.dismissPersonaModal = function(personaKey) {
     try {
       localStorage.setItem("ESH_hasSeenOnboarding", "true");
+      localStorage.setItem("ESH_hasChosenRole", "true");
+      if (personaKey) {
+        localStorage.setItem("ESH_lastPersona", personaKey);
+      }
     } catch (e) {}
 
-    const modal = document.querySelector("#personaModal");
-    if (modal) {
-      modal.classList.remove("open");
-      modal.style.display = "none";
+    // Forcefully hide all instances of the modal overlay
+    const modals = document.querySelectorAll("#personaModal, .persona-modal-overlay");
+    modals.forEach(m => {
+      m.classList.remove("open");
+      m.style.setProperty("display", "none", "important");
+      m.style.pointerEvents = "none";
+    });
+
+    const switchConfirm = document.getElementById('eshRoleSwitchConfirm');
+    if (switchConfirm) {
+      switchConfirm.classList.remove("open");
+      switchConfirm.style.setProperty("display", "none", "important");
     }
 
-    if (personaKey) {
-      window.AG.setVoicePersona(personaKey, false);
+    if (personaKey && AGPersonas[personaKey.toLowerCase()]) {
+      window.AG.setVoicePersona(personaKey.toLowerCase(), false);
       if (typeof window.setPersona === 'function') {
         const mapping = { aoife: 'homeowner', eimear: 'agent', declan: 'installer' };
-        window.setPersona(mapping[personaKey] || 'homeowner');
+        window.setPersona(mapping[personaKey.toLowerCase()] || 'homeowner');
       }
     }
   };
@@ -557,7 +558,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       z-index: 99999;
       display: none; align-items: center; justify-content: center;
       padding: 20px;
-      animation: eshFadeIn 0.3s ease-out forwards;
     `;
 
     modal.innerHTML = `
@@ -569,7 +569,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         <!-- Particle Shimmer Layer -->
         <div id="personaParticleLayer"></div>
 
-        <button onclick="dismissPersonaModal('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; z-index: 3;">✕</button>
+        <button type="button" onclick="window.dismissPersonaModal('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; z-index: 3;">✕</button>
         
         <div style="position: relative; z-index: 2;">
           <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px;">
@@ -585,7 +585,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px;">
             
             <!-- Homeowner (Aoife) -->
-            <div class="persona-card esh-onboarding-card card-homeowner" data-persona="aoife" onclick="window.AG.requestRoleSwitch('aoife')">
+            <div class="persona-card esh-onboarding-card card-homeowner" data-persona="aoife" onclick="window.dismissPersonaModal('aoife')">
               <div>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                   <span style="font-size: 2rem;">🏡</span>
@@ -603,7 +603,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
             </div>
 
             <!-- Estate Agent (Eimear) -->
-            <div class="persona-card esh-onboarding-card card-agent" data-persona="eimear" onclick="window.AG.requestRoleSwitch('eimear')">
+            <div class="persona-card esh-onboarding-card card-agent" data-persona="eimear" onclick="window.dismissPersonaModal('eimear')">
               <div>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                   <span style="font-size: 2rem;">💼</span>
@@ -621,7 +621,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
             </div>
 
             <!-- Installer (Declan) -->
-            <div class="persona-card esh-onboarding-card card-installer" data-persona="declan" onclick="window.AG.requestRoleSwitch('declan')">
+            <div class="persona-card esh-onboarding-card card-installer" data-persona="declan" onclick="window.dismissPersonaModal('declan')">
               <div>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
                   <span style="font-size: 2rem;">⚡</span>
@@ -630,7 +630,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
                 <span class="persona-badge">✨ Last Selected Advisor</span>
                 <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Installer / Trades</h3>
                 <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
-                  NSAI SR50 low-temperature radiator sizing, heat loss formulas, and €49 digital data packs.
+                  NSAI SR50 low-temperature radiator sizing, heat loss formulas, and digital data packs.
                 </p>
               </div>
               <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #38bdf8; font-weight: 800;">
@@ -640,7 +640,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
           </div>
 
-          <button onclick="dismissPersonaModal('')" style="background: none; border: none; color: #64748b; font-size: 0.82rem; cursor: pointer; text-decoration: underline;">
+          <button type="button" onclick="window.dismissPersonaModal('')" style="background: none; border: none; color: #64748b; font-size: 0.82rem; cursor: pointer; text-decoration: underline;">
             Explore all tools without selecting a role
           </button>
         </div>
@@ -668,7 +668,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   window.AG.onClick("estate-agent-hub", () => window.AG.setVoicePersona("eimear", false));
   window.AG.onClick("installer-hub", () => window.AG.setVoicePersona("declan", false));
 
-  
   // =========================================================
   // Synthesized Spatial Web Audio Engine (Zero External Files)
   // =========================================================
@@ -694,19 +693,16 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
       osc.type = type;
       osc.frequency.setValueAtTime(freq, ctx.currentTime);
-
       gain.gain.setValueAtTime(gainVal, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
-
       osc.start();
       osc.stop(ctx.currentTime + duration);
     } catch (e) {}
   };
 
-  // 1. Advisor Wakeup Chime (Warm C5 -> E5 Ascending Major Third)
   window.AG.playWakeupChime = function() {
     try {
       window.AG.playTone(523.25, 0.25, 'triangle', 0.07);
@@ -714,26 +710,21 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     } catch (e) {}
   };
 
-  // 2. Persona Handoff Acoustic Chimes
   window.AG.playPersonaHandoffChime = function(personaKey) {
     try {
       if (personaKey === 'aoife') {
-        // Aoife: Warm Organic Celtic Chime (C5 -> G5)
         window.AG.playTone(523.25, 0.2, 'sine', 0.08);
         setTimeout(() => window.AG.playTone(783.99, 0.35, 'triangle', 0.08), 90);
       } else if (personaKey === 'eimear') {
-        // Eimear: Polished Radiant Gold Chime (D5 -> A5)
         window.AG.playTone(587.33, 0.2, 'triangle', 0.08);
         setTimeout(() => window.AG.playTone(880.00, 0.35, 'sine', 0.08), 90);
       } else if (personaKey === 'declan') {
-        // Declan: Resonant Trades Solid Tone (F4 -> C5)
         window.AG.playTone(349.23, 0.22, 'square', 0.04);
         setTimeout(() => window.AG.playTone(523.25, 0.32, 'triangle', 0.08), 90);
       }
     } catch (e) {}
   };
 
-  // 3. Mic Start / Stop Beeps
   window.AG.playMicStartChime = function() {
     window.AG.playTone(440, 0.12, 'sine', 0.05);
     setTimeout(() => window.AG.playTone(880, 0.15, 'sine', 0.06), 70);
@@ -744,9 +735,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     setTimeout(() => window.AG.playTone(440, 0.15, 'sine', 0.05), 70);
   };
 
-  // =========================================================
-  // Global Push-to-Talk Spacebar HUD
-  // =========================================================
+  // Push-to-Talk Spacebar Engine
   let isSpacebarPressed = false;
   let pttHudElement = null;
 
@@ -776,7 +765,6 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     injectPttHudDOM();
 
     window.addEventListener('keydown', (e) => {
-      // Ignore if user is currently typing in an input, textarea or contenteditable element
       const activeEl = document.activeElement;
       const isInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable);
       
@@ -784,20 +772,13 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         isSpacebarPressed = true;
         e.preventDefault();
 
-        // 1. Play Acoustic Mic Chime
         window.AG.playMicStartChime();
-
-        // 2. Show PTT HUD
         const hud = document.getElementById('eshPttHud');
         const pName = window.AG.currentPersona?.name || 'Aoife';
         const statusEl = document.getElementById('pttAdvisorStatus');
         if (statusEl) statusEl.innerText = `Speaking to ${pName}...`;
 
-        if (hud) {
-          hud.classList.add('active');
-        }
-
-        // 3. Trigger Voice Recognition
+        if (hud) hud.classList.add('active');
         if (typeof window.startVoiceRecognition === 'function') {
           window.startVoiceRecognition();
         }
@@ -809,98 +790,16 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         isSpacebarPressed = false;
         e.preventDefault();
 
-        // 1. Play Mic Stop Chime
         window.AG.playMicStopChime();
-
-        // 2. Hide PTT HUD
         const hud = document.getElementById('eshPttHud');
-        if (hud) {
-          hud.classList.remove('active');
-        }
+        if (hud) hud.classList.remove('active');
 
-        // 3. Stop Voice Recognition & Submit Query
         if (typeof window.stopVoiceRecognition === 'function') {
           window.stopVoiceRecognition();
         }
       }
     });
   }
-
-
-  
-  // =========================================================
-  // Role Switch Confirmation & Persistent Login Engine
-  // =========================================================
-  let pendingSwitchPersonaKey = null;
-
-  window.AG.requestRoleSwitch = function(targetPersonaKey) {
-    const currentKey = (window.AG.currentPersona?.key || 'aoife').toLowerCase();
-    const targetKey = (targetPersonaKey || 'aoife').toLowerCase();
-
-    // If tapping the already active persona, simply continue
-    if (currentKey === targetKey) {
-      window.dismissPersonaModal(targetKey);
-      return;
-    }
-
-    pendingSwitchPersonaKey = targetKey;
-    const currentPersona = AGPersonas[currentKey] || AGPersonas.aoife;
-    const targetPersona = AGPersonas[targetKey] || AGPersonas.aoife;
-
-    let overlay = document.getElementById('eshRoleSwitchConfirm');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'eshRoleSwitchConfirm';
-      overlay.className = 'role-switch-confirm-overlay';
-      document.body.appendChild(overlay);
-    }
-
-    overlay.innerHTML = `
-      <div class="role-switch-confirm-card" role="dialog" aria-modal="true">
-        <div style="font-size: 2.2rem; margin-bottom: 8px;">🔄</div>
-        <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 8px 0;">
-          Switch Advisor to ${targetPersona.name}?
-        </h3>
-        <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 20px 0;">
-          You are currently exploring as <strong style="color: ${currentPersona.accentColor};">${currentPersona.name} (${currentPersona.role})</strong>.
-          <br><br>
-          Switching to <strong style="color: ${targetPersona.accentColor};">${targetPersona.name} (${targetPersona.role})</strong> will update your voice tuning, technical terminology, and tool calibrations.
-        </p>
-        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <button type="button" class="btn-confirm-switch" onclick="window.AG.confirmRoleSwitch('${targetKey}')" style="background: ${targetPersona.accentColor}; color: #001711;">
-            ✓ Yes, Switch to ${targetPersona.name} →
-          </button>
-          <button type="button" class="btn-cancel-switch" onclick="window.AG.cancelRoleSwitch()">
-            Stay with ${currentPersona.name}
-          </button>
-        </div>
-      </div>
-    `;
-
-    overlay.classList.add('open');
-  };
-
-  window.AG.confirmRoleSwitch = function(targetPersonaKey) {
-    const key = targetPersonaKey || pendingSwitchPersonaKey || 'aoife';
-    const overlay = document.getElementById('eshRoleSwitchConfirm');
-    if (overlay) overlay.classList.remove('open');
-
-    // Save persistent role
-    window.AG.savePersona(key);
-    try {
-      localStorage.setItem("ESH_hasChosenRole", "true");
-    } catch (e) {}
-
-    window.dismissPersonaModal(key);
-    window.AG.setVoicePersona(key, true);
-  };
-
-  window.AG.cancelRoleSwitch = function() {
-    pendingSwitchPersonaKey = null;
-    const overlay = document.getElementById('eshRoleSwitchConfirm');
-    if (overlay) overlay.classList.remove('open');
-  };
-
 
   // Auto-bootstrap persona memory & contextual engine on page load
   if (document.readyState === 'loading') {
@@ -912,9 +811,9 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     });
   } else {
     window.AG.loadSavedPersona();
-      autoLaunchRolePickerModal();
+    autoLaunchRolePickerModal();
     initContextualEngine();
-      initPushToTalk();
+    initPushToTalk();
   }
 
 })(window);
