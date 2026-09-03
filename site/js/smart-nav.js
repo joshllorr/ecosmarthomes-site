@@ -297,6 +297,11 @@ if (!document.getElementById('esh-side-tab-toggle')) {
           </div>
           <button type="button" class="drawer-close-btn" onclick="window.closeToolsDrawer()" aria-label="Close Drawer">✕</button>
         </div>
+        <div style="padding: 10px 16px 0 16px;">
+          <button type="button" onclick="window.closeToolsDrawer(); window.openPersonaPickerModal();" style="width: 100%; background: rgba(52, 245, 197, 0.12); border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 12px; color: #34f5c5; font-size: 0.78rem; font-weight: 800; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
+            <span>✨ Switch Advisory Role (Open Switchboard)</span>
+          </button>
+        </div>
 
         <div style="flex: 1; overflow-y: auto; padding-bottom: 20px;">
           
@@ -1086,17 +1091,13 @@ if (!document.getElementById('esh-side-tab-toggle')) {
   };
 
   window.onMobileDockProfiles = function() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(() => {
+    if (typeof window.openPersonaPickerModal === 'function') {
+      window.openPersonaPickerModal();
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       const panel = document.getElementById('mobile-persona-dropdown-panel');
       if (panel) panel.classList.add('open');
-      const bar = document.querySelector('.persona-filter-bar');
-      if (bar) {
-        bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        bar.style.boxShadow = '0 0 30px rgba(52, 245, 197, 0.8)';
-        setTimeout(() => bar.style.boxShadow = '', 1600);
-      }
-    }, 250);
+    }
   };
 
   window.onMobileDockShield = function() {

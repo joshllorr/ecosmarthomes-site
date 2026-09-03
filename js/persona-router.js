@@ -403,11 +403,30 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         const canonicalKey = AGPersonas[saved.toLowerCase()].key;
         window.AG.setVoicePersona(canonicalKey, false);
 
+        // Reset all cards to clean default state first
+        document.querySelectorAll('.persona-card, .esh-onboarding-card').forEach(cardEl => {
+          cardEl.classList.remove('active-halo', 'halo-fade-in');
+          const badge = cardEl.querySelector(".persona-badge");
+          if (badge) badge.classList.remove("visible");
+          const btn = cardEl.querySelector(".primary-action");
+          const pKey = cardEl.getAttribute("data-persona");
+          if (btn && pKey) {
+            const defaultLabels = {
+              aoife: 'Select Homeowner →',
+              eimear: 'Select Estate Agent →',
+              declan: 'Select Installer →'
+            };
+            btn.textContent = defaultLabels[pKey] || 'Select Role →';
+            btn.classList.remove("cta-pop");
+          }
+        });
+
+        // Highlight the returning user's last selected advisor
         const card = document.querySelector(`[data-persona="${canonicalKey}"]`);
         if (card) {
-          document.querySelectorAll('.persona-card, .esh-onboarding-card').forEach(c => c.classList.remove('active-halo', 'halo-fade-in'));
           card.classList.add("active-halo", "halo-fade-in");
-          card.querySelector(".persona-badge")?.classList.add("visible");
+          const badge = card.querySelector(".persona-badge");
+          if (badge) badge.classList.add("visible");
           const primaryBtn = card.querySelector(".primary-action");
           if (primaryBtn) {
             primaryBtn.textContent = `Continue with ${AGPersonas[canonicalKey].name} →`;
@@ -494,12 +513,20 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     window.AG.savePersona(persona.key);
   };
 
-  // Auto-Launch Role Picker Modal for first-time or explicit requests
+  // Auto-Launch Role Picker Modal (500ms Pop-Up with Persona Memory Awareness)
   function autoLaunchRolePickerModal() {
     try {
-      const hasChosen = localStorage.getItem("ESH_hasChosenRole");
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('role-select') || params.has('switch-role') || params.has('modal')) {
+        setTimeout(() => window.openPersonaPickerModal(), 200);
+        return;
+      }
+
       const isHome = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname === '';
-      if (!hasChosen && isHome) {
+      const dismissedThisSession = sessionStorage.getItem("ESH_sessionModalDismissed");
+      
+      // Slide in smoothly after 500ms on session entry
+      if (!dismissedThisSession && isHome) {
         setTimeout(() => {
           window.openPersonaPickerModal();
         }, 500);
@@ -515,6 +542,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       modal = document.querySelector("#personaModal");
     }
     if (modal) {
+      modal.classList.remove("hide");
       modal.classList.add("open");
       modal.style.setProperty("display", "flex", "important");
       modal.style.pointerEvents = "auto";
@@ -546,9 +574,10 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     const roleKey = advisorToRole[raw] || (raw ? 'homeowner' : '');
 
     try {
+      sessionStorage.setItem("ESH_sessionModalDismissed", "true");
       localStorage.setItem("ESH_hasSeenOnboarding", "true");
-      localStorage.setItem("ESH_hasChosenRole", "true");
       if (advisorKey) {
+        localStorage.setItem("ESH_hasChosenRole", "true");
         localStorage.setItem("ESH_lastPersona", advisorKey);
         localStorage.setItem("ESH_currentRole", roleKey);
       }
@@ -570,6 +599,11 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       if (typeof window.setPersona === 'function') {
         window.setPersona(roleKey);
       }
+    } else {
+      // Direct browsing without selecting a role: show all tools
+      if (typeof window.setPersona === 'function') {
+        window.setPersona('all');
+      }
     }
   };
 
@@ -579,17 +613,9 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     const modal = document.createElement('div');
     modal.id = 'personaModal';
     modal.className = 'persona-modal-overlay';
-    modal.style.cssText = `
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 18, 13, 0.88);
-      backdrop-filter: blur(16px);
-      z-index: 99999;
-      display: none; align-items: center; justify-content: center;
-      padding: 20px;
-    `;
 
     modal.innerHTML = `
-      <div class="modal-container" style="background: #001f17; border: 1.5px solid rgba(52, 245, 197, 0.35); border-radius: 28px; max-width: 880px; width: 100%; padding: clamp(24px, 4vw, 40px); box-shadow: 0 25px 60px rgba(0,0,0,0.8); text-align: center; position: relative; overflow: hidden; transition: box-shadow 0.6s ease, border-color 0.6s ease;">
+      <div class="modal-container">
         
         <!-- Background Color Wash Layer -->
         <div id="personaColorWash"></div>
@@ -597,7 +623,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         <!-- Particle Shimmer Layer -->
         <div id="personaParticleLayer"></div>
 
-        <button type="button" onclick="window.dismissPersonaModal('')" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; z-index: 3;">✕</button>
+        <button type="button" class="modal-close-btn" onclick="window.dismissPersonaModal('')" aria-label="Dismiss Modal">✕</button>
         
         <div style="position: relative; z-index: 2;">
           <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px;">
@@ -610,7 +636,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
             Select your role to personalize your tools and activate your dedicated 100% conflict-free Irish AI Energy Advisor.
           </p>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-bottom: 24px;">
+          <div class="persona-cards-grid">
             
             <!-- Homeowner (Aoife) -->
             <div class="persona-card esh-onboarding-card card-homeowner" data-persona="aoife" onclick="window.dismissPersonaModal('aoife')">
@@ -656,9 +682,9 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
                   <span style="background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Declan</span>
                 </div>
                 <span class="persona-badge">✨ Last Selected Advisor</span>
-                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Installer / Trades</h3>
+                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Installer / Retrofitter</h3>
                 <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
-                  NSAI SR50 low-temperature radiator sizing, heat loss formulas, and digital data packs.
+                  NSAI SR50 45°C Delta-T 30 sizing, heat loss formulas, and digital data packs.
                 </p>
               </div>
               <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #38bdf8; font-weight: 800;">
@@ -668,7 +694,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
           </div>
 
-          <button type="button" onclick="window.dismissPersonaModal('')" style="background: none; border: none; color: #64748b; font-size: 0.82rem; cursor: pointer; text-decoration: underline;">
+          <button type="button" class="btn-explore-all-direct" onclick="window.dismissPersonaModal('')">
             Explore all tools without selecting a role
           </button>
         </div>
