@@ -1,6 +1,6 @@
 # EcoSmartHome Disaster Recovery Runbook & Operations Standard
 
-**Version:** 3.8.0 (Flash Enterprise)  
+**Version:** 3.8.1 (Flash Enterprise)  
 **Last Updated:** September 3, 2026  
 **Release Tag:** `v3.8-flash`  
 **Classification:** Internal Technical Operations, Disaster Recovery & Architecture Standard  
@@ -45,7 +45,7 @@ git push origin main --force
 
 ---
 
-## 🏗️ Production Architecture & Core System Map (v3.8.0)
+## 🏗️ Production Architecture & Core System Map (v3.8.1)
 
 ### 1. Dual-Row Responsive Navigation & Mobile Slider (`smart-nav.js` & `smart-nav.css`)
 - **Row 1 (Brand & Primary Action):**
@@ -144,3 +144,9 @@ python scratch/test_implementation_checklist.py
 | **Edge Hosting** | Vercel Enterprise Support | vercel.com/help | < 2 hours |
 | **Payment Processor** | Stripe Priority Support | dashboard.stripe.com | < 2 hours |
 | **Telemetry Database** | Supabase Cloud Support | supabase.com/dashboard | < 4 hours |
+
+
+### Version 3.8.1 Additions (September 2026)
+- **Interactive Irish Home Digital Twin Simulator** (`/digital-twin/`): Pure SVG architectural cross-section with 5 interactive retrofit toggles, 8-step BER gauge (G to A0), and €35k SEAI grant stacker.
+- **26-County Province Dropdown Drawer** (`#countyProvinceDrawer`): Grouped county selection under Munster, Leinster, Connacht, and Ulster, reducing landing page height by >5,000px on mobile.
+- **Mobile Segmented Switchers & Category Carousels**: Deployed across 11-Tool Hub, SEAI Grants Matrix, Green Mortgage Ticker, and Carbon Tax War Room.
