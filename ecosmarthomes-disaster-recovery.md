@@ -1,92 +1,146 @@
-# EcoSmartHome Disaster Recovery Runbook
+# EcoSmartHome Disaster Recovery Runbook & Operations Standard
 
-**Version:** 2.1.0  
-**Last Updated:** August 28, 2026  
-**Classification:** Internal Technical Operations & Architecture Standard  
+**Version:** 3.8.0 (Flash Enterprise)  
+**Last Updated:** September 3, 2026  
+**Release Tag:** `v3.8-flash`  
+**Classification:** Internal Technical Operations, Disaster Recovery & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
-
-This document serves as the operational standard for monitoring, diagnosing, recovering, and maintaining the EcoSmartHome production ecosystem. It covers the Vercel hosting platform, static Hub & Spoke architecture, Supabase PostgreSQL telemetry databases, dedicated Stripe `/checkout/` gateway, off-canvas smart navigation, and the complete 11-tool energy suite.
 
 ---
 
-## 🚨 Incident Response Protocol (Quick Start)
+## 🚨 Emergency Incident Response Protocol (Quick Start)
 
-If the live production site is reported down, or if payments/tools fail, execute these three steps immediately:
+If the live production site is reported down, if tools/modals fail to load, or if checkout/voice services experience degradation, execute these diagnostic and recovery procedures immediately:
 
-### 1. Check Status Dashboards
-- **Vercel Status:** [status.vercel.com](https://status.vercel.com) *(Edge Functions & Static Hosting)*
-- **Supabase Status:** [status.supabase.com](https://status.supabase.com) *(Database & APIs)*
-- **Stripe Status:** [status.stripe.com](https://status.stripe.com) *(Payments & Webhooks)*
+### 1. Check Cloud Status Dashboards
+- **Vercel Hosting & Edge Network:** [status.vercel.com](https://status.vercel.com)
+- **Supabase Database & Auth:** [status.supabase.com](https://status.supabase.com)
+- **Stripe Payments & Webhooks:** [status.stripe.com](https://status.stripe.com)
+- **Google Cloud / Web Audio APIs:** [status.cloud.google.com](https://status.cloud.google.com)
 
 ### 2. Isolate the Failure Domain
-- **HTTP 500 / 502 / 504 on Webpages:** Vercel edge deployment or DNS configuration issue.
-- **HTTP 500 on `/api/checkout/create-session` or `/api/webhooks/stripe`:** Stripe API secret key mismatch or Supabase database timeout.
-- **Client-Side Script Errors in Tools:** Verify asset integrity in `/js/smart-nav.js`, `/js/whatsapp-widget.js`, `/js/solar-estimator.js`.
+- **HTTP 500 / 502 / 504 on Webpages:** Check Vercel edge deployment logs or DNS A/CNAME records.
+- **Client-Side Script Errors / Stuck Modals:** Check asset integrity in `/js/smart-nav.js`, `/js/persona-router.js`, `/js/property-auditor.js`, `/js/voice-advisor.js`.
+- **CSS Stacking / Floating Button Collision:** Verify `z-index` stacking order in `/css/smart-nav.css` and `/css/voice-advisor.css` (`#personaModal` 1000010, `.mobile-persona-dropdown-wrapper` 1000000, `#esh-mobile-dock` 999990, floating buttons `bottom: 76px !important`).
+- **Payment / Booking Errors (`/checkout/`):** Verify Stripe webhook signing secret (`STRIPE_WEBHOOK_SECRET`) and Supabase PostgreSQL pool connection.
 
 ### 3. Immediate Git / Vercel Rollback Protocol
+
+To immediately restore the platform to the last certified stable release tag (`v3.8-flash`):
 ```pwsh
 cd c:\xampp\htdocs\EcoSmartHome\site
-# 1. Fetch latest git remote state
-git fetch origin main
 
-# 2. Revert to verified stable commit
-git reset --hard HEAD~1
+# 1. Fetch remote tags and commits
+git fetch --all --tags
 
-# 3. Force-push to trigger instant Vercel CI/CD redeployment (< 90 seconds)
+# 2. Hard reset local workspace to certified release tag
+git reset --hard v3.8-flash
+
+# 3. Synchronize /site/ mirror directory
+python scratch/sync_full_mirror.py
+
+# 4. Trigger instant Vercel redeployment
 git push origin main --force
 ```
 
 ---
 
-## 🏗️ Production System Architecture & Endpoints (August 28, 2026)
+## 🏗️ Production Architecture & Core System Map (v3.8.0)
 
-### 1. Multi-Audience Onboarding Triumvirate (`index.html`)
-- **🏠 Homeowner Carbon Tax Rescue (`#wallet-rescue-wizard`):**
-  - Fuel selector (`🔥 Oil`, `💨 Gas`, `⚡ Electric`) + winter spend slider (€100–€650/mo).
-  - Live ticking Carbon Tax Penalty Clock calculating statutory 2026–2030 compounding liability (€4,320.00).
-  - Shield Deployment animation: shatters penalty clock down to `€0.00` and displays customized grant breakdown (-€25.5k SEAI grants, -€180/mo Green Mortgage, €54/mo net bill).
-- **💼 Estate Agent Commission Booster (`#agent-rescue-wizard`):**
-  - Simplified 8-category BER rating selector (G to A) + property asking price presets (€175k–€950k).
-  - Live ESRI-calibrated Property Equity Surge engine (e.g. `+€24,500` equity, `+€368` extra commission).
-  - 1-Click Daft.ie Listing Blurb Copy tool with animated clipboard toast.
-- **⚡ Installer / Retrofitter Van-to-Verdict Portal (`#installer-rescue-wizard`):**
-  - Rapid archetype intake (`3-Bed Semi`, `4-Bed Detached`, `3-Bed Bungalow`, `2-Bed Apt`).
-  - NSAI SR50-2:2024 low-flow radiator matrix with live `🟢 Compliant OK` and `⚠️ Oversizing Required` badges.
-  - 1-Click SEAI-Compliant Tender Draft Generator + Outsource Technical Survey €49 Hand-Off.
+### 1. Dual-Row Responsive Navigation & Mobile Slider (`smart-nav.js` & `smart-nav.css`)
+- **Row 1 (Brand & Primary Action):**
+  - Left: 🏡 `EcoSmartHomes` Logo (28px high-vis vector).
+  - Center: `[ 🏠 Homeowner ▾ ]` Adaptive Persona Dropdown Capsule.
+  - Right: `☰ Tools` Off-Canvas Drawer Toggle.
+  - Strict Row 1 isolation on mobile (`< 768px`) eliminates clipping of pricing and survey buttons.
+- **Row 2 (Mobile Top Menu Slider - `#mobileTopMenuSlider`):**
+  - Touch-swipeable horizontal track with 11 tools.
+  - Custom WebKit scrollbar matching desktop baseline:
+    - Track: `background: rgba(255, 255, 255, 0.08); border-radius: 9999px;`
+    - Thumb: `linear-gradient(90deg, #34f5c5, #10b981); border-radius: 9999px; box-shadow: 0 0 8px rgba(52, 245, 197, 0.6);`
+    - Height: `4px`.
+  - Automatic active chip highlighter with smooth auto-centering on navigation.
 
-### 2. Complete 11-Tool Energy Engine Suite
-1. **Solar PV & 24c Clean Export Simulator:** `/solar/` (`solar/index.html`)
-2. **Contractor Quote Speedometer Gauge:** `/quote-auditor/` (`quote-auditor/index.html`)
-3. **Smart Meter & Battery Arbitrage Slasher:** `/battery-arbitrage/` (`battery-arbitrage/index.html`)
-4. **Radiator Flow & Low-Flow Heat Pump Sizer:** `/radiator-sizer/` (`radiator-sizer/index.html`)
-5. **Zero-Out-of-Pocket SBCI Loan & Grant Stacker:** `/retrofit-loan/` (`retrofit-loan/index.html`)
-6. **Simplified 8-Category BER (A0 to G) Matrix:** `/ber-matrix/` (`ber-matrix/index.html`)
-7. **Contractor Tender Specification RFP Generator:** `/tender-generator/` (`tender-generator/index.html`)
-8. **Carbon Tax Liability Ticker:** `/carbon-tax/` (`carbon-tax/index.html`)
-9. **Green Mortgage 3.45% Arbitrage Slasher:** `/green-mortgage/` (`green-mortgage/index.html`)
-10. **33 Irish Towns Regional SEO Directory:** `/locations/` (`locations/index.html`)
-11. **Ask Aoife Voice & AI Energy Advisor:** `/tools/voice-aoife.html` (`tools/voice-aoife.html`)
+### 2. 3-Advisor Voice & Persona Switchboard (`persona-router.js` & `voice-advisor.js`)
+- **Three Dedicated Irish Advisory Roles:**
+  - 🏡 **Aoife (Homeowner Advisor):** Lower heating bills, size radiators, and claim up to €35,000 in SEAI retrofit grants.
+  - 💼 **Eimear (Estate Agent / Valuer):** Explain BER uplift, unlock +€38k valuation equity surge, and highlight 3.45% green mortgages.
+  - ⚡ **Declan (Installer / Retrofitter):** NSAI SR50 45°C Delta-T 30 sizing, heat loss formulas, and digital data packs.
+- **Automatic 500ms Pop-Up Engine:**
+  - Slides in at 500ms on first session visit with `cubic-bezier(0.16, 1, 0.3, 1)` and 18px backdrop blur.
+  - Controlled by `sessionStorage.getItem("ESH_sessionModalDismissed")`.
+- **Persona Memory Awareness:**
+  - Detects returning users via `localStorage.getItem("ESH_lastPersona")`.
+  - Card automatically blooms with `.active-halo` (Aoife green, Eimear amber, Declan cyan).
+  - Displays `✨ Last Selected Advisor` badge and dynamic `Continue with [Name] →` CTA.
+- **Smooth Instant Dismissal & Direct Browsing:**
+  - Instant `display: none !important; pointer-events: none;`.
+  - Direct browsing button ("Explore all tools without selecting a role") sets `window.setPersona('all')`.
+- **Acoustic Handoff Chimes (Web Audio API):**
+  - Aoife: C5 (523.25 Hz) -> G5 (783.99 Hz)
+  - Eimear: D5 (587.33 Hz) -> A5 (880.00 Hz)
+  - Declan: F4 (349.23 Hz) -> C5 (523.25 Hz)
 
-### 3. Payment & Booking Architecture
-- Dedicated on-site gateway: `/checkout/` (`checkout/index.html`, `checkout/order.html`, `checkout/thank-you.html`)
-- Handles the €49 Independent Retrofit Engineering Survey with Joe.
-- Triggers `/api/checkout/create-session` and posts customer metadata (Name, Email, Phone, Eircode) directly to Supabase and Stripe.
-
-### 4. Smart Scroll & Mobile Navigation
-- **`css/smart-nav.css` & `js/smart-nav.js`:**
-  - Header glides away on scroll down (`translateY(-110%)`) and returns instantly on scroll up.
-  - Off-canvas slide-out drawer (`#esh-side-drawer`) hosting all 11 tools.
-  - Input Focus Auto-Hide: Floating WhatsApp pill and Aoife launcher auto-fade during mobile keyboard input.
-  - 75px bottom safety margin on mobile viewports (< 768px).
+### 3. The 11 Core Irish Energy Engines
+1. **Contractor Quote vs Fair Market Price Speedometer:** `/quote-auditor/` (`quote-auditor/index.html`)
+2. **1-Tap Contractor Quote Comparator & Dispute Generator:** `/quote-comparator/` (`quote-comparator/index.html`)
+3. **Irish Carbon Tax Shield & Retrofit War Room Terminal:** `/#carbon-tax-war-room` & `/carbon-tax/` (Statutory €64 -> €100/tonne penalty clock, laser defense pods).
+4. **Live Irish Green Mortgage Arbitrage Bank Ticker:** `/#green-mortgage-ticker` & `/green-mortgage/` (AIB 3.45%, Haven 3.45%, BOI 3.55%, PTSB 3.60%).
+5. **Interactive 26-County Irish Solar & Micro-Climate Yield Map:** `/#county-solar-map` & `/solar/` (24c/kWh Clean Export earnings, local installer directory).
+6. **SEAI One-Stop-Shop vs Individual Grants Decision Matrix:** `/#grant-matrix-calculator` (Turnkey OSS vs Direct Contractor Hiring).
+7. **Interactive Before vs After House Transformation Cutaway Slider:** `/#transformation-slider` (Official 8-Step G to A0 Net-Zero Energy Scale).
+8. **1-Click Daft.ie & Eircode Property Auditor:** Hero Scanner on `/` (8 Irish building archetypes, floor area, year built).
+9. **NSAI SR50-2:2024 Low-Flow Radiator & Heat Pump Sizer:** `/radiator-sizer/`
+10. **33 Irish Towns Regional SEO Directory:** `/locations/` (e.g. `/locations/cork/kinsale.html`)
+11. **Comprehensive Pricing & Consultation Dossier Framework:** `/pricing/` (€149 Virtual Survey, €249 Physical Audit, €499 Full Tender Pack)
 
 ---
 
-## 🔒 Disaster Recovery Contact Directory
+## 🔒 Security, Business Contacts & Anti-Tamper Configuration
+
+### 1. Official Communications Direct Route
+- **WhatsApp Support & Consultation Dispatch:** `+353 83 966 2197` (International: `353839662197`, Local: `083 966 2197`)
+- **Automated Routing:** Verified across `/js/whatsapp-widget.js`, `api/whatsapp-bot.js`, and all 11 tool dossier dispatchers.
+
+### 2. Analytics & Conversion Tracking
+- **Google Tag Manager Container ID:** `AW-3013797648`
+- **Verification:** Verified 200 OK hits across all 53 HTML files with `window.dataLayer` enhanced conversion tracking.
+
+### 3. Vercel Staging Mirror Parity Rule
+- Production root and `/site/` staging directory MUST maintain 100% byte-for-byte synchronization.
+- Automated validation script: `python scratch/run_comprehensive_audit.py` (Rule Module 7).
+
+---
+
+## 🧪 Operational Health & Verification Test Commands
+
+Run these health checks inside `c:\xampp\htdocs\EcoSmartHome\site` after any deployment or recovery action:
+
+```pwsh
+# 1. Master Enterprise Audit (25/25 Checks)
+python scratch/run_comprehensive_audit.py
+
+# 2. Functional Regression Suite (All 8 Modules)
+python scratch/test_functional_regression.py
+
+# 3. Mobile Top Menu Slider & Responsive Navigation Test
+python scratch/test_mobile_top_slider.py
+
+# 4. Agent Routing & Web Audio Chime Test
+python scratch/test_agent_routing.py
+
+# 5. Quick Implementation Checklist (Frontend, Backend, DB, Security, Analytics)
+python scratch/test_implementation_checklist.py
+```
+
+---
+
+## 📞 Emergency Escalation Contacts
 
 | Role | Contact Name | Channel | Response SLA |
-|:---|:---|:---|:---|
-| **System Owner** | Joe | WhatsApp / Direct Call | Immediate |
-| **Lead Developer** | Antigravity AI Engineering | GitHub / Workspace | < 1 hour (Critical) |
-| **Hosting Support** | Vercel Support | vercel.com/help | < 2 hours (Pro) |
-| **Payment Gateway** | Stripe Support | dashboard.stripe.com | < 2 hours (Priority) |
-| **Database Support** | Supabase Support | supabase.com/dashboard | < 4 hours (Pro) |
+| :--- | :--- | :--- | :--- |
+| **Platform Owner** | Joe | Direct Call / WhatsApp (+353 83 966 2197) | Immediate (< 15 mins) |
+| **Lead AI Architect** | Antigravity AI Engineering | GitHub Issues / Workspace Transcript | < 1 hour (Critical) |
+| **Edge Hosting** | Vercel Enterprise Support | vercel.com/help | < 2 hours |
+| **Payment Processor** | Stripe Priority Support | dashboard.stripe.com | < 2 hours |
+| **Telemetry Database** | Supabase Cloud Support | supabase.com/dashboard | < 4 hours |
