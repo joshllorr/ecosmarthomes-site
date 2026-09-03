@@ -271,7 +271,7 @@
   <script src="/js/persona-router.js" defer></script>
   <script src="/js/energy-metrics.js" defer></script>
   <script src="/js/calculator-data-core.js" defer></script>
-  <link rel="stylesheet" href="/css/smart-nav.css?v=6">
+  <link rel="stylesheet" href="/css/smart-nav.css?v=7">
 </head>
 <body>
 <div id="mobile-app-container" class="mobile-app-wrapper">
@@ -708,18 +708,39 @@
           Select any of the 26 Irish counties to instantly view geocoded annual solar harvest (6kW system), Clean Export Guarantee cash rebates, local heating degree days, and active SEAI registered installers.
         </p>
 
-        <!-- Province Filter Pills -->
-        <div class="province-filter-group">
-          <button type="button" class="province-chip active" data-province="all" onclick="window.filterCounties('all')">🌟 All 26 Counties</button>
-          <button type="button" class="province-chip" data-province="munster" onclick="window.filterCounties('munster')">🏰 Munster</button>
-          <button type="button" class="province-chip" data-province="leinster" onclick="window.filterCounties('leinster')">🏛️ Leinster</button>
-          <button type="button" class="province-chip" data-province="connacht" onclick="window.filterCounties('connacht')">🌊 Connacht</button>
-          <button type="button" class="province-chip" data-province="ulster" onclick="window.filterCounties('ulster')">🌲 Ulster (ROI)</button>
+        <!-- 📍 Compact Province & County Drawer Trigger Bar (Scroll-Reduced) -->
+        <div class="county-drawer-controls">
+          <!-- Quick County Trigger Pill (Drawer Toggle) -->
+          <button type="button" class="county-drawer-trigger-btn" id="countyDrawerToggleBtn" onclick="window.toggleCountyDrawer()" aria-expanded="false" aria-controls="countyProvinceDrawer">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.1rem;">📍</span>
+              <span id="countyTriggerLabel" style="font-weight: 800; color: #ffffff;">Co. Cork (Munster)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span id="countyTriggerYield" style="font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: #34f5c5; background: rgba(52,245,197,0.12); padding: 2px 8px; border-radius: 9999px;">☀️ 995 kWh/kWp</span>
+              <span class="drawer-caret" id="countyDrawerCaret" style="transition: transform 0.25s ease; color: #34f5c5; font-size: 0.9rem;">▾</span>
+            </div>
+          </button>
+
+          <!-- Province Quick-Filter Tabs -->
+          <div class="province-filter-group" id="provinceFilterGroup">
+            <button type="button" class="province-chip" data-province="munster" onclick="window.openProvinceDrawer('munster')">🏰 Munster (6)</button>
+            <button type="button" class="province-chip" data-province="leinster" onclick="window.openProvinceDrawer('leinster')">🏛️ Leinster (12)</button>
+            <button type="button" class="province-chip" data-province="connacht" onclick="window.openProvinceDrawer('connacht')">🌊 Connacht (5)</button>
+            <button type="button" class="province-chip" data-province="ulster" onclick="window.openProvinceDrawer('ulster')">🌲 Ulster (3)</button>
+            <button type="button" class="province-chip active" data-province="all" onclick="window.openProvinceDrawer('all')">🌟 All 26</button>
+          </div>
         </div>
 
-        <!-- County Chips Selector -->
-        <div class="county-chips-grid" id="countyChipsGrid">
-          <!-- Dynamically generated chips -->
+        <!-- 📂 Collapsible Province & County Drawer Panel -->
+        <div class="county-province-drawer-panel" id="countyProvinceDrawer" style="display: none;">
+          <div class="province-drawer-header">
+            <span style="font-size: 0.74rem; font-family: monospace; color: #34f5c5; font-weight: 800; text-transform: uppercase;">● SELECT COUNTY UNDER PROVINCE</span>
+            <button type="button" onclick="window.toggleCountyDrawer(false)" style="background: none; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer; padding: 2px 6px;">✕</button>
+          </div>
+          <div class="province-sections-container" id="provinceSectionsContainer">
+            <!-- Dynamically populated grouped by Munster, Leinster, Connacht, Ulster -->
+          </div>
         </div>
 
         <!-- Live County Telemetry Dashboard -->
@@ -939,8 +960,18 @@
           </button>
         </div>
 
+        <!-- Tactile Mobile Segmented Switcher (Saves ~950px on mobile) -->
+        <div class="matrix-mobile-switcher" id="matrixMobileSwitcher">
+          <button type="button" class="matrix-switch-btn active" id="btnSwitchOss" onclick="window.setMatrixMobileTab('oss')">
+            🏢 One-Stop-Shop (Turnkey)
+          </button>
+          <button type="button" class="matrix-switch-btn" id="btnSwitchDiy" onclick="window.setMatrixMobileTab('diy')">
+            🛠️ Direct Trades (Self-Managed)
+          </button>
+        </div>
+
         <!-- Comparison Cards -->
-        <div class="matrix-comparison-grid">
+        <div class="matrix-comparison-grid matrix-show-oss" id="matrixComparisonGrid">
           <!-- ONE-STOP-SHOP (OSS) COLUMN -->
           <div class="matrix-column-card oss-card">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(245, 158, 11, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
@@ -1602,11 +1633,19 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 8px;">
           Every tool is private, self-serve, and 100% free of salesperson tracking.
         </p>
+
+        <!-- 3-Category Interactive Filter Tabs (Saves ~2,700px on mobile) -->
+        <div class="tool-hub-category-tabs" id="toolCategoryTabs">
+          <button type="button" class="tool-cat-tab active" data-cat="all" onclick="window.filterToolCategory('all')">🌟 All 11 Engines</button>
+          <button type="button" class="tool-cat-tab" data-cat="energy" onclick="window.filterToolCategory('energy')">⚡ Energy & Solar (4)</button>
+          <button type="button" class="tool-cat-tab" data-cat="grants" onclick="window.filterToolCategory('grants')">💶 Grants & Finance (4)</button>
+          <button type="button" class="tool-cat-tab" data-cat="contractor" onclick="window.filterToolCategory('contractor')">👔 Contractors & Audits (3)</button>
+        </div>
       </div>
 
-      <div class="tool-showcase-grid">
+      <div class="tool-showcase-grid" id="toolShowcaseGrid">
         <!-- Tool: NSAI Contractor Tender RFP Generator -->
-        <div class="tool-showcase-box" data-personas="installer homeowner">
+        <div class="tool-showcase-box" data-toolcat="contractor" data-personas="installer homeowner">
           <div>
             <span style="font-size: 2.2rem;">📋</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">Contractor Tender RFP Generator</h3>
@@ -1620,7 +1659,7 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         </div>
 
         <!-- Tool: 8-Band BER Certificate What-If Matrix -->
-        <div class="tool-showcase-box" data-personas="agent homeowner">
+        <div class="tool-showcase-box" data-toolcat="grants" data-personas="agent homeowner">
           <div>
             <span style="font-size: 2.2rem;">🏡</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">8-Band BER "What-If" Matrix</h3>
@@ -1634,7 +1673,7 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         </div>
 
         <!-- Tool: 0% Out of Pocket SBCI Loan Stacker -->
-        <div class="tool-showcase-box" data-personas="homeowner agent">
+        <div class="tool-showcase-box" data-toolcat="grants" data-personas="homeowner agent">
           <div>
             <span style="font-size: 2.2rem;">💶</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">0% Out-of-Pocket Loan Stacker</h3>
@@ -1648,7 +1687,7 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         </div>
 
         <!-- Tool 0: Radiator Flow & Heat Pump Sizer -->
-        <div class="tool-showcase-box" data-personas="installer homeowner">
+        <div class="tool-showcase-box" data-toolcat="energy" data-personas="installer homeowner">
           <div>
             <span style="font-size: 2.2rem;">📐</span>
             <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-top: 14px;">Radiator Flow & Heat Pump Sizer</h3>
@@ -2172,30 +2211,83 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
 
       let activeCounty = irishCounties[0]; // Default Cork
 
-      function renderChips(filterProvince = 'all') {
-        const grid = document.getElementById('countyChipsGrid');
-        if (!grid) return;
-        grid.innerHTML = '';
+      // ----------------------------------------------------------------------
+      // PROVINCE ACCORDION / DROPDOWN DRAWER CONTROLLER (SCROLL REDUCTION)
+      // ----------------------------------------------------------------------
+      const provinceMeta = {
+        munster: { title: '🏰 Munster Province (6 Counties)', desc: 'High Solar Yield & Coastal Micro-Climates' },
+        leinster: { title: '🏛️ Leinster Province (12 Counties)', desc: 'Highest Grid Density & Dublin Heat Demand' },
+        connacht: { title: '🌊 Connacht Province (5 Counties)', desc: 'Atlantic Exposure & Wind-Driven Micro-Climates' },
+        ulster: { title: '🌲 Ulster ROI (3 Counties)', desc: 'Border Drumlins & Steady Heat Pump Design Temps' }
+      };
 
-        const filtered = filterProvince === 'all' 
-          ? irishCounties 
-          : irishCounties.filter(c => c.province === filterProvince);
+      function renderProvinceDrawer(targetProvince = 'all') {
+        const container = document.getElementById('provinceSectionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
 
-        filtered.forEach(c => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = `county-btn-chip ${c.id === activeCounty.id ? 'active' : ''}`;
-          btn.innerHTML = `<span>${c.name}</span> <span style="font-size: 0.68rem; font-family: monospace; color: #34f5c5;">${c.yield}</span>`;
-          btn.onclick = () => window.selectCounty(c.id);
-          grid.appendChild(btn);
+        const provincesToShow = targetProvince === 'all' 
+          ? ['munster', 'leinster', 'connacht', 'ulster'] 
+          : [targetProvince];
+
+        provincesToShow.forEach(prov => {
+          const section = document.createElement('div');
+          section.className = 'province-drawer-section';
+          
+          const meta = provinceMeta[prov] || { title: prov.toUpperCase(), desc: '' };
+          const countiesInProv = irishCounties.filter(c => c.province === prov);
+
+          let chipsHtml = '';
+          countiesInProv.forEach(c => {
+            const isActive = c.id === activeCounty.id ? 'active' : '';
+            chipsHtml += `
+              <button type="button" class="county-btn-chip ${isActive}" onclick="window.selectCounty('${c.id}')">
+                <span>${c.name}</span>
+                <span style="font-size: 0.68rem; font-family: monospace; color: #34f5c5;">${c.yield}</span>
+              </button>
+            `;
+          });
+
+          section.innerHTML = `
+            <div class="province-section-heading">
+              <div>
+                <span class="province-title-badge">${meta.title}</span>
+                <span class="province-desc-text">${meta.desc}</span>
+              </div>
+              <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 700;">${countiesInProv.length} Counties</span>
+            </div>
+            <div class="province-chips-grid">
+              ${chipsHtml}
+            </div>
+          `;
+          container.appendChild(section);
         });
       }
 
-      window.filterCounties = function(province) {
+      window.toggleCountyDrawer = function(forceState) {
+        const drawer = document.getElementById('countyProvinceDrawer');
+        const caret = document.getElementById('countyDrawerCaret');
+        const trigger = document.getElementById('countyDrawerToggleBtn');
+        if (!drawer) return;
+
+        const isCurrentlyOpen = drawer.style.display !== 'none';
+        const willOpen = typeof forceState === 'boolean' ? forceState : !isCurrentlyOpen;
+
+        drawer.style.display = willOpen ? 'block' : 'none';
+        if (caret) caret.style.transform = willOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+        if (trigger) trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      };
+
+      window.openProvinceDrawer = function(province) {
         document.querySelectorAll('.province-chip').forEach(chip => {
           chip.classList.toggle('active', chip.dataset.province === province);
         });
-        renderChips(province);
+        renderProvinceDrawer(province);
+        window.toggleCountyDrawer(true);
+      };
+
+      window.filterCounties = function(province) {
+        window.openProvinceDrawer(province);
       };
 
       window.selectCounty = function(countyId) {
@@ -2224,6 +2316,15 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         if (installersEl) installersEl.innerText = found.installers;
         if (voiceBtnText) voiceBtnText.innerText = `🎙️ Ask Aoife: ${found.name} Grants & Solar Payback →`;
         if (waBtnText) waBtnText.innerText = `💬 WhatsApp ${found.name} Installer Shortlist (083 966 2197) →`;
+
+        // Update trigger button labels
+        const triggerLabel = document.getElementById('countyTriggerLabel');
+        const triggerYield = document.getElementById('countyTriggerYield');
+        if (triggerLabel) triggerLabel.innerText = `${found.name} (${found.province.toUpperCase()})`;
+        if (triggerYield) triggerYield.innerText = `☀️ ${found.yield} kWh/kWp`;
+
+        // Close drawer smoothly on selection
+        window.toggleCountyDrawer(false);
       };
 
       window.askVoiceAiCountySolar = function() {
@@ -2252,6 +2353,48 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         }, 600);
       };
 
+      
+      // ----------------------------------------------------------------------
+      // SEAI GRANTS MATRIX MOBILE TAB SWITCHER (SCROLL REDUCTION)
+      // ----------------------------------------------------------------------
+      window.setMatrixMobileTab = function(tab) {
+        const grid = document.getElementById('matrixComparisonGrid');
+        const btnOss = document.getElementById('btnSwitchOss');
+        const btnDiy = document.getElementById('btnSwitchDiy');
+        if (!grid) return;
+
+        if (tab === 'oss') {
+          grid.classList.remove('matrix-show-diy');
+          grid.classList.add('matrix-show-oss');
+          if (btnOss) btnOss.classList.add('active');
+          if (btnDiy) btnDiy.classList.remove('active');
+        } else {
+          grid.classList.remove('matrix-show-oss');
+          grid.classList.add('matrix-show-diy');
+          if (btnDiy) btnDiy.classList.add('active');
+          if (btnOss) btnOss.classList.remove('active');
+        }
+      };
+
+      // ----------------------------------------------------------------------
+      // 11-TOOL HUB CATEGORY FILTER (SCROLL REDUCTION)
+      // ----------------------------------------------------------------------
+      window.filterToolCategory = function(cat) {
+        document.querySelectorAll('.tool-cat-tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.cat === cat);
+        });
+
+        const cards = document.querySelectorAll('.tool-showcase-box');
+        cards.forEach(card => {
+          const cardCat = card.dataset.toolcat || 'energy';
+          if (cat === 'all' || cardCat === cat) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      };
+
       window.requestCountyInstallerShortlist = function() {
         const phone = '353839662197';
         const msg = encodeURIComponent(`Hi Joe! I am looking for verified SEAI registered solar & heat pump installers in ${activeCounty.name}. My estimated solar yield is ${activeCounty.harvest} (${activeCounty.ceg} CEG). Can you share the top 3 vetted contractor shortlist for my area?`);
@@ -2262,7 +2405,7 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => renderChips('all'));
       } else {
-        renderChips('all');
+        renderProvinceDrawer('all');
       }
     })();
   </script>
@@ -2309,30 +2452,83 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
 
       let activeCounty = irishCounties[0]; // Default Cork
 
-      function renderChips(filterProvince = 'all') {
-        const grid = document.getElementById('countyChipsGrid');
-        if (!grid) return;
-        grid.innerHTML = '';
+      // ----------------------------------------------------------------------
+      // PROVINCE ACCORDION / DROPDOWN DRAWER CONTROLLER (SCROLL REDUCTION)
+      // ----------------------------------------------------------------------
+      const provinceMeta = {
+        munster: { title: '🏰 Munster Province (6 Counties)', desc: 'High Solar Yield & Coastal Micro-Climates' },
+        leinster: { title: '🏛️ Leinster Province (12 Counties)', desc: 'Highest Grid Density & Dublin Heat Demand' },
+        connacht: { title: '🌊 Connacht Province (5 Counties)', desc: 'Atlantic Exposure & Wind-Driven Micro-Climates' },
+        ulster: { title: '🌲 Ulster ROI (3 Counties)', desc: 'Border Drumlins & Steady Heat Pump Design Temps' }
+      };
 
-        const filtered = filterProvince === 'all' 
-          ? irishCounties 
-          : irishCounties.filter(c => c.province === filterProvince);
+      function renderProvinceDrawer(targetProvince = 'all') {
+        const container = document.getElementById('provinceSectionsContainer');
+        if (!container) return;
+        container.innerHTML = '';
 
-        filtered.forEach(c => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = `county-btn-chip ${c.id === activeCounty.id ? 'active' : ''}`;
-          btn.innerHTML = `<span>${c.name}</span> <span style="font-size: 0.68rem; font-family: monospace; color: #34f5c5;">${c.yield}</span>`;
-          btn.onclick = () => window.selectCounty(c.id);
-          grid.appendChild(btn);
+        const provincesToShow = targetProvince === 'all' 
+          ? ['munster', 'leinster', 'connacht', 'ulster'] 
+          : [targetProvince];
+
+        provincesToShow.forEach(prov => {
+          const section = document.createElement('div');
+          section.className = 'province-drawer-section';
+          
+          const meta = provinceMeta[prov] || { title: prov.toUpperCase(), desc: '' };
+          const countiesInProv = irishCounties.filter(c => c.province === prov);
+
+          let chipsHtml = '';
+          countiesInProv.forEach(c => {
+            const isActive = c.id === activeCounty.id ? 'active' : '';
+            chipsHtml += `
+              <button type="button" class="county-btn-chip ${isActive}" onclick="window.selectCounty('${c.id}')">
+                <span>${c.name}</span>
+                <span style="font-size: 0.68rem; font-family: monospace; color: #34f5c5;">${c.yield}</span>
+              </button>
+            `;
+          });
+
+          section.innerHTML = `
+            <div class="province-section-heading">
+              <div>
+                <span class="province-title-badge">${meta.title}</span>
+                <span class="province-desc-text">${meta.desc}</span>
+              </div>
+              <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 700;">${countiesInProv.length} Counties</span>
+            </div>
+            <div class="province-chips-grid">
+              ${chipsHtml}
+            </div>
+          `;
+          container.appendChild(section);
         });
       }
 
-      window.filterCounties = function(province) {
+      window.toggleCountyDrawer = function(forceState) {
+        const drawer = document.getElementById('countyProvinceDrawer');
+        const caret = document.getElementById('countyDrawerCaret');
+        const trigger = document.getElementById('countyDrawerToggleBtn');
+        if (!drawer) return;
+
+        const isCurrentlyOpen = drawer.style.display !== 'none';
+        const willOpen = typeof forceState === 'boolean' ? forceState : !isCurrentlyOpen;
+
+        drawer.style.display = willOpen ? 'block' : 'none';
+        if (caret) caret.style.transform = willOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+        if (trigger) trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      };
+
+      window.openProvinceDrawer = function(province) {
         document.querySelectorAll('.province-chip').forEach(chip => {
           chip.classList.toggle('active', chip.dataset.province === province);
         });
-        renderChips(province);
+        renderProvinceDrawer(province);
+        window.toggleCountyDrawer(true);
+      };
+
+      window.filterCounties = function(province) {
+        window.openProvinceDrawer(province);
       };
 
       window.selectCounty = function(countyId) {
@@ -2361,6 +2557,15 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         if (installersEl) installersEl.innerText = found.installers;
         if (voiceBtnText) voiceBtnText.innerText = `🎙️ Ask Aoife: ${found.name} Grants & Solar Payback →`;
         if (waBtnText) waBtnText.innerText = `💬 WhatsApp ${found.name} Installer Shortlist (083 966 2197) →`;
+
+        // Update trigger button labels
+        const triggerLabel = document.getElementById('countyTriggerLabel');
+        const triggerYield = document.getElementById('countyTriggerYield');
+        if (triggerLabel) triggerLabel.innerText = `${found.name} (${found.province.toUpperCase()})`;
+        if (triggerYield) triggerYield.innerText = `☀️ ${found.yield} kWh/kWp`;
+
+        // Close drawer smoothly on selection
+        window.toggleCountyDrawer(false);
       };
 
       window.askVoiceAiCountySolar = function() {
@@ -2389,6 +2594,48 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         }, 600);
       };
 
+      
+      // ----------------------------------------------------------------------
+      // SEAI GRANTS MATRIX MOBILE TAB SWITCHER (SCROLL REDUCTION)
+      // ----------------------------------------------------------------------
+      window.setMatrixMobileTab = function(tab) {
+        const grid = document.getElementById('matrixComparisonGrid');
+        const btnOss = document.getElementById('btnSwitchOss');
+        const btnDiy = document.getElementById('btnSwitchDiy');
+        if (!grid) return;
+
+        if (tab === 'oss') {
+          grid.classList.remove('matrix-show-diy');
+          grid.classList.add('matrix-show-oss');
+          if (btnOss) btnOss.classList.add('active');
+          if (btnDiy) btnDiy.classList.remove('active');
+        } else {
+          grid.classList.remove('matrix-show-oss');
+          grid.classList.add('matrix-show-diy');
+          if (btnDiy) btnDiy.classList.add('active');
+          if (btnOss) btnOss.classList.remove('active');
+        }
+      };
+
+      // ----------------------------------------------------------------------
+      // 11-TOOL HUB CATEGORY FILTER (SCROLL REDUCTION)
+      // ----------------------------------------------------------------------
+      window.filterToolCategory = function(cat) {
+        document.querySelectorAll('.tool-cat-tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.cat === cat);
+        });
+
+        const cards = document.querySelectorAll('.tool-showcase-box');
+        cards.forEach(card => {
+          const cardCat = card.dataset.toolcat || 'energy';
+          if (cat === 'all' || cardCat === cat) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      };
+
       window.requestCountyInstallerShortlist = function() {
         const phone = '353839662197';
         const msg = encodeURIComponent(`Hi Joe! I am looking for verified SEAI registered solar & heat pump installers in ${activeCounty.name}. My estimated solar yield is ${activeCounty.harvest} (${activeCounty.ceg} CEG). Can you share the top 3 vetted contractor shortlist for my area?`);
@@ -2399,7 +2646,7 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => renderChips('all'));
       } else {
-        renderChips('all');
+        renderProvinceDrawer('all');
       }
     })();
   </script>

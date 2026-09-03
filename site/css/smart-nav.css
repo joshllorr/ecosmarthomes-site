@@ -2867,3 +2867,327 @@ a, a:visited {
     flex-shrink: 0 !important;
   }
 }
+
+
+/* ==========================================================================
+   SCROLL REDUCTION & ACCORDION DRAWER ARCHITECTURE (v3.8.1)
+   ========================================================================== */
+
+/* 1. County Province Drawer Controls & Trigger Bar */
+.county-drawer-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.county-drawer-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: rgba(0, 36, 27, 0.85);
+  border: 1px solid rgba(52, 245, 197, 0.35);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.86rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.county-drawer-trigger-btn:hover,
+.county-drawer-trigger-btn:active {
+  background: rgba(52, 245, 197, 0.15);
+  border-color: #34f5c5;
+  box-shadow: 0 0 16px rgba(52, 245, 197, 0.3);
+  transform: translateY(-1px);
+}
+
+/* 2. Collapsible Province Drawer Panel */
+.county-province-drawer-panel {
+  background: rgba(0, 20, 15, 0.98);
+  border: 1px solid rgba(52, 245, 197, 0.28);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(52, 245, 197, 0.1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: slideDrawerDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDrawerDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.province-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.province-drawer-section {
+  margin-bottom: 14px;
+}
+
+.province-drawer-section:last-child {
+  margin-bottom: 0;
+}
+
+.province-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.province-title-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-right: 8px;
+}
+
+.province-desc-text {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.province-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* 3. SEAI Grants Matrix Mobile Segmented Switcher */
+.matrix-mobile-switcher {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .matrix-mobile-switcher {
+    display: flex;
+    gap: 8px;
+    background: rgba(0, 24, 18, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 4px;
+    border-radius: 9999px;
+    margin-bottom: 14px;
+  }
+
+  .matrix-switch-btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    border-radius: 9999px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    text-align: center;
+  }
+
+  .matrix-switch-btn.active {
+    background: rgba(52, 245, 197, 0.2);
+    color: #34f5c5;
+    box-shadow: 0 0 10px rgba(52, 245, 197, 0.25);
+  }
+
+  /* Show only active card on mobile based on class */
+  .matrix-comparison-grid.matrix-show-oss .diy-card {
+    display: none !important;
+  }
+  .matrix-comparison-grid.matrix-show-oss .oss-card {
+    display: block !important;
+  }
+
+  .matrix-comparison-grid.matrix-show-diy .oss-card {
+    display: none !important;
+  }
+  .matrix-comparison-grid.matrix-show-diy .diy-card {
+    display: block !important;
+  }
+}
+
+/* 4. 11-Tool Showcase Category Filter Tabs & Horizontal Touch Scroll */
+.tool-hub-category-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 24px 0;
+}
+
+.tool-cat-tab {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 36, 27, 0.7);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.tool-cat-tab:hover,
+.tool-cat-tab.active {
+  background: rgba(52, 245, 197, 0.18);
+  border-color: #34f5c5;
+  color: #34f5c5;
+  box-shadow: 0 0 12px rgba(52, 245, 197, 0.25);
+}
+
+@media (max-width: 768px) {
+  /* Horizontal Touch Carousel for Tool Showcase (Saves ~2,700px on mobile) */
+  .tool-showcase-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 14px !important;
+    padding: 6px 4px 16px 4px !important;
+    margin: 0 -12px !important;
+    padding-left: 14px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #34f5c5 rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .tool-showcase-grid::-webkit-scrollbar {
+    height: 4px !important;
+  }
+  .tool-showcase-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 9999px !important;
+  }
+  .tool-showcase-grid::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #34f5c5, #10b981) !important;
+    border-radius: 9999px !important;
+  }
+
+  .tool-showcase-box {
+    min-width: 280px !important;
+    max-width: 295px !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: start !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* 5. Horizontal Bank Ticker Glide Track */
+  .bank-ticker-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 10px !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 12px !important;
+    scrollbar-width: thin !important;
+  }
+  .bank-ticker-card {
+    min-width: 220px !important;
+    max-width: 240px !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: start !important;
+  }
+
+  /* 6. Compact Hero Cards Horizontal Micro-Track */
+  .hero-cards-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 10px !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 6px 4px 12px 4px !important;
+    margin-top: 14px !important;
+    scrollbar-width: thin !important;
+  }
+  .hero-card {
+    min-width: 220px !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: start !important;
+  }
+}
+
+
+/* ==========================================================================
+   ADVANCED MOBILE SCROLL-REDUCTION ENHANCEMENTS (v3.8.1)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* 1. County Telemetry: Compact 2x2 Grid instead of 1-col vertical stack */
+  .county-telemetry-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  .county-stat-card {
+    padding: 10px 12px !important;
+  }
+  .county-stat-value {
+    font-size: 1.15rem !important;
+  }
+  .county-stat-label {
+    font-size: 0.72rem !important;
+  }
+  .county-stat-desc {
+    font-size: 0.68rem !important;
+  }
+
+  /* 2. War Room Defense Pods: Horizontal Touch Glide Track */
+  .defense-pods-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 10px !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 8px !important;
+    scrollbar-width: thin !important;
+  }
+  .defense-pod {
+    min-width: 220px !important;
+    max-width: 240px !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: start !important;
+  }
+
+  /* 3. Transformation Cards: Horizontal Touch Glide Track */
+  .transformation-cards-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 12px !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 12px !important;
+    scrollbar-width: thin !important;
+  }
+  .transformation-card {
+    min-width: 275px !important;
+    max-width: 295px !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: start !important;
+  }
+
+  /* 4. Compact Section Margins & Padding on Mobile (Tight, App-Grade Spacing) */
+  .county-solar-section,
+  .transformation-section,
+  .grant-matrix-section,
+  .mortgage-ticker-section,
+  .war-room-section,
+  .tool-hub-showcase {
+    padding: 36px 14px !important;
+  }
+}
