@@ -83,8 +83,10 @@ export default function HubPage({ copyDeckData }) {
 
   const { screens } = copyDeck;
 
+  // State to manage the dynamic 5-step Onboarding Wizard modal
   const [isWizardOpen, setIsWizardOpen] = useState(false);
 
+  // Ref elements for smooth programmatic scrolling between viewports
   const sectionRefs = {
     screen1: useRef(null),
     screen2: useRef(null),
@@ -97,15 +99,20 @@ export default function HubPage({ copyDeckData }) {
     sectionRefs[sectionKey]?.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const [uploadState, setUploadState] = useState('idle');
+  // --- STATE FOR INTERACTIVE VIEWPORTS ---
+  
+  // Screen 2: Vision Scanner state
+  const [uploadState, setUploadState] = useState('idle'); // idle | loading | success
   const [scannedImage, setScannedImage] = useState(null);
   const [scanResult, setScanResult] = useState('');
 
-  const [voiceState, setVoiceState] = useState('idle');
+  // Screen 3: Aoife Voice AI state
+  const [voiceState, setVoiceState] = useState('idle'); // idle | listening | processing | speaking
   const [voiceTranscript, setVoiceTranscript] = useState('');
   const [voiceResponse, setVoiceResponse] = useState('');
 
-  const [berIndex, setBerIndex] = useState(3);
+  // Screen 4: Dynamic Grant Slider state
+  const [berIndex, setBerIndex] = useState(3); // 0 (G) to 6 (A2)
   const berBands = [
     { band: 'G', grant: 1500, bills: 5400, propertySurge: 0, text: 'Extreme thermal leakage. Forced exposure to massive carbon taxes.', range: '>= 450 kWh/m²/yr' },
     { band: 'F', grant: 3000, bills: 4600, propertySurge: 2, text: 'Poor insulation. Highly exposed to Ireland\'s kerosene fuel penalties.', range: '380 - 450 kWh/m²/yr' },
@@ -116,6 +123,7 @@ export default function HubPage({ copyDeckData }) {
     { band: 'A2', grant: 25500, bills: 650, propertySurge: 16, text: 'Zero emission tier. Carbon Tax Shield complete. Max equity gain!', range: '< 50 kWh/m²/yr' }
   ];
 
+  // Handle image upload emulation
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -132,6 +140,7 @@ export default function HubPage({ copyDeckData }) {
     }
   };
 
+  // Handle Aoife speech emulation
   const startAoifeVoice = () => {
     if (voiceState !== 'idle') return;
     setVoiceState('listening');
@@ -155,9 +164,11 @@ export default function HubPage({ copyDeckData }) {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-950 overflow-x-hidden scroll-smooth">
       
+      {/* Dynamic Background Grid and Noise Textures to eliminate 'AI Slop' */}
       <div className="fixed inset-0 bg-tech-grid opacity-[0.03] pointer-events-none z-0" />
       <div className="fixed inset-0 noise-overlay opacity-[0.02] pointer-events-none z-0" />
 
+      {/* Sticky Segmented Navigation Indicator for Viewport Management */}
       <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-40 bg-slate-900/80 backdrop-blur-md px-4 py-2.5 rounded-full border border-slate-800/60 shadow-lg shadow-slate-950/50 flex items-center gap-2 max-w-[95vw] overflow-x-auto">
         <span className="text-xs font-bold text-emerald-500 mr-2 tracking-wide uppercase whitespace-nowrap hidden sm:inline-block">
           {copyDeck.metadata.project}
@@ -174,16 +185,20 @@ export default function HubPage({ copyDeckData }) {
         ))}
       </nav>
 
-      {/* SCREEN 1: THE HERO (Carbon Tax Shield) */}
+      {/* ──────────────────────────────────────────────────────────────
+          SCREEN 1: THE HERO (Carbon Tax Shield)
+          ────────────────────────────────────────────────────────────── */}
       <section
         ref={sectionRefs.screen1}
         className="min-h-screen w-full flex flex-col justify-between items-center px-6 py-24 md:py-32 relative bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-slate-900/80 h-screen snap-start overflow-hidden"
       >
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none" />
         
+        {/* Responsive Desktop Wrapper Container */}
         <div className="w-full max-w-7xl mx-auto flex-grow flex flex-col justify-center z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
+            {/* Left Column: Core Messaging & Primary CTA */}
             <div className="flex flex-col text-left max-w-2xl mx-auto lg:mx-0">
               <div className="mb-6 inline-flex self-start items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 shadow-inner">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -220,6 +235,7 @@ export default function HubPage({ copyDeckData }) {
               </p>
             </div>
 
+            {/* Right Column: Large Interactive Desktop Blueprint Preview (Anti-Slop Element) */}
             <div className="hidden lg:block relative group">
               <div className="absolute inset-0 bg-emerald-500/5 rounded-3xl blur-3xl group-hover:bg-emerald-500/10 transition-colors" />
               <div className="relative bg-slate-900/60 border border-slate-800/80 rounded-3xl p-8 shadow-2xl backdrop-blur-sm transition-all duration-300 group-hover:translate-y-[-4px] group-hover:border-slate-700/80">
@@ -268,7 +284,9 @@ export default function HubPage({ copyDeckData }) {
         </div>
       </section>
 
-      {/* SCREEN 2: GEMINI 2.5 FLASH VISION SCANNER */}
+      {/* ──────────────────────────────────────────────────────────────
+          SCREEN 2: GEMINI 2.5 FLASH VISION SCANNER
+          ────────────────────────────────────────────────────────────── */}
       <section
         ref={sectionRefs.screen2}
         className="min-h-screen w-full flex flex-col justify-between items-center px-6 py-24 relative bg-slate-950 border-b border-slate-900/80 h-screen snap-start overflow-hidden"
@@ -278,6 +296,7 @@ export default function HubPage({ copyDeckData }) {
         <div className="w-full max-w-7xl mx-auto flex-grow flex flex-col justify-center z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
+            {/* Left Column: Diagnostic Messaging */}
             <div className="flex flex-col text-left max-w-2xl mx-auto lg:mx-0">
               <div className="mb-4">
                 <span className="px-3.5 py-1.5 rounded-full text-[10px] font-extrabold text-slate-400 bg-slate-900 border border-slate-800 uppercase tracking-widest">
@@ -309,6 +328,7 @@ export default function HubPage({ copyDeckData }) {
               </div>
             </div>
 
+            {/* Right Column: Drag & Drop Upload Zone Simulator with Interactive Sweeper Screen */}
             <div className="w-full max-w-lg mx-auto">
               <div className="w-full bg-slate-900/50 rounded-2xl border-2 border-dashed border-slate-800 p-6 sm:p-8 flex flex-col items-center justify-center text-center hover:border-emerald-500/40 transition-colors relative min-h-[260px] shadow-2xl backdrop-blur-sm">
                 
@@ -330,6 +350,7 @@ export default function HubPage({ copyDeckData }) {
 
                 {uploadState === 'loading' && (
                   <div className="flex flex-col items-center w-full relative">
+                    {/* Visual Laser Sweeper Scanner Animation in Action */}
                     <div className="w-full h-32 bg-slate-950/80 rounded-xl relative overflow-hidden mb-6 border border-slate-800">
                       <div className="absolute top-0 left-0 w-full h-0.5 bg-emerald-500 scanner-laser" />
                       <div className="absolute inset-0 flex items-center justify-center text-xs text-slate-500 font-mono">RETRIEVING IMAGE PIXELS...</div>
@@ -380,7 +401,9 @@ export default function HubPage({ copyDeckData }) {
         </div>
       </section>
 
-      {/* SCREEN 3: AOIFE VOICE AI */}
+      {/* ──────────────────────────────────────────────────────────────
+          SCREEN 3: AOIFE VOICE AI
+          ────────────────────────────────────────────────────────────── */}
       <section
         ref={sectionRefs.screen3}
         className="min-h-screen w-full flex flex-col justify-between items-center px-6 py-24 relative bg-slate-900/30 border-b border-slate-900/80 h-screen snap-start overflow-hidden"
@@ -390,6 +413,7 @@ export default function HubPage({ copyDeckData }) {
         <div className="w-full max-w-7xl mx-auto flex-grow flex flex-col justify-center z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
+            {/* Left Column: Aoife Messaging Core */}
             <div className="flex flex-col text-left max-w-2xl mx-auto lg:mx-0">
               <div className="mb-4">
                 <span className="px-3.5 py-1.5 rounded-full text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 uppercase tracking-widest animate-pulse inline-block">
@@ -418,6 +442,7 @@ export default function HubPage({ copyDeckData }) {
               </div>
             </div>
 
+            {/* Right Column: Voice Mic Interface Simulator */}
             <div className="w-full max-w-lg mx-auto">
               <div className="flex flex-col items-center justify-center min-h-[220px] bg-slate-950/40 border border-slate-900/80 rounded-3xl p-8 shadow-2xl backdrop-blur-sm">
                 {voiceState === 'idle' && (
@@ -479,7 +504,9 @@ export default function HubPage({ copyDeckData }) {
         </div>
       </section>
 
-      {/* SCREEN 4: SEAI GRANT & SAVINGS ESTIMATOR */}
+      {/* ──────────────────────────────────────────────────────────────
+          SCREEN 4: SEAI GRANT & SAVINGS ESTIMATOR
+          ────────────────────────────────────────────────────────────── */}
       <section
         ref={sectionRefs.screen4}
         className="min-h-screen w-full flex flex-col justify-between items-center px-6 py-24 relative bg-slate-950 border-b border-slate-900/80 h-screen snap-start overflow-hidden"
@@ -489,6 +516,7 @@ export default function HubPage({ copyDeckData }) {
         <div className="w-full max-w-7xl mx-auto flex-grow flex flex-col justify-center z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
+            {/* Left Column: Slider Controls */}
             <div className="flex flex-col text-left max-w-2xl mx-auto lg:mx-0">
               <div className="mb-4">
                 <span className="px-3.5 py-1.5 rounded-full text-[10px] font-bold text-slate-400 bg-slate-900 border border-slate-800 uppercase tracking-widest">
@@ -504,6 +532,7 @@ export default function HubPage({ copyDeckData }) {
                 {screens.screen_4_grant_estimator.copy.subheadline}
               </p>
 
+              {/* Dynamic Slider Interface */}
               <div className="w-full bg-slate-900/40 border border-slate-800/80 rounded-2xl p-6 shadow-inner mb-6 lg:mb-0">
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
@@ -547,6 +576,7 @@ export default function HubPage({ copyDeckData }) {
               </div>
             </div>
 
+            {/* Right Column: Desktop Official Irish BER Scale Matrix (Anti-Slop Integration) */}
             <div className="hidden lg:block w-full max-w-xl">
               <div className="bg-slate-900/50 rounded-2xl border border-slate-800/80 p-6 shadow-2xl backdrop-blur-sm">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
@@ -595,7 +625,9 @@ export default function HubPage({ copyDeckData }) {
 
       </section>
 
-      {/* SCREEN 5: THE ACTIONABLE ROADMAP */}
+      {/* ──────────────────────────────────────────────────────────────
+          SCREEN 5: THE ACTIONABLE ROADMAP (Secure Stripe Independent Survey)
+          ────────────────────────────────────────────────────────────── */}
       <section
         ref={sectionRefs.screen5}
         className="min-h-screen w-full flex flex-col justify-between items-center px-6 py-24 relative bg-slate-900/20 h-screen snap-start overflow-hidden"
@@ -605,6 +637,7 @@ export default function HubPage({ copyDeckData }) {
         <div className="w-full max-w-7xl mx-auto flex-grow flex flex-col justify-center z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             
+            {/* Left Column: Direct Features & Assurances */}
             <div className="flex flex-col text-left max-w-2xl mx-auto lg:mx-0">
               <div className="mb-4">
                 <span className="px-3.5 py-1.5 rounded-full text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 uppercase tracking-widest inline-block">
@@ -634,6 +667,7 @@ export default function HubPage({ copyDeckData }) {
               </div>
             </div>
 
+            {/* Right Column: Checkout Interface Box with Secure Stripe Block */}
             <div className="w-full max-w-md mx-auto">
               <div className="bg-slate-900/65 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden backdrop-blur-sm hover:border-slate-700/85 transition-colors">
                 
@@ -675,6 +709,7 @@ export default function HubPage({ copyDeckData }) {
           </div>
         </div>
 
+        {/* Custom Footer of Landing Hub */}
         <footer className="w-full max-w-7xl mx-auto text-center pb-6 pt-12 border-t border-slate-900/60 z-10 px-6">
           <p className="text-[10px] text-slate-600 font-semibold tracking-wider uppercase">
             © {new Date().getFullYear()} {copyDeck.metadata.project} IE • ALL 32 COUNTIES SERVED • INDEPENDENT CODES
@@ -682,7 +717,9 @@ export default function HubPage({ copyDeckData }) {
         </footer>
       </section>
 
-      {/* ONBOARDING WIZARD MODAL INTEGRATION */}
+      {/* ──────────────────────────────────────────────────────────────
+          ONBOARDING WIZARD MODAL INTEGRATION
+          ────────────────────────────────────────────────────────────── */}
       <OnboardingWizard 
         isOpen={isWizardOpen} 
         onClose={() => setIsWizardOpen(false)} 

@@ -1,0 +1,22 @@
+{
+  "title": "Full Retrofit Roadmap: Planning, Grants & Execution",
+  "slug": "retrofit-roadmap",
+  "summary": "How to plan, budget, and execute a comprehensive home energy retrofit in Ireland with full SEAI grant support.",
+  "category": "Retrofit Roadmap",
+  "tags": ["Retrofit Roadmap", "Heat Pump", "Solar PV"],
+  "date": "2026-07-10",
+  "sections": [
+    {
+      "heading": "Planning Your Retrofit Journey",
+      "body": [
+        "A single comprehensive retrofit plan unlocks maximum grant efficiency.",
+        "A successful deep retrofit combines insulation, heat pump technology, microgeneration solar PV, and mechanical ventilation to deliver A-rated comfort and minimal running costs."
+      ],
+      "pullquote": "A single comprehensive retrofit plan unlocks maximum grant efficiency.",
+      "cta": {
+        "label": "Book Your Energy Audit",
+        "url": "/contact.html"
+      }
+    }
+  ]
+}

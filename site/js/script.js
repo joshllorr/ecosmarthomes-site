@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    });
 
     // Close popup
     function closePopup() {
@@ -96,14 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
-            
-            // Open clicked item if it wasn't active
-            if (!isActive) {
-                item.classList.add('active');
-            }
-        });
-    });
 
     // Form submission
     const form = document.getElementById('retrofit-form');

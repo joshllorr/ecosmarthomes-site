@@ -1,9 +1,0 @@
-{
-  "dev-2026-01:demo-session-fp-001": {
-    "token_id": "dev-2026-01",
-    "fingerprint": "a1b2c3d4e5f678901234567890abcdef",
-    "start_time": 1760000000,
-    "last_seen": 1760000420,
-    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) EcoSmartHomes-DevConsole"
-  }
-}

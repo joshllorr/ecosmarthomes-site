@@ -1,9 +1,9 @@
 /**
- * /site/api/articles-semantic.js
+ * /api/articles-semantic.js
  * Vercel Serverless Function: Articles Autocomplete & Semantic Suggestions
  */
 
-import articlesData from '../data/articles-feed.json' assert { type: 'json' };
+import articlesData from '../site/data/articles-feed.json' assert { type: 'json' };
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

@@ -1,9 +1,9 @@
 /**
- * /site/api/articles-feed.js
+ * /api/articles-feed.js
  * Vercel Serverless Function: Articles Feed & Filter Endpoint
  */
 
-import articlesData from '../data/articles-feed.json' assert { type: 'json' };
+import articlesData from '../site/data/articles-feed.json' assert { type: 'json' };
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

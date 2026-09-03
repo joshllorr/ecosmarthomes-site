@@ -17,6 +17,7 @@ if (supabaseUrl && supabaseKey) {
 }
 
 module.exports = async (req, res) => {
+  // CORS & Preflight Handling
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -32,10 +33,13 @@ module.exports = async (req, res) => {
   try {
     let payload = req.body;
 
+    // Handle text/plain payloads from navigator.sendBeacon
     if (typeof payload === 'string') {
       try {
         payload = JSON.parse(payload);
-      } catch (parseErr) {}
+      } catch (parseErr) {
+        // Fallback if not standard JSON
+      }
     }
 
     const {
@@ -51,6 +55,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Missing required sessionId or step parameter' });
     }
 
+    // Map numerical steps or string names to database enum values
     const stepEnumMap = {
       1: 'step_1_profile',
       2: 'step_2_fuel_exposure',
@@ -66,6 +71,7 @@ module.exports = async (req, res) => {
 
     const mappedStep = stepEnumMap[step] || 'step_1_profile';
 
+    // Insert into Supabase if configured
     if (supabase) {
       const { error: dbError } = await supabase
         .from('wizard_funnel_events')
@@ -85,6 +91,7 @@ module.exports = async (req, res) => {
       }
     }
 
+    // Return 204 No Content for ultra-fast beacon acknowledgment
     return res.status(204).end();
   } catch (err) {
     console.error('Funnel telemetry error:', err);

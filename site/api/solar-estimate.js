@@ -1,5 +1,5 @@
 /**
- * /site/api/solar-estimate.js
+ * /api/solar-estimate.js
  * Vercel Serverless Function: Irish Solar PV & Clean Export Guarantee (CEG) Engine
  */
 
@@ -27,8 +27,9 @@ export default async function handler(req, res) {
     } = req.body || {};
 
     const panelCount = Math.max(4, Math.min(24, parseInt(panels) || 10));
-    const systemSizeKwp = (panelCount * 0.43);
+    const systemSizeKwp = (panelCount * 0.43); // 430W modern tier-1 panels
 
+    // Irish solar regional yield factors (kWh per kWp per year)
     const regionalYields = {
       'Wexford': 1050, 'Waterford': 1040, 'Cork': 1020, 'Kerry': 1010,
       'Limerick': 980, 'Dublin': 1000, 'Kildare': 990, 'Wicklow': 1010,
@@ -49,6 +50,9 @@ export default async function handler(req, res) {
 
     const totalAnnualKwh = Math.round(systemSizeKwp * baseYield * orientMult);
 
+    // Self-consumption vs Clean Export Guarantee (CEG)
+    // Average Irish domestic export tariff is 24c/kWh (0.24 EUR)
+    // Domestic grid import cost is ~34c/kWh (0.34 EUR)
     const exportTariffPerKwh = 0.24;
     const importTariffPerKwh = 0.34;
 
@@ -62,6 +66,7 @@ export default async function handler(req, res) {
     const annualCegExportEarnings = Math.round(exportedKwh * exportTariffPerKwh);
     const totalAnnualBenefit = annualBillSavings + annualCegExportEarnings;
 
+    // SEAI Grant Calculation (May 2026 scheme): €800 for 2kWp + €250/kWp up to max €1,800
     let seaiGrant = 0;
     if (systemSizeKwp <= 2.0) {
       seaiGrant = Math.round(systemSizeKwp * 400);
@@ -69,6 +74,7 @@ export default async function handler(req, res) {
       seaiGrant = Math.min(1800, Math.round(800 + (systemSizeKwp - 2.0) * 350));
     }
 
+    // Typical turnkey market costs in Ireland (0% VAT applied!)
     const grossCost = Math.round((systemSizeKwp * 1250) + (hasBattery ? 2800 : 0));
     const netCost = Math.max(0, grossCost - seaiGrant);
     const paybackYears = (netCost / (totalAnnualBenefit || 1)).toFixed(1);

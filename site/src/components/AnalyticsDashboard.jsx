@@ -27,12 +27,14 @@ export default function AnalyticsDashboard() {
   const [activeTab, setActiveTab] = useState('overview'); // overview | sql
   const [filterDevice, setFilterDevice] = useState('all');
 
+  // Overall Statistics
   const totalSessions = 1240;
   const totalConversions = 128;
   const overallConversionRate = ((totalConversions / totalSessions) * 100).toFixed(1);
   const totalDropOffs = totalSessions - totalConversions;
   const totalAbandonmentRate = ((totalDropOffs / totalSessions) * 100).toFixed(1);
 
+  // SQL queries to display in the developer console helper tab
   const sqlQueries = {
     conversionFunnel: `
 -- Aggregates Step 1 to Step 5 retention percentages and overall conversion rate
@@ -133,14 +135,16 @@ ORDER BY raw_drop_offs DESC;
             {/* Main Visualizations Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
-              {/* Funnel Chart Card */}
+              {/* Funnel Chart Card - Take up 2 columns */}
               <div className="lg:col-span-2 bg-slate-900/30 border border-slate-900 p-6 rounded-2xl flex flex-col justify-between">
                 <div>
                   <h3 className="text-lg font-extrabold text-white mb-1.5">Conversion Funnel Progression</h3>
                   <p className="text-xs text-slate-400 mb-6">Visual tracking of user progression metrics from initial state entry to order completion.</p>
                   
+                  {/* CSS-Based Horizontal Stack Funnel */}
                   <div className="space-y-5">
                     {mockFunnelData.map((step) => {
+                      // Calculate width proportion relative to step 1
                       const stepWidth = (step.views / totalSessions) * 100;
                       return (
                         <div key={step.step} className="space-y-1.5">
@@ -185,6 +189,7 @@ ORDER BY raw_drop_offs DESC;
               {/* Sidebar: Device Breakdown & Quick Insights */}
               <div className="space-y-6">
                 
+                {/* Device breakdown card */}
                 <div className="bg-slate-900/30 border border-slate-900 p-6 rounded-2xl">
                   <h3 className="text-lg font-extrabold text-white mb-1.5">Device Segmentation</h3>
                   <p className="text-xs text-slate-400 mb-6">Telemetry device source parsing to verify responsive sizing priorities.</p>
@@ -210,6 +215,7 @@ ORDER BY raw_drop_offs DESC;
                   </div>
                 </div>
 
+                {/* Performance telemetry check card */}
                 <div className="bg-slate-900/30 border border-slate-900 p-6 rounded-2xl">
                   <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Edge Ingestion Telemetry</h3>
                   <div className="space-y-3.5">
@@ -275,6 +281,7 @@ ORDER BY raw_drop_offs DESC;
             </div>
           </>
         ) : (
+          /* SQL Queries Code View Tab */
           <div className="bg-slate-900/30 border border-slate-900 p-6 rounded-2xl space-y-6">
             <div>
               <h3 className="text-lg font-extrabold text-white mb-1">Supabase database SQL Schema Views</h3>

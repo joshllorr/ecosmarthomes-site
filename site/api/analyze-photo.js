@@ -1,5 +1,5 @@
 /**
- * /site/api/analyze-photo.js
+ * /api/analyze-photo.js
  * Vercel Serverless Function: Multimodal Equipment & Attic Photo Analyzer
  * Powered by Gemini 2.5 Flash Vision
  */

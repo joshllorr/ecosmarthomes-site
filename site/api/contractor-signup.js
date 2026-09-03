@@ -1,5 +1,5 @@
 /**
- * /site/api/contractor-signup.js
+ * /api/contractor-signup.js
  * Vercel Serverless Function: SEAI Contractor Lead Network Registration
  */
 
@@ -37,6 +37,7 @@ export default async function handler(req, res) {
 
     console.log(`[Contractor Signup] New SEAI Installer Partner Registered: ${companyName} (${partnerId}) in ${counties.join(', ')}`);
 
+    // Prepare response payload
     const partnerData = {
       partnerId,
       companyName,
