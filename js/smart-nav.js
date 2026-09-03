@@ -1023,6 +1023,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     const isHome = path === '/' || path === '/index.html' || path === '';
 
     const tools = [
+      { id: 'digital-twin', label: '🏡 Digital Twin', href: '/digital-twin/' },
       { id: 'quote-auditor', label: '🛡️ Quote Auditor', href: '/quote-auditor/' },
       { id: 'solar', label: '☀️ Solar PV', href: isHome ? '#county-solar-map' : '/solar/' },
       { id: 'carbon-tax', label: '⚡ Carbon Tax', href: isHome ? '#carbon-tax-war-room' : '/carbon-tax/' },

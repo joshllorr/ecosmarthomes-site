@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Global Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-3013797648"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-3013797648', {'allow_enhanced_conversions': true});
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Irish Home "Digital Twin" & Retrofit Simulator | EcoSmartHomes</title>
+  <meta name="description" content="Simulate transforming a typical Irish home in real time. Toggle Solar PV, Heat Pump, External Insulation, and Triple Glazing. Watch your BER jump to A0, unlock €35,000 in SEAI grants, and export your certified retrofit blueprint.">
+  <link rel="canonical" href="https://www.ecosmarthomes.ie/digital-twin/">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/style.css?v=5">
+  <link rel="stylesheet" href="/css/whatsapp-widget.css">
+  <link rel="stylesheet" href="/css/smart-nav.css?v=7">
+
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #001711;
+      --bg-card: #00241b;
+      --bg-card-light: #003628;
+      --color-mint: #34f5c5;
+      --color-emerald: #10b981;
+      --color-amber: #f59e0b;
+      --color-sky: #38bdf8;
+      --color-gold: #fbbf24;
+      --color-coral: #f43f5e;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .twin-hero-stage {
+      padding: 40px 20px 24px 20px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .twin-grid-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      max-width: 1240px;
+      margin: 0 auto 60px auto;
+      padding: 0 20px;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .twin-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    /* Architectural Visual Stage */
+    .blueprint-stage-card {
+      background: radial-gradient(circle at 50% 30%, rgba(0, 48, 36, 0.7) 0%, rgba(0, 20, 15, 0.95) 100%);
+      border: 1px solid rgba(52, 245, 197, 0.25);
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(52, 245, 197, 0.05);
+      overflow: hidden;
+    }
+    .blueprint-svg-container {
+      width: 100%;
+      height: auto;
+      min-height: 380px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .blueprint-svg {
+      width: 100%;
+      max-height: 480px;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+      transition: all 0.4s ease;
+    }
+
+    /* Interactive Zones in SVG */
+    .zone-active {
+      filter: drop-shadow(0 0 12px var(--color-mint));
+      transition: all 0.3s ease;
+    }
+    .power-flow-line {
+      stroke-dasharray: 6;
+      animation: powerFlowAnim 1.2s linear infinite;
+    }
+    @keyframes powerFlowAnim {
+      from { stroke-dashoffset: 24; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Toggle Switches Panel */
+    .toggle-deck-card {
+      background: rgba(0, 28, 21, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+    }
+    .measure-toggle-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(0, 36, 27, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+    .measure-toggle-item:hover {
+      border-color: rgba(52, 245, 197, 0.4);
+      background: rgba(0, 48, 36, 0.8);
+      transform: translateY(-1px);
+    }
+    .measure-toggle-item.active {
+      border-color: #34f5c5;
+      background: rgba(52, 245, 197, 0.12);
+      box-shadow: 0 4px 18px rgba(52, 245, 197, 0.18);
+    }
+
+    /* Custom Switch Pill */
+    .switch-pill {
+      width: 46px;
+      height: 26px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+      position: relative;
+      transition: all 0.25s;
+      flex-shrink: 0;
+    }
+    .switch-pill::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      top: 3px;
+      left: 3px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .measure-toggle-item.active .switch-pill {
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+    }
+    .measure-toggle-item.active .switch-pill::after {
+      transform: translateX(20px);
+    }
+
+    /* Telemetry HUD Bar */
+    .twin-telemetry-hud {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .hud-stat-box {
+      background: rgba(0, 36, 27, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .hud-stat-label {
+      font-size: 0.68rem;
+      color: #94a3b8;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hud-stat-value {
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-top: 4px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* 8-Step BER Scale Track */
+    .ber-scale-track {
+      display: flex;
+      gap: 4px;
+      margin-top: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px;
+      border-radius: 8px;
+    }
+    .ber-step-box {
+      flex: 1;
+      text-align: center;
+      padding: 4px 0;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.4);
+      transition: all 0.3s;
+    }
+    .ber-step-box.active {
+      color: #ffffff;
+      transform: scale(1.08);
+      box-shadow: 0 0 12px currentColor;
+    }
+    .ber-G { background: #ef4444; color: #fff; }
+    .ber-F { background: #f97316; color: #fff; }
+    .ber-E { background: #f59e0b; color: #fff; }
+    .ber-D { background: #eab308; color: #fff; }
+    .ber-C { background: #84cc16; color: #fff; }
+    .ber-B { background: #22c55e; color: #fff; }
+    .ber-A { background: #10b981; color: #fff; }
+    .ber-A0 { background: #34f5c5; color: #001711; }
+  </style>
+</head>
+<body>
+
+  <!-- Smart Nav Bar -->
+  <header class="main-nav-bar" id="mainNavBar">
+    <div class="nav-inner">
+      <a href="/" class="brand-logo" aria-label="EcoSmartHomes Home">
+        <span class="brand-icon">🏡</span>
+        <span class="brand-text">EcoSmart<span class="brand-highlight">Homes</span></span>
+      </a>
+
+      <!-- Adaptive Role Capsule -->
+      <div class="mobile-persona-dropdown-wrapper">
+        <button type="button" class="mobile-persona-trigger-btn" id="personaTriggerBtn" onclick="window.togglePersonaDropdown()" aria-label="Switch Irish Energy Advisor Persona">
+          <span class="persona-icon-mini" id="navPersonaAvatar">🏡</span>
+          <span class="persona-name-mini" id="navPersonaName">Homeowner</span>
+          <span class="persona-arrow">▾</span>
+        </button>
+      </div>
+
+      <!-- Action Tools Link -->
+      <div class="nav-actions">
+        <a href="/pricing/" class="nav-link desktop-pricing-link">Pricing</a>
+        <a href="#booking" class="btn-book-nav">Book Survey</a>
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+          <span class="hamburger-icon">☰ Tools</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Top Menu Slider (Scroll Reduction Horizontal Track) -->
+    <div class="mobile-top-menu-slider" id="mobileTopMenuSlider" style="display: flex;">
+      <a href="/digital-twin/" class="slider-chip active">🏡 Digital Twin</a>
+      <a href="/quote-auditor/" class="slider-chip">🛡️ Quote Auditor</a>
+      <a href="/solar/" class="slider-chip">☀️ Solar PV</a>
+      <a href="/carbon-tax/" class="slider-chip">⚡ Carbon Tax</a>
+      <a href="/green-mortgage/" class="slider-chip">🏛️ Green Mortgage</a>
+      <a href="/roadmap/" class="slider-chip">📄 Roadmap PDF</a>
+      <a href="/locations/" class="slider-chip">📍 Towns Hub</a>
+      <a href="/contractors/" class="slider-chip">👔 For Installers</a>
+      <a href="/ber-matrix/" class="slider-chip">⚖️ Grants Matrix</a>
+      <a href="/radiator-sizer/" class="slider-chip">📐 Radiators</a>
+      <a href="/pricing/" class="slider-chip">🏷️ Pricing</a>
+      <a href="/checkout/" class="slider-chip">💳 Book Survey</a>
+    </div>
+  </header>
+
+  <!-- Hero Header -->
+  <section class="twin-hero-stage">
+    <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+      <span class="county-badge-pill">🏡 INTERACTIVE ARCHITECTURAL DIGITAL TWIN</span>
+      <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+        ● Irish Climate Action Plan 2026 Ready
+      </span>
+    </div>
+
+    <h1 style="font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 900; color: #ffffff; margin: 0 0 12px 0; line-height: 1.15; letter-spacing: -0.02em;">
+      Irish Home "Digital Twin" & Retrofit Simulator
+    </h1>
+    <p style="color: #94a3b8; font-size: 1.05rem; max-width: 820px; margin: 0 auto 14px auto; line-height: 1.6;">
+      Explore what happens when you renovate an Irish home. Toggle individual retrofit upgrades below to watch the digital cross-section illuminate, trace your <strong>8-band BER jump (G ➔ A0)</strong>, stack up to <strong>€35,000 in SEAI grants</strong>, and export your certified blueprint.
+    </p>
+
+    <!-- 8-Step Official BER Scale Gauge Bar -->
+    <div style="max-width: 760px; margin: 18px auto 0 auto; background: rgba(0, 24, 18, 0.85); border: 1px solid rgba(52, 245, 197, 0.3); border-radius: 14px; padding: 12px 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800;">● OFFICIAL SIMPLIFIED 8-BAND BER SCALE</span>
+        <span style="font-size: 0.82rem; font-weight: 900; color: #ffffff;" id="hudBerBandTitle">CURRENT: BAND D (1980s Irish Build)</span>
+      </div>
+      <div class="ber-scale-track">
+        <div class="ber-step-box ber-G" id="berG">G</div>
+        <div class="ber-step-box ber-F" id="berF">F</div>
+        <div class="ber-step-box ber-E" id="berE">E</div>
+        <div class="ber-step-box ber-D active" id="berD">D</div>
+        <div class="ber-step-box ber-C" id="berC">C</div>
+        <div class="ber-step-box ber-B" id="berB">B</div>
+        <div class="ber-step-box ber-A" id="berA">A</div>
+        <div class="ber-step-box ber-A0" id="berA0">A0</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Digital Twin Grid Layout -->
+  <main class="twin-grid-layout">
+    
+    <!-- LEFT: Architectural Cross-Section Stage -->
+    <div class="blueprint-stage-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 16px;">
+        <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+          ● CROSS-SECTION BLUEPRINT TELEMETRY
+        </span>
+        <span style="background: rgba(52, 245, 197, 0.15); color: #34f5c5; border: 1px solid #34f5c5; padding: 3px 10px; border-radius: 16px; font-size: 0.72rem; font-weight: 800; font-family: monospace;" id="blueprintStatusPill">
+          ⚡ 1 UPGRADE ACTIVE
+        </span>
+      </div>
+
+      <!-- Architectural SVG Model -->
+      <div class="blueprint-svg-container">
+        <svg class="blueprint-svg" viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sky / Ground Background -->
+          <rect x="20" y="380" width="560" height="60" fill="#001a13" rx="4"/>
+          <line x1="20" y1="380" x2="580" y2="380" stroke="#003628" stroke-width="2"/>
+
+          <!-- 1. External Walls / Building Envelope -->
+          <!-- Wall Wrap (EWI) Highlight Shell -->
+          <rect id="svgWallWrap" x="90" y="160" width="360" height="220" rx="6" fill="rgba(52, 245, 197, 0.05)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="3" style="transition: all 0.4s ease;"/>
+
+          <!-- Roof Structure (Triangle) -->
+          <polygon points="70,165 270,50 470,165" fill="#00241b" stroke="#004d38" stroke-width="3"/>
+
+          <!-- Attic Insulation Layer -->
+          <rect id="svgAtticWrap" x="110" y="150" width="320" height="15" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" rx="2" style="transition: all 0.4s ease;"/>
+
+          <!-- 2. Solar PV Panels (On Roof) -->
+          <g id="svgSolarPanels" style="opacity: 0.25; transition: all 0.4s ease; cursor: pointer;" onclick="window.toggleMeasure('solar')">
+            <polygon points="120,140 250,75 260,82 135,145" fill="#1e3a8a" stroke="#38bdf8" stroke-width="2"/>
+            <polygon points="150,140 265,85 275,92 165,145" fill="#1e3a8a" stroke="#38bdf8" stroke-width="2"/>
+            <circle cx="190" cy="110" r="14" fill="rgba(56, 189, 248, 0.2)"/>
+            <text x="180" y="114" fill="#38bdf8" font-size="11" font-weight="900" font-family="monospace">☀️ PV</text>
+          </g>
+
+          <!-- 3. Triple Glazed Windows -->
+          <!-- Window Upper Floor -->
+          <rect id="svgWinUp1" x="130" y="190" width="60" height="50" rx="3" fill="#001711" stroke="rgba(255,255,255,0.25)" stroke-width="2" style="transition: all 0.4s ease;"/>
+          <rect id="svgWinUp2" x="350" y="190" width="60" height="50" rx="3" fill="#001711" stroke="rgba(255,255,255,0.25)" stroke-width="2" style="transition: all 0.4s ease;"/>
+          <!-- Window Ground Floor -->
+          <rect id="svgWinLow1" x="130" y="290" width="70" height="60" rx="3" fill="#001711" stroke="rgba(255,255,255,0.25)" stroke-width="2" style="transition: all 0.4s ease;"/>
+          <!-- Front Door -->
+          <rect x="250" y="280" width="45" height="100" rx="2" fill="#003628" stroke="#10b981" stroke-width="1.5"/>
+
+          <!-- 4. Heat Pump Unit (Outdoor Plant) -->
+          <g id="svgHeatPump" style="opacity: 0.25; transition: all 0.4s ease; cursor: pointer;" onclick="window.toggleMeasure('hp')">
+            <rect x="465" y="315" width="45" height="65" rx="4" fill="#00241b" stroke="#34f5c5" stroke-width="2"/>
+            <circle cx="487" cy="340" r="14" stroke="#34f5c5" stroke-width="2" fill="rgba(52,245,197,0.1)"/>
+            <path d="M 487 328 L 487 352 M 475 340 L 499 340" stroke="#34f5c5" stroke-width="2"/>
+            <text x="468" y="372" fill="#34f5c5" font-size="8" font-weight="900" font-family="monospace">SR50 HP</text>
+          </g>
+
+          <!-- 5. Low-Flow Radiators Inside House -->
+          <g id="svgRads" style="opacity: 0.25; transition: all 0.4s ease;">
+            <rect x="215" y="325" width="25" height="40" rx="2" fill="rgba(52,245,197,0.15)" stroke="#34f5c5" stroke-width="1.5"/>
+            <rect x="205" y="210" width="25" height="35" rx="2" fill="rgba(52,245,197,0.15)" stroke="#34f5c5" stroke-width="1.5"/>
+          </g>
+
+          <!-- 6. EV Wallbox & Driveway -->
+          <g id="svgEvWallbox" style="opacity: 0.25; transition: all 0.4s ease; cursor: pointer;" onclick="window.toggleMeasure('ev')">
+            <rect x="40" y="330" width="22" height="35" rx="3" fill="#00241b" stroke="#38bdf8" stroke-width="2"/>
+            <circle cx="51" cy="342" r="5" fill="#38bdf8"/>
+            <text x="36" y="376" fill="#38bdf8" font-size="8" font-weight="900" font-family="monospace">⚡ EV 7c</text>
+          </g>
+
+          <!-- Energy Wave Animations (Hidden by default) -->
+          <line id="svgPowerLine" x1="220" y1="120" x2="480" y2="330" stroke="#34f5c5" stroke-width="2" class="power-flow-line" style="display: none;"/>
+        </svg>
+      </div>
+
+      <!-- Live Telemetry HUD -->
+      <div class="twin-telemetry-hud">
+        <div class="hud-stat-box">
+          <div class="hud-stat-label">💶 SEAI Grants Cash</div>
+          <div class="hud-stat-value text-mint" id="hudGrantCash">€2,100</div>
+          <span style="font-size: 0.7rem; color: #94a3b8;">100% Direct Rebate</span>
+        </div>
+
+        <div class="hud-stat-box">
+          <div class="hud-stat-label">📉 Annual Energy Bill</div>
+          <div class="hud-stat-value text-amber" id="hudAnnualBill">€3,600/yr</div>
+          <span style="font-size: 0.7rem; color: #34f5c5;" id="hudSavingsVal">Save €1,250/yr</span>
+        </div>
+
+        <div class="hud-stat-box">
+          <div class="hud-stat-label">🛡️ Carbon Tax Penalty</div>
+          <div class="hud-stat-value" style="color: #38bdf8;" id="hudCarbonTax">€2,850</div>
+          <span style="font-size: 0.7rem; color: #94a3b8;">Statutory to 2030</span>
+        </div>
+
+        <div class="hud-stat-box">
+          <div class="hud-stat-label">📈 Property Equity Surge</div>
+          <div class="hud-stat-value text-gold" id="hudEquityVal">+€18,000</div>
+          <span style="font-size: 0.7rem; color: #cbd5e1;">Daft Valuation Model</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Interactive Retrofit Measure Switches Deck -->
+    <div class="toggle-deck-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 16px;">
+        <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+          ● RETROFIT SPECIFICATION DECK
+        </span>
+        <span style="font-size: 0.72rem; color: #94a3b8;">Tap to Toggle Upgrades</span>
+      </div>
+
+      <!-- Measure 1: Solar PV + Battery -->
+      <div class="measure-toggle-item active" id="toggleSolar" onclick="window.toggleMeasure('solar')">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.8rem;">☀️</span>
+          <div>
+            <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">6kW Solar PV + 10kWh Battery</div>
+            <div style="font-size: 0.75rem; color: #34f5c5;">+€2,100 SEAI Grant · 5,970 kWh/yr Solar Harvest</div>
+          </div>
+        </div>
+        <div class="switch-pill"></div>
+      </div>
+
+      <!-- Measure 2: Heat Pump -->
+      <div class="measure-toggle-item" id="toggleHp" onclick="window.toggleMeasure('hp')">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.8rem;">⚡</span>
+          <div>
+            <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">Air-to-Water Heat Pump & Sizing</div>
+            <div style="font-size: 0.75rem; color: #38bdf8;">+€6,500 SEAI Grant · 100% Carbon Tax Immunity</div>
+          </div>
+        </div>
+        <div class="switch-pill"></div>
+      </div>
+
+      <!-- Measure 3: External Wall Wrap (EWI) + Attic -->
+      <div class="measure-toggle-item" id="toggleInsulation" onclick="window.toggleMeasure('insulation')">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.8rem;">🧱</span>
+          <div>
+            <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">External Wall Wrap (EWI) & Attic</div>
+            <div style="font-size: 0.75rem; color: #fbbf24;">+€9,500 SEAI Grant · Cuts Heat Loss by 65%</div>
+          </div>
+        </div>
+        <div class="switch-pill"></div>
+      </div>
+
+      <!-- Measure 4: Triple Glazing Windows -->
+      <div class="measure-toggle-item" id="toggleWindows" onclick="window.toggleMeasure('windows')">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.8rem;">🪟</span>
+          <div>
+            <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">Acoustic Triple Glazed Windows</div>
+            <div style="font-size: 0.75rem; color: #34f5c5;">+€4,000 Grant · 0.8 U-Value Acoustic Barrier</div>
+          </div>
+        </div>
+        <div class="switch-pill"></div>
+      </div>
+
+      <!-- Measure 5: Smart EV Charger -->
+      <div class="measure-toggle-item" id="toggleEv" onclick="window.toggleMeasure('ev')">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.8rem;">🔋</span>
+          <div>
+            <div style="font-weight: 800; color: #ffffff; font-size: 0.95rem;">Smart EV Charger (Night Arbitrage)</div>
+            <div style="font-size: 0.75rem; color: #38bdf8;">+€300 Grant · 7c/kWh Super-Off-Peak Rate</div>
+          </div>
+        </div>
+        <div class="switch-pill"></div>
+      </div>
+
+      <!-- Green Mortgage 3.45% Unlock Notice -->
+      <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid #f59e0b; border-radius: 12px; padding: 12px; margin-top: 16px;" id="mortgageUnlockNotice">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.2rem;">🏛️</span>
+          <span style="font-size: 0.82rem; font-weight: 800; color: #fbbf24;" id="mortgageUnlockText">
+            3.45% Green Mortgage Rate: LOCKED (Requires B3 or A-Rating)
+          </span>
+        </div>
+      </div>
+
+      <!-- Multi-Channel Blueprint Export Buttons -->
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+        <button type="button" class="btn-hero-primary" style="width: 100%; justify-content: center; padding: 14px 18px; font-size: 0.92rem;" onclick="window.dispatchBlueprintWhatsApp()">
+          💬 WhatsApp My Blueprint to Joe (083 966 2197) →
+        </button>
+        <button type="button" class="btn-hero-secondary" style="width: 100%; justify-content: center; padding: 12px 18px; font-size: 0.88rem;" onclick="window.downloadBlueprintPdf()">
+          📄 Download Certified Retrofit Blueprint (PDF) →
+        </button>
+        <button type="button" class="btn-hero-secondary" style="width: 100%; justify-content: center; padding: 12px 18px; font-size: 0.88rem; border-color: rgba(52,245,197,0.3); color: #34f5c5;" onclick="window.askAdvisorBlueprint()">
+          🎙️ Ask Advisor to Voice-Audit This Package →
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Script Architecture -->
+  <script src="/js/smart-nav.js?v=7"></script>
+  <script>
+    (function() {
+      const state = {
+        solar: true,
+        hp: false,
+        insulation: false,
+        windows: false,
+        ev: false
+      };
+
+      const baseMetrics = {
+        bill: 4850,
+        carbonTax: 4180
+      };
+
+      window.toggleMeasure = function(key) {
+        state[key] = !state[key];
+        
+        // Update toggle element classes
+        const toggleEl = document.getElementById('toggle' + key.charAt(0).toUpperCase() + key.slice(1));
+        if (toggleEl) toggleEl.classList.toggle('active', state[key]);
+
+        updateSimulation();
+      };
+
+      function updateSimulation() {
+        let totalGrants = 0;
+        let billSavings = 0;
+        let carbonTaxShielded = 0;
+        let equitySurge = 0;
+        let berScore = 3; // Start at D (Index 3 on 0-7 scale: G=0, F=1, E=2, D=3, C=4, B=5, A=6, A0=7)
+        let activeUpgrades = 0;
+
+        // Visual SVG references
+        const svgSolar = document.getElementById('svgSolarPanels');
+        const svgHp = document.getElementById('svgHeatPump');
+        const svgRads = document.getElementById('svgRads');
+        const svgWall = document.getElementById('svgWallWrap');
+        const svgAttic = document.getElementById('svgAtticWrap');
+        const svgWin1 = document.getElementById('svgWinUp1');
+        const svgWin2 = document.getElementById('svgWinUp2');
+        const svgWin3 = document.getElementById('svgWinLow1');
+        const svgEv = document.getElementById('svgEvWallbox');
+        const svgPower = document.getElementById('svgPowerLine');
+
+        // 1. Solar PV
+        if (state.solar) {
+          totalGrants += 2100;
+          billSavings += 1250;
+          equitySurge += 12000;
+          berScore += 1;
+          activeUpgrades++;
+          if (svgSolar) svgSolar.style.opacity = '1';
+          if (svgPower) svgPower.style.display = 'inline';
+        } else {
+          if (svgSolar) svgSolar.style.opacity = '0.25';
+          if (svgPower) svgPower.style.display = 'none';
+        }
+
+        // 2. Heat Pump
+        if (state.hp) {
+          totalGrants += 6500;
+          billSavings += 1600;
+          carbonTaxShielded += 3200;
+          equitySurge += 18000;
+          berScore += 2;
+          activeUpgrades++;
+          if (svgHp) svgHp.style.opacity = '1';
+          if (svgRads) svgRads.style.opacity = '1';
+        } else {
+          if (svgHp) svgHp.style.opacity = '0.25';
+          if (svgRads) svgRads.style.opacity = '0.25';
+        }
+
+        // 3. Wall Wrap + Attic
+        if (state.insulation) {
+          totalGrants += 9500;
+          billSavings += 1100;
+          carbonTaxShielded += 980;
+          equitySurge += 14000;
+          berScore += 2;
+          activeUpgrades++;
+          if (svgWall) {
+            svgWall.style.stroke = '#34f5c5';
+            svgWall.style.fill = 'rgba(52, 245, 197, 0.18)';
+            svgWall.style.filter = 'drop-shadow(0 0 10px rgba(52, 245, 197, 0.4))';
+          }
+          if (svgAttic) {
+            svgAttic.style.fill = '#f59e0b';
+            svgAttic.style.stroke = '#fbbf24';
+          }
+        } else {
+          if (svgWall) {
+            svgWall.style.stroke = 'rgba(255, 255, 255, 0.2)';
+            svgWall.style.fill = 'rgba(52, 245, 197, 0.05)';
+            svgWall.style.filter = 'none';
+          }
+          if (svgAttic) {
+            svgAttic.style.fill = 'rgba(255, 255, 255, 0.05)';
+            svgAttic.style.stroke = 'rgba(255, 255, 255, 0.2)';
+          }
+        }
+
+        // 4. Windows
+        if (state.windows) {
+          totalGrants += 4000;
+          billSavings += 450;
+          equitySurge += 8000;
+          berScore += 1;
+          activeUpgrades++;
+          [svgWin1, svgWin2, svgWin3].forEach(w => {
+            if (w) {
+              w.style.stroke = '#38bdf8';
+              w.style.fill = 'rgba(56, 189, 248, 0.25)';
+            }
+          });
+        } else {
+          [svgWin1, svgWin2, svgWin3].forEach(w => {
+            if (w) {
+              w.style.stroke = 'rgba(255, 255, 255, 0.25)';
+              w.style.fill = '#001711';
+            }
+          });
+        }
+
+        // 5. EV Charger
+        if (state.ev) {
+          totalGrants += 300;
+          billSavings += 1400; // Fuel offset
+          activeUpgrades++;
+          if (svgEv) svgEv.style.opacity = '1';
+        } else {
+          if (svgEv) svgEv.style.opacity = '0.25';
+        }
+
+        // One-stop-shop bonus grant if 3 or more deep measures
+        if (state.hp && state.insulation && state.windows) {
+          totalGrants = 35000; // Cap at max €35k SEAI turnkey grant
+        }
+
+        // Clamp BER Score to 7 (A0)
+        if (berScore > 7) berScore = 7;
+
+        const berBands = ['G', 'F', 'E', 'D', 'C', 'B', 'A', 'A0'];
+        const currentBand = berBands[berScore];
+
+        // Update Scale Highlighting
+        berBands.forEach((band, idx) => {
+          const el = document.getElementById('ber' + band);
+          if (el) el.classList.toggle('active', idx === berScore);
+        });
+
+        // Update HUD Values
+        const hudGrant = document.getElementById('hudGrantCash');
+        const hudBill = document.getElementById('hudAnnualBill');
+        const hudSavings = document.getElementById('hudSavingsVal');
+        const hudTax = document.getElementById('hudCarbonTax');
+        const hudEq = document.getElementById('hudEquityVal');
+        const hudTitle = document.getElementById('hudBerBandTitle');
+        const statusPill = document.getElementById('blueprintStatusPill');
+
+        const finalBill = Math.max(480, baseMetrics.bill - billSavings);
+        const finalTax = Math.max(0, baseMetrics.carbonTax - carbonTaxShielded);
+
+        if (hudGrant) hudGrant.innerText = '€' + totalGrants.toLocaleString();
+        if (hudBill) hudBill.innerText = '€' + finalBill.toLocaleString() + '/yr';
+        if (hudSavings) hudSavings.innerText = 'Save €' + (baseMetrics.bill - finalBill).toLocaleString() + '/yr';
+        if (hudTax) hudTax.innerText = finalTax === 0 ? '€0.00 TAX IMMUNITY' : '€' + finalTax.toLocaleString();
+        if (hudEq) hudEq.innerText = '+€' + equitySurge.toLocaleString();
+        if (hudTitle) hudTitle.innerText = `PROJECTED RATING: BAND ${currentBand} (${currentBand === 'A0' ? 'Net Zero Ready' : currentBand.startsWith('A') ? 'High-Performance' : 'Energy Upgraded'})`;
+        if (statusPill) statusPill.innerText = `⚡ ${activeUpgrades} UPGRADES ACTIVE`;
+
+        // Check Green Mortgage eligibility (B3 or higher = C=4, B=5, A=6, A0=7)
+        const mortgageNotice = document.getElementById('mortgageUnlockNotice');
+        const mortgageText = document.getElementById('mortgageUnlockText');
+        if (berScore >= 5) {
+          if (mortgageNotice) {
+            mortgageNotice.style.background = 'rgba(52, 245, 197, 0.15)';
+            mortgageNotice.style.borderColor = '#34f5c5';
+          }
+          if (mortgageText) {
+            mortgageText.style.color = '#34f5c5';
+            mortgageText.innerHTML = `✨ 3.45% Green Mortgage Rate: <strong>UNLOCKED!</strong> (Band ${currentBand} qualifies for AIB, Haven, BOI)`;
+          }
+        } else {
+          if (mortgageNotice) {
+            mortgageNotice.style.background = 'rgba(245, 158, 11, 0.12)';
+            mortgageNotice.style.borderColor = '#f59e0b';
+          }
+          if (mortgageText) {
+            mortgageText.style.color = '#fbbf24';
+            mortgageText.innerHTML = `🏛️ 3.45% Green Mortgage Rate: LOCKED (Requires B3 or A-Rating, currently Band ${currentBand})`;
+          }
+        }
+      }
+
+      window.dispatchBlueprintWhatsApp = function() {
+        const phone = '353839662197';
+        const selected = [];
+        if (state.solar) selected.push('6kW Solar PV + 10kWh Battery');
+        if (state.hp) selected.push('Heat Pump & NSAI SR50 Radiators');
+        if (state.insulation) selected.push('External Wall Wrap (EWI) & Attic');
+        if (state.windows) selected.push('Triple Glazed Windows');
+        if (state.ev) selected.push('Smart EV Charger (7c Night Rate)');
+
+        const grantCash = document.getElementById('hudGrantCash')?.innerText || '€2,100';
+        const bill = document.getElementById('hudAnnualBill')?.innerText || '€3,600/yr';
+
+        const upgradeList = selected.map(s => '- ' + s).join('\n');
+        const text = 'Hi Joe! I just customized my Irish Home Digital Twin on EcoSmartHomes.\n\n' +
+          '🏡 Selected Upgrades:\n' + upgradeList + '\n\n' +
+          '💶 Estimated Grants: ' + grantCash + '\n' +
+          '📉 Projected Energy Bill: ' + bill + '\n\n' +
+          'Can you review this specification and confirm the next steps for my survey and SEAI grant approval?';
+        const msg = encodeURIComponent(text);
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      };
+
+      window.downloadBlueprintPdf = function() {
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+          alert("Generating certified blueprint...");
+          return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        doc.setFillColor(0, 23, 17);
+        doc.rect(0, 0, 210, 297, 'F');
+
+        doc.setTextColor(52, 245, 197);
+        doc.setFontSize(22);
+        doc.text("ECOSMARTHOMES IRELAND", 20, 26);
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(14);
+        doc.text("Certified Irish Retrofit Master Blueprint", 20, 36);
+
+        doc.setFontSize(10);
+        doc.setTextColor(148, 163, 184);
+        doc.text(`Generated: ${new Date().toLocaleDateString('en-IE')} | SEAI May 2026 Climate Action Framework`, 20, 44);
+
+        doc.setDrawColor(52, 245, 197);
+        doc.line(20, 48, 190, 48);
+
+        let y = 60;
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(12);
+        doc.text("1. CUSTOM RETROFIT SPECIFICATION", 20, y);
+        y += 10;
+
+        doc.setFontSize(10);
+        doc.setTextColor(203, 213, 225);
+        if (state.solar) { doc.text("● 6kW Rooftop Solar PV & 10kWh Battery (+€2,100 SEAI Grant)", 25, y); y += 8; }
+        if (state.hp) { doc.text("● Air-to-Water Heat Pump & NSAI SR50 Sizing (+€6,500 SEAI Grant)", 25, y); y += 8; }
+        if (state.insulation) { doc.text("● External Wall Insulation (EWI) Wrap & 300mm Attic (+€9,500 SEAI Grant)", 25, y); y += 8; }
+        if (state.windows) { doc.text("● Acoustic Triple Glazed Windows & Airtight Membrane (+€4,000 SEAI Grant)", 25, y); y += 8; }
+        if (state.ev) { doc.text("● Smart EV Charger & Super-Off-Peak Tariff Arbitrage (+€300 SEAI Grant)", 25, y); y += 8; }
+
+        y += 10;
+        doc.setFontSize(12);
+        doc.setTextColor(255, 255, 255);
+        doc.text("2. TELEMETRY & FINANCIAL PROJECTIONS", 20, y);
+        y += 10;
+
+        doc.setFontSize(10);
+        doc.setTextColor(52, 245, 197);
+        doc.text(`● Total Estimated SEAI Grant Cash: ${document.getElementById('hudGrantCash')?.innerText}`, 25, y); y += 8;
+        doc.text(`● Projected Annual Bill: ${document.getElementById('hudAnnualBill')?.innerText}`, 25, y); y += 8;
+        doc.text(`● Carbon Tax Shield: ${document.getElementById('hudCarbonTax')?.innerText}`, 25, y); y += 8;
+        doc.text(`● Estimated Property Equity Surge: ${document.getElementById('hudEquityVal')?.innerText}`, 25, y); y += 8;
+
+        y += 20;
+        doc.setTextColor(148, 163, 184);
+        doc.setFontSize(9);
+        doc.text("Verified by EcoSmartHomes Independent Energy Advisory. Call/WhatsApp: 083 966 2197", 20, y);
+
+        doc.save("EcoSmartHomes-Digital-Twin-Blueprint.pdf");
+      };
+
+      window.askAdvisorBlueprint = function() {
+        const prompt = `Hi! I have configured my Irish Home Digital Twin with Solar, Heat Pump, and Insulation. Can you audit my projected grants, my BER rating jump, and verify my NSAI SR50 compliance?`;
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else {
+          const launcher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          if (launcher) launcher.click();
+        }
+        setTimeout(() => {
+          if (typeof window.submitVoiceQuery === 'function') {
+            window.submitVoiceQuery(prompt);
+          }
+        }, 600);
+      };
+
+      // Initial run
+      updateSimulation();
+    })();
+  </script>
+
+  <!-- WhatsApp Floating Widget -->
+  <div class="whatsapp-float" style="position: fixed; bottom: 24px; left: 24px; z-index: 999;">
+    <a href="https://wa.me/353839662197?text=Hi%20Joe!%20I%20am%20exploring%20the%20Irish%20Home%20Digital%20Twin%20and%20would%20like%20expert%20advice%20on%20my%20retrofit%20blueprint." target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 8px; background: #25D366; color: #ffffff; padding: 10px 18px; border-radius: 9999px; text-decoration: none; font-weight: 800; font-size: 0.85rem; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);">
+      <span>💬 Chat with Joe</span>
+      <span style="font-size: 0.72rem; opacity: 0.9;">(083 966 2197)</span>
+    </a>
+  </div>
+
+</body>
+</html>
