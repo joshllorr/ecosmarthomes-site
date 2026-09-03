@@ -1,3 +1,29 @@
+
+/* ==========================================================================
+   MOBILE TOP MENU SLIDER & DESKTOP NAV SCROLLBAR (MATCHING IMAGE 2)
+   ========================================================================== */
+.mobile-top-menu-slider {
+  display: none;
+}
+
+/* Custom scrollbar for desktop .nav-links-wrap (Image 2 baseline) */
+.nav-links-wrap {
+  scrollbar-width: thin !important;
+  scrollbar-color: #34f5c5 rgba(255, 255, 255, 0.08) !important;
+}
+.nav-links-wrap::-webkit-scrollbar {
+  height: 4px !important;
+}
+.nav-links-wrap::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 9999px !important;
+}
+.nav-links-wrap::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #34f5c5, #10b981) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 0 6px rgba(52, 245, 197, 0.4) !important;
+}
+
 /* Emerald Command Center Dark Theme Foundations */
 html, body {
   background-color: #001711 !important;
@@ -2302,9 +2328,11 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
    ========================================================================== */
 
 @media (max-width: 768px) {
-  /* 1. Header Zero-Clipping Flex Layout */
+  /* 1. Header Zero-Clipping Flex Layout & Mobile Top Menu Slider */
   .main-nav-bar {
-    padding: 8px 12px !important;
+    padding: 8px 0 0 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
     overflow: visible !important;
     overflow-x: visible !important;
     overflow-y: visible !important;
@@ -2316,13 +2344,97 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
     justify-content: space-between !important;
     align-items: center !important;
     width: 100% !important;
+    padding: 0 12px 6px 12px !important;
     gap: 6px !important;
     box-sizing: border-box !important;
   }
 
-  /* Hide bulky Book button inside mobile header to prevent squishing */
+  /* Hide static pricing link & bulky Book button from row 1 on mobile */
+  .nav-inner a[href="/pricing/"],
+  .nav-inner .desktop-pricing-link,
   .btn-book-nav {
     display: none !important;
+  }
+
+  /* Hide inline desktop nav-links from header top row on mobile */
+  .nav-links-wrap {
+    display: none !important;
+  }
+
+  /* Dedicated Touch-Optimized Mobile Top Menu Slider */
+  .mobile-top-menu-slider {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 6px 12px 8px 12px !important;
+    background: rgba(0, 20, 15, 0.98) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-bottom: 1px solid rgba(52, 245, 197, 0.15) !important;
+    box-sizing: border-box !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #34f5c5 rgba(255, 255, 255, 0.1) !important;
+    position: relative !important;
+  }
+
+  /* Tactile Slider Scrollbar matching Image 2 */
+  .mobile-top-menu-slider::-webkit-scrollbar {
+    height: 4px !important;
+  }
+  .mobile-top-menu-slider::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 9999px !important;
+    margin: 0 12px !important;
+  }
+  .mobile-top-menu-slider::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #34f5c5, #10b981) !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 0 8px rgba(52, 245, 197, 0.6) !important;
+  }
+
+  /* Individual Touch Slider Chips */
+  .mobile-nav-slider-chip {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 5px 12px !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    color: #cbd5e1 !important;
+    background: rgba(0, 36, 27, 0.85) !important;
+    border: 1px solid rgba(52, 245, 197, 0.22) !important;
+    border-radius: 9999px !important;
+    text-decoration: none !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    flex-shrink: 0 !important;
+    line-height: 1.3 !important;
+    font-family: inherit !important;
+  }
+
+  .mobile-nav-slider-chip:hover,
+  .mobile-nav-slider-chip:active,
+  .mobile-nav-slider-chip.active {
+    background: rgba(52, 245, 197, 0.2) !important;
+    border-color: #34f5c5 !important;
+    color: #34f5c5 !important;
+    box-shadow: 0 0 12px rgba(52, 245, 197, 0.3) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .mobile-nav-slider-chip.cta-chip {
+    background: rgba(245, 158, 11, 0.15) !important;
+    border-color: #f59e0b !important;
+    color: #fbbf24 !important;
+  }
+  .mobile-nav-slider-chip.cta-chip:hover,
+  .mobile-nav-slider-chip.cta-chip:active {
+    background: #f59e0b !important;
+    color: #001711 !important;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4) !important;
   }
 
   /* Compact Brand */
@@ -2703,4 +2815,55 @@ a, a:visited {
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
+}
+
+
+/* ==========================================================================
+   MOBILE HEADER ROW 1 PURITY (STRICT ROW 1 ISOLATION)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .main-nav-bar .nav-inner .btn-book-nav,
+  .nav-inner a.btn-book-nav,
+  .nav-inner a[href*="/checkout/"],
+  .nav-inner a[href*="/pricing/"],
+  .nav-inner .desktop-pricing-link {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    pointer-events: none !important;
+  }
+
+  .nav-inner {
+    padding: 0 12px 6px 12px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .nav-inner > div:last-child {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+  }
+
+  .btn-tools-drawer-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 7px 12px !important;
+    font-size: 0.78rem !important;
+    font-weight: 800 !important;
+    border-radius: 8px !important;
+    background: rgba(52, 245, 197, 0.12) !important;
+    border: 1px solid rgba(52, 245, 197, 0.3) !important;
+    color: #34f5c5 !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
 }

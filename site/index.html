@@ -271,7 +271,7 @@
   <script src="/js/persona-router.js" defer></script>
   <script src="/js/energy-metrics.js" defer></script>
   <script src="/js/calculator-data-core.js" defer></script>
-  <link rel="stylesheet" href="/css/smart-nav.css?v=5">
+  <link rel="stylesheet" href="/css/smart-nav.css?v=6">
 </head>
 <body>
 <div id="mobile-app-container" class="mobile-app-wrapper">
@@ -352,13 +352,28 @@
       </div>
 
       <div style="display: flex; align-items: center; gap: 10px;">
-        <a href="/pricing/" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 700;">🏷️ Pricing</a>
+        <a href="/pricing/" class="desktop-pricing-link" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 700;">🏷️ Pricing</a>
         <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
         <a href="/checkout/?tier=survey&price=149" class="btn-book-nav">
           💳 Book Survey 
         </a>
       </div>
     </div>
+
+    <!-- 📱 MOBILE TOP MENU SLIDER (Touch-Optimized Horizontal Tool Strip) -->
+    <nav class="mobile-top-menu-slider" id="mobileTopMenuSlider" aria-label="Mobile Quick Tools Navigation">
+      <a href="/quote-auditor/" class="mobile-nav-slider-chip" data-tool="quote-auditor">🛡️ Quote Auditor</a>
+      <a href="#county-solar-map" class="mobile-nav-slider-chip" data-tool="solar">☀️ Solar PV</a>
+      <a href="#carbon-tax-war-room" class="mobile-nav-slider-chip" data-tool="carbon-tax">⚡ Carbon Tax</a>
+      <a href="#green-mortgage-ticker" class="mobile-nav-slider-chip" data-tool="green-mortgage">🏛️ Green Mortgage</a>
+      <a href="/roadmap/" class="mobile-nav-slider-chip" data-tool="roadmap">📄 Roadmap PDF</a>
+      <a href="/locations/" class="mobile-nav-slider-chip" data-tool="locations">📍 Towns Hub</a>
+      <a href="/contractors/" class="mobile-nav-slider-chip" data-tool="contractors">👔 For Installers</a>
+      <a href="#grant-matrix-calculator" class="mobile-nav-slider-chip" data-tool="grant-matrix">⚖️ Grants Matrix</a>
+      <a href="#transformation-slider" class="mobile-nav-slider-chip" data-tool="transformation">📐 Transformation</a>
+      <a href="/pricing/" class="mobile-nav-slider-chip" data-tool="pricing">🏷️ Pricing</a>
+      <a href="/checkout/?tier=survey&price=149" class="mobile-nav-slider-chip cta-chip" data-tool="checkout">💳 Book Survey</a>
+    </nav>
   </header>
 
   <!-- Hero Section -->

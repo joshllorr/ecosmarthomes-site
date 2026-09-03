@@ -1010,6 +1010,76 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     });
   }
 
+  
+  // ==========================================================================
+  // MOBILE TOP MENU SLIDER CONTROLLER (SITE-WIDE SYNC)
+  // ==========================================================================
+  function initMobileTopMenuSlider() {
+    const header = document.querySelector('.main-nav-bar') || document.querySelector('.header');
+    if (!header) return;
+
+    let slider = document.getElementById('mobileTopMenuSlider');
+    const path = (window.location.pathname || '').toLowerCase();
+    const isHome = path === '/' || path === '/index.html' || path === '';
+
+    const tools = [
+      { id: 'quote-auditor', label: '🛡️ Quote Auditor', href: '/quote-auditor/' },
+      { id: 'solar', label: '☀️ Solar PV', href: isHome ? '#county-solar-map' : '/solar/' },
+      { id: 'carbon-tax', label: '⚡ Carbon Tax', href: isHome ? '#carbon-tax-war-room' : '/carbon-tax/' },
+      { id: 'green-mortgage', label: '🏛️ Green Mortgage', href: isHome ? '#green-mortgage-ticker' : '/green-mortgage/' },
+      { id: 'roadmap', label: '📄 Roadmap PDF', href: '/roadmap/' },
+      { id: 'locations', label: '📍 Towns Hub', href: '/locations/' },
+      { id: 'contractors', label: '👔 For Installers', href: '/contractors/' },
+      { id: 'grant-matrix', label: '⚖️ Grants Matrix', href: isHome ? '#grant-matrix-calculator' : '/#grant-matrix-calculator' },
+      { id: 'transformation', label: '📐 Transformation', href: isHome ? '#transformation-slider' : '/#transformation-slider' },
+      { id: 'pricing', label: '🏷️ Pricing', href: '/pricing/' },
+      { id: 'checkout', label: '💳 Book Survey', href: '/checkout/?tier=survey&price=149', isCta: true }
+    ];
+
+    if (!slider) {
+      slider = document.createElement('nav');
+      slider.id = 'mobileTopMenuSlider';
+      slider.className = 'mobile-top-menu-slider';
+      slider.setAttribute('aria-label', 'Mobile Quick Tools Navigation');
+
+      let html = '';
+      tools.forEach(tool => {
+        const ctaClass = tool.isCta ? ' cta-chip' : '';
+        html += `<a href="${tool.href}" class="mobile-nav-slider-chip${ctaClass}" data-tool="${tool.id}">${tool.label}</a>`;
+      });
+      slider.innerHTML = html;
+      header.appendChild(slider);
+    }
+
+    // Attach smooth scroll behavior for in-page anchors on home
+    slider.querySelectorAll('.mobile-nav-slider-chip').forEach(chip => {
+      const href = chip.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        chip.addEventListener('click', function(e) {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            slider.querySelectorAll('.mobile-nav-slider-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+          }
+        });
+      }
+    });
+
+    // Automatically highlight active tool chip based on current path
+    slider.querySelectorAll('.mobile-nav-slider-chip').forEach(chip => {
+      const href = chip.getAttribute('href').toLowerCase();
+      if (!href.startsWith('#') && href !== '/' && path.startsWith(href)) {
+        chip.classList.add('active');
+        setTimeout(() => {
+          chip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }, 150);
+      }
+    });
+  }
+
+
   function initMobileIOSAppDock() {
     // 1. Create Fixed Bottom Dock if not present
     if (!document.getElementById('esh-mobile-dock')) {
@@ -1208,6 +1278,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMobileIOSAppDock);
   } else {
+    initMobileTopMenuSlider();
     initMobileIOSAppDock();
   }
 
