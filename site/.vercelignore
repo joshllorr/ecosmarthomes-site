@@ -1,0 +1,15 @@
+# Vercel Build Ignore Rules
+functions/
+site/functions/
+ecosmarthomes-site/
+site/ecosmarthomes-site/
+src/
+site/src/
+cypress/
+site/cypress/
+scratch/
+*.ps1
+.wrangler/
+.wrangler-home/
+auto-redeploy-log.txt
+sync-log.txt
