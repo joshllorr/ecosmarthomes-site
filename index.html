@@ -23,8 +23,8 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="/css/styles.css?v=4" />
-  <link rel="stylesheet" href="/css/style.css?v=4" />
+  <link rel="stylesheet" href="/css/styles.css?v=5" />
+  <link rel="stylesheet" href="/css/style.css?v=5" />
   <link rel="stylesheet" href="/css/voice-advisor.css" />
   <link rel="stylesheet" href="/css/dashboard.css" />
   <link rel="stylesheet" href="/css/whatsapp-widget.css" />
@@ -66,7 +66,10 @@
       padding: 12px 0;
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 999999 !important;
+      overflow: visible !important;
+      overflow-x: visible !important;
+      overflow-y: visible !important;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
@@ -268,7 +271,7 @@
   <script src="/js/persona-router.js" defer></script>
   <script src="/js/energy-metrics.js" defer></script>
   <script src="/js/calculator-data-core.js" defer></script>
-  <link rel="stylesheet" href="/css/smart-nav.css">
+  <link rel="stylesheet" href="/css/smart-nav.css?v=5">
 </head>
 <body>
 <div id="mobile-app-container" class="mobile-app-wrapper">

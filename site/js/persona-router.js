@@ -274,10 +274,14 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     document.documentElement.style.setProperty('--persona-accent', persona.accentColor);
     document.documentElement.style.setProperty('--persona-glow', persona.glowColor);
 
-    const launcher = document.getElementById('voice-launcher');
+    const launcher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher') || document.getElementById('voice-advisor-toggle');
     if (launcher) {
-      launcher.style.boxShadow = `0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px ${persona.glowColor}`;
+      launcher.style.boxShadow = `0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px ${persona.glowColor}`;
       launcher.style.borderColor = persona.accentColor;
+      const avatarEl = launcher.querySelector('.advisor-avatar') || launcher.querySelector('.launcher-avatar') || launcher.querySelector('.voice-avatar');
+      if (avatarEl) avatarEl.innerText = persona.avatar;
+      const nameEl = launcher.querySelector('.advisor-name') || launcher.querySelector('.launcher-name') || launcher.querySelector('.voice-name');
+      if (nameEl) nameEl.innerText = persona.name;
     }
 
     const modal = document.getElementById('voice-modal');
@@ -473,6 +477,12 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       window.setVoicePersona(persona.personaKey, false);
     }
 
+    // Synchronize UI tab pills, mobile dropdown capsule, and tools filter
+    if (typeof window.setPersona === 'function') {
+      const mapping = { aoife: 'homeowner', eimear: 'agent', declan: 'installer' };
+      window.setPersona(mapping[canonicalKey] || 'homeowner');
+    }
+
     // 7. Speech Synthesis + Resonance
     if (autoSpeak && window.AG.voice && typeof window.AG.voice.say === 'function') {
       window.AG.voice.say(persona.greeting, () => {
@@ -514,33 +524,51 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
   // Forcefully Dismiss Modal on User Role Selection
   window.dismissPersonaModal = function(personaKey) {
+    const roleToAdvisor = {
+      homeowner: 'aoife',
+      aoife: 'aoife',
+      agent: 'eimear',
+      eimear: 'eimear',
+      installer: 'declan',
+      declan: 'declan'
+    };
+    const advisorToRole = {
+      aoife: 'homeowner',
+      homeowner: 'homeowner',
+      eimear: 'agent',
+      agent: 'agent',
+      declan: 'installer',
+      installer: 'installer'
+    };
+
+    const raw = (personaKey || '').toLowerCase();
+    const advisorKey = roleToAdvisor[raw] || (raw ? 'aoife' : '');
+    const roleKey = advisorToRole[raw] || (raw ? 'homeowner' : '');
+
     try {
       localStorage.setItem("ESH_hasSeenOnboarding", "true");
       localStorage.setItem("ESH_hasChosenRole", "true");
-      if (personaKey) {
-        localStorage.setItem("ESH_lastPersona", personaKey);
+      if (advisorKey) {
+        localStorage.setItem("ESH_lastPersona", advisorKey);
+        localStorage.setItem("ESH_currentRole", roleKey);
       }
     } catch (e) {}
 
-    // Forcefully hide all instances of the modal overlay
-    const modals = document.querySelectorAll("#personaModal, .persona-modal-overlay");
+    // Forcefully hide all instances of the modal overlay immediately
+    const modals = document.querySelectorAll("#personaModal, .persona-modal-overlay, #eshRoleSwitchConfirm, #esh-freemium-modal-overlay");
     modals.forEach(m => {
       m.classList.remove("open");
       m.style.setProperty("display", "none", "important");
       m.style.pointerEvents = "none";
     });
 
-    const switchConfirm = document.getElementById('eshRoleSwitchConfirm');
-    if (switchConfirm) {
-      switchConfirm.classList.remove("open");
-      switchConfirm.style.setProperty("display", "none", "important");
-    }
+    if (advisorKey && AGPersonas[advisorKey]) {
+      // 1. Seamless Advisor Activation: chime, colors, launcher, and voice system
+      window.AG.setVoicePersona(advisorKey, false);
 
-    if (personaKey && AGPersonas[personaKey.toLowerCase()]) {
-      window.AG.setVoicePersona(personaKey.toLowerCase(), false);
+      // 2. Sync UI, wizards, and mobile dropdown trigger label
       if (typeof window.setPersona === 'function') {
-        const mapping = { aoife: 'homeowner', eimear: 'agent', declan: 'installer' };
-        window.setPersona(mapping[personaKey.toLowerCase()] || 'homeowner');
+        window.setPersona(roleKey);
       }
     }
   };
@@ -817,3 +845,13 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   }
 
 })(window);
+
+
+  // Re-apply saved persona theme after window load
+  window.addEventListener('load', () => {
+    try {
+      if (window.AG && typeof window.AG.loadSavedPersona === 'function') {
+        window.AG.loadSavedPersona();
+      }
+    } catch(e) {}
+  });

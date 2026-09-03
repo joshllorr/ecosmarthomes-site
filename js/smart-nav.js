@@ -261,7 +261,7 @@
   function initSmartNav() {
     const header = document.querySelector('.main-nav-bar') || document.querySelector('.header');
     
-    if (!document.getElementById('esh-side-tab-toggle')) {
+if (!document.getElementById('esh-side-tab-toggle')) {
       const sideTab = document.createElement('button');
       sideTab.id = 'esh-side-tab-toggle';
       sideTab.type = 'button';
@@ -1149,9 +1149,45 @@
       panel.classList.remove('open');
     }
 
-    // Call Master Switcher
+    const roleToAdvisor = {
+      homeowner: 'aoife',
+      aoife: 'aoife',
+      agent: 'eimear',
+      eimear: 'eimear',
+      installer: 'declan',
+      declan: 'declan',
+      all: 'aoife'
+    };
+    const advisorToRole = {
+      aoife: 'homeowner',
+      homeowner: 'homeowner',
+      eimear: 'agent',
+      agent: 'agent',
+      declan: 'installer',
+      installer: 'installer',
+      all: 'all'
+    };
+
+    const raw = (personaKey || 'homeowner').toLowerCase();
+    const advisorKey = roleToAdvisor[raw] || 'aoife';
+    const roleKey = advisorToRole[raw] || 'homeowner';
+
+    // 1. Persistent Role Saving
+    try {
+      localStorage.setItem("ESH_hasSeenOnboarding", "true");
+      localStorage.setItem("ESH_hasChosenRole", "true");
+      localStorage.setItem("ESH_lastPersona", advisorKey);
+      localStorage.setItem("ESH_currentRole", roleKey);
+    } catch (e) {}
+
+    // 2. Seamless Advisor Activation (chime, theme colors, launcher button, voice system)
+    if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+      window.AG.setVoicePersona(advisorKey, false);
+    }
+
+    // 3. Sync UI & Tools Filter
     if (window.setPersona) {
-      window.setPersona(personaKey);
+      window.setPersona(roleKey);
     }
   };
 
@@ -1392,3 +1428,26 @@
   }
 
   document.addEventListener('DOMContentLoaded', initAntigravityVoiceHubListeners);
+
+
+  // ==========================================================================
+  // PERSISTENT ROLE RESTORATION ON APP LOAD
+  // ==========================================================================
+  function restoreSavedPersonaState() {
+    try {
+      const savedPersona = localStorage.getItem('ESH_lastPersona');
+      const savedRole = localStorage.getItem('ESH_currentRole');
+      const roleMap = { aoife: 'homeowner', eimear: 'agent', declan: 'installer' };
+      const roleToApply = savedRole || (savedPersona ? roleMap[savedPersona.toLowerCase()] : null);
+      if (roleToApply && typeof window.setPersona === 'function') {
+        window.setPersona(roleToApply);
+      }
+    } catch(e) {}
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', restoreSavedPersonaState);
+  } else {
+    setTimeout(restoreSavedPersonaState, 50);
+  }
+  window.addEventListener('load', restoreSavedPersonaState);

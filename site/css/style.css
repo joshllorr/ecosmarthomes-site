@@ -2122,7 +2122,10 @@ a, a:visited {
   padding: 12px 20px !important;
   position: sticky !important;
   top: 0 !important;
-  z-index: 1000 !important;
+  z-index: 999999 !important;
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
 }
@@ -2196,4 +2199,47 @@ a, a:visited {
   background: #fbbf24 !important;
   box-shadow: 0 0 20px rgba(251, 191, 36, 0.6) !important;
   transform: scale(1.03) !important;
+}
+
+
+/* ==========================================================================
+   MOBILE PERSONA DROPDOWN DRAWER ANTI-CLIPPING & STACKING FIX
+   ========================================================================== */
+.main-nav-bar, .header {
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  z-index: 999999 !important;
+}
+
+.nav-inner {
+  overflow: visible !important;
+}
+
+.mobile-persona-dropdown-wrapper {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 1000000 !important;
+}
+
+.persona-dropdown-panel {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  z-index: 1000005 !important;
+  background: rgba(6, 26, 20, 0.98) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1.5px solid rgba(52, 245, 197, 0.5) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.95), 0 0 35px rgba(52, 245, 197, 0.35) !important;
+  min-width: 250px !important;
+  max-width: min(320px, 92vw) !important;
+}
+
+.persona-dropdown-panel.open {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
