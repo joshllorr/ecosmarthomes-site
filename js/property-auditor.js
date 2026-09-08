@@ -162,8 +162,6 @@
     }
   ];
 
-  let currentDossierData = EIRCODE_DATABASE[0];
-
   function renderEircodeSuggestions(query) {
     const dropdown = document.getElementById('eircodeDropdownList');
     if (!dropdown) return;
@@ -244,13 +242,17 @@
     const resultsContainer = document.getElementById('prop-audit-results');
     if (!resultsContainer) return;
 
+    const targetBerClean = data.targetBer ? data.targetBer.split(' ')[0] : 'A0';
+    const grantAmount = data.grantCap ? data.grantCap.split(' ')[0] : '€35,000';
+    const equitySurge = data.equitySurge || '+€38,000';
+
     resultsContainer.innerHTML = `
       <div class="eircode-dossier-card">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid rgba(52,245,197,0.25); padding-bottom: 12px; margin-bottom: 14px;">
           <div style="display: flex; align-items: center; gap: 10px;">
             <span style="font-size: 1.8rem;">📍</span>
             <div>
-              <div style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800;">
+              <div style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800; letter-spacing: 0.05em;">
                 IRISH NATIONAL BER REGISTER DOSSIER · ${data.eircode}
               </div>
               <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 2px 0 0 0;">
@@ -263,35 +265,67 @@
           </span>
         </div>
 
-        <div class="eircode-meta-grid">
-          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 0ms;">
-            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📅 YEAR BUILT</div>
-            <div style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin-top: 2px;">${data.yearBuilt}</div>
-            <div style="font-size: 0.72rem; color: #64748b;">${data.archetype}</div>
+        <!-- Visual BER Leap Progression Track -->
+        <div class="dossier-ber-leap-banner" style="background: rgba(0, 15, 11, 0.75); border: 1px solid rgba(52, 245, 197, 0.25); border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.72rem; color: #94a3b8; font-family: monospace; font-weight: 700;">CURRENT BER:</span>
+            <span style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; font-weight: 900; padding: 2px 8px; border-radius: 6px; font-family: monospace;">${data.currentBer}</span>
+            <span style="font-size: 0.72rem; color: #64748b;">(${data.berKwh})</span>
           </div>
-          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 150ms;">
-            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📐 TOTAL FLOOR AREA</div>
-            <div style="font-size: 1.15rem; font-weight: 900; color: #34f5c5; margin-top: 2px;">${data.floorArea}</div>
-            <div style="font-size: 0.72rem; color: #64748b;">Heat Loss: ${data.heatLoss} (${data.hpSize})</div>
-          </div>
-          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 300ms;">
-            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">🏷️ BER RATING JUMP</div>
-            <div style="font-size: 1.15rem; font-weight: 900; color: #fbbf24; margin-top: 2px;">${data.currentBer} ➔ ${data.targetBer.split(' ')[0]}</div>
-            <div style="font-size: 0.72rem; color: #34f5c5;">3.45% Green Mortgage Qualified</div>
-          </div>
-          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 450ms;">
-            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">💶 MAX SEAI GRANT LOCK</div>
-            <div style="font-size: 1.15rem; font-weight: 900; color: #38bdf8; margin-top: 2px;">${data.grantCap.split(' ')[0]}</div>
-            <div style="font-size: 0.72rem; color: #38bdf8;">Direct SEAI Grant Support</div>
+          <div style="color: #34f5c5; font-weight: 900; font-size: 1.1rem;">➔</div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.72rem; color: #94a3b8; font-family: monospace; font-weight: 700;">TARGET BER:</span>
+            <span style="background: rgba(16, 185, 129, 0.2); color: #34f5c5; border: 1px solid #10b981; font-weight: 900; padding: 2px 8px; border-radius: 6px; font-family: monospace;">${targetBerClean} Net-Zero</span>
+            <span style="font-size: 0.72rem; color: #34f5c5; font-weight: 700;">(0 kWh/m²/yr)</span>
           </div>
         </div>
 
-        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
-          <button type="button" id="btn-dossier-ask-aoife" class="btn-hero-primary btn-inline-ask-aoife" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiEircodeAudit()">
-            🎙️ Ask Aoife to Explain ${data.eircode} Roadmap →
+        <!-- 4 High-Impact Conversion & Engineering Metric Boxes -->
+        <div class="eircode-meta-grid">
+          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 0ms;">
+            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">💶 MAX SEAI GRANT POT</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #38bdf8; margin-top: 2px;">${grantAmount}</div>
+            <div style="font-size: 0.72rem; color: #38bdf8;">Direct SEAI Grant Protection</div>
+          </div>
+          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 100ms;">
+            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📈 CAPITAL EQUITY SURGE</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #34f5c5; margin-top: 2px;">${equitySurge}</div>
+            <div style="font-size: 0.72rem; color: #64748b;">Average A-Rated Resale Uplift</div>
+          </div>
+          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 200ms;">
+            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📉 GREEN MORTGAGE ARBITRAGE</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #fbbf24; margin-top: 2px;">3.45% BPFI Rate</div>
+            <div style="font-size: 0.72rem; color: #fbbf24;">Save ~€185–€240/mo Repayments</div>
+          </div>
+          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 300ms;">
+            <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">⚡ NSAI HEAT PUMP SIZING</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin-top: 2px;">${data.hpSize}</div>
+            <div style="font-size: 0.72rem; color: #64748b;">Heat Loss: ${data.heatLoss} · SR50-2</div>
+          </div>
+        </div>
+
+        <!-- Property Specs Footer Strip -->
+        <div style="font-size: 0.76rem; color: #94a3b8; background: rgba(0, 23, 17, 0.6); border-radius: 8px; padding: 8px 12px; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;">
+          <span>📅 <strong>Built:</strong> ${data.yearBuilt} (${data.archetype})</span>
+          <span>📐 <strong>Floor Area:</strong> ${data.floorArea}</span>
+          <span>🔥 <strong>Current Fuel:</strong> ${data.fuel}</span>
+        </div>
+
+        <!-- Primary Star High-Conversion Action -->
+        <a href="/checkout/?tier=survey&eircode=${encodeURIComponent(data.eircode)}&address=${encodeURIComponent(data.address)}&ber=${encodeURIComponent(data.currentBer)}" 
+           class="btn-dossier-checkout-primary" 
+           onclick="if(window.triggerHaptic) window.triggerHaptic(12);"
+           style="display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, #34f5c5 0%, #10b981 100%); color: #00241b; font-weight: 900; font-size: 0.96rem; padding: 14px 18px; border-radius: 12px; text-decoration: none; box-shadow: 0 6px 20px rgba(52,245,197,0.4); width: 100%; box-sizing: border-box; text-align: center; margin-top: 16px; transition: transform 0.15s ease;">
+          <span>⭐</span> <span>Claim €35,000 Grant Lock & Book Independent Survey (€149) →</span>
+        </a>
+
+        <!-- Secondary Balanced Actions -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; width: 100%; box-sizing: border-box;">
+          <button type="button" id="btn-dossier-ask-aoife" class="btn-hero-primary btn-inline-ask-aoife" style="justify-content: center; padding: 11px 12px; font-size: 0.82rem; text-align: center;" onclick="window.askVoiceAiEircodeAudit()">
+            🎙️ Ask Aoife Roadmap →
           </button>
-          <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestEircodeDossierWhatsApp()">
-            💬 WhatsApp ${data.eircode} Dossier to Joe (083 966 2197) →
+          <button type="button" class="btn-hero-secondary" style="justify-content: center; padding: 11px 12px; font-size: 0.82rem; text-align: center;" onclick="window.requestEircodeDossierWhatsApp()">
+            💬 WhatsApp Joe (083 449 3934) →
           </button>
         </div>
       </div>
@@ -313,6 +347,7 @@
 
   // 5-State Dossier Input & Scan State Machine
   window.runPropertyAudit = function(customInput) {
+    if (window.triggerHaptic) window.triggerHaptic(10);
     const inputField = document.getElementById('prop-audit-input');
     const auditBtn = inputField ? inputField.parentElement.querySelector('button') : null;
     const resultsContainer = document.getElementById('prop-audit-results');
@@ -465,7 +500,7 @@
   };
 
   window.requestEircodeDossierWhatsApp = function() {
-    const phone = '353839662197';
+    const phone = '353834493934';
     const data = currentDossierData || EIRCODE_DATABASE[0];
     const persona = document.documentElement.getAttribute('data-persona') || 'homeowner';
     const msgText = `Hi Joe! I just completed an Eircode BER Audit on EcoSmartHomes.ie:
@@ -480,6 +515,38 @@
 
 Can you review this property and send me the roadmap?`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msgText)}`, '_blank', 'noopener,noreferrer');
+  };
+
+  // 1-Tap Mobile Clipboard Reader & Instant Auditor
+  window.pasteFromClipboardToAuditor = function() {
+    if (window.triggerHaptic) window.triggerHaptic(12);
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      navigator.clipboard.readText().then(text => {
+        const cleanText = (text || '').trim();
+        if (!cleanText) {
+          if (window.showEshToast) window.showEshToast('Clipboard is empty · copy a Daft link or Eircode first', '📋');
+          return;
+        }
+        const input = document.getElementById('prop-audit-input');
+        if (input) {
+          input.value = cleanText;
+          if (window.showEshToast) window.showEshToast('Pasted & scanning: ' + cleanText.slice(0, 22) + '...', '🚀');
+          window.runPropertyAudit(cleanText);
+        }
+      }).catch(() => {
+        const input = document.getElementById('prop-audit-input');
+        if (input) {
+          input.focus();
+          if (window.showEshToast) window.showEshToast('Tap & hold search bar to paste link/Eircode', '👆');
+        }
+      });
+    } else {
+      const input = document.getElementById('prop-audit-input');
+      if (input) {
+        input.focus();
+        if (window.showEshToast) window.showEshToast('Tap & hold search bar to paste link/Eircode', '👆');
+      }
+    }
   };
 
   // Setup input listener

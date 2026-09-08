@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="/css/style.css?v=5">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/whatsapp-widget.css">
-  <link rel="stylesheet" href="/css/smart-nav.css?v=7">
+  <link rel="stylesheet" href="/css/smart-nav.css?v=14">
 
   <style>
     :root {
@@ -63,7 +63,7 @@
       background: none;
       border: none;
       color: #ffffff;
-      font-size: 1rem;
+      font-size: 16px;
       padding: 12px 16px;
       outline: none;
       font-family: inherit;
@@ -111,7 +111,7 @@
     <div class="container top-bar-content">
       <div>
         <span class="live-pulse" aria-hidden="true"></span>
-        <span>🚀 1-Click Daft.ie & Eircode Energy Scanner Active</span>
+        <span>🚀 1-Click Daft.ie & Eircode Grant Unpacker Active</span>
       </div>
       <div>
         <a href="/checkout/" style="color: #f59e0b; font-weight: 800; text-decoration: none;">⭐ Book Survey  →</a>
@@ -137,20 +137,23 @@
   <main style="max-width: 900px; margin: 40px auto; padding: 0 20px; text-align: center;">
     
     <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #34f5c5; padding: 4px 14px; border-radius: 9999px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">
-      Instant Property Intelligence
+      Instant Property Intelligence & Grant Unlock
     </span>
 
     <h1 style="font-size: clamp(2rem, 4.5vw, 2.8rem); font-weight: 900; color: #ffffff; margin: 16px 0 10px 0; line-height: 1.2;">
-      1-Click Daft.ie & Eircode Property Auditor
+      How Much Grant Pot & Equity Can You Unlock?
     </h1>
 
     <p style="font-size: 1.05rem; color: #94a3b8; max-width: 680px; margin: 0 auto 30px auto; line-height: 1.6;">
-      Paste any live <strong>Daft.ie</strong> URL, <strong>MyHome.ie</strong> link, or Irish <strong>Eircode</strong>. Our engine unpacks the full SEAI grant pot, 3.45% Green Mortgage savings, and NSAI SR50-2 heating schedule in 2.5 seconds.
+      Paste any live <strong>Daft.ie</strong> listing, <strong>MyHome.ie</strong> link, or Irish <strong>Eircode</strong>. Instantly unpack certified SEAI grant allocations (up to €35,000), +€38,000 in property equity surge, and 3.45% Green Mortgage savings in 2.5 seconds.
     </p>
 
     <!-- Search Box -->
-    <div class="scanner-search-box">
-      <input type="text" id="prop-audit-input" class="scanner-search-input" placeholder="Paste Daft.ie URL or Eircode (e.g. P17 XY12)..." onkeydown="if(event.key==='Enter') window.runPropertyAudit()" />
+    <div class="scanner-search-box" style="align-items: center;">
+      <input type="text" id="prop-audit-input" class="scanner-search-input" placeholder="Paste Daft.ie link or Eircode (e.g. P17 XY12)..." onkeydown="if(event.key==='Enter') window.runPropertyAudit()" />
+      <button type="button" class="btn-scanner-paste" onclick="window.pasteFromClipboardToAuditor()" title="Paste from Clipboard" style="background: rgba(52,245,197,0.12); border: 1px solid rgba(52,245,197,0.35); color: #34f5c5; font-weight: 700; border-radius: 10px; padding: 10px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-size: 0.85rem; white-space: nowrap; margin-right: 4px;">
+        <span>📋</span> <span>Paste</span>
+      </button>
       <button type="button" class="scanner-search-btn" onclick="window.runPropertyAudit()">
         <span>⚡ AUDIT</span>
       </button>
@@ -171,7 +174,7 @@
   </main>
 
   <script src="/js/calculator-data-core.js" defer></script>
-  <script src="/js/smart-nav.js" defer></script>
-  <script src="/js/property-auditor.js" defer></script>
+  <script src="/js/smart-nav.js?v=14" defer></script>
+  <script src="/js/property-auditor.js?v=14" defer></script>
 </body>
 </html>

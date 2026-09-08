@@ -4002,3 +4002,64 @@ body.floating-widgets-hidden .fab-radial-container {
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   PROPERTY AUDITOR & CONVERSION DOSSIER ENHANCEMENTS
+   ========================================================================== */
+
+/* 1-Tap Mobile Clipboard Paste Button */
+.btn-scanner-paste {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-scanner-paste:hover {
+  background: rgba(52, 245, 197, 0.22) !important;
+  border-color: #34f5c5 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.btn-scanner-paste:active {
+  transform: scale(0.94);
+  background: rgba(52, 245, 197, 0.32) !important;
+}
+
+/* Primary Star Conversion Dossier CTA */
+.btn-dossier-checkout-primary {
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-dossier-checkout-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(52, 245, 197, 0.55) !important;
+  filter: brightness(1.06);
+}
+
+.btn-dossier-checkout-primary:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 12px rgba(52, 245, 197, 0.35) !important;
+}
+
+/* 2x2 Compact Metric Grid on Mobile */
+@media (max-width: 480px) {
+  .eircode-meta-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  .eircode-meta-box {
+    padding: 10px 8px !important;
+  }
+  .dossier-ber-leap-banner {
+    padding: 8px 10px !important;
+    font-size: 0.72rem !important;
+  }
+}
+
