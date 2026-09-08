@@ -85,7 +85,10 @@ export default async function handler(req, res) {
     const personaKey = (reqPersona || reqRole || 'aoife').toLowerCase();
     const activePersona = PERSONAS[personaKey] || PERSONAS.aoife;
 
-    const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+    const openaiKey = process.env.OPENAI_API_KEY || process.env.LLM_API_KEY;
+    const openaiBaseUrl = (process.env.OPENAI_BASE_URL || process.env.LLM_BASE_URL || 'http://127.0.0.1:31415/v1').replace(/\/$/, '');
+    const openaiModel = process.env.OPENAI_MODEL || process.env.LLM_MODEL || 'auto';
+    const geminiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
 
     const combinedSystemPrompt = `
 ${activePersona.systemPrompt}
@@ -103,8 +106,68 @@ Return a clean JSON object strictly matching this schema:
 Location Context: ${town || 'Ireland'}
 `;
 
-    if (apiKey) {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    // 1. Check OpenAI / Free LLMAPI Provider
+    if (openaiKey) {
+      try {
+        const chatUrl = `${openaiBaseUrl}/chat/completions`;
+        const messages = [
+          { role: 'system', content: combinedSystemPrompt + '\nIMPORTANT: You must return valid JSON only with no markdown code blocks.' },
+          ...history.slice(-4).map(h => ({
+            role: h.sender === 'user' ? 'user' : 'assistant',
+            content: h.text
+          })),
+          { role: 'user', content: message }
+        ];
+
+        const openAiRes = await fetch(chatUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${openaiKey}`
+          },
+          body: JSON.stringify({
+            model: openaiModel,
+            messages,
+            temperature: 0.2,
+            max_tokens: 500
+          })
+        });
+
+        if (openAiRes.ok) {
+          const openAiData = await openAiRes.json();
+          const content = openAiData.choices?.[0]?.message?.content;
+          if (content) {
+            try {
+              const clean = content.replace(/```json/gi, '').replace(/```/g, '').trim();
+              const parsed = JSON.parse(clean);
+              if (parsed && (parsed.speechText || parsed.displayText)) {
+                return res.status(200).json({ success: true, persona: activePersona.key, data: parsed, provider: 'freellmapi' });
+              }
+            } catch (jsonErr) {
+              const lines = content.split('\n').filter(l => l.trim().length > 0);
+              return res.status(200).json({
+                success: true,
+                persona: activePersona.key,
+                data: {
+                  speechText: (lines[0] || '').replace(/[*#]/g, ''),
+                  displayText: content,
+                  citation: "Irish Engineering Standards (SR50/DEAP)",
+                  recommendedAction: "Book On-Site Survey (€149)",
+                  surveyCta: true
+                },
+                provider: 'freellmapi'
+              });
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('OpenAI/FreeLLMAPI call failed, trying next provider:', err.message);
+      }
+    }
+
+    // 2. Check Google Gemini Cloud Provider
+    if (geminiKey) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`;
       const contents = [
         { role: 'user', parts: [{ text: combinedSystemPrompt }] },
         ...history.slice(-4).map(h => ({
@@ -132,7 +195,7 @@ Location Context: ${town || 'Ireland'}
         if (rawJson) {
           try {
             const parsed = JSON.parse(rawJson);
-            return res.status(200).json({ success: true, persona: activePersona.key, data: parsed });
+            return res.status(200).json({ success: true, persona: activePersona.key, data: parsed, provider: 'gemini' });
           } catch (e) {
             console.error('JSON parse error in voice-advisor:', e);
           }

@@ -3389,6 +3389,8 @@ body {
   max-width: 100%;
   margin: 0 auto 20px auto;
   box-sizing: border-box;
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
 }
 
 .hero-secondary-badge-row::-webkit-scrollbar {
@@ -3399,16 +3401,18 @@ body {
   .hero-secondary-badge-row {
     justify-content: flex-start !important;
     padding-left: 1rem !important;
-    padding-right: 1.25rem !important;
+    padding-right: 2rem !important;
     scroll-snap-type: x mandatory !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    mask-image: linear-gradient(to right, black 85%, transparent 100%) !important;
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%) !important;
   }
   .hero-secondary-badge-row::after {
     content: '' !important;
     display: block !important;
-    min-width: 1.25rem !important;
-    width: 1.25rem !important;
+    min-width: 1.5rem !important;
+    width: 1.5rem !important;
     flex-shrink: 0 !important;
   }
   .hero-secondary-badge-row .badge-pill {
@@ -3417,7 +3421,7 @@ body {
     white-space: nowrap !important;
   }
   .hero-secondary-badge-row .badge-pill:last-child {
-    margin-right: 1.25rem !important;
+    margin-right: 1.5rem !important;
   }
 }
 
@@ -3726,24 +3730,117 @@ button:active,
   color: #34f5c5 !important;
 }
 
-/* 5. Radial Floating Action Hub (Integrated Single Floating Hub Above Dock) */
-.fab-radial-container {
-  position: fixed;
-  right: 18px;
-  bottom: calc(84px + env(safe-area-inset-bottom, 20px));
-  z-index: 1050;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
-  will-change: transform, opacity;
-  pointer-events: auto;
+/* ==========================================================================
+   ROLE SELECTOR VS. ASK AOIFE EQUALIZATION (SCREEN 12)
+   ========================================================================== */
+.simulator-action-bar {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin-top: 14px !important;
+  box-sizing: border-box !important;
 }
 
-/* Smart Momentum Hide */
+.simulator-action-bar > * {
+  height: 100% !important;
+  min-height: 56px !important;
+  box-sizing: border-box !important;
+  border-radius: 14px !important;
+  margin: 0 !important;
+}
+
+.simulator-action-bar .btn-sim-voice-ai {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.26) 0%, rgba(5, 150, 105, 0.18) 100%) !important;
+  border: 1.5px solid #10b981 !important;
+  color: #34f5c5 !important;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.22) !important;
+  font-size: 0.85rem !important;
+  font-weight: 800 !important;
+  padding: 10px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  line-height: 1.25 !important;
+  cursor: pointer !important;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.simulator-action-bar .btn-sim-voice-ai:hover {
+  background: linear-gradient(135deg, rgba(52, 245, 197, 0.35) 0%, rgba(16, 185, 129, 0.28) 100%) !important;
+  box-shadow: 0 6px 20px rgba(52, 245, 197, 0.35) !important;
+  transform: translateY(-1px) !important;
+}
+
+.simulator-action-bar .modal-reopen-item {
+  background: rgba(11, 26, 20, 0.78) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1.5px solid rgba(52, 245, 197, 0.35) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+  font-size: 0.85rem !important;
+  padding: 10px 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease !important;
+}
+
+.simulator-action-bar .modal-reopen-item:hover {
+  border-color: #34f5c5 !important;
+  background: rgba(16, 185, 129, 0.16) !important;
+  transform: translateY(-1px) !important;
+}
+
+@media (max-width: 520px) {
+  .simulator-action-bar {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+  .simulator-action-bar .btn-sim-voice-ai,
+  .simulator-action-bar .modal-reopen-item {
+    padding: 8px 8px !important;
+    font-size: 0.74rem !important;
+    min-height: 52px !important;
+  }
+  .simulator-action-bar .btn-sim-voice-ai span#simVoiceCtaText {
+    font-size: 0.74rem !important;
+    line-height: 1.2 !important;
+  }
+  .simulator-action-bar .modal-reopen-item div > div {
+    font-size: 0.76rem !important;
+  }
+  .simulator-action-bar .modal-reopen-item .option-desc {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* 5. Radial Floating Action Hub (Integrated Single Floating Hub Above Dock) */
+.fab-radial-container {
+  position: fixed !important;
+  right: 18px !important;
+  bottom: calc(78px + env(safe-area-inset-bottom, 18px)) !important;
+  z-index: 1050 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  opacity: 1 !important;
+  transform: translateZ(0) !important;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease !important;
+  will-change: transform, opacity !important;
+  pointer-events: auto !important;
+}
+
+/* Smart Momentum Hide on Fast Downward Scroll or Full-Screen Modals */
 .fab-radial-container.scroll-hidden,
-.fab-radial-container.context-suppressed {
-  transform: translateY(120px) scale(0.9) !important;
+body.floating-widgets-hidden .fab-radial-container {
+  transform: translateY(110px) scale(0.9) !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
@@ -3898,6 +3995,10 @@ button:active,
   }
 }
 
-
-
-
+/* Mobile-Exclusive: Hide Radial FAB and Backdrop on Desktop Viewports */
+@media (min-width: 769px) {
+  .fab-radial-container,
+  .fab-backdrop {
+    display: none !important;
+  }
+}

@@ -1360,7 +1360,6 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
       const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
       const floatingActionsRow = document.querySelector('.floating-actions-bar');
-      const fabContainer = document.getElementById('fabRadialContainer');
 
       [floatingWa, floatingVoice, floatingActionsRow].forEach(el => {
         if (!el) return;
@@ -1370,10 +1369,6 @@ if (!document.getElementById('esh-side-tab-toggle')) {
         el.style.setProperty('transform', 'translateY(120px)', 'important');
         el.style.setProperty('pointer-events', 'none', 'important');
       });
-
-      if (fabContainer && !fabContainer.classList.contains('is-open')) {
-        fabContainer.classList.add('scroll-hidden');
-      }
     }
 
     function showTriggers() {
@@ -1387,7 +1382,6 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
       const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
       const floatingActionsRow = document.querySelector('.floating-actions-bar');
-      const fabContainer = document.getElementById('fabRadialContainer');
 
       [floatingWa, floatingVoice, floatingActionsRow].forEach(el => {
         if (!el || el.classList.contains('contextual-suppressed')) return;
@@ -1397,10 +1391,6 @@ if (!document.getElementById('esh-side-tab-toggle')) {
         el.style.removeProperty('transform');
         el.style.removeProperty('pointer-events');
       });
-
-      if (fabContainer && !fabContainer.classList.contains('context-suppressed')) {
-        fabContainer.classList.remove('scroll-hidden');
-      }
     }
 
     function onScroll() {
@@ -1417,6 +1407,19 @@ if (!document.getElementById('esh-side-tab-toggle')) {
           const isScrollFloor = (winHeight + currentScrollY) >= (docHeight - 40);
           const isHeroZone = currentScrollY < HERO_SUPPRESSION_THRESHOLD;
 
+          // 1. Independent Mobile Radial FAB Momentum Controller
+          const fabContainer = document.getElementById('fabRadialContainer');
+          if (fabContainer && !fabContainer.classList.contains('is-open')) {
+            if (delta > 20) {
+              // Rapid downward flick: tuck FAB slightly
+              fabContainer.classList.add('scroll-hidden');
+            } else if (delta < -4 || isScrollFloor) {
+              // Gentle upscroll or bottom of page: reveal FAB
+              fabContainer.classList.remove('scroll-hidden');
+            }
+          }
+
+          // 2. Legacy Floating Pills Controller
           if (isHeroZone) {
             isScrollingDown = false;
             hideTriggers();
@@ -1426,7 +1429,9 @@ if (!document.getElementById('esh-side-tab-toggle')) {
             if (scrollStopTimer) clearTimeout(scrollStopTimer);
             scrollStopTimer = setTimeout(() => {
               isScrollingDown = false;
-            }, 350);
+              const fab = document.getElementById('fabRadialContainer');
+              if (fab) fab.classList.remove('scroll-hidden');
+            }, 300);
             hideTriggers();
           } else if (delta < -SCROLL_DELTA_THRESHOLD) {
             // Scrolling up past hero: reveal if outside interactive modules
@@ -1468,7 +1473,6 @@ if (!document.getElementById('esh-side-tab-toggle')) {
         const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
         const floatingBar = document.querySelector('.floating-actions-bar');
         const inlineVoiceBtn = document.getElementById('btn-dossier-ask-aoife') || document.querySelector('.btn-inline-ask-aoife') || document.getElementById('simVoiceCtaBtn');
-        const fabContainer = document.getElementById('fabRadialContainer');
 
         if (entry.isIntersecting && entry.intersectionRatio >= 0.15) {
           activeIntersectingModules.add(entry.target);
@@ -1480,9 +1484,6 @@ if (!document.getElementById('esh-side-tab-toggle')) {
             el.style.setProperty('transform', 'translateY(120px)', 'important');
             el.style.setProperty('pointer-events', 'none', 'important');
           });
-          if (fabContainer && !fabContainer.classList.contains('is-open')) {
-            fabContainer.classList.add('context-suppressed');
-          }
           if (inlineVoiceBtn) inlineVoiceBtn.classList.add('cta-spotlight');
         } else {
           activeIntersectingModules.delete(entry.target);
@@ -1494,9 +1495,6 @@ if (!document.getElementById('esh-side-tab-toggle')) {
                 if (!el) return;
                 el.classList.remove('contextual-suppressed');
               });
-              if (fabContainer) {
-                fabContainer.classList.remove('context-suppressed');
-              }
               if (inlineVoiceBtn) inlineVoiceBtn.classList.remove('cta-spotlight');
             }
           }
@@ -1552,6 +1550,9 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     const btnAoife = document.getElementById('fabActionAoife');
 
     if (!container || !triggerBtn) return;
+
+    // Ensure FAB is active, visible, and interactive
+    container.classList.remove('scroll-hidden', 'context-suppressed');
 
     function openFab() {
       container.classList.add('is-open');
