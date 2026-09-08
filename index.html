@@ -380,18 +380,24 @@
       </div>
     </div>
 
-    <!-- 📱 MOBILE TOP MENU SLIDER (Touch-Optimized Horizontal Tool Strip) -->
+    <!-- 📱 MOBILE TOP MENU SLIDER (Touch-Optimized Collapsible Tool Strip) -->
+    <div class="mobile-tools-toggle-bar" id="mobileToolsToggleBar">
+      <button type="button" class="mobile-tools-toggle-btn" id="mobileToolsToggleBtn" onclick="window.toggleMobileToolsSlider()" aria-expanded="false" aria-controls="mobileTopMenuSlider">
+        <span class="tools-toggle-title">⚡ Quick Tools (12)</span>
+        <span class="tools-toggle-chevron">▾</span>
+      </button>
+    </div>
     <nav class="mobile-top-menu-slider" id="mobileTopMenuSlider" aria-label="Mobile Quick Tools Navigation">
       <a href="/digital-twin/" class="mobile-nav-slider-chip" data-tool="digital-twin">🏡 Digital Twin</a>
       <a href="/quote-auditor/" class="mobile-nav-slider-chip" data-tool="quote-auditor">🛡️ Quote Auditor</a>
-      <a href="#county-solar-map" class="mobile-nav-slider-chip" data-tool="solar">☀️ Solar PV</a>
-      <a href="#carbon-tax-war-room" class="mobile-nav-slider-chip" data-tool="carbon-tax">⚡ Carbon Tax</a>
-      <a href="#green-mortgage-ticker" class="mobile-nav-slider-chip" data-tool="green-mortgage">🏛️ Green Mortgage</a>
+      <a href="/solar/" class="mobile-nav-slider-chip" data-tool="solar">☀️ Solar PV</a>
+      <a href="/carbon-tax/" class="mobile-nav-slider-chip" data-tool="carbon-tax">⚡ Carbon Tax</a>
+      <a href="/green-mortgage/" class="mobile-nav-slider-chip" data-tool="green-mortgage">🏛️ Green Mortgage</a>
       <a href="/roadmap/" class="mobile-nav-slider-chip" data-tool="roadmap">📄 Roadmap PDF</a>
       <a href="/locations/" class="mobile-nav-slider-chip" data-tool="locations">📍 Towns Hub</a>
       <a href="/contractors/" class="mobile-nav-slider-chip" data-tool="contractors">👔 For Installers</a>
-      <a href="#grant-matrix-calculator" class="mobile-nav-slider-chip" data-tool="grant-matrix">⚖️ Grants Matrix</a>
-      <a href="#transformation-slider" class="mobile-nav-slider-chip" data-tool="transformation">📐 Transformation</a>
+      <a href="/ber-matrix/" class="mobile-nav-slider-chip" data-tool="grant-matrix">⚖️ Grants Matrix</a>
+      <a href="/digital-twin/" class="mobile-nav-slider-chip" data-tool="transformation">📐 Transformation</a>
       <a href="/pricing/" class="mobile-nav-slider-chip" data-tool="pricing">🏷️ Pricing</a>
       <a href="/checkout/?tier=survey&price=149" class="mobile-nav-slider-chip cta-chip" data-tool="checkout">💳 Book Survey</a>
     </nav>

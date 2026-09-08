@@ -7,7 +7,7 @@
   <meta name="description" content="Exclusive SEAI registered contractor lead claim portal. Unlock pre-assessed homeowner contact and technical dossier.">
   <link rel="canonical" href="https://www.ecosmarthomes.ie/claim-lead.html">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="/css/smart-nav.css?v=7">
+  <link rel="stylesheet" href="/css/smart-nav.css?v=14">
 
   <style>
     .lead-hero {
@@ -16,19 +16,33 @@
       padding: 60px 20px 40px 20px;
       text-align: center;
       position: relative;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(52, 245, 197, 0.15);
     }
-    .lead-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.07); }
-    .locked-blur { filter: blur(4px); user-select: none; }
-    .stat-pill { background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; text-align: center; }
-    .stat-pill-val { font-size: 1.4rem; font-weight: 800; color: #003f2d; }
-    .stat-pill-lbl { font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 700; }
+    .lead-card {
+      background: rgba(0, 36, 27, 0.85);
+      border: 1px solid rgba(52, 245, 197, 0.2);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .locked-blur { filter: blur(5px); user-select: none; color: #94a3b8; }
+    .stat-pill {
+      background: rgba(0, 23, 17, 0.7);
+      border: 1px solid rgba(52, 245, 197, 0.18);
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .stat-pill-val { font-size: 1.4rem; font-weight: 800; color: #ffffff; }
+    .stat-pill-lbl { font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-top: 4px; }
   </style>
 </head>
-<body style="background: #f8fafc; color: #1e293b;">
+<body style="background: #001711; color: #f1f5f9; min-height: 100vh; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">
 
   <!-- Header -->
-  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(52, 245, 197, 0.15); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
     <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
       <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
         <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong> <span style="font-size: 0.75rem; background: rgba(52,245,197,0.2); color: #34f5c5; border: 1px solid rgba(52,245,197,0.3); padding: 2px 8px; border-radius: 12px; font-weight: 700;">CONTRACTOR DISPATCH</span>
@@ -45,9 +59,9 @@
     <div class="container" style="max-width: 900px;">
       
       <!-- Lead Controls Toolbar -->
-      <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 0.85rem; flex-wrap: wrap; justify-content: center;">
+      <div style="background: rgba(0, 36, 27, 0.7); border: 1px solid rgba(52, 245, 197, 0.25); padding: 8px 16px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 0.85rem; flex-wrap: wrap; justify-content: center; backdrop-filter: blur(8px);">
         <span style="color: #fbbf24; font-weight: 700;">🔄 Simulation Lead Selector:</span>
-        <select id="sim-lead-selector" style="background: #00261b; color: #fff; border: 1px solid #10b981; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; outline: none; cursor: pointer;">
+        <select id="sim-lead-selector" style="background: #001711; color: #fff; border: 1px solid rgba(52, 245, 197, 0.35); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; outline: none; cursor: pointer;">
           <option value="castletroy">📍 Castletroy, Limerick (Heat Pump + Solar)</option>
           <option value="dundrum">📍 Dundrum, Dublin (Whole-Home Deep Retrofit)</option>
           <option value="douglas">📍 Douglas, Cork (Heat Pump + Attic Wrap)</option>
@@ -58,7 +72,7 @@
         </button>
       </div>
 
-      <h1 style="font-size: 2.3rem; margin: 0 0 10px 0; line-height: 1.2;">
+      <h1 style="font-size: 2.3rem; margin: 0 0 10px 0; line-height: 1.2; color: #ffffff;">
         Exclusive Homeowner Lead Dispatch
       </h1>
       <p style="font-size: 1.05rem; color: #cbd5e1; margin-bottom: 10px;">
@@ -74,13 +88,13 @@
       <div class="lead-card">
         
         <!-- Header Ribbon -->
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 245, 197, 0.15); padding-bottom: 20px; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
           <div>
-            <span id="lead-id-badge" style="background: #003f2d; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">LEAD-CASTLETROY-8821</span>
-            <h2 id="lead-town-heading" style="color: #003f2d; font-size: 1.7rem; margin: 8px 0 0 0;">Castletroy, Co. Limerick</h2>
+            <span id="lead-id-badge" style="background: rgba(52, 245, 197, 0.15); border: 1px solid rgba(52, 245, 197, 0.3); color: #34f5c5; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase;">LEAD-CASTLETROY-8821</span>
+            <h2 id="lead-town-heading" style="color: #ffffff; font-size: 1.7rem; margin: 8px 0 0 0;">Castletroy, Co. Limerick</h2>
           </div>
-          <div id="lead-status-pill" style="background: #ecfdf5; border: 1.5px solid #10b981; color: #065f46; font-weight: 800; padding: 8px 16px; border-radius: 30px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
-            <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+          <div id="lead-status-pill" style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10b981; color: #34f5c5; font-weight: 800; padding: 8px 16px; border-radius: 30px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+            <span style="width: 8px; height: 8px; background: #34f5c5; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #34f5c5;"></span>
             <span id="lead-status-text">AVAILABLE · EXCLUSIVE 1-CONTRACTOR ALLOCATION</span>
           </div>
         </div>
@@ -88,27 +102,27 @@
         <!-- Technical Diagnostic Grid -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 30px;">
           <div class="stat-pill">
-            <div id="lead-dwelling" class="stat-pill-val" style="font-size: 1.1rem;">1990s 4-Bed Semi-D</div>
+            <div id="lead-dwelling" class="stat-pill-val" style="font-size: 1.1rem; color: #ffffff;">1990s 4-Bed Semi-D</div>
             <div class="stat-pill-lbl">Property Type</div>
           </div>
           <div class="stat-pill">
-            <div id="lead-ber" class="stat-pill-val" style="color: #ea580c;">D1 ➔ A2</div>
+            <div id="lead-ber" class="stat-pill-val" style="color: #fb923c;">D1 ➔ A2</div>
             <div class="stat-pill-lbl">BER Upgrade Jump</div>
           </div>
           <div class="stat-pill">
-            <div id="lead-grant" class="stat-pill-val" style="color: #10b981;">€12,500</div>
+            <div id="lead-grant" class="stat-pill-val" style="color: #34f5c5;">€12,500</div>
             <div class="stat-pill-lbl">SEAI Grant Budget</div>
           </div>
           <div class="stat-pill">
-            <div id="lead-job-val" class="stat-pill-val">€16,500</div>
+            <div id="lead-job-val" class="stat-pill-val" style="color: #38bdf8;">€16,500</div>
             <div class="stat-pill-lbl">Est. Project Budget</div>
           </div>
         </div>
 
         <!-- Pre-Assessed Measures -->
-        <div style="background: #f8fafc; border-left: 4px solid #10b981; padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 35px;">
-          <h3 style="color: #003f2d; font-size: 1.15rem; margin: 0 0 10px 0;">🎯 Pre-Screened Scope of Works (Technical Checklist Verified):</h3>
-          <ul id="lead-measures-list" style="margin: 0; padding-left: 20px; color: #475569; font-size: 0.95rem; line-height: 1.7;">
+        <div style="background: rgba(0, 23, 17, 0.6); border: 1px solid rgba(52, 245, 197, 0.15); border-left: 4px solid #10b981; padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 35px;">
+          <h3 style="color: #34f5c5; font-size: 1.15rem; margin: 0 0 10px 0;">🎯 Pre-Screened Scope of Works (Technical Checklist Verified):</h3>
+          <ul id="lead-measures-list" style="margin: 0; padding-left: 20px; color: #cbd5e1; font-size: 0.95rem; line-height: 1.7;">
             <li><strong>Air-to-Water Heat Pump:</strong> Suitable clearance verified for standard 8kW - 12kW monobloc unit.</li>
             <li><strong>Heat Loss Index (HLI):</strong> Calculated at 1.88 W/K/m² (Pre-screened below SEAI 2.0 limit).</li>
             <li><strong>Rooftop Solar PV:</strong> 10 x 430W Panels (4.3 kWp) South-facing array.</li>
@@ -117,35 +131,35 @@
         </div>
 
         <!-- Locked vs Unlocked Homeowner Contact Box -->
-        <div id="contact-container" style="background: #fff; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 25px; margin-bottom: 25px; transition: all 0.3s ease;">
+        <div id="contact-container" style="background: rgba(0, 23, 17, 0.7); border: 2px dashed rgba(52, 245, 197, 0.3); border-radius: 16px; padding: 25px; margin-bottom: 25px; transition: all 0.3s ease;">
           
           <!-- Locked Preview State -->
           <div id="contact-locked-state">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-              <h3 style="color: #003f2d; font-size: 1.25rem; margin: 0;">🔒 Homeowner Contact Information (Locked)</h3>
+              <h3 style="color: #ffffff; font-size: 1.25rem; margin: 0;">🔒 Homeowner Contact Information (Locked)</h3>
               <div style="display: flex; align-items: center; gap: 8px;">
-                <span id="hold-timer-badge" style="background: #fee2e2; color: #991b1b; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; border: 1px solid #fca5a5;">
+                <span id="hold-timer-badge" style="background: rgba(239, 68, 68, 0.15); color: #fca5a5; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(239, 68, 68, 0.3);">
                   ⏱️ Hold Expires in <span id="hold-timer-countdown">14:59</span>
                 </span>
-                <span style="background: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;">EXCLUSIVE UNLOCK: €35</span>
+                <span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;">EXCLUSIVE UNLOCK: €35</span>
               </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; font-size: 0.95rem;">
-              <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
-                <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Homeowner Name:</span>
+              <div style="background: rgba(0, 36, 27, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 8px;">
+                <span style="color: #94a3b8; font-size: 0.8rem; display: block; font-weight: 600;">Homeowner Name:</span>
                 <span id="locked-name-preview" class="locked-blur">John O'Connor</span>
               </div>
-              <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
-                <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Direct Mobile / WhatsApp:</span>
+              <div style="background: rgba(0, 36, 27, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 8px;">
+                <span style="color: #94a3b8; font-size: 0.8rem; display: block; font-weight: 600;">Direct Mobile / WhatsApp:</span>
                 <span id="locked-phone-preview" class="locked-blur">+353 87 123 4567</span>
               </div>
-              <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
-                <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Email Address:</span>
+              <div style="background: rgba(0, 36, 27, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 8px;">
+                <span style="color: #94a3b8; font-size: 0.8rem; display: block; font-weight: 600;">Email Address:</span>
                 <span id="locked-email-preview" class="locked-blur">john.oconnor@example.ie</span>
               </div>
-              <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
-                <span style="color: #64748b; font-size: 0.8rem; display: block; font-weight: 600;">Exact Address & Eircode:</span>
+              <div style="background: rgba(0, 36, 27, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 8px;">
+                <span style="color: #94a3b8; font-size: 0.8rem; display: block; font-weight: 600;">Exact Address & Eircode:</span>
                 <span id="locked-address-preview" class="locked-blur">14 Butterfield Close, Castletroy (V94 X7Y2)</span>
               </div>
             </div>
@@ -154,7 +168,7 @@
             <button id="claim-lead-btn" class="btn-primary" style="width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; color: #fff; font-weight: 800; padding: 16px; border-radius: 10px; font-size: 1.15rem; cursor: pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.3); display: flex; align-items: center; justify-content: center; gap: 10px;">
               <span>⚡</span> <span>Claim Exclusive Lead Now with Stripe Express (€35) →</span>
             </button>
-            <div style="display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 10px; font-size: 0.8rem; color: #64748b; flex-wrap: wrap;">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 14px; margin-top: 10px; font-size: 0.8rem; color: #94a3b8; flex-wrap: wrap;">
               <span>Pay</span>
               <span>•</span>
               <span>GPay</span>
@@ -163,7 +177,7 @@
               <span>•</span>
               <span>Instant Invoice Receipt</span>
             </div>
-            <div style="text-align: center; font-size: 0.78rem; color: #64748b; margin-top: 8px;">
+            <div style="text-align: center; font-size: 0.78rem; color: #94a3b8; margin-top: 8px;">
               🛡️ Guaranteed 100% Exclusive. Once claimed, this lead is locked to you and removed permanently.
             </div>
           </div>
@@ -171,32 +185,32 @@
           <!-- Unlocked Revealed State (Hidden by default) -->
           <div id="contact-unlocked-state" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-              <h3 style="color: #065f46; font-size: 1.3rem; margin: 0;">🎉 Homeowner Contact & Dossier Unlocked!</h3>
-              <span style="background: #10b981; color: #fff; font-size: 0.8rem; font-weight: 800; padding: 4px 12px; border-radius: 20px;">100% EXCLUSIVE ACCESS</span>
+              <h3 style="color: #34f5c5; font-size: 1.3rem; margin: 0;">🎉 Homeowner Contact & Dossier Unlocked!</h3>
+              <span style="background: #10b981; color: #001711; font-size: 0.8rem; font-weight: 800; padding: 4px 12px; border-radius: 20px;">100% EXCLUSIVE ACCESS</span>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; font-size: 0.95rem;">
-              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 8px;">
-                <span style="color: #065f46; font-size: 0.8rem; display: block; font-weight: 700;">Homeowner Name:</span>
-                <span id="unlocked-name" style="font-weight: 800; color: #00241b; font-size: 1.1rem;">John O'Connor</span>
+              <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 245, 197, 0.3); padding: 12px; border-radius: 8px;">
+                <span style="color: #34f5c5; font-size: 0.8rem; display: block; font-weight: 700;">Homeowner Name:</span>
+                <span id="unlocked-name" style="font-weight: 800; color: #ffffff; font-size: 1.1rem;">John O'Connor</span>
               </div>
-              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 8px;">
-                <span style="color: #065f46; font-size: 0.8rem; display: block; font-weight: 700;">Direct Phone:</span>
-                <span id="unlocked-phone" style="font-weight: 800; color: #00241b; font-size: 1.1rem;">+353 87 123 4567</span>
+              <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 245, 197, 0.3); padding: 12px; border-radius: 8px;">
+                <span style="color: #34f5c5; font-size: 0.8rem; display: block; font-weight: 700;">Direct Phone:</span>
+                <span id="unlocked-phone" style="font-weight: 800; color: #ffffff; font-size: 1.1rem;">+353 87 123 4567</span>
               </div>
-              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 8px;">
-                <span style="color: #065f46; font-size: 0.8rem; display: block; font-weight: 700;">Email:</span>
-                <span id="unlocked-email" style="font-weight: 700; color: #00241b;">john.oconnor@munsterhome.ie</span>
+              <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 245, 197, 0.3); padding: 12px; border-radius: 8px;">
+                <span style="color: #34f5c5; font-size: 0.8rem; display: block; font-weight: 700;">Email:</span>
+                <span id="unlocked-email" style="font-weight: 700; color: #ffffff;">john.oconnor@munsterhome.ie</span>
               </div>
-              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 8px;">
-                <span style="color: #065f46; font-size: 0.8rem; display: block; font-weight: 700;">Full Address & Eircode:</span>
-                <span id="unlocked-address" style="font-weight: 700; color: #00241b;">14 Butterfield Close, Castletroy, Limerick (V94 X7Y2)</span>
+              <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 245, 197, 0.3); padding: 12px; border-radius: 8px;">
+                <span style="color: #34f5c5; font-size: 0.8rem; display: block; font-weight: 700;">Full Address & Eircode:</span>
+                <span id="unlocked-address" style="font-weight: 700; color: #ffffff;">14 Butterfield Close, Castletroy, Limerick (V94 X7Y2)</span>
               </div>
             </div>
 
             <!-- Direct 1-Click Contractor Actions -->
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-              <a id="unlocked-call-btn" href="tel:+353839662197" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #003f2d; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 700;">
+              <a id="unlocked-call-btn" href="tel:+353839662197" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #004d38; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 700; border: 1px solid rgba(52, 245, 197, 0.3);">
                 📞 Call Homeowner Now
               </a>
               <a id="unlocked-wa-btn" href="https://wa.me/353839662197" target="_blank" rel="noopener" class="btn-primary" style="flex: 1; min-width: 180px; text-align: center; background: #25d366; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 800;">
@@ -217,7 +231,7 @@
   </main>
 
   <!-- Footer -->
-  <footer style="background: #00261b; color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.85rem;">
+  <footer style="background: #00120d; border-top: 1px solid rgba(52, 245, 197, 0.1); color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.85rem;">
     <div class="container">
       <p style="color: #fff; font-weight: 700; margin-bottom: 6px;">EcoSmartHomes Ireland · B2B Contractor Lead Marketplace</p>
       <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
@@ -334,12 +348,12 @@
       // Reset locked view
       document.getElementById('contact-locked-state').style.display = 'block';
       document.getElementById('contact-unlocked-state').style.display = 'none';
-      document.getElementById('contact-container').style.border = '2px dashed #cbd5e1';
-      document.getElementById('contact-container').style.background = '#fff';
+      document.getElementById('contact-container').style.border = '2px dashed rgba(52, 245, 197, 0.3)';
+      document.getElementById('contact-container').style.background = 'rgba(0, 23, 17, 0.7)';
 
-      document.getElementById('lead-status-pill').style.background = '#ecfdf5';
+      document.getElementById('lead-status-pill').style.background = 'rgba(16, 185, 129, 0.15)';
       document.getElementById('lead-status-pill').style.borderColor = '#10b981';
-      document.getElementById('lead-status-pill').style.color = '#065f46';
+      document.getElementById('lead-status-pill').style.color = '#34f5c5';
       document.getElementById('lead-status-text').textContent = 'AVAILABLE · EXCLUSIVE 1-CONTRACTOR ALLOCATION';
     }
 
@@ -413,19 +427,21 @@
         document.getElementById('contact-locked-state').style.display = 'none';
         document.getElementById('contact-unlocked-state').style.display = 'block';
         document.getElementById('contact-container').style.border = '2px solid #10b981';
-        document.getElementById('contact-container').style.background = '#f0fdf4';
+        document.getElementById('contact-container').style.background = 'rgba(16, 185, 129, 0.12)';
 
-        document.getElementById('lead-status-pill').style.background = '#fef2f2';
+        document.getElementById('lead-status-pill').style.background = 'rgba(239, 68, 68, 0.2)';
         document.getElementById('lead-status-pill').style.borderColor = '#ef4444';
+        document.getElementById('lead-status-pill').style.color = '#fca5a5';
+        document.getElementById('lead-status-text').textContent = 'CLAIMED · LOCKED EXCLUSIVELY TO YOUR ACCOUNT';
       } catch (err) {
         document.getElementById('contact-locked-state').style.display = 'none';
         document.getElementById('contact-unlocked-state').style.display = 'block';
         document.getElementById('contact-container').style.border = '2px solid #10b981';
-        document.getElementById('contact-container').style.background = '#f0fdf4';
+        document.getElementById('contact-container').style.background = 'rgba(16, 185, 129, 0.12)';
 
-        document.getElementById('lead-status-pill').style.background = '#fef2f2';
+        document.getElementById('lead-status-pill').style.background = 'rgba(239, 68, 68, 0.2)';
         document.getElementById('lead-status-pill').style.borderColor = '#ef4444';
-        document.getElementById('lead-status-pill').style.color = '#991b1b';
+        document.getElementById('lead-status-pill').style.color = '#fca5a5';
         document.getElementById('lead-status-text').textContent = 'CLAIMED · LOCKED EXCLUSIVELY TO YOUR ACCOUNT';
       } finally {
         btn.disabled = false;

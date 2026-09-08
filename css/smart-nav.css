@@ -2361,9 +2361,52 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
     display: none !important;
   }
 
-  /* Dedicated Touch-Optimized Mobile Top Menu Slider */
-  .mobile-top-menu-slider {
+  /* Dedicated Touch-Optimized Mobile Tools Toggle Bar */
+  .mobile-tools-toggle-bar {
     display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 5px 12px !important;
+    background: rgba(0, 20, 15, 0.98) !important;
+    border-top: 1px solid rgba(52, 245, 197, 0.12) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .mobile-tools-toggle-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 4px 14px !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    color: #34f5c5 !important;
+    background: rgba(52, 245, 197, 0.08) !important;
+    border: 1px solid rgba(52, 245, 197, 0.25) !important;
+    border-radius: 9999px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    letter-spacing: 0.02em !important;
+    user-select: none !important;
+    font-family: inherit !important;
+  }
+
+  .mobile-tools-toggle-btn:hover,
+  .mobile-tools-toggle-btn:active,
+  .mobile-tools-toggle-btn.active {
+    background: rgba(52, 245, 197, 0.2) !important;
+    border-color: #34f5c5 !important;
+    box-shadow: 0 0 10px rgba(52, 245, 197, 0.3) !important;
+  }
+
+  .tools-toggle-chevron {
+    font-size: 0.75rem !important;
+    transition: transform 0.25s ease !important;
+  }
+
+  /* Dedicated Touch-Optimized Mobile Top Menu Slider (Collapsible) */
+  .mobile-top-menu-slider {
+    display: none !important;
     align-items: center !important;
     gap: 8px !important;
     width: 100% !important;
@@ -2371,7 +2414,9 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
     overflow-y: hidden !important;
     white-space: nowrap !important;
     -webkit-overflow-scrolling: touch !important;
-    padding: 6px 12px 8px 12px !important;
+    padding: 0 12px !important;
+    max-height: 0 !important;
+    opacity: 0 !important;
     background: rgba(0, 20, 15, 0.98) !important;
     border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
     border-bottom: 1px solid rgba(52, 245, 197, 0.15) !important;
@@ -2379,6 +2424,14 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
     scrollbar-width: thin !important;
     scrollbar-color: #34f5c5 rgba(255, 255, 255, 0.1) !important;
     position: relative !important;
+    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, padding 0.3s ease !important;
+  }
+
+  .mobile-top-menu-slider.is-open {
+    display: flex !important;
+    max-height: 60px !important;
+    opacity: 1 !important;
+    padding: 6px 12px 8px 12px !important;
   }
 
   /* Tactile Slider Scrollbar matching Image 2 */
@@ -2562,10 +2615,66 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
   #esh-mobile-tool-sheet,
   #esh-mobile-dock,
   .mobile-app-bottom-dock,
-  .mobile-persona-dropdown-wrapper {
+  .mobile-persona-dropdown-wrapper,
+  #mobileToolsToggleBar,
+  .mobile-tools-toggle-bar,
+  #mobileTopMenuSlider,
+  .mobile-top-menu-slider {
     display: none !important;
     visibility: hidden !important;
     pointer-events: none !important;
+  }
+}
+
+/* Landscape Mobile Viewport Optimization (Compact Native-Grade View) */
+@media (orientation: landscape) and (max-height: 520px) {
+  .main-nav-bar {
+    padding: 3px 0 0 0 !important;
+  }
+  .nav-inner {
+    padding: 0 8px 3px 8px !important;
+  }
+  .persona-scroll-track {
+    gap: 4px !important;
+  }
+  .persona-pill, .persona-chip {
+    padding: 3px 8px !important;
+    font-size: 0.68rem !important;
+  }
+  .mobile-tools-toggle-bar {
+    padding: 2px 8px !important;
+  }
+  .mobile-tools-toggle-btn {
+    padding: 2px 10px !important;
+    font-size: 0.65rem !important;
+  }
+  .mobile-top-menu-slider.is-open {
+    padding: 4px 8px 6px 8px !important;
+    max-height: 46px !important;
+  }
+  .mobile-nav-slider-chip {
+    padding: 3px 8px !important;
+    font-size: 0.68rem !important;
+  }
+  .mobile-app-bottom-dock {
+    height: 50px !important;
+    padding: 2px 12px !important;
+  }
+  .dock-item {
+    font-size: 0.65rem !important;
+    gap: 1px !important;
+  }
+  .dock-icon {
+    font-size: 1.1rem !important;
+  }
+  .dock-fab-center {
+    width: 44px !important;
+    height: 44px !important;
+    margin-top: -18px !important;
+    font-size: 1.2rem !important;
+  }
+  body {
+    padding-bottom: 60px !important;
   }
 }
 

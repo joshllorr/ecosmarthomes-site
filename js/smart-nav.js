@@ -210,7 +210,7 @@
     }
 
     // Toggle Wizard Views on Persona Switch
-    const homeownerWizard = document.getElementById('wallet-rescue-wizard');
+    const homeownerWizard = document.getElementById('carbon-tax-war-room') || document.getElementById('wallet-rescue-wizard');
     const agentWizard = document.getElementById('agent-rescue-wizard');
     const installerWizard = document.getElementById('installer-rescue-wizard');
 
@@ -222,18 +222,32 @@
     if (personaKey === 'installer') {
       if (installerWizard) {
         installerWizard.style.display = 'block';
-        updateInstallerComplianceMatrix();
+        installerWizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (typeof updateInstallerComplianceMatrix === 'function') {
+          updateInstallerComplianceMatrix();
+        }
       }
     } else if (personaKey === 'agent') {
       if (agentWizard) {
         agentWizard.style.display = 'block';
+        agentWizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
         if (typeof updateAgentSurgeCalculations === 'function') {
           updateAgentSurgeCalculations();
         }
       }
-    } else {
+    } else if (personaKey === 'all') {
       if (homeownerWizard) homeownerWizard.style.display = 'block';
+      if (agentWizard) agentWizard.style.display = 'block';
+      if (installerWizard) installerWizard.style.display = 'block';
+    } else {
+      if (homeownerWizard) {
+        homeownerWizard.style.display = 'block';
+        if (window._personaInitialized) {
+          homeownerWizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
     }
+    window._personaInitialized = true;
 
     // Synchronize Voice AI Advisor Persona (Aoife vs Eimear vs Declan)
     if (typeof window.setVoicePersona === 'function') {
@@ -1034,6 +1048,22 @@ if (!document.getElementById('esh-side-tab-toggle')) {
   // ==========================================================================
   // MOBILE TOP MENU SLIDER CONTROLLER (SITE-WIDE SYNC)
   // ==========================================================================
+  window.toggleMobileToolsSlider = function() {
+    triggerHaptic(8);
+    const slider = document.getElementById('mobileTopMenuSlider');
+    const btn = document.getElementById('mobileToolsToggleBtn');
+    if (!slider) return;
+    const isOpen = slider.classList.toggle('is-open');
+    if (btn) {
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      const chevron = btn.querySelector('.tools-toggle-chevron');
+      if (chevron) {
+        chevron.textContent = isOpen ? '▴' : '▾';
+      }
+      btn.classList.toggle('active', isOpen);
+    }
+  };
+
   function initMobileTopMenuSlider() {
     const header = document.querySelector('.main-nav-bar') || document.querySelector('.header');
     if (!header) return;
@@ -1045,17 +1075,35 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     const tools = [
       { id: 'digital-twin', label: '🏡 Digital Twin', href: '/digital-twin/' },
       { id: 'quote-auditor', label: '🛡️ Quote Auditor', href: '/quote-auditor/' },
-      { id: 'solar', label: '☀️ Solar PV', href: isHome ? '#county-solar-map' : '/solar/' },
+      { id: 'solar', label: '☀️ Solar PV', href: '/solar/' },
       { id: 'carbon-tax', label: '⚡ Carbon Tax', href: isHome ? '#carbon-tax-war-room' : '/carbon-tax/' },
       { id: 'green-mortgage', label: '🏛️ Green Mortgage', href: isHome ? '#green-mortgage-ticker' : '/green-mortgage/' },
       { id: 'roadmap', label: '📄 Roadmap PDF', href: '/roadmap/' },
       { id: 'locations', label: '📍 Towns Hub', href: '/locations/' },
       { id: 'contractors', label: '👔 For Installers', href: '/contractors/' },
-      { id: 'grant-matrix', label: '⚖️ Grants Matrix', href: isHome ? '#grant-matrix-calculator' : '/#grant-matrix-calculator' },
-      { id: 'transformation', label: '📐 Transformation', href: isHome ? '#transformation-slider' : '/#transformation-slider' },
+      { id: 'grant-matrix', label: '⚖️ Grants Matrix', href: '/ber-matrix/' },
+      { id: 'transformation', label: '📐 Transformation', href: '/digital-twin/' },
       { id: 'pricing', label: '🏷️ Pricing', href: '/pricing/' },
       { id: 'checkout', label: '💳 Book Survey', href: '/checkout/?tier=survey&price=149', isCta: true }
     ];
+
+    let toggleBar = document.getElementById('mobileToolsToggleBar');
+    if (!toggleBar) {
+      toggleBar = document.createElement('div');
+      toggleBar.id = 'mobileToolsToggleBar';
+      toggleBar.className = 'mobile-tools-toggle-bar';
+      toggleBar.innerHTML = `
+        <button type="button" class="mobile-tools-toggle-btn" id="mobileToolsToggleBtn" onclick="window.toggleMobileToolsSlider()" aria-expanded="false" aria-controls="mobileTopMenuSlider">
+          <span class="tools-toggle-title">⚡ Quick Tools (12)</span>
+          <span class="tools-toggle-chevron">▾</span>
+        </button>
+      `;
+      if (slider) {
+        slider.parentNode.insertBefore(toggleBar, slider);
+      } else {
+        header.appendChild(toggleBar);
+      }
+    }
 
     if (!slider) {
       slider = document.createElement('nav');
@@ -1195,8 +1243,14 @@ if (!document.getElementById('esh-side-tab-toggle')) {
   window.onMobileDockHome = function() {
     triggerHaptic(8);
     setDockActiveItem(0);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    window.setPersona('homeowner');
+    const path = (window.location.pathname || '').toLowerCase();
+    const isHome = path === '/' || path === '/index.html' || path === '';
+    if (!isHome) {
+      window.location.href = '/';
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.setPersona('homeowner');
+    }
   };
 
   window.onMobileDockProfiles = function() {
@@ -1205,17 +1259,30 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     if (typeof window.openPersonaPickerModal === 'function') {
       window.openPersonaPickerModal();
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      const panel = document.getElementById('mobile-persona-dropdown-panel');
-      if (panel) panel.classList.add('open');
+      const path = (window.location.pathname || '').toLowerCase();
+      const isHome = path === '/' || path === '/index.html' || path === '';
+      if (!isHome) {
+        window.location.href = '/#mobile-persona-dropdown-panel';
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const panel = document.getElementById('mobile-persona-dropdown-panel');
+        if (panel) {
+          panel.style.display = 'flex';
+          panel.classList.add('open');
+        }
+      }
     }
   };
 
   window.onMobileDockShield = function() {
     triggerHaptic(12);
-    const wizard = document.getElementById('wallet-rescue-wizard') || document.getElementById('carbon-tax-war-room');
+    const path = (window.location.pathname || '').toLowerCase();
+    const isHome = path === '/' || path === '/index.html' || path === '';
+    const wizard = document.getElementById('carbon-tax-war-room') || document.getElementById('wallet-rescue-wizard');
     if (wizard) {
       wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.location.href = '/#carbon-tax-war-room';
     }
   };
 

@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://www.ecosmarthomes.ie/carbon-tax/">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="/css/whatsapp-widget.css">
-  <link rel="stylesheet" href="/css/smart-nav.css?v=7">
+  <link rel="stylesheet" href="/css/smart-nav.css?v=14">
 
   <style>
     .tax-hero {
@@ -17,9 +17,17 @@
       padding: 70px 20px 50px 20px;
       text-align: center;
       position: relative;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(52, 245, 197, 0.15);
     }
-    .tax-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.07); }
+    .tax-box {
+      background: rgba(0, 36, 27, 0.85);
+      border: 1px solid rgba(52, 245, 197, 0.2);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
     
     /* Live National Ticker */
     .national-ticker-bar {
@@ -64,8 +72,8 @@
       .escalator-grid { grid-template-columns: repeat(2, 1fr); }
     }
     .escalator-cell {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: rgba(0, 23, 17, 0.7);
+      border: 1px solid rgba(52, 245, 197, 0.18);
       border-radius: 12px;
       padding: 14px 10px;
       text-align: center;
@@ -73,15 +81,26 @@
     }
     .escalator-cell:hover { transform: translateY(-3px); }
     .escalator-cell.target-2030 {
-      background: #fef2f2;
+      background: rgba(239, 68, 68, 0.15);
       border: 2px solid #ef4444;
     }
-    .cell-yr { font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; }
-    .cell-val { font-size: 1.3rem; font-weight: 800; color: #dc2626; margin: 4px 0; }
-    .cell-rate { font-size: 0.72rem; color: #94a3b8; font-weight: 600; }
+    .cell-yr { font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; }
+    .cell-val { font-size: 1.3rem; font-weight: 800; color: #f87171; margin: 4px 0; }
+    .cell-rate { font-size: 0.72rem; color: #cbd5e1; font-weight: 600; }
+
+    @media (max-width: 768px) {
+      .tax-box {
+        padding: 20px 14px;
+        border-radius: 14px;
+      }
+      .tax-grid-responsive {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+    }
   </style>
 </head>
-<body style="background: #f8fafc; color: #1e293b;">
+<body style="background: #001711; color: #f1f5f9; min-height: 100vh; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">
 
   <!-- Top Notification Telemetry -->
   <aside class="top-bar-custom" aria-label="Regulatory live updates" style="background: #00120d; color: #94a3b8; padding: 7px 0; font-size: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.06);">
@@ -97,7 +116,7 @@
   </aside>
 
   <!-- Header -->
-  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(52, 245, 197, 0.15); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
     <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
       <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
         <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong>
@@ -138,15 +157,15 @@
       
       <div class="tax-box">
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 35px; margin-bottom: 35px;">
+        <div class="tax-grid-responsive" style="display: grid; grid-template-columns: 1fr 1fr; gap: 35px; margin-bottom: 35px;">
           
           <!-- Left Column: Inputs -->
           <div>
-            <h2 style="color: #003f2d; font-size: 1.4rem; margin: 0 0 16px 0;">1. Select Your Heating Fuel & Usage</h2>
+            <h2 style="color: #ffffff; font-size: 1.4rem; margin: 0 0 16px 0;">1. Select Your Heating Fuel & Usage</h2>
             
             <div style="margin-bottom: 20px;">
-              <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.9rem; margin-bottom: 6px;">Current Primary Heating Fuel:</label>
-              <select id="tax-fuel-type" style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;">
+              <label style="display: block; font-weight: 700; color: #34f5c5; font-size: 0.9rem; margin-bottom: 6px;">Current Primary Heating Fuel:</label>
+              <select id="tax-fuel-type" style="width: 100%; padding: 10px 12px; background: #001711; color: #fff; border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 8px; font-size: 0.95rem; outline: none;">
                 <option value="oil" selected>🛢️ Kerosene Home Heating Oil</option>
                 <option value="gas">💨 Mains Natural Gas</option>
                 <option value="lpg">⚡ Bulk LPG Tank</option>
@@ -156,20 +175,20 @@
 
             <div style="margin-bottom: 25px;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <label id="tax-slider-label" style="font-weight: 700; color: #003f2d; font-size: 0.9rem;">Annual Fuel Consumption (Litres):</label>
+                <label id="tax-slider-label" style="font-weight: 700; color: #34f5c5; font-size: 0.9rem;">Annual Fuel Consumption (Litres):</label>
                 <span id="tax-volume-display" style="background: #ef4444; color: #fff; font-weight: 800; padding: 3px 10px; border-radius: 20px; font-size: 0.85rem;">1,800 Litres/year</span>
               </div>
               <input type="range" id="tax-volume-slider" min="500" max="4000" step="100" value="1800" style="width: 100%; cursor: pointer;" />
-              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-top: 4px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8; margin-top: 4px;">
                 <span>Low (500L)</span>
                 <span>Average (1,800L)</span>
                 <span>High (4,000L)</span>
               </div>
             </div>
 
-            <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 16px; border-radius: 0 10px 10px 0;">
-              <div style="font-weight: 800; color: #991b1b; font-size: 0.95rem; margin-bottom: 4px;">⚠️ The "Double Penalty" Rule:</div>
-              <p style="color: #7f1d1d; font-size: 0.85rem; line-height: 1.5; margin: 0;">
+            <div style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); border-left: 4px solid #ef4444; padding: 16px; border-radius: 0 10px 10px 0;">
+              <div style="font-weight: 800; color: #fca5a5; font-size: 0.95rem; margin-bottom: 4px;">⚠️ The "Double Penalty" Rule:</div>
+              <p style="color: #fecaca; font-size: 0.85rem; line-height: 1.5; margin: 0;">
                 The Irish government levies a <strong>9% VAT rate on top of the carbon tax itself</strong>. As the carbon rate rises, your VAT surcharge compounds automatically on every delivery.
               </p>
             </div>
@@ -178,10 +197,10 @@
 
           <!-- Right Column: Penalty Metrics -->
           <div>
-            <h2 style="color: #003f2d; font-size: 1.4rem; margin: 0 0 16px 0;">2. Your Household Tax Liability</h2>
+            <h2 style="color: #ffffff; font-size: 1.4rem; margin: 0 0 16px 0;">2. Your Household Tax Liability</h2>
 
             <!-- Cumulative Penalty Box -->
-            <div style="background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%); color: #fff; border-radius: 14px; padding: 22px; text-align: center; margin-bottom: 18px;">
+            <div style="background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%); color: #fff; border-radius: 14px; padding: 22px; text-align: center; margin-bottom: 18px; border: 1px solid rgba(239, 68, 68, 0.4); box-shadow: 0 10px 25px rgba(239, 68, 68, 0.25);">
               <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #fca5a5; font-weight: 700;">Cumulative Carbon Tax Penalty (2026–2030)</div>
               <div id="tax-val-cumulative" style="font-size: 2.6rem; font-weight: 800; color: #fff; margin: 4px 0;">€2,144</div>
               <div style="font-size: 0.85rem; color: #fecaca;">Pure government tax paid on fuel fills (+ 9% VAT)</div>
@@ -189,13 +208,13 @@
 
             <!-- Inaction Spend -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-              <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; text-align: center;">
-                <div id="tax-val-2026-bite" style="font-size: 1.4rem; font-weight: 800; color: #dc2626;">€354/yr</div>
-                <div style="font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 700;">2026 Annual Tax Bite</div>
+              <div style="background: rgba(0, 23, 17, 0.7); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 14px; text-align: center;">
+                <div id="tax-val-2026-bite" style="font-size: 1.4rem; font-weight: 800; color: #f87171;">€354/yr</div>
+                <div style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">2026 Annual Tax Bite</div>
               </div>
-              <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 14px; text-align: center;">
-                <div id="tax-val-2030-bite" style="font-size: 1.4rem; font-weight: 800; color: #991b1b;">€498/yr</div>
-                <div style="font-size: 0.75rem; text-transform: uppercase; color: #991b1b; font-weight: 800;">2030 Penalty (@ €100/t)</div>
+              <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 14px; text-align: center;">
+                <div id="tax-val-2030-bite" style="font-size: 1.4rem; font-weight: 800; color: #fca5a5;">€498/yr</div>
+                <div style="font-size: 0.75rem; text-transform: uppercase; color: #fca5a5; font-weight: 800;">2030 Penalty (@ €100/t)</div>
               </div>
             </div>
 
@@ -209,7 +228,7 @@
         </div>
 
         <!-- 2026-2030 Escalator Bar Grid -->
-        <h3 style="color: #003f2d; font-size: 1.25rem; margin: 30px 0 10px 0;">Year-by-Year Legislated Carbon Tax Escalator (2026–2030)</h3>
+        <h3 style="color: #ffffff; font-size: 1.25rem; margin: 30px 0 10px 0;">Year-by-Year Legislated Carbon Tax Escalator (2026–2030)</h3>
         <div class="escalator-grid">
           <div class="escalator-cell">
             <div class="cell-yr">2026 Rate</div>
@@ -232,25 +251,25 @@
             <div class="cell-rate">€93.50 / t</div>
           </div>
           <div class="escalator-cell target-2030">
-            <div class="cell-yr" style="color: #991b1b;">2030 Cap</div>
-            <div id="tax-val-2030" class="cell-val" style="color: #991b1b;">€498</div>
+            <div class="cell-yr" style="color: #fca5a5;">2030 Cap</div>
+            <div id="tax-val-2030" class="cell-val" style="color: #fca5a5;">€498</div>
             <div class="cell-rate" style="color: #ef4444; font-weight: 700;">€100.00 / t</div>
           </div>
         </div>
 
         <!-- The Solution Comparison -->
-        <div style="border-top: 1px solid #e2e8f0; padding-top: 30px; margin-top: 35px;">
-          <h3 style="color: #003f2d; font-size: 1.3rem; margin-bottom: 12px;">The Solution: The Carbon Tax Shield</h3>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
-              <h4 style="color: #991b1b; font-size: 1.05rem; margin: 0 0 8px 0;">🔴 Staying on Kerosene / Gas</h4>
-              <p style="color: #64748b; font-size: 0.9rem; line-height: 1.6; margin: 0;">
+        <div style="border-top: 1px solid rgba(52, 245, 197, 0.15); padding-top: 30px; margin-top: 35px;">
+          <h3 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 12px;">The Solution: The Carbon Tax Shield</h3>
+          <div class="tax-grid-responsive" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div style="background: rgba(239, 68, 68, 0.1); padding: 20px; border-radius: 12px; border: 1px solid rgba(239, 68, 68, 0.3);">
+              <h4 style="color: #fca5a5; font-size: 1.05rem; margin: 0 0 8px 0;">🔴 Staying on Kerosene / Gas</h4>
+              <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.6; margin: 0;">
                 You volunteer to pay thousands in non-refundable government penalties with zero comfort improvement. By 2030, a standard fill carries over €215 in mandatory levies.
               </p>
             </div>
-            <div style="background: #ecfdf5; padding: 20px; border-radius: 12px; border: 2px solid #10b981;">
-              <h4 style="color: #065f46; font-size: 1.05rem; margin: 0 0 8px 0;">🟢 Air-to-Water Heat Pump</h4>
-              <p style="color: #047857; font-size: 0.9rem; line-height: 1.6; margin: 0;">
+            <div style="background: rgba(16, 185, 129, 0.12); padding: 20px; border-radius: 12px; border: 2px solid #10b981;">
+              <h4 style="color: #34f5c5; font-size: 1.05rem; margin: 0 0 8px 0;">🟢 Air-to-Water Heat Pump</h4>
+              <p style="color: #cbd5e1; font-size: 0.9rem; line-height: 1.6; margin: 0;">
                 Claim up to <strong>€12,500 in SEAI grants</strong>. Permanent <strong>€0.00 Carbon Tax exposure</strong>. 300% efficiency and constant 21°C whole-home comfort.
               </p>
             </div>
@@ -263,7 +282,7 @@
   </main>
 
   <!-- Footer -->
-  <footer style="background: #00261b; color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.85rem;">
+  <footer style="background: #00120d; border-top: 1px solid rgba(52, 245, 197, 0.1); color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.85rem;">
     <div class="container">
       <p style="color: #fff; font-weight: 700; margin-bottom: 6px;">EcoSmartHomes Ireland · Independent Energy Advisory</p>
       <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
@@ -273,6 +292,6 @@
   <script src="../js/carbon-clock.js"></script>
 
   <script src="/js/whatsapp-widget.js" defer></script>
-  <script src="/js/smart-nav.js" defer></script>
+  <script src="/js/smart-nav.js?v=14" defer></script>
 </body>
 </html>

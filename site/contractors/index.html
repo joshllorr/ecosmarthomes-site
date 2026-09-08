@@ -6,73 +6,143 @@
   <title>SEAI Installer Partner Network | EcoSmartHomes B2B Lead Marketplace</title>
   <meta name="description" content="Receive pre-qualified, SEAI grant-ready homeowner leads across Ireland. Stop wasting time on tyre-kickers. Heat Pump, Solar PV & Insulation installer portal.">
   <link rel="canonical" href="https://www.ecosmarthomes.ie/contractors/">
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="/css/smart-nav.css?v=7">
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/style.css?v=5">
+  <link rel="stylesheet" href="/css/smart-nav.css?v=14">
   
   <style>
+    :root {
+      --bg-dark: #001711;
+      --bg-card: #00241b;
+      --bg-card-light: #003628;
+      --color-mint: #34f5c5;
+      --color-emerald: #10b981;
+      --color-amber: #f59e0b;
+      --color-sky: #38bdf8;
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
     .contractor-hero {
       background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
       color: #fff;
       padding: 75px 20px 60px 20px;
       text-align: center;
       position: relative;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(52, 245, 197, 0.2);
     }
-    .tier-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column; justify-content: space-between; }
-    .tier-card:hover { transform: translateY(-4px); box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1); }
-    .tier-featured { border: 2px solid #10b981; position: relative; box-shadow: 0 15px 35px -5px rgba(16,185,129,0.2); }
-    .tier-badge { position: absolute; top: -12px; right: 20px; background: #10b981; color: #fff; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; }
-    .feature-check { color: #10b981; font-weight: 800; margin-right: 8px; }
+    .tier-card {
+      background: #00241b;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 30px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #ffffff;
+    }
+    .tier-card:hover {
+      transform: translateY(-4px);
+      border-color: #34f5c5;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 20px rgba(52, 245, 197, 0.2);
+    }
+    .tier-featured {
+      border: 2px solid #34f5c5;
+      position: relative;
+      background: rgba(0, 36, 27, 0.95);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(52, 245, 197, 0.25);
+    }
+    .tier-badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: linear-gradient(135deg, #34f5c5 0%, #10b981 100%);
+      color: #00241b;
+      font-size: 0.75rem;
+      font-weight: 900;
+      padding: 4px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .feature-check {
+      color: #34f5c5;
+      font-weight: 800;
+      margin-right: 8px;
+    }
+    .form-input-dark {
+      width: 100%;
+      box-sizing: border-box;
+      background: #001711;
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 16px;
+      padding: 11px 14px;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s ease;
+    }
+    .form-input-dark:focus {
+      border-color: #34f5c5;
+      box-shadow: 0 0 12px rgba(52, 245, 197, 0.25);
+    }
   </style>
 </head>
-<body style="background: #f8fafc; color: #1e293b;">
+<body>
 
   <!-- Header -->
-  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+  <header class="main-nav-bar" style="background: rgba(0, 36, 27, 0.95); border-bottom: 1px solid rgba(52, 245, 197, 0.2); padding: 12px 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
       <a href="/" style="color: #fff; font-weight: 900; font-size: 1.25rem; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.02em;">
         <span>🏡</span> EcoSmart<strong style="color: #34f5c5;">Homes</strong> <span style="font-size: 0.75rem; background: rgba(52,245,197,0.2); color: #34f5c5; border: 1px solid rgba(52,245,197,0.3); padding: 2px 8px; border-radius: 12px; font-weight: 700;">B2B PORTAL</span>
       </a>
       <div style="display: flex; gap: 15px; align-items: center;">
         <a href="#pricing" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Pricing Tiers</a>
         <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
-        <a href="#register" class="btn-primary" style="background: #10b981; color: #00241b; font-weight: 800; text-decoration: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; box-shadow: 0 4px 14px rgba(16,185,129,0.35);">Join Installer Network →</a>
+        <a href="#register" class="btn-primary" style="background: linear-gradient(135deg, #34f5c5 0%, #10b981 100%); color: #00241b; font-weight: 900; text-decoration: none; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; box-shadow: 0 4px 14px rgba(52,245,197,0.35);">Join Installer Network →</a>
       </div>
     </div>
   </header>
 
   <!-- Hero Section -->
   <section class="contractor-hero">
-    <div class="container" style="max-width: 900px;">
+    <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
       <span style="background: rgba(16,185,129,0.2); color: #34d399; padding: 5px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(16,185,129,0.3);">
         SEAI Registered Installer Network
       </span>
-      <h1 style="font-size: 2.6rem; margin: 18px 0 14px 0; line-height: 1.2;">
+      <h1 style="font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 18px 0 14px 0; line-height: 1.2; font-weight: 900; color: #ffffff;">
         Receive High-Intent, Pre-Assessed Retrofit Leads in Your County
       </h1>
-      <p style="font-size: 1.15rem; color: #cbd5e1; margin-bottom: 35px; line-height: 1.6;">
+      <p style="font-size: 1.15rem; color: #cbd5e1; margin-bottom: 35px; line-height: 1.6; max-width: 760px; margin-left: auto; margin-right: auto;">
         Stop wasting 15+ hours a week on unqualified site visits and cold tyre-kickers. Connect with Irish homeowners whose <strong>HLI heat loss, equipment photos, and SEAI grant allocations</strong> are already verified.
       </p>
       <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-        <a href="#register" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 1.05rem;">Apply for Lead Allocation in Your County →</a>
+        <a href="#register" class="btn-primary" style="background: #f59e0b; color: #000; font-weight: 800; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-size: 1.05rem; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);">Apply for Lead Allocation in Your County →</a>
       </div>
     </div>
   </section>
 
   <!-- Why EcoSmart Leads Convert 3X Higher -->
-  <section style="padding: 60px 0; background: #ffffff;">
-    <div class="container" style="max-width: 1000px;">
+  <section style="padding: 65px 0; background: #001711; border-bottom: 1px solid rgba(52, 245, 197, 0.15);">
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
       <div style="text-align: center; margin-bottom: 45px;">
-        <h2 style="color: #003f2d; font-size: 2rem; margin-bottom: 10px;">Why EcoSmart Leads Convert at 40%+</h2>
-        <p style="color: #64748b; font-size: 1rem;">Compare standard cold internet leads against our pre-assessed technical homeowner pipeline.</p>
+        <h2 style="color: #ffffff; font-size: 2.1rem; margin-bottom: 10px; font-weight: 900;">Why EcoSmart Leads Convert at 40%+</h2>
+        <p style="color: #94a3b8; font-size: 1.05rem;">Compare standard cold internet leads against our pre-assessed technical homeowner pipeline.</p>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
         
         <!-- Old Way -->
-        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px; padding: 25px;">
-          <h3 style="color: #991b1b; font-size: 1.2rem; margin: 0 0 14px 0;">❌ The Old Way (Random Ads / Directories)</h3>
-          <ul style="color: #7f1d1d; font-size: 0.95rem; line-height: 1.7; padding-left: 20px; margin: 0;">
+        <div style="background: rgba(45, 14, 14, 0.85); border: 1.5px solid rgba(239, 68, 68, 0.4); border-radius: 16px; padding: 28px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
+          <h3 style="color: #fca5a5; font-size: 1.25rem; margin: 0 0 14px 0; font-weight: 800;">❌ The Old Way (Random Ads / Directories)</h3>
+          <ul style="color: #fecaca; font-size: 0.95rem; line-height: 1.8; padding-left: 20px; margin: 0;">
             <li>Homeowners don't know their BER or HLI readiness</li>
             <li>Unsure if their house qualifies for €12,500 heat pump grant</li>
             <li>15+ hours spent on driving to unpaid site surveys</li>
@@ -81,11 +151,11 @@
         </div>
 
         <!-- EcoSmartHomes Way -->
-        <div style="background: #ecfdf5; border: 2px solid #10b981; border-radius: 14px; padding: 25px;">
-          <h3 style="color: #065f46; font-size: 1.2rem; margin: 0 0 14px 0;">✅ The EcoSmartHomes Way</h3>
-          <ul style="color: #047857; font-size: 0.95rem; line-height: 1.7; padding-left: 20px; margin: 0;">
+        <div style="background: rgba(0, 36, 27, 0.85); border: 2px solid #34f5c5; border-radius: 16px; padding: 28px; box-shadow: 0 10px 35px rgba(52, 245, 197, 0.2);">
+          <h3 style="color: #34f5c5; font-size: 1.25rem; margin: 0 0 14px 0; font-weight: 800;">✅ The EcoSmartHomes Way</h3>
+          <ul style="color: #e2e8f0; font-size: 0.95rem; line-height: 1.8; padding-left: 20px; margin: 0;">
             <li>Homeowner already has BER diagnostic & photo scan complete</li>
-            <li>HLI heat loss is pre-screened to meet SEAI grant rules (< 2.0 W/K/m²)</li>
+            <li>HLI heat loss is pre-screened to meet SEAI grant rules (&lt; 2.0 W/K/m²)</li>
             <li>Homeowner is ready to sign contract and claim grants</li>
             <li>Zero wasted travel — instant digital project handover</li>
           </ul>
@@ -96,11 +166,11 @@
   </section>
 
   <!-- Pricing Tiers -->
-  <section id="pricing" style="padding: 70px 0; background: #f8fafc; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
-    <div class="container" style="max-width: 1100px;">
+  <section id="pricing" style="padding: 75px 0; background: #00120d; border-bottom: 1px solid rgba(52, 245, 197, 0.15);">
+    <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
       <div style="text-align: center; margin-bottom: 50px;">
-        <h2 style="color: #003f2d; font-size: 2.1rem; margin-bottom: 10px;">Transparent Contractor Partner Tiers</h2>
-        <p style="color: #64748b; font-size: 1.05rem;">Choose pay-as-you-go lead credits or lock in exclusive county territory priority.</p>
+        <h2 style="color: #ffffff; font-size: 2.2rem; margin-bottom: 10px; font-weight: 900;">Transparent Contractor Partner Tiers</h2>
+        <p style="color: #94a3b8; font-size: 1.05rem;">Choose pay-as-you-go lead credits or lock in exclusive county territory priority.</p>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; align-items: stretch;">
@@ -108,31 +178,31 @@
         <!-- Tier 1: Pay As You Go -->
         <div class="tier-card">
           <div>
-            <h3 style="color: #003f2d; font-size: 1.3rem; margin: 0 0 8px 0;">Pay-As-You-Go</h3>
-            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 16px;">Ideal for independent specialist installers testing lead volume.</p>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #003f2d; margin-bottom: 20px;">
-              €35 <span style="font-size: 0.95rem; font-weight: 600; color: #64748b;">/ Lead</span>
+            <h3 style="color: #ffffff; font-size: 1.3rem; margin: 0 0 8px 0; font-weight: 800;">Pay-As-You-Go</h3>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px;">Ideal for independent specialist installers testing lead volume.</p>
+            <div style="font-size: 2.3rem; font-weight: 900; color: #34f5c5; margin-bottom: 20px;">
+              €35 <span style="font-size: 0.95rem; font-weight: 600; color: #94a3b8;">/ Lead</span>
             </div>
-            <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; font-size: 0.9rem; line-height: 1.8; color: #475569;">
+            <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; font-size: 0.9rem; line-height: 1.8; color: #cbd5e1;">
               <li><span class="feature-check">✓</span> Pre-qualified homeowner details</li>
               <li><span class="feature-check">✓</span> Property photo & heating diagnosis</li>
               <li><span class="feature-check">✓</span> Instant WhatsApp lead ping</li>
               <li><span class="feature-check">✓</span> Zero monthly contract or commitments</li>
             </ul>
           </div>
-          <a href="#register" class="btn-secondary" style="display: block; text-align: center; background: #003f2d; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 700;">Sign Up Pay-As-You-Go</a>
+          <a href="#register" class="btn-secondary" style="display: block; text-align: center; background: rgba(52, 245, 197, 0.12); border: 1px solid rgba(52, 245, 197, 0.4); color: #34f5c5; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 800; transition: all 0.2s;">Sign Up Pay-As-You-Go →</a>
         </div>
 
         <!-- Tier 2: County Pro (Featured) -->
         <div class="tier-card tier-featured">
           <div class="tier-badge">Most Popular</div>
           <div>
-            <h3 style="color: #003f2d; font-size: 1.3rem; margin: 0 0 8px 0;">County Pro Partner</h3>
-            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 16px;">Exclusive priority lead allocation for established installers.</p>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #10b981; margin-bottom: 20px;">
-              €199 <span style="font-size: 0.95rem; font-weight: 600; color: #64748b;">/ month</span>
+            <h3 style="color: #ffffff; font-size: 1.3rem; margin: 0 0 8px 0; font-weight: 800;">County Pro Partner</h3>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px;">Exclusive priority lead allocation for established installers.</p>
+            <div style="font-size: 2.3rem; font-weight: 900; color: #34f5c5; margin-bottom: 20px;">
+              €199 <span style="font-size: 0.95rem; font-weight: 600; color: #94a3b8;">/ month</span>
             </div>
-            <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; font-size: 0.9rem; line-height: 1.8; color: #475569;">
+            <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; font-size: 0.9rem; line-height: 1.8; color: #e2e8f0;">
               <li><span class="feature-check">✓</span> <strong>10 Verified Leads Included</strong> / mo</li>
               <li><span class="feature-check">✓</span> Priority 1st-access county dispatch</li>
               <li><span class="feature-check">✓</span> Full HLI & SEAI grant survey bundle</li>
@@ -140,25 +210,25 @@
               <li><span class="feature-check">✓</span> Discounted extra leads (€25/lead)</li>
             </ul>
           </div>
-          <a href="#register" class="btn-primary" style="display: block; text-align: center; background: #f59e0b; color: #000; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 800;">Apply for County Pro →</a>
+          <a href="#register" class="btn-primary" style="display: block; text-align: center; background: linear-gradient(135deg, #34f5c5 0%, #10b981 100%); color: #00241b; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 900; box-shadow: 0 4px 15px rgba(52, 245, 197, 0.4); transition: all 0.2s;">Lock Exclusive County Territory →</a>
         </div>
 
-        <!-- Tier 3: One-Stop-Shop Enterprise -->
+        <!-- Tier 3: Whole House Retrofit Partner -->
         <div class="tier-card">
           <div>
-            <h3 style="color: #003f2d; font-size: 1.3rem; margin: 0 0 8px 0;">One-Stop-Shop Partner</h3>
-            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 16px;">Full turnkey whole-house retrofit project handover.</p>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #003f2d; margin-bottom: 20px;">
-              €499 <span style="font-size: 0.95rem; font-weight: 600; color: #64748b;">/ month</span>
+            <h3 style="color: #ffffff; font-size: 1.3rem; margin: 0 0 8px 0; font-weight: 800;">Turnkey One-Stop Shop</h3>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 16px;">Full turnkey whole-house retrofit project handover.</p>
+            <div style="font-size: 2.3rem; font-weight: 900; color: #38bdf8; margin-bottom: 20px;">
+              €499 <span style="font-size: 0.95rem; font-weight: 600; color: #94a3b8;">/ month</span>
             </div>
-            <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; font-size: 0.9rem; line-height: 1.8; color: #475569;">
+            <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; font-size: 0.9rem; line-height: 1.8; color: #cbd5e1;">
               <li><span class="feature-check">✓</span> <strong>30+ High-Value Deep Retrofit Leads</strong></li>
               <li><span class="feature-check">✓</span> Direct CRM & Webhook API Integration</li>
               <li><span class="feature-check">✓</span> Turnkey Heat Pump + Solar + Insulation bundles</li>
               <li><span class="feature-check">✓</span> Dedicated Account Manager</li>
             </ul>
           </div>
-          <a href="#register" class="btn-secondary" style="display: block; text-align: center; background: #003f2d; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 700;">Contact Enterprise Sales</a>
+          <a href="#register" class="btn-secondary" style="display: block; text-align: center; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 800; transition: all 0.2s;">Contact Enterprise Sales →</a>
         </div>
 
       </div>
@@ -166,45 +236,45 @@
   </section>
 
   <!-- Contractor Application Form -->
-  <section id="register" style="padding: 70px 0; background: #ffffff;">
-    <div class="container" style="max-width: 750px;">
+  <section id="register" style="padding: 75px 0; background: #001711;">
+    <div class="container" style="max-width: 750px; margin: 0 auto; padding: 0 20px;">
       <div style="text-align: center; margin-bottom: 35px;">
-        <h2 style="color: #003f2d; font-size: 2rem; margin-bottom: 8px;">Apply for Installer Network Placement</h2>
-        <p style="color: #64748b; font-size: 0.95rem;">Join over 45+ SEAI registered contractors receiving qualified leads daily across Ireland.</p>
+        <h2 style="color: #ffffff; font-size: 2.1rem; margin-bottom: 8px; font-weight: 900;">Apply for Installer Network Placement</h2>
+        <p style="color: #94a3b8; font-size: 1rem;">Join over 45+ SEAI registered contractors receiving qualified leads daily across Ireland.</p>
       </div>
 
-      <form id="contractor-reg-form" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 35px; box-shadow: 0 10px 25px rgba(0,0,0,0.03);">
+      <form id="contractor-reg-form" style="background: #00241b; border: 1.5px solid rgba(52, 245, 197, 0.3); border-radius: 20px; padding: 35px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
           <div>
-            <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.9rem; margin-bottom: 6px;">Company / Trading Name *</label>
-            <input type="text" id="c-company" required style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem;" placeholder="e.g. Munster Renewable Energy Ltd" />
+            <label style="display: block; font-weight: 700; color: #34f5c5; font-size: 0.9rem; margin-bottom: 6px;">Company / Trading Name *</label>
+            <input type="text" id="c-company" required class="form-input-dark" placeholder="e.g. Munster Renewable Energy Ltd" />
           </div>
           <div>
-            <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.9rem; margin-bottom: 6px;">Contact Person *</label>
-            <input type="text" id="c-person" required style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem;" placeholder="e.g. John O'Connor" />
+            <label style="display: block; font-weight: 700; color: #34f5c5; font-size: 0.9rem; margin-bottom: 6px;">Contact Person *</label>
+            <input type="text" id="c-person" required class="form-input-dark" placeholder="e.g. John O'Connor" />
           </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
           <div>
-            <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.9rem; margin-bottom: 6px;">Business Email *</label>
-            <input type="email" id="c-email" required style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem;" placeholder="john@munsterenergy.ie" />
+            <label style="display: block; font-weight: 700; color: #34f5c5; font-size: 0.9rem; margin-bottom: 6px;">Business Email *</label>
+            <input type="email" id="c-email" required class="form-input-dark" placeholder="john@munsterenergy.ie" />
           </div>
           <div>
-            <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.9rem; margin-bottom: 6px;">Mobile Phone (for WhatsApp leads) *</label>
-            <input type="tel" id="c-phone" required style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem;" placeholder="+353 87 123 4567" />
+            <label style="display: block; font-weight: 700; color: #34f5c5; font-size: 0.9rem; margin-bottom: 6px;">Mobile Phone (for WhatsApp leads) *</label>
+            <input type="tel" id="c-phone" required class="form-input-dark" placeholder="+353 87 123 4567" />
           </div>
         </div>
 
         <div style="margin-bottom: 18px;">
-          <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.9rem; margin-bottom: 6px;">SEAI Registered Contractor ID</label>
-          <input type="text" id="c-seai" style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem;" placeholder="e.g. 10482 (Leave blank if currently registering)" />
+          <label style="display: block; font-weight: 700; color: #34f5c5; font-size: 0.9rem; margin-bottom: 6px;">SEAI Registered Contractor ID</label>
+          <input type="text" id="c-seai" class="form-input-dark" placeholder="e.g. 10482 (Leave blank if currently registering)" />
         </div>
 
         <div style="margin-bottom: 20px;">
-          <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.9rem; margin-bottom: 8px;">Trade Specialties (Select all that apply)</label>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem;">
+          <label style="display: block; font-weight: 700; color: #34f5c5; font-size: 0.9rem; margin-bottom: 8px;">Trade Specialties (Select all that apply)</label>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem; color: #cbd5e1;">
             <label><input type="checkbox" name="trade" value="Heat Pump" checked /> Air-to-Water Heat Pumps</label>
             <label><input type="checkbox" name="trade" value="Solar PV" checked /> Solar PV & Battery</label>
             <label><input type="checkbox" name="trade" value="External Wall" /> External Wall Wrap</label>
@@ -214,8 +284,8 @@
         </div>
 
         <div style="margin-bottom: 25px;">
-          <label style="display: block; font-weight: 700; color: #003f2d; font-size: 0.9rem; margin-bottom: 8px;">Target Counties Served</label>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; font-size: 0.85rem;">
+          <label style="display: block; font-weight: 700; color: #34f5c5; font-size: 0.9rem; margin-bottom: 8px;">Target Counties Served</label>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; font-size: 0.85rem; color: #cbd5e1;">
             <label><input type="checkbox" name="county" value="Limerick" checked /> Limerick</label>
             <label><input type="checkbox" name="county" value="Dublin" /> Dublin</label>
             <label><input type="checkbox" name="county" value="Cork" checked /> Cork</label>
@@ -229,18 +299,18 @@
           </div>
         </div>
 
-        <button type="submit" id="c-submit-btn" class="btn-primary" style="width: 100%; background: #10b981; border: none; color: #fff; font-weight: 800; padding: 14px; border-radius: 8px; font-size: 1.1rem; cursor: pointer;">
+        <button type="submit" id="c-submit-btn" class="btn-primary" style="width: 100%; background: linear-gradient(135deg, #34f5c5 0%, #10b981 100%); border: none; color: #00241b; font-weight: 900; padding: 15px; border-radius: 10px; font-size: 1.1rem; cursor: pointer; box-shadow: 0 6px 20px rgba(52, 245, 197, 0.4); transition: transform 0.15s ease;">
           Submit Application & Configure Lead Feed →
         </button>
 
-        <div id="c-status-box" style="display: none; margin-top: 20px; padding: 16px; border-radius: 8px; text-align: center;"></div>
+        <div id="c-status-box" style="display: none; margin-top: 20px; padding: 16px; border-radius: 10px; text-align: center;"></div>
       </form>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer style="background: #00261b; color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.85rem;">
-    <div class="container">
+  <footer style="background: #000f0b; color: #94a3b8; padding: 40px 0; text-align: center; font-size: 0.85rem; border-top: 1px solid rgba(52, 245, 197, 0.2);">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
       <p style="color: #fff; font-weight: 700; margin-bottom: 6px;">EcoSmartHomes Ireland · B2B Contractor Marketplace</p>
       <p>© 2026 EcoSmartHomes.ie · All rights reserved.</p>
     </div>
@@ -278,9 +348,9 @@
         statusBox.style.display = 'block';
 
         if (res.ok && json.success) {
-          statusBox.style.background = '#ecfdf5';
+          statusBox.style.background = 'rgba(16, 185, 129, 0.2)';
           statusBox.style.border = '1px solid #10b981';
-          statusBox.style.color = '#065f46';
+          statusBox.style.color = '#34f5c5';
           statusBox.innerHTML = `
             <div style="font-weight: 800; font-size: 1.1rem; margin-bottom: 6px;">🎉 Application Approved! Partner ID: ${json.data.partnerId}</div>
             <div style="font-size: 0.95rem;">${json.message}</div>
@@ -291,9 +361,9 @@
         }
       } catch (err) {
         statusBox.style.display = 'block';
-        statusBox.style.background = '#fef2f2';
+        statusBox.style.background = 'rgba(239, 68, 68, 0.2)';
         statusBox.style.border = '1px solid #ef4444';
-        statusBox.style.color = '#991b1b';
+        statusBox.style.color = '#fca5a5';
         statusBox.innerHTML = `<strong>Error:</strong> ${err.message || 'Submission error. Please email askjoe@ecosmarthomes.ie'}`;
       } finally {
         submitBtn.disabled = false;
@@ -302,6 +372,6 @@
     });
   </script>
 
-  <script src="/js/smart-nav.js" defer></script>
+  <script src="/js/smart-nav.js?v=14" defer></script>
 </body>
 </html>
