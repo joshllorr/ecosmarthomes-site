@@ -3197,35 +3197,62 @@ a, a:visited {
    ========================================================================== */
 
 /* 1. Main Viewport Scroll Container Bottom Clearance Buffer */
+main,
+.page-container,
+.main-viewport-wrapper,
 #mobile-app-container,
-body,
-main {
-  padding-bottom: max(115px, calc(76px + env(safe-area-inset-bottom, 20px) + 32px)) !important;
+body {
+  padding-bottom: calc(110px + env(safe-area-inset-bottom, 20px)) !important;
+  box-sizing: border-box !important;
 }
 
-/* 2. Floating Action Triggers: Smart Scroll Hide / Reveal */
+/* 2. Floating Action Row & Hide State (Collision Shielding) */
+.floating-actions-bar,
 #esh-whatsapp-floating-btn,
 #voice-launcher,
 .voice-advisor-launcher {
-  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, box-shadow 0.25s ease !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease !important;
   will-change: transform, opacity !important;
 }
 
+.floating-actions-bar.is-hidden,
+.floating-actions-bar.scroll-hidden,
+#esh-whatsapp-floating-btn.is-hidden,
 #esh-whatsapp-floating-btn.scroll-hidden,
+#voice-launcher.is-hidden,
 #voice-launcher.scroll-hidden,
+.voice-advisor-launcher.is-hidden,
 .voice-advisor-launcher.scroll-hidden {
-  transform: translateY(120px) !important;
+  transform: translateY(100px) !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
 
-/* 3. Contextual Suppression: Hide Aoife Bubble When Dossier CTA In Viewport */
+/* 3. Slider Badge Flexbox Collision Fix */
+.comparison-slider-labels {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  gap: 6px !important;
+}
+
+.comparison-slider-labels span {
+  font-size: 11px !important;
+  white-space: nowrap !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  font-weight: 800 !important;
+}
+
+/* 4. Contextual Suppression: Hide Floating Triggers Over Interactive Modules */
 #voice-launcher.contextual-suppressed,
-.voice-advisor-launcher.contextual-suppressed {
+.voice-advisor-launcher.contextual-suppressed,
+#esh-whatsapp-floating-btn.contextual-suppressed,
+.floating-actions-bar.contextual-suppressed {
   opacity: 0 !important;
   pointer-events: none !important;
-  transform: scale(0.82) translateY(24px) !important;
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transform: translateY(80px) scale(0.9) !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease !important;
 }
 
 /* 4. Inline Dossier CTA Spotlight Pulse */
@@ -3414,4 +3441,21 @@ main {
   --theme-accent: #38bdf8;
   --theme-glow: rgba(56, 189, 248, 0.4);
 }
+
+/* 10. Mobile Feature Card Grid Clipping Fix for <= 480px / 390px viewports */
+@media (max-width: 480px) {
+  .hero-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+    gap: 10px !important;
+    overflow-x: visible !important;
+    padding-bottom: 4px !important;
+  }
+  .hero-card {
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
 

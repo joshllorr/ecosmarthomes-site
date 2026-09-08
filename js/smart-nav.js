@@ -1332,16 +1332,20 @@ if (!document.getElementById('esh-side-tab-toggle')) {
 
           const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
           const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          const floatingActionsRow = document.querySelector('.floating-actions-bar');
 
           if (isTopBoundary || isScrollFloor) {
-            if (floatingWa) floatingWa.classList.remove('scroll-hidden');
-            if (floatingVoice) floatingVoice.classList.remove('scroll-hidden');
+            if (floatingWa) { floatingWa.classList.remove('scroll-hidden'); floatingWa.classList.remove('is-hidden'); }
+            if (floatingVoice) { floatingVoice.classList.remove('scroll-hidden'); floatingVoice.classList.remove('is-hidden'); }
+            if (floatingActionsRow) { floatingActionsRow.classList.remove('scroll-hidden'); floatingActionsRow.classList.remove('is-hidden'); }
           } else if (delta > SCROLL_DELTA_THRESHOLD) {
-            if (floatingWa) floatingWa.classList.add('scroll-hidden');
-            if (floatingVoice) floatingVoice.classList.add('scroll-hidden');
+            if (floatingWa) { floatingWa.classList.add('scroll-hidden'); floatingWa.classList.add('is-hidden'); }
+            if (floatingVoice) { floatingVoice.classList.add('scroll-hidden'); floatingVoice.classList.add('is-hidden'); }
+            if (floatingActionsRow) { floatingActionsRow.classList.add('scroll-hidden'); floatingActionsRow.classList.add('is-hidden'); }
           } else if (delta < 0) {
-            if (floatingWa) floatingWa.classList.remove('scroll-hidden');
-            if (floatingVoice) floatingVoice.classList.remove('scroll-hidden');
+            if (floatingWa) { floatingWa.classList.remove('scroll-hidden'); floatingWa.classList.remove('is-hidden'); }
+            if (floatingVoice) { floatingVoice.classList.remove('scroll-hidden'); floatingVoice.classList.remove('is-hidden'); }
+            if (floatingActionsRow) { floatingActionsRow.classList.remove('scroll-hidden'); floatingActionsRow.classList.remove('is-hidden'); }
           }
 
           lastScrollY = currentScrollY;
@@ -1354,29 +1358,47 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  // Contextual Aoife Suppression Observer (threshold > 0.35)
+  // Contextual Aoife & Floating Triggers Suppression Observer (threshold > 0.35)
   function initDossierContextualObserver() {
     if (!('IntersectionObserver' in window)) return;
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+        const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
+        const floatingBar = document.querySelector('.floating-actions-bar');
         const inlineVoiceBtn = document.getElementById('btn-dossier-ask-aoife') || document.querySelector('.btn-inline-ask-aoife') || document.getElementById('simVoiceCtaBtn');
 
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
           if (floatingVoice) floatingVoice.classList.add('contextual-suppressed');
+          if (floatingWa) floatingWa.classList.add('contextual-suppressed');
+          if (floatingBar) floatingBar.classList.add('contextual-suppressed');
           if (inlineVoiceBtn) inlineVoiceBtn.classList.add('cta-spotlight');
         } else {
           if (floatingVoice) floatingVoice.classList.remove('contextual-suppressed');
+          if (floatingWa) floatingWa.classList.remove('contextual-suppressed');
+          if (floatingBar) floatingBar.classList.remove('contextual-suppressed');
           if (inlineVoiceBtn) inlineVoiceBtn.classList.remove('cta-spotlight');
         }
       });
     }, {
-      threshold: [0, 0.35, 0.7, 1.0]
+      threshold: [0, 0.25, 0.5, 0.75, 1.0]
     });
 
-    const target = document.getElementById('prop-audit-results');
-    if (target) observer.observe(target);
+    const suppressionSelectors = [
+      '#prop-audit-results',
+      '#snap-audit',
+      '.snap-audit-section',
+      '#grant-matrix-calculator',
+      '.grant-matrix-section',
+      '.transformation-slider-wrap',
+      '.transformation-cards-grid'
+    ];
+
+    suppressionSelectors.forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el) observer.observe(el);
+    });
 
     window.observeDossierCardForAoifeSuppression = function(el) {
       if (el) observer.observe(el);

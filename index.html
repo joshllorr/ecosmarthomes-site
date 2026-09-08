@@ -292,7 +292,8 @@
   <script src="/js/persona-router.js" defer></script>
   <script src="/js/energy-metrics.js" defer></script>
   <script src="/js/calculator-data-core.js" defer></script>
-  <link rel="stylesheet" href="/css/smart-nav.css?v=7">
+  <script src="/js/smart-nav.js" defer></script>
+  <link rel="stylesheet" href="/css/smart-nav.css?v=8">
 </head>
 <body>
 <div id="mobile-app-container" class="mobile-app-wrapper">
@@ -848,10 +849,10 @@
 
         <!-- Tactile Split Range Slider -->
         <div class="transformation-slider-wrap">
-          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 800; font-family: 'IBM Plex Mono', monospace; margin-bottom: 8px;">
-            <span style="color: #f87171;">🔴 100% BEFORE (G / F BER Rating)</span>
-            <span style="color: #34f5c5;" id="sliderPercentageLabel">↔️ 50% SPLIT COMPARISON</span>
-            <span style="color: #34f5c5;">🟢 100% AFTER (A0 Net-Zero Deep Retrofit)</span>
+          <div class="comparison-slider-labels" style="margin-bottom: 8px;">
+            <span style="color: #f87171;">🔴 BEFORE (G/F)</span>
+            <span style="color: #34f5c5;" id="sliderPercentageLabel">↔️ 50% SPLIT</span>
+            <span style="color: #34f5c5;">🟢 AFTER (A0)</span>
           </div>
           <input type="range" min="0" max="100" value="50" class="transformation-range-input" id="transformRangeSlider" oninput="window.updateTransformationCutaway(this.value)" />
         </div>
@@ -2705,9 +2706,9 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         const label = document.getElementById('sliderPercentageLabel');
 
         if (label) {
-          if (num === 0) label.innerText = '🔴 100% UNRENOVATED G-RATING FOCUS';
-          else if (num === 100) label.innerText = '🟢 100% A0 NET-ZERO FOCUS';
-          else label.innerText = `↔️ ${num}% / ${100 - num}% INTERACTIVE SPLIT`;
+          if (num === 0) label.innerText = '🔴 100% BEFORE';
+          else if (num === 100) label.innerText = '🟢 100% AFTER';
+          else label.innerText = `↔️ ${num}% / ${100 - num}% SPLIT`;
         }
 
         if (beforeCard && afterCard) {
