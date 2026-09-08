@@ -20,6 +20,21 @@
     }, 2800);
   };
 
+  // 3. Tactile Haptic UI Feedback Helper (Micro-Interactions)
+  const triggerHaptic = (ms = 8) => {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      try { navigator.vibrate(ms); } catch (e) {}
+    }
+  };
+  window.triggerHaptic = triggerHaptic;
+
+  // Haptic Feedback for Range Sliders & Snap Interactions
+  document.addEventListener('input', (e) => {
+    if (e.target && e.target.type === 'range') {
+      triggerHaptic(5);
+    }
+  }, { passive: true });
+
   // Robust Clipboard Copier with Fallback
   window.copyTextToClipboard = function(text, successMsg = 'Copied to Clipboard!') {
     if (navigator.clipboard && window.isSecureContext) {
@@ -118,6 +133,7 @@
   // 3. Reactive Persona Filter Method
   window.setPersona = function(personaKey) {
     currentPersona = personaKey;
+    triggerHaptic(10);
 
     // Inject Active Persona as Root Data Attribute
     document.documentElement.setAttribute('data-persona', personaKey);
@@ -1168,13 +1184,24 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     }
   }
 
-  // Mobile Dock Handlers
+  function setDockActiveItem(index) {
+    const items = document.querySelectorAll('#esh-mobile-dock .dock-item, .mobile-app-bottom-dock .dock-item');
+    items.forEach((item, i) => {
+      item.classList.toggle('active', i === index);
+    });
+  }
+
+  // Mobile Dock Handlers with Haptics & Active Radial Bloom
   window.onMobileDockHome = function() {
+    triggerHaptic(8);
+    setDockActiveItem(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     window.setPersona('homeowner');
   };
 
   window.onMobileDockProfiles = function() {
+    triggerHaptic(8);
+    setDockActiveItem(1);
     if (typeof window.openPersonaPickerModal === 'function') {
       window.openPersonaPickerModal();
     } else {
@@ -1185,13 +1212,16 @@ if (!document.getElementById('esh-side-tab-toggle')) {
   };
 
   window.onMobileDockShield = function() {
-    const wizard = document.getElementById('wallet-rescue-wizard');
+    triggerHaptic(12);
+    const wizard = document.getElementById('wallet-rescue-wizard') || document.getElementById('carbon-tax-war-room');
     if (wizard) {
       wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
   window.onMobileDockReports = function() {
+    triggerHaptic(8);
+    setDockActiveItem(2);
     const sheet = document.getElementById('esh-mobile-tool-sheet');
     if (sheet) {
       sheet.style.display = 'flex';
@@ -1201,6 +1231,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
   };
 
   window.closeMobileToolSheet = function() {
+    triggerHaptic(6);
     const sheet = document.getElementById('esh-mobile-tool-sheet');
     if (sheet) {
       sheet.classList.remove('open');
@@ -1329,6 +1360,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
       const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
       const floatingActionsRow = document.querySelector('.floating-actions-bar');
+      const fabContainer = document.getElementById('fabRadialContainer');
 
       [floatingWa, floatingVoice, floatingActionsRow].forEach(el => {
         if (!el) return;
@@ -1338,6 +1370,10 @@ if (!document.getElementById('esh-side-tab-toggle')) {
         el.style.setProperty('transform', 'translateY(120px)', 'important');
         el.style.setProperty('pointer-events', 'none', 'important');
       });
+
+      if (fabContainer && !fabContainer.classList.contains('is-open')) {
+        fabContainer.classList.add('scroll-hidden');
+      }
     }
 
     function showTriggers() {
@@ -1351,6 +1387,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
       const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
       const floatingActionsRow = document.querySelector('.floating-actions-bar');
+      const fabContainer = document.getElementById('fabRadialContainer');
 
       [floatingWa, floatingVoice, floatingActionsRow].forEach(el => {
         if (!el || el.classList.contains('contextual-suppressed')) return;
@@ -1360,6 +1397,10 @@ if (!document.getElementById('esh-side-tab-toggle')) {
         el.style.removeProperty('transform');
         el.style.removeProperty('pointer-events');
       });
+
+      if (fabContainer && !fabContainer.classList.contains('context-suppressed')) {
+        fabContainer.classList.remove('scroll-hidden');
+      }
     }
 
     function onScroll() {
@@ -1427,6 +1468,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
         const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
         const floatingBar = document.querySelector('.floating-actions-bar');
         const inlineVoiceBtn = document.getElementById('btn-dossier-ask-aoife') || document.querySelector('.btn-inline-ask-aoife') || document.getElementById('simVoiceCtaBtn');
+        const fabContainer = document.getElementById('fabRadialContainer');
 
         if (entry.isIntersecting && entry.intersectionRatio >= 0.15) {
           activeIntersectingModules.add(entry.target);
@@ -1438,6 +1480,9 @@ if (!document.getElementById('esh-side-tab-toggle')) {
             el.style.setProperty('transform', 'translateY(120px)', 'important');
             el.style.setProperty('pointer-events', 'none', 'important');
           });
+          if (fabContainer && !fabContainer.classList.contains('is-open')) {
+            fabContainer.classList.add('context-suppressed');
+          }
           if (inlineVoiceBtn) inlineVoiceBtn.classList.add('cta-spotlight');
         } else {
           activeIntersectingModules.delete(entry.target);
@@ -1449,6 +1494,9 @@ if (!document.getElementById('esh-side-tab-toggle')) {
                 if (!el) return;
                 el.classList.remove('contextual-suppressed');
               });
+              if (fabContainer) {
+                fabContainer.classList.remove('context-suppressed');
+              }
               if (inlineVoiceBtn) inlineVoiceBtn.classList.remove('cta-spotlight');
             }
           }
@@ -1491,12 +1539,135 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     };
   }
 
+  // ==========================================================================
+  // 5. RADIAL FLOATING ACTION HUB CONTROLLER
+  // ==========================================================================
+  function initFabRadialLauncher() {
+    const container = document.getElementById('fabRadialContainer');
+    const triggerBtn = document.getElementById('fabTriggerBtn');
+    const backdrop = document.getElementById('fabBackdrop');
+    const actions = document.getElementById('fabActions');
+    const btnWhatsApp = document.getElementById('fabActionWhatsApp');
+    const btnCamera = document.getElementById('fabActionCamera');
+    const btnAoife = document.getElementById('fabActionAoife');
+
+    if (!container || !triggerBtn) return;
+
+    function openFab() {
+      container.classList.add('is-open');
+      if (backdrop) backdrop.classList.add('is-active');
+      triggerBtn.setAttribute('aria-expanded', 'true');
+      if (actions) actions.setAttribute('aria-hidden', 'false');
+      triggerHaptic(12);
+    }
+
+    function closeFab() {
+      container.classList.remove('is-open');
+      if (backdrop) backdrop.classList.remove('is-active');
+      triggerBtn.setAttribute('aria-expanded', 'false');
+      if (actions) actions.setAttribute('aria-hidden', 'true');
+      triggerHaptic(6);
+    }
+
+    function toggleFab(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      if (container.classList.contains('is-open')) {
+        closeFab();
+      } else {
+        openFab();
+      }
+    }
+
+    triggerBtn.addEventListener('click', toggleFab);
+
+    if (backdrop) {
+      backdrop.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeFab();
+      });
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && container.classList.contains('is-open')) {
+        closeFab();
+      }
+    });
+
+    // Action 1: WhatsApp
+    if (btnWhatsApp) {
+      btnWhatsApp.addEventListener('click', (e) => {
+        triggerHaptic(8);
+        closeFab();
+        if (typeof window.openWhatsAppQuickConsult === 'function') {
+          e.preventDefault();
+          window.openWhatsAppQuickConsult();
+        }
+      });
+    }
+
+    // Action 2: Snap Photo
+    if (btnCamera) {
+      btnCamera.addEventListener('click', (e) => {
+        e.preventDefault();
+        triggerHaptic(10);
+        closeFab();
+
+        // Target snap audit or property audit upload zone
+        const snapTarget = document.getElementById('snap-audit') || 
+                           document.querySelector('.snap-audit-section') || 
+                           document.getElementById('property-audit-section') || 
+                           document.getElementById('carbon-tax-war-room');
+        if (snapTarget) {
+          snapTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        setTimeout(() => {
+          const fileInput = document.getElementById('snapFileInput') || 
+                            document.querySelector('input[type="file"][accept*="image"]') ||
+                            document.getElementById('input-bill-upload');
+          if (fileInput) {
+            fileInput.click();
+          } else {
+            window.showEshToast('Ready to analyze equipment or BER photo', '📸');
+          }
+        }, 350);
+      });
+    }
+
+    // Action 3: Ask Aoife (Voice AI)
+    if (btnAoife) {
+      btnAoife.addEventListener('click', (e) => {
+        e.preventDefault();
+        triggerHaptic(10);
+        closeFab();
+
+        if (typeof window.openVoiceAdvisor === 'function') {
+          window.openVoiceAdvisor();
+        } else {
+          const voiceLauncher = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+          if (voiceLauncher) {
+            voiceLauncher.click();
+          } else if (typeof window.AG !== 'undefined' && window.AG.toggleVoice) {
+            window.AG.toggleVoice();
+          } else {
+            window.showEshToast('Connecting to Aoife Voice AI...', '🎙️');
+          }
+        }
+      });
+    }
+  }
+
   // Auto-init on load
   function initSmartNavSuite() {
     initMobileTopMenuSlider();
     initMobileIOSAppDock();
     initSmartScrollMechanics();
     initDossierContextualObserver();
+    initFabRadialLauncher();
   }
 
   if (document.readyState === 'loading') {
