@@ -1311,15 +1311,50 @@ if (!document.getElementById('esh-side-tab-toggle')) {
 
   // Smart Scroll Direction Listener & Dock Collision Shielding
   function initSmartScrollMechanics() {
-    let lastScrollY = window.scrollY || window.pageYOffset || 0;
+    function getScrollY() {
+      const container = document.getElementById('mobile-app-container');
+      return window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || (container ? container.scrollTop : 0) || 0;
+    }
+
+    let lastScrollY = getScrollY();
     let ticking = false;
-    const SCROLL_DELTA_THRESHOLD = 12;
-    const TOP_BOUNDARY_LOCK = 100;
+    const SCROLL_DELTA_THRESHOLD = 8;
+    const HERO_SUPPRESSION_THRESHOLD = 220;
+
+    function hideTriggers() {
+      const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
+      const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+      const floatingActionsRow = document.querySelector('.floating-actions-bar');
+
+      [floatingWa, floatingVoice, floatingActionsRow].forEach(el => {
+        if (!el) return;
+        el.classList.add('scroll-hidden', 'is-hidden');
+        el.style.setProperty('visibility', 'hidden', 'important');
+        el.style.setProperty('opacity', '0', 'important');
+        el.style.setProperty('transform', 'translateY(120px)', 'important');
+        el.style.setProperty('pointer-events', 'none', 'important');
+      });
+    }
+
+    function showTriggers() {
+      const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
+      const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+      const floatingActionsRow = document.querySelector('.floating-actions-bar');
+
+      [floatingWa, floatingVoice, floatingActionsRow].forEach(el => {
+        if (!el || el.classList.contains('contextual-suppressed')) return;
+        el.classList.remove('scroll-hidden', 'is-hidden');
+        el.style.removeProperty('visibility');
+        el.style.removeProperty('opacity');
+        el.style.removeProperty('transform');
+        el.style.removeProperty('pointer-events');
+      });
+    }
 
     function onScroll() {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY || window.pageYOffset || 0;
+          const currentScrollY = getScrollY();
           const delta = currentScrollY - lastScrollY;
           const docHeight = Math.max(
             document.body.scrollHeight, document.documentElement.scrollHeight,
@@ -1327,25 +1362,20 @@ if (!document.getElementById('esh-side-tab-toggle')) {
             document.body.clientHeight, document.documentElement.clientHeight
           );
           const winHeight = window.innerHeight;
-          const isScrollFloor = (winHeight + currentScrollY) >= (docHeight - 20);
-          const isTopBoundary = currentScrollY <= TOP_BOUNDARY_LOCK;
+          const isScrollFloor = (winHeight + currentScrollY) >= (docHeight - 40);
+          const isHeroZone = currentScrollY < HERO_SUPPRESSION_THRESHOLD;
 
-          const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
-          const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
-          const floatingActionsRow = document.querySelector('.floating-actions-bar');
-
-          if (isTopBoundary || isScrollFloor) {
-            if (floatingWa) { floatingWa.classList.remove('scroll-hidden'); floatingWa.classList.remove('is-hidden'); }
-            if (floatingVoice) { floatingVoice.classList.remove('scroll-hidden'); floatingVoice.classList.remove('is-hidden'); }
-            if (floatingActionsRow) { floatingActionsRow.classList.remove('scroll-hidden'); floatingActionsRow.classList.remove('is-hidden'); }
+          // In the hero zone: suppress to prevent obscuring title, badges, and scanner
+          if (isHeroZone) {
+            hideTriggers();
+          } else if (isScrollFloor) {
+            showTriggers();
           } else if (delta > SCROLL_DELTA_THRESHOLD) {
-            if (floatingWa) { floatingWa.classList.add('scroll-hidden'); floatingWa.classList.add('is-hidden'); }
-            if (floatingVoice) { floatingVoice.classList.add('scroll-hidden'); floatingVoice.classList.add('is-hidden'); }
-            if (floatingActionsRow) { floatingActionsRow.classList.add('scroll-hidden'); floatingActionsRow.classList.add('is-hidden'); }
-          } else if (delta < 0) {
-            if (floatingWa) { floatingWa.classList.remove('scroll-hidden'); floatingWa.classList.remove('is-hidden'); }
-            if (floatingVoice) { floatingVoice.classList.remove('scroll-hidden'); floatingVoice.classList.remove('is-hidden'); }
-            if (floatingActionsRow) { floatingActionsRow.classList.remove('scroll-hidden'); floatingActionsRow.classList.remove('is-hidden'); }
+            // Scrolling down: hide
+            hideTriggers();
+          } else if (delta < -SCROLL_DELTA_THRESHOLD) {
+            // Scrolling up past hero: reveal
+            showTriggers();
           }
 
           lastScrollY = currentScrollY;
@@ -1355,10 +1385,16 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       }
     }
 
+    // Initial check on mount
+    onScroll();
+
     window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('scroll', onScroll, { passive: true });
+    const appContainer = document.getElementById('mobile-app-container');
+    if (appContainer) appContainer.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  // Contextual Aoife & Floating Triggers Suppression Observer (threshold > 0.35)
+  // Contextual Aoife & Floating Triggers Suppression Observer
   function initDossierContextualObserver() {
     if (!('IntersectionObserver' in window)) return;
 
@@ -1369,20 +1405,30 @@ if (!document.getElementById('esh-side-tab-toggle')) {
         const floatingBar = document.querySelector('.floating-actions-bar');
         const inlineVoiceBtn = document.getElementById('btn-dossier-ask-aoife') || document.querySelector('.btn-inline-ask-aoife') || document.getElementById('simVoiceCtaBtn');
 
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
-          if (floatingVoice) floatingVoice.classList.add('contextual-suppressed');
-          if (floatingWa) floatingWa.classList.add('contextual-suppressed');
-          if (floatingBar) floatingBar.classList.add('contextual-suppressed');
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.20) {
+          [floatingVoice, floatingWa, floatingBar].forEach(el => {
+            if (!el) return;
+            el.classList.add('contextual-suppressed', 'is-hidden', 'scroll-hidden');
+            el.style.setProperty('visibility', 'hidden', 'important');
+            el.style.setProperty('opacity', '0', 'important');
+            el.style.setProperty('transform', 'translateY(120px)', 'important');
+            el.style.setProperty('pointer-events', 'none', 'important');
+          });
           if (inlineVoiceBtn) inlineVoiceBtn.classList.add('cta-spotlight');
         } else {
-          if (floatingVoice) floatingVoice.classList.remove('contextual-suppressed');
-          if (floatingWa) floatingWa.classList.remove('contextual-suppressed');
-          if (floatingBar) floatingBar.classList.remove('contextual-suppressed');
+          [floatingVoice, floatingWa, floatingBar].forEach(el => {
+            if (!el) return;
+            el.classList.remove('contextual-suppressed');
+            el.style.removeProperty('visibility');
+            el.style.removeProperty('opacity');
+            el.style.removeProperty('transform');
+            el.style.removeProperty('pointer-events');
+          });
           if (inlineVoiceBtn) inlineVoiceBtn.classList.remove('cta-spotlight');
         }
       });
     }, {
-      threshold: [0, 0.25, 0.5, 0.75, 1.0]
+      threshold: [0, 0.20, 0.5, 0.75, 1.0]
     });
 
     const suppressionSelectors = [
@@ -1392,7 +1438,12 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       '#grant-matrix-calculator',
       '.grant-matrix-section',
       '.transformation-slider-wrap',
-      '.transformation-cards-grid'
+      '.transformation-cards-grid',
+      '#county-solar-map',
+      '#carbon-tax-war-room',
+      '#wallet-rescue-wizard',
+      '#agent-rescue-wizard',
+      '#installer-rescue-wizard'
     ];
 
     suppressionSelectors.forEach(sel => {

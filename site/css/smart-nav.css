@@ -3088,21 +3088,27 @@ a, a:visited {
     margin-bottom: 0 !important;
   }
 
-  /* 5. Horizontal Bank Ticker Glide Track */
+  /* 5. Horizontal Bank Ticker Glide Track (Swipe Peek: 82% card width) */
+  .bank-cards-carousel,
+  .ticker-cards-row,
   .bank-ticker-grid {
     display: flex !important;
     overflow-x: auto !important;
-    gap: 10px !important;
+    gap: 12px !important;
     scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch !important;
+    padding-right: 20px !important;
     padding-bottom: 12px !important;
     scrollbar-width: thin !important;
   }
+  .bank-ticker-grid > *,
+  .bank-cards-carousel > *,
+  .ticker-cards-row > *,
   .bank-ticker-card {
-    min-width: 220px !important;
-    max-width: 240px !important;
-    flex-shrink: 0 !important;
     scroll-snap-align: start !important;
+    flex: 0 0 82% !important;
+    min-width: unset !important;
+    max-width: unset !important;
   }
 
   /* 6. Compact Hero Cards Horizontal Micro-Track */
@@ -3196,23 +3202,34 @@ a, a:visited {
    MOBILE UI/UX & CONVERSION HANDOVER: SCROLL MECHANICS & DOCK COLLISION FIXES
    ========================================================================== */
 
-/* 1. Main Viewport Scroll Container Bottom Clearance Buffer */
+/* 1. Main Viewport & Card Section Bottom Clearance Buffer (Guillotining / Dock Slicing Fix) */
 main,
 .page-container,
 .main-viewport-wrapper,
 #mobile-app-container,
+#mobile-app-container > div:last-child,
+.transformation-cards-grid,
+.transformation-section,
+.transformation-container,
+.comparison-container,
 body {
-  padding-bottom: calc(110px + env(safe-area-inset-bottom, 20px)) !important;
+  padding-bottom: calc(140px + env(safe-area-inset-bottom, 20px)) !important;
   box-sizing: border-box !important;
 }
 
-/* 2. Floating Action Row & Hide State (Collision Shielding) */
+.dock-clearance-spacer {
+  height: calc(140px + env(safe-area-inset-bottom, 20px));
+  width: 100%;
+  pointer-events: none;
+}
+
+/* 2. Floating Action Row & Hide State (Collision Shielding & Force Hide Overrides) */
 .floating-actions-bar,
 #esh-whatsapp-floating-btn,
 #voice-launcher,
 .voice-advisor-launcher {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease !important;
-  will-change: transform, opacity !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, visibility 0.2s ease !important;
+  will-change: transform, opacity, visibility !important;
 }
 
 .floating-actions-bar.is-hidden,
@@ -3223,9 +3240,10 @@ body {
 #voice-launcher.scroll-hidden,
 .voice-advisor-launcher.is-hidden,
 .voice-advisor-launcher.scroll-hidden {
-  transform: translateY(100px) !important;
+  transform: translateY(120px) !important;
   opacity: 0 !important;
   pointer-events: none !important;
+  visibility: hidden !important;
 }
 
 /* 3. Slider Badge Flexbox Collision Fix */
@@ -3312,7 +3330,46 @@ body {
   100% { transform: scale(0.85); opacity: 0.8; }
 }
 
-/* 6. Hero Secondary Badges Horizontal Swipe Row */
+/* 6. Hero Secondary Badges Horizontal Swipe Row & Consolidated Top Bar */
+.top-bar-custom {
+  padding: 6px 14px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.top-bar-single-line {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  font-size: 0.74rem !important;
+  width: 100% !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+}
+
+.top-alert-link {
+  color: #cbd5e1 !important;
+  text-decoration: none !important;
+  font-weight: 700 !important;
+  transition: color 0.2s ease !important;
+}
+
+.top-alert-link:hover {
+  color: #ffffff !important;
+}
+
+.top-pricing-link {
+  color: #f59e0b !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+  transition: opacity 0.2s ease !important;
+}
+
+.top-pricing-link:hover {
+  opacity: 0.85 !important;
+}
+
 .hero-primary-badge-wrap {
   display: flex;
   justify-content: center;
@@ -3330,7 +3387,8 @@ body {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   max-width: 100%;
-  margin: 0 auto 24px auto;
+  margin: 0 auto 20px auto;
+  box-sizing: border-box;
 }
 
 .hero-secondary-badge-row::-webkit-scrollbar {
@@ -3342,11 +3400,13 @@ body {
     justify-content: flex-start !important;
     padding-left: 16px !important;
     padding-right: 16px !important;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x mandatory !important;
+    width: 100% !important;
   }
   .hero-secondary-badge-row .badge-pill {
-    scroll-snap-align: start;
-    flex-shrink: 0;
+    scroll-snap-align: start !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
   }
 }
 
