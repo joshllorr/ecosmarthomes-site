@@ -3191,3 +3191,227 @@ a, a:visited {
     padding: 36px 14px !important;
   }
 }
+
+/* ==========================================================================
+   MOBILE UI/UX & CONVERSION HANDOVER: SCROLL MECHANICS & DOCK COLLISION FIXES
+   ========================================================================== */
+
+/* 1. Main Viewport Scroll Container Bottom Clearance Buffer */
+#mobile-app-container,
+body,
+main {
+  padding-bottom: max(115px, calc(76px + env(safe-area-inset-bottom, 20px) + 32px)) !important;
+}
+
+/* 2. Floating Action Triggers: Smart Scroll Hide / Reveal */
+#esh-whatsapp-floating-btn,
+#voice-launcher,
+.voice-advisor-launcher {
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, box-shadow 0.25s ease !important;
+  will-change: transform, opacity !important;
+}
+
+#esh-whatsapp-floating-btn.scroll-hidden,
+#voice-launcher.scroll-hidden,
+.voice-advisor-launcher.scroll-hidden {
+  transform: translateY(120px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 3. Contextual Suppression: Hide Aoife Bubble When Dossier CTA In Viewport */
+#voice-launcher.contextual-suppressed,
+.voice-advisor-launcher.contextual-suppressed {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: scale(0.82) translateY(24px) !important;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* 4. Inline Dossier CTA Spotlight Pulse */
+.cta-spotlight {
+  border-color: #34f5c5 !important;
+  box-shadow: 0 0 25px rgba(52, 245, 197, 0.75), 0 0 45px rgba(16, 185, 129, 0.45) !important;
+  animation: ctaSpotlightPulse 1.8s infinite alternate ease-in-out !important;
+}
+
+@keyframes ctaSpotlightPulse {
+  0% { transform: scale(1); box-shadow: 0 0 15px rgba(52, 245, 197, 0.5); }
+  100% { transform: scale(1.025); box-shadow: 0 0 28px rgba(52, 245, 197, 0.9), 0 0 50px rgba(16, 185, 129, 0.6); }
+}
+
+/* 5. Mobile Dock Checkout Trigger State Management */
+#mobile-dock-checkout.dock-checkout-disabled {
+  opacity: 0.55 !important;
+  pointer-events: none !important;
+  filter: grayscale(0.85);
+  cursor: not-allowed;
+  transition: all 0.3s ease;
+}
+
+#mobile-dock-checkout.dock-checkout-active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  filter: none !important;
+  color: #34f5c5 !important;
+  position: relative;
+}
+
+#mobile-dock-checkout.dock-checkout-active .dock-icon {
+  animation: dockEmeraldBounce 2s infinite ease-in-out;
+  filter: drop-shadow(0 0 8px rgba(52, 245, 197, 0.8));
+}
+
+#mobile-dock-checkout.dock-checkout-active .dock-checkout-badge {
+  position: absolute;
+  top: 4px;
+  right: 18px;
+  width: 8px;
+  height: 8px;
+  background: #34f5c5;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #34f5c5;
+  animation: emeraldDotPulse 1.5s infinite;
+}
+
+@keyframes dockEmeraldBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes emeraldDotPulse {
+  0% { transform: scale(0.85); opacity: 0.8; }
+  50% { transform: scale(1.4); opacity: 1; box-shadow: 0 0 12px #34f5c5; }
+  100% { transform: scale(0.85); opacity: 0.8; }
+}
+
+/* 6. Hero Secondary Badges Horizontal Swipe Row */
+.hero-primary-badge-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.hero-secondary-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 4px 12px 12px 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  max-width: 100%;
+  margin: 0 auto 24px auto;
+}
+
+.hero-secondary-badge-row::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hero-secondary-badge-row {
+    justify-content: flex-start !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    scroll-snap-type: x mandatory;
+  }
+  .hero-secondary-badge-row .badge-pill {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
+
+/* 7. Dossier State Machine: Skeleton Pulse & Staggered Animations */
+.dossier-skeleton-card {
+  background: rgba(0, 36, 27, 0.85);
+  border: 1.5px solid rgba(52, 245, 197, 0.3);
+  border-radius: 20px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-pulse-emerald {
+  background: linear-gradient(90deg, rgba(0, 24, 18, 0.8) 0%, rgba(52, 245, 197, 0.15) 50%, rgba(0, 24, 18, 0.8) 100%);
+  background-size: 200% 100%;
+  animation: emeraldSkeletonShimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes emeraldSkeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.dossier-card-stagger {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: dossierFadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.dossier-card-stagger:nth-child(1) { animation-delay: 0ms; }
+.dossier-card-stagger:nth-child(2) { animation-delay: 150ms; }
+.dossier-card-stagger:nth-child(3) { animation-delay: 300ms; }
+.dossier-card-stagger:nth-child(4) { animation-delay: 450ms; }
+
+@keyframes dossierFadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 8. Non-Blocking Recovery Error Banner */
+.dossier-error-banner {
+  background: rgba(40, 15, 15, 0.95);
+  border: 1.5px solid rgba(239, 68, 68, 0.5);
+  border-radius: 14px;
+  padding: 16px 20px;
+  color: #fecaca;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dossier-error-banner .error-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dossier-error-banner .btn-recovery {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dossier-error-banner .btn-recovery:hover {
+  background: #34f5c5;
+  color: #001711;
+  border-color: #34f5c5;
+}
+
+/* 9. Persona Root Data Attributes */
+[data-persona="homeowner"] {
+  --theme-accent: #34f5c5;
+  --theme-glow: rgba(52, 245, 197, 0.4);
+}
+[data-persona="agent"] {
+  --theme-accent: #fbbf24;
+  --theme-glow: rgba(251, 191, 36, 0.4);
+}
+[data-persona="installer"] {
+  --theme-accent: #38bdf8;
+  --theme-glow: rgba(56, 189, 248, 0.4);
+}
+

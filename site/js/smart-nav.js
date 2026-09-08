@@ -119,6 +119,10 @@
   window.setPersona = function(personaKey) {
     currentPersona = personaKey;
 
+    // Inject Active Persona as Root Data Attribute
+    document.documentElement.setAttribute('data-persona', personaKey);
+    document.body.setAttribute('data-persona', personaKey);
+
     // Update Pill Active States
     document.querySelectorAll('.persona-pill').forEach(pill => {
       pill.classList.toggle('active', pill.getAttribute('data-persona') === personaKey);
@@ -1104,12 +1108,21 @@ if (!document.getElementById('esh-side-tab-toggle')) {
           <span class="dock-icon">📋</span>
           <span>Reports</span>
         </button>
-        <a href="/checkout/" class="dock-item" aria-label="Checkout Survey">
-          <span class="dock-icon">👤</span>
+        <a href="/checkout/" id="mobile-dock-checkout" class="dock-item dock-checkout-trigger dock-checkout-disabled" aria-label="Checkout Survey" title="Select an advisory tier or generate a roadmap to activate checkout">
+          <span class="dock-icon">💳</span>
           <span>Checkout</span>
+          <span class="dock-checkout-badge"></span>
         </a>
       `;
       document.body.appendChild(dock);
+
+      // Restore active checkout state if tier previously selected
+      try {
+        const savedTier = sessionStorage.getItem('ESH_activeAdvisoryTier');
+        if (savedTier || window.location.pathname.includes('/checkout/')) {
+          setTimeout(() => window.setDockCheckoutEnabled(true, savedTier), 100);
+        }
+      } catch (e) {}
     }
 
     // 2. Create Mobile Tool Sheet Modal if not present
@@ -1275,12 +1288,113 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     }
   });
 
+  // Set Fixed Bottom Dock Checkout State
+  window.setDockCheckoutEnabled = function(enabled, tierName) {
+    const trigger = document.getElementById('mobile-dock-checkout');
+    if (!trigger) return;
+    if (enabled) {
+      trigger.classList.remove('dock-checkout-disabled');
+      trigger.classList.add('dock-checkout-active');
+      trigger.removeAttribute('title');
+      if (tierName) {
+        trigger.setAttribute('href', `/checkout/?tier=${encodeURIComponent(tierName)}`);
+        try {
+          sessionStorage.setItem('ESH_activeAdvisoryTier', tierName);
+        } catch (e) {}
+      }
+    } else {
+      trigger.classList.add('dock-checkout-disabled');
+      trigger.classList.remove('dock-checkout-active');
+      trigger.setAttribute('title', 'Select an advisory tier or generate a roadmap to activate checkout');
+    }
+  };
+
+  // Smart Scroll Direction Listener & Dock Collision Shielding
+  function initSmartScrollMechanics() {
+    let lastScrollY = window.scrollY || window.pageYOffset || 0;
+    let ticking = false;
+    const SCROLL_DELTA_THRESHOLD = 12;
+    const TOP_BOUNDARY_LOCK = 100;
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY || window.pageYOffset || 0;
+          const delta = currentScrollY - lastScrollY;
+          const docHeight = Math.max(
+            document.body.scrollHeight, document.documentElement.scrollHeight,
+            document.body.offsetHeight, document.documentElement.offsetHeight,
+            document.body.clientHeight, document.documentElement.clientHeight
+          );
+          const winHeight = window.innerHeight;
+          const isScrollFloor = (winHeight + currentScrollY) >= (docHeight - 20);
+          const isTopBoundary = currentScrollY <= TOP_BOUNDARY_LOCK;
+
+          const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
+          const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+
+          if (isTopBoundary || isScrollFloor) {
+            if (floatingWa) floatingWa.classList.remove('scroll-hidden');
+            if (floatingVoice) floatingVoice.classList.remove('scroll-hidden');
+          } else if (delta > SCROLL_DELTA_THRESHOLD) {
+            if (floatingWa) floatingWa.classList.add('scroll-hidden');
+            if (floatingVoice) floatingVoice.classList.add('scroll-hidden');
+          } else if (delta < 0) {
+            if (floatingWa) floatingWa.classList.remove('scroll-hidden');
+            if (floatingVoice) floatingVoice.classList.remove('scroll-hidden');
+          }
+
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Contextual Aoife Suppression Observer (threshold > 0.35)
+  function initDossierContextualObserver() {
+    if (!('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
+        const inlineVoiceBtn = document.getElementById('btn-dossier-ask-aoife') || document.querySelector('.btn-inline-ask-aoife') || document.getElementById('simVoiceCtaBtn');
+
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+          if (floatingVoice) floatingVoice.classList.add('contextual-suppressed');
+          if (inlineVoiceBtn) inlineVoiceBtn.classList.add('cta-spotlight');
+        } else {
+          if (floatingVoice) floatingVoice.classList.remove('contextual-suppressed');
+          if (inlineVoiceBtn) inlineVoiceBtn.classList.remove('cta-spotlight');
+        }
+      });
+    }, {
+      threshold: [0, 0.35, 0.7, 1.0]
+    });
+
+    const target = document.getElementById('prop-audit-results');
+    if (target) observer.observe(target);
+
+    window.observeDossierCardForAoifeSuppression = function(el) {
+      if (el) observer.observe(el);
+    };
+  }
+
   // Auto-init on load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMobileIOSAppDock);
-  } else {
+  function initSmartNavSuite() {
     initMobileTopMenuSlider();
     initMobileIOSAppDock();
+    initSmartScrollMechanics();
+    initDossierContextualObserver();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSmartNavSuite);
+  } else {
+    initSmartNavSuite();
   }
 
   // ==========================================================================

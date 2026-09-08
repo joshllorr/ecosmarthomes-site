@@ -513,7 +513,31 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
     window.AG.savePersona(persona.key);
   };
 
-  // Auto-Launch Role Picker Modal (500ms Pop-Up with Persona Memory Awareness)
+  // Check 30-Day Persona Session Validity
+  function hasValidPersonaSession() {
+    try {
+      const raw = localStorage.getItem("ESH_persona_context");
+      if (raw) {
+        const record = JSON.parse(raw);
+        if (record && record.timestamp) {
+          const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+          if (Date.now() - record.timestamp < THIRTY_DAYS_MS) {
+            return record;
+          }
+        }
+      }
+      if (localStorage.getItem("ESH_hasChosenRole") === "true") {
+        return {
+          role: localStorage.getItem("ESH_currentRole") || 'homeowner',
+          advisor: localStorage.getItem("ESH_lastPersona") || 'aoife',
+          timestamp: Date.now()
+        };
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  // Auto-Launch Role Picker Modal (500ms Pop-Up with 30-Day Memory Awareness)
   function autoLaunchRolePickerModal() {
     try {
       const params = new URLSearchParams(window.location.search);
@@ -524,8 +548,20 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
       const isHome = window.location.pathname === '/' || window.location.pathname.endsWith('index.html') || window.location.pathname === '';
       const dismissedThisSession = sessionStorage.getItem("ESH_sessionModalDismissed");
-      
-      // Slide in smoothly after 500ms on session entry
+      const activeSession = hasValidPersonaSession();
+
+      // If valid 30-day session exists, skip onboarding modal and apply persona
+      if (activeSession) {
+        const role = activeSession.role || 'homeowner';
+        document.documentElement.setAttribute('data-persona', role);
+        document.body.setAttribute('data-persona', role);
+        if (typeof window.setPersona === 'function') {
+          window.setPersona(role);
+        }
+        return;
+      }
+
+      // Slide in smoothly after 500ms on first-time session entry
       if (!dismissedThisSession && isHome) {
         setTimeout(() => {
           window.openPersonaPickerModal();
@@ -571,9 +607,16 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
 
     const raw = (personaKey || '').toLowerCase();
     const advisorKey = roleToAdvisor[raw] || (raw ? 'aoife' : '');
-    const roleKey = advisorToRole[raw] || (raw ? 'homeowner' : '');
+    const roleKey = advisorToRole[raw] || (raw ? 'homeowner' : 'homeowner');
 
     try {
+      const personaRecord = {
+        role: roleKey,
+        advisor: advisorKey || 'aoife',
+        timestamp: Date.now(),
+        sessionToken: 'ESH_sess_' + Math.random().toString(36).substring(2, 11)
+      };
+      localStorage.setItem("ESH_persona_context", JSON.stringify(personaRecord));
       sessionStorage.setItem("ESH_sessionModalDismissed", "true");
       localStorage.setItem("ESH_hasSeenOnboarding", "true");
       if (advisorKey) {
@@ -582,6 +625,10 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         localStorage.setItem("ESH_currentRole", roleKey);
       }
     } catch (e) {}
+
+    // Dynamic UI Switching: Inject active persona as root data attribute
+    document.documentElement.setAttribute('data-persona', roleKey);
+    document.body.setAttribute('data-persona', roleKey);
 
     // Forcefully hide all instances of the modal overlay immediately
     const modals = document.querySelectorAll("#personaModal, .persona-modal-overlay, #eshRoleSwitchConfirm, #esh-freemium-modal-overlay");
@@ -626,69 +673,69 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         <button type="button" class="modal-close-btn" onclick="window.dismissPersonaModal('')" aria-label="Dismiss Modal">✕</button>
         
         <div style="position: relative; z-index: 2;">
-          <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; margin-bottom: 6px;">
+          <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; margin-bottom: 4px;">
             Welcome to EcoSmartHomes Ireland
           </div>
-          <h2 style="color: #ffffff; font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 900; margin: 0 0 10px 0;">
+          <h2 style="color: #ffffff; font-size: clamp(1.4rem, 3.2vw, 2rem); font-weight: 900; margin: 0 0 6px 0;">
             Who are you exploring for today?
           </h2>
-          <p class="persona-subtitle" style="color: #cbd5e1; font-size: 0.95rem; max-width: 620px; margin: 0 auto 28px auto; line-height: 1.5;">
+          <p class="persona-subtitle" style="color: #cbd5e1; font-size: 0.88rem; max-width: 620px; margin: 0 auto 12px auto; line-height: 1.4;">
             Select your role to personalize your tools and activate your dedicated 100% conflict-free Irish AI Energy Advisor.
           </p>
 
-          <div class="persona-cards-grid">
+          <div class="persona-cards-grid persona-scroll-container">
             
             <!-- Homeowner (Aoife) -->
             <div class="persona-card esh-onboarding-card card-homeowner" data-persona="aoife" onclick="window.dismissPersonaModal('aoife')">
               <div>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                  <span style="font-size: 2rem;">🏡</span>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                  <span style="font-size: 1.8rem;">🏡</span>
                   <span style="background: rgba(52,245,197,0.15); color: #34f5c5; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Aoife</span>
                 </div>
                 <span class="persona-badge">✨ Last Selected Advisor</span>
-                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Homeowner</h3>
-                <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
+                <h3 style="color: #ffffff; font-size: 1.1rem; font-weight: 800; margin: 4px 0;">Homeowner</h3>
+                <p style="color: #94a3b8; font-size: 0.8rem; line-height: 1.35; margin: 0;">
                   Lower heating bills, size radiators, and claim up to €35,000 in SEAI retrofit grants.
                 </p>
               </div>
-              <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #34f5c5; font-weight: 800;">
-                Select Homeowner →
+              <div class="primary-action" style="margin-top: 14px; font-size: 0.82rem; color: #34f5c5; font-weight: 800;">
+                Continue as Homeowner →
               </div>
             </div>
 
             <!-- Estate Agent (Eimear) -->
             <div class="persona-card esh-onboarding-card card-agent" data-persona="eimear" onclick="window.dismissPersonaModal('eimear')">
               <div>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                  <span style="font-size: 2rem;">💼</span>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                  <span style="font-size: 1.8rem;">💼</span>
                   <span style="background: rgba(251,191,36,0.15); color: #fbbf24; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Eimear</span>
                 </div>
                 <span class="persona-badge">✨ Last Selected Advisor</span>
-                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Estate Agent / Valuer</h3>
-                <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
+                <h3 style="color: #ffffff; font-size: 1.1rem; font-weight: 800; margin: 4px 0;">Estate Agent / Valuer</h3>
+                <p style="color: #94a3b8; font-size: 0.8rem; line-height: 1.35; margin: 0;">
                   Explain BER uplift, unlock +€38k valuation equity surge, and highlight 3.45% green mortgages.
                 </p>
               </div>
-              <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #fbbf24; font-weight: 800;">
-                Select Estate Agent →
+              <div class="primary-action" style="margin-top: 14px; font-size: 0.82rem; color: #fbbf24; font-weight: 800;">
+                Continue as Estate Agent →
               </div>
             </div>
 
             <!-- Installer (Declan) -->
             <div class="persona-card esh-onboarding-card card-installer" data-persona="declan" onclick="window.dismissPersonaModal('declan')">
               <div>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-                  <span style="font-size: 2rem;">⚡</span>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                  <span style="font-size: 1.8rem;">⚡</span>
                   <span style="background: rgba(56,189,248,0.15); color: #38bdf8; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; font-family: 'IBM Plex Mono', monospace;">Declan</span>
                 </div>
                 <span class="persona-badge">✨ Last Selected Advisor</span>
-                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 800; margin: 6px 0 6px 0;">Installer / Retrofitter</h3>
-                <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.4; margin: 0;">
+                <h3 style="color: #ffffff; font-size: 1.1rem; font-weight: 800; margin: 4px 0;">Installer / Retrofitter</h3>
+                <p style="color: #94a3b8; font-size: 0.8rem; line-height: 1.35; margin: 0;">
                   NSAI SR50 45°C Delta-T 30 sizing, heat loss formulas, and digital data packs.
                 </p>
               </div>
-              <div class="primary-action" style="margin-top: 16px; font-size: 0.82rem; color: #38bdf8; font-weight: 800;">
-                Select Installer →
+              <div class="primary-action" style="margin-top: 14px; font-size: 0.82rem; color: #38bdf8; font-weight: 800;">
+                Continue as Installer →
               </div>
             </div>
 

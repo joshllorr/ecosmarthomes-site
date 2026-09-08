@@ -479,6 +479,26 @@
 
     const cfg = PERSONA_CONFIGS[currentPersona];
 
+    // Auto-inject currently viewed property dossier context if available
+    let propertyContext = null;
+    if (typeof window.getCurrentDossierData === 'function') {
+      const d = window.getCurrentDossierData();
+      if (d) {
+        propertyContext = {
+          eircode: d.eircode,
+          address: d.address,
+          county: d.county,
+          yearBuilt: d.yearBuilt,
+          floorArea: d.floorArea,
+          currentBer: d.currentBer,
+          targetBer: d.targetBer,
+          heatLoss: d.heatLoss,
+          hpSize: d.hpSize,
+          grantCap: d.grantCap
+        };
+      }
+    }
+
     try {
       const response = await fetch(cfg.apiEndpoint, {
         method: 'POST',
@@ -486,6 +506,7 @@
         body: JSON.stringify({
           message: text,
           persona: cfg.key,
+          propertyContext: propertyContext,
           history: conversationHistory.slice(-4)
         })
       });
@@ -688,6 +709,20 @@
     window.open(waUrl, '_blank');
   };
 
+  function ensureVoiceBackdrop() {
+    let overlay = document.getElementById('voice-backdrop-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'voice-backdrop-overlay';
+      overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:9998;display:none;';
+      document.body.appendChild(overlay);
+      overlay.onclick = () => {
+        window.closeVoiceAdvisorModal();
+      };
+    }
+    return overlay;
+  }
+
   function initVoiceEvents() {
     const launcher = document.getElementById('voice-launcher');
     const modal = document.getElementById('voice-modal');
@@ -697,15 +732,12 @@
     const textInput = document.getElementById('voice-text-input');
 
     launcher.onclick = () => {
-      modal.classList.add('open');
+      window.openVoiceAdvisorModal();
       if (textInput) textInput.focus();
     };
 
     closeBtn.onclick = () => {
-      modal.classList.remove('open');
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      if (recognition && isListening) recognition.stop();
-      updateHologramSpeakingState(false);
+      window.closeVoiceAdvisorModal();
     };
 
     micBtn.onclick = () => {
@@ -736,6 +768,18 @@
   window.openVoiceAdvisorModal = function() {
     const modal = document.getElementById('voice-modal');
     if (modal) modal.classList.add('open');
+    const overlay = ensureVoiceBackdrop();
+    if (overlay) overlay.classList.add('open');
+  };
+
+  window.closeVoiceAdvisorModal = function() {
+    const modal = document.getElementById('voice-modal');
+    if (modal) modal.classList.remove('open');
+    const overlay = document.getElementById('voice-backdrop-overlay');
+    if (overlay) overlay.classList.remove('open');
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    if (recognition && isListening) recognition.stop();
+    updateHologramSpeakingState(false);
   };
 
   window.openPersonaVoiceModal = function(personaKey) {

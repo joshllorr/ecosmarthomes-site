@@ -268,7 +268,7 @@
    Cinematic Persona Card Transitions
    =============================== */
 .persona-card, .esh-onboarding-card {
-  transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   background: #00241b;
   border: 1.5px solid rgba(255, 255, 255, 0.1);
   border-radius: 18px;
@@ -281,6 +281,12 @@
   position: relative;
   overflow: hidden;
   z-index: 2;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.persona-card:active, .esh-onboarding-card:active {
+  transform: scale(0.97) !important;
 }
 
 .persona-card:hover, .esh-onboarding-card:hover {
@@ -856,10 +862,72 @@
   }
 }
 
-/* Mobile Screen Bottom Dock Elevation */
+/* Mobile Screen Optimization & Modal Polish */
 @media (max-width: 768px) {
   .voice-advisor-launcher, #voice-launcher {
     bottom: 76px !important;
     right: 14px !important;
   }
+
+  /* Modal Tightening for 390px / 412px viewports */
+  .persona-modal-overlay {
+    padding: 12px !important;
+  }
+  .persona-modal-overlay .modal-container {
+    padding: 18px 14px 22px 14px !important;
+    max-height: 90vh !important;
+  }
+  .persona-modal-overlay h2 {
+    font-size: 1.35rem !important;
+    margin-bottom: 4px !important;
+  }
+  .persona-subtitle {
+    font-size: 0.82rem !important;
+    margin-bottom: 12px !important;
+    line-height: 1.35 !important;
+  }
+  .persona-cards-grid,
+  .persona-scroll-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding-right: 8px !important;
+    margin-bottom: 14px !important;
+    overflow-y: auto !important;
+    max-height: 54vh !important;
+    scrollbar-width: thin !important;
+  }
+  .persona-card, .esh-onboarding-card {
+    padding: 0.85rem 1rem !important;
+  }
+  .persona-card h3, .esh-onboarding-card h3 {
+    font-size: 1rem !important;
+    margin: 4px 0 !important;
+  }
+  .persona-card p, .esh-onboarding-card p {
+    font-size: 0.76rem !important;
+    line-height: 1.35 !important;
+  }
+  .persona-card .primary-action, .esh-onboarding-card .primary-action {
+    margin-top: 10px !important;
+    font-size: 0.78rem !important;
+  }
+}
+
+/* Backdrop Blur Overlay for Aoife Chat Drawer */
+#voice-backdrop-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 18, 13, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+#voice-backdrop-overlay.open {
+  display: block;
+  opacity: 1;
 }

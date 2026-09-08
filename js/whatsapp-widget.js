@@ -116,22 +116,36 @@
     window.updateWaPreview = function() {
       const eircode = document.getElementById('wa-eircode')?.value.trim() || 'Ireland';
       const ber = document.getElementById('wa-ber')?.value.trim() || 'D1';
+      const persona = document.documentElement.getAttribute('data-persona') || 'homeowner';
+      let serviceInterest = 'Heat Pump Readiness Test';
       let msg = '';
 
       if (currentTopic === 'boiler') {
-        msg = `Hi Joe, I'm looking at upgrading my ${ber} home in ${eircode}. I'd like your independent advice on heat pump readiness. Attached is a photo of my current boiler / cylinder setup...`;
+        serviceInterest = 'Heat Pump Readiness Test (Boiler / Cylinder Viability)';
+        msg = `Hi Joe, I'm exploring an upgrade for my property in ${eircode} (Current BER: ${ber} ➔ Target A0). As a ${persona}, I'd like your independent advice on heat pump readiness under NSAI SR50 standards. Service Interest: ${serviceInterest}. Attached is my boiler/cylinder photo...`;
       } else if (currentTopic === 'grant') {
-        msg = `Hi Joe, I have a property in ${eircode} (BER: ${ber}) and want to understand how to claim up to €35,000 in SEAI grants. Sending you a quick voice note with details...`;
+        serviceInterest = 'SEAI Grant Maximisation & Roadmap Lock (€35,000 Support)';
+        msg = `Hi Joe, I have a property in ${eircode} (BER: ${ber} ➔ Target A0). As a ${persona}, I want to maximize my SEAI retrofit grants and lock the 2026 framework. Service Interest: ${serviceInterest}. Sending a quick voice note with property details...`;
       } else {
-        msg = `Hi Joe, I received a contractor quote for my ${ber} home in ${eircode}. Can you red-line it against fair Irish market benchmarks? Sending the quote details now...`;
+        serviceInterest = 'Independent Contractor Quote Red-Line Audit';
+        msg = `Hi Joe, I received an installer quote for my ${ber} home in ${eircode}. As a ${persona}, I want an independent red-line audit against Irish market benchmarks before signing. Service Interest: ${serviceInterest}. Sending the contractor quote details now...`;
       }
 
       const previewEl = document.getElementById('wa-preview-text');
       if (previewEl) previewEl.textContent = msg;
     };
 
-    // Open / Close Modal
+    // Open / Close Modal with Live Property Dossier Pre-fill
     btn.addEventListener('click', () => {
+      if (typeof window.getCurrentDossierData === 'function') {
+        const d = window.getCurrentDossierData();
+        if (d && d.eircode) {
+          const eircodeInput = document.getElementById('wa-eircode');
+          const berInput = document.getElementById('wa-ber');
+          if (eircodeInput) eircodeInput.value = `${d.eircode} (${d.county || d.address})`;
+          if (berInput) berInput.value = `${d.currentBer} ➔ A0`;
+        }
+      }
       modal.style.display = 'flex';
       window.updateWaPreview();
     });

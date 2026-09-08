@@ -215,8 +215,32 @@
     dropdown.classList.add('open');
   }
 
+  // Cache & Active Dossier State
+  let currentDossierData = EIRCODE_DATABASE[0];
+  window.getCurrentDossierData = function() {
+    return currentDossierData;
+  };
+
+  // Cross-Session Cache Helpers (SessionStorage + In-Memory)
+  function getCachedDossier(cleanEircode) {
+    try {
+      const cached = sessionStorage.getItem('ESH_BER_CACHE_' + cleanEircode);
+      if (cached) return JSON.parse(cached);
+    } catch (e) {}
+    return null;
+  }
+
+  function setCachedDossier(cleanEircode, data) {
+    try {
+      sessionStorage.setItem('ESH_BER_CACHE_' + cleanEircode, JSON.stringify(data));
+    } catch (e) {}
+  }
+
   window.loadEircodeDossier = function(data) {
     currentDossierData = data;
+    const cleanEircode = data.eircode.replace(/\s+/g, '').toUpperCase();
+    setCachedDossier(cleanEircode, data);
+
     const resultsContainer = document.getElementById('prop-audit-results');
     if (!resultsContainer) return;
 
@@ -240,30 +264,30 @@
         </div>
 
         <div class="eircode-meta-grid">
-          <div class="eircode-meta-box">
+          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 0ms;">
             <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📅 YEAR BUILT</div>
             <div style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin-top: 2px;">${data.yearBuilt}</div>
             <div style="font-size: 0.72rem; color: #64748b;">${data.archetype}</div>
           </div>
-          <div class="eircode-meta-box">
+          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 150ms;">
             <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📐 TOTAL FLOOR AREA</div>
             <div style="font-size: 1.15rem; font-weight: 900; color: #34f5c5; margin-top: 2px;">${data.floorArea}</div>
-            <div style="font-size: 0.72rem; color: #64748b;">Heat Loss: ${data.heatLoss}</div>
+            <div style="font-size: 0.72rem; color: #64748b;">Heat Loss: ${data.heatLoss} (${data.hpSize})</div>
           </div>
-          <div class="eircode-meta-box">
+          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 300ms;">
             <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">🏷️ BER RATING JUMP</div>
             <div style="font-size: 1.15rem; font-weight: 900; color: #fbbf24; margin-top: 2px;">${data.currentBer} ➔ ${data.targetBer.split(' ')[0]}</div>
-            <div style="font-size: 0.72rem; color: #34f5c5;">3.45% Green Rate Qualified</div>
+            <div style="font-size: 0.72rem; color: #34f5c5;">3.45% Green Mortgage Qualified</div>
           </div>
-          <div class="eircode-meta-box">
+          <div class="eircode-meta-box dossier-card-stagger" style="animation-delay: 450ms;">
             <div style="font-size: 0.68rem; color: #94a3b8; font-family: monospace; font-weight: 800;">💶 MAX SEAI GRANT LOCK</div>
             <div style="font-size: 1.15rem; font-weight: 900; color: #38bdf8; margin-top: 2px;">${data.grantCap.split(' ')[0]}</div>
-            <div style="font-size: 0.72rem; color: #38bdf8;">Direct State Funding</div>
+            <div style="font-size: 0.72rem; color: #38bdf8;">Direct SEAI Grant Support</div>
           </div>
         </div>
 
         <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
-          <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiEircodeAudit()">
+          <button type="button" id="btn-dossier-ask-aoife" class="btn-hero-primary btn-inline-ask-aoife" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiEircodeAudit()">
             🎙️ Ask Aoife to Explain ${data.eircode} Roadmap →
           </button>
           <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestEircodeDossierWhatsApp()">
@@ -275,28 +299,128 @@
 
     resultsContainer.style.display = 'block';
     resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Enable Fixed Bottom Dock Checkout State
+    if (typeof window.setDockCheckoutEnabled === 'function') {
+      window.setDockCheckoutEnabled(true, `dossier-${data.eircode}`);
+    }
+
+    // Connect Aoife Contextual Suppression Observer
+    if (typeof window.observeDossierCardForAoifeSuppression === 'function') {
+      window.observeDossierCardForAoifeSuppression(resultsContainer);
+    }
   };
 
+  // 5-State Dossier Input & Scan State Machine
   window.runPropertyAudit = function(customInput) {
     const inputField = document.getElementById('prop-audit-input');
-    const inputVal = (customInput || (inputField ? inputField.value : '')).trim().toUpperCase();
+    const auditBtn = inputField ? inputField.parentElement.querySelector('button') : null;
+    const resultsContainer = document.getElementById('prop-audit-results');
+    const inputVal = (customInput || (inputField ? inputField.value : '')).trim();
 
     if (!inputVal) {
       if (inputField) inputField.focus();
       return;
     }
 
-    const clean = inputVal.replace(/\s+/g, '');
-    const found = EIRCODE_DATABASE.find(item => {
-      const eClean = item.eircode.replace(/\s+/g, '');
-      return eClean.includes(clean) || clean.includes(eClean) || clean.includes(item.routing) || inputVal.includes(item.town.toUpperCase()) || inputVal.includes(item.county.toUpperCase());
-    });
+    const clean = inputVal.replace(/\s+/g, '').toUpperCase();
 
-    if (found) {
-      window.loadEircodeDossier(found);
-    } else {
-      window.loadEircodeDossier(EIRCODE_DATABASE[0]);
+    // 1. STATE: VALIDATING
+    const eircodeRegex = /^[A-W0-9]{3}[ ]?[A-Z0-9]{4}$/i;
+    const isEircode = eircodeRegex.test(inputVal);
+    const isDaftUrl = /(daft|myhome)\.ie\//i.test(inputVal);
+    const isKnownTown = EIRCODE_DATABASE.some(item => 
+      inputVal.toUpperCase().includes(item.town.toUpperCase()) || 
+      inputVal.toUpperCase().includes(item.county.toUpperCase()) ||
+      clean.includes(item.routing)
+    );
+
+    // 2. CHECK CACHE FIRST
+    const cachedRecord = getCachedDossier(clean);
+    if (cachedRecord) {
+      window.loadEircodeDossier(cachedRecord);
+      return;
     }
+
+    // 3. STATE: FETCHING (Display Pulsing Emerald Skeleton Loader)
+    if (inputField) inputField.disabled = true;
+    if (auditBtn) {
+      auditBtn.disabled = true;
+      auditBtn.innerHTML = `<span>⏳ SCANNING...</span>`;
+    }
+
+    if (resultsContainer) {
+      resultsContainer.style.display = 'block';
+      resultsContainer.innerHTML = `
+        <div class="dossier-skeleton-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <div class="skeleton-pulse-emerald" style="width: 220px; height: 16px;"></div>
+            <div class="skeleton-pulse-emerald" style="width: 100px; height: 22px; border-radius: 20px;"></div>
+          </div>
+          <div class="skeleton-pulse-emerald" style="width: 70%; height: 28px; margin-bottom: 20px;"></div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px;">
+            <div class="skeleton-pulse-emerald" style="height: 72px;"></div>
+            <div class="skeleton-pulse-emerald" style="height: 72px;"></div>
+            <div class="skeleton-pulse-emerald" style="height: 72px;"></div>
+            <div class="skeleton-pulse-emerald" style="height: 72px;"></div>
+          </div>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <div class="skeleton-pulse-emerald" style="flex: 1; height: 42px; min-width: 200px;"></div>
+            <div class="skeleton-pulse-emerald" style="flex: 1; height: 42px; min-width: 200px;"></div>
+          </div>
+        </div>
+      `;
+      resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Simulated network resolution against National BER Register
+    setTimeout(() => {
+      if (inputField) inputField.disabled = false;
+      if (auditBtn) {
+        auditBtn.disabled = false;
+        auditBtn.innerHTML = `<span>⚡ AUDIT</span>`;
+      }
+
+      const found = EIRCODE_DATABASE.find(item => {
+        const eClean = item.eircode.replace(/\s+/g, '');
+        return eClean.includes(clean) || clean.includes(eClean) || clean.includes(item.routing) || inputVal.toUpperCase().includes(item.town.toUpperCase()) || inputVal.toUpperCase().includes(item.county.toUpperCase());
+      });
+
+      if (found) {
+        // 4. STATE: SUCCESS
+        window.loadEircodeDossier(found);
+      } else if (isEircode || isDaftUrl || isKnownTown) {
+        // Synthesize dynamic dossier from standard Irish archetype
+        const synth = Object.assign({}, EIRCODE_DATABASE[0], {
+          eircode: isEircode ? inputVal.toUpperCase() : 'P17 XY12',
+          address: isDaftUrl ? 'Verified Daft.ie Property Listing' : `${inputVal} Area Property`
+        });
+        window.loadEircodeDossier(synth);
+      } else {
+        // 5. STATE: ERROR (Inline Non-Blocking Alert Banner with Recovery Actions)
+        if (resultsContainer) {
+          resultsContainer.innerHTML = `
+            <div class="dossier-error-banner">
+              <div style="display: flex; align-items: flex-start; gap: 10px;">
+                <span style="font-size: 1.4rem;">⚠️</span>
+                <div>
+                  <strong style="color: #ffffff; font-size: 0.95rem;">Eircode / Link Not Matched on National BER Register</strong>
+                  <div style="font-size: 0.8rem; color: #fca5a5; margin-top: 3px; line-height: 1.4;">
+                    Could not resolve a certified BER dossier for "<strong>${inputVal}</strong>". Tap a verified demo property below or continue with manual assessment:
+                  </div>
+                </div>
+              </div>
+              <div class="error-actions">
+                <button type="button" class="btn-recovery" onclick="window.loadPropertyDemo('kinsale')">🏡 Kinsale (P17 XY12 · D1)</button>
+                <button type="button" class="btn-recovery" onclick="window.loadPropertyDemo('dublin')">🏠 Ballsbridge (D04 X2K1 · E2)</button>
+                <button type="button" class="btn-recovery" onclick="window.loadPropertyDemo('navan')">🛖 Navan (C15 R3T4 · F)</button>
+                <button type="button" class="btn-recovery" onclick="window.loadPropertyDemo('galway')">🏰 Galway (H91 C5D6 · E1)</button>
+              </div>
+            </div>
+          `;
+        }
+      }
+    }, 450);
   };
 
   window.loadPropertyDemo = function(demoKey) {
@@ -313,8 +437,9 @@
   };
 
   window.askVoiceAiEircodeAudit = function() {
-    const data = currentDossierData;
-    const prompt = `Hi Aoife! I looked up my property with Eircode ${data.eircode} (${data.address}, ${data.county}). It was built in ${data.yearBuilt} with ${data.floorArea} floor area and a ${data.currentBer} BER rating. Can you explain my ${data.grantCap} SEAI grant breakdown and how I reach the 8-step A0 Net-Zero rating?`;
+    const data = currentDossierData || EIRCODE_DATABASE[0];
+    const persona = document.documentElement.getAttribute('data-persona') || 'homeowner';
+    const prompt = `Hi Aoife! I looked up my property with Eircode ${data.eircode} (${data.address}, ${data.county}). It was built in ${data.yearBuilt} with ${data.floorArea} floor area and a ${data.currentBer} BER rating (Heat loss: ${data.heatLoss}). As a ${persona}, can you explain my ${data.grantCap} SEAI grant breakdown and how I reach the A0 Net-Zero rating?`;
 
     if (window.AG && typeof window.AG.setVoicePersona === 'function') {
       window.AG.setVoicePersona('aoife', false);
@@ -329,21 +454,32 @@
 
     setTimeout(() => {
       const input = document.getElementById('voice-text-input');
-      const sendBtn = document.getElementById('btn-send-voice');
+      const sendBtn = document.getElementById('voice-send-btn') || document.getElementById('btn-send-voice');
       if (input && sendBtn) {
         input.value = prompt;
         sendBtn.click();
       } else if (typeof window.submitVoiceQuery === 'function') {
         window.submitVoiceQuery(prompt);
       }
-    }, 600);
+    }, 500);
   };
 
   window.requestEircodeDossierWhatsApp = function() {
     const phone = '353839662197';
-    const data = currentDossierData;
-    const msg = encodeURIComponent(`Hi Joe! I just completed an Eircode BER Audit for ${data.eircode} (${data.address}, ${data.county}).\\n\\nBuilt: ${data.yearBuilt} · Floor Area: ${data.floorArea}\\nCurrent BER: ${data.currentBer} ➔ Target A0 (Net-Zero)\\nGrant Lock: ${data.grantCap}\\n\\nCan you review this property and send me the roadmap?`);
-    window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+    const data = currentDossierData || EIRCODE_DATABASE[0];
+    const persona = document.documentElement.getAttribute('data-persona') || 'homeowner';
+    const msgText = `Hi Joe! I just completed an Eircode BER Audit on EcoSmartHomes.ie:
+
+📍 Property: ${data.address}, ${data.county} (${data.eircode})
+📅 Year Built: ${data.yearBuilt} · Floor Area: ${data.floorArea}
+🏷️ BER Rating: ${data.currentBer} ➔ Target ${data.targetBer.split(' ')[0]}
+⚡ Heat Loss: ${data.heatLoss} · Heat Pump Size: ${data.hpSize}
+💶 SEAI Grant Lock: ${data.grantCap}
+👤 Persona Profile: ${persona}
+🎯 Service Interest: Heat Pump Readiness Test & SEAI Grant Maximisation
+
+Can you review this property and send me the roadmap?`;
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msgText)}`, '_blank', 'noopener,noreferrer');
   };
 
   // Setup input listener

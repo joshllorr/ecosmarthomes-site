@@ -51,6 +51,8 @@
       padding: 7px 0;
       font-size: 0.75rem;
       border-bottom: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      z-index: 1000000;
     }
     .top-bar-inner {
       max-width: 1280px;
@@ -59,6 +61,25 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
+    }
+    @media (max-width: 768px) {
+      .top-bar-custom {
+        padding: 8px 12px;
+      }
+      .top-bar-inner {
+        padding: 0;
+        font-size: 0.72rem;
+      }
+      .top-bar-inner > div:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .top-bar-inner > div:last-child a {
+        white-space: nowrap;
+        font-size: 0.72rem;
+      }
     }
     .main-nav-bar {
       background: rgba(0, 36, 27, 0.95);
@@ -380,10 +401,15 @@
   <!-- Hero Section -->
   <main>
     <section class="hero-stage">
-      <div class="badge-pill-container">
-        <span class="badge-pill" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34f5c5;">
+      <!-- Primary Prominent Trust Badge -->
+      <div class="hero-primary-badge-wrap">
+        <span class="badge-pill" style="background: rgba(16, 185, 129, 0.18); border: 1.5px solid #34f5c5; color: #34f5c5; font-size: 0.76rem; padding: 6px 18px; box-shadow: 0 0 16px rgba(52, 245, 197, 0.35);">
           ● 100% CONFLICT-FREE ENERGY ADVISORY
         </span>
+      </div>
+
+      <!-- Secondary Horizontal Swipeable Ticker Row -->
+      <div class="hero-secondary-badge-row" role="region" aria-label="Key Energy Advisory Highlights">
         <a href="/green-mortgage/" class="badge-pill" style="background: rgba(52, 245, 197, 0.1); border: 1px solid rgba(52, 245, 197, 0.3); color: #6ee7b7;">
           💼 3.45% Green Mortgage Slasher
         </a>
