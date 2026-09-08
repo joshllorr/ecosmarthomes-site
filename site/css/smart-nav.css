@@ -3398,15 +3398,26 @@ body {
 @media (max-width: 768px) {
   .hero-secondary-badge-row {
     justify-content: flex-start !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: 1rem !important;
+    padding-right: 1.25rem !important;
     scroll-snap-type: x mandatory !important;
     width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .hero-secondary-badge-row::after {
+    content: '' !important;
+    display: block !important;
+    min-width: 1.25rem !important;
+    width: 1.25rem !important;
+    flex-shrink: 0 !important;
   }
   .hero-secondary-badge-row .badge-pill {
     scroll-snap-align: start !important;
     flex-shrink: 0 !important;
     white-space: nowrap !important;
+  }
+  .hero-secondary-badge-row .badge-pill:last-child {
+    margin-right: 1.25rem !important;
   }
 }
 
@@ -3517,5 +3528,54 @@ body {
     box-sizing: border-box !important;
   }
 }
+
+/* 11. Scanner Card Mobile Dock Clearance Buffer & Visual Clearance */
+.hero-scanner-card {
+  scroll-margin-top: 110px;
+  scroll-margin-bottom: calc(110px + env(safe-area-inset-bottom, 20px));
+}
+
+@media (max-width: 768px) {
+  /* Hero typography & spacing compaction so scanner card is fully clear of bottom dock on initial fold */
+  .hero-h1 {
+    font-size: clamp(1.42rem, 4.6vw, 1.82rem) !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.02em !important;
+    margin: 8px 0 6px 0 !important;
+  }
+
+  .hero-sub {
+    font-size: 0.82rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 12px !important;
+    padding: 0 4px !important;
+  }
+
+  .hero-primary-badge-wrap {
+    margin-bottom: 8px !important;
+  }
+
+  .hero-secondary-badge-row {
+    margin-bottom: 12px !important;
+  }
+
+  .hero-scanner-card {
+    margin-top: 14px !important;
+    margin-bottom: calc(48px + 70px + env(safe-area-inset-bottom, 20px)) !important;
+    padding: 14px 14px 16px 14px !important;
+    border-radius: 16px !important;
+  }
+
+  /* 12. Interactive Modules Bottom Clearance & Scroll Margins */
+  .mortgage-ticker-section,
+  .transformation-section,
+  #transformation-slider,
+  #green-mortgage-ticker {
+    scroll-margin-top: 90px !important;
+    scroll-margin-bottom: calc(100px + env(safe-area-inset-bottom, 20px)) !important;
+    padding-bottom: calc(50px + env(safe-area-inset-bottom, 20px)) !important;
+  }
+}
+
 
 

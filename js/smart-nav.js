@@ -1310,6 +1310,10 @@ if (!document.getElementById('esh-side-tab-toggle')) {
   };
 
   // Smart Scroll Direction Listener & Dock Collision Shielding
+  const activeIntersectingModules = new Set();
+  let isScrollingDown = false;
+  let scrollStopTimer = null;
+
   function initSmartScrollMechanics() {
     function getScrollY() {
       const container = document.getElementById('mobile-app-container');
@@ -1337,6 +1341,13 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     }
 
     function showTriggers() {
+      const currentScrollY = getScrollY();
+      // Keep strictly hidden in hero zone, or while moving downward, or over any interactive module
+      if (currentScrollY < HERO_SUPPRESSION_THRESHOLD || isScrollingDown || activeIntersectingModules.size > 0) {
+        hideTriggers();
+        return;
+      }
+
       const floatingWa = document.getElementById('esh-whatsapp-floating-btn');
       const floatingVoice = document.getElementById('voice-launcher') || document.querySelector('.voice-advisor-launcher');
       const floatingActionsRow = document.querySelector('.floating-actions-bar');
@@ -1365,17 +1376,29 @@ if (!document.getElementById('esh-side-tab-toggle')) {
           const isScrollFloor = (winHeight + currentScrollY) >= (docHeight - 40);
           const isHeroZone = currentScrollY < HERO_SUPPRESSION_THRESHOLD;
 
-          // In the hero zone: suppress to prevent obscuring title, badges, and scanner
           if (isHeroZone) {
+            isScrollingDown = false;
             hideTriggers();
-          } else if (isScrollFloor) {
-            showTriggers();
           } else if (delta > SCROLL_DELTA_THRESHOLD) {
-            // Scrolling down: hide
+            // Scrolling down: strictly hide
+            isScrollingDown = true;
+            if (scrollStopTimer) clearTimeout(scrollStopTimer);
+            scrollStopTimer = setTimeout(() => {
+              isScrollingDown = false;
+            }, 350);
             hideTriggers();
           } else if (delta < -SCROLL_DELTA_THRESHOLD) {
-            // Scrolling up past hero: reveal
-            showTriggers();
+            // Scrolling up past hero: reveal if outside interactive modules
+            isScrollingDown = false;
+            if (!isHeroZone && activeIntersectingModules.size === 0) {
+              showTriggers();
+            } else {
+              hideTriggers();
+            }
+          } else if (isScrollFloor) {
+            if (activeIntersectingModules.size === 0) {
+              showTriggers();
+            }
           }
 
           lastScrollY = currentScrollY;
@@ -1405,7 +1428,8 @@ if (!document.getElementById('esh-side-tab-toggle')) {
         const floatingBar = document.querySelector('.floating-actions-bar');
         const inlineVoiceBtn = document.getElementById('btn-dossier-ask-aoife') || document.querySelector('.btn-inline-ask-aoife') || document.getElementById('simVoiceCtaBtn');
 
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.20) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.15) {
+          activeIntersectingModules.add(entry.target);
           [floatingVoice, floatingWa, floatingBar].forEach(el => {
             if (!el) return;
             el.classList.add('contextual-suppressed', 'is-hidden', 'scroll-hidden');
@@ -1416,29 +1440,40 @@ if (!document.getElementById('esh-side-tab-toggle')) {
           });
           if (inlineVoiceBtn) inlineVoiceBtn.classList.add('cta-spotlight');
         } else {
-          [floatingVoice, floatingWa, floatingBar].forEach(el => {
-            if (!el) return;
-            el.classList.remove('contextual-suppressed');
-            el.style.removeProperty('visibility');
-            el.style.removeProperty('opacity');
-            el.style.removeProperty('transform');
-            el.style.removeProperty('pointer-events');
-          });
-          if (inlineVoiceBtn) inlineVoiceBtn.classList.remove('cta-spotlight');
+          activeIntersectingModules.delete(entry.target);
+          if (activeIntersectingModules.size === 0 && !isScrollingDown) {
+            const container = document.getElementById('mobile-app-container');
+            const currentScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || (container ? container.scrollTop : 0) || 0;
+            if (currentScrollY >= 220) {
+              [floatingVoice, floatingWa, floatingBar].forEach(el => {
+                if (!el) return;
+                el.classList.remove('contextual-suppressed');
+              });
+              if (inlineVoiceBtn) inlineVoiceBtn.classList.remove('cta-spotlight');
+            }
+          }
         }
       });
     }, {
-      threshold: [0, 0.20, 0.5, 0.75, 1.0]
+      threshold: [0, 0.15, 0.5, 0.75, 1.0]
     });
 
     const suppressionSelectors = [
       '#prop-audit-results',
+      '.hero-scanner-card',
       '#snap-audit',
       '.snap-audit-section',
       '#grant-matrix-calculator',
       '.grant-matrix-section',
+      '#transformation-slider',
+      '.transformation-section',
       '.transformation-slider-wrap',
       '.transformation-cards-grid',
+      '.comparison-container',
+      '#green-mortgage-ticker',
+      '.mortgage-ticker-section',
+      '.bank-ticker-grid',
+      '.bank-cards-carousel',
       '#county-solar-map',
       '#carbon-tax-war-room',
       '#wallet-rescue-wizard',
