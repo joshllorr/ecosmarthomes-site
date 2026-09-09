@@ -328,35 +328,35 @@
           <span class="persona-arrow-bounce">▾</span>
         </button>
         <div id="mobile-persona-dropdown-panel" class="persona-dropdown-panel" role="menu" style="display: none;">
-          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('homeowner')">
+          <button type="button" class="persona-option-item active" onclick="window.handlePersonaTabClick('homeowner')">
             <span style="font-size: 1.3rem;">🏠</span>
             <div>
               <div>Homeowner</div>
               <span class="option-desc">Fuel Tax Shield & €35k Grants</span>
             </div>
           </button>
-          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('agent')">
+          <button type="button" class="persona-option-item" onclick="window.handlePersonaTabClick('agent')">
             <span style="font-size: 1.3rem;">💼</span>
             <div>
               <div>Estate Agent</div>
               <span class="option-desc">Equity Surge & 1-Click Daft.ie Blurb</span>
             </div>
           </button>
-          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('installer')">
+          <button type="button" class="persona-option-item" onclick="window.handlePersonaTabClick('installer')">
             <span style="font-size: 1.3rem;">⚡</span>
             <div>
               <div>Installer / Retrofitter</div>
               <span class="option-desc">NSAI SR50-2 Sizing & Tender RFP</span>
             </div>
           </button>
-          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('audit')">
+          <button type="button" class="persona-option-item" onclick="window.handlePersonaTabClick('audit')">
             <span style="font-size: 1.3rem;">🛡️</span>
             <div>
               <div>Audit, Review & Test</div>
               <span class="option-desc">Quote Red-Liner, Snap Audit & SR50 Tests</span>
             </div>
           </button>
-          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('all')">
+          <button type="button" class="persona-option-item" onclick="window.handlePersonaTabClick('all')">
             <span style="font-size: 1.3rem;">🔍</span>
             <div>
               <div>View All Tools</div>
@@ -375,11 +375,11 @@
 
       <div class="persona-filter-bar" role="tablist" aria-label="Audience Persona Filter">
         <nav class="persona-scroll-track" style="padding: 0; margin: 0; display: flex; gap: 6px;">
-          <button type="button" class="persona-pill persona-chip active active-homeowner" data-persona="homeowner" onclick="window.setPersona('homeowner')">🏠 Homeowner</button>
-          <button type="button" class="persona-pill persona-chip" data-persona="agent" onclick="window.setPersona('agent')">💼 Estate Agent</button>
-          <button type="button" class="persona-pill persona-chip" data-persona="installer" onclick="window.setPersona('installer')">⚡ Installer</button>
-          <button type="button" class="persona-pill persona-chip" data-persona="audit" onclick="window.setPersona('audit')">🛡️ Audit & Review</button>
-          <button type="button" class="persona-pill persona-chip" data-persona="all" onclick="window.setPersona('all')">🔍 View All</button>
+          <button type="button" class="persona-pill persona-chip active active-homeowner" data-persona="homeowner" onclick="window.handlePersonaTabClick('homeowner')">🏠 Homeowner</button>
+          <button type="button" class="persona-pill persona-chip" data-persona="agent" onclick="window.handlePersonaTabClick('agent')">💼 Estate Agent</button>
+          <button type="button" class="persona-pill persona-chip" data-persona="installer" onclick="window.handlePersonaTabClick('installer')">⚡ Installer</button>
+          <button type="button" class="persona-pill persona-chip" data-persona="audit" onclick="window.handlePersonaTabClick('audit')">🛡️ Audit & Review</button>
+          <button type="button" class="persona-pill persona-chip" data-persona="all" onclick="window.handlePersonaTabClick('all')">🔍 View All</button>
         </nav>
       </div>
 

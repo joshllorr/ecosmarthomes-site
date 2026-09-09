@@ -143,6 +143,35 @@
     window.setPersona(viewKey);
   };
 
+  window.handlePersonaTabClick = function(role) {
+    const validRoles = ['homeowner', 'agent', 'installer', 'audit', 'all'];
+    const targetRole = validRoles.includes(role) ? role : 'homeowner';
+    const isHomePage = window.location.pathname === '/' || 
+                       window.location.pathname.endsWith('/index.html') || 
+                       window.location.pathname === '';
+
+    if (!isHomePage) {
+      window.location.href = `/?view=${targetRole}#system-view-container`;
+      return;
+    }
+
+    // On home page: set persona
+    window.setPersona(targetRole);
+
+    // Smoothly scroll down to the active portal in system view container
+    const panel = document.getElementById(`view-panel-${targetRole}`) || 
+                  document.getElementById('system-view-container');
+    if (panel) {
+      const headerOffset = 75;
+      const elementPosition = panel.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: 'smooth'
+      });
+    }
+  };
+
   window.setPersona = function(personaKey) {
     const rawKey = (personaKey || 'homeowner').toLowerCase();
     const validKeys = ['homeowner', 'agent', 'installer', 'audit', 'all'];
@@ -1838,6 +1867,9 @@ if (!document.getElementById('esh-side-tab-toggle')) {
 
   // Auto-init on load
   function initSmartNavSuite() {
+    if (typeof initSmartNav === 'function') {
+      initSmartNav();
+    }
     initMobileTopMenuSlider();
     initMobileIOSAppDock();
     initSmartScrollMechanics();

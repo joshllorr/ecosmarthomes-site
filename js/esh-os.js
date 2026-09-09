@@ -574,7 +574,7 @@
     }
 
     listEl.innerHTML = filtered.map(tool => `
-      <div class="eco-os-palette-item" onclick="ESH_OS.openToolSheet('${tool.id}'); ESH_OS.closeCommandPalette();">
+      <a href="${tool.url}" class="eco-os-palette-item" onclick="ESH_OS.closeCommandPalette();" style="text-decoration: none;">
         <div class="eco-os-palette-item-icon">${tool.icon}</div>
         <div class="eco-os-palette-item-content">
           <div class="eco-os-palette-item-title-row">
@@ -584,7 +584,7 @@
           <div class="eco-os-palette-item-desc">${tool.description}</div>
         </div>
         <div class="eco-os-palette-item-action">Launch →</div>
-      </div>
+      </a>
     `).join('');
   }
 
@@ -621,27 +621,12 @@
       const link = e.target.closest('a');
       if (!link) return;
 
-      const href = link.getAttribute('href');
-      if (!href) return;
-
-      // Explicit sheet trigger
+      // Only intercept if explicitly requested via data-tool-sheet
       const explicitTool = link.getAttribute('data-tool-sheet');
       if (explicitTool) {
         e.preventDefault();
         ESH_OS.openToolSheet(explicitTool);
         return;
-      }
-
-      // Check if href matches one of our tool routes
-      for (const tool of ESH_OS.tools) {
-        if (href === tool.url || href === tool.url.replace(/\/$/, '') || (href.startsWith(tool.url) && !href.includes('embedded=1'))) {
-          // If user holds Ctrl/Cmd or middle click, allow opening in a new browser tab
-          if (e.ctrlKey || e.metaKey || e.button === 1) return;
-          
-          e.preventDefault();
-          ESH_OS.openToolSheet(tool.id);
-          return;
-        }
       }
     });
 
