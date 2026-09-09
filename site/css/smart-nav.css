@@ -4608,8 +4608,10 @@ body.floating-widgets-hidden .fab-radial-container {
   right: 24px;
   z-index: 99990;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  pointer-events: none;
 }
 .eco-os-blueprint-pill {
+  pointer-events: auto;
   display: inline-flex;
   align-items: center;
   gap: 8px;

@@ -855,11 +855,21 @@ if (!document.getElementById('esh-side-tab-toggle')) {
   }
 
   window.setWizardFuel = function(fuelKey) {
+    if (typeof triggerHaptic === 'function') triggerHaptic(12);
     selectedFuel = fuelKey;
     document.querySelectorAll('.wizard-fuel-btn').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-fuel') === fuelKey);
     });
     updatePenaltyCalculations();
+    if (window.ESH_OS && typeof window.ESH_OS.setState === 'function') {
+      window.ESH_OS.setState({
+        energy: {
+          currentFuel: fuelKey,
+          monthlyHeatingSpend: monthlyHeatingBill,
+          projectedPenalty: cumulativePenalty
+        }
+      });
+    }
   };
 
   window.onWizardSliderChange = function(sliderVal) {
@@ -868,7 +878,17 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     if (typeof updateGlidingBubble === 'function') {
       updateGlidingBubble(document.getElementById('wizard-spend-range'));
     }
+    if (window.ESH_OS && typeof window.ESH_OS.setState === 'function') {
+      window.ESH_OS.setState({
+        energy: {
+          monthlyHeatingSpend: monthlyHeatingBill,
+          projectedPenalty: cumulativePenalty
+        }
+      });
+    }
   };
+  window.updateWizardSpend = window.onWizardSliderChange;
+  window.setFuel = window.setWizardFuel;
 
   // Live Micro-Cent Penalty Ticker (The Shock)
   function startLivePenaltyTicker() {
@@ -890,6 +910,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
 
   // Deploy Carbon Tax Shield (The Rescue)
   window.deployCarbonShield = function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic(25);
     isShieldDeployed = true;
     if (penaltyInterval) clearInterval(penaltyInterval);
 
@@ -918,7 +939,20 @@ if (!document.getElementById('esh-side-tab-toggle')) {
           clearInterval(timer);
           penaltyDisp.innerText = '€0.00 (TAX PENALTY WIPED OUT)';
           if (deployBtn) deployBtn.style.display = 'none';
-          if (rescueContainer) rescueContainer.style.display = 'block';
+          if (rescueContainer) {
+            rescueContainer.style.display = 'block';
+            setTimeout(() => {
+              rescueContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 80);
+          }
+          if (window.ESH_OS && typeof window.ESH_OS.setState === 'function') {
+            window.ESH_OS.setState({
+              energy: {
+                shieldActive: true,
+                projectedPenalty: 0
+              }
+            });
+          }
         } else {
           penaltyDisp.innerText = `€${countdown.toLocaleString()}.00`;
         }
@@ -2043,7 +2077,6 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       panel.classList.add('active');
     }
   };
-})();
 
 
 
