@@ -120,6 +120,14 @@
       icon: '⚡',
       glowClass: 'persona-highlight-blue'
     },
+    audit: {
+      target: 100,
+      prefix: '',
+      suffix: '%',
+      label: 'Conflict-Free Red-Line Protection: ',
+      icon: '🛡️',
+      glowClass: 'persona-highlight-mint'
+    },
     all: {
       target: 25500,
       prefix: '€',
@@ -130,27 +138,36 @@
     }
   };
 
-  // 3. Reactive Persona Filter Method
+  // 3. One View System Switcher & Persona Controller (Zero Scroll Hijacking)
+  window.switchSystemView = function(viewKey) {
+    window.setPersona(viewKey);
+  };
+
   window.setPersona = function(personaKey) {
-    currentPersona = personaKey;
+    const rawKey = (personaKey || 'homeowner').toLowerCase();
+    const validKeys = ['homeowner', 'agent', 'installer', 'audit', 'all'];
+    currentPersona = validKeys.includes(rawKey) ? rawKey : 'homeowner';
     triggerHaptic(10);
 
     // Inject Active Persona as Root Data Attribute
-    document.documentElement.setAttribute('data-persona', personaKey);
-    document.body.setAttribute('data-persona', personaKey);
+    document.documentElement.setAttribute('data-persona', currentPersona);
+    document.body.setAttribute('data-persona', currentPersona);
 
     // Update Pill Active States
     document.querySelectorAll('.persona-pill').forEach(pill => {
-      pill.classList.toggle('active', pill.getAttribute('data-persona') === personaKey);
+      pill.classList.toggle('active', pill.getAttribute('data-persona') === currentPersona);
     });
+
     // Sync persona-chips
     document.querySelectorAll('.persona-chip').forEach(chip => {
       const p = chip.getAttribute('data-persona');
-      chip.classList.remove('active-homeowner', 'active-agent', 'active-installer');
-      if (p === personaKey) {
+      chip.classList.remove('active-homeowner', 'active-agent', 'active-installer', 'active-audit', 'active-all');
+      if (p === currentPersona) {
         if (p === 'homeowner') chip.classList.add('active-homeowner');
         else if (p === 'agent') chip.classList.add('active-agent');
         else if (p === 'installer') chip.classList.add('active-installer');
+        else if (p === 'audit') chip.classList.add('active-audit');
+        else if (p === 'all') chip.classList.add('active-all');
       }
     });
 
@@ -158,21 +175,24 @@
     const mobileLabel = document.getElementById('mobile-current-persona-label');
     const mobileTrigger = document.getElementById('mobile-persona-toggle-btn');
     if (mobileLabel && mobileTrigger) {
-      mobileTrigger.classList.remove('agent-active', 'installer-active');
-      if (personaKey === 'agent') {
+      mobileTrigger.classList.remove('agent-active', 'installer-active', 'audit-active');
+      if (currentPersona === 'agent') {
         mobileLabel.innerText = '💼 Estate Agent';
         mobileTrigger.classList.add('agent-active');
-      } else if (personaKey === 'installer') {
+      } else if (currentPersona === 'installer') {
         mobileLabel.innerText = '⚡ Installer';
         mobileTrigger.classList.add('installer-active');
-      } else if (personaKey === 'all') {
+      } else if (currentPersona === 'audit') {
+        mobileLabel.innerText = '🛡️ Audit & Review';
+        mobileTrigger.classList.add('audit-active');
+      } else if (currentPersona === 'all') {
         mobileLabel.innerText = '🔍 All Tools';
       } else {
         mobileLabel.innerText = '🏠 Homeowner';
       }
     }
 
-    const metric = PERSONA_METRICS[personaKey] || PERSONA_METRICS.homeowner;
+    const metric = PERSONA_METRICS[currentPersona] || PERSONA_METRICS.homeowner;
 
     // Animate Dopamine Tickers
     const counterElements = document.querySelectorAll('.dopamine-counter-target');
@@ -190,9 +210,9 @@
     cards.forEach(card => {
       card.classList.remove('persona-highlight-mint', 'persona-highlight-gold', 'persona-highlight-blue');
       const personas = card.getAttribute('data-personas') || 'all';
-      if (personaKey === 'all' || personas.includes(personaKey) || personas.includes('all')) {
+      if (currentPersona === 'all' || personas.includes(currentPersona) || personas.includes('all') || (currentPersona === 'audit' && (card.getAttribute('data-toolcat') === 'contractor' || personas.includes('installer')))) {
         card.classList.remove('persona-hidden');
-        if (personas.includes(personaKey) && personaKey !== 'all') {
+        if (personas.includes(currentPersona) && currentPersona !== 'all') {
           card.classList.add(metric.glowClass);
         }
       } else {
@@ -203,57 +223,78 @@
     // Update Filter Header
     const lbl = document.getElementById('active-persona-title');
     if (lbl) {
-      if (personaKey === 'homeowner') lbl.innerText = 'Homeowner Energy & Savings Suite';
-      else if (personaKey === 'agent') lbl.innerText = 'Estate Agent Valuation & BER Hub';
-      else if (personaKey === 'installer') lbl.innerText = 'Installer NSAI Sizing & Tender Suite';
+      if (currentPersona === 'homeowner') lbl.innerText = 'Homeowner Energy & Savings Suite';
+      else if (currentPersona === 'agent') lbl.innerText = 'Estate Agent Valuation & BER Hub';
+      else if (currentPersona === 'installer') lbl.innerText = 'Installer NSAI Sizing & Tender Suite';
+      else if (currentPersona === 'audit') lbl.innerText = 'Audit, Review & Test Command Center';
       else lbl.innerText = 'All Independent Energy Tools';
     }
 
-    // Toggle Wizard Views on Persona Switch
+    // =========================================================================
+    // ONE VIEW SYSTEM PANELS TOGGLE (IN-PLACE, ZERO SCROLL HIJACKING)
+    // =========================================================================
+    const systemPanels = {
+      homeowner: document.getElementById('view-panel-homeowner'),
+      agent: document.getElementById('view-panel-agent'),
+      installer: document.getElementById('view-panel-installer'),
+      audit: document.getElementById('view-panel-audit'),
+      all: document.getElementById('view-panel-all')
+    };
+
+    let hasStructuredPanels = false;
+    Object.keys(systemPanels).forEach(key => {
+      const panel = systemPanels[key];
+      if (panel) {
+        hasStructuredPanels = true;
+        if (currentPersona === 'all') {
+          panel.classList.add('active');
+          panel.style.display = 'block';
+        } else if (key === currentPersona) {
+          panel.classList.add('active');
+          panel.style.display = 'block';
+        } else {
+          panel.classList.remove('active');
+          panel.style.display = 'none';
+        }
+      }
+    });
+
+    // Fallback: Toggle standalone individual wizard sections if not inside systemPanels
     const homeownerWizard = document.getElementById('carbon-tax-war-room') || document.getElementById('wallet-rescue-wizard');
     const agentWizard = document.getElementById('agent-rescue-wizard');
     const installerWizard = document.getElementById('installer-rescue-wizard');
 
-    // Hide all first
-    if (homeownerWizard) homeownerWizard.style.display = 'none';
-    if (agentWizard) agentWizard.style.display = 'none';
-    if (installerWizard) installerWizard.style.display = 'none';
-
-    if (personaKey === 'installer') {
-      if (installerWizard) {
-        installerWizard.style.display = 'block';
-        installerWizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        if (typeof updateInstallerComplianceMatrix === 'function') {
-          updateInstallerComplianceMatrix();
-        }
-      }
-    } else if (personaKey === 'agent') {
-      if (agentWizard) {
-        agentWizard.style.display = 'block';
-        agentWizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        if (typeof updateAgentSurgeCalculations === 'function') {
-          updateAgentSurgeCalculations();
-        }
-      }
-    } else if (personaKey === 'all') {
-      if (homeownerWizard) homeownerWizard.style.display = 'block';
-      if (agentWizard) agentWizard.style.display = 'block';
-      if (installerWizard) installerWizard.style.display = 'block';
-    } else {
-      if (homeownerWizard) {
-        homeownerWizard.style.display = 'block';
-        if (window._personaInitialized) {
-          homeownerWizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
+    if (!hasStructuredPanels) {
+      if (homeownerWizard) homeownerWizard.style.display = (currentPersona === 'homeowner' || currentPersona === 'all') ? 'block' : 'none';
+      if (agentWizard) agentWizard.style.display = (currentPersona === 'agent' || currentPersona === 'all') ? 'block' : 'none';
+      if (installerWizard) installerWizard.style.display = (currentPersona === 'installer' || currentPersona === 'all') ? 'block' : 'none';
     }
+
+    // Update active calculations without scrolling
+    if (currentPersona === 'installer' && typeof updateInstallerComplianceMatrix === 'function') {
+      updateInstallerComplianceMatrix();
+    } else if (currentPersona === 'agent' && typeof updateAgentSurgeCalculations === 'function') {
+      updateAgentSurgeCalculations();
+    }
+
+    // Synchronize URL query parameter without page reload or jump
+    try {
+      if (window.history && window.history.replaceState) {
+        const url = new URL(window.location);
+        if (url.searchParams.get('view') !== currentPersona && url.searchParams.get('role') !== currentPersona) {
+          url.searchParams.set('view', currentPersona);
+          window.history.replaceState({ view: currentPersona }, '', url);
+        }
+      }
+    } catch (e) {}
+
     window._personaInitialized = true;
 
-    // Synchronize Voice AI Advisor Persona (Aoife vs Eimear vs Declan)
+    // Synchronize Voice AI Advisor Persona
     if (typeof window.setVoicePersona === 'function') {
-      if (personaKey === 'agent') {
+      if (currentPersona === 'agent') {
         window.setVoicePersona('agent');
-      } else if (personaKey === 'installer') {
+      } else if (currentPersona === 'installer') {
         window.setVoicePersona('installer');
       } else {
         window.setVoicePersona('homeowner');
@@ -445,7 +486,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
                   <div style="font-size:0.72rem;color:#94a3b8;">Instant link & Eircode grant scanner</div>
                 </div>
               </a>
-              <a href="/#agent-rescue-wizard" class="drawer-tool-item" onclick="window.setPersona('agent'); window.closeToolsDrawer();">
+              <a href="/?view=agent" class="drawer-tool-item" onclick="window.setPersona('agent'); window.closeToolsDrawer();">
                 <span class="tool-icon">📈</span>
                 <div>
                   <div>Capital Equity Surge Calculator</div>
@@ -527,7 +568,65 @@ if (!document.getElementById('esh-side-tab-toggle')) {
             </div>
           </div>
 
-          <!-- 4. RESOURCES & SUPPORT HUB -->
+          <!-- 4. AUDIT, REVIEW & TEST HUB -->
+          <div class="drawer-accordion-group">
+            <button type="button" id="accordion-btn-audit" class="drawer-accordion-btn" onclick="window.toggleDrawerAccordion('audit')">
+              <span style="display:flex;align-items:center;gap:8px;">
+                <span>🛡️</span>
+                <span>Audit, Review & Test</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:6px;">
+                <span class="drawer-badge-pill" style="background:rgba(52,245,197,0.15);color:#34f5c5;border:1px solid #34f5c5;">5 Tools</span>
+                <span class="accordion-arrow">▼</span>
+              </span>
+            </button>
+            <div id="accordion-panel-audit" class="drawer-accordion-panel">
+              <a href="/quote-auditor/" class="drawer-tool-item">
+                <span class="tool-icon">🛡️</span>
+                <div>
+                  <div>AI Contractor Quote Red-Liner</div>
+                  <div style="font-size:0.72rem;color:#34f5c5;font-weight:700;">Flag hidden markups & buffer tank omissions</div>
+                </div>
+              </a>
+              <a href="/quote-comparator/" class="drawer-tool-item">
+                <span class="tool-icon">⚖️</span>
+                <div>
+                  <div>Contractor Quote Comparator</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Compare 2-3 quotes side-by-side</div>
+                </div>
+              </a>
+              <a href="/heat-pump-suitability.html" class="drawer-tool-item">
+                <span class="tool-icon">📐</span>
+                <div>
+                  <div>Heat Pump Readiness & Flow Test</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">NSAI SR50 HLI &lt; 2.0 W/K/m² check</div>
+                </div>
+              </a>
+              <a href="/property-auditor/" class="drawer-tool-item">
+                <span class="tool-icon">🔍</span>
+                <div>
+                  <div>National BER Register Audit</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Official SEAI records & Eircode lookup</div>
+                </div>
+              </a>
+              <a href="/?view=audit" class="drawer-tool-item" onclick="window.setPersona('audit'); window.closeToolsDrawer();">
+                <span class="tool-icon">📷</span>
+                <div>
+                  <div>Snap & Audit Scanner</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Zero-typing AI photo analysis</div>
+                </div>
+              </a>
+              <a href="/checkout/?tier=survey&price=149" class="drawer-tool-item">
+                <span class="tool-icon">💳</span>
+                <div>
+                  <div>Book Independent In-Person Survey</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">NSAI compliant on-site inspection (€149)</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- 5. RESOURCES & SUPPORT HUB -->
           <div class="drawer-accordion-group">
             <button type="button" id="accordion-btn-resources" class="drawer-accordion-btn" onclick="window.toggleDrawerAccordion('resources')">
               <span style="display:flex;align-items:center;gap:8px;">
@@ -650,8 +749,19 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       el.addEventListener('blur', () => document.body.classList.remove('floating-widgets-hidden'));
     });
 
-    // Initialize Default Persona
-    window.setPersona('homeowner');
+    // Initialize Default Persona or View from URL / Memory
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialView = urlParams.get('view') || urlParams.get('role');
+      if (initialView && ['homeowner', 'agent', 'installer', 'audit', 'all'].includes(initialView.toLowerCase())) {
+        window.setPersona(initialView.toLowerCase());
+      } else {
+        const saved = localStorage.getItem("ESH_currentRole") || 'homeowner';
+        window.setPersona(saved);
+      }
+    } catch (e) {
+      window.setPersona('homeowner');
+    }
   }
 
   // ==========================================================================
@@ -1278,11 +1388,10 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     triggerHaptic(12);
     const path = (window.location.pathname || '').toLowerCase();
     const isHome = path === '/' || path === '/index.html' || path === '';
-    const wizard = document.getElementById('carbon-tax-war-room') || document.getElementById('wallet-rescue-wizard');
-    if (wizard) {
-      wizard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (isHome && typeof window.setPersona === 'function') {
+      window.setPersona('homeowner');
     } else {
-      window.location.href = '/#carbon-tax-war-room';
+      window.location.href = '/?view=homeowner';
     }
   };
 
@@ -1339,6 +1448,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       eimear: 'eimear',
       installer: 'declan',
       declan: 'declan',
+      audit: 'declan',
       all: 'aoife'
     };
     const advisorToRole = {
@@ -1348,6 +1458,7 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       agent: 'agent',
       declan: 'installer',
       installer: 'installer',
+      audit: 'audit',
       all: 'all'
     };
 
@@ -1684,13 +1795,9 @@ if (!document.getElementById('esh-side-tab-toggle')) {
         triggerHaptic(10);
         closeFab();
 
-        // Target snap audit or property audit upload zone
-        const snapTarget = document.getElementById('snap-audit') || 
-                           document.querySelector('.snap-audit-section') || 
-                           document.getElementById('property-audit-section') || 
-                           document.getElementById('carbon-tax-war-room');
-        if (snapTarget) {
-          snapTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Switch cleanly to audit panel so snap-audit is visible
+        if (typeof window.setPersona === 'function') {
+          window.setPersona('audit');
         }
 
         setTimeout(() => {
@@ -1969,9 +2076,15 @@ if (!document.getElementById('esh-side-tab-toggle')) {
   // ==========================================================================
   function restoreSavedPersonaState() {
     try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramView = urlParams.get('view') || urlParams.get('role') || urlParams.get('persona');
+      if (paramView && typeof window.setPersona === 'function') {
+        window.setPersona(paramView);
+        return;
+      }
       const savedPersona = localStorage.getItem('ESH_lastPersona');
       const savedRole = localStorage.getItem('ESH_currentRole');
-      const roleMap = { aoife: 'homeowner', eimear: 'agent', declan: 'installer' };
+      const roleMap = { aoife: 'homeowner', eimear: 'agent', declan: 'installer', audit: 'audit', all: 'all' };
       const roleToApply = savedRole || (savedPersona ? roleMap[savedPersona.toLowerCase()] : null);
       if (roleToApply && typeof window.setPersona === 'function') {
         window.setPersona(roleToApply);
@@ -1985,3 +2098,16 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     setTimeout(restoreSavedPersonaState, 50);
   }
   window.addEventListener('load', restoreSavedPersonaState);
+
+  // Auto-bootstrap EcoOS Universal One-Page Engine across entire site
+  try {
+    if (!window.ESH_OS && !document.querySelector('script[src*="esh-os.js"]')) {
+      const osScript = document.createElement('script');
+      osScript.src = '/js/esh-os.js?v=1';
+      osScript.defer = true;
+      document.head.appendChild(osScript);
+    }
+  } catch (e) {}
+
+})();
+

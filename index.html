@@ -294,6 +294,7 @@
   <script src="/js/calculator-data-core.js" defer></script>
   <script src="/js/property-auditor.js?v=14" defer></script>
   <script src="/js/smart-nav.js?v=14" defer></script>
+  <script src="/js/esh-os.js?v=1" defer></script>
   <link rel="stylesheet" href="/css/smart-nav.css?v=14">
 </head>
 <body>
@@ -303,17 +304,20 @@
   <aside class="top-bar-custom" aria-label="Regulatory live updates">
     <div class="top-bar-inner top-bar-single-line">
       <span style="color: #34f5c5;">🚀</span>
-      <a href="/carbon-tax/" class="top-alert-link">2026–30 Carbon Tax Alert</a>
-      <span class="top-alert-separator" style="color: #475569; margin: 0 4px;">·</span>
-      <a href="/pricing/" class="top-pricing-link">Pricing Framework →</a>
+      <span class="ticker-text" style="color: #ffffff; font-weight: 700;">
+        NEW 2026 REGS LIVE: Simplified <strong>A0 to G Irish BER Matrix</strong> & <strong>€38,000 Property Value Uplift</strong> Calculator
+      </span>
+      <a href="/ber-matrix/" class="top-bar-link" style="color: #34f5c5; text-decoration: underline; font-weight: 800;">
+        Open BER Matrix →
+      </a>
     </div>
   </aside>
 
   <!-- Command Center Header Navigation -->
-  <header class="main-nav-bar" role="banner">
+  <header class="main-nav-bar" id="appHeader" role="banner">
     <div class="nav-inner">
-      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-        <span style="font-size: 1.4rem;">🏡</span>
+      <a href="/" class="brand-logo" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+        <span class="brand-logo-icon" style="font-size: 1.4rem;">🏡</span>
         <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: #34f5c5;">Homes</strong></span>
       </a>
 
@@ -345,6 +349,13 @@
               <span class="option-desc">NSAI SR50-2 Sizing & Tender RFP</span>
             </div>
           </button>
+          <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('audit')">
+            <span style="font-size: 1.3rem;">🛡️</span>
+            <div>
+              <div>Audit, Review & Test</div>
+              <span class="option-desc">Quote Red-Liner, Snap Audit & SR50 Tests</span>
+            </div>
+          </button>
           <button type="button" class="persona-option-item" onclick="window.selectPersonaFromDropdown('all')">
             <span style="font-size: 1.3rem;">🔍</span>
             <div>
@@ -352,11 +363,11 @@
               <span class="option-desc">Explore All 11 Energy Engines</span>
             </div>
           </button>
-          <button type="button" class="persona-option-item modal-reopen-item" onclick="window.selectPersonaFromDropdown('all'); setTimeout(window.openPersonaPickerModal, 150);" style="border-top: 1px solid rgba(52, 245, 197, 0.2); background: rgba(52, 245, 197, 0.08);">
-            <span style="font-size: 1.3rem;">✨</span>
+          <button type="button" class="persona-option-item" onclick="if(window.ESH_OS) window.ESH_OS.openCommandPalette();" style="border-top: 1px solid rgba(52, 245, 197, 0.2); background: rgba(52, 245, 197, 0.08);">
+            <span style="font-size: 1.3rem;">⚡</span>
             <div>
-              <div style="color: #34f5c5; font-weight: 800;">Role Selector Modal</div>
-              <span class="option-desc">Re-open 3-Advisor Switchboard</span>
+              <div style="color: #34f5c5; font-weight: 800;">Quick Command Search (⌘K)</div>
+              <span class="option-desc">Search all 18 tools, grants & rules</span>
             </div>
           </button>
         </div>
@@ -366,12 +377,16 @@
         <nav class="persona-scroll-track" style="padding: 0; margin: 0; display: flex; gap: 6px;">
           <button type="button" class="persona-pill persona-chip active active-homeowner" data-persona="homeowner" onclick="window.setPersona('homeowner')">🏠 Homeowner</button>
           <button type="button" class="persona-pill persona-chip" data-persona="agent" onclick="window.setPersona('agent')">💼 Estate Agent</button>
-          <button type="button" class="persona-pill persona-chip" data-persona="installer" onclick="window.setPersona('installer')">⚡ Installer / Retrofitter</button>
+          <button type="button" class="persona-pill persona-chip" data-persona="installer" onclick="window.setPersona('installer')">⚡ Installer</button>
+          <button type="button" class="persona-pill persona-chip" data-persona="audit" onclick="window.setPersona('audit')">🛡️ Audit & Review</button>
           <button type="button" class="persona-pill persona-chip" data-persona="all" onclick="window.setPersona('all')">🔍 View All</button>
         </nav>
       </div>
 
-      <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button type="button" class="btn-tools-drawer-toggle" onclick="if(window.ESH_OS) window.ESH_OS.openCommandPalette();" aria-label="Quick Command Search (Ctrl+K)" style="border: 1px solid rgba(52, 245, 197, 0.4); color: #34f5c5; background: rgba(52, 245, 197, 0.08); display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+          <span>🔍</span> <span style="font-size: 0.72rem; opacity: 0.85; font-family: 'IBM Plex Mono', monospace;">⌘K</span>
+        </button>
         <a href="/pricing/" class="desktop-pricing-link" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 700;">🏷️ Pricing</a>
         <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
         <a href="/checkout/?tier=survey&price=149" class="btn-book-nav">
@@ -512,7 +527,7 @@
         <a href="/pricing/" class="btn-hero-primary-star">
           ⭐ Book Survey Now →
         </a>
-        <a href="#interactive-suite" class="btn-hero-ghost-secondary">
+        <a href="/?view=audit" onclick="window.setPersona('audit'); return false;" class="btn-hero-ghost-secondary">
           🛡️ Free Diagnostic Scan (Self-Serve)
         </a>
       </div>
@@ -590,13 +605,10 @@
             <span class="pulse-dot"></span>
             <span id="simVoiceCtaText">🎙️ Ask Aoife to Explain My €31,500 Grant Roadmap →</span>
           </button>
-          <button type="button" class="persona-option-item modal-reopen-item" onclick="window.selectPersonaFromDropdown('all'); setTimeout(window.openPersonaPickerModal, 150);">
-            <span style="font-size: 1.3rem;">✨</span>
-            <div>
-              <div style="color: #34f5c5; font-weight: 800;">Role Selector Modal</div>
-              <span class="option-desc">Re-open 3-Advisor Switchboard</span>
-            </div>
-          </button>
+          <a href="/checkout/?tier=survey&price=149" class="btn-sim-book-survey" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(52, 245, 197, 0.12); border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 12px; padding: 12px 18px; color: #34f5c5; font-weight: 800; font-size: 0.92rem; transition: all 0.2s ease;">
+            <span>💳</span>
+            <span>Book Independent Survey (€149) →</span>
+          </a>
         </div>
       </div>
 
@@ -628,330 +640,116 @@
       </div>
     </section>
 
+    <!-- ========================================================================= -->
+    <!-- 🎛️ ONE VIEW SYSTEM PAGE: ROLE-SPECIFIC PANELS (ZERO SCROLL HIJACKING)   -->
+    <!-- ========================================================================= -->
+    <div id="system-view-container">
 
-    <!-- 📸 AI SNAP & AUDIT DIAGNOSTIC VISUAL DROPZONE -->
-    <section class="snap-audit-section" id="snap-audit" aria-label="AI Visual Diagnostic Dropzone">
-      <div class="snap-audit-container" id="snapAuditContainer">
-        <span class="snap-badge">📷 ZERO-TYPING MULTIMODAL SCANNER</span>
-        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 900; color: #ffffff; margin: 0 0 10px 0; line-height: 1.2;">
-          Snap & Audit: Instant AI Photo Analysis
-        </h2>
-        <p style="color: #94a3b8; font-size: 0.95rem; max-width: 680px; margin: 0 auto 16px auto; line-height: 1.55;">
-          Drop a quick photo of your <strong>boiler, radiator, hot water cylinder, or fuseboard</strong>. Our AI vision model checks your SEAI grant status and NSAI SR50 readiness in seconds.
-        </p>
-
-        <!-- Dropzone Box -->
-        <div class="snap-dropzone-inner" id="snapDropzone" onclick="document.getElementById('snapFileInput').click()">
-          <div class="snap-laser"></div>
-          <input type="file" id="snapFileInput" accept="image/*" style="display: none;" onchange="window.handleSnapFileUpload(event)" />
-          <div id="dropzoneDefaultState">
-            <div style="font-size: 2.5rem; margin-bottom: 10px;">📸</div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff; margin-bottom: 4px;">
-              Drag & Drop Equipment Photo or Click to Upload / Snap
-            </div>
-            <div style="font-size: 0.8rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">
-              JPG, PNG, HEIC · Instant AI Computer Vision Audit
-            </div>
-          </div>
-          <div id="dropzoneScanningState" style="display: none; padding: 20px 0;">
-            <div style="font-size: 2.2rem; margin-bottom: 10px; animation: avatarThrob 1.2s infinite ease-in-out;">⚡</div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: #34f5c5; margin-bottom: 4px;">
-              Scanning Irish Retrofit Standards (SR50 & DEAP 4.2.2)...
-            </div>
-            <div style="font-size: 0.8rem; color: #cbd5e1;" id="scanStatusText">
-              Analyzing heat output, age tags, and grant viability...
-            </div>
-          </div>
-        </div>
-
-        <!-- 1-Tap Sample Demos -->
-        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
-          <span style="font-size: 0.74rem; color: #94a3b8; font-weight: 700;">No photo handy? Try instant simulated audits:</span>
-          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('boiler')">🛢️ Oil Boiler</button>
-          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('radiator')">🌡️ Single Rad</button>
-          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('cylinder')">🛢️ Copper Cylinder</button>
-          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('fuseboard')">⚡ Old Fuseboard</button>
-        </div>
-
-        <!-- Dynamic Results Card -->
-        <div class="snap-result-card" id="snapResultCard">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid rgba(52,245,197,0.2); padding-bottom: 12px; margin-bottom: 14px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span style="font-size: 1.8rem;" id="snapResultEmoji">🛢️</span>
-              <div>
-                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 900; margin: 0;" id="snapResultTitle">
-                  Firebird 26kW Kerosene Boiler Detected
-                </h3>
-                <span style="font-size: 0.75rem; color: #34f5c5; font-family: monospace; font-weight: 700;" id="snapResultModel">
-                  ● Efficiency: 78% (Non-Condensing) · ~18 Years Old
-                </span>
-              </div>
-            </div>
-            <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;" id="snapResultVerdict">
-              ⚠️ HIGH PRIORITY REPLACEMENT
-            </span>
-          </div>
-
-          <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 16px 0;" id="snapResultDesc">
-            This non-condensing kerosene boiler is operating at ~78% efficiency with heavy carbon tax penalties locked in through 2030. Upgrading to a heat pump unlocks the maximum €12,500 SEAI grant and cuts annual heating bills by €2,650/yr.
-          </p>
-
-          <div class="snap-result-grid">
-            <div class="snap-result-item">
-              <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; font-family: monospace;">💶 SEAI GRANT ELIGIBILITY</div>
-              <div style="font-size: 1.15rem; font-weight: 900; color: #34f5c5; margin-top: 2px;" id="snapGrantVal">€12,500 Direct Grant</div>
-            </div>
-            <div class="snap-result-item">
-              <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; font-family: monospace;">📜 NSAI SR50 COMPLIANCE</div>
-              <div style="font-size: 1.15rem; font-weight: 900; color: #38bdf8; margin-top: 2px;" id="snapSr50Val">Pass (With Low-Temp Rads)</div>
-            </div>
-            <div class="snap-result-item">
-              <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; font-family: monospace;">📉 5-YR CARBON TAX SAVING</div>
-              <div style="font-size: 1.15rem; font-weight: 900; color: #fbbf24; margin-top: 2px;" id="snapTaxVal">€4,180 Saved</div>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
-            <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 220px; justify-content: center; padding: 12px 20px; font-size: 0.88rem;" onclick="window.askVoiceAdvisorSnapResult()">
-              🎙️ Ask Declan to Review Technical Report →
-            </button>
-            <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 220px; justify-content: center; padding: 12px 20px; font-size: 0.88rem;" onclick="window.sendSnapReportToWhatsApp()">
-              💬 Send Photo to Joe's WhatsApp (083 966 2197) →
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </section>
+      <!-- ================================================================= -->
+      <!-- 🏠 PANEL 1: HOMEOWNER SYSTEM VIEW                                  -->
+      <!-- ================================================================= -->
+      <div id="view-panel-homeowner" class="system-view-panel active">
 
 
     
-    <!-- 🗺️ INTERACTIVE 26-COUNTY IRISH SOLAR & MICRO-CLIMATE MAP -->
-    <section class="county-solar-section" id="county-solar-map" aria-label="26-County Irish Solar & Micro-Climate Yield Engine">
-      <div class="county-solar-container">
+    <!-- 🌟 IRISH CARBON TAX SHIELD & RETROFIT WAR ROOM TERMINAL -->
+    <section class="war-room-section" id="carbon-tax-war-room" aria-label="Irish Carbon Tax Shield & Retrofit Mission Control">
+      <div class="war-room-grid-bg"></div>
+      <div class="war-room-container" id="warRoomContainer">
+        <div class="shield-laser-sweep"></div>
+
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
-          <span class="county-badge-pill">☀️ 26-COUNTY GEOCODED IRISH SOLAR YIELD MODEL</span>
+          <span class="war-room-badge" id="warRoomBadge">
+            <span class="pulse-dot" style="background: #ef4444; box-shadow: 0 0 10px #ef4444;"></span>
+            ⚠️ STATUTORY IRISH CARBON TAX ESCALATOR: €64 ➔ €100/TONNE ACTIVE
+          </span>
           <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
-            ● Clean Export Guarantee (CEG 24c/kWh) & NSAI SR50 Winter Data
+            ● Statutory Finance Act Escalator to 2030
           </span>
         </div>
 
-        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
-          Irish Regional Solar Harvest & Micro-Climate Yield Map
+        <h2 style="font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.15; letter-spacing: -0.02em;">
+          Irish Retrofit Mission Control & Carbon Shield Terminal
         </h2>
-        <p style="color: #94a3b8; font-size: 0.92rem; max-width: 780px; margin: 0 0 20px 0; line-height: 1.5;">
-          Select any of the 26 Irish counties to instantly view geocoded annual solar harvest (6kW system), Clean Export Guarantee cash rebates, local heating degree days, and active SEAI registered installers.
+        <p style="color: #cbd5e1; font-size: 0.95rem; max-width: 800px; margin: 0 0 24px 0; line-height: 1.55;">
+          Every unrenovated home in Ireland is leaking thousands into statutory fuel taxes every winter. Tap the defense trigger below to engage your <strong>Carbon Tax Shield</strong> and lock in up to <strong>€35,000 in direct SEAI grants</strong>.
         </p>
 
-        <!-- 📍 Compact Province & County Drawer Trigger Bar (Scroll-Reduced) -->
-        <div class="county-drawer-controls">
-          <!-- Quick County Trigger Pill (Drawer Toggle) -->
-          <button type="button" class="county-drawer-trigger-btn" id="countyDrawerToggleBtn" onclick="window.toggleCountyDrawer()" aria-expanded="false" aria-controls="countyProvinceDrawer">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.1rem;">📍</span>
-              <span id="countyTriggerLabel" style="font-weight: 800; color: #ffffff;">Co. Cork (Munster)</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span id="countyTriggerYield" style="font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: #34f5c5; background: rgba(52,245,197,0.12); padding: 2px 8px; border-radius: 9999px;">☀️ 995 kWh/kWp</span>
-              <span class="drawer-caret" id="countyDrawerCaret" style="transition: transform 0.25s ease; color: #34f5c5; font-size: 0.9rem;">▾</span>
-            </div>
-          </button>
-
-          <!-- Province Quick-Filter Tabs -->
-          <div class="province-filter-group" id="provinceFilterGroup">
-            <button type="button" class="province-chip" data-province="munster" onclick="window.openProvinceDrawer('munster')">🏰 Munster (6)</button>
-            <button type="button" class="province-chip" data-province="leinster" onclick="window.openProvinceDrawer('leinster')">🏛️ Leinster (12)</button>
-            <button type="button" class="province-chip" data-province="connacht" onclick="window.openProvinceDrawer('connacht')">🌊 Connacht (5)</button>
-            <button type="button" class="province-chip" data-province="ulster" onclick="window.openProvinceDrawer('ulster')">🌲 Ulster (3)</button>
-            <button type="button" class="province-chip active" data-province="all" onclick="window.openProvinceDrawer('all')">🌟 All 26</button>
-          </div>
-        </div>
-
-        <!-- 📂 Collapsible Province & County Drawer Panel -->
-        <div class="county-province-drawer-panel" id="countyProvinceDrawer" style="display: none;">
-          <div class="province-drawer-header">
-            <span style="font-size: 0.74rem; font-family: monospace; color: #34f5c5; font-weight: 800; text-transform: uppercase;">● SELECT COUNTY UNDER PROVINCE</span>
-            <button type="button" onclick="window.toggleCountyDrawer(false)" style="background: none; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer; padding: 2px 6px;">✕</button>
-          </div>
-          <div class="province-sections-container" id="provinceSectionsContainer">
-            <!-- Dynamically populated grouped by Munster, Leinster, Connacht, Ulster -->
-          </div>
-        </div>
-
-        <!-- Live County Telemetry Dashboard -->
-        <div class="county-telemetry-dashboard" id="countyDashboard">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
-            <div>
-              <div style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
-                ● ACTIVE COUNTY DOSSIER
-              </div>
-              <h3 style="color: #ffffff; font-size: 1.4rem; font-weight: 900; margin: 2px 0 0 0;" id="countySelectedTitle">
-                Co. Cork (Munster)
-              </h3>
-            </div>
-            <span style="background: rgba(52, 245, 197, 0.15); color: #34f5c5; border: 1px solid #34f5c5; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; font-family: monospace;" id="countyIrradianceTag">
-              ☀️ 995 kWh/kWp High Yield Zone
-            </span>
-          </div>
-
-          <div class="county-telemetry-grid">
-            <div class="county-stat-card">
-              <span class="county-stat-label">⚡ 6kW Annual Solar Harvest</span>
-              <div class="county-stat-value text-mint" id="countyHarvestVal">5,970 kWh/yr</div>
-              <span class="county-stat-desc">Regional micro-climate model</span>
-            </div>
-
-            <div class="county-stat-card">
-              <span class="county-stat-label">💶 Annual CEG Export Cash</span>
-              <div class="county-stat-value text-amber" id="countyCegVal">€895/yr</div>
-              <span class="county-stat-desc">Paid at 24c/kWh Clean Export</span>
-            </div>
-
-            <div class="county-stat-card">
-              <span class="county-stat-label">🌡️ NSAI SR50 Design Temp</span>
-              <div class="county-stat-value text-cyan" id="countyDesignTempVal">-3.0°C (Coastal)</div>
-              <span class="county-stat-desc">Heat pump low-temp sizing</span>
-            </div>
-
-            <div class="county-stat-card">
-              <span class="county-stat-label">👷 Active SEAI Installers</span>
-              <div class="county-stat-value text-gold" id="countyInstallersVal">24 Registered</div>
-              <span class="county-stat-desc">Vetted local contractors</span>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
-            <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiCountySolar()">
-              <span id="countyVoiceBtnText">🎙️ Ask Aoife: Co. Cork Grants & Solar Payback →</span>
-            </button>
-            <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestCountyInstallerShortlist()">
-              <span id="countyWaBtnText">💬 WhatsApp Co. Cork Installer Shortlist (083 966 2197) →</span>
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-
-    
-    <!-- ⚡ INTERACTIVE BEFORE VS AFTER RETROFIT CUTAWAY SLIDER -->
-    <section class="transformation-section" id="transformation-slider" aria-label="Interactive Retrofit Cutaway Comparison">
-      <div class="transformation-container">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
-          <span class="county-badge-pill" style="background: rgba(52, 245, 197, 0.15); border-color: #34f5c5; color: #34f5c5;">
-            📐 8-STEP G ➔ A0 WHOLE-HOUSE TRANSFORMATION MODEL
-          </span>
-          <span style="font-size: 0.75rem; color: #fbbf24; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
-            ● Up to €35,000 SEAI Direct Grants & 3.45% Green Mortgage
-          </span>
-        </div>
-
-        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
-          Before vs. After: The Irish Retrofit Transformation
-        </h2>
-        <p style="color: #94a3b8; font-size: 0.92rem; max-width: 780px; margin: 0 0 16px 0; line-height: 1.5;">
-          Drag the interactive slider below to compare a legacy oil-heated Irish home against a fully modernized A2 heat pump & solar sanctuary.
-        </p>
-
-        <!-- Tactile Split Range Slider -->
-        <div class="transformation-slider-wrap">
-          <div class="comparison-slider-labels" style="margin-bottom: 8px;">
-            <span style="color: #f87171;">🔴 BEFORE (G/F)</span>
-            <span style="color: #34f5c5;" id="sliderPercentageLabel">↔️ 50% SPLIT</span>
-            <span style="color: #34f5c5;">🟢 AFTER (A0)</span>
-          </div>
-          <input type="range" min="0" max="100" value="50" class="transformation-range-input" id="transformRangeSlider" oninput="window.updateTransformationCutaway(this.value)" />
-        </div>
-
-        <!-- Before & After Comparison Cards -->
-        <div class="transformation-cards-grid">
-          <!-- BEFORE CARD -->
-          <div class="transform-card before-card" id="beforeTransformCard">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(239, 68, 68, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
-              <span style="font-size: 1.4rem;">🏚️</span>
-              <span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #ef4444; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; font-family: monospace;">
-                BER RATING: G (480 kWh/m²/yr)
+        <!-- Live Clock & Tax Leak vs Shield Grid -->
+        <div class="war-clock-grid">
+          <!-- UNPROTECTED TAX LEAK CARD -->
+          <div class="war-clock-card leak-active" id="unprotectedCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(239, 68, 68, 0.25); padding-bottom: 10px;">
+              <span style="font-size: 0.75rem; color: #f87171; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+                🔴 UNPROTECTED EXPOSURE
               </span>
+              <span style="font-size: 0.72rem; color: #94a3b8;">Statutory 2026-30 Penalty</span>
             </div>
-            <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 6px 0;">
-              Legacy Oil Boiler & Uninsulated Shell
-            </h3>
-            <div style="font-size: 1.45rem; font-weight: 900; color: #f87171; margin: 8px 0;">
-              €4,850 / yr <span style="font-size: 0.78rem; color: #94a3b8; font-weight: 500;">Heating & Electricity</span>
+            <div class="war-counter-display" style="color: #f87171;" id="leakLiveCounter">
+              €4,180.00
             </div>
-
-            <ul class="transform-feature-list">
-              <li class="transform-feature-item">
-                <span>🛢️</span> <span><strong>18-Yr Kerosene Boiler:</strong> 78% efficiency with +€4,180 locked-in 2026-30 carbon taxes.</span>
-              </li>
-              <li class="transform-feature-item">
-                <span>🥶</span> <span><strong>Single-Panel Radiators:</strong> Scalding 75°C water flow causing cold drafts.</span>
-              </li>
-              <li class="transform-feature-item">
-                <span>🏦</span> <span><strong>Standard Mortgage Rate:</strong> Paying 4.75% SVR with €0 green mortgage discount.</span>
-              </li>
-              <li class="transform-feature-item">
-                <span>💸</span> <span><strong>Grid Reliance:</strong> 100% daytime peak electricity import @ 38c/kWh.</span>
-              </li>
-            </ul>
+            <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+              Accumulating on Kerosene Oil / Natural Gas carbon levies until 2030.
+            </div>
           </div>
 
-          <!-- AFTER CARD -->
-          <div class="transform-card after-card" id="afterTransformCard">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 245, 197, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
-              <span style="font-size: 1.4rem;">🏡</span>
-              <span style="background: rgba(52, 245, 197, 0.15); color: #34f5c5; border: 1px solid #34f5c5; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; font-family: monospace;">
-                BER RATING: A0 (0 kWh/m²/yr Net-Zero)
+          <!-- SHIELDED ZERO LEAK CARD -->
+          <div class="war-clock-card" id="shieldedCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 245, 197, 0.25); padding-bottom: 10px;">
+              <span style="font-size: 0.75rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+                🟢 ECOSMART SHIELD STATUS
               </span>
+              <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace;" id="shieldStatusText">STANDBY</span>
             </div>
-            <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 6px 0;">
-              EcoSmart A0 Net-Zero Deep Retrofit Sanctuary
-            </h3>
-            <div style="font-size: 1.45rem; font-weight: 900; color: #34f5c5; margin: 8px 0;">
-              €650 / yr <span style="font-size: 0.78rem; color: #6ee7b7; font-weight: 800;">(€4,200/yr Cash Saved)</span>
+            <div class="war-counter-display" style="color: #34f5c5;" id="shieldLiveCounter">
+              €0.00 TAX
             </div>
-
-            <ul class="transform-feature-list">
-              <li class="transform-feature-item">
-                <span>⚡</span> <span><strong>Air-to-Water Heat Pump:</strong> COP 4.2 high-efficiency 45°C gentle continuous warmth.</span>
-              </li>
-              <li class="transform-feature-item">
-                <span>☀️</span> <span><strong>6kW Solar PV + 10kWh Battery:</strong> Generates ~6,000 kWh/yr with 24c/kWh grid export.</span>
-              </li>
-              <li class="transform-feature-item">
-                <span>💎</span> <span><strong>3.45% Green Mortgage:</strong> Unlocks -1.30% interest rate saving €315/mo (€3,780/yr).</span>
-              </li>
-              <li class="transform-feature-item">
-                <span>💶</span> <span><strong>SEAI Cash Grants:</strong> Claimed up to €35,000 in direct state funding.</span>
-              </li>
-            </ul>
+            <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+              100% Tax Immunity via Heat Pump Electrification + Solar PV Harvest.
+            </div>
           </div>
         </div>
 
-        <!-- Net Financial Delta Bar -->
-        <div class="transform-delta-bar">
-          <div>
-            <div style="font-size: 0.7rem; color: #94a3b8; font-family: monospace; font-weight: 800;">💶 SEAI GRANT INJECTION</div>
-            <div style="font-size: 1.25rem; font-weight: 900; color: #34f5c5; margin-top: 2px;">+€35,000 Paid</div>
+        <!-- 4 Live Defense Pods -->
+        <div class="defense-pods-grid">
+          <div class="defense-pod" id="podHp">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">⚡</div>
+            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">Heat Pump (COP 4.2)</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">45°C Continuous Flow</div>
           </div>
-          <div>
-            <div style="font-size: 0.7rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📉 10-YEAR BILL SLASH</div>
-            <div style="font-size: 1.25rem; font-weight: 900; color: #fbbf24; margin-top: 2px;">-€42,000 Saved</div>
+
+          <div class="defense-pod" id="podSolar">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">☀️</div>
+            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">6kW Solar PV Array</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">24c/kWh Clean Export</div>
           </div>
-          <div>
-            <div style="font-size: 0.7rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📈 PROPERTY EQUITY UPLIFT</div>
-            <div style="font-size: 1.25rem; font-weight: 900; color: #38bdf8; margin-top: 2px;">+€38,500 Valuation</div>
+
+          <div class="defense-pod" id="podBattery">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">🔋</div>
+            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">10kWh Night Battery</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">7c/kWh Smart Charge</div>
+          </div>
+
+          <div class="defense-pod" id="podGrant">
+            <div style="font-size: 1.6rem; margin-bottom: 4px;">💶</div>
+            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">€35,000 SEAI Grant</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">State Funding Locked</div>
           </div>
         </div>
 
-        <!-- Actions -->
-        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
-          <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiTransformation()">
-            🎙️ Ask Aoife: How Do I Plan My G ➔ A0 Upgrade? →
+        <!-- Master Trigger Button -->
+        <div style="margin-top: 24px;">
+          <button type="button" class="btn-activate-shield" id="btnEngageShield" onclick="window.engageCarbonTaxShield()">
+            <span>🛡️</span> <span id="shieldBtnLabel">ACTIVATE CARBON SHIELD DEFENSE & LOCK €35,000 GRANT →</span>
           </button>
-          <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestTransformationPlanWhatsApp()">
-            💬 WhatsApp My G ➔ A0 Roadmap Plan (083 966 2197) →
+        </div>
+
+        <div id="shieldActivatedControls" style="display: none; margin-top: 20px; gap: 12px; flex-wrap: wrap;">
+          <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiShieldDossier()">
+            🎙️ Ask Aoife: Explain My Carbon Shield Clearance Dossier →
+          </button>
+          <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestShieldCertWhatsApp()">
+            💬 WhatsApp My Carbon Shield Certificate to Joe (083 966 2197) →
           </button>
         </div>
 
@@ -959,7 +757,126 @@
     </section>
 
 
-    
+    <!-- 🗺️ 3-STEP "WALLET-HIT" FINANCIAL RESCUE WIZARD -->
+    <section id="wallet-rescue-wizard" aria-label="3-Step Carbon Tax Shield Onboarding">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <div class="wizard-step-badge">
+          🛡️ Step 1 of 3: Instant Irish Fuel Leak Assessment
+        </div>
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
+          How Badly is the 2026–2030 Irish Fuel Tax Hitting Your Home?
+        </h2>
+        <p style="font-size: 0.92rem; color: #94a3b8; max-width: 620px; margin: 0 auto; line-height: 1.5;">
+          With statutory carbon tax escalators locked in until 2030, Irish homeowners are leaking thousands every winter. Measure your exposure in 2 clicks.
+        </p>
+      </div>
+
+      <!-- Question A: Fuel Selector -->
+      <div>
+        <label style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;">
+          A. What Keeps Your Home Warm?
+        </label>
+        <div class="wizard-fuel-grid">
+          <button type="button" class="wizard-fuel-btn active" data-fuel="oil" onclick="window.setWizardFuel('oil')">
+            <span style="font-size: 1.4rem;">🔥</span>
+            <span>Home Heating Oil (Kerosene)</span>
+            <span style="font-size: 0.72rem; color: #f87171; font-weight: 600;">Highest 2026-2030 Tax Escalator</span>
+          </button>
+          <button type="button" class="wizard-fuel-btn" data-fuel="gas" onclick="window.setWizardFuel('gas')">
+            <span style="font-size: 1.4rem;">💨</span>
+            <span>Mains Natural Gas</span>
+            <span style="font-size: 0.72rem; color: #fbbf24; font-weight: 600;">Moderate Compounding Hikes</span>
+          </button>
+          <button type="button" class="wizard-fuel-btn" data-fuel="electric" onclick="window.setWizardFuel('electric')">
+            <span style="font-size: 1.4rem;">⚡</span>
+            <span>Storage / Electric</span>
+            <span style="font-size: 0.72rem; color: #38bdf8; font-weight: 600;">High Peak-Rate Exposure</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Question B: Average Monthly Winter Bill Slider -->
+      <div class="spend-slider-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label for="wizard-spend-range" style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;">
+            B. Average Winter Heating Spend ℹ️:
+          </label>
+          <span id="lbl-wizard-monthly-bill" style="font-size: 1.25rem; font-weight: 900; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">
+            €350/month
+          </span>
+        </div>
+        <!-- Gliding Dynamic Value Bubble -->
+        <div class="slider-bubble-wrapper">
+          <div id="gliding-spend-bubble" class="gliding-slider-bubble slider-value-bubble" style="left: 45%;">€350/mo</div>
+        </div>
+        <input type="range" id="wizard-spend-range" class="spend-slider mobile-spend-slider" min="100" max="650" step="25" value="350" oninput="window.onWizardSliderChange(this.value)" />
+        <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; font-family: 'IBM Plex Mono', monospace;">
+          <span>€100/mo (Small Apartment)</span>
+          <span>€350/mo (National Average)</span>
+          <span>€650+/mo (Large Detached)</span>
+        </div>
+      </div>
+
+      <!-- Step 2: The Shock (Live Carbon Tax Penalty Clock) -->
+      <div class="penalty-clock-container">
+        <div style="font-size: 0.78rem; font-weight: 800; color: #fca5a5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em;">
+          🚨 Step 2: Your Projected 2026–2030 Carbon Tax Penalty Clock
+        </div>
+        <div id="lbl-wizard-penalty-clock" class="penalty-clock-digital">
+          €4,320.00
+        </div>
+        <div id="lbl-wizard-monthly-leak" style="font-size: 0.85rem; font-weight: 700; color: #fca5a5; font-family: 'IBM Plex Mono', monospace;">
+          Leaking: €72.00 / month straight to the taxman
+        </div>
+      </div>
+
+      <!-- Step 3: Deploy The Shield CTA -->
+      <div id="btn-wizard-deploy-shield" style="text-align: center;">
+        <button type="button" class="btn-deploy-shield" onclick="window.deployCarbonShield()">
+          <span>🛡️ Deploy Your Carbon Tax Shield (Stop the Drain)</span>
+        </button>
+      </div>
+
+      <!-- Step 3 (Deployed): The Rescue & Value Stack -->
+      <div id="shield-deployed-container">
+        <div style="background: rgba(16, 185, 129, 0.15); border: 2px solid #34f5c5; border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 24px; box-shadow: 0 0 30px rgba(52, 245, 197, 0.3);">
+          <div style="font-size: 0.8rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">
+            ✅ SHIELD ACTIVE · PROJECTED SAVINGS UNLOCKED
+          </div>
+          <div style="font-size: 2.4rem; font-weight: 900; color: #ffffff; margin: 6px 0;">
+            +€18,450 5-Year Cash Kept in Pocket
+          </div>
+          <p style="font-size: 0.88rem; color: #cbd5e1; margin: 0;">
+            Your heating fuel liability has been redirected into grant-funded home equity and solar micro-generation.
+          </p>
+        </div>
+
+        <div class="savings-stack-grid">
+          <div class="savings-stack-item">
+            <div style="font-size: 0.72rem; color: #34f5c5; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">SEAI CASH GRANTS</div>
+            <div style="font-size: 1.3rem; font-weight: 900; color: #ffffff; margin: 4px 0;">-€35,000 Direct</div>
+            <div style="font-size: 0.74rem; color: #94a3b8;">Heat pump, wrap, attic & solar deducted upfront.</div>
+          </div>
+          <div class="savings-stack-item">
+            <div style="font-size: 0.72rem; color: #fbbf24; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">GREEN MORTGAGE</div>
+            <div style="font-size: 1.3rem; font-weight: 900; color: #ffffff; margin: 4px 0;">-€180 / month</div>
+            <div style="font-size: 0.74rem; color: #94a3b8;">Unlocks 3.45% discounted interest rate.</div>
+          </div>
+          <div class="savings-stack-item">
+            <div style="font-size: 0.72rem; color: #34f5c5; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">NET HEATING BILL</div>
+            <div style="font-size: 1.3rem; font-weight: 900; color: #ffffff; margin: 4px 0;">€54 / month</div>
+            <div style="font-size: 0.74rem; color: #94a3b8;">Slashed from €350/mo using 7c night-rate battery.</div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 24px;">
+          <a href="/pricing/" class="btn-hero-primary-star" style="width: 100%; max-width: 480px; padding: 18px 24px; font-size: 1.1rem; box-sizing: border-box;">
+            ⭐ Lock In These Grants with Independent On-Site Survey →
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- 📋 "ONE-STOP-SHOP VS INDIVIDUAL GRANTS" DECISION MATRIX CALCULATOR -->
     <section class="grant-matrix-section" id="grant-matrix-calculator" aria-label="SEAI One-Stop-Shop vs Individual Grants Decision Engine">
       <div class="grant-matrix-container">
@@ -1115,8 +1032,6 @@
       </div>
     </section>
 
-
-    
     <!-- 🏦 LIVE GREEN MORTGAGE BANK TICKER & COMPARISON WIDGET -->
     <section class="mortgage-ticker-section" id="green-mortgage-ticker" aria-label="Live Irish Green Mortgage Bank Ticker">
       <div class="mortgage-ticker-container">
@@ -1230,241 +1145,59 @@
       </div>
     </section>
 
-
-    
-    <!-- 🌟 IRISH CARBON TAX SHIELD & RETROFIT WAR ROOM TERMINAL -->
-    <section class="war-room-section" id="carbon-tax-war-room" aria-label="Irish Carbon Tax Shield & Retrofit Mission Control">
-      <div class="war-room-grid-bg"></div>
-      <div class="war-room-container" id="warRoomContainer">
-        <div class="shield-laser-sweep"></div>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
-          <span class="war-room-badge" id="warRoomBadge">
-            <span class="pulse-dot" style="background: #ef4444; box-shadow: 0 0 10px #ef4444;"></span>
-            ⚠️ STATUTORY IRISH CARBON TAX ESCALATOR: €64 ➔ €100/TONNE ACTIVE
+    <!-- Homeowner Standalone Tool Launchers -->
+    <div style="max-width: 1200px; margin: 40px auto 20px; padding: 0 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span style="font-size: 0.75rem; font-weight: 800; color: #34f5c5; font-family: monospace; text-transform: uppercase;">
+            🏠 HOMEOWNER QUICK-ACTION ENGINES
           </span>
-          <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
-            ● Statutory Finance Act Escalator to 2030
-          </span>
+          <h3 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 4px 0 0 0;">
+            Self-Serve Retrofit & Savings Tools
+          </h3>
         </div>
-
-        <h2 style="font-size: clamp(1.7rem, 4vw, 2.5rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.15; letter-spacing: -0.02em;">
-          Irish Retrofit Mission Control & Carbon Shield Terminal
-        </h2>
-        <p style="color: #cbd5e1; font-size: 0.95rem; max-width: 800px; margin: 0 0 24px 0; line-height: 1.55;">
-          Every unrenovated home in Ireland is leaking thousands into statutory fuel taxes every winter. Tap the defense trigger below to engage your <strong>Carbon Tax Shield</strong> and lock in up to <strong>€35,000 in direct SEAI grants</strong>.
-        </p>
-
-        <!-- Live Clock & Tax Leak vs Shield Grid -->
-        <div class="war-clock-grid">
-          <!-- UNPROTECTED TAX LEAK CARD -->
-          <div class="war-clock-card leak-active" id="unprotectedCard">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(239, 68, 68, 0.25); padding-bottom: 10px;">
-              <span style="font-size: 0.75rem; color: #f87171; font-family: monospace; font-weight: 800; text-transform: uppercase;">
-                🔴 UNPROTECTED EXPOSURE
-              </span>
-              <span style="font-size: 0.72rem; color: #94a3b8;">Statutory 2026-30 Penalty</span>
-            </div>
-            <div class="war-counter-display" style="color: #f87171;" id="leakLiveCounter">
-              €4,180.00
-            </div>
-            <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
-              Accumulating on Kerosene Oil / Natural Gas carbon levies until 2030.
-            </div>
-          </div>
-
-          <!-- SHIELDED ZERO LEAK CARD -->
-          <div class="war-clock-card" id="shieldedCard">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 245, 197, 0.25); padding-bottom: 10px;">
-              <span style="font-size: 0.75rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
-                🟢 ECOSMART SHIELD STATUS
-              </span>
-              <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace;" id="shieldStatusText">STANDBY</span>
-            </div>
-            <div class="war-counter-display" style="color: #34f5c5;" id="shieldLiveCounter">
-              €0.00 TAX
-            </div>
-            <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
-              100% Tax Immunity via Heat Pump Electrification + Solar PV Harvest.
-            </div>
-          </div>
-        </div>
-
-        <!-- 4 Live Defense Pods -->
-        <div class="defense-pods-grid">
-          <div class="defense-pod" id="podHp">
-            <div style="font-size: 1.6rem; margin-bottom: 4px;">⚡</div>
-            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">Heat Pump (COP 4.2)</div>
-            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">45°C Continuous Flow</div>
-          </div>
-
-          <div class="defense-pod" id="podSolar">
-            <div style="font-size: 1.6rem; margin-bottom: 4px;">☀️</div>
-            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">6kW Solar PV Array</div>
-            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">24c/kWh Clean Export</div>
-          </div>
-
-          <div class="defense-pod" id="podBattery">
-            <div style="font-size: 1.6rem; margin-bottom: 4px;">🔋</div>
-            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">10kWh Night Battery</div>
-            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">7c/kWh Smart Charge</div>
-          </div>
-
-          <div class="defense-pod" id="podGrant">
-            <div style="font-size: 1.6rem; margin-bottom: 4px;">💶</div>
-            <div style="font-size: 0.88rem; font-weight: 800; color: #ffffff;">€35,000 SEAI Grant</div>
-            <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;">State Funding Locked</div>
-          </div>
-        </div>
-
-        <!-- Master Trigger Button -->
-        <div style="margin-top: 24px;">
-          <button type="button" class="btn-activate-shield" id="btnEngageShield" onclick="window.engageCarbonTaxShield()">
-            <span>🛡️</span> <span id="shieldBtnLabel">ACTIVATE CARBON SHIELD DEFENSE & LOCK €35,000 GRANT →</span>
-          </button>
-        </div>
-
-        <div id="shieldActivatedControls" style="display: none; margin-top: 20px; gap: 12px; flex-wrap: wrap;">
-          <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiShieldDossier()">
-            🎙️ Ask Aoife: Explain My Carbon Shield Clearance Dossier →
-          </button>
-          <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestShieldCertWhatsApp()">
-            💬 WhatsApp My Carbon Shield Certificate to Joe (083 966 2197) →
-          </button>
-        </div>
-
+        <span style="font-size: 0.8rem; color: #94a3b8;">100% Free · No Salesperson Callbacks</span>
       </div>
-    </section>
-
-
-    <!-- 🗺️ 3-STEP "WALLET-HIT" FINANCIAL RESCUE WIZARD -->
-    <section id="wallet-rescue-wizard" aria-label="3-Step Carbon Tax Shield Onboarding">
-      <div style="text-align: center; margin-bottom: 24px;">
-        <div class="wizard-step-badge">
-          🛡️ Step 1 of 3: Instant Irish Fuel Leak Assessment
-        </div>
-        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
-          How Badly is the 2026–2030 Irish Fuel Tax Hitting Your Home?
-        </h2>
-        <p style="font-size: 0.92rem; color: #94a3b8; max-width: 620px; margin: 0 auto; line-height: 1.5;">
-          With statutory carbon tax escalators locked in until 2030, Irish homeowners are leaking thousands every winter. Measure your exposure in 2 clicks.
-        </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+        <a href="/digital-twin/" class="hero-card" style="border: 1px solid rgba(52, 245, 197, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">🏡</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">Flagship Simulator</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Irish Home Digital Twin</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Interactive architectural cross-section. Watch your BER jump to A0 & stack €35,000 grants.</div>
+          <div style="margin-top: 12px; color: #34f5c5; font-weight: 800; font-size: 0.82rem;">Launch Digital Twin →</div>
+        </a>
+        <a href="/retrofit-loan/" class="hero-card" style="border: 1px solid rgba(52, 245, 197, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">💶</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">0% Out-of-Pocket</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">SBCI Low-Cost Loan Stacker</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Stack 3.55% SBCI government loans with SEAI grants. Cashflow positive from Month 1.</div>
+          <div style="margin-top: 12px; color: #34f5c5; font-weight: 800; font-size: 0.82rem;">Stack Loans & Grants →</div>
+        </a>
+        <a href="/solar/" class="hero-card" style="border: 1px solid rgba(52, 245, 197, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">☀️</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">Solar & Micro-Climate</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Solar PV & CEG Estimator</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Geocoded 26-county solar yield model with 24c/kWh Clean Export calculations.</div>
+          <div style="margin-top: 12px; color: #34f5c5; font-weight: 800; font-size: 0.82rem;">Estimate Solar Harvest →</div>
+        </a>
+        <a href="/quote-auditor/" class="hero-card" style="border: 1px solid rgba(52, 245, 197, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">🛡️</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">Fair-Value Check</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">AI Quote Red-Liner</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Upload your installer quote to detect hidden markups and buffer tank omissions.</div>
+          <div style="margin-top: 12px; color: #34f5c5; font-weight: 800; font-size: 0.82rem;">Red-Line Your Quote →</div>
+        </a>
       </div>
+    </div>
+  </div>
+  <!-- ================================================================= -->
+  <!-- END PANEL 1: HOMEOWNER                                              -->
+  <!-- ================================================================= -->
 
-      <!-- Question A: Fuel Selector -->
-      <div>
-        <label style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;">
-          A. What Keeps Your Home Warm?
-        </label>
-        <div class="wizard-fuel-grid">
-          <button type="button" class="wizard-fuel-btn active" data-fuel="oil" onclick="window.setWizardFuel('oil')">
-            <span style="font-size: 1.4rem;">🔥</span>
-            <span>Home Heating Oil (Kerosene)</span>
-            <span style="font-size: 0.72rem; color: #f87171; font-weight: 600;">Highest 2026-2030 Tax Escalator</span>
-          </button>
-          <button type="button" class="wizard-fuel-btn" data-fuel="gas" onclick="window.setWizardFuel('gas')">
-            <span style="font-size: 1.4rem;">💨</span>
-            <span>Mains Natural Gas</span>
-            <span style="font-size: 0.72rem; color: #fbbf24; font-weight: 600;">Moderate Compounding Hikes</span>
-          </button>
-          <button type="button" class="wizard-fuel-btn" data-fuel="electric" onclick="window.setWizardFuel('electric')">
-            <span style="font-size: 1.4rem;">⚡</span>
-            <span>Storage / Electric</span>
-            <span style="font-size: 0.72rem; color: #38bdf8; font-weight: 600;">High Peak-Rate Exposure</span>
-          </button>
-          <button type="button" class="persona-option-item modal-reopen-item" onclick="window.selectPersonaFromDropdown('all'); setTimeout(window.openPersonaPickerModal, 150);" style="border-top: 1px solid rgba(52, 245, 197, 0.2); background: rgba(52, 245, 197, 0.08);">
-            <span style="font-size: 1.3rem;">✨</span>
-            <div>
-              <div style="color: #34f5c5; font-weight: 800;">Role Selector Modal</div>
-              <span class="option-desc">Re-open 3-Advisor Switchboard</span>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      <!-- Question B: Average Monthly Winter Bill Slider -->
-      <div class="spend-slider-container">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <label for="wizard-spend-range" style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em;">
-            B. Average Winter Heating Spend ℹ️:
-          </label>
-          <span id="lbl-wizard-monthly-bill" style="font-size: 1.25rem; font-weight: 900; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">
-            €350/month
-          </span>
-        </div>
-        <!-- Gliding Dynamic Value Bubble -->
-        <div class="slider-bubble-wrapper">
-          <div id="gliding-spend-bubble" class="gliding-slider-bubble slider-value-bubble" style="left: 45%;">€350/mo</div>
-        </div>
-        <input type="range" id="wizard-spend-range" class="spend-slider mobile-spend-slider" min="100" max="650" step="25" value="350" oninput="window.onWizardSliderChange(this.value)" />
-        <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: #64748b; font-family: 'IBM Plex Mono', monospace;">
-          <span>€100/mo (Small Apartment)</span>
-          <span>€350/mo (National Average)</span>
-          <span>€650+/mo (Large Detached)</span>
-        </div>
-      </div>
-
-      <!-- Step 2: The Shock (Live Carbon Tax Penalty Clock) -->
-      <div class="penalty-clock-container">
-        <div style="font-size: 0.78rem; font-weight: 800; color: #fca5a5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em;">
-          🚨 Step 2: Your Projected 2026–2030 Carbon Tax Penalty Clock
-        </div>
-        <div id="lbl-wizard-penalty-clock" class="penalty-clock-digital">
-          €4,320.00
-        </div>
-        <div id="lbl-wizard-monthly-leak" style="font-size: 0.85rem; font-weight: 700; color: #fca5a5; font-family: 'IBM Plex Mono', monospace;">
-          Leaking: €72.00 / month straight to the taxman
-        </div>
-      </div>
-
-      <!-- Step 3: Deploy The Shield CTA -->
-      <div id="btn-wizard-deploy-shield" style="text-align: center;">
-        <button type="button" class="btn-deploy-shield" onclick="window.deployCarbonShield()">
-          <span>🛡️ Deploy Your Carbon Tax Shield (Stop the Drain)</span>
-        </button>
-      </div>
-
-      <!-- Step 3 (Deployed): The Rescue & Value Stack -->
-      <div id="shield-deployed-container">
-        <div style="background: rgba(16, 185, 129, 0.15); border: 2px solid #34f5c5; border-radius: 16px; padding: 24px; text-align: center; margin-bottom: 24px; box-shadow: 0 0 30px rgba(52, 245, 197, 0.3);">
-          <div style="font-size: 0.8rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">
-            ✅ SHIELD ACTIVE · PROJECTED SAVINGS UNLOCKED
-          </div>
-          <div style="font-size: 2.4rem; font-weight: 900; color: #ffffff; margin: 6px 0;">
-            +€18,450 5-Year Cash Kept in Pocket
-          </div>
-          <p style="font-size: 0.88rem; color: #cbd5e1; margin: 0;">
-            Your heating fuel liability has been redirected into grant-funded home equity and solar micro-generation.
-          </p>
-        </div>
-
-        <div class="savings-stack-grid">
-          <div class="savings-stack-item">
-            <div style="font-size: 0.72rem; color: #34f5c5; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">SEAI CASH GRANTS</div>
-            <div style="font-size: 1.3rem; font-weight: 900; color: #ffffff; margin: 4px 0;">-€35,000 Direct</div>
-            <div style="font-size: 0.74rem; color: #94a3b8;">Heat pump, wrap, attic & solar deducted upfront.</div>
-          </div>
-          <div class="savings-stack-item">
-            <div style="font-size: 0.72rem; color: #fbbf24; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">GREEN MORTGAGE</div>
-            <div style="font-size: 1.3rem; font-weight: 900; color: #ffffff; margin: 4px 0;">-€180 / month</div>
-            <div style="font-size: 0.74rem; color: #94a3b8;">Unlocks 3.45% discounted interest rate.</div>
-          </div>
-          <div class="savings-stack-item">
-            <div style="font-size: 0.72rem; color: #34f5c5; font-weight: 800; font-family: 'IBM Plex Mono', monospace;">NET HEATING BILL</div>
-            <div style="font-size: 1.3rem; font-weight: 900; color: #ffffff; margin: 4px 0;">€54 / month</div>
-            <div style="font-size: 0.74rem; color: #94a3b8;">Slashed from €350/mo using 7c night-rate battery.</div>
-          </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 24px;">
-          <a href="/pricing/" class="btn-hero-primary-star" style="width: 100%; max-width: 480px; padding: 18px 24px; font-size: 1.1rem; box-sizing: border-box;">
-            ⭐ Lock In These Grants with Independent On-Site Survey →
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 💼 3-STEP "COMMISSION-BOOSTER" ESTATE AGENT WIZARD -->
+  <!-- ================================================================= -->
+  <!-- 💼 PANEL 3: ESTATE AGENT SYSTEM VIEW                                -->
+  <!-- ================================================================= -->
+  <div id="view-panel-agent" class="system-view-panel" style="display: none;">
     <section id="agent-rescue-wizard" aria-label="3-Step Estate Agent Equity & Commission Booster">
       <div style="text-align: center; margin-bottom: 24px;">
         <div class="agent-step-badge">
@@ -1550,6 +1283,60 @@
       </div>
     </section>
 
+    <!-- Estate Agent Valuation & Client Conversion Suite -->
+    <div style="max-width: 1200px; margin: 40px auto 20px; padding: 0 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span style="font-size: 0.75rem; font-weight: 800; color: #f59e0b; font-family: monospace; text-transform: uppercase;">
+            💼 ESTATE AGENT VALUATION ENGINES
+          </span>
+          <h3 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 4px 0 0 0;">
+            High-Converting Vendor & Buyer Tools
+          </h3>
+        </div>
+        <span style="font-size: 0.8rem; color: #94a3b8;">Daft.ie / MyHome.ie Green Mortgage Pitching</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+        <a href="/ber-matrix/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">📈</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Listing Valuation</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">8-Band BER Equity Matrix</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Simulate jumping G/D ratings to A0 and calculate property equity gains.</div>
+          <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Simulate Rating Jump →</div>
+        </a>
+        <a href="/green-mortgage/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">🏛️</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Buyer Incentives</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Green Mortgage Rate Arbitrage</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Show buyers how an A/B rating unlocks 3.45% green interest rates.</div>
+          <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Calculate Buyer Savings →</div>
+        </a>
+        <a href="/property-auditor/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">🔍</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Instant Due Diligence</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Eircode Property Auditor</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">SEAI National Register lookup, HLI heat loss indicator, and solar micro-climate.</div>
+          <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Audit Property Eircode →</div>
+        </a>
+        <a href="/digital-twin/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">🏡</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Interactive 3D Demo</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Irish Home Digital Twin</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Demonstrate retrofit upgrades visually to buyers with architectural cross-section.</div>
+          <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Launch Digital Twin →</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- ================================================================= -->
+  <!-- END PANEL 3: ESTATE AGENT                                           -->
+  <!-- ================================================================= -->
+
+  <!-- ================================================================= -->
+  <!-- ⚡ PANEL 2: INSTALLER / RETROFITTER SYSTEM VIEW                    -->
+  <!-- ================================================================= -->
+  <div id="view-panel-installer" class="system-view-panel" style="display: none;">
+
     <!-- ⚡ 3-STEP "VAN-TO-VERDICT" INSTALLER WIZARD -->
     <section id="installer-rescue-wizard" aria-label="3-Step Installer Van-to-Verdict Sizing Portal">
       <div style="text-align: center; margin-bottom: 24px;">
@@ -1585,13 +1372,6 @@
           <button type="button" class="installer-archetype-btn" data-arch="apt" onclick="window.setInstallerArchetype('apt')">
             <span style="font-size: 1.4rem;">🏢</span>
             <span>2-Bed Apt (75m²)</span>
-          </button>
-          <button type="button" class="persona-option-item modal-reopen-item" onclick="window.selectPersonaFromDropdown('all'); setTimeout(window.openPersonaPickerModal, 150);" style="border-top: 1px solid rgba(52, 245, 197, 0.2); background: rgba(52, 245, 197, 0.08);">
-            <span style="font-size: 1.3rem;">✨</span>
-            <div>
-              <div style="color: #34f5c5; font-weight: 800;">Role Selector Modal</div>
-              <span class="option-desc">Re-open 3-Advisor Switchboard</span>
-            </div>
           </button>
         </div>
       </div>
@@ -1643,6 +1423,449 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
             ⭐ Outsource Technical Survey & DEAP (€49) →
           </a>
         </div>
+      </div>
+    </section>
+
+    <!-- Installer Quick-Action Engineering Suite -->
+    <div style="max-width: 1200px; margin: 40px auto 20px; padding: 0 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; font-family: monospace; text-transform: uppercase;">
+            ⚡ INSTALLER COMPLIANCE & TENDER ENGINES
+          </span>
+          <h3 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 4px 0 0 0;">
+            Professional Retrofit & Heating Tools
+          </h3>
+        </div>
+        <span style="font-size: 0.8rem; color: #94a3b8;">NSAI SR50-2:2024 & SEAI OSS Standards</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+        <a href="/radiator-sizer/" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">📐</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">NSAI SR50-2 Tool</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Radiator Flow & Sizing Engine</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Low-flow 45°C room-by-room calculation and radiator schedule.</div>
+          <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Launch Radiator Sizer →</div>
+        </a>
+        <a href="/tender-generator/" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">📋</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">1-Click RFP Draft</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">SEAI Contractor Tender Generator</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Binding NSAI RFP spec with 0% VAT rules and milestone terms.</div>
+          <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Create Tender Spec →</div>
+        </a>
+        <a href="/contractors/" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">🤝</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">Partner Network</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Contractor Partner Portal</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">Receive pre-qualified surveys and ready-to-install SEAI projects.</div>
+          <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Installer Registration →</div>
+        </a>
+        <a href="/heat-pump-suitability.html" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">⚙️</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">Diagnostic Test</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Heat Pump Readiness & Flow Test</div>
+          <div style="font-size: 0.8rem; color: #94a3b8;">HLI < 2.0 W/K/m² threshold check and fabric loss verification.</div>
+          <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Run Flow Check →</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- ================================================================= -->
+  <!-- END PANEL 2: INSTALLER                                              -->
+  <!-- ================================================================= -->
+
+  <!-- ================================================================= -->
+  <!-- 🛡️ PANEL 4: AUDIT, REVIEW & TEST SYSTEM VIEW                       -->
+  <!-- ================================================================= -->
+  <div id="view-panel-audit" class="system-view-panel" style="display: none;">
+    <!-- Dedicated Audit, Review & Test Command Center -->
+    <div style="max-width: 1200px; margin: 0 auto 30px; padding: 20px 20px 0;">
+      <div style="text-align: center; max-width: 780px; margin: 0 auto 24px;">
+        <span class="war-room-badge" style="background: rgba(52, 245, 197, 0.12); border-color: #34f5c5; color: #34f5c5;">
+          🛡️ 100% CONFLICT-FREE RED-LINE PROTECTION
+        </span>
+        <h2 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; color: #ffffff; margin: 12px 0 8px;">
+          Audit, Review & Diagnostic Test Center
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.55;">
+          EcoSmartHomes does not sell equipment or accept contractor commissions. Upload your quotes, snap your boiler, or test your property against NSAI SR50-2 standards with complete impartiality.
+        </p>
+      </div>
+    </div>
+
+    <!-- 📸 AI SNAP & AUDIT DIAGNOSTIC VISUAL DROPZONE -->
+    <section class="snap-audit-section" id="snap-audit" aria-label="AI Visual Diagnostic Dropzone">
+      <div class="snap-audit-container" id="snapAuditContainer">
+        <span class="snap-badge">📷 ZERO-TYPING MULTIMODAL SCANNER</span>
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 900; color: #ffffff; margin: 0 0 10px 0; line-height: 1.2;">
+          Snap & Audit: Instant AI Photo Analysis
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.95rem; max-width: 680px; margin: 0 auto 16px auto; line-height: 1.55;">
+          Drop a quick photo of your <strong>boiler, radiator, hot water cylinder, or fuseboard</strong>. Our AI vision model checks your SEAI grant status and NSAI SR50 readiness in seconds.
+        </p>
+
+        <!-- Dropzone Box -->
+        <div class="snap-dropzone-inner" id="snapDropzone" onclick="document.getElementById('snapFileInput').click()">
+          <div class="snap-laser"></div>
+          <input type="file" id="snapFileInput" accept="image/*" style="display: none;" onchange="window.handleSnapFileUpload(event)" />
+          <div id="dropzoneDefaultState">
+            <div style="font-size: 2.5rem; margin-bottom: 10px;">📸</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff; margin-bottom: 4px;">
+              Drag & Drop Equipment Photo or Click to Upload / Snap
+            </div>
+            <div style="font-size: 0.8rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace;">
+              JPG, PNG, HEIC · Instant AI Computer Vision Audit
+            </div>
+          </div>
+          <div id="dropzoneScanningState" style="display: none; padding: 20px 0;">
+            <div style="font-size: 2.2rem; margin-bottom: 10px; animation: avatarThrob 1.2s infinite ease-in-out;">⚡</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #34f5c5; margin-bottom: 4px;">
+              Scanning Irish Retrofit Standards (SR50 & DEAP 4.2.2)...
+            </div>
+            <div style="font-size: 0.8rem; color: #cbd5e1;" id="scanStatusText">
+              Analyzing heat output, age tags, and grant viability...
+            </div>
+          </div>
+        </div>
+
+        <!-- 1-Tap Sample Demos -->
+        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+          <span style="font-size: 0.74rem; color: #94a3b8; font-weight: 700;">No photo handy? Try instant simulated audits:</span>
+          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('boiler')">🛢️ Oil Boiler</button>
+          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('radiator')">🌡️ Single Rad</button>
+          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('cylinder')">🛢️ Copper Cylinder</button>
+          <button type="button" class="snap-demo-btn" onclick="window.runSnapDemo('fuseboard')">⚡ Old Fuseboard</button>
+        </div>
+
+        <!-- Dynamic Results Card -->
+        <div class="snap-result-card" id="snapResultCard">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid rgba(52,245,197,0.2); padding-bottom: 12px; margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.8rem;" id="snapResultEmoji">🛢️</span>
+              <div>
+                <h3 style="color: #ffffff; font-size: 1.15rem; font-weight: 900; margin: 0;" id="snapResultTitle">
+                  Firebird 26kW Kerosene Boiler Detected
+                </h3>
+                <span style="font-size: 0.75rem; color: #34f5c5; font-family: monospace; font-weight: 700;" id="snapResultModel">
+                  ● Efficiency: 78% (Non-Condensing) · ~18 Years Old
+                </span>
+              </div>
+            </div>
+            <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800;" id="snapResultVerdict">
+              ⚠️ HIGH PRIORITY REPLACEMENT
+            </span>
+          </div>
+
+          <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; margin: 0 0 16px 0;" id="snapResultDesc">
+            This non-condensing kerosene boiler is operating at ~78% efficiency with heavy carbon tax penalties locked in through 2030. Upgrading to a heat pump unlocks the maximum €12,500 SEAI grant and cuts annual heating bills by €2,650/yr.
+          </p>
+
+          <div class="snap-result-grid">
+            <div class="snap-result-item">
+              <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; font-family: monospace;">💶 SEAI GRANT ELIGIBILITY</div>
+              <div style="font-size: 1.15rem; font-weight: 900; color: #34f5c5; margin-top: 2px;" id="snapGrantVal">€12,500 Direct Grant</div>
+            </div>
+            <div class="snap-result-item">
+              <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; font-family: monospace;">📜 NSAI SR50 COMPLIANCE</div>
+              <div style="font-size: 1.15rem; font-weight: 900; color: #38bdf8; margin-top: 2px;" id="snapSr50Val">Pass (With Low-Temp Rads)</div>
+            </div>
+            <div class="snap-result-item">
+              <div style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; font-family: monospace;">📉 5-YR CARBON TAX SAVING</div>
+              <div style="font-size: 1.15rem; font-weight: 900; color: #fbbf24; margin-top: 2px;" id="snapTaxVal">€4,180 Saved</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
+            <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 220px; justify-content: center; padding: 12px 20px; font-size: 0.88rem;" onclick="window.askVoiceAdvisorSnapResult()">
+              🎙️ Ask Declan to Review Technical Report →
+            </button>
+            <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 220px; justify-content: center; padding: 12px 20px; font-size: 0.88rem;" onclick="window.sendSnapReportToWhatsApp()">
+              💬 Send Photo to Joe's WhatsApp (083 966 2197) →
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Audit & Red-Lining Tools Grid -->
+    <div style="max-width: 1200px; margin: 40px auto 30px; padding: 0 20px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+        <a href="/quote-auditor/" class="hero-card" style="border: 2px solid #34f5c5; text-decoration: none; padding: 24px; background: rgba(0, 26, 20, 0.9); border-radius: 16px; box-shadow: 0 0 25px rgba(52, 245, 197, 0.15);">
+          <div style="font-size: 2rem; margin-bottom: 8px;">🛡️</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">Flagship Audit Tool</div>
+          <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">AI Quote Red-Liner</div>
+          <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Detect hidden installer markups, missing buffer tanks, and SEAI grant deductions before you sign.</div>
+          <div style="margin-top: 14px; color: #34f5c5; font-weight: 800; font-size: 0.88rem;">Red-Line Your Quote →</div>
+        </a>
+        <a href="/quote-comparator/" class="hero-card" style="border: 1px solid rgba(52, 245, 197, 0.35); text-decoration: none; padding: 24px; background: rgba(0, 24, 18, 0.85); border-radius: 16px;">
+          <div style="font-size: 2rem; margin-bottom: 8px;">⚖️</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">Multi-Quote Analysis</div>
+          <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">Quote Comparator Engine</div>
+          <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Upload 2 to 3 installer quotes. Compare COP ratings, warranty terms, and net cost side-by-side.</div>
+          <div style="margin-top: 14px; color: #34f5c5; font-weight: 800; font-size: 0.88rem;">Compare Quotes Now →</div>
+        </a>
+        <a href="/heat-pump-suitability.html" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.35); text-decoration: none; padding: 24px; background: rgba(0, 24, 18, 0.85); border-radius: 16px;">
+          <div style="font-size: 2rem; margin-bottom: 8px;">📐</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">NSAI Standard</div>
+          <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">Heat Pump Compliance Test</div>
+          <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Check whether your property meets the statutory HLI &lt; 2.0 W/K/m² threshold to avoid high winter electricity bills.</div>
+          <div style="margin-top: 14px; color: #38bdf8; font-weight: 800; font-size: 0.88rem;">Run Heat Pump Test →</div>
+        </a>
+        <a href="/property-auditor/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.35); text-decoration: none; padding: 24px; background: rgba(0, 24, 18, 0.85); border-radius: 16px;">
+          <div style="font-size: 2rem; margin-bottom: 8px;">🔍</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Official Registry</div>
+          <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">National BER Register Audit</div>
+          <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Query official SEAI records with your Eircode. Inspect historic advisory reports and grant eligibility.</div>
+          <div style="margin-top: 14px; color: #f59e0b; font-weight: 800; font-size: 0.88rem;">Audit Property Eircode →</div>
+        </a>
+      </div>
+      
+      <div style="margin-top: 24px; text-align: center;">
+        <a href="/checkout/?tier=survey&price=149" class="btn-hero-primary-star" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 28px; font-size: 1rem;">
+          <span>⭐</span>
+          <span>Book Independent In-Person NSAI Survey (€149) →</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- ================================================================= -->
+  <!-- END PANEL 4: AUDIT, REVIEW & TEST                                  -->
+  <!-- ================================================================= -->
+
+  <!-- ================================================================= -->
+  <!-- 🔍 PANEL 5: ALL ENGINES & MACRO VIEWS                              -->
+  <!-- ================================================================= -->
+  <div id="view-panel-all" class="system-view-panel" style="display: none;">
+
+    <!-- 🗺️ INTERACTIVE 26-COUNTY IRISH SOLAR & MICRO-CLIMATE MAP -->
+    <section class="county-solar-section" id="county-solar-map" aria-label="26-County Irish Solar & Micro-Climate Yield Engine">
+      <div class="county-solar-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <span class="county-badge-pill">☀️ 26-COUNTY GEOCODED IRISH SOLAR YIELD MODEL</span>
+          <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+            ● Clean Export Guarantee (CEG 24c/kWh) & NSAI SR50 Winter Data
+          </span>
+        </div>
+
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
+          Irish Regional Solar Harvest & Micro-Climate Yield Map
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.92rem; max-width: 780px; margin: 0 0 20px 0; line-height: 1.5;">
+          Select any of the 26 Irish counties to instantly view geocoded annual solar harvest (6kW system), Clean Export Guarantee cash rebates, local heating degree days, and active SEAI registered installers.
+        </p>
+
+        <!-- 📍 Compact Province & County Drawer Trigger Bar (Scroll-Reduced) -->
+        <div class="county-drawer-controls">
+          <!-- Quick County Trigger Pill (Drawer Toggle) -->
+          <button type="button" class="county-drawer-trigger-btn" id="countyDrawerToggleBtn" onclick="window.toggleCountyDrawer()" aria-expanded="false" aria-controls="countyProvinceDrawer">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.1rem;">📍</span>
+              <span id="countyTriggerLabel" style="font-weight: 800; color: #ffffff;">Co. Cork (Munster)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span id="countyTriggerYield" style="font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: #34f5c5; background: rgba(52,245,197,0.12); padding: 2px 8px; border-radius: 9999px;">☀️ 995 kWh/kWp</span>
+              <span class="drawer-caret" id="countyDrawerCaret" style="transition: transform 0.25s ease; color: #34f5c5; font-size: 0.9rem;">▾</span>
+            </div>
+          </button>
+
+          <!-- Province Quick-Filter Tabs -->
+          <div class="province-filter-group" id="provinceFilterGroup">
+            <button type="button" class="province-chip" data-province="munster" onclick="window.openProvinceDrawer('munster')">🏰 Munster (6)</button>
+            <button type="button" class="province-chip" data-province="leinster" onclick="window.openProvinceDrawer('leinster')">🏛️ Leinster (12)</button>
+            <button type="button" class="province-chip" data-province="connacht" onclick="window.openProvinceDrawer('connacht')">🌊 Connacht (5)</button>
+            <button type="button" class="province-chip" data-province="ulster" onclick="window.openProvinceDrawer('ulster')">🌲 Ulster (3)</button>
+            <button type="button" class="province-chip active" data-province="all" onclick="window.openProvinceDrawer('all')">🌟 All 26</button>
+          </div>
+        </div>
+
+        <!-- 📂 Collapsible Province & County Drawer Panel -->
+        <div class="county-province-drawer-panel" id="countyProvinceDrawer" style="display: none;">
+          <div class="province-drawer-header">
+            <span style="font-size: 0.74rem; font-family: monospace; color: #34f5c5; font-weight: 800; text-transform: uppercase;">● SELECT COUNTY UNDER PROVINCE</span>
+            <button type="button" onclick="window.toggleCountyDrawer(false)" style="background: none; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer; padding: 2px 6px;">✕</button>
+          </div>
+          <div class="province-sections-container" id="provinceSectionsContainer">
+            <!-- Dynamically populated grouped by Munster, Leinster, Connacht, Ulster -->
+          </div>
+        </div>
+
+        <!-- Live County Telemetry Dashboard -->
+        <div class="county-telemetry-dashboard" id="countyDashboard">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+            <div>
+              <div style="font-size: 0.72rem; color: #34f5c5; font-family: monospace; font-weight: 800; text-transform: uppercase;">
+                ● ACTIVE COUNTY DOSSIER
+              </div>
+              <h3 style="color: #ffffff; font-size: 1.4rem; font-weight: 900; margin: 2px 0 0 0;" id="countySelectedTitle">
+                Co. Cork (Munster)
+              </h3>
+            </div>
+            <span style="background: rgba(52, 245, 197, 0.15); color: #34f5c5; border: 1px solid #34f5c5; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; font-family: monospace;" id="countyIrradianceTag">
+              ☀️ 995 kWh/kWp High Yield Zone
+            </span>
+          </div>
+
+          <div class="county-telemetry-grid">
+            <div class="county-stat-card">
+              <span class="county-stat-label">⚡ 6kW Annual Solar Harvest</span>
+              <div class="county-stat-value text-mint" id="countyHarvestVal">5,970 kWh/yr</div>
+              <span class="county-stat-desc">Regional micro-climate model</span>
+            </div>
+
+            <div class="county-stat-card">
+              <span class="county-stat-label">💶 Annual CEG Export Cash</span>
+              <div class="county-stat-value text-amber" id="countyCegVal">€895/yr</div>
+              <span class="county-stat-desc">Paid at 24c/kWh Clean Export</span>
+            </div>
+
+            <div class="county-stat-card">
+              <span class="county-stat-label">🌡️ NSAI SR50 Design Temp</span>
+              <div class="county-stat-value text-cyan" id="countyDesignTempVal">-3.0°C (Coastal)</div>
+              <span class="county-stat-desc">Heat pump low-temp sizing</span>
+            </div>
+
+            <div class="county-stat-card">
+              <span class="county-stat-label">👷 Active SEAI Installers</span>
+              <div class="county-stat-value text-gold" id="countyInstallersVal">24 Registered</div>
+              <span class="county-stat-desc">Vetted local contractors</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;">
+            <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiCountySolar()">
+              <span id="countyVoiceBtnText">🎙️ Ask Aoife: Co. Cork Grants & Solar Payback →</span>
+            </button>
+            <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestCountyInstallerShortlist()">
+              <span id="countyWaBtnText">💬 WhatsApp Co. Cork Installer Shortlist (083 966 2197) →</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ⚡ INTERACTIVE BEFORE VS AFTER RETROFIT CUTAWAY SLIDER -->
+    <section class="transformation-section" id="transformation-slider" aria-label="Interactive Retrofit Cutaway Comparison">
+      <div class="transformation-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+          <span class="county-badge-pill" style="background: rgba(52, 245, 197, 0.15); border-color: #34f5c5; color: #34f5c5;">
+            📐 8-STEP G ➔ A0 WHOLE-HOUSE TRANSFORMATION MODEL
+          </span>
+          <span style="font-size: 0.75rem; color: #fbbf24; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+            ● Up to €35,000 SEAI Direct Grants & 3.45% Green Mortgage
+          </span>
+        </div>
+
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 900; color: #ffffff; margin: 0 0 8px 0; line-height: 1.2;">
+          Before vs. After: The Irish Retrofit Transformation
+        </h2>
+        <p style="color: #94a3b8; font-size: 0.92rem; max-width: 780px; margin: 0 0 16px 0; line-height: 1.5;">
+          Drag the interactive slider below to compare a legacy oil-heated Irish home against a fully modernized A2 heat pump & solar sanctuary.
+        </p>
+
+        <!-- Tactile Split Range Slider -->
+        <div class="transformation-slider-wrap">
+          <div class="comparison-slider-labels" style="margin-bottom: 8px;">
+            <span style="color: #f87171;">🔴 BEFORE (G/F)</span>
+            <span style="color: #34f5c5;" id="sliderPercentageLabel">↔️ 50% SPLIT</span>
+            <span style="color: #34f5c5;">🟢 AFTER (A0)</span>
+          </div>
+          <input type="range" min="0" max="100" value="50" class="transformation-range-input" id="transformRangeSlider" oninput="window.updateTransformationCutaway(this.value)" />
+        </div>
+
+        <!-- Before & After Comparison Cards -->
+        <div class="transformation-cards-grid">
+          <!-- BEFORE CARD -->
+          <div class="transform-card before-card" id="beforeTransformCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(239, 68, 68, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
+              <span style="font-size: 1.4rem;">🏚️</span>
+              <span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #ef4444; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; font-family: monospace;">
+                BER RATING: G (480 kWh/m²/yr)
+              </span>
+            </div>
+            <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 6px 0;">
+              Legacy Oil Boiler & Uninsulated Shell
+            </h3>
+            <div style="font-size: 1.45rem; font-weight: 900; color: #f87171; margin: 8px 0;">
+              €4,850 / yr <span style="font-size: 0.78rem; color: #94a3b8; font-weight: 500;">Heating & Electricity</span>
+            </div>
+
+            <ul class="transform-feature-list">
+              <li class="transform-feature-item">
+                <span>🛢️</span> <span><strong>18-Yr Kerosene Boiler:</strong> 78% efficiency with +€4,180 locked-in 2026-30 carbon taxes.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>🥶</span> <span><strong>Single-Panel Radiators:</strong> Scalding 75°C water flow causing cold drafts.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>🏦</span> <span><strong>Standard Mortgage Rate:</strong> Paying 4.75% SVR with €0 green mortgage discount.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>💸</span> <span><strong>Grid Reliance:</strong> 100% daytime peak electricity import @ 38c/kWh.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- AFTER CARD -->
+          <div class="transform-card after-card" id="afterTransformCard">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 245, 197, 0.2); padding-bottom: 10px; margin-bottom: 12px;">
+              <span style="font-size: 1.4rem;">🏡</span>
+              <span style="background: rgba(52, 245, 197, 0.15); color: #34f5c5; border: 1px solid #34f5c5; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; font-family: monospace;">
+                BER RATING: A0 (0 kWh/m²/yr Net-Zero)
+              </span>
+            </div>
+            <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 900; margin: 0 0 6px 0;">
+              EcoSmart A0 Net-Zero Deep Retrofit Sanctuary
+            </h3>
+            <div style="font-size: 1.45rem; font-weight: 900; color: #34f5c5; margin: 8px 0;">
+              €650 / yr <span style="font-size: 0.78rem; color: #6ee7b7; font-weight: 800;">(€4,200/yr Cash Saved)</span>
+            </div>
+
+            <ul class="transform-feature-list">
+              <li class="transform-feature-item">
+                <span>⚡</span> <span><strong>Air-to-Water Heat Pump:</strong> COP 4.2 high-efficiency 45°C gentle continuous warmth.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>☀️</span> <span><strong>6kW Solar PV + 10kWh Battery:</strong> Generates ~6,000 kWh/yr with 24c/kWh grid export.</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>💎</span> <span><strong>3.45% Green Mortgage:</strong> Unlocks -1.30% interest rate saving €315/mo (€3,780/yr).</span>
+              </li>
+              <li class="transform-feature-item">
+                <span>💶</span> <span><strong>SEAI Cash Grants:</strong> Claimed up to €35,000 in direct state funding.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Net Financial Delta Bar -->
+        <div class="transform-delta-bar">
+          <div>
+            <div style="font-size: 0.7rem; color: #94a3b8; font-family: monospace; font-weight: 800;">💶 SEAI GRANT INJECTION</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #34f5c5; margin-top: 2px;">+€35,000 Paid</div>
+          </div>
+          <div>
+            <div style="font-size: 0.7rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📉 10-YEAR BILL SLASH</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #fbbf24; margin-top: 2px;">-€42,000 Saved</div>
+          </div>
+          <div>
+            <div style="font-size: 0.7rem; color: #94a3b8; font-family: monospace; font-weight: 800;">📈 PROPERTY EQUITY UPLIFT</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #38bdf8; margin-top: 2px;">+€38,500 Valuation</div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px;">
+          <button type="button" class="btn-hero-primary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.askVoiceAiTransformation()">
+            🎙️ Ask Aoife: How Do I Plan My G ➔ A0 Upgrade? →
+          </button>
+          <button type="button" class="btn-hero-secondary" style="flex: 1; min-width: 230px; justify-content: center; padding: 12px 18px; font-size: 0.86rem;" onclick="window.requestTransformationPlanWhatsApp()">
+            💬 WhatsApp My G ➔ A0 Roadmap Plan (083 966 2197) →
+          </button>
+        </div>
+
       </div>
     </section>
 
@@ -1905,6 +2128,14 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         </div>
       </div>
     </section>
+  </div>
+  <!-- ================================================================= -->
+  <!-- END PANEL 5: ALL ENGINES & MACRO VIEWS                             -->
+  <!-- ================================================================= -->
+</div>
+<!-- ========================================================================= -->
+<!-- END #system-view-container                                                -->
+<!-- ========================================================================= -->
   </main>
 
   

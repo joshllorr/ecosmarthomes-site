@@ -116,6 +116,8 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   AGPersonas.homeowner = AGPersonas.aoife;
   AGPersonas.agent = AGPersonas.eimear;
   AGPersonas.installer = AGPersonas.declan;
+  AGPersonas.audit = AGPersonas.declan;
+  AGPersonas.all = AGPersonas.aoife;
 
   window.AGPersonas = AGPersonas;
 
@@ -382,7 +384,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
   window.AG.loadSavedPersona = function() {
     try {
       const params = new URLSearchParams(window.location.search);
-      const urlPersona = params.get('persona') || params.get('role');
+      const urlPersona = params.get('view') || params.get('persona') || params.get('role');
       if (urlPersona && AGPersonas[urlPersona.toLowerCase()]) {
         window.AG.setVoicePersona(urlPersona.toLowerCase(), false);
         return;
@@ -393,7 +395,7 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
         window.AG.setVoicePersona('eimear', false);
         return;
       }
-      if (path.includes('radiator-sizer') || path.includes('tender-generator') || path.includes('declan')) {
+      if (path.includes('radiator-sizer') || path.includes('tender-generator') || path.includes('quote-auditor') || path.includes('quote-comparator') || path.includes('declan')) {
         window.AG.setVoicePersona('declan', false);
         return;
       }
@@ -594,7 +596,8 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       agent: 'eimear',
       eimear: 'eimear',
       installer: 'declan',
-      declan: 'declan'
+      declan: 'declan',
+      audit: 'declan'
     };
     const advisorToRole = {
       aoife: 'homeowner',
@@ -602,7 +605,8 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       eimear: 'agent',
       agent: 'agent',
       declan: 'installer',
-      installer: 'installer'
+      installer: 'installer',
+      audit: 'audit'
     };
 
     const raw = (personaKey || '').toLowerCase();
