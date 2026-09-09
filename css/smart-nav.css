@@ -3586,25 +3586,37 @@ a, a:visited {
    MOBILE UI/UX & CONVERSION HANDOVER: SCROLL MECHANICS & DOCK COLLISION FIXES
    ========================================================================== */
 
-/* 1. Main Viewport & Card Section Bottom Clearance Buffer (Guillotining / Dock Slicing Fix) */
-main,
-.page-container,
-.main-viewport-wrapper,
-#mobile-app-container,
-#mobile-app-container > div:last-child,
-.transformation-cards-grid,
-.transformation-section,
-.transformation-container,
-.comparison-container,
-body {
-  padding-bottom: calc(140px + env(safe-area-inset-bottom, 20px)) !important;
-  box-sizing: border-box !important;
+/* 1. Main Viewport & Dock Clearance Buffer (Responsive: Desktop Zero Void / Mobile Clean Clearance) */
+@media (min-width: 769px) {
+  body,
+  main,
+  #mobile-app-container,
+  #mobile-app-container > div:last-child,
+  .main-viewport-wrapper,
+  .page-container {
+    padding-bottom: 0 !important;
+  }
+  .dock-clearance-spacer {
+    display: none !important;
+    height: 0 !important;
+    padding-bottom: 0 !important;
+  }
 }
 
-.dock-clearance-spacer {
-  height: calc(140px + env(safe-area-inset-bottom, 20px));
-  width: 100%;
-  pointer-events: none;
+@media (max-width: 768px) {
+  body,
+  main,
+  #mobile-app-container,
+  #mobile-app-container > div:last-child {
+    padding-bottom: 0 !important;
+  }
+  .dock-clearance-spacer {
+    display: block !important;
+    height: calc(75px + env(safe-area-inset-bottom, 20px)) !important;
+    padding-bottom: 0 !important;
+    width: 100%;
+    pointer-events: none;
+  }
 }
 
 /* 2. Floating Action Row & Hide State (Collision Shielding & Force Hide Overrides) */
