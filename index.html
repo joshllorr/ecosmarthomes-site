@@ -15,7 +15,7 @@
   <meta name="description" content="Stop Funding the Irish Fuel Tax. 100% Independent energy upgrade advisory, Green Mortgage Arbitrage, Quote Red-Liner, Solar PV and BER Roadmaps for Irish homeowners." />
   <title>EcoSmartHomes | 100% Conflict-Free Home Energy Advisory Ireland</title>
   <link rel="canonical" href="https://www.ecosmarthomes.ie/" />
-  <link rel="icon" type="image/svg+xml" href="/imgs/logo.svg" />
+  <link rel="icon" type="image/svg+xml" href="imgs/logo.svg" />
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,11 +23,11 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="/css/styles.css?v=5" />
-  <link rel="stylesheet" href="/css/style.css?v=5" />
-  <link rel="stylesheet" href="/css/voice-advisor.css?v=11" />
-  <link rel="stylesheet" href="/css/dashboard.css" />
-  <link rel="stylesheet" href="/css/whatsapp-widget.css?v=11" />
+  <link rel="stylesheet" href="css/styles.css?v=5" />
+  <link rel="stylesheet" href="css/style.css?v=5" />
+  <link rel="stylesheet" href="css/voice-advisor.css?v=11" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/whatsapp-widget.css?v=11" />
 
   <style>
     :root {
@@ -285,17 +285,17 @@
     }
   </style>
 
-  <script src="/js/contact-form.js" defer></script>
-  <script src="/js/webmcp-init.js" defer></script>
-  <script src="/js/retrofit-pipeline.js" defer></script>
-  <script src="/js/voice-advisor.js" defer></script>
-  <script src="/js/persona-router.js" defer></script>
-  <script src="/js/energy-metrics.js" defer></script>
-  <script src="/js/calculator-data-core.js" defer></script>
-  <script src="/js/property-auditor.js?v=14" defer></script>
-  <script src="/js/smart-nav.js?v=15" defer></script>
-  <script src="/js/esh-os.js?v=1" defer></script>
-  <link rel="stylesheet" href="/css/smart-nav.css?v=15">
+  <script src="js/contact-form.js" defer></script>
+  <script src="js/webmcp-init.js" defer></script>
+  <script src="js/retrofit-pipeline.js" defer></script>
+  <script src="js/voice-advisor.js" defer></script>
+  <script src="js/persona-router.js" defer></script>
+  <script src="js/energy-metrics.js" defer></script>
+  <script src="js/calculator-data-core.js" defer></script>
+  <script src="js/property-auditor.js?v=14" defer></script>
+  <script src="js/smart-nav.js?v=16" defer></script>
+  <script src="js/esh-os.js?v=1" defer></script>
+  <link rel="stylesheet" href="css/smart-nav.css?v=16">
 </head>
 <body>
 <div id="mobile-app-container" class="mobile-app-wrapper">
@@ -418,9 +418,18 @@
     </nav>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Main Unified Experience -->
   <main>
-    <section class="hero-stage">
+    <!-- ========================================================================= -->
+    <!-- 🎛️ ONE VIEW SYSTEM PAGE: ROLE-SPECIFIC PANELS (ZERO SCROLL HIJACKING)   -->
+    <!-- ========================================================================= -->
+    <div id="system-view-container">
+
+      <!-- ================================================================= -->
+      <!-- 🏠 PANEL 1: HOMEOWNER SYSTEM VIEW                                  -->
+      <!-- ================================================================= -->
+      <div id="view-panel-homeowner" class="system-view-panel active">
+        <section class="hero-stage">
       <!-- Primary Prominent Trust Badge -->
       <div class="hero-primary-badge-wrap">
         <span class="badge-pill" style="background: rgba(16, 185, 129, 0.18); border: 1.5px solid #34f5c5; color: #34f5c5; font-size: 0.76rem; padding: 6px 18px; box-shadow: 0 0 16px rgba(52, 245, 197, 0.35);">
@@ -640,18 +649,6 @@
       </div>
     </section>
 
-    <!-- ========================================================================= -->
-    <!-- 🎛️ ONE VIEW SYSTEM PAGE: ROLE-SPECIFIC PANELS (ZERO SCROLL HIJACKING)   -->
-    <!-- ========================================================================= -->
-    <div id="system-view-container">
-
-      <!-- ================================================================= -->
-      <!-- 🏠 PANEL 1: HOMEOWNER SYSTEM VIEW                                  -->
-      <!-- ================================================================= -->
-      <div id="view-panel-homeowner" class="system-view-panel active">
-
-
-    
     <!-- 🌟 IRISH CARBON TAX SHIELD & RETROFIT WAR ROOM TERMINAL -->
     <section class="war-room-section" id="carbon-tax-war-room" aria-label="Irish Carbon Tax Shield & Retrofit Mission Control">
       <div class="war-room-grid-bg"></div>
@@ -877,6 +874,50 @@
       </div>
     </section>
 
+    <!-- 🌐 CROSS-PORTAL NAVIGATION GATEWAYS (HOMEOWNER PORTAL HUB) -->
+    <div class="cross-portal-gateway-grid">
+      <button type="button" class="cross-portal-gateway-card agent-card" onclick="window.handlePersonaTabClick('agent')" aria-label="Open Estate Agent Portal">
+        <div>
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">💼</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">Estate Agent / Vendor?</div>
+          <div style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin: 4px 0 6px 0;">Unlock +€38,500 Vendor Equity</div>
+          <p style="font-size: 0.82rem; color: #94a3b8; margin: 0 0 12px 0; line-height: 1.45;">Simulate BER jump uplifts, Green Mortgage interest savings, and generate 1-click buyer blurbs for Daft.ie.</p>
+        </div>
+        <div style="color: #f59e0b; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; gap: 4px;">Open Estate Agent Portal →</div>
+      </button>
+
+      <button type="button" class="cross-portal-gateway-card installer-card" onclick="window.handlePersonaTabClick('installer')" aria-label="Open Installer Portal">
+        <div>
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">⚡</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">Heating Installer / Retrofitter?</div>
+          <div style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin: 4px 0 6px 0;">NSAI SR50-2 Sizing & Tenders</div>
+          <p style="font-size: 0.82rem; color: #94a3b8; margin: 0 0 12px 0; line-height: 1.45;">Rapid room radiator low-temp sizing, heat loss verification, and export client-ready SEAI tenders in 90 seconds.</p>
+        </div>
+        <div style="color: #38bdf8; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; gap: 4px;">Open Installer Portal →</div>
+      </button>
+
+      <button type="button" class="cross-portal-gateway-card audit-card" onclick="window.handlePersonaTabClick('audit')" aria-label="Open Audit & Review Portal">
+        <div>
+          <div style="font-size: 1.8rem; margin-bottom: 8px;">🛡️</div>
+          <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">Already Have Contractor Quotes?</div>
+          <div style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin: 4px 0 6px 0;">100% Conflict-Free Red-Liner</div>
+          <p style="font-size: 0.82rem; color: #94a3b8; margin: 0 0 12px 0; line-height: 1.45;">Detect hidden installer markups, verify buffer tanks, and snap photo of your boiler for instant AI audit.</p>
+        </div>
+        <div style="color: #34f5c5; font-weight: 800; font-size: 0.82rem; display: flex; align-items: center; gap: 4px;">Open Audit & Review Portal →</div>
+      </button>
+    </div>
+
+    <!-- 📂 COLLAPSIBLE HOMEOWNER ADVISORY TOOLS DRAWER -->
+    <div class="portal-drawer-wrapper">
+      <button type="button" class="portal-drawer-trigger-btn" data-drawer-target="homeowner-secondary-drawer" onclick="window.togglePortalDrawer('homeowner-secondary-drawer')" aria-expanded="false" aria-controls="homeowner-secondary-drawer">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.25rem;">⚡</span>
+          <span>Expand Homeowner Advisory Engines (Grant Matrix, Mortgage Slasher, Solar Harvest, Digital Twin)</span>
+        </div>
+        <span class="portal-drawer-caret">▾</span>
+      </button>
+
+      <div id="homeowner-secondary-drawer" class="portal-drawer-content" style="display: none;">
     <!-- 📋 "ONE-STOP-SHOP VS INDIVIDUAL GRANTS" DECISION MATRIX CALCULATOR -->
     <section class="grant-matrix-section" id="grant-matrix-calculator" aria-label="SEAI One-Stop-Shop vs Individual Grants Decision Engine">
       <div class="grant-matrix-container">
@@ -1189,6 +1230,8 @@
         </a>
       </div>
     </div>
+        </div>
+      </div>
   </div>
   <!-- ================================================================= -->
   <!-- END PANEL 1: HOMEOWNER                                              -->
@@ -1198,6 +1241,30 @@
   <!-- 💼 PANEL 3: ESTATE AGENT SYSTEM VIEW                                -->
   <!-- ================================================================= -->
   <div id="view-panel-agent" class="system-view-panel" style="display: none;">
+
+    <!-- 💼 DEDICATED ESTATE AGENT HERO BANNER -->
+    <section class="portal-hero-stage agent-hero-stage">
+      <div class="hero-primary-badge-wrap">
+        <span class="badge-pill" style="background: rgba(245, 158, 11, 0.18); border: 1.5px solid #f59e0b; color: #fbbf24; font-size: 0.76rem; padding: 6px 18px; box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);">
+          💼 ESTATE AGENT & PROPERTY PROFESSIONAL PORTAL
+        </span>
+      </div>
+      <h1 class="portal-hero-h1">
+        Unlock Up to +€38,500 in Hidden Vendor Property Equity
+      </h1>
+      <p class="portal-hero-sub">
+        A poor BER discounts property values by 8% to 10%. Turn cold listings into high-converting Green Mortgage assets. Calculate instant vendor value uplifts and generate compliant Daft.ie / MyHome.ie descriptions in 5 seconds.
+      </p>
+      <div class="hero-cta-row" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
+        <a href="#agent-rescue-wizard" class="btn-hero-primary" style="background: #f59e0b; color: #00241b; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35);">
+          ⚡ Instant 5-Second Valuation →
+        </a>
+        <a href="/pricing/" class="btn-hero-secondary">
+          ⭐ Book Survey for Vendor Pack (€149) →
+        </a>
+      </div>
+    </section>
+
     <section id="agent-rescue-wizard" aria-label="3-Step Estate Agent Equity & Commission Booster">
       <div style="text-align: center; margin-bottom: 24px;">
         <div class="agent-step-badge">
@@ -1283,48 +1350,61 @@
       </div>
     </section>
 
-    <!-- Estate Agent Valuation & Client Conversion Suite -->
-    <div style="max-width: 1200px; margin: 40px auto 20px; padding: 0 20px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-        <div>
-          <span style="font-size: 0.75rem; font-weight: 800; color: #f59e0b; font-family: monospace; text-transform: uppercase;">
-            💼 ESTATE AGENT VALUATION ENGINES
-          </span>
-          <h3 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 4px 0 0 0;">
-            High-Converting Vendor & Buyer Tools
-          </h3>
+    <!-- 📂 COLLAPSIBLE AGENT VALUATION TOOLS DRAWER -->
+    <div class="portal-drawer-wrapper">
+      <button type="button" class="portal-drawer-trigger-btn" data-drawer-target="agent-secondary-drawer" onclick="window.togglePortalDrawer('agent-secondary-drawer')" aria-expanded="false" aria-controls="agent-secondary-drawer">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.25rem;">💼</span>
+          <span>Expand Agent Valuation & Due Diligence Suite (BER Matrix, Green Rates, Eircode Auditor, Digital Twin)</span>
         </div>
-        <span style="font-size: 0.8rem; color: #94a3b8;">Daft.ie / MyHome.ie Green Mortgage Pitching</span>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-        <a href="/ber-matrix/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
-          <div style="font-size: 1.8rem; margin-bottom: 8px;">📈</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Listing Valuation</div>
-          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">8-Band BER Equity Matrix</div>
-          <div style="font-size: 0.8rem; color: #94a3b8;">Simulate jumping G/D ratings to A0 and calculate property equity gains.</div>
-          <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Simulate Rating Jump →</div>
-        </a>
-        <a href="/green-mortgage/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
-          <div style="font-size: 1.8rem; margin-bottom: 8px;">🏛️</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Buyer Incentives</div>
-          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Green Mortgage Rate Arbitrage</div>
-          <div style="font-size: 0.8rem; color: #94a3b8;">Show buyers how an A/B rating unlocks 3.45% green interest rates.</div>
-          <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Calculate Buyer Savings →</div>
-        </a>
-        <a href="/property-auditor/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
-          <div style="font-size: 1.8rem; margin-bottom: 8px;">🔍</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Instant Due Diligence</div>
-          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Eircode Property Auditor</div>
-          <div style="font-size: 0.8rem; color: #94a3b8;">SEAI National Register lookup, HLI heat loss indicator, and solar micro-climate.</div>
-          <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Audit Property Eircode →</div>
-        </a>
-        <a href="/digital-twin/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
-          <div style="font-size: 1.8rem; margin-bottom: 8px;">🏡</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Interactive 3D Demo</div>
-          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Irish Home Digital Twin</div>
-          <div style="font-size: 0.8rem; color: #94a3b8;">Demonstrate retrofit upgrades visually to buyers with architectural cross-section.</div>
-          <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Launch Digital Twin →</div>
-        </a>
+        <span class="portal-drawer-caret">▾</span>
+      </button>
+
+      <div id="agent-secondary-drawer" class="portal-drawer-content" style="display: none;">
+        <!-- Estate Agent Valuation & Client Conversion Suite -->
+        <div style="max-width: 1200px; margin: 0 auto; padding: 10px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <span style="font-size: 0.75rem; font-weight: 800; color: #f59e0b; font-family: monospace; text-transform: uppercase;">
+                💼 ESTATE AGENT VALUATION ENGINES
+              </span>
+              <h3 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 4px 0 0 0;">
+                High-Converting Vendor & Buyer Tools
+              </h3>
+            </div>
+            <span style="font-size: 0.8rem; color: #94a3b8;">Daft.ie / MyHome.ie Green Mortgage Pitching</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            <a href="/ber-matrix/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">📈</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Listing Valuation</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">8-Band BER Equity Matrix</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">Simulate jumping G/D ratings to A0 and calculate property equity gains.</div>
+              <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Simulate Rating Jump →</div>
+            </a>
+            <a href="/green-mortgage/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">🏛️</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Buyer Incentives</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Green Mortgage Rate Arbitrage</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">Show buyers how an A/B rating unlocks 3.45% green interest rates.</div>
+              <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Calculate Buyer Savings →</div>
+            </a>
+            <a href="/property-auditor/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">🔍</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Instant Due Diligence</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Eircode Property Auditor</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">SEAI National Register lookup, HLI heat loss indicator, and solar micro-climate.</div>
+              <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Audit Property Eircode →</div>
+            </a>
+            <a href="/digital-twin/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">🏡</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Interactive 3D Demo</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Irish Home Digital Twin</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">Demonstrate retrofit upgrades visually to buyers with architectural cross-section.</div>
+              <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Launch Digital Twin →</div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1336,6 +1416,29 @@
   <!-- ⚡ PANEL 2: INSTALLER / RETROFITTER SYSTEM VIEW                    -->
   <!-- ================================================================= -->
   <div id="view-panel-installer" class="system-view-panel" style="display: none;">
+
+    <!-- ⚡ DEDICATED INSTALLER & RETROFITTER HERO BANNER -->
+    <section class="portal-hero-stage installer-hero-stage">
+      <div class="hero-primary-badge-wrap">
+        <span class="badge-pill" style="background: rgba(56, 189, 248, 0.18); border: 1.5px solid #38bdf8; color: #38bdf8; font-size: 0.76rem; padding: 6px 18px; box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);">
+          ⚡ REGISTERED RETROFITTER & INSTALLER PORTAL
+        </span>
+      </div>
+      <h1 class="portal-hero-h1">
+        NSAI SR50-2 Low-Flow Sizing & Tenders in 90 Seconds
+      </h1>
+      <p class="portal-hero-sub">
+        Eliminate 3 hours of unbilled spreadsheet work. Calculate heat pump sizing, room-by-room low-temperature radiator outputs, and export client-ready SEAI tenders on your mobile or laptop.
+      </p>
+      <div class="hero-cta-row" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
+        <a href="#installer-rescue-wizard" class="btn-hero-primary" style="background: #38bdf8; color: #00241b; box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);">
+          ⚡ Run Rapid Sizing →
+        </a>
+        <a href="/pricing/" class="btn-hero-secondary">
+          ⭐ Outsource Technical Survey & DEAP (€49) →
+        </a>
+      </div>
+    </section>
 
     <!-- ⚡ 3-STEP "VAN-TO-VERDICT" INSTALLER WIZARD -->
     <section id="installer-rescue-wizard" aria-label="3-Step Installer Van-to-Verdict Sizing Portal">
@@ -1426,48 +1529,61 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
       </div>
     </section>
 
-    <!-- Installer Quick-Action Engineering Suite -->
-    <div style="max-width: 1200px; margin: 40px auto 20px; padding: 0 20px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-        <div>
-          <span style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; font-family: monospace; text-transform: uppercase;">
-            ⚡ INSTALLER COMPLIANCE & TENDER ENGINES
-          </span>
-          <h3 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 4px 0 0 0;">
-            Professional Retrofit & Heating Tools
-          </h3>
+    <!-- 📂 COLLAPSIBLE INSTALLER ENGINEERING TOOLS DRAWER -->
+    <div class="portal-drawer-wrapper">
+      <button type="button" class="portal-drawer-trigger-btn" data-drawer-target="installer-secondary-drawer" onclick="window.togglePortalDrawer('installer-secondary-drawer')" aria-expanded="false" aria-controls="installer-secondary-drawer">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.25rem;">⚡</span>
+          <span>Expand Installer Engineering & Diagnostic Suite (Radiator Sizer, Tender Generator, Partner Network, Flow Test)</span>
         </div>
-        <span style="font-size: 0.8rem; color: #94a3b8;">NSAI SR50-2:2024 & SEAI OSS Standards</span>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
-        <a href="/radiator-sizer/" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
-          <div style="font-size: 1.8rem; margin-bottom: 8px;">📐</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">NSAI SR50-2 Tool</div>
-          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Radiator Flow & Sizing Engine</div>
-          <div style="font-size: 0.8rem; color: #94a3b8;">Low-flow 45°C room-by-room calculation and radiator schedule.</div>
-          <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Launch Radiator Sizer →</div>
-        </a>
-        <a href="/tender-generator/" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
-          <div style="font-size: 1.8rem; margin-bottom: 8px;">📋</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">1-Click RFP Draft</div>
-          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">SEAI Contractor Tender Generator</div>
-          <div style="font-size: 0.8rem; color: #94a3b8;">Binding NSAI RFP spec with 0% VAT rules and milestone terms.</div>
-          <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Create Tender Spec →</div>
-        </a>
-        <a href="/contractors/" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
-          <div style="font-size: 1.8rem; margin-bottom: 8px;">🤝</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">Partner Network</div>
-          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Contractor Partner Portal</div>
-          <div style="font-size: 0.8rem; color: #94a3b8;">Receive pre-qualified surveys and ready-to-install SEAI projects.</div>
-          <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Installer Registration →</div>
-        </a>
-        <a href="/heat-pump-suitability.html" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
-          <div style="font-size: 1.8rem; margin-bottom: 8px;">⚙️</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">Diagnostic Test</div>
-          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Heat Pump Readiness & Flow Test</div>
-          <div style="font-size: 0.8rem; color: #94a3b8;">HLI < 2.0 W/K/m² threshold check and fabric loss verification.</div>
-          <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Run Flow Check →</div>
-        </a>
+        <span class="portal-drawer-caret">▾</span>
+      </button>
+
+      <div id="installer-secondary-drawer" class="portal-drawer-content" style="display: none;">
+        <!-- Installer Quick-Action Engineering Suite -->
+        <div style="max-width: 1200px; margin: 0 auto; padding: 10px 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <span style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; font-family: monospace; text-transform: uppercase;">
+                ⚡ INSTALLER COMPLIANCE & TENDER ENGINES
+              </span>
+              <h3 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 4px 0 0 0;">
+                Professional Retrofit & Heating Tools
+              </h3>
+            </div>
+            <span style="font-size: 0.8rem; color: #94a3b8;">NSAI SR50-2:2024 & SEAI OSS Standards</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            <a href="/radiator-sizer/" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">📐</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">NSAI SR50-2 Tool</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Radiator Flow & Sizing Engine</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">Low-flow 45°C room-by-room calculation and radiator schedule.</div>
+              <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Launch Radiator Sizer →</div>
+            </a>
+            <a href="/tender-generator/" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">📋</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">1-Click RFP Draft</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">SEAI Contractor Tender Generator</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">Binding NSAI RFP spec with 0% VAT rules and milestone terms.</div>
+              <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Create Tender Spec →</div>
+            </a>
+            <a href="/contractors/" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">🤝</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">Partner Network</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Contractor Partner Portal</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">Receive pre-qualified surveys and ready-to-install SEAI projects.</div>
+              <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Installer Registration →</div>
+            </a>
+            <a href="/heat-pump-suitability.html" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">⚙️</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">Diagnostic Test</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Heat Pump Readiness & Flow Test</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">HLI &lt; 2.0 W/K/m² threshold check and fabric loss verification.</div>
+              <div style="margin-top: 12px; color: #38bdf8; font-weight: 800; font-size: 0.82rem;">Run Flow Check →</div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1479,20 +1595,29 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
   <!-- 🛡️ PANEL 4: AUDIT, REVIEW & TEST SYSTEM VIEW                       -->
   <!-- ================================================================= -->
   <div id="view-panel-audit" class="system-view-panel" style="display: none;">
-    <!-- Dedicated Audit, Review & Test Command Center -->
-    <div style="max-width: 1200px; margin: 0 auto 30px; padding: 20px 20px 0;">
-      <div style="text-align: center; max-width: 780px; margin: 0 auto 24px;">
-        <span class="war-room-badge" style="background: rgba(52, 245, 197, 0.12); border-color: #34f5c5; color: #34f5c5;">
-          🛡️ 100% CONFLICT-FREE RED-LINE PROTECTION
+
+    <!-- 🛡️ DEDICATED AUDIT & REVIEW HERO BANNER -->
+    <section class="portal-hero-stage audit-hero-stage">
+      <div class="hero-primary-badge-wrap">
+        <span class="badge-pill" style="background: rgba(52, 245, 197, 0.18); border: 1.5px solid #34f5c5; color: #34f5c5; font-size: 0.76rem; padding: 6px 18px; box-shadow: 0 0 16px rgba(52, 245, 197, 0.35);">
+          🛡️ 100% CONFLICT-FREE INDEPENDENT AUDIT
         </span>
-        <h2 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; color: #ffffff; margin: 12px 0 8px;">
-          Audit, Review & Diagnostic Test Center
-        </h2>
-        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.55;">
-          EcoSmartHomes does not sell equipment or accept contractor commissions. Upload your quotes, snap your boiler, or test your property against NSAI SR50-2 standards with complete impartiality.
-        </p>
       </div>
-    </div>
+      <h1 class="portal-hero-h1">
+        Independent Engineering Audit & Quote Red-Liner
+      </h1>
+      <p class="portal-hero-sub">
+        EcoSmartHomes does not sell equipment or accept contractor commissions. Upload your quotes, snap your boiler, or test your property against NSAI SR50-2 standards with complete impartiality.
+      </p>
+      <div class="hero-cta-row" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
+        <a href="#snap-audit" class="btn-hero-primary">
+          📸 AI Visual Snap & Audit →
+        </a>
+        <a href="/quote-auditor/" class="btn-hero-secondary">
+          🛡️ AI Quote Red-Liner →
+        </a>
+      </div>
+    </section>
 
     <!-- 📸 AI SNAP & AUDIT DIAGNOSTIC VISUAL DROPZONE -->
     <section class="snap-audit-section" id="snap-audit" aria-label="AI Visual Diagnostic Dropzone">
@@ -1589,44 +1714,57 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
       </div>
     </section>
 
-    <!-- Audit & Red-Lining Tools Grid -->
-    <div style="max-width: 1200px; margin: 40px auto 30px; padding: 0 20px;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
-        <a href="/quote-auditor/" class="hero-card" style="border: 2px solid #34f5c5; text-decoration: none; padding: 24px; background: rgba(0, 26, 20, 0.9); border-radius: 16px; box-shadow: 0 0 25px rgba(52, 245, 197, 0.15);">
-          <div style="font-size: 2rem; margin-bottom: 8px;">🛡️</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">Flagship Audit Tool</div>
-          <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">AI Quote Red-Liner</div>
-          <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Detect hidden installer markups, missing buffer tanks, and SEAI grant deductions before you sign.</div>
-          <div style="margin-top: 14px; color: #34f5c5; font-weight: 800; font-size: 0.88rem;">Red-Line Your Quote →</div>
-        </a>
-        <a href="/quote-comparator/" class="hero-card" style="border: 1px solid rgba(52, 245, 197, 0.35); text-decoration: none; padding: 24px; background: rgba(0, 24, 18, 0.85); border-radius: 16px;">
-          <div style="font-size: 2rem; margin-bottom: 8px;">⚖️</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">Multi-Quote Analysis</div>
-          <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">Quote Comparator Engine</div>
-          <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Upload 2 to 3 installer quotes. Compare COP ratings, warranty terms, and net cost side-by-side.</div>
-          <div style="margin-top: 14px; color: #34f5c5; font-weight: 800; font-size: 0.88rem;">Compare Quotes Now →</div>
-        </a>
-        <a href="/heat-pump-suitability.html" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.35); text-decoration: none; padding: 24px; background: rgba(0, 24, 18, 0.85); border-radius: 16px;">
-          <div style="font-size: 2rem; margin-bottom: 8px;">📐</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">NSAI Standard</div>
-          <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">Heat Pump Compliance Test</div>
-          <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Check whether your property meets the statutory HLI &lt; 2.0 W/K/m² threshold to avoid high winter electricity bills.</div>
-          <div style="margin-top: 14px; color: #38bdf8; font-weight: 800; font-size: 0.88rem;">Run Heat Pump Test →</div>
-        </a>
-        <a href="/property-auditor/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.35); text-decoration: none; padding: 24px; background: rgba(0, 24, 18, 0.85); border-radius: 16px;">
-          <div style="font-size: 2rem; margin-bottom: 8px;">🔍</div>
-          <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Official Registry</div>
-          <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">National BER Register Audit</div>
-          <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Query official SEAI records with your Eircode. Inspect historic advisory reports and grant eligibility.</div>
-          <div style="margin-top: 14px; color: #f59e0b; font-weight: 800; font-size: 0.88rem;">Audit Property Eircode →</div>
-        </a>
-      </div>
-      
-      <div style="margin-top: 24px; text-align: center;">
-        <a href="/checkout/?tier=survey&price=149" class="btn-hero-primary-star" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 28px; font-size: 1rem;">
-          <span>⭐</span>
-          <span>Book Independent In-Person NSAI Survey (€149) →</span>
-        </a>
+    <!-- 📂 COLLAPSIBLE AUDIT SECONDARY TOOLS DRAWER -->
+    <div class="portal-drawer-wrapper">
+      <button type="button" class="portal-drawer-trigger-btn" data-drawer-target="audit-secondary-drawer" onclick="window.togglePortalDrawer('audit-secondary-drawer')" aria-expanded="false" aria-controls="audit-secondary-drawer">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.25rem;">🛡️</span>
+          <span>Expand Audit & Independent Verification Suite (AI Quote Red-Liner, Comparator, Heat Pump Test, BER Register)</span>
+        </div>
+        <span class="portal-drawer-caret">▾</span>
+      </button>
+
+      <div id="audit-secondary-drawer" class="portal-drawer-content" style="display: none;">
+        <!-- Audit & Red-Lining Tools Grid -->
+        <div style="max-width: 1200px; margin: 0 auto; padding: 10px 0;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+            <a href="/quote-auditor/" class="hero-card" style="border: 2px solid #34f5c5; text-decoration: none; padding: 24px; background: rgba(0, 26, 20, 0.9); border-radius: 16px; box-shadow: 0 0 25px rgba(52, 245, 197, 0.15);">
+              <div style="font-size: 2rem; margin-bottom: 8px;">🛡️</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">Flagship Audit Tool</div>
+              <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">AI Quote Red-Liner</div>
+              <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Detect hidden installer markups, missing buffer tanks, and SEAI grant deductions before you sign.</div>
+              <div style="margin-top: 14px; color: #34f5c5; font-weight: 800; font-size: 0.88rem;">Red-Line Your Quote →</div>
+            </a>
+            <a href="/quote-comparator/" class="hero-card" style="border: 1px solid rgba(52, 245, 197, 0.35); text-decoration: none; padding: 24px; background: rgba(0, 24, 18, 0.85); border-radius: 16px;">
+              <div style="font-size: 2rem; margin-bottom: 8px;">⚖️</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">Multi-Quote Analysis</div>
+              <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">Quote Comparator Engine</div>
+              <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Upload 2 to 3 installer quotes. Compare COP ratings, warranty terms, and net cost side-by-side.</div>
+              <div style="margin-top: 14px; color: #34f5c5; font-weight: 800; font-size: 0.88rem;">Compare Quotes Now →</div>
+            </a>
+            <a href="/heat-pump-suitability.html" class="hero-card" style="border: 1px solid rgba(56, 189, 248, 0.35); text-decoration: none; padding: 24px; background: rgba(0, 24, 18, 0.85); border-radius: 16px;">
+              <div style="font-size: 2rem; margin-bottom: 8px;">📐</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #38bdf8; text-transform: uppercase;">NSAI Standard</div>
+              <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">Heat Pump Compliance Test</div>
+              <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Check whether your property meets the statutory HLI &lt; 2.0 W/K/m² threshold to avoid high winter electricity bills.</div>
+              <div style="margin-top: 14px; color: #38bdf8; font-weight: 800; font-size: 0.88rem;">Run Heat Pump Test →</div>
+            </a>
+            <a href="/property-auditor/" class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.35); text-decoration: none; padding: 24px; background: rgba(0, 24, 18, 0.85); border-radius: 16px;">
+              <div style="font-size: 2rem; margin-bottom: 8px;">🔍</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Official Registry</div>
+              <div style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 4px 0;">National BER Register Audit</div>
+              <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.5;">Query official SEAI records with your Eircode. Inspect historic advisory reports and grant eligibility.</div>
+              <div style="margin-top: 14px; color: #f59e0b; font-weight: 800; font-size: 0.88rem;">Audit Property Eircode →</div>
+            </a>
+          </div>
+          
+          <div style="margin-top: 24px; text-align: center;">
+            <a href="/checkout/?tier=survey&price=149" class="btn-hero-primary-star" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 28px; font-size: 1rem;">
+              <span>⭐</span>
+              <span>Book Independent In-Person NSAI Survey (€149) →</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1638,6 +1776,21 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
   <!-- 🔍 PANEL 5: ALL ENGINES & MACRO VIEWS                              -->
   <!-- ================================================================= -->
   <div id="view-panel-all" class="system-view-panel" style="display: none;">
+
+    <!-- 🔍 DEDICATED ALL ENGINES HERO BANNER -->
+    <section class="portal-hero-stage all-hero-stage">
+      <div class="hero-primary-badge-wrap">
+        <span class="badge-pill" style="background: rgba(52, 245, 197, 0.18); border: 1.5px solid #34f5c5; color: #34f5c5; font-size: 0.76rem; padding: 6px 18px; box-shadow: 0 0 16px rgba(52, 245, 197, 0.35);">
+          🔍 ALL 11 IRISH ENERGY ENGINES & MACRO VIEWS
+        </span>
+      </div>
+      <h1 class="portal-hero-h1">
+        Universal Energy Command Center
+      </h1>
+      <p class="portal-hero-sub">
+        Explore the complete suite of conflict-free calculators, solar micro-climate models, compliance checkers, and financial simulators across all 26 Irish counties.
+      </p>
+    </section>
 
     <!-- 🗺️ INTERACTIVE 26-COUNTY IRISH SOLAR & MICRO-CLIMATE MAP -->
     <section class="county-solar-section" id="county-solar-map" aria-label="26-County Irish Solar & Micro-Climate Yield Engine">

@@ -151,24 +151,60 @@
                        window.location.pathname === '';
 
     if (!isHomePage) {
-      window.location.href = `/?view=${targetRole}#system-view-container`;
+      window.location.href = `/?view=${targetRole}`;
       return;
     }
 
-    // On home page: set persona
+    // On home page: switch to dedicated portal
     window.setPersona(targetRole);
 
-    // Smoothly scroll down to the active portal in system view container
-    const panel = document.getElementById(`view-panel-${targetRole}`) || 
-                  document.getElementById('system-view-container');
-    if (panel) {
-      const headerOffset = 75;
-      const elementPosition = panel.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({
-        top: Math.max(0, offsetPosition),
-        behavior: 'smooth'
-      });
+    // Smoothly scroll to top so user lands directly at their portal hero
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+    // Seamlessly update URL query parameter without page reload
+    try {
+      const url = new URL(window.location);
+      url.searchParams.set('view', targetRole);
+      window.history.pushState({ role: targetRole }, '', url.toString());
+    } catch (e) {}
+  };
+
+  // Delegated click handler for cross-portal gateway cards
+  document.addEventListener('click', function(e) {
+    const card = e.target.closest('.cross-portal-gateway-card');
+    if (!card) return;
+    if (card.classList.contains('agent-card')) {
+      window.handlePersonaTabClick('agent');
+    } else if (card.classList.contains('installer-card')) {
+      window.handlePersonaTabClick('installer');
+    } else if (card.classList.contains('audit-card')) {
+      window.handlePersonaTabClick('audit');
+    }
+  });
+
+  // Toggle Portal Secondary Tools Drawer
+  window.togglePortalDrawer = function(drawerId) {
+    const drawer = document.getElementById(drawerId);
+    const btn = document.querySelector(`[data-drawer-target="${drawerId}"]`);
+    if (!drawer) return;
+    const isClosed = drawer.style.display === 'none' || !drawer.classList.contains('open');
+    if (isClosed) {
+      drawer.style.display = 'block';
+      drawer.classList.add('open');
+      if (btn) {
+        btn.classList.add('expanded');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    } else {
+      drawer.style.display = 'none';
+      drawer.classList.remove('open');
+      if (btn) {
+        btn.classList.remove('expanded');
+        btn.setAttribute('aria-expanded', 'false');
+      }
     }
   };
 
@@ -275,10 +311,7 @@
       const panel = systemPanels[key];
       if (panel) {
         hasStructuredPanels = true;
-        if (currentPersona === 'all') {
-          panel.classList.add('active');
-          panel.style.display = 'block';
-        } else if (key === currentPersona) {
+        if (key === currentPersona) {
           panel.classList.add('active');
           panel.style.display = 'block';
         } else {

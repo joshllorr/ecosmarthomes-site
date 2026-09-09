@@ -866,7 +866,7 @@ html, body {
    ========================================================================== */
 
 #agent-rescue-wizard {
-  display: none;
+  display: block;
   background: radial-gradient(120% 120% at 50% 0%, #3d2800 0%, #1f1400 55%, #001711 100%);
   border: 2px solid rgba(245, 158, 11, 0.45);
   border-radius: 24px;
@@ -999,7 +999,7 @@ html, body {
    ========================================================================== */
 
 #installer-rescue-wizard {
-  display: none;
+  display: block;
   background: radial-gradient(120% 120% at 50% 0%, #002d4a 0%, #001a2c 55%, #001711 100%);
   border: 2px solid rgba(56, 189, 248, 0.45);
   border-radius: 24px;
@@ -1476,9 +1476,9 @@ html, body {
    ========================================================================== */
 #system-view-container {
     width: 100%;
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -1487,12 +1487,215 @@ html, body {
     opacity: 0;
     transform: translateY(6px);
     transition: opacity 0.25s ease, transform 0.25s ease;
+    width: 100%;
 }
 
 .system-view-panel.active {
     display: block !important;
     opacity: 1 !important;
     transform: translateY(0) !important;
+}
+
+/* ========================================================================= */
+/* 🌟 DEDICATED PORTAL HERO STAGES                                           */
+/* ========================================================================= */
+.portal-hero-stage {
+    padding: 60px 20px 70px 20px;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 40px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.portal-hero-stage.agent-hero-stage {
+    background: radial-gradient(120% 120% at 50% -10%, #452b00 0%, #221400 60%, #001711 100%);
+}
+
+.portal-hero-stage.installer-hero-stage {
+    background: radial-gradient(120% 120% at 50% -10%, #003652 0%, #001e2e 60%, #001711 100%);
+}
+
+.portal-hero-stage.audit-hero-stage {
+    background: radial-gradient(120% 120% at 50% -10%, #004332 0%, #002219 60%, #001711 100%);
+}
+
+.portal-hero-stage.all-hero-stage {
+    background: radial-gradient(120% 120% at 50% -10%, #004d38 0%, #00241b 60%, #001711 100%);
+}
+
+.portal-hero-h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 900;
+    color: #ffffff;
+    margin: 16px auto 16px auto;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    max-width: 880px;
+}
+
+.portal-hero-sub {
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    color: #94a3b8;
+    max-width: 740px;
+    margin: 0 auto 32px auto;
+    line-height: 1.6;
+}
+
+/* ========================================================================= */
+/* 🌐 CROSS-PORTAL GATEWAY CARDS (HOMEOWNER PORTAL HUB)                     */
+/* ========================================================================= */
+.cross-portal-gateway-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    max-width: 1200px;
+    margin: 36px auto 44px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.cross-portal-gateway-card {
+    background: rgba(0, 32, 24, 0.8);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.cross-portal-gateway-card * {
+    pointer-events: none;
+}
+
+.cross-portal-gateway-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5);
+}
+
+.cross-portal-gateway-card.agent-card:hover {
+    border-color: #f59e0b;
+    box-shadow: 0 14px 35px rgba(245, 158, 11, 0.22);
+}
+
+.cross-portal-gateway-card.installer-card:hover {
+    border-color: #38bdf8;
+    box-shadow: 0 14px 35px rgba(56, 189, 248, 0.22);
+}
+
+.cross-portal-gateway-card.audit-card:hover {
+    border-color: #34f5c5;
+    box-shadow: 0 14px 35px rgba(52, 245, 197, 0.22);
+}
+
+/* ========================================================================= */
+/* 📂 COLLAPSIBLE PORTAL SECONDARY TOOL DRAWERS                              */
+/* ========================================================================= */
+.portal-drawer-wrapper {
+    max-width: 1200px;
+    margin: 30px auto 40px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.portal-drawer-trigger-btn {
+    width: 100%;
+    background: rgba(0, 36, 27, 0.9);
+    border: 1.5px solid rgba(52, 245, 197, 0.35);
+    border-radius: 16px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-weight: 800;
+    font-size: 0.98rem;
+    cursor: pointer;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    transition: all 0.25s ease;
+    gap: 12px;
+}
+
+.portal-drawer-trigger-btn * {
+    pointer-events: none;
+}
+
+.portal-drawer-trigger-btn:hover {
+    border-color: #34f5c5;
+    background: rgba(0, 48, 36, 0.98);
+    box-shadow: 0 8px 30px rgba(52, 245, 197, 0.25);
+    transform: translateY(-2px);
+}
+
+.portal-drawer-trigger-btn.expanded {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-color: #34f5c5;
+    background: rgba(0, 48, 36, 0.98);
+}
+
+.portal-drawer-caret {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 1.1rem;
+    color: #34f5c5;
+}
+
+.portal-drawer-trigger-btn.expanded .portal-drawer-caret {
+    transform: rotate(180deg);
+}
+
+.portal-drawer-content {
+    background: rgba(0, 20, 15, 0.85);
+    border: 1.5px solid rgba(52, 245, 197, 0.3);
+    border-top: none;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    padding: 30px 20px;
+    animation: drawerFadeIn 0.3s ease;
+}
+
+@keyframes drawerFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .cross-portal-gateway-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+        margin: 20px auto 28px auto !important;
+        padding: 0 16px !important;
+    }
+    .cross-portal-gateway-card {
+        padding: 18px 16px !important;
+    }
+    .portal-drawer-wrapper {
+        margin: 20px auto 95px auto !important;
+        padding: 0 16px !important;
+    }
+    .portal-drawer-trigger-btn {
+        font-size: 0.86rem !important;
+        padding: 14px 16px !important;
+    }
+    .portal-drawer-content {
+        padding: 20px 12px !important;
+    }
+    #system-view-container {
+        padding-bottom: 85px !important;
+    }
 }
 
 .view-panel-header {
