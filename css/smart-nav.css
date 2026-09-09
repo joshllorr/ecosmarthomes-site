@@ -1270,6 +1270,12 @@ html, body {
     transform: scale(0.92);
   }
 
+  .dock-fab-center.active {
+    box-shadow: 0 0 25px #34f5c5, 0 6px 20px rgba(52, 245, 197, 0.8) !important;
+    border-color: #ffffff !important;
+    transform: translateY(-2px);
+  }
+
   /* 2. Dense Visual Grid Tiles for Fuel / Archetypes */
   .mobile-visual-grid {
     display: grid;
@@ -4891,14 +4897,25 @@ body.floating-widgets-hidden .fab-radial-container {
 }
 @media (max-width: 768px) {
   .eco-os-floating-blueprint {
-    bottom: 74px;
-    right: 14px;
+    bottom: calc(84px + env(safe-area-inset-bottom, 16px));
+    left: 14px;
+    right: auto;
   }
   .eco-os-blueprint-cmd {
     display: none;
   }
 }
 @media (max-width: 480px) {
+  .eco-os-floating-blueprint {
+    bottom: calc(84px + env(safe-area-inset-bottom, 16px));
+    left: 10px;
+    right: auto;
+  }
+  .eco-os-blueprint-pill {
+    padding: 5px 12px;
+    font-size: 0.74rem;
+    gap: 6px;
+  }
   .eco-os-blueprint-prop {
     display: none;
   }

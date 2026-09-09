@@ -59,7 +59,7 @@ export default async function handler(req, res) {
       },
       diagnostic: {
         dwellingType: "4-Bed Pre-Assessed Domestic Property",
-        currentBer: "D1 ➔ A2 NZEB",
+        currentBer: "G ➔ A0 Zero-Emission",
         hliHeatLoss: "1.88 W/K/m² (Pre-screened below SEAI 2.0 limit)",
         targetUpgrades: [
           "Air-to-Water Monobloc Heat Pump (€12,500 grant)",

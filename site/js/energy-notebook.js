@@ -15,10 +15,10 @@
     county: 'Dublin',
     eircode: 'A94 XY82',
     archetype: '3-Bed Semi-Detached (115m²)',
-    currentBer: 'D1',
-    targetBer: 'A2',
+    currentBer: 'G',
+    targetBer: 'A0',
     currentFuel: 'Kerosene Home Heating Oil',
-    monthlyHeatingBill: 320,
+    monthlyHeatingBill: 380,
     lender: 'AIB (Allied Irish Banks)',
     mortgageBalance: 320000,
     grantCap: 35000,
@@ -37,6 +37,8 @@
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         notebookData = Object.assign({}, defaultState, JSON.parse(saved));
+        if (notebookData.currentBer === 'D1') notebookData.currentBer = 'G';
+        if (notebookData.targetBer === 'A2') notebookData.targetBer = 'A0';
       }
     } catch (e) {
       console.warn('Could not parse saved notebook data:', e);

@@ -16,19 +16,19 @@
       homeType: 'semi-d',       // detached, semi-d, terrace, apartment
       yearBuilt: 1985,
       floorArea: 135,           // m²
-      currentBer: 'D1',
-      targetBer: 'A2'
+      currentBer: 'G',
+      targetBer: 'A0'
     },
     energy: {
       currentFuel: 'oil',       // oil, gas, electric, solid-fuel
-      annualFuelSpend: 2450,
+      annualFuelSpend: 4200,
       solarPvKw: 4.2,
       hasBattery: false
     },
     financials: {
-      estimatedRetrofitCost: 28000,
-      eligibleGrants: 10500,
-      netPayable: 17500,
+      estimatedRetrofitCost: 48000,
+      eligibleGrants: 35000,
+      netPayable: 13000,
       mortgageBalance: 280000,
       greenMortgageSavingMonth: 194
     },
@@ -60,13 +60,24 @@
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        return {
+        const stateObj = {
           ...DEFAULT_STATE,
           ...parsed,
           property: { ...DEFAULT_STATE.property, ...(parsed.property || {}) },
           energy: { ...DEFAULT_STATE.energy, ...(parsed.energy || {}) },
           financials: { ...DEFAULT_STATE.financials, ...(parsed.financials || {}) }
         };
+        // Migrate legacy 15-band D1/A2 notation to modernized 8-bar scale G/A0
+        if (stateObj.property.currentBer === 'D1') {
+          stateObj.property.currentBer = 'G';
+        }
+        if (stateObj.property.targetBer === 'A2') {
+          stateObj.property.targetBer = 'A0';
+        }
+        if (stateObj.financials.eligibleGrants === 10500) {
+          stateObj.financials.eligibleGrants = 35000;
+        }
+        return stateObj;
       }
     } catch (e) {
       console.warn('EcoOS: Could not read localStorage, using default state.', e);
@@ -600,7 +611,7 @@
 
     const p = state.property;
     const f = state.financials;
-    const formattedGrants = f.eligibleGrants ? `€${f.eligibleGrants.toLocaleString()}` : '€10,500';
+    const formattedGrants = f.eligibleGrants ? `€${f.eligibleGrants.toLocaleString()}` : '€35,000';
     const homeLabel = p.homeType.charAt(0).toUpperCase() + p.homeType.slice(1);
 
     widget.innerHTML = `

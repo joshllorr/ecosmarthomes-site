@@ -232,24 +232,23 @@
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div>
-              <label class="nb-label">Current BER:</label>
+              <label class="nb-label">Current BER (8-Bar Scale):</label>
               <select id="nb-current-ber" class="nb-input" onchange="window.saveEnergyNotebook()">
-                <option value="G">G Rating</option>
+                <option value="G" selected>G Rating (Lowest Efficiency)</option>
                 <option value="F">F Rating</option>
-                <option value="E2">E2 Rating</option>
-                <option value="E1">E1 Rating</option>
-                <option value="D2">D2 Rating</option>
-                <option value="D1" selected>D1 Rating</option>
-                <option value="C3">C3 Rating</option>
-                <option value="C1">C1 Rating</option>
+                <option value="E">E Rating</option>
+                <option value="D">D Rating</option>
+                <option value="C">C Rating</option>
+                <option value="B">B Rating</option>
+                <option value="A">A Rating</option>
               </select>
             </div>
             <div>
               <label class="nb-label">Target BER:</label>
               <select id="nb-target-ber" class="nb-input" onchange="window.saveEnergyNotebook()">
-                <option value="A2" selected>A2 (Green Mortgage Eligible)</option>
-                <option value="A1">A1 (Ultra-Low Carbon)</option>
-                <option value="A0">A0 (Net Zero / Passive)</option>
+                <option value="A0" selected>A0 (Zero-Emission / Net Zero)</option>
+                <option value="A">A Rating (High Efficiency)</option>
+                <option value="B">B Rating (Green Mortgage Eligible)</option>
               </select>
             </div>
           </div>
@@ -318,7 +317,7 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.85rem; margin-bottom: 18px;">
             <div>
               <div style="color: #94a3b8; font-size: 0.72rem; font-family: 'IBM Plex Mono', monospace;">BER TRANSFORMATION:</div>
-              <strong id="dossier-ber-progression" style="color: #34f5c5; font-weight: 900;">D1 ➔ A2 (Compliant)</strong>
+              <strong id="dossier-ber-progression" style="color: #34f5c5; font-weight: 900;">G ➔ A0 (Compliant)</strong>
             </div>
             <div>
               <div style="color: #94a3b8; font-size: 0.72rem; font-family: 'IBM Plex Mono', monospace;">LENDER & GREEN RATE:</div>

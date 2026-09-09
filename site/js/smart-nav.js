@@ -278,6 +278,17 @@
       }
     }
 
+    // Sync Mobile Dock Central FAB active state
+    const dockAuditFab = document.querySelector('.dock-fab-center');
+    if (dockAuditFab) {
+      dockAuditFab.classList.toggle('active', currentPersona === 'audit');
+    }
+    if (currentPersona === 'homeowner') {
+      setDockActiveItem(0);
+    } else if (currentPersona === 'audit') {
+      document.querySelectorAll('#esh-mobile-dock .dock-item, .mobile-app-bottom-dock .dock-item').forEach(item => item.classList.remove('active'));
+    }
+
     const metric = PERSONA_METRICS[currentPersona] || PERSONA_METRICS.homeowner;
 
     // Animate Dopamine Tickers
@@ -1425,8 +1436,8 @@
           <span class="dock-icon">🎛️</span>
           <span>Profiles</span>
         </button>
-        <button type="button" class="dock-fab-center" onclick="window.onMobileDockShield()" aria-label="Quick Shield Scan">
-          <span>🔄</span>
+        <button type="button" class="dock-fab-center" id="mobile-dock-audit-fab" onclick="window.onMobileDockAudit()" aria-label="Audit & Review Command Center" title="Audit & Review Portal">
+          <span class="dock-fab-icon">🛡️</span>
         </button>
         <button type="button" class="dock-item" onclick="window.onMobileDockReports()" aria-label="Reports & Tools">
           <span class="dock-icon">📋</span>
@@ -1499,17 +1510,29 @@
     });
   }
 
+  function isMainAppPage() {
+    if (document.getElementById('view-panel-homeowner') || document.getElementById('view-panel-audit')) return true;
+    const path = (window.location.pathname || '').toLowerCase();
+    return path === '/' || path === '' || path.endsWith('/index.html') || path.endsWith('/site/') || path.endsWith('/site');
+  }
+
+  function getMainAppHomeUrl(viewParam) {
+    const isSiteSubdir = window.location.pathname.toLowerCase().includes('/site/');
+    const base = isSiteSubdir ? '/site/' : '/';
+    return viewParam ? `${base}?view=${viewParam}` : base;
+  }
+
   // Mobile Dock Handlers with Haptics & Active Radial Bloom
   window.onMobileDockHome = function() {
     triggerHaptic(8);
     setDockActiveItem(0);
-    const path = (window.location.pathname || '').toLowerCase();
-    const isHome = path === '/' || path === '/index.html' || path === '';
-    if (!isHome) {
-      window.location.href = '/';
+    if (!isMainAppPage()) {
+      window.location.href = getMainAppHomeUrl('homeowner');
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.setPersona('homeowner');
+      if (typeof window.setPersona === 'function') {
+        window.setPersona('homeowner');
+      }
     }
   };
 
@@ -1518,32 +1541,33 @@
     setDockActiveItem(1);
     if (typeof window.openPersonaPickerModal === 'function') {
       window.openPersonaPickerModal();
+    } else if (!isMainAppPage()) {
+      window.location.href = getMainAppHomeUrl() + '#mobile-persona-dropdown-panel';
     } else {
-      const path = (window.location.pathname || '').toLowerCase();
-      const isHome = path === '/' || path === '/index.html' || path === '';
-      if (!isHome) {
-        window.location.href = '/#mobile-persona-dropdown-panel';
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        const panel = document.getElementById('mobile-persona-dropdown-panel');
-        if (panel) {
-          panel.style.display = 'flex';
-          panel.classList.add('open');
-        }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const panel = document.getElementById('mobile-persona-dropdown-panel');
+      if (panel) {
+        panel.style.display = 'flex';
+        panel.classList.add('open');
       }
     }
   };
 
-  window.onMobileDockShield = function() {
+  window.onMobileDockAudit = function() {
     triggerHaptic(12);
-    const path = (window.location.pathname || '').toLowerCase();
-    const isHome = path === '/' || path === '/index.html' || path === '';
-    if (isHome && typeof window.setPersona === 'function') {
-      window.setPersona('homeowner');
+    if (isMainAppPage() && typeof window.setPersona === 'function') {
+      window.setPersona('audit');
+      const snapSection = document.getElementById('snap-audit') || document.getElementById('view-panel-audit');
+      if (snapSection) {
+        snapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     } else {
-      window.location.href = '/?view=homeowner';
+      window.location.href = getMainAppHomeUrl('audit');
     }
   };
+
+  // Backward compatibility alias in case cached HTML calls onMobileDockShield
+  window.onMobileDockShield = window.onMobileDockAudit;
 
   window.onMobileDockReports = function() {
     triggerHaptic(8);
