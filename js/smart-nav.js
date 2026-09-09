@@ -146,7 +146,8 @@
   window.handlePersonaTabClick = function(role) {
     const validRoles = ['homeowner', 'agent', 'installer', 'audit', 'all'];
     const targetRole = validRoles.includes(role) ? role : 'homeowner';
-    const isHomePage = window.location.pathname === '/' || 
+    const isHomePage = !!document.getElementById('view-panel-homeowner') ||
+                       window.location.pathname === '/' || 
                        window.location.pathname.endsWith('/index.html') || 
                        window.location.pathname === '';
 
@@ -397,32 +398,63 @@
 
   function initSmartNav() {
     const header = document.querySelector('.main-nav-bar') || document.querySelector('.header');
-    
-if (!document.getElementById('esh-side-tab-toggle')) {
+
+    window.openToolsDrawer = function() {
+      const overlay = document.getElementById('esh-drawer-overlay');
+      const drawer = document.getElementById('esh-side-drawer');
+      if (overlay && drawer) {
+        overlay.classList.add('active');
+        drawer.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    window.closeToolsDrawer = function() {
+      const overlay = document.getElementById('esh-drawer-overlay');
+      const drawer = document.getElementById('esh-side-drawer');
+      if (overlay && drawer) {
+        overlay.classList.remove('active');
+        drawer.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    };
+
+    if (!document.getElementById('esh-side-tab-toggle')) {
       const sideTab = document.createElement('button');
       sideTab.id = 'esh-side-tab-toggle';
       sideTab.type = 'button';
       sideTab.setAttribute('aria-label', 'Open Tools Navigation Drawer');
+      sideTab.title = 'Open Tools Directory';
       sideTab.innerHTML = `
-        <span style="font-size: 1rem;">☰</span>
-        <span style="writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.08em;">TOOLS</span>
+        <span style="font-size: 1.05rem; line-height: 1;">☰</span>
+        <span style="writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.1em; font-weight: 800;">TOOLS</span>
       `;
-      sideTab.onclick = window.openToolsDrawer;
+      sideTab.onclick = () => window.openToolsDrawer();
+      sideTab.addEventListener('click', () => window.openToolsDrawer());
       document.body.appendChild(sideTab);
+    } else {
+      const existingTab = document.getElementById('esh-side-tab-toggle');
+      existingTab.onclick = () => window.openToolsDrawer();
+      existingTab.addEventListener('click', () => window.openToolsDrawer());
     }
 
     if (!document.getElementById('esh-drawer-overlay')) {
       const overlay = document.createElement('div');
       overlay.id = 'esh-drawer-overlay';
-      overlay.onclick = window.closeToolsDrawer;
+      overlay.onclick = () => window.closeToolsDrawer();
+      overlay.addEventListener('click', () => window.closeToolsDrawer());
       document.body.appendChild(overlay);
+    } else {
+      const existingOverlay = document.getElementById('esh-drawer-overlay');
+      existingOverlay.onclick = () => window.closeToolsDrawer();
+      existingOverlay.addEventListener('click', () => window.closeToolsDrawer());
     }
 
-    // 2. Off-Canvas Side Drawer with Persona Accordion Tabs (Left Hand Side)
+    // 2. Off-Canvas Side Drawer with Persona Accordion Tabs (Right Hand Side)
     if (!document.getElementById('esh-side-drawer')) {
       const drawer = document.createElement('aside');
       drawer.id = 'esh-side-drawer';
-      drawer.setAttribute('aria-label', 'Tools and Resources Left Sidebar');
+      drawer.setAttribute('aria-label', 'Tools and Resources Directory Sidebar');
       drawer.innerHTML = `
         <div class="drawer-header">
           <div style="display: flex; align-items: center; gap: 8px;">
@@ -757,28 +789,14 @@ if (!document.getElementById('esh-side-tab-toggle')) {
           </a>
         </div>
       `;
+      drawer.addEventListener('click', function(e) {
+        const link = e.target.closest('.drawer-tool-item');
+        if (link) {
+          window.closeToolsDrawer();
+        }
+      });
       document.body.appendChild(drawer);
     }
-
-    window.openToolsDrawer = function() {
-      const overlay = document.getElementById('esh-drawer-overlay');
-      const drawer = document.getElementById('esh-side-drawer');
-      if (overlay && drawer) {
-        overlay.classList.add('active');
-        drawer.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      }
-    };
-
-    window.closeToolsDrawer = function() {
-      const overlay = document.getElementById('esh-drawer-overlay');
-      const drawer = document.getElementById('esh-side-drawer');
-      if (overlay && drawer) {
-        overlay.classList.remove('active');
-        drawer.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-    };
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') window.closeToolsDrawer();
@@ -788,11 +806,9 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       if (!ticking) {
         window.requestAnimationFrame(function() {
           const currentScrollY = window.scrollY;
-          const sideTab = document.getElementById('esh-side-tab-toggle');
 
           if (currentScrollY > lastScrollY && currentScrollY > SCROLL_THRESHOLD) {
             if (header) header.classList.add('nav-hidden');
-            if (sideTab) sideTab.classList.remove('tab-hidden');
           } else {
             if (header) header.classList.remove('nav-hidden');
           }
@@ -824,6 +840,13 @@ if (!document.getElementById('esh-side-tab-toggle')) {
     } catch (e) {
       window.setPersona('homeowner');
     }
+  }
+
+  // Auto-run initSmartNav
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSmartNav);
+  } else {
+    initSmartNav();
   }
 
   // ==========================================================================
@@ -992,6 +1015,17 @@ if (!document.getElementById('esh-side-tab-toggle')) {
       }, 25);
     }
   };
+
+  // Bootstrap live penalty calculations and ticker
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      updatePenaltyCalculations();
+      startLivePenaltyTicker();
+    });
+  } else {
+    updatePenaltyCalculations();
+    startLivePenaltyTicker();
+  }
 
   // ==========================================================================
   // 3-STEP ESTATE AGENT COMMISSION-BOOSTER & DAFT.IE COPY ENGINE
