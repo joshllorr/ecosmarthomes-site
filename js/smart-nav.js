@@ -215,9 +215,29 @@
     currentPersona = validKeys.includes(rawKey) ? rawKey : 'homeowner';
     triggerHaptic(10);
 
+    // Persist chosen role to memory
+    try {
+      localStorage.setItem('ESH_currentRole', currentPersona);
+      localStorage.setItem('ESH_hasChosenRole', 'true');
+    } catch (e) {}
+
     // Inject Active Persona as Root Data Attribute
     document.documentElement.setAttribute('data-persona', currentPersona);
     document.body.setAttribute('data-persona', currentPersona);
+
+    // Sync Voice Persona safely without recursive loops
+    if (window.AG && typeof window.AG.setVoicePersona === 'function' && !window._voicePersonaSyncing) {
+      window._voicePersonaSyncing = true;
+      try {
+        const voiceMap = { homeowner: 'aoife', agent: 'eimear', installer: 'declan', audit: 'declan', all: 'aoife' };
+        const advisorKey = voiceMap[currentPersona];
+        if (advisorKey && window.AG.currentPersonaKey !== advisorKey) {
+          window.AG.setVoicePersona(advisorKey, false);
+        }
+      } catch (e) {} finally {
+        window._voicePersonaSyncing = false;
+      }
+    }
 
     // Update Pill Active States
     document.querySelectorAll('.persona-pill').forEach(pill => {
@@ -2147,52 +2167,29 @@
 
 
 
-  // Antigravity Persona Toolbar & Hub Event Handlers
+  // Antigravity Persona Toolbar & Hub Event Handlers (Safe Button-Only Binding)
   function initAntigravityVoiceHubListeners() {
     if (typeof window.AG === 'undefined') return;
 
-    // 1. Installer Hub -> Activate Declan
-    const installerTriggers = ['installer-hub', 'accordion-btn-installer', 'persona-chip-installer'];
-    installerTriggers.forEach(id => {
-      const el = document.getElementById(id) || document.querySelector(`[data-persona="installer"]`);
-      if (el) {
-        el.addEventListener('click', () => {
-          if (window.AG && window.AG.setVoicePersona) {
-            window.AG.setVoicePersona("declan");
-            if (window.AG.setVoiceSettings) {
-              window.AG.setVoiceSettings({ rate: 0.92, pitch: 0.98, voiceHint: "en-IE" });
-            }
-          }
-        });
-      }
-    });
+    const triggers = [
+      { id: 'accordion-btn-installer', advisor: 'declan', settings: { rate: 0.92, pitch: 0.98, voiceHint: 'en-IE' } },
+      { id: 'accordion-btn-agent', advisor: 'eimear', settings: { rate: 1.0, pitch: 1.05, voiceHint: 'en-IE' } },
+      { id: 'accordion-btn-homeowner', advisor: 'aoife', settings: { rate: 0.94, pitch: 1.02, voiceHint: 'en-IE' } }
+    ];
 
-    // 2. Estate Agent Hub -> Activate Eimear
-    const agentTriggers = ['estate-agent-hub', 'accordion-btn-agent', 'persona-chip-agent'];
-    agentTriggers.forEach(id => {
-      const el = document.getElementById(id) || document.querySelector(`[data-persona="agent"]`);
-      if (el) {
+    triggers.forEach(t => {
+      const el = document.getElementById(t.id);
+      if (el && el !== document.documentElement && el !== document.body) {
         el.addEventListener('click', () => {
-          if (window.AG && window.AG.setVoicePersona) {
-            window.AG.setVoicePersona("eimear");
-            if (window.AG.setVoiceSettings) {
-              window.AG.setVoiceSettings({ rate: 1.0, pitch: 1.05, voiceHint: "en-IE" });
-            }
-          }
-        });
-      }
-    });
-
-    // 3. Homeowner Hub -> Activate Aoife
-    const homeownerTriggers = ['homeowner-hub', 'accordion-btn-homeowner', 'persona-chip-homeowner'];
-    homeownerTriggers.forEach(id => {
-      const el = document.getElementById(id) || document.querySelector(`[data-persona="homeowner"]`);
-      if (el) {
-        el.addEventListener('click', () => {
-          if (window.AG && window.AG.setVoicePersona) {
-            window.AG.setVoicePersona("aoife");
-            if (window.AG.setVoiceSettings) {
-              window.AG.setVoiceSettings({ rate: 0.94, pitch: 1.02, voiceHint: "en-IE" });
+          if (window.AG && window.AG.setVoicePersona && !window._voicePersonaSyncing) {
+            window._voicePersonaSyncing = true;
+            try {
+              window.AG.setVoicePersona(t.advisor);
+              if (window.AG.setVoiceSettings) {
+                window.AG.setVoiceSettings(t.settings);
+              }
+            } finally {
+              window._voicePersonaSyncing = false;
             }
           }
         });

@@ -498,10 +498,13 @@ Ground all advice in Irish standards: SR50, SR54:2024, DEAP 4.2.2, and SEAI May 
       window.setVoicePersona(persona.personaKey, false);
     }
 
-    // Synchronize UI tab pills, mobile dropdown capsule, and tools filter
-    if (typeof window.setPersona === 'function') {
+    // Synchronize UI tab pills, mobile dropdown capsule, and tools filter if not already syncing
+    if (!window._voicePersonaSyncing && typeof window.setPersona === 'function') {
       const mapping = { aoife: 'homeowner', eimear: 'agent', declan: 'installer' };
-      window.setPersona(mapping[canonicalKey] || 'homeowner');
+      const targetRole = mapping[canonicalKey];
+      if (targetRole && (!window.currentPersona || (targetRole === 'homeowner' && window.currentPersona !== 'audit' && window.currentPersona !== 'all'))) {
+        window.setPersona(targetRole);
+      }
     }
 
     // 7. Speech Synthesis + Resonance
