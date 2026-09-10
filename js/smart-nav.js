@@ -365,8 +365,10 @@
     }
 
     // Update active calculations without scrolling
-    if (currentPersona === 'installer' && typeof updateInstallerComplianceMatrix === 'function') {
-      updateInstallerComplianceMatrix();
+    if (currentPersona === 'installer') {
+      if (typeof updateInstallerComplianceMatrix === 'function') updateInstallerComplianceMatrix();
+      if (typeof updateInstallerHydraulicCalculations === 'function') updateInstallerHydraulicCalculations();
+      if (typeof updateInstallerDefroster === 'function') updateInstallerDefroster();
     } else if (currentPersona === 'agent' && typeof updateAgentSurgeCalculations === 'function') {
       updateAgentSurgeCalculations();
     }
@@ -671,7 +673,7 @@
                 <span>Installer & Retrofitter</span>
               </span>
               <span style="display:flex;align-items:center;gap:6px;">
-                <span class="drawer-badge-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid #38bdf8;">6 Tools</span>
+                <span class="drawer-badge-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid #38bdf8;">8 Tools</span>
                 <span class="accordion-arrow">▼</span>
               </span>
             </button>
@@ -681,6 +683,20 @@
                 <div>
                   <div>Ask Declan (Installer AI)</div>
                   <div style="font-size:0.72rem;color:#38bdf8;font-weight:700;">NSAI SR50 technical advisor</div>
+                </div>
+              </a>
+              <a href="#installer-rescue-wizard" class="drawer-tool-item" onclick="window.openInstallerHydraulicSizer(event)">
+                <span class="tool-icon">🌊</span>
+                <div>
+                  <div>NSAI Hydraulic &amp; Velocity Sizer</div>
+                  <div style="font-size:0.72rem;color:#38bdf8;font-weight:700;">Anti-lockout pipework &amp; volumiser</div>
+                </div>
+              </a>
+              <a href="#installer-rescue-wizard" class="drawer-tool-item" onclick="window.openInstallerQuoteDefroster(event)">
+                <span class="tool-icon">🛡️</span>
+                <div>
+                  <div>Cowboy Quote Defroster</div>
+                  <div style="font-size:0.72rem;color:#34f5c5;font-weight:700;">Spec &amp; margin shield (+€3.3k)</div>
                 </div>
               </a>
               <a href="/radiator-sizer/" class="drawer-tool-item">
@@ -1722,6 +1738,221 @@
       btn.classList.toggle('active', btn.getAttribute('data-arch') === key);
     });
     updateInstallerComplianceMatrix();
+    updateInstallerHydraulicCalculations();
+    updateInstallerDefroster();
+  };
+
+  // ==========================================================================
+  // ⚡ NSAI SR50-2 HYDRAULIC SIZING & ANTI-LOCKOUT ENGINE
+  // ==========================================================================
+  let installerStep2Mode = 'rads'; // 'rads' | 'hydraulics'
+  let installerDeltaT = 5; // 5 (°C monobloc benchmark) | 7 (°C split benchmark)
+
+  const ARCHETYPE_HYDRAULIC_SPECS = {
+    semi: {
+      name: '3-Bed Semi-Detached (115m²)',
+      hpKw: 8.5,
+      hpUnitName: '8.5 kW Monobloc Heat Pump',
+      heatLoss: '7.8 kW @ -3°C',
+      volumiserLiters: 50,
+      volumiserType: '50L In-Line Volumiser',
+      volumiserHint: 'Active Defrost Buffer Required',
+      recPipe: '28mm Copper (or 32mm MLCP)',
+      pipeIdMm: 26.2, // 28mm copper ID = ~26.2mm
+      existing22IdMm: 20.2 // 22mm copper ID = ~20.2mm
+    },
+    detached: {
+      name: '4-Bed Detached (175m²)',
+      hpKw: 12.0,
+      hpUnitName: '12.0 kW Monobloc Heat Pump',
+      heatLoss: '11.4 kW @ -3°C',
+      volumiserLiters: 75,
+      volumiserType: '75L Low-Loss Header / Buffer',
+      volumiserHint: 'High-Volume Defrost Reserve',
+      recPipe: '35mm Copper (or 40mm MLCP)',
+      pipeIdMm: 32.6, // 35mm copper ID = ~32.6mm
+      existing22IdMm: 20.2
+    },
+    bungalow: {
+      name: '3-Bed Bungalow (130m²)',
+      hpKw: 9.5,
+      hpUnitName: '9.5 kW Monobloc Heat Pump',
+      heatLoss: '9.1 kW @ -3°C',
+      volumiserLiters: 60,
+      volumiserType: '60L In-Line Volumiser',
+      volumiserHint: 'Defrost Thermal Reserve',
+      recPipe: '28mm Copper (or 32mm MLCP)',
+      pipeIdMm: 26.2,
+      existing22IdMm: 20.2
+    },
+    apt: {
+      name: '2-Bed Apartment (75m²)',
+      hpKw: 5.0,
+      hpUnitName: '5.0 kW Compact Heat Pump',
+      heatLoss: '4.6 kW @ -3°C',
+      volumiserLiters: 35,
+      volumiserType: '35L Close-Coupled Volumiser',
+      volumiserHint: 'Compact Defrost Protection',
+      recPipe: '22mm Copper (or 26mm MLCP)',
+      pipeIdMm: 20.2, // 22mm copper is sufficient for 5kW
+      existing22IdMm: 20.2
+    }
+  };
+
+  function calculateHydraulicPhysics(kw, deltaT, pipeIdMm) {
+    // Mass Flow Rate: Q (kW) / (Cp * DeltaT) -> L/min = (kW * 60) / (4.186 * deltaT)
+    const flowLmin = (kw * 60) / (4.186 * deltaT);
+    const flowLhr = flowLmin * 60;
+    const flowM3s = (flowLmin / 1000) / 60; // m^3/s
+    const pipeDiameterM = pipeIdMm / 1000;
+    const pipeAreaM2 = (Math.PI / 4) * Math.pow(pipeDiameterM, 2);
+    const velocityMs = flowM3s / pipeAreaM2;
+    return {
+      flowLmin: Math.round(flowLmin * 10) / 10,
+      flowLhr: Math.round(flowLhr),
+      velocityMs: Math.round(velocityMs * 100) / 100
+    };
+  }
+
+  function updateInstallerHydraulicCalculations() {
+    const spec = ARCHETYPE_HYDRAULIC_SPECS[installerArchetype] || ARCHETYPE_HYDRAULIC_SPECS.semi;
+    
+    // Calculate for recommended pipe and existing 22mm pipe
+    const recPhysics = calculateHydraulicPhysics(spec.hpKw, installerDeltaT, spec.pipeIdMm);
+    const exist22Physics = calculateHydraulicPhysics(spec.hpKw, installerDeltaT, spec.existing22IdMm);
+
+    // Update Header
+    const hpTitle = document.getElementById('lbl-installer-hydraulic-hp');
+    if (hpTitle) hpTitle.innerText = `${spec.hpKw.toFixed(1)} kW Monobloc Hydraulic Sizing`;
+
+    // 1. Flow Rate
+    const flowEl = document.getElementById('lbl-hydraulic-flow');
+    if (flowEl) flowEl.innerText = `${recPhysics.flowLmin.toFixed(1)} L/min`;
+
+    const flowHrEl = document.getElementById('lbl-hydraulic-flow-hr');
+    if (flowHrEl) flowHrEl.innerText = `${recPhysics.flowLhr.toLocaleString()} L/hr (${(recPhysics.flowLmin / 60).toFixed(2)} kg/s)`;
+
+    // 2. Recommended Primary Pipe
+    const recPipeEl = document.getElementById('lbl-hydraulic-pipe-rec');
+    if (recPipeEl) recPipeEl.innerText = spec.recPipe.split(' ')[0] + ' Primary';
+
+    const recVelocityEl = document.getElementById('lbl-hydraulic-pipe-velocity');
+    if (recVelocityEl) recVelocityEl.innerText = `${recPhysics.velocityMs.toFixed(2)} m/s ✅ (NSAI Compliant)`;
+
+    // 3. 22mm Risk Metric
+    const risk22El = document.getElementById('lbl-hydraulic-22mm-risk');
+    const hint22El = document.getElementById('lbl-hydraulic-22mm-hint');
+    if (risk22El) {
+      if (exist22Physics.velocityMs <= 1.0) {
+        risk22El.innerText = `${exist22Physics.velocityMs.toFixed(2)} m/s ✅`;
+        risk22El.style.color = '#34f5c5';
+        if (hint22El) hint22El.innerText = 'Passes NSAI 1.0 m/s Limit';
+      } else {
+        risk22El.innerText = `${exist22Physics.velocityMs.toFixed(2)} m/s ❌`;
+        risk22El.style.color = '#ef4444';
+        if (hint22El) hint22El.innerText = 'Exceeds 1.0 m/s (Lockout Danger)';
+      }
+    }
+
+    // 4. Defrost Volumiser
+    const volEl = document.getElementById('lbl-hydraulic-volumiser');
+    if (volEl) volEl.innerText = `${spec.volumiserLiters}L In-Line`;
+
+    const volHintEl = document.getElementById('lbl-hydraulic-volumiser-hint');
+    if (volHintEl) volHintEl.innerText = spec.volumiserHint;
+
+    // Verdict callout text
+    const verdictEl = document.getElementById('lbl-hydraulic-verdict-text');
+    if (verdictEl) {
+      if (exist22Physics.velocityMs > 1.0) {
+        verdictEl.innerHTML = `Connecting an <strong>${spec.hpKw.toFixed(1)} kW</strong> heat pump at ΔT ${installerDeltaT}°C to standard 22mm copper pipework pushes flow velocity to <strong style="color:#f87171;">${exist22Physics.velocityMs.toFixed(2)} m/s</strong>, breaching NSAI SR50-2 acoustic limits (&lt; 1.0 m/s) and generating excessive hydraulic resistance that causes heat pump high-pressure lockouts during sub-zero defrost cycles. Install <strong>${spec.recPipe}</strong> from monobloc to internal manifold + minimum <strong>${spec.volumiserType}</strong>.`;
+      } else {
+        verdictEl.innerHTML = `For a compact <strong>${spec.hpKw.toFixed(1)} kW</strong> heat pump, primary flow rate is <strong>${recPhysics.flowLmin.toFixed(1)} L/min</strong>. Standard 22mm copper pipework maintains flow velocity at <strong style="color:#34f5c5;">${exist22Physics.velocityMs.toFixed(2)} m/s</strong>, comfortably within the NSAI SR50-2 acoustic limit (&lt; 1.0 m/s). Pair with a <strong>${spec.volumiserType}</strong> to prevent defrost cycles from chilling living quarters.`;
+      }
+    }
+
+    // Delta-T Buttons active state
+    const b5 = document.getElementById('btnDeltaT5');
+    const b7 = document.getElementById('btnDeltaT7');
+    if (b5) b5.classList.toggle('active', installerDeltaT === 5);
+    if (b7) b7.classList.toggle('active', installerDeltaT === 7);
+  }
+
+  window.setInstallerStep2Mode = function(mode) {
+    installerStep2Mode = mode;
+    const btnRads = document.getElementById('btnInstallerModeRads');
+    const btnHydraulics = document.getElementById('btnInstallerModeHydraulics');
+    const panelRads = document.getElementById('installer-rads-panel');
+    const panelHydraulics = document.getElementById('installer-hydraulic-container');
+
+    if (mode === 'rads') {
+      if (btnRads) btnRads.classList.add('active');
+      if (btnHydraulics) btnHydraulics.classList.remove('active');
+      if (panelRads) panelRads.style.display = 'block';
+      if (panelHydraulics) panelHydraulics.style.display = 'none';
+      updateInstallerComplianceMatrix();
+    } else {
+      if (btnRads) btnRads.classList.remove('active');
+      if (btnHydraulics) btnHydraulics.classList.add('active');
+      if (panelRads) panelRads.style.display = 'none';
+      if (panelHydraulics) panelHydraulics.style.display = 'block';
+      updateInstallerHydraulicCalculations();
+    }
+  };
+
+  window.setInstallerDeltaT = function(deltaT) {
+    installerDeltaT = Number(deltaT);
+    updateInstallerHydraulicCalculations();
+  };
+
+  window.openInstallerHydraulicSizer = function(event) {
+    if (event) event.preventDefault();
+    window.setPersona('installer');
+    window.setInstallerStep2Mode('hydraulics');
+    const target = document.getElementById('installer-rescue-wizard');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (typeof window.closeToolsDrawer === 'function') {
+      window.closeToolsDrawer();
+    }
+  };
+
+  window.copyHydraulicSpec = function() {
+    window.requireFreemiumPass(() => {
+      const spec = ARCHETYPE_HYDRAULIC_SPECS[installerArchetype] || ARCHETYPE_HYDRAULIC_SPECS.semi;
+      const recPhysics = calculateHydraulicPhysics(spec.hpKw, installerDeltaT, spec.pipeIdMm);
+      const exist22Physics = calculateHydraulicPhysics(spec.hpKw, installerDeltaT, spec.existing22IdMm);
+
+      const statusText = exist22Physics.velocityMs <= 1.0 
+        ? `${exist22Physics.velocityMs.toFixed(2)} m/s (✅ Compliant with NSAI SR50-2)` 
+        : `${exist22Physics.velocityMs.toFixed(2)} m/s (❌ FAILS NSAI SR50-2 < 1.0 m/s acoustic/head limit)`;
+
+      const text = `🌊 ECOSMARTHOMES NSAI SR50-2 PRIMARY HYDRAULIC SPECIFICATION
+Property: ${spec.name}
+Specified Unit: ${spec.hpUnitName} (${spec.heatLoss})
+Design Temperature Difference: ΔT ${installerDeltaT}.0°C (${installerDeltaT === 5 ? 'Monobloc Benchmark' : 'Split System Standard'})
+Required Design Flow Rate: ${recPhysics.flowLmin.toFixed(1)} L/min (${recPhysics.flowLhr.toLocaleString()} L/h · ${(recPhysics.flowLmin/60).toFixed(2)} kg/s)
+Recommended Primary Pipe: ${spec.recPipe} (Velocity: ${recPhysics.velocityMs.toFixed(2)} m/s ✅ Compliant)
+22mm Existing Run Assessment: ${statusText}
+Defrost Buffer Protection: ${spec.volumiserType} (Active Volumiser / Low-Loss Reserve)
+Hydraulic Architecture: Direct flow with close-coupled volumiser + magnetic cyclone filter + 25kPa differential bypass valve
+Compliance Standard: NSAI SR50-2:2024 Code of Practice for Heat Pump Systems`;
+
+      window.copyTextToClipboard(text, 'Copied NSAI Hydraulic Specification to Clipboard!');
+      const btn = document.getElementById('btnCopyHydraulicSpec');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied Hydraulic Specification to Clipboard!';
+        btn.style.background = '#34f5c5';
+        btn.style.color = '#00241b';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2400);
+      }
+    });
   };
 
   window.copyInstallerTenderDraft = function() {
@@ -1742,6 +1973,196 @@
           btn.style.background = '';
           btn.style.color = '';
         }, 2200);
+      }
+    });
+  };
+
+  // ==========================================================================
+  // ⚡ INSTALLER IDEA 2: COWBOY QUOTE DEFROSTER (MARGIN & SPEC SHIELD)
+  // ==========================================================================
+  let installerStep3Mode = 'tender'; // 'tender' | 'defroster'
+
+  const ARCHETYPE_DEFROSTER_SPECS = {
+    semi: {
+      name: '3-Bed Semi-Detached (115m²)',
+      hpKw: 8.5,
+      hpUnitName: '8.5 kW Monobloc Heat Pump',
+      yourPrice: 13800,
+      cowboyPrice: 10500,
+      initialDiff: 3300,
+      yourFlow: '45°C Low-Flow (COP 4.2)',
+      cowboyFlow: '65°C High-Flow (COP 2.6)',
+      annualExtraPower: 980,
+      tenYearPowerLoss: 9800,
+      remedialRisk: 1500,
+      netTenYearSaving: 6500,
+      yourRads: 'Resized Type 22 Convectors',
+      yourPipe: '28mm Copper + 50L Volumiser',
+      cowboyPipe: 'Tied into 22mm Choked Pipe'
+    },
+    detached: {
+      name: '4-Bed Detached (175m²)',
+      hpKw: 12.0,
+      hpUnitName: '12.0 kW Monobloc Heat Pump',
+      yourPrice: 16500,
+      cowboyPrice: 12200,
+      initialDiff: 4300,
+      yourFlow: '45°C Low-Flow (COP 4.2)',
+      cowboyFlow: '65°C High-Flow (COP 2.5)',
+      annualExtraPower: 1350,
+      tenYearPowerLoss: 13500,
+      remedialRisk: 1800,
+      netTenYearSaving: 9200,
+      yourRads: 'Resized Type 22 & 33 Convectors',
+      yourPipe: '35mm Copper + 75L Volumiser',
+      cowboyPipe: 'Tied into 22mm / 15mm Choked Pipe'
+    },
+    bungalow: {
+      name: '3-Bed Bungalow (130m²)',
+      hpKw: 9.5,
+      hpUnitName: '9.5 kW Monobloc Heat Pump',
+      yourPrice: 14600,
+      cowboyPrice: 11000,
+      initialDiff: 3600,
+      yourFlow: '45°C Low-Flow (COP 4.2)',
+      cowboyFlow: '65°C High-Flow (COP 2.6)',
+      annualExtraPower: 1100,
+      tenYearPowerLoss: 11000,
+      remedialRisk: 1600,
+      netTenYearSaving: 7400,
+      yourRads: 'Resized Type 22 Convectors',
+      yourPipe: '28mm Copper + 60L Volumiser',
+      cowboyPipe: 'Tied into 22mm Choked Pipe'
+    },
+    apt: {
+      name: '2-Bed Apartment (75m²)',
+      hpKw: 5.0,
+      hpUnitName: '5.0 kW Monobloc Heat Pump',
+      yourPrice: 9800,
+      cowboyPrice: 7500,
+      initialDiff: 2300,
+      yourFlow: '45°C Low-Flow (COP 4.2)',
+      cowboyFlow: '60°C High-Flow (COP 2.8)',
+      annualExtraPower: 580,
+      tenYearPowerLoss: 5800,
+      remedialRisk: 1200,
+      netTenYearSaving: 4700,
+      yourRads: 'Optimised Low-Flow Convectors',
+      yourPipe: '22mm Copper + 35L Volumiser',
+      cowboyPipe: 'Tied into Microbore / 15mm Pipe'
+    }
+  };
+
+  function updateInstallerDefroster() {
+    const spec = ARCHETYPE_DEFROSTER_SPECS[installerArchetype] || ARCHETYPE_DEFROSTER_SPECS.semi;
+
+    const marginPill = document.getElementById('lbl-defroster-margin-pill');
+    if (marginPill) marginPill.innerText = `🔥 Margin Protected: €${spec.initialDiff.toLocaleString()}`;
+
+    const yourPriceEl = document.getElementById('lbl-defroster-your-price');
+    if (yourPriceEl) yourPriceEl.innerText = `€${spec.yourPrice.toLocaleString()} Turnkey`;
+
+    const cowboyPriceEl = document.getElementById('lbl-defroster-cowboy-price');
+    if (cowboyPriceEl) cowboyPriceEl.innerText = `€${spec.cowboyPrice.toLocaleString()} Budget`;
+
+    const yourFlowEl = document.getElementById('lbl-defroster-your-flow');
+    if (yourFlowEl) yourFlowEl.innerText = spec.yourFlow;
+
+    const cowboyFlowEl = document.getElementById('lbl-defroster-cowboy-flow');
+    if (cowboyFlowEl) cowboyFlowEl.innerText = spec.cowboyFlow;
+
+    const cowboyExtraPowerEl = document.getElementById('lbl-defroster-cowboy-extra-power');
+    if (cowboyExtraPowerEl) cowboyExtraPowerEl.innerText = `Burns +€${spec.annualExtraPower.toLocaleString()}/year in unnecessary ESB electricity`;
+
+    const yourRadsEl = document.getElementById('lbl-defroster-your-rads');
+    if (yourRadsEl) yourRadsEl.innerText = spec.yourRads;
+
+    const yourPipeEl = document.getElementById('lbl-defroster-your-pipe');
+    if (yourPipeEl) yourPipeEl.innerText = spec.yourPipe;
+
+    const netSavingsEl = document.getElementById('lbl-defroster-net-savings');
+    if (netSavingsEl) netSavingsEl.innerText = `💰 Saves €${spec.netTenYearSaving.toLocaleString()}+ Over 10 Years`;
+
+    const descEl = document.getElementById('lbl-defroster-verdict-desc');
+    if (descEl) {
+      descEl.innerHTML = `The budget quote appears <strong>€${spec.initialDiff.toLocaleString()}</strong> cheaper on day one, but burns an extra <strong>€${spec.tenYearPowerLoss.toLocaleString()}</strong> in compressor electricity over 10 years and risks <strong>€${spec.remedialRisk.toLocaleString()}+</strong> in emergency callouts and failed SEAI sign-offs. Your compliant NSAI spec delivers guaranteed comfort and saves the client <strong>€${spec.netTenYearSaving.toLocaleString()}+</strong> overall.`;
+    }
+  }
+
+  window.setInstallerStep3Mode = function(mode) {
+    installerStep3Mode = mode;
+    const btnTender = document.getElementById('btnInstallerStep3Tender');
+    const btnDefroster = document.getElementById('btnInstallerStep3Defroster');
+    const panelTender = document.getElementById('installer-tender-panel');
+    const panelDefroster = document.getElementById('installer-defroster-panel');
+
+    if (mode === 'tender') {
+      if (btnTender) btnTender.classList.add('active');
+      if (btnDefroster) btnDefroster.classList.remove('active');
+      if (panelTender) panelTender.style.display = 'block';
+      if (panelDefroster) panelDefroster.style.display = 'none';
+    } else {
+      if (btnTender) btnTender.classList.remove('active');
+      if (btnDefroster) btnDefroster.classList.add('active');
+      if (panelTender) panelTender.style.display = 'none';
+      if (panelDefroster) panelDefroster.style.display = 'block';
+      updateInstallerDefroster();
+    }
+  };
+
+  window.openInstallerQuoteDefroster = function(event) {
+    if (event) event.preventDefault();
+    window.setPersona('installer');
+    window.setInstallerStep3Mode('defroster');
+    const target = document.getElementById('installer-defroster-panel') || document.getElementById('installer-rescue-wizard');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (typeof window.closeToolsDrawer === 'function') {
+      window.closeToolsDrawer();
+    }
+  };
+
+  window.copyCowboyQuoteDefense = function() {
+    window.requireFreemiumPass(() => {
+      const spec = ARCHETYPE_DEFROSTER_SPECS[installerArchetype] || ARCHETYPE_DEFROSTER_SPECS.semi;
+
+      const scriptText = `🛡️ ECOSMARTHOMES NSAI QUALITY DEFENSE BRIEFING
+Property: ${spec.name} (${spec.hpUnitName})
+
+Hi [Homeowner],
+
+Totally understand why the €${spec.cowboyPrice.toLocaleString()} quote caught your eye—a €${spec.initialDiff.toLocaleString()} headline difference looks tempting on paper. However, before committing, here is why that cheaper install will actually cost you ~€${spec.netTenYearSaving.toLocaleString()} MORE over the next few years:
+
+1. FLOW TEMPERATURE & RUNNING COSTS:
+• Their Quote: Runs at ${spec.cowboyFlow} using your existing small radiators. The heat pump struggles at low efficiency, burning an extra ~€${spec.annualExtraPower.toLocaleString()}/year in ESB electricity.
+• Our NSAI Spec: Replaces undersized radiators with ${spec.yourRads} running at ${spec.yourFlow}, cutting power consumption by 35%–40%.
+
+2. FROST LOCKOUTS & HYDRAULIC WEAR:
+• Their Quote: ${spec.cowboyPipe} without a dedicated volumiser. Water velocity exceeds NSAI SR50-2 limits (1.0 m/s), causing whistling radiators and compressor freeze lockouts during sub-zero defrost cycles.
+• Our NSAI Spec: ${spec.yourPipe} ensures whisper-quiet flow (<0.8 m/s) and zero frost lockouts.
+
+3. SEAI GRANT ASSURANCE:
+• Our installation includes full NSAI SR50-2 certification and guarantees your SEAI grant sign-off with 0% clawback risk.
+
+BOTTOM LINE:
+The cheaper quote saves €${spec.initialDiff.toLocaleString()} on day one, but costs you ~€${spec.tenYearPowerLoss.toLocaleString()} extra in electricity and remedial pipework over 10 years. Our system delivers guaranteed 21°C warmth in winter and saves you over €${spec.netTenYearSaving.toLocaleString()} net.
+
+Happy to walk you through the engineering anytime!
+[Your Name / Registered Installer]`;
+
+      window.copyTextToClipboard(scriptText, 'Copied Client Quality Defense Script to Clipboard!');
+      const btn = document.getElementById('btnCopyCowboyDefense');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied Defense Script to Clipboard!';
+        btn.style.background = '#34f5c5';
+        btn.style.color = '#00241b';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2400);
       }
     });
   };

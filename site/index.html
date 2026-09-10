@@ -1942,34 +1942,136 @@
         </div>
       </div>
 
-      <!-- Step 2: NSAI SR50-2 Compliance Matrix -->
-      <div style="background: rgba(0, 18, 13, 0.95); border: 2px solid #38bdf8; border-radius: 18px; padding: 24px; margin-bottom: 24px; box-shadow: 0 0 30px rgba(56, 189, 248, 0.25);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
-          <div>
-            <div style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">
-              📐 Step 2: NSAI SR50-2:2024 Low-Flow Heat Pump Matrix
+      <!-- Step 2: NSAI SR50-2 Compliance Matrix & Hydraulic Anti-Lockout Sizer -->
+      <div class="installer-step2-wrapper">
+        <!-- In-Place Mode Switcher (Zero Stacking / Zero Page Bloat) -->
+        <div class="installer-mode-toggle-bar">
+          <button type="button" class="installer-mode-btn active" id="btnInstallerModeRads" onclick="window.setInstallerStep2Mode('rads')">
+            <span>📐 Room Radiator Schedule (ΔT 30)</span>
+          </button>
+          <button type="button" class="installer-mode-btn" id="btnInstallerModeHydraulics" onclick="window.setInstallerStep2Mode('hydraulics')">
+            <span>🌊 Primary Pipe &amp; Velocity Sizer (Anti-Lockout)</span>
+          </button>
+        </div>
+
+        <!-- Mode A: Room Radiator Schedule Matrix -->
+        <div id="installer-rads-panel" style="background: rgba(0, 18, 13, 0.95); border: 2px solid #38bdf8; border-radius: 18px; padding: 24px; box-shadow: 0 0 30px rgba(56, 189, 248, 0.25);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 800; color: #38bdf8; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">
+                📐 Step 2: NSAI SR50-2:2024 Low-Flow Heat Pump Matrix
+              </div>
+              <div id="lbl-installer-hp-size" style="font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-top: 2px;">
+                8.5 kW Monobloc Heat Pump
+              </div>
             </div>
-            <div id="lbl-installer-hp-size" style="font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-top: 2px;">
-              8.5 kW Monobloc Heat Pump
+            <div id="lbl-installer-heat-loss" style="font-size: 0.78rem; font-weight: 700; color: #bae6fd; font-family: 'IBM Plex Mono', monospace;">
+              Total Heat Loss: 7.8 kW @ -3°C · ΔT30 Standard
             </div>
           </div>
-          <div id="lbl-installer-heat-loss" style="font-size: 0.78rem; font-weight: 700; color: #bae6fd; font-family: 'IBM Plex Mono', monospace;">
-            Total Heat Loss: 7.8 kW @ -3°C · ΔT30 Standard
+
+          <div id="installer-room-container" class="room-compliance-grid">
+            <!-- Populated dynamically with room cards -->
           </div>
         </div>
 
-        <div id="installer-room-container" class="room-compliance-grid">
-          <!-- Populated dynamically with room cards -->
+        <!-- Mode B: Hydraulic Primary Flow & Velocity Sizer (Anti-Lockout Shield) -->
+        <div id="installer-hydraulic-container" class="installer-hydraulic-card" style="display: none;">
+          <div class="installer-hydraulic-header">
+            <div>
+              <div class="installer-hydraulic-badge">
+                <span>🌊</span> NSAI SR50-2:2024 Primary Hydraulic Telemetry
+              </div>
+              <div id="lbl-installer-hydraulic-hp" style="font-size: 1.5rem; font-weight: 900; color: #ffffff; margin-top: 2px;">
+                8.5 kW Monobloc Hydraulic Sizing
+              </div>
+            </div>
+            <!-- Delta-T Mode Selector -->
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 0.72rem; color: #94a3b8; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">DESIGN ΔT:</span>
+              <div class="hydraulic-delta-group">
+                <button type="button" class="hydraulic-delta-pill active" id="btnDeltaT5" onclick="window.setInstallerDeltaT(5)">
+                  ΔT 5°C (Monobloc)
+                </button>
+                <button type="button" class="hydraulic-delta-pill" id="btnDeltaT7" onclick="window.setInstallerDeltaT(7)">
+                  ΔT 7°C (Split)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4-Box Telemetry Grid -->
+          <div class="installer-hydraulic-telemetry-grid">
+            <div class="installer-hydraulic-metric highlight-cyan">
+              <span class="hydraulic-metric-title">Design Flow Rate</span>
+              <span class="hydraulic-metric-val" id="lbl-hydraulic-flow" style="color: #38bdf8;">24.4 L/min</span>
+              <span class="hydraulic-metric-hint" id="lbl-hydraulic-flow-hr">1,464 L/hr (0.41 kg/s)</span>
+            </div>
+
+            <div class="installer-hydraulic-metric highlight-pass">
+              <span class="hydraulic-metric-title">Recommended Primary</span>
+              <span class="hydraulic-metric-val" id="lbl-hydraulic-pipe-rec" style="color: #34f5c5;">28mm Copper</span>
+              <span class="hydraulic-metric-hint" id="lbl-hydraulic-pipe-velocity">0.75 m/s ✅ (NSAI Compliant)</span>
+            </div>
+
+            <div class="installer-hydraulic-metric highlight-danger">
+              <span class="hydraulic-metric-title">22mm Existing Velocity</span>
+              <span class="hydraulic-metric-val" id="lbl-hydraulic-22mm-risk" style="color: #ef4444;">1.27 m/s ❌</span>
+              <span class="hydraulic-metric-hint" id="lbl-hydraulic-22mm-hint">Exceeds 1.0 m/s (High Head)</span>
+            </div>
+
+            <div class="installer-hydraulic-metric highlight-gold">
+              <span class="hydraulic-metric-title">Defrost Volumiser</span>
+              <span class="hydraulic-metric-val" id="lbl-hydraulic-volumiser" style="color: #fbbf24;">50L In-Line</span>
+              <span class="hydraulic-metric-hint" id="lbl-hydraulic-volumiser-hint">Defrost Freeze Protection</span>
+            </div>
+          </div>
+
+          <!-- Technical Verdict Alert Callout -->
+          <div class="installer-hydraulic-verdict-card">
+            <div class="installer-hydraulic-verdict-top">
+              <span class="installer-hydraulic-verdict-title">
+                <span>🛡️</span> NSAI SR50-2 Hydraulic Diagnostic &amp; Anti-Lockout Verdict
+              </span>
+              <span class="installer-hydraulic-verdict-pill" id="lbl-hydraulic-status-pill">
+                Velocity Limit: 1.0 m/s Max
+              </span>
+            </div>
+            <p class="installer-hydraulic-verdict-text" id="lbl-hydraulic-verdict-text">
+              Connecting an 8.5 kW heat pump to standard 22mm copper pipework pushes flow velocity to <strong>1.27 m/s</strong>, breaching NSAI SR50-2 acoustic limits (&lt; 1.0 m/s) and generating excessive hydraulic resistance that causes heat pump high-pressure lockouts during sub-zero defrost cycles. Install <strong>28mm copper (or 32mm MLCP)</strong> from monobloc to manifold + <strong>50L volumiser</strong>.
+            </p>
+          </div>
+
+          <!-- Actions -->
+          <div class="installer-hydraulic-actions">
+            <button type="button" class="btn-copy-hydraulic-spec" id="btnCopyHydraulicSpec" onclick="window.copyHydraulicSpec()">
+              <span>📲 Copy Primary Hydraulic Specification (Dispatch &amp; Order)</span>
+            </button>
+            <a href="/pricing/" class="btn-hero-secondary" style="display: flex; align-items: center; justify-content: center; padding: 12px 18px; font-size: 0.86rem; border-radius: 12px; text-decoration: none;">
+              ⭐ Outsource Technical Survey &amp; DEAP (€49) →
+            </a>
+          </div>
         </div>
       </div>
 
-      <!-- Step 3: SEAI Tender RFP Generator & Survey Hand-Off -->
-      <div style="margin-top: 20px;">
-        <div style="font-size: 0.78rem; font-weight: 800; color: #38bdf8; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; margin-bottom: 8px;">
-          📋 Step 3: Client-Ready SEAI Tender Specification Draft
+      <!-- Step 3: Client-Ready SEAI Tender & Cowboy Quote Defroster -->
+      <div class="installer-step3-wrapper">
+        <!-- Step 3 Mode Switcher -->
+        <div class="installer-mode-toggle-bar">
+          <button type="button" class="installer-mode-btn active" id="btnInstallerStep3Tender" onclick="window.setInstallerStep3Mode('tender')">
+            <span>📋</span>
+            <span>Client-Ready SEAI Tender Draft</span>
+          </button>
+          <button type="button" class="installer-mode-btn" id="btnInstallerStep3Defroster" onclick="window.setInstallerStep3Mode('defroster')">
+            <span>🛡️</span>
+            <span>Cowboy Quote Defroster (Spec &amp; Margin Shield)</span>
+          </button>
         </div>
-        <div class="tender-draft-box">
-          <pre id="lbl-installer-tender-text" style="margin: 0; white-space: pre-wrap; font-family: inherit;">
+
+        <!-- Mode A: Tender Draft Panel -->
+        <div id="installer-tender-panel">
+          <div class="tender-draft-box">
+            <pre id="lbl-installer-tender-text" style="margin: 0; white-space: pre-wrap; font-family: inherit;">
 📋 ECOSMARTHOMES NSAI SR50-2 TENDER SPECIFICATION
 Property: 3-Bed Semi-Detached (115m²)
 Proposed Heat Source: 8.5 kW Monobloc Heat Pump (7.8 kW @ -3°C)
@@ -1978,16 +2080,129 @@ Radiator Compliance Schedule:
 • 2 Rooms Specified for Type 22 Convector Upgrades
 Direct SEAI Grant Deduction: -€12,500
 Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
-          </pre>
+            </pre>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 12px;">
+            <button type="button" id="btn-copy-tender-action" class="btn-copy-tender" onclick="window.copyInstallerTenderDraft()">
+              <span>📋 Copy Client-Ready SEAI Tender Draft</span>
+            </button>
+            <a href="/pricing/" class="btn-hero-primary-star" style="text-align: center; padding: 14px 20px; font-size: 0.95rem;">
+              ⭐ Outsource Technical Survey &amp; DEAP (€49) →
+            </a>
+          </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
-          <button type="button" id="btn-copy-tender-action" class="btn-copy-tender" onclick="window.copyInstallerTenderDraft()">
-            <span>📋 Copy Client-Ready SEAI Tender Draft</span>
-          </button>
-          <a href="/pricing/" class="btn-hero-primary-star" style="text-align: center; padding: 14px 20px; font-size: 0.95rem;">
-            ⭐ Outsource Technical Survey & DEAP (€49) →
-          </a>
+        <!-- Mode B: Cowboy Quote Defroster Panel -->
+        <div id="installer-defroster-panel" class="installer-defroster-card" style="display: none;">
+          <!-- Defroster Header with Title & Margin Tag -->
+          <div class="installer-defroster-header">
+            <div>
+              <div class="installer-defroster-badge">
+                <span>🛡️</span> NSAI SR50-2 QUALITY &amp; SPECIFICATION DEFENSE MATRIX
+              </div>
+              <h3 class="installer-defroster-title" id="lbl-defroster-title">
+                Cowboy Quote Defroster &amp; Margin Shield
+              </h3>
+              <p class="installer-defroster-sub">
+                When the homeowner says <em>"Another lad will fit a heat pump for €3,000 less using my old rads"</em> — prove why cut-corner installs cost thousands more.
+              </p>
+            </div>
+            <div class="installer-defroster-pill" id="lbl-defroster-margin-pill">
+              🔥 Margin Protected: €3,300
+            </div>
+          </div>
+
+          <!-- Side-by-Side Comparison Grid -->
+          <div class="defroster-comparison-grid">
+            <!-- Column 1: Registered NSAI Compliant Spec -->
+            <div class="defroster-col defroster-col-quality">
+              <div class="defroster-col-header">
+                <span class="defroster-col-tag">✅ YOUR NSAI SPECIFICATION</span>
+                <div class="defroster-col-price" id="lbl-defroster-your-price">€13,800 Turnkey</div>
+                <span class="defroster-col-status">SEAI Registered &amp; NSAI SR50-2 Certified</span>
+              </div>
+              <div class="defroster-spec-list">
+                <div class="defroster-spec-item">
+                  <span class="spec-label">Flow Temperature:</span>
+                  <strong class="spec-val-quality" id="lbl-defroster-your-flow">45°C Low-Flow (COP 4.2)</strong>
+                  <span class="spec-note">Optimal seasonal efficiency &amp; lowest electricity draw</span>
+                </div>
+                <div class="defroster-spec-item">
+                  <span class="spec-label">Radiator Heat Delivery:</span>
+                  <strong class="spec-val-quality" id="lbl-defroster-your-rads">Resized Type 22 Convectors</strong>
+                  <span class="spec-note">Guaranteed 21°C room comfort down to -3°C outside design</span>
+                </div>
+                <div class="defroster-spec-item">
+                  <span class="spec-label">Primary Hydraulics:</span>
+                  <strong class="spec-val-quality" id="lbl-defroster-your-pipe">28mm Copper + 50L Volumiser</strong>
+                  <span class="spec-note">Low velocity (&lt;0.8 m/s), whisper quiet, zero frost lockouts</span>
+                </div>
+                <div class="defroster-spec-item">
+                  <span class="spec-label">SEAI Grant Assurance:</span>
+                  <strong class="spec-val-quality">100% Guaranteed Sign-Off Pass</strong>
+                  <span class="spec-note">Technical survey &amp; BER assessor certification sealed</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: Cut-Corner "Cowboy" Quote -->
+            <div class="defroster-col defroster-col-cowboy">
+              <div class="defroster-col-header">
+                <span class="defroster-col-tag-danger">❌ CUT-CORNER "COWBOY" QUOTE</span>
+                <div class="defroster-col-price-danger" id="lbl-defroster-cowboy-price">€10,500 Budget</div>
+                <span class="defroster-col-status-danger">Unregistered Shortcuts / Old Radiators</span>
+              </div>
+              <div class="defroster-spec-list">
+                <div class="defroster-spec-item">
+                  <span class="spec-label">Flow Temperature:</span>
+                  <strong class="spec-val-danger" id="lbl-defroster-cowboy-flow">65°C High-Flow (COP 2.6)</strong>
+                  <span class="spec-note-danger" id="lbl-defroster-cowboy-extra-power">Burns +€980/year in unnecessary ESB electricity</span>
+                </div>
+                <div class="defroster-spec-item">
+                  <span class="spec-label">Radiator Heat Delivery:</span>
+                  <strong class="spec-val-danger">Old Type 11 Single Panels</strong>
+                  <span class="spec-note-danger">House stalls at 16°C in freezing weather</span>
+                </div>
+                <div class="defroster-spec-item">
+                  <span class="spec-label">Primary Hydraulics:</span>
+                  <strong class="spec-val-danger">Tied into 22mm / 15mm Choked Pipe</strong>
+                  <span class="spec-note-danger">Violates 1.0 m/s limit, noisy whistling, defrost freeze errors</span>
+                </div>
+                <div class="defroster-spec-item">
+                  <span class="spec-label">SEAI Grant Assurance:</span>
+                  <strong class="spec-val-danger">Risk of Grant Clawback / Failed Sign-Off</strong>
+                  <span class="spec-note-danger">Customer risks losing full SEAI grant allocation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 10-Year True Cost of Ownership Verdict Card -->
+          <div class="defroster-verdict-card">
+            <div class="defroster-verdict-top">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.1rem;">⚖️</span>
+                <span class="defroster-verdict-title">10-Year True Cost of Ownership (TCO) Reality Check</span>
+              </div>
+              <span class="defroster-saving-pill" id="lbl-defroster-net-savings">
+                💰 Saves €6,500+ Over 10 Years
+              </span>
+            </div>
+            <p class="defroster-verdict-desc" id="lbl-defroster-verdict-desc">
+              The budget quote appears €3,300 cheaper on day one, but burns an extra €9,800 in compressor electricity over 10 years and risks €1,500+ in emergency callouts and failed SEAI sign-offs. Your compliant NSAI spec delivers guaranteed comfort and saves the client €6,500+ overall.
+            </p>
+          </div>
+
+          <!-- Actions Row -->
+          <div class="defroster-actions">
+            <button type="button" class="btn-defroster-copy" id="btnCopyCowboyDefense" onclick="window.copyCowboyQuoteDefense()">
+              <span>📲 Copy WhatsApp / Email "Client Quality Defense Script"</span>
+            </button>
+            <a href="/pricing/" class="btn-hero-secondary" style="display: flex; align-items: center; justify-content: center; padding: 12px 18px; font-size: 0.86rem; border-radius: 12px; text-decoration: none;">
+              ⭐ Outsource Technical Survey &amp; DEAP (€49) →
+            </a>
+          </div>
         </div>
       </div>
     </section>

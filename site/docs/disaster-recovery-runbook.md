@@ -1,8 +1,8 @@
 # EcoSmartHome Disaster Recovery Runbook
 
-**Version:** 3.9.5  
+**Version:** 3.9.7  
 **Last Updated:** September 10, 2026  
-**Release Tag:** `v3.9.5-buyer-borrowing-booster`  
+**Release Tag:** `v3.9.7-installer-cowboy-defroster`  
 **Classification:** Internal Technical Operations & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -123,6 +123,26 @@ git push origin main --force
 - **Interactive Joint Household Income Slider:** Models gross income from €45k to €175k with 4 fast-pick presets (€55k, €85k, €115k, €145k).
 - **1-Tap Broker Explainer Script Copier (`window.copyBorrowingBoosterPitch()`):** Generates complete debt-service justification script ready for underwriters.
 - **Drawer Hub Integration:** Estate Agent Hub tool counter incremented to 8 tools.
+
+### 10. NSAI SR50-2 Primary Flow & Pipe Velocity Sizer (v3.9.6)
+- **Zero-Stack Mode Switcher (`#installer-rescue-wizard`):** In-place Step 2 toggle between `[📐 Room Radiator Schedule (ΔT 30)]` and `[🌊 Primary Pipe & Velocity Sizer (Anti-Lockout)]` with zero vertical page bloat or layout shift.
+- **NSAI SR50-2:2024 Compliance Physics:** Calculates design mass flow rate based on archetype heat pump capacity (5kW–12kW) and ΔT (5°C monobloc benchmark vs 7°C split system).
+- **Water Velocity & 22mm Lockout Shield:** Verifies pipe velocity against the domestic heating limit of **1.0 m/s**. Identifies high resistance and acoustic erosion on 22mm runs (1.27 m/s for 8.5kW) and specifies 28mm/35mm copper runs (0.75 m/s ✅).
+- **Volumiser / Defrost Buffer Protection:** Recommends active defrost thermal buffers (35L–75L) to prevent compressor freeze lockouts.
+- **1-Tap Specification Copier (`window.copyHydraulicSpec()`):** Generates merchant-ready hydraulic order specification.
+- **Installer Drawer Launcher:** Integrated into `#accordion-panel-installer` with tool count incremented to 7 tools.
+
+### 11. Cowboy Quote Defroster & Margin Shield (v3.9.7)
+- **Zero-Stack Mode Switcher (`#installer-rescue-wizard`):** In-place Step 3 mode toggle between `[📋 Client-Ready SEAI Tender Draft]` and `[🛡️ Cowboy Quote Defroster (Spec & Margin Shield)]` maintaining exact single-fold portal geometry.
+- **High-Contrast Quality vs. Cut-Corner Matrix:** Explains why registered NSAI SR50-2 installs cost more upfront and prevents margin cuts by contrasting:
+  - Flow Temp: 45°C Low-Flow (COP 4.2) vs. 65°C High-Flow (COP 2.6 — burns +€980/yr in ESB electricity).
+  - Radiator Output: Resized Type 22 double convectors vs. Old Type 11 single panels (stalls at 16°C in winter).
+  - Primary Hydraulics: 28mm low-loss run + volumiser vs. 22mm choked pipe (lockouts & noise).
+  - SEAI Grant Assurance: 100% Guaranteed Inspection Pass vs. Grant Clawback / Failed Sign-off.
+- **10-Year True Cost of Ownership (TCO) Reality Check:** Proves mathematically that the "cheaper" cowboy quote burns +€9,800 in extra electricity and +€1,500 in emergency callouts, demonstrating the quality quote saves €6,500+ net over 10 years.
+- **Dynamic Property Archetype Calibration:** Automatically recalibrates quotes, delta margins, and 10-year savings across Semi-D (€6,500 net saving), Detached (€9,200 net saving), Bungalow (€7,400 net saving), and Apartment (€4,700 net saving).
+- **1-Tap WhatsApp Defense Script Copier (`window.copyCowboyQuoteDefense()`):** Dispatches client-ready educational script explaining the hidden costs of cheap quotes.
+- **Off-Canvas Drawer Integration:** Incremented Installer Hub badge to 8 Tools with direct launcher (`window.openInstallerQuoteDefroster(event)`).
 
 ---
 

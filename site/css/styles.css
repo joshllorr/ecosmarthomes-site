@@ -4667,3 +4667,568 @@ a, a:visited {
   }
 }
 
+/* ==========================================================================
+   ⚡ INSTALLER IDEA 1: NSAI SR50-2 PRIMARY FLOW & PIPE VELOCITY SIZER
+   ========================================================================== */
+.installer-step2-wrapper {
+  margin-bottom: 24px;
+}
+
+.installer-mode-toggle-bar {
+  display: flex;
+  background: rgba(0, 18, 14, 0.85);
+  border: 1.5px solid rgba(56, 189, 248, 0.35);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.installer-mode-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.installer-mode-btn:hover {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.installer-mode-btn.active {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+}
+
+/* Hydraulic Shield Container */
+.installer-hydraulic-card {
+  background: rgba(0, 18, 13, 0.95);
+  border: 2px solid #38bdf8;
+  border-radius: 18px;
+  padding: 20px 22px;
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.25);
+  text-align: left;
+  animation: fadeInHydraulic 0.25s ease-out;
+}
+
+@keyframes fadeInHydraulic {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.installer-hydraulic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+  padding-bottom: 10px;
+}
+
+.installer-hydraulic-badge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #38bdf8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Delta-T Selector Pills */
+.hydraulic-delta-group {
+  display: flex;
+  gap: 6px;
+}
+
+.hydraulic-delta-pill {
+  background: rgba(0, 24, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.hydraulic-delta-pill:hover {
+  border-color: rgba(56, 189, 248, 0.5);
+  color: #fff;
+}
+
+.hydraulic-delta-pill.active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+}
+
+/* 4-Item Telemetry Grid in Hydraulic Mode */
+.installer-hydraulic-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.installer-hydraulic-metric {
+  background: rgba(0, 26, 18, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.installer-hydraulic-metric.highlight-cyan {
+  border-color: rgba(56, 189, 248, 0.4);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.installer-hydraulic-metric.highlight-pass {
+  border-color: rgba(52, 245, 197, 0.4);
+  background: rgba(52, 245, 197, 0.08);
+}
+
+.installer-hydraulic-metric.highlight-danger {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.installer-hydraulic-metric.highlight-gold {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.hydraulic-metric-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.hydraulic-metric-val {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.hydraulic-metric-hint {
+  font-size: 0.68rem;
+  color: #64748b;
+  margin-top: 3px;
+}
+
+/* Hydraulic NSAI SR50-2 Technical Verdict Callout */
+.installer-hydraulic-verdict-card {
+  background: rgba(0, 28, 20, 0.85);
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.installer-hydraulic-verdict-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.installer-hydraulic-verdict-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #38bdf8;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.installer-hydraulic-verdict-pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.installer-hydraulic-verdict-text {
+  font-size: 0.84rem;
+  color: #e2e8f0;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Actions in Hydraulic Card */
+.installer-hydraulic-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-copy-hydraulic-spec {
+  flex: 1.2;
+  min-width: 220px;
+  background: #38bdf8;
+  color: #00241b;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-copy-hydraulic-spec:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+  filter: brightness(1.05);
+}
+
+@media (max-width: 768px) {
+  .installer-hydraulic-telemetry-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .installer-mode-btn {
+    font-size: 0.74rem;
+    padding: 8px 6px;
+  }
+}
+
+/* ==========================================================================
+   ⚡ INSTALLER IDEA 2: COWBOY QUOTE DEFROSTER (MARGIN & SPECIFICATION SHIELD)
+   ========================================================================== */
+.installer-step3-wrapper {
+  margin-top: 20px;
+}
+
+.installer-defroster-card {
+  background: rgba(0, 18, 13, 0.95);
+  border: 2px solid #38bdf8;
+  border-radius: 18px;
+  padding: 20px 22px;
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.25);
+  text-align: left;
+  animation: fadeInDefroster 0.25s ease-out;
+}
+
+@keyframes fadeInDefroster {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.installer-defroster-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+  padding-bottom: 12px;
+}
+
+.installer-defroster-badge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #38bdf8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.installer-defroster-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  line-height: 1.25;
+}
+
+.installer-defroster-sub {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+  max-width: 680px;
+}
+
+.installer-defroster-pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+/* Side-by-Side Comparison Grid */
+.defroster-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.defroster-col {
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.defroster-col-quality {
+  background: rgba(0, 28, 20, 0.85);
+  border: 1.5px solid rgba(52, 245, 197, 0.45);
+  box-shadow: 0 0 20px rgba(52, 245, 197, 0.12);
+}
+
+.defroster-col-cowboy {
+  background: rgba(28, 10, 10, 0.85);
+  border: 1.5px solid rgba(239, 68, 68, 0.35);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.08);
+}
+
+.defroster-col-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 10px;
+}
+
+.defroster-col-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #34f5c5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.defroster-col-tag-danger {
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #f87171;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.defroster-col-price {
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: #34f5c5;
+  font-family: 'IBM Plex Mono', monospace;
+  line-height: 1.2;
+}
+
+.defroster-col-price-danger {
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: #f87171;
+  font-family: 'IBM Plex Mono', monospace;
+  line-height: 1.2;
+}
+
+.defroster-col-status {
+  font-size: 0.74rem;
+  color: #a7f3d0;
+  font-weight: 600;
+}
+
+.defroster-col-status-danger {
+  font-size: 0.74rem;
+  color: #fca5a5;
+  font-weight: 600;
+}
+
+.defroster-spec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.defroster-spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.defroster-spec-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.spec-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.spec-val-quality {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.spec-val-danger {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #fca5a5;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.spec-note {
+  font-size: 0.72rem;
+  color: #6ee7b7;
+  line-height: 1.3;
+}
+
+.spec-note-danger {
+  font-size: 0.72rem;
+  color: #f87171;
+  line-height: 1.3;
+}
+
+/* 10-Year TCO Verdict Card */
+.defroster-verdict-card {
+  background: rgba(0, 24, 18, 0.9);
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.defroster-verdict-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.defroster-verdict-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #38bdf8;
+  text-transform: uppercase;
+}
+
+.defroster-saving-pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #34f5c5;
+  background: rgba(52, 245, 197, 0.15);
+  border: 1px solid rgba(52, 245, 197, 0.4);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.defroster-verdict-desc {
+  font-size: 0.82rem;
+  color: #e2e8f0;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Actions Row */
+.defroster-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-defroster-copy {
+  flex: 1.2;
+  min-width: 240px;
+  background: #38bdf8;
+  color: #00241b;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 18px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-defroster-copy:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+  filter: brightness(1.05);
+}
+
+@media (max-width: 768px) {
+  .defroster-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+

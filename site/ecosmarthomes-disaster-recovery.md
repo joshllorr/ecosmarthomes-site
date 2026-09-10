@@ -1,8 +1,8 @@
 # EcoSmartHome Disaster Recovery Runbook & Operations Standard
 
-**Version:** 3.9.5 (Buyer Borrowing Power Booster / Mortgage Ceiling Expander)  
+**Version:** 3.9.7 (Cowboy Quote Defroster & Margin Shield / NSAI SR50-2 Compliance Matrix)  
 **Last Updated:** September 10, 2026  
-**Release Tag:** `v3.9.5-buyer-borrowing-booster`  
+**Release Tag:** `v3.9.7-installer-cowboy-defroster`  
 **Classification:** Internal Technical Operations, Disaster Recovery & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -59,7 +59,7 @@ git push origin main --force
 - **Five Dedicated Real-Time Views (Zero Page Reload, Zero Scroll Hijacking):**
   1. 🏠 **Homeowner Portal (`#view-panel-homeowner`):** Day-1 Positive Cashflow Out-of-Pocket Decider (SBCI 3.55% green loan amortization vs. displaced fuel bills with zero-scroll dual-mode switcher), Carbon Tax Rescue, Heat Loss Indicator (HLI), 24c Solar CEG calculator, and up to €35,000 in SEAI One-Stop-Shop Deep Retrofit grants.
   2. 💼 **Estate Agent Portal (`#view-panel-agent`):** In-place double-engine with Vendor Equity Surge (+€38,500 vendor uplift) and Vendor Objection Shield / Price-Chipping Defense Matrix (2026 SEAI OSS statutory grants up to €35k + 3.45% Green Mortgage interest savings + 1-click WhatsApp rebuttal generator), Daft.ie/MyHome.ie compliant copy generator, and secondary due diligence drawer.
-  3. ⚡ **Installer Portal (`#view-panel-installer`):** NSAI SR50-2:2024 low-flow radiator sizing matrix (45°C flow, Delta-T 30), tender RFP generator, and outsourced technical survey dispatch.
+  3. ⚡ **Installer Portal (`#view-panel-installer`):** In-place dual-engine Step 2 with NSAI SR50-2:2024 low-flow radiator sizing matrix (45°C flow, Delta-T 30) and Primary Hydraulic & Pipe Velocity Sizer (flow rate, 1.0 m/s velocity check, 22mm lockout warning, and defrost volumiser sizing), tender RFP generator, and outsourced technical survey dispatch.
   4. 🛡️ **Audit & Review Command Center (`#view-panel-audit`):** 100% conflict-free contractor quote red-liner, multimodal AI Computer Vision Snap & Audit dropzone (`#snap-audit`), and buffer tank verification.
   5. 🔍 **View All Tools (`#view-panel-all`):** Complete catalogue of all 11+ independent Irish energy engines.
 - **Desktop Persona Pills & Mobile Dropdown Capsule:**
@@ -170,6 +170,33 @@ python scratch/test_implementation_checklist.py
 | **Telemetry Database** | Supabase Cloud Support | supabase.com/dashboard | < 4 hours |
 
 ---
+
+### Version 3.9.7 Release Notes (September 10, 2026)
+- **Cowboy Quote Defroster & Margin Shield (Installer Idea 2)**:
+  - Upgraded Step 3 of the 3-Step Installer Van-to-Verdict Sizing Portal (`#installer-rescue-wizard`) into a dual-mode tab switcher toggling seamlessly between `[📋 Client-Ready SEAI Tender Draft]` and `[🛡️ Cowboy Quote Defroster (Spec & Margin Shield)]` with zero vertical elongation or layout shift.
+  - Side-by-Side Quality vs. Cut-Corner Matrix: Contrasts registered NSAI SR50-2 installation (€13,800 turnkey) with unregistered budget installs (€10,500 budget) across flow temperature (45°C low-flow COP 4.2 vs 65°C high-flow COP 2.6), radiator heat delivery (resized Type 22 convectors vs old Type 11 single panels), primary hydraulics (28mm copper + 50L volumiser vs 22mm choked pipe), and SEAI grant sign-off assurance (100% guaranteed pass vs clawback risk).
+  - 10-Year True Cost of Ownership (TCO) Calculator: Proves mathematically that the "cheaper" cowboy quote burns €9,800+ extra in ESB compressor electricity and €1,500+ in emergency callouts, demonstrating the quality quote saves €6,500+ net over 10 years.
+  - Dynamic Archetype Calibration: Automatically re-tunes all hardware specs, prices, and TCO balances across all 4 property footprints (`3-Bed Semi 115m²`, `4-Bed Detached 175m²`, `3-Bed Bungalow 130m²`, `2-Bed Apt 75m²`).
+  - 1-Tap WhatsApp "Client Quality Defense Script" (`window.copyCowboyQuoteDefense()`): Generates an educational, non-confrontational explanation ready to paste into WhatsApp, SMS, or Email right from the van.
+  - Off-canvas side drawer (`#accordion-panel-installer`): Incremented tool count badge to 8 Tools and added direct launcher (`window.openInstallerQuoteDefroster(event)`).
+  - 100% byte-for-byte dual-directory parity between `site/` and `site/site/`.
+
+### Version 3.9.6 Release Notes (September 10, 2026)
+- **NSAI SR50-2 Primary Flow & Pipe Velocity Sizer (The Anti-Lockout Hydraulic Shield)**:
+  - Implemented an in-place double-engine mode switcher in Step 2 of the 3-Step Installer Van-to-Verdict Sizing Portal (`#installer-rescue-wizard`), toggling seamlessly between `[📐 Room Radiator Schedule (ΔT 30)]` and `[🌊 Primary Pipe & Velocity Sizer (Anti-Lockout)]` with zero vertical page bloat and zero layout shifts.
+  - **Hydraulic Physics & NSAI SR50-2:2024 Compliance**:
+    - Calculates primary mass flow rate based on archetype heat pump capacity (5.0kW, 8.5kW, 9.5kW, 12.0kW) and design temperature difference (\( \dot{m} = \frac{Q}{C_p \times \Delta T} \)).
+    - Dual Delta-T Selector Pills (`ΔT 5°C Monobloc Benchmark` vs `ΔT 7°C Split System Standard`).
+    - Real-time pipe velocity calculations (\( v = \frac{\dot{V}}{A} \)) verifying water flow against NSAI SR50-2 domestic velocity ceiling of **1.0 m/s**:
+      - 22mm copper (ID ~20.2mm): flags acoustic erosion, cavitation, and high head loss lockouts (e.g. 1.27 m/s ❌ for 8.5kW).
+      - 28mm copper (ID ~26.2mm): validates low-resistance compliant runs (0.75 m/s ✅).
+      - 35mm copper (ID ~32.6mm): validates high-capacity runs for 12kW units (0.69 m/s ✅).
+    - Defrost buffer and volumiser sizing (35L–75L) to prevent compressor freeze-trips during sub-zero defrost reverse cycles.
+  - **4-Item Telemetry Grid**: Design Flow Rate (L/min & L/h), Recommended Primary Pipework, 22mm Existing Run Velocity Risk, and Defrost Volumiser Requirement.
+  - **NSAI SR50-2 Diagnostic & Anti-Lockout Verdict Box**: Delivers clear, contractor-grade warnings explaining why connecting monobloc units to 22mm pipework causes lockouts.
+  - **1-Tap Clipboard Dispatch Specification** (`window.copyHydraulicSpec()`): Generates full technical primary hydraulic spec formatted for supplier orders (Chadwicks / Heat Merchants) and site pipefitters.
+  - **Secondary Tools Drawer Integration**: Added direct launcher in `#accordion-panel-installer` with smooth scroll and incremented tool counter to 7 Tools.
+  - 100% byte-for-byte dual-directory parity between `site/` and `site/site/`.
 
 ### Version 3.9.5 Release Notes (September 10, 2026)
 - **Buyer Borrowing Power Booster (The Mortgage Ceiling Expander)**:
