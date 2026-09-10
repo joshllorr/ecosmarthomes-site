@@ -4137,7 +4137,7 @@ button:active,
    ========================================================================== */
 .simulator-action-bar {
   display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
+  grid-template-columns: 1.25fr 1fr !important;
   align-items: stretch !important;
   gap: 12px !important;
   width: 100% !important;
@@ -4200,10 +4200,10 @@ button:active,
   transform: translateY(-1px) !important;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 768px) {
   .simulator-action-bar {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
   }
   .simulator-action-bar .btn-sim-voice-ai,
   .simulator-action-bar .modal-reopen-item {

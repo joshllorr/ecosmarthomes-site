@@ -1,7 +1,7 @@
 # EcoSmartHome Disaster Recovery Runbook
 
-**Version:** 3.9.0  
-**Last Updated:** September 9, 2026  
+**Version:** 3.9.2  
+**Last Updated:** September 10, 2026  
 **Classification:** Internal Technical Operations & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -88,6 +88,20 @@ git push origin main --force
   - Fixed mobile bottom dock (`#esh-mobile-dock`) with central elevated `🛡️` Audit & Review launcher.
   - Zero-overlap layout: floating blueprint pill docked on the bottom-left (`left: 14px; bottom: 84px`), completely clear of the center dock FAB and right-hand `+` radial trigger.
   - Zero desktop dead space: footer copyright rests cleanly at the bottom of desktop viewports.
+
+### 5. Irish Home Archetype Fast-Picks (1-Click "Recognize My House")
+- 4-tile compact fast-calibrate deck integrated into Hero Scanner and Homeowner Secondary Toolbox Drawer (`#homeowner-secondary-drawer`).
+- Instant multi-engine orchestration (`window.selectArchetypeFastPick`): auto-calibrates Eircode input, architectural dossier, 3-Second Hero Simulator, Day-1 Cashflow Decider, and floating EcoOS blueprint across Bungalow, Semi-D, Timber-Frame, and Terrace archetypes.
+- Standardized on the official 8-bar BER scale standard (`G` to `A0`) and 2026 SEAI One-Stop-Shop grant caps (up to €35,000). Zero vertical elongation.
+
+### 6. Aoife AI 30-Second Audio Briefing Player (Voice-First Trust Engine)
+- **High-Speed Voice Synthesis Engine (`js/aoife-audio-briefing.js`):**
+  - Utilizes Web Speech API (`SpeechSynthesisUtterance`) with automatic Irish English accent detection (`en-IE`, 'Moira', 'Aoife') and natural UK/English fallback.
+  - Pre-speech Web Audio synthetic 2-tone chime (C5 523.25Hz -> G5 783.99Hz) with automatic AudioContext resume on user gesture.
+  - Sits directly in the Hero Simulator Action Bar (`#heroAoifeBriefingPlayer`) in a responsive 2-column grid alongside the €149 survey booking button, preserving single-fold zero-scroll design.
+  - 4-Topic Audio Studio in the Homeowner Secondary Toolbox Drawer (`#drawer-aoife-audio-studio`): 2026 SEAI Grants (€35k OSS), Day-1 Cashflow (SBCI 3.55%), Carbon Tax Shield (€100/tonne escalator), and NSAI SR50-2 Heat Pump Sizing.
+  - Animated acoustic equalizer waveform, live timer, scrubbing progress bar, pulsing orb, and live subtitle ticker.
+  - Integrated direct launch item in `esh-side-drawer` under Homeowner Tools.
 
 ---
 

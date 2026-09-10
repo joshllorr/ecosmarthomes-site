@@ -293,6 +293,7 @@
   <script src="js/energy-metrics.js" defer></script>
   <script src="js/calculator-data-core.js" defer></script>
   <script src="js/property-auditor.js?v=14" defer></script>
+  <script src="js/aoife-audio-briefing.js?v=1" defer></script>
   <script src="js/smart-nav.js?v=16" defer></script>
   <script src="js/esh-os.js?v=1" defer></script>
   <link rel="stylesheet" href="css/smart-nav.css?v=16">
@@ -482,12 +483,58 @@
           </button>
         </div>
 
-        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 12px;">
-          <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 700; display: flex; align-items: center;">Try Live Demos:</span>
-          <button type="button" onclick="window.loadPropertyDemo('kinsale')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 9999px; cursor: pointer;">🏡 Kinsale (€350k · D)</button>
-          <button type="button" onclick="window.loadPropertyDemo('galway')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 9999px; cursor: pointer;">🏠 Galway (€450k · E)</button>
-          <button type="button" onclick="window.loadPropertyDemo('navan')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 9999px; cursor: pointer;">🛖 Navan (€285k · F)</button>
-          <button type="button" onclick="window.loadPropertyDemo('dublin')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; border-radius: 9999px; cursor: pointer;">🏢 Dundrum (€575k · D)</button>
+        <!-- 💡 IRISH HOME ARCHETYPE FAST-PICKS (1-CLICK RECOGNIZE MY HOUSE) -->
+        <div class="archetype-fastpicks-section">
+          <div class="archetype-fastpicks-header">
+            <span class="archetype-badge">⚡ 1-CLICK FAST-CALIBRATE</span>
+            <span class="archetype-header-title">Recognize your house type? Auto-fill Eircode, BER &amp; Grants:</span>
+          </div>
+          <div class="archetype-fastpicks-grid" role="group" aria-label="Irish Home Archetype Fast-Picks">
+            <button type="button" class="archetype-pick-btn" data-archetype="bungalow" onclick="window.selectArchetypeFastPick('bungalow')">
+              <span class="pick-icon">🏡</span>
+              <div class="pick-info">
+                <span class="pick-title">1970s Bungalow</span>
+                <span class="pick-sub">Navan · 138m²</span>
+              </div>
+              <div class="pick-tags">
+                <span class="pick-ber-badge ber-g">G ➔ A0</span>
+                <span class="pick-grant-tag">€35k Grant</span>
+              </div>
+            </button>
+            <button type="button" class="archetype-pick-btn active" data-archetype="semi" onclick="window.selectArchetypeFastPick('semi')">
+              <span class="pick-icon">🏠</span>
+              <div class="pick-info">
+                <span class="pick-title">1990s Cavity Semi-D</span>
+                <span class="pick-sub">Kinsale · 122m²</span>
+              </div>
+              <div class="pick-tags">
+                <span class="pick-ber-badge ber-d">D ➔ A0</span>
+                <span class="pick-grant-tag">€31.5k Grant</span>
+              </div>
+            </button>
+            <button type="button" class="archetype-pick-btn" data-archetype="timber" onclick="window.selectArchetypeFastPick('timber')">
+              <span class="pick-icon">🏘️</span>
+              <div class="pick-info">
+                <span class="pick-title">2000s Timber-Frame</span>
+                <span class="pick-sub">Castletroy · 145m²</span>
+              </div>
+              <div class="pick-tags">
+                <span class="pick-ber-badge ber-c">C ➔ A0</span>
+                <span class="pick-grant-tag">€28.5k Grant</span>
+              </div>
+            </button>
+            <button type="button" class="archetype-pick-btn" data-archetype="terrace" onclick="window.selectArchetypeFastPick('terrace')">
+              <span class="pick-icon">🏢</span>
+              <div class="pick-info">
+                <span class="pick-title">Pre-1960 Solid Terrace</span>
+                <span class="pick-sub">Waterford · 92m²</span>
+              </div>
+              <div class="pick-tags">
+                <span class="pick-ber-badge ber-g">G ➔ A</span>
+                <span class="pick-grant-tag">€26.5k Grant</span>
+              </div>
+            </button>
+          </div>
         </div>
 
         <div id="prop-audit-results" style="display: none; margin-top: 20px;"></div>
@@ -642,11 +689,52 @@
         </div>
 
         <!-- Voice AI Bridge Action Bar (Symmetrical 2-Column Grid) -->
-        <div class="simulator-action-bar">
-          <button type="button" class="btn-sim-voice-ai" id="simVoiceCtaBtn" onclick="window.askVoiceAiSimResults()">
-            <span class="pulse-dot"></span>
-            <span id="simVoiceCtaText">🎙️ Ask Aoife to Explain My €31,500 Grant Roadmap →</span>
-          </button>
+        <div class="simulator-action-bar" role="group" aria-label="Hero Simulator Action Bar" style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 12px; align-items: stretch;">
+          <!-- 🎙️ AOIFE AI 30-SECOND AUDIO BRIEFING PLAYER BAR -->
+          <div class="aoife-briefing-player-bar" id="heroAoifeBriefingPlayer" role="region" aria-label="Aoife 30-Second Audio Briefing Player">
+            <div class="briefing-player-top-row">
+              <div class="briefing-avatar-meta">
+                <div class="briefing-avatar-orb" id="heroBriefingAvatarOrb" title="Aoife · Senior Retrofit AI Advisor">
+                  👩‍💼
+                  <span class="briefing-online-dot"></span>
+                </div>
+                <div class="briefing-meta-text">
+                  <span class="briefing-advisor-name">
+                    Aoife AI
+                    <span style="font-size: 0.65rem; background: rgba(52,245,197,0.15); color: #34f5c5; border: 1px solid rgba(52,245,197,0.3); border-radius: 4px; padding: 1px 5px; font-weight: 800;">30-SEC BRIEFING</span>
+                  </span>
+                  <span class="briefing-tagline" id="heroBriefingTagline">Voice-First Trust Engine</span>
+                </div>
+              </div>
+
+              <div class="briefing-actions-group">
+                <div class="briefing-waveform" id="heroBriefingWaveform" aria-hidden="true">
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                </div>
+                <span class="briefing-timer" id="heroBriefingTimer">0:00 / 0:30</span>
+                <button type="button" class="btn-aoife-briefing-play" onclick="window.AoifeBriefing.toggle()" aria-label="Play or pause 30-second audio briefing">
+                  <span class="briefing-play-icon">▶</span>
+                  <span class="play-text">30s Briefing</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Progress line -->
+            <div class="briefing-progress-track">
+              <div class="briefing-progress-fill" id="heroBriefingProgressFill"></div>
+            </div>
+
+            <!-- Real-time Live Subtitle Ticker -->
+            <div class="briefing-caption-ticker">
+              <span class="caption-icon">💬</span>
+              <span class="briefing-caption-text" id="heroBriefingCaption">Tap play to hear Aoife's 30-second grant &amp; cashflow briefing.</span>
+            </div>
+          </div>
+
           <a href="/checkout/?tier=survey&price=149" class="btn-sim-book-survey" id="simBookSurveyBtn" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(52, 245, 197, 0.12); border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 12px; padding: 12px 18px; color: #34f5c5; font-weight: 800; font-size: 0.92rem; transition: all 0.2s ease;">
             <span>💳</span>
             <span id="simBookSurveyText">Book Independent Survey (€149) →</span>
@@ -830,6 +918,144 @@
       </button>
 
       <div id="homeowner-secondary-drawer" class="portal-drawer-content" style="display: none;">
+        <!-- 💡 IRISH HOME ARCHETYPE FAST-CALIBRATOR TOOLBOX CARD -->
+        <div class="drawer-toolbox-card" id="drawer-archetype-tool">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="archetype-badge">⚡ 1-CLICK ARCHETYPE CALIBRATOR</span>
+              <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff;">Recognize Your Irish House Archetype</h4>
+            </div>
+            <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+              Instant Dossier, Grants &amp; Heat Loss Calibration
+            </span>
+          </div>
+          <p style="font-size: 0.85rem; color: #94a3b8; margin: 0 0 14px 0; line-height: 1.45;">
+            Select your dwelling type to instantly pre-populate architectural specs, statutory 2026 SEAI grant caps (up to €35,000), and Day-1 cashflow projections without typing:
+          </p>
+          <div class="archetype-fastpicks-grid" role="group" aria-label="Toolbox Irish Home Archetype Fast-Picks">
+            <button type="button" class="archetype-pick-btn" data-archetype="bungalow" onclick="window.selectArchetypeFastPick('bungalow')">
+              <span class="pick-icon">🏡</span>
+              <div class="pick-info">
+                <span class="pick-title">1970s Bungalow</span>
+                <span class="pick-sub">Navan · 138m² · Detached</span>
+              </div>
+              <div class="pick-tags">
+                <span class="pick-ber-badge ber-g">G ➔ A0</span>
+                <span class="pick-grant-tag">€35k Grant</span>
+              </div>
+            </button>
+            <button type="button" class="archetype-pick-btn active" data-archetype="semi" onclick="window.selectArchetypeFastPick('semi')">
+              <span class="pick-icon">🏠</span>
+              <div class="pick-info">
+                <span class="pick-title">1990s Cavity Semi-D</span>
+                <span class="pick-sub">Kinsale · 122m² · Semi</span>
+              </div>
+              <div class="pick-tags">
+                <span class="pick-ber-badge ber-d">D ➔ A0</span>
+                <span class="pick-grant-tag">€31.5k Grant</span>
+              </div>
+            </button>
+            <button type="button" class="archetype-pick-btn" data-archetype="timber" onclick="window.selectArchetypeFastPick('timber')">
+              <span class="pick-icon">🏘️</span>
+              <div class="pick-info">
+                <span class="pick-title">2000s Timber-Frame</span>
+                <span class="pick-sub">Castletroy · 145m² · Detached</span>
+              </div>
+              <div class="pick-tags">
+                <span class="pick-ber-badge ber-c">C ➔ A0</span>
+                <span class="pick-grant-tag">€28.5k Grant</span>
+              </div>
+            </button>
+            <button type="button" class="archetype-pick-btn" data-archetype="terrace" onclick="window.selectArchetypeFastPick('terrace')">
+              <span class="pick-icon">🏢</span>
+              <div class="pick-info">
+                <span class="pick-title">Pre-1960 Solid Terrace</span>
+                <span class="pick-sub">Waterford · 92m² · Terraced</span>
+              </div>
+              <div class="pick-tags">
+                <span class="pick-ber-badge ber-g">G ➔ A</span>
+                <span class="pick-grant-tag">€26.5k Grant</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 🎙️ AOIFE AUDIO BRIEFING STUDIO TOOLBOX CARD -->
+        <div class="drawer-audio-studio-card" id="drawer-aoife-audio-studio">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="archetype-badge">🎙️ VOICE-FIRST TRUST ENGINE</span>
+              <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff;">Aoife AI 30-Second Audio Briefing Studio</h4>
+            </div>
+            <span style="font-size: 0.75rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+              Authentic Voice Synthesis · Zero Sales Pitch
+            </span>
+          </div>
+          <p style="font-size: 0.85rem; color: #94a3b8; margin: 0 0 12px 0; line-height: 1.45;">
+            Fatigued by dense engineering paragraphs? Select any topic below to hear Aoife's high-speed 30-second audio summary calibrated to your exact home and heating specs:
+          </p>
+
+          <!-- Topic Switcher Tabs -->
+          <div class="briefing-topics-grid" role="tablist" aria-label="Audio Briefing Topics">
+            <button type="button" class="briefing-topic-btn active" data-topic="grants" onclick="window.AoifeBriefing.setTopic('grants')" role="tab" aria-selected="true">
+              <span>💶</span>
+              <span>2026 SEAI Grants</span>
+            </button>
+            <button type="button" class="briefing-topic-btn" data-topic="cashflow" onclick="window.AoifeBriefing.setTopic('cashflow')" role="tab" aria-selected="false">
+              <span>🏦</span>
+              <span>Day-1 Cashflow</span>
+            </button>
+            <button type="button" class="briefing-topic-btn" data-topic="carbontax" onclick="window.AoifeBriefing.setTopic('carbontax')" role="tab" aria-selected="false">
+              <span>🛡️</span>
+              <span>Carbon Tax Shield</span>
+            </button>
+            <button type="button" class="briefing-topic-btn" data-topic="heatpump" onclick="window.AoifeBriefing.setTopic('heatpump')" role="tab" aria-selected="false">
+              <span>⚡</span>
+              <span>NSAI Heat Pump Sizing</span>
+            </button>
+          </div>
+
+          <!-- Studio Player Container -->
+          <div class="aoife-briefing-player-bar" style="background: rgba(0, 18, 14, 0.95); border-color: rgba(52, 245, 197, 0.4);">
+            <div class="briefing-player-top-row">
+              <div class="briefing-avatar-meta">
+                <div class="briefing-avatar-orb" title="Aoife · Senior Retrofit AI Advisor">
+                  👩‍💼
+                  <span class="briefing-online-dot"></span>
+                </div>
+                <div class="briefing-meta-text">
+                  <span class="briefing-advisor-name">Aoife AI Audio Studio</span>
+                  <span class="briefing-tagline">30-Sec Live Executive Summary</span>
+                </div>
+              </div>
+
+              <div class="briefing-actions-group">
+                <div class="briefing-waveform" aria-hidden="true">
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                  <span class="wave-bar"></span>
+                </div>
+                <span class="briefing-timer">0:00 / 0:30</span>
+                <button type="button" class="btn-aoife-briefing-play" onclick="window.AoifeBriefing.toggle()" aria-label="Play or pause audio briefing">
+                  <span class="briefing-play-icon">▶</span>
+                  <span class="play-text">30s Audio Briefing</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="briefing-progress-track">
+              <div class="briefing-progress-fill"></div>
+            </div>
+
+            <div class="briefing-caption-ticker">
+              <span class="caption-icon">💬</span>
+              <span class="briefing-caption-text">Tap play to listen to Aoife's briefing.</span>
+            </div>
+          </div>
+        </div>
+
         <!-- 🗺️ 3-STEP "WALLET-HIT" FINANCIAL RESCUE WIZARD -->
         <section id="wallet-rescue-wizard" aria-label="3-Step Carbon Tax Shield Onboarding" style="margin-bottom: 36px;">
           <div style="text-align: center; margin-bottom: 24px;">

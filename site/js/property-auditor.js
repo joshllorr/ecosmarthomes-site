@@ -16,8 +16,8 @@
       county: 'Cork',
       yearBuilt: 1996,
       floorArea: '128 m²',
-      archetype: '3-Bed Semi-Detached',
-      currentBer: 'D1',
+      archetype: '1990s Cavity Semi-D',
+      currentBer: 'D',
       berKwh: '235 kWh/m²/yr',
       targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€2,850/yr)',
@@ -36,7 +36,7 @@
       yearBuilt: 1978,
       floorArea: '195 m²',
       archetype: '4-Bed Detached',
-      currentBer: 'E2',
+      currentBer: 'E',
       berKwh: '340 kWh/m²/yr',
       targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Natural Gas (€3,400/yr)',
@@ -55,7 +55,7 @@
       yearBuilt: 1984,
       floorArea: '135 m²',
       archetype: '3-Bed Semi-Detached',
-      currentBer: 'D2',
+      currentBer: 'D',
       berKwh: '275 kWh/m²/yr',
       targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€2,950/yr)',
@@ -74,7 +74,7 @@
       yearBuilt: 1982,
       floorArea: '170 m²',
       archetype: '4-Bed Detached',
-      currentBer: 'E1',
+      currentBer: 'E',
       berKwh: '310 kWh/m²/yr',
       targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€3,650/yr)',
@@ -92,16 +92,16 @@
       county: 'Meath',
       yearBuilt: 1974,
       floorArea: '130 m²',
-      archetype: '3-Bed Bungalow',
-      currentBer: 'F',
+      archetype: '1970s Hollow-Block Bungalow',
+      currentBer: 'G',
       berKwh: '390 kWh/m²/yr',
       targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€3,900/yr)',
       heatLoss: '9.5 kW',
       hpSize: '10.0 kW Monobloc',
-      grantCap: '€33,500 SEAI Grant',
+      grantCap: '€35,000 SEAI Grant',
       valuation: '€295,000',
-      equitySurge: '+€32,000'
+      equitySurge: '+€34,000'
     },
     {
       eircode: 'V94 F7E8',
@@ -109,15 +109,15 @@
       address: '11 College Court, Castletroy',
       town: 'Castletroy',
       county: 'Limerick',
-      yearBuilt: 1998,
+      yearBuilt: 2004,
       floorArea: '122 m²',
-      archetype: '3-Bed Semi-Detached',
-      currentBer: 'C3',
+      archetype: '2000s Timber-Frame Semi',
+      currentBer: 'C',
       berKwh: '210 kWh/m²/yr',
       targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Natural Gas (€2,100/yr)',
-      heatLoss: '7.2 kW',
-      hpSize: '8.0 kW Monobloc',
+      heatLoss: '6.2 kW',
+      hpSize: '7.5 kW Monobloc',
       grantCap: '€28,500 SEAI Grant',
       valuation: '€335,000',
       equitySurge: '+€28,000'
@@ -128,12 +128,12 @@
       address: '7 Dunmore Road, Waterford',
       town: 'Waterford City',
       county: 'Waterford',
-      yearBuilt: 1989,
+      yearBuilt: 1954,
       floorArea: '110 m²',
-      archetype: '3-Bed Terraced',
-      currentBer: 'E1',
-      berKwh: '320 kWh/m²/yr',
-      targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
+      archetype: 'Pre-1960 Solid Masonry Terrace',
+      currentBer: 'G',
+      berKwh: '360 kWh/m²/yr',
+      targetBer: 'A (25 kWh/m²/yr Net-Zero)',
       fuel: 'Kerosene Oil (€2,700/yr)',
       heatLoss: '6.9 kW',
       hpSize: '7.5 kW Monobloc',
@@ -150,7 +150,7 @@
       yearBuilt: 1980,
       floorArea: '165 m²',
       archetype: '4-Bed Detached',
-      currentBer: 'E2',
+      currentBer: 'E',
       berKwh: '345 kWh/m²/yr',
       targetBer: 'A0 (0 kWh/m²/yr Net-Zero)',
       fuel: 'Natural Gas (€3,200/yr)',
@@ -469,6 +469,73 @@
     const input = document.getElementById('prop-audit-input');
     if (input) input.value = data.eircode;
     window.loadEircodeDossier(data);
+  };
+
+  // 💡 IRISH HOME ARCHETYPE FAST-PICKS (1-CLICK "RECOGNIZE MY HOUSE")
+  const ARCHETYPE_MAP = {
+    bungalow: EIRCODE_DATABASE[4], // Navan 1974 Bungalow (G ➔ A0, €35k Grant)
+    semi: EIRCODE_DATABASE[0],     // Kinsale 1996 Cavity Semi-D (D ➔ A0, €31.5k Grant)
+    timber: EIRCODE_DATABASE[5],   // Castletroy 2004 Timber-Frame (C ➔ A0, €28.5k Grant)
+    terrace: EIRCODE_DATABASE[6]   // Waterford 1954 Solid Terrace (G ➔ A, €26.5k Grant)
+  };
+
+  window.selectArchetypeFastPick = function(archetypeKey) {
+    const data = ARCHETYPE_MAP[archetypeKey] || ARCHETYPE_MAP.semi;
+    if (typeof window.triggerHaptic === 'function') window.triggerHaptic(10);
+
+    // 1. Sync Active Button UI across all instances (Hero Scanner & Toolbox Drawer)
+    document.querySelectorAll('.archetype-pick-btn').forEach(btn => {
+      const match = btn.getAttribute('data-archetype') === archetypeKey;
+      btn.classList.toggle('active', match);
+      btn.setAttribute('aria-pressed', match ? 'true' : 'false');
+    });
+
+    // 2. Populate Eircode Input & Load Architectural Dossier
+    const input = document.getElementById('prop-audit-input');
+    if (input) input.value = `${data.address} (${data.eircode})`;
+    window.loadEircodeDossier(data);
+
+    // 3. Synchronize 3-Sec Hero Simulator & Cashflow Decider
+    const simHouseMap = {
+      bungalow: 'bungalow',
+      semi: 'semi',
+      timber: 'detached',
+      terrace: 'terraced'
+    };
+    const simFuelMap = {
+      bungalow: 'oil',
+      semi: 'oil',
+      timber: 'gas',
+      terrace: 'oil'
+    };
+    const targetHouse = simHouseMap[archetypeKey] || 'semi';
+    const targetFuel = simFuelMap[archetypeKey] || 'oil';
+
+    if (typeof window.updateSimHouse === 'function') window.updateSimHouse(targetHouse);
+    if (typeof window.updateSimFuel === 'function') window.updateSimFuel(targetFuel);
+
+    // 4. Synchronize Floating EcoOS Blueprint State
+    if (window.ESH_OS && typeof window.ESH_OS.setState === 'function') {
+      window.ESH_OS.setState({
+        propertyType: data.archetype,
+        floorArea: parseInt(data.floorArea, 10) || 125,
+        currentBer: data.currentBer,
+        targetBer: data.targetBer ? data.targetBer.split(' ')[0] : 'A0',
+        eligibleGrants: parseInt(data.grantCap.replace(/[^0-9]/g, ''), 10) || 31500
+      });
+    }
+
+    // 5. High-Dopamine Toast Notification
+    const toastTitles = {
+      bungalow: 'Calibrated: 1970s Bungalow (G ➔ A0 · €35k Grant)',
+      semi: 'Calibrated: 1990s Cavity Semi-D (D ➔ A0 · €31.5k Grant)',
+      timber: 'Calibrated: 2000s Timber-Frame (C ➔ A0 · €28.5k Grant)',
+      terrace: 'Calibrated: Pre-1960 Solid Terrace (G ➔ A · €26.5k Grant)'
+    };
+    const toastIcons = { bungalow: '🏡', semi: '🏠', timber: '🏘️', terrace: '🏢' };
+    if (typeof window.showEshToast === 'function') {
+      window.showEshToast(toastTitles[archetypeKey] || 'Archetype Calibrated', toastIcons[archetypeKey] || '⚡');
+    }
   };
 
   window.askVoiceAiEircodeAudit = function() {

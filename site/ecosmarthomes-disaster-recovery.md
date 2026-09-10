@@ -1,8 +1,8 @@
 # EcoSmartHome Disaster Recovery Runbook & Operations Standard
 
-**Version:** 3.9.0 (Unified One-Page EcoOS & 8-Bar Standard)  
-**Last Updated:** September 9, 2026  
-**Release Tag:** `v3.9-ecos-8bar`  
+**Version:** 3.9.2 (Aoife AI 30-Second Audio Briefing Player)  
+**Last Updated:** September 10, 2026  
+**Release Tag:** `v3.9.2-aoife-audio-briefing`  
 **Classification:** Internal Technical Operations, Disaster Recovery & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -171,6 +171,23 @@ python scratch/test_implementation_checklist.py
 
 ---
 
+### Version 3.9.2 Release Notes (September 10, 2026)
+- **Aoife AI 30-Second Audio Briefing Player (Voice-First Trust Engine)**:
+  - Built high-speed voice synthesis engine (`js/aoife-audio-briefing.js`) utilizing native Web Speech API with automatic Irish voice localization (`en-IE`, 'Moira', 'Aoife') and natural UK/English fallback.
+  - Synthesized dual-tone melodic Celtic fifth Web Audio intro chime (C5 523.25Hz -> G5 783.99Hz) preceding speech output with zero audio context suspension issues.
+  - Symmetrically embedded into Hero Simulator Action Bar (`#heroAoifeBriefingPlayer`) side-by-side with €149 survey booking CTA in a responsive 2-column grid adding 0 vertical page bloat.
+  - Integrated 4-topic Audio Studio into Homeowner Secondary Toolbox Drawer (`#drawer-aoife-audio-studio`) featuring selectable topics: 2026 SEAI Grants (€35k OSS), Day-1 Cashflow (SBCI 3.55%), Carbon Tax Shield (€100/tonne escalator), and NSAI SR50-2 Heat Pump Sizing.
+  - Real-time animated acoustic equalizer waveform (5 dancing bars with `@keyframes waveDance`), pulsing avatar orb, synchronized 30-second progress bar, elapsed timer, and live subtitle ticker.
+  - Added direct quick launcher to Homeowner Tools section in `esh-side-drawer`.
+
+### Version 3.9.1 Release Notes (September 10, 2026)
+- **Irish Home Archetype Fast-Picks (1-Click "Recognize My House")**:
+  - Integrated 4-tile instant archetype deck (`1970s Bungalow`, `1990s Cavity Semi-D`, `2000s Timber-Frame`, `Pre-1960 Solid Terrace`) directly into Hero Scanner and Homeowner Secondary Toolbox Drawer (`#homeowner-secondary-drawer`).
+  - Zero-scroll single-page architecture preserved: replaced obsolete static demo buttons with a compact grid adding 0 vertical page bloat.
+  - Full multi-engine orchestration via `window.selectArchetypeFastPick`: automatically synchronizes Eircode input, architectural dossier, 3-Second Hero Simulator, Day-1 Positive Cashflow Decider, and floating EcoOS blueprint state.
+  - Strict compliance with official 8-bar BER scale standard (`G` to `A0`) and 2026 SEAI One-Stop-Shop grant caps (up to €35,000).
+  - Added fast-pick direct launcher to Homeowner Tools section of `esh-side-drawer`.
+
 ### Version 3.9.0 Release Notes (September 9, 2026)
 - **Modernized 8-Bar Scale (G to A0)**: Deprecated legacy 15-band `D1 ➔ A2` data; standardized on G ➔ A0 with €35,000 One-Stop-Shop grant cap and automatic localStorage migration.
 - **Mobile Dock Center Button Transformation**: Converted center FAB from redundant `🔄` return button to high-contrast `🛡️` Audit & Review portal launcher with active illumination.
@@ -178,3 +195,4 @@ python scratch/test_implementation_checklist.py
 - **Desktop Persona Switching Event Scope Resolution**: Eliminated `<html>` listener capture bug in `initAntigravityVoiceHubListeners`, delivering instant desktop portal switching with zero reload.
 - **Eliminated Desktop Dead Space**: Removed 420px void below footer copyright on desktop viewports.
 - **Static Sidebar Tools Pin & Drawer Anchoring**: Anchored tools drawer to the right with pinned static sidebar tab.
+

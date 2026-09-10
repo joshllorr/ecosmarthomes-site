@@ -513,11 +513,25 @@
                 <span>Homeowner Tools</span>
               </span>
               <span style="display:flex;align-items:center;gap:6px;">
-                <span class="drawer-badge-pill" style="background:rgba(16,185,129,0.15);color:#34f5c5;border:1px solid #10b981;">5 Tools</span>
+                <span class="drawer-badge-pill" style="background:rgba(16,185,129,0.15);color:#34f5c5;border:1px solid #10b981;">10 Tools</span>
                 <span class="accordion-arrow">▼</span>
               </span>
             </button>
             <div id="accordion-panel-homeowner" class="drawer-accordion-panel active">
+              <a href="#heroGrantSimulator" class="drawer-tool-item" onclick="window.selectArchetypeFastPick('bungalow'); window.closeToolsDrawer();">
+                <span class="tool-icon">⚡</span>
+                <div>
+                  <div>Irish Archetype Fast-Picks (1-Click)</div>
+                  <div style="font-size:0.72rem;color:#94a3b8;">Bungalow, Semi-D, Timber, Terrace</div>
+                </div>
+              </a>
+              <a href="#heroAoifeBriefingPlayer" class="drawer-tool-item" onclick="if(window.AoifeBriefing){ window.AoifeBriefing.play('grants'); } window.closeToolsDrawer();">
+                <span class="tool-icon">🎙️</span>
+                <div>
+                  <div>Aoife 30-Sec Audio Briefing (Voice AI)</div>
+                  <div style="font-size:0.72rem;color:#34f5c5;font-weight:700;">▶ 30-Sec Grants &amp; Cashflow Audio</div>
+                </div>
+              </a>
               <a href="/carbon-tax/" class="drawer-tool-item">
                 <span class="tool-icon">🛡️</span>
                 <div>
