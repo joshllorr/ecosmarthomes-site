@@ -5230,5 +5230,380 @@ a, a:visited {
   }
 }
 
+/* ==========================================================================
+   ⚡ INSTALLER IDEA 3: 90-SECOND VAN-TO-TENDER BoQ & MARGIN LOCKER
+   ========================================================================== */
+.installer-boq-card {
+  background: rgba(0, 18, 13, 0.95);
+  border: 2px solid #38bdf8;
+  border-radius: 18px;
+  padding: 20px 22px;
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.25);
+  text-align: left;
+  animation: fadeInBoq 0.25s ease-out;
+}
 
+@keyframes fadeInBoq {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
+.installer-boq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+  padding-bottom: 12px;
+}
+
+.installer-boq-badge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #38bdf8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.installer-boq-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  line-height: 1.25;
+}
+
+.installer-boq-sub {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+  max-width: 680px;
+}
+
+.installer-boq-status-pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #34f5c5;
+  background: rgba(52, 245, 197, 0.15);
+  border: 1px solid rgba(52, 245, 197, 0.4);
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+/* Margin Locker & Financial Control Box */
+.boq-margin-control-box {
+  background: rgba(0, 28, 20, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.boq-slider-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.boq-slider-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.boq-slider-val {
+  color: #34f5c5;
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.boq-preset-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.boq-preset-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.boq-preset-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+.boq-preset-btn.active {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.boq-range-slider {
+  width: 100%;
+  accent-color: #38bdf8;
+  height: 6px;
+  cursor: pointer;
+  margin: 6px 0;
+}
+
+/* Financial Summary Grid */
+.boq-financial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.boq-fin-item {
+  background: rgba(0, 18, 14, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.boq-fin-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.boq-fin-val {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.boq-fin-val-highlight {
+  color: #34f5c5;
+}
+
+.boq-fin-val-gold {
+  color: #fbbf24;
+}
+
+/* Itemized Schedule Table */
+.boq-schedule-wrap {
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 12px;
+  background: rgba(0, 20, 15, 0.7);
+  max-height: 220px;
+  overflow-y: auto;
+  margin-bottom: 14px;
+}
+
+.boq-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  text-align: left;
+}
+
+.boq-th {
+  background: rgba(0, 36, 27, 0.95);
+  position: sticky;
+  top: 0;
+  padding: 8px 12px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #38bdf8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+  z-index: 2;
+}
+
+.boq-td {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: #e2e8f0;
+  vertical-align: middle;
+}
+
+.boq-cat-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.boq-qty-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.boq-price-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Payment Milestones (10/40/50) */
+.boq-milestone-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.boq-milestone-card {
+  background: rgba(0, 24, 18, 0.85);
+  border: 1px solid rgba(52, 245, 197, 0.25);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.boq-milestone-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boq-milestone-percent {
+  font-size: 0.7rem;
+  font-weight: 800;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.boq-milestone-title {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.boq-milestone-desc {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  line-height: 1.25;
+}
+
+.boq-milestone-amount {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #34f5c5;
+  font-family: 'IBM Plex Mono', monospace;
+  margin-top: 2px;
+}
+
+/* Actions Row */
+.boq-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-boq-merchant-copy {
+  flex: 1.2;
+  min-width: 240px;
+  background: #38bdf8;
+  color: #00241b;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 18px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-boq-merchant-copy:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+  filter: brightness(1.05);
+}
+
+.btn-boq-client-tender {
+  flex: 1.2;
+  min-width: 240px;
+  background: #34f5c5;
+  color: #00241b;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 18px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(52, 245, 197, 0.3);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-boq-client-tender:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(52, 245, 197, 0.5);
+  filter: brightness(1.05);
+}
+
+@media (max-width: 768px) {
+  .boq-milestone-grid {
+    grid-template-columns: 1fr;
+  }
+  .boq-financial-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,8 +1,8 @@
 # EcoSmartHome Disaster Recovery Runbook & Operations Standard
 
-**Version:** 3.9.7 (Cowboy Quote Defroster & Margin Shield / NSAI SR50-2 Compliance Matrix)  
+**Version:** 3.9.8 (90-Second Van-to-Tender BoQ & Margin Locker / Trade Counter Pick-List Engine)  
 **Last Updated:** September 10, 2026  
-**Release Tag:** `v3.9.7-installer-cowboy-defroster`  
+**Release Tag:** `v3.9.8-installer-boq-margin-locker`  
 **Classification:** Internal Technical Operations, Disaster Recovery & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -170,6 +170,19 @@ python scratch/test_implementation_checklist.py
 | **Telemetry Database** | Supabase Cloud Support | supabase.com/dashboard | < 4 hours |
 
 ---
+
+### Version 3.9.8 Release Notes (September 10, 2026)
+- **90-Second Van-to-Tender BoQ & Margin Locker (Installer Idea 3)**:
+  - Upgraded Step 3 of the 3-Step Installer Van-to-Verdict Sizing Portal (`#installer-rescue-wizard`) to a 3-way seamless mode switcher toggling between `[📋 Client-Ready SEAI Tender]`, `[🛡️ Cowboy Quote Defroster]`, and `[📦 Trade BoQ & Margin Locker]` with zero vertical elongation or layout shifts.
+  - **Itemized Irish Trade Counter Pick-List**: Dynamically compiles merchant-ready Bill of Quantities (Chadwicks / Heat Merchants / Davies) mapped to property sizing: R290 monobloc heat pump, rapid recovery 200L/300L cylinder, 28mm/35mm copper runs, Caleffi anti-freeze valves, Adey MagnaClean filter, 50L volumiser, ADBV bypass valve, Type 22 convector radiators, digital TRVs, 32A rotary isolator, Modbus energy submeter, and chemical dosing packs.
+  - **Interactive Margin Locker Slider & Presets**: Contractor markup slider ranging from 15% to 40% (default 25%) with quick-select presets (20%, 25%, 30%, 35%) recalculating net trade materials, fixed labor fee, locked contractor margin, turnkey quotation, and homeowner net outlay after the €6,500 SEAI grant.
+  - **Irish 10/40/50 Payment Milestone Breakdown**: Automatically calculates statutory cashflow stages: Stage 1 (10% Booking Deposit), Stage 2 (40% Driveway Delivery & Plant Delivery), and Stage 3 (50% Commissioning, NSAI Sign-Off & SEAI Grant Processing).
+  - **Dynamic Multi-Archetype Recalibration**: Calibrated across all 4 property archetypes (`3-Bed Semi-D 115m²`, `4-Bed Detached 175m²`, `3-Bed Bungalow 130m²`, `2-Bed Apartment 75m²`).
+  - **Dual 1-Tap Clipboard Dispatch Engines**:
+    - Merchant Order Pick-List (`window.copyMerchantBoqList()`): Dispatches structured SKU schedule directly to merchant trade counters over WhatsApp or Email.
+    - Driveway Tender Pitch (`window.copyDrivewayTender()`): Formats clean, professional homeowner quotation complete with milestone payment schedule and SEAI grant deduction for on-the-spot closing in the driveway.
+  - **Off-Canvas Side Drawer Integration**: Incremented Installer Hub badge to 9 Tools (`#accordion-panel-installer`) and added direct launcher (`window.openInstallerBoqLocker(event)`).
+  - 100% byte-for-byte dual-directory parity between `site/` and `site/site/`.
 
 ### Version 3.9.7 Release Notes (September 10, 2026)
 - **Cowboy Quote Defroster & Margin Shield (Installer Idea 2)**:

@@ -369,6 +369,7 @@
       if (typeof updateInstallerComplianceMatrix === 'function') updateInstallerComplianceMatrix();
       if (typeof updateInstallerHydraulicCalculations === 'function') updateInstallerHydraulicCalculations();
       if (typeof updateInstallerDefroster === 'function') updateInstallerDefroster();
+      if (typeof updateInstallerBoq === 'function') updateInstallerBoq();
     } else if (currentPersona === 'agent' && typeof updateAgentSurgeCalculations === 'function') {
       updateAgentSurgeCalculations();
     }
@@ -673,7 +674,7 @@
                 <span>Installer & Retrofitter</span>
               </span>
               <span style="display:flex;align-items:center;gap:6px;">
-                <span class="drawer-badge-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid #38bdf8;">8 Tools</span>
+                <span class="drawer-badge-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid #38bdf8;">9 Tools</span>
                 <span class="accordion-arrow">▼</span>
               </span>
             </button>
@@ -697,6 +698,13 @@
                 <div>
                   <div>Cowboy Quote Defroster</div>
                   <div style="font-size:0.72rem;color:#34f5c5;font-weight:700;">Spec &amp; margin shield (+€3.3k)</div>
+                </div>
+              </a>
+              <a href="#installer-rescue-wizard" class="drawer-tool-item" onclick="window.openInstallerBoqLocker(event)">
+                <span class="tool-icon">📦</span>
+                <div>
+                  <div>Trade BoQ &amp; Margin Locker</div>
+                  <div style="font-size:0.72rem;color:#38bdf8;font-weight:700;">Chadwicks / Heat Merchants pick-list</div>
                 </div>
               </a>
               <a href="/radiator-sizer/" class="drawer-tool-item">
@@ -1740,6 +1748,7 @@
     updateInstallerComplianceMatrix();
     updateInstallerHydraulicCalculations();
     updateInstallerDefroster();
+    updateInstallerBoq();
   };
 
   // ==========================================================================
@@ -2093,20 +2102,23 @@ Compliance Standard: NSAI SR50-2:2024 Code of Practice for Heat Pump Systems`;
     installerStep3Mode = mode;
     const btnTender = document.getElementById('btnInstallerStep3Tender');
     const btnDefroster = document.getElementById('btnInstallerStep3Defroster');
+    const btnBoq = document.getElementById('btnInstallerStep3Boq');
     const panelTender = document.getElementById('installer-tender-panel');
     const panelDefroster = document.getElementById('installer-defroster-panel');
+    const panelBoq = document.getElementById('installer-boq-panel');
 
-    if (mode === 'tender') {
-      if (btnTender) btnTender.classList.add('active');
-      if (btnDefroster) btnDefroster.classList.remove('active');
-      if (panelTender) panelTender.style.display = 'block';
-      if (panelDefroster) panelDefroster.style.display = 'none';
-    } else {
-      if (btnTender) btnTender.classList.remove('active');
-      if (btnDefroster) btnDefroster.classList.add('active');
-      if (panelTender) panelTender.style.display = 'none';
-      if (panelDefroster) panelDefroster.style.display = 'block';
+    if (btnTender) btnTender.classList.toggle('active', mode === 'tender');
+    if (btnDefroster) btnDefroster.classList.toggle('active', mode === 'defroster');
+    if (btnBoq) btnBoq.classList.toggle('active', mode === 'boq');
+
+    if (panelTender) panelTender.style.display = (mode === 'tender') ? 'block' : 'none';
+    if (panelDefroster) panelDefroster.style.display = (mode === 'defroster') ? 'block' : 'none';
+    if (panelBoq) panelBoq.style.display = (mode === 'boq') ? 'block' : 'none';
+
+    if (mode === 'defroster') {
       updateInstallerDefroster();
+    } else if (mode === 'boq') {
+      updateInstallerBoq();
     }
   };
 
@@ -2157,6 +2169,313 @@ Happy to walk you through the engineering anytime!
         const orig = btn.innerHTML;
         btn.innerHTML = '✅ Copied Defense Script to Clipboard!';
         btn.style.background = '#34f5c5';
+        btn.style.color = '#00241b';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2400);
+      }
+    });
+  };
+
+  // ==========================================================================
+  // ⚡ INSTALLER IDEA 3: 90-SECOND VAN-TO-TENDER BoQ & MARGIN LOCKER
+  // ==========================================================================
+  let installerBoqMarginPercent = 25;
+
+  const ARCHETYPE_BOQ_DATA = {
+    semi: {
+      name: '3-Bed Semi-Detached (115m²)',
+      hpUnitName: '8.5 kW Monobloc Heat Pump',
+      heatLoss: '7.8 kW @ -3°C',
+      baseLaborCost: 3200,
+      seaiGrant: 6500,
+      materials: [
+        { cat: '⚡ Heat Source', desc: '8.5 kW R290 Monobloc Outdoor Heat Pump Unit', qty: '1 unit', cost: 3850 },
+        { cat: '⚡ Cylinder', desc: 'Pre-Plumb 200L High-Recovery HP Cylinder (3.0m² coil + 3kW immersion)', qty: '1 unit', cost: 1150 },
+        { cat: '🌊 Primary Pipe', desc: '28mm R250 Half-Hard Copper Tube + 19mm Armaflex Class O (20m bundle)', qty: '1 bundle', cost: 280 },
+        { cat: '🛡️ Anti-Freeze', desc: '28mm Inta / Caleffi Mechanical Frost Dump Valves', qty: '2 pcs', cost: 190 },
+        { cat: '🛡️ Filter', desc: '28mm Adey MagnaClean Professional2 Cyclonic Magnetic System Filter', qty: '1 unit', cost: 165 },
+        { cat: '🛡️ Buffer', desc: '50L In-Line Thermal Volumiser / Active Defrost Expansion Vessel', qty: '1 unit', cost: 320 },
+        { cat: '🌊 Valves', desc: '25kPa Automatic Differential Bypass (ADBV) + 28mm Lever Ball Valves', qty: '1 set', cost: 145 },
+        { cat: '📐 Emitters', desc: 'Resized Type 22 Double Convector Radiators (Master Bed + Office)', qty: '2 units', cost: 340 },
+        { cat: '📐 Controls', desc: 'M30 x 1.5 Liquid Thermostatic Radiator Valves (TRVs) & Lockshields', qty: '8 pairs', cost: 180 },
+        { cat: '🔌 Electrical', desc: '32A IP65 Weatherproof Rotary Isolator + Modbus Smart Energy Meter', qty: '1 set', cost: 240 },
+        { cat: '🔌 Thermostat', desc: 'Weather-Compensating Wireless Modulation Room Thermostat Controller', qty: '1 unit', cost: 195 },
+        { cat: '🧪 Chemical', desc: 'Sentinel X100 Inhibitor + X800 System Powerflush Chemical Pack', qty: '1 pack', cost: 95 }
+      ]
+    },
+    detached: {
+      name: '4-Bed Detached (175m²)',
+      hpUnitName: '12.0 kW Monobloc Heat Pump',
+      heatLoss: '11.4 kW @ -3°C',
+      baseLaborCost: 4200,
+      seaiGrant: 6500,
+      materials: [
+        { cat: '⚡ Heat Source', desc: '12.0 kW R290 Monobloc High-Output Outdoor Heat Pump', qty: '1 unit', cost: 5100 },
+        { cat: '⚡ Cylinder', desc: 'Pre-Plumb 250L High-Recovery HP Cylinder (3.5m² coil + 3kW immersion)', qty: '1 unit', cost: 1380 },
+        { cat: '🌊 Primary Pipe', desc: '35mm / 28mm Copper Tube + 19mm Armaflex Class O (30m bundle)', qty: '1 bundle', cost: 420 },
+        { cat: '🛡️ Anti-Freeze', desc: '35mm High-Capacity Inta / Caleffi Mechanical Anti-Freeze Dump Valves', qty: '2 pcs', cost: 220 },
+        { cat: '🛡️ Filter', desc: '35mm Heavy-Duty Magnetic Cyclone Dirt & Air Separator', qty: '1 unit', cost: 210 },
+        { cat: '🛡️ Buffer', desc: '75L Low-Loss Header / Combined Thermal Defrost Buffer Tank', qty: '1 unit', cost: 480 },
+        { cat: '🌊 Valves', desc: 'High-Flow Differential Bypass Valve + 35mm Isolation Lever Valves', qty: '1 set', cost: 190 },
+        { cat: '📐 Emitters', desc: 'Resized Type 22 & Type 33 Heavy Double/Triple Convector Radiators', qty: '4 units', cost: 720 },
+        { cat: '📐 Controls', desc: 'M30 x 1.5 Liquid Thermostatic Radiator Valves (TRVs) & Lockshields', qty: '12 pairs', cost: 270 },
+        { cat: '🔌 Electrical', desc: '32A Weatherproof Rotary Isolator + Modbus 3-Phase Smart Energy Meter', qty: '1 set', cost: 290 },
+        { cat: '🔌 Thermostat', desc: 'Dual-Zone Weather-Compensating Wireless Room Thermostats', qty: '2 units', cost: 260 },
+        { cat: '🧪 Chemical', desc: 'Sentinel Heavy System Powerflush Chemical Pack + Biocide', qty: '1 pack', cost: 120 }
+      ]
+    },
+    bungalow: {
+      name: '3-Bed Bungalow (130m²)',
+      hpUnitName: '9.5 kW Monobloc Heat Pump',
+      heatLoss: '8.9 kW @ -3°C',
+      baseLaborCost: 3700,
+      seaiGrant: 6500,
+      materials: [
+        { cat: '⚡ Heat Source', desc: '9.5 kW R290 Monobloc Outdoor Heat Pump Unit', qty: '1 unit', cost: 4250 },
+        { cat: '⚡ Cylinder', desc: 'Pre-Plumb 200L High-Recovery HP Cylinder (3.0m² coil + 3kW immersion)', qty: '1 unit', cost: 1150 },
+        { cat: '🌊 Primary Pipe', desc: '28mm Copper Tube + 19mm Armaflex Class O (25m bundle)', qty: '1 bundle', cost: 340 },
+        { cat: '🛡️ Anti-Freeze', desc: '28mm Inta / Caleffi Mechanical Anti-Freeze Dump Valves', qty: '2 pcs', cost: 190 },
+        { cat: '🛡️ Filter', desc: '28mm Adey MagnaClean Professional2 Cyclonic Magnetic Filter', qty: '1 unit', cost: 165 },
+        { cat: '🛡️ Buffer', desc: '60L In-Line Thermal Volumiser / Defrost Expansion Buffer', qty: '1 unit', cost: 360 },
+        { cat: '🌊 Valves', desc: '25kPa Automatic Differential Pressure Bypass + 28mm Lever Valves', qty: '1 set', cost: 150 },
+        { cat: '📐 Emitters', desc: 'Resized Type 22 Double Convectors (Living Room + Bedrooms)', qty: '3 units', cost: 510 },
+        { cat: '📐 Controls', desc: 'M30 x 1.5 Liquid Thermostatic Radiator Valves (TRVs) & Lockshields', qty: '9 pairs', cost: 200 },
+        { cat: '🔌 Electrical', desc: '32A IP65 Weatherproof Rotary Isolator + Modbus Smart Energy Meter', qty: '1 set', cost: 240 },
+        { cat: '🔌 Thermostat', desc: 'Weather-Compensating Wireless Modulation Room Thermostat', qty: '1 unit', cost: 200 },
+        { cat: '🧪 Chemical', desc: 'Sentinel X100 Inhibitor + X800 High-Output System Cleaner Pack', qty: '1 pack', cost: 105 }
+      ]
+    },
+    apt: {
+      name: '2-Bed Apartment (75m²)',
+      hpUnitName: '5.0 kW Monobloc Heat Pump',
+      heatLoss: '4.6 kW @ -3°C',
+      baseLaborCost: 2400,
+      seaiGrant: 6500,
+      materials: [
+        { cat: '⚡ Heat Source', desc: '5.0 kW Compact R290 Monobloc Heat Pump Unit', qty: '1 unit', cost: 2950 },
+        { cat: '⚡ Cylinder', desc: 'Slimline 150L Heat Pump Cylinder (2.5m² coil + 3kW immersion)', qty: '1 unit', cost: 980 },
+        { cat: '🌊 Primary Pipe', desc: '22mm Copper Tube + Armaflex Outdoor Insulation (15m bundle)', qty: '1 bundle', cost: 180 },
+        { cat: '🛡️ Anti-Freeze', desc: '22mm Inta Mechanical Frost Protection Dump Valves', qty: '2 pcs', cost: 160 },
+        { cat: '🛡️ Filter', desc: '22mm Compact Magnetic Cyclonic System Filter', qty: '1 unit', cost: 130 },
+        { cat: '🛡️ Buffer', desc: '35L Compact In-Line Thermal Volumiser Defrost Vessel', qty: '1 unit', cost: 240 },
+        { cat: '🌊 Valves', desc: 'Differential Bypass Valve + 22mm Full-Bore Isolation Valves', qty: '1 set', cost: 110 },
+        { cat: '📐 Emitters', desc: 'Optimised Low-Flow Radiator Upgrades (Master Bed + Living)', qty: '2 units', cost: 310 },
+        { cat: '📐 Controls', desc: 'M30 x 1.5 Liquid Thermostatic Radiator Valves (TRVs) & Lockshields', qty: '5 pairs', cost: 110 },
+        { cat: '🔌 Electrical', desc: '25A IP65 Weatherproof Isolator + Smart Modbus Submeter', qty: '1 set', cost: 210 },
+        { cat: '🔌 Thermostat', desc: 'Smart Wireless Modulating Room Thermostat & Controller', qty: '1 unit', cost: 170 },
+        { cat: '🧪 Chemical', desc: 'Sentinel Mini System Flush & Corrosion Inhibitor Pack', qty: '1 pack', cost: 70 }
+      ]
+    }
+  };
+
+  function updateInstallerBoq() {
+    const data = ARCHETYPE_BOQ_DATA[installerArchetype] || ARCHETYPE_BOQ_DATA.semi;
+    const materialsTotal = data.materials.reduce((acc, m) => acc + m.cost, 0);
+    const baseLabor = data.baseLaborCost;
+    const directCost = materialsTotal + baseLabor;
+    
+    // Turnkey calculation based on margin %
+    const turnkey = Math.round(directCost / (1 - (installerBoqMarginPercent / 100)));
+    const marginAmount = turnkey - directCost;
+    const seaiGrant = data.seaiGrant;
+    const netOutlay = Math.max(0, turnkey - seaiGrant);
+
+    // Milestones: 10 / 40 / 50
+    const m1 = Math.round(turnkey * 0.10);
+    const m2 = Math.round(turnkey * 0.40);
+    const m3 = turnkey - m1 - m2;
+
+    // 1. Status Pill & Header
+    const statusPill = document.getElementById('lbl-boq-status-pill');
+    if (statusPill) {
+      statusPill.innerText = `💰 Turnkey: €${turnkey.toLocaleString()} · Margin: €${marginAmount.toLocaleString()} (${installerBoqMarginPercent}%)`;
+    }
+
+    // 2. Slider Labels
+    const marginPercentEl = document.getElementById('lbl-boq-margin-percent');
+    if (marginPercentEl) marginPercentEl.innerText = `${installerBoqMarginPercent}%`;
+
+    const marginAmountEl = document.getElementById('lbl-boq-margin-amount');
+    if (marginAmountEl) marginAmountEl.innerText = `€${marginAmount.toLocaleString()}`;
+
+    // 3. Financial Breakdown
+    const matNetEl = document.getElementById('lbl-boq-mat-net');
+    if (matNetEl) matNetEl.innerText = `€${materialsTotal.toLocaleString()}`;
+
+    const laborBaseEl = document.getElementById('lbl-boq-labor-base');
+    if (laborBaseEl) laborBaseEl.innerText = `€${baseLabor.toLocaleString()}`;
+
+    const contractorMarginEl = document.getElementById('lbl-boq-contractor-margin');
+    if (contractorMarginEl) contractorMarginEl.innerText = `+€${marginAmount.toLocaleString()}`;
+
+    const marginTagEl = document.getElementById('lbl-boq-margin-tag');
+    if (marginTagEl) marginTagEl.innerText = `${installerBoqMarginPercent}% profit margin`;
+
+    const turnkeyPriceEl = document.getElementById('lbl-boq-turnkey-price');
+    if (turnkeyPriceEl) turnkeyPriceEl.innerText = `€${turnkey.toLocaleString()}`;
+
+    const grantDeductionEl = document.getElementById('lbl-boq-grant-deduction');
+    if (grantDeductionEl) grantDeductionEl.innerText = `-€${seaiGrant.toLocaleString()}`;
+
+    const netOutlayEl = document.getElementById('lbl-boq-net-outlay');
+    if (netOutlayEl) netOutlayEl.innerText = `€${netOutlay.toLocaleString()}`;
+
+    // 4. Populate Table Rows
+    const tbody = document.getElementById('boq-materials-table-body');
+    if (tbody) {
+      let rowsHtml = '';
+      data.materials.forEach(item => {
+        rowsHtml += `
+          <tr>
+            <td class="boq-td"><span class="boq-cat-tag">${item.cat}</span></td>
+            <td class="boq-td"><strong>${item.desc}</strong></td>
+            <td class="boq-td" style="text-align: center;"><span class="boq-qty-badge">${item.qty}</span></td>
+            <td class="boq-td boq-price-tag">€${item.cost.toLocaleString()}</td>
+          </tr>
+        `;
+      });
+      // Add subtotal row
+      rowsHtml += `
+        <tr style="background: rgba(56, 189, 248, 0.08); border-top: 1.5px solid rgba(56, 189, 248, 0.3);">
+          <td class="boq-td" colspan="2"><strong>TOTAL MATERIALS TRADE NET (EX-VAT)</strong></td>
+          <td class="boq-td" style="text-align: center;"><strong style="color:#38bdf8;">${data.materials.length} Items</strong></td>
+          <td class="boq-td boq-price-tag" style="color: #38bdf8; font-size: 0.9rem;"><strong>€${materialsTotal.toLocaleString()}</strong></td>
+        </tr>
+      `;
+      tbody.innerHTML = rowsHtml;
+    }
+
+    // 5. Payment Milestones
+    const m1El = document.getElementById('lbl-boq-m1-deposit');
+    if (m1El) m1El.innerText = `€${m1.toLocaleString()}`;
+
+    const m2El = document.getElementById('lbl-boq-m2-delivery');
+    if (m2El) m2El.innerText = `€${m2.toLocaleString()}`;
+
+    const m3El = document.getElementById('lbl-boq-m3-completion');
+    if (m3El) m3El.innerText = `€${m3.toLocaleString()}`;
+  }
+
+  window.setBoqMargin = function(percent) {
+    installerBoqMarginPercent = parseInt(percent, 10);
+    const slider = document.getElementById('boq-margin-slider');
+    if (slider) slider.value = installerBoqMarginPercent;
+
+    [20, 25, 30, 35].forEach(p => {
+      const btn = document.getElementById(`btn-boq-preset-${p}`);
+      if (btn) btn.classList.toggle('active', p === installerBoqMarginPercent);
+    });
+
+    updateInstallerBoq();
+  };
+
+  window.openInstallerBoqLocker = function(event) {
+    if (event) event.preventDefault();
+    window.setPersona('installer');
+    window.setInstallerStep3Mode('boq');
+    const target = document.getElementById('installer-boq-panel') || document.getElementById('installer-rescue-wizard');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.classList.add('active-glow');
+      setTimeout(() => target.classList.remove('active-glow'), 2200);
+    }
+    if (typeof window.closeToolsDrawer === 'function') {
+      window.closeToolsDrawer();
+    }
+  };
+
+  window.copyMerchantBoqList = function() {
+    window.requireFreemiumPass(() => {
+      const data = ARCHETYPE_BOQ_DATA[installerArchetype] || ARCHETYPE_BOQ_DATA.semi;
+      const materialsTotal = data.materials.reduce((acc, m) => acc + m.cost, 0);
+
+      let text = `📦 ECOSMARTHOMES TRADE MATERIALS SCHEDULE & BoQ PICK-LIST
+Branch: Chadwicks / Heat Merchants / Davies Trade Counter
+Project: ${data.name}
+Specified Unit: ${data.hpUnitName} (${data.heatLoss})
+NSAI SR50-2 Compliance Benchmark: 45°C Low-Flow / 28mm+ Primary Pipework
+
+ITEMIZED PICK-LIST:
+`;
+      data.materials.forEach((m, idx) => {
+        text += `${idx + 1}. [${m.cat}] ${m.desc} · Qty: ${m.qty} (Trade Net: €${m.cost.toLocaleString()})\n`;
+      });
+
+      text += `
+TOTAL MATERIALS TRADE NET (ex-VAT): €${materialsTotal.toLocaleString()}
+Notes: Ready for collection / site drop. Ensure all copper tube is EN 1057 R250 and insulation is minimum 19mm Class O nitrile foam.
+
+Generated via EcoSmartHomes Registered Installer Portal`;
+
+      window.copyTextToClipboard(text, 'Copied Merchant BoQ Pick-List to Clipboard!');
+      const btn = document.getElementById('btnCopyTradeBoq');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied Trade Pick-List to Clipboard!';
+        btn.style.background = '#34f5c5';
+        btn.style.color = '#00241b';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2400);
+      }
+    });
+  };
+
+  window.copyDrivewayTender = function() {
+    window.requireFreemiumPass(() => {
+      const data = ARCHETYPE_BOQ_DATA[installerArchetype] || ARCHETYPE_BOQ_DATA.semi;
+      const materialsTotal = data.materials.reduce((acc, m) => acc + m.cost, 0);
+      const directCost = materialsTotal + data.baseLaborCost;
+      const turnkey = Math.round(directCost / (1 - (installerBoqMarginPercent / 100)));
+      const netOutlay = Math.max(0, turnkey - data.seaiGrant);
+
+      const m1 = Math.round(turnkey * 0.10);
+      const m2 = Math.round(turnkey * 0.40);
+      const m3 = turnkey - m1 - m2;
+
+      const text = `📋 ECOSMARTHOMES FORMAL DRIVEWAY TENDER & PAYMENT SCHEDULE
+Property: ${data.name}
+Heating System: ${data.hpUnitName} (NSAI SR50-2 Low-Flow 45°C Design)
+Date: ${new Date().toLocaleDateString('en-IE', { day: 'numeric', month: 'long', year: 'numeric' })}
+
+SCOPE OF WORKS:
+• Turnkey supply, installation & commissioning of ${data.hpUnitName}
+• Rapid-recovery unvented heat pump cylinder + mechanical anti-freeze protection valves
+• Full primary hydraulic upgrade to 28mm/35mm copper with dedicated defrost volumiser
+• Adey MagnaClean cyclonic magnetic filter + automatic differential pressure bypass
+• Resized Type 22 low-temperature convector radiators & thermostatic radiator valves (TRVs)
+• Electrical wiring, 32A rotary isolator, smart Modbus energy sub-meter & room controller
+• Full powerflush, chemical inhibitor treatment & NSAI SR50-2 technical certification
+
+PRICING & SEAI GRANT BREAKDOWN (0% Irish VAT Heat Pump Scheme):
+• Gross Turnkey Quotation: €${turnkey.toLocaleString()}
+• Direct SEAI Heat Pump Grant Deduction: -€${data.seaiGrant.toLocaleString()}
+• NET CUSTOMER OUTLAY: €${netOutlay.toLocaleString()}
+
+10/40/50 MILESTONE PAYMENT SCHEDULE:
+1. 10% Booking Deposit (€${m1.toLocaleString()}): Secures install date & orders long-lead equipment.
+2. 40% Delivery Milestone (€${m2.toLocaleString()}): Payable upon arrival of heat pump & cylinder to driveway.
+3. 50% Completion Milestone (€${m3.toLocaleString()}): Payable on system commissioning, warm rooms & SEAI sign-off.
+
+TERMS & WARRANTY:
+• 5-Year Heat Pump Compressor Warranty
+• 10-Year Cylinder Warranty
+• NSAI SR50-2 & SEAI Registered Contractor Sign-off Guaranteed
+
+Please reply to confirm and lock in your installation date!
+[Registered Installer / Retrofitter Name]`;
+
+      window.copyTextToClipboard(text, 'Copied Driveway Tender & Payment Schedule to Clipboard!');
+      const btn = document.getElementById('btnCopyDrivewayTender');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied Driveway Tender to Clipboard!';
+        btn.style.background = '#38bdf8';
         btn.style.color = '#00241b';
         setTimeout(() => {
           btn.innerHTML = orig;

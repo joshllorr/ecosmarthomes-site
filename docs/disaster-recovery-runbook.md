@@ -1,8 +1,8 @@
 # EcoSmartHome Disaster Recovery Runbook
 
-**Version:** 3.9.7  
+**Version:** 3.9.8  
 **Last Updated:** September 10, 2026  
-**Release Tag:** `v3.9.7-installer-cowboy-defroster`  
+**Release Tag:** `v3.9.8-installer-boq-margin-locker`  
 **Classification:** Internal Technical Operations & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -143,6 +143,15 @@ git push origin main --force
 - **Dynamic Property Archetype Calibration:** Automatically recalibrates quotes, delta margins, and 10-year savings across Semi-D (€6,500 net saving), Detached (€9,200 net saving), Bungalow (€7,400 net saving), and Apartment (€4,700 net saving).
 - **1-Tap WhatsApp Defense Script Copier (`window.copyCowboyQuoteDefense()`):** Dispatches client-ready educational script explaining the hidden costs of cheap quotes.
 - **Off-Canvas Drawer Integration:** Incremented Installer Hub badge to 8 Tools with direct launcher (`window.openInstallerQuoteDefroster(event)`).
+ 
+### 12. 90-Second Van-to-Tender BoQ & Margin Locker (v3.9.8)
+- **Zero-Stack 3-Way Mode Switcher (`#installer-rescue-wizard`):** Step 3 toggle between `[📋 Client-Ready SEAI Tender]`, `[🛡️ Cowboy Quote Defroster]`, and `[📦 Trade BoQ & Margin Locker]` preserving single-fold portal geometry.
+- **Itemized Trade Counter Pick-List (Chadwicks / Heat Merchants / Davies):** Generates complete 12-item merchant schedule tailored to property heat demand (R290 unit, unvented HP cylinder, 28mm/35mm copper, Caleffi anti-freeze valves, Adey MagnaClean filter, volumiser, bypass, Type 22 rads, TRVs, electrical isolator, Modbus submeter, dosing chemicals).
+- **Interactive Margin Locker & Cashflow Engine:** Real-time margin slider (15%–40%, default 25%) and fast presets (20%, 25%, 30%, 35%) recalculating net trade materials, labor fee, contractor margin, turnkey price, and net outlay after €6,500 SEAI grant.
+- **10/40/50 Irish Contractor Payment Milestones:** Calculates Stage 1 Deposit (10%), Stage 2 Delivery (40%), and Stage 3 Commissioning & Sign-Off (50%) to protect contractor cashflow.
+- **Dynamic Archetype Recalibration:** Fully supports Semi-D, Detached, Bungalow, and Apartment sizing profiles.
+- **Dual 1-Tap Clipboard Actions:** Instant trade pick-list generator (`window.copyMerchantBoqList()`) and formal driveway tender copier (`window.copyDrivewayTender()`).
+- **Drawer Hub Integration:** Installer Hub badge incremented to 9 tools with direct drawer launcher (`window.openInstallerBoqLocker(event)`).
 
 ---
 

@@ -2060,11 +2060,15 @@
         <div class="installer-mode-toggle-bar">
           <button type="button" class="installer-mode-btn active" id="btnInstallerStep3Tender" onclick="window.setInstallerStep3Mode('tender')">
             <span>📋</span>
-            <span>Client-Ready SEAI Tender Draft</span>
+            <span>Client-Ready SEAI Tender</span>
           </button>
           <button type="button" class="installer-mode-btn" id="btnInstallerStep3Defroster" onclick="window.setInstallerStep3Mode('defroster')">
             <span>🛡️</span>
-            <span>Cowboy Quote Defroster (Spec &amp; Margin Shield)</span>
+            <span>Cowboy Quote Defroster</span>
+          </button>
+          <button type="button" class="installer-mode-btn" id="btnInstallerStep3Boq" onclick="window.setInstallerStep3Mode('boq')">
+            <span>📦</span>
+            <span>Trade BoQ &amp; Margin Locker</span>
           </button>
         </div>
 
@@ -2198,6 +2202,142 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
           <div class="defroster-actions">
             <button type="button" class="btn-defroster-copy" id="btnCopyCowboyDefense" onclick="window.copyCowboyQuoteDefense()">
               <span>📲 Copy WhatsApp / Email "Client Quality Defense Script"</span>
+            </button>
+            <a href="/pricing/" class="btn-hero-secondary" style="display: flex; align-items: center; justify-content: center; padding: 12px 18px; font-size: 0.86rem; border-radius: 12px; text-decoration: none;">
+              ⭐ Outsource Technical Survey &amp; DEAP (€49) →
+            </a>
+          </div>
+        </div>
+
+        <!-- Mode C: 90-Second Van-to-Tender BoQ & Margin Locker Panel -->
+        <div id="installer-boq-panel" class="installer-boq-card" style="display: none;">
+          <!-- BoQ Header with Title & Status Pill -->
+          <div class="installer-boq-header">
+            <div>
+              <div class="installer-boq-badge">
+                <span>📦</span> IRISH TRADE COUNTER (CHADWICKS / HEAT MERCHANTS) &amp; MARGIN LOCKER
+              </div>
+              <h3 class="installer-boq-title" id="lbl-boq-title">
+                90-Second Van-to-Tender BoQ &amp; Margin Locker
+              </h3>
+              <p class="installer-boq-sub">
+                Convert your survey &amp; pipe sizing into an itemized trade counter materials schedule and lock your contractor margin before leaving the driveway.
+              </p>
+            </div>
+            <div class="installer-boq-status-pill" id="lbl-boq-status-pill">
+              💰 Turnkey: €13,800 · Net Margin: €3,450 (25%)
+            </div>
+          </div>
+
+          <!-- Margin Locker & Labor Slider Control -->
+          <div class="boq-margin-control-box">
+            <div class="boq-slider-row">
+              <span class="boq-slider-label">
+                <span>⚡</span> Contractor Profit Margin &amp; Labor Markup:
+              </span>
+              <span class="boq-slider-val">
+                <span id="lbl-boq-margin-percent">25%</span> (<span id="lbl-boq-margin-amount">€3,450</span>)
+              </span>
+            </div>
+            <input type="range" min="15" max="40" step="1" value="25" class="boq-range-slider" id="boq-margin-slider" oninput="window.setBoqMargin(this.value)" aria-label="Contractor Margin Slider">
+            <div class="boq-preset-group">
+              <span style="font-size: 0.72rem; color: #94a3b8; margin-right: 4px; display: flex; align-items: center;">Quick Presets:</span>
+              <button type="button" class="boq-preset-btn" id="btn-boq-preset-20" onclick="window.setBoqMargin(20)">20% Rapid Close</button>
+              <button type="button" class="boq-preset-btn active" id="btn-boq-preset-25" onclick="window.setBoqMargin(25)">25% Standard (Rec)</button>
+              <button type="button" class="boq-preset-btn" id="btn-boq-preset-30" onclick="window.setBoqMargin(30)">30% High-Spec</button>
+              <button type="button" class="boq-preset-btn" id="btn-boq-preset-35" onclick="window.setBoqMargin(35)">35% Premium</button>
+            </div>
+          </div>
+
+          <!-- Financial Breakdown Summary Grid -->
+          <div class="boq-financial-grid">
+            <div class="boq-fin-item">
+              <span class="boq-fin-label">Trade Materials Net</span>
+              <span class="boq-fin-val" id="lbl-boq-mat-net">€7,150</span>
+              <span style="font-size: 0.68rem; color: #94a3b8;">ex-VAT trade account</span>
+            </div>
+            <div class="boq-fin-item">
+              <span class="boq-fin-label">Base Labor &amp; Cert</span>
+              <span class="boq-fin-val" id="lbl-boq-labor-base">€3,200</span>
+              <span style="font-size: 0.68rem; color: #94a3b8;">Install, flush &amp; NSAI</span>
+            </div>
+            <div class="boq-fin-item">
+              <span class="boq-fin-label">Locked Gross Margin</span>
+              <span class="boq-fin-val boq-fin-val-highlight" id="lbl-boq-contractor-margin">+€3,450</span>
+              <span style="font-size: 0.68rem; color: #34f5c5;" id="lbl-boq-margin-tag">25% profit margin</span>
+            </div>
+            <div class="boq-fin-item">
+              <span class="boq-fin-label">Client Turnkey Quote</span>
+              <span class="boq-fin-val" id="lbl-boq-turnkey-price">€13,800</span>
+              <span style="font-size: 0.68rem; color: #94a3b8;">0% Irish VAT scheme</span>
+            </div>
+            <div class="boq-fin-item">
+              <span class="boq-fin-label">SEAI Grant Deduction</span>
+              <span class="boq-fin-val boq-fin-val-gold" id="lbl-boq-grant-deduction">-€6,500</span>
+              <span style="font-size: 0.68rem; color: #fbbf24;">SEAI HP allocation</span>
+            </div>
+            <div class="boq-fin-item">
+              <span class="boq-fin-label">Customer Net Outlay</span>
+              <span class="boq-fin-val boq-fin-val-highlight" id="lbl-boq-net-outlay">€7,300</span>
+              <span style="font-size: 0.68rem; color: #34f5c5;">Day-1 out-of-pocket</span>
+            </div>
+          </div>
+
+          <!-- Itemized Trade Materials Schedule (Chadwicks / Heat Merchants) -->
+          <div class="boq-schedule-wrap">
+            <table class="boq-table">
+              <thead>
+                <tr>
+                  <th class="boq-th" style="width: 15%;">Category</th>
+                  <th class="boq-th" style="width: 48%;">Material Description &amp; Spec</th>
+                  <th class="boq-th" style="width: 12%; text-align: center;">Qty</th>
+                  <th class="boq-th" style="width: 25%; text-align: right;">Trade Net (ex-VAT)</th>
+                </tr>
+              </thead>
+              <tbody id="boq-materials-table-body">
+                <!-- Dynamically injected via updateInstallerBoq() -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 10/40/50 Driveway Payment Milestones -->
+          <div class="boq-milestone-grid">
+            <div class="boq-milestone-card">
+              <div class="boq-milestone-top">
+                <span class="boq-milestone-percent">10% Milestone</span>
+                <span style="font-size: 0.72rem; color: #94a3b8;">Booking</span>
+              </div>
+              <div class="boq-milestone-title">Deposit to Lock Install</div>
+              <div class="boq-milestone-desc">Secures calendar slot &amp; orders long-lead heat pump hardware.</div>
+              <div class="boq-milestone-amount" id="lbl-boq-m1-deposit">€1,380</div>
+            </div>
+            <div class="boq-milestone-card">
+              <div class="boq-milestone-top">
+                <span class="boq-milestone-percent">40% Milestone</span>
+                <span style="font-size: 0.72rem; color: #94a3b8;">Delivery</span>
+              </div>
+              <div class="boq-milestone-title">Equipment Driveway Arrival</div>
+              <div class="boq-milestone-desc">Payable upon unboxing heat pump, cylinder &amp; radiators on site.</div>
+              <div class="boq-milestone-amount" id="lbl-boq-m2-delivery">€5,520</div>
+            </div>
+            <div class="boq-milestone-card">
+              <div class="boq-milestone-top">
+                <span class="boq-milestone-percent">50% Milestone</span>
+                <span style="font-size: 0.72rem; color: #94a3b8;">Sign-Off</span>
+              </div>
+              <div class="boq-milestone-title">Commissioning &amp; SEAI Pass</div>
+              <div class="boq-milestone-desc">Payable on heat delivery, NSAI SR50-2 certificate &amp; BER inspection.</div>
+              <div class="boq-milestone-amount" id="lbl-boq-m3-completion">€6,900</div>
+            </div>
+          </div>
+
+          <!-- Driveway Actions -->
+          <div class="boq-actions">
+            <button type="button" class="btn-boq-merchant-copy" id="btnCopyTradeBoq" onclick="window.copyMerchantBoqList()">
+              <span>📲 Copy Chadwicks / Heat Merchants Pick-List</span>
+            </button>
+            <button type="button" class="btn-boq-client-tender" id="btnCopyDrivewayTender" onclick="window.copyDrivewayTender()">
+              <span>🧾 Copy Driveway Tender &amp; Payment Schedule</span>
             </button>
             <a href="/pricing/" class="btn-hero-secondary" style="display: flex; align-items: center; justify-content: center; padding: 12px 18px; font-size: 0.86rem; border-radius: 12px; text-decoration: none;">
               ⭐ Outsource Technical Survey &amp; DEAP (€49) →
