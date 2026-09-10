@@ -1573,36 +1573,143 @@
         </div>
       </div>
 
-      <!-- Step 2: The Equity Surge Reveal -->
-      <div class="equity-surge-container">
-        <div style="font-size: 0.78rem; font-weight: 800; color: #fde68a; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em;">
-          📈 Step 2: Property Equity Surge Unlocked (Target: A Rating)
+      <!-- Step 2: Mode Switcher & Double-Engine Display (Zero Stacking) -->
+      <div class="agent-step2-wrapper">
+        <!-- Mode Toggle Bar -->
+        <div class="agent-mode-toggle-bar" role="tablist" aria-label="Agent Valuation Mode">
+          <button type="button" class="agent-mode-btn active" id="btnAgentModeEquity" role="tab" aria-selected="true" onclick="window.setAgentStep2Mode('equity')">
+            <span>📈 Vendor Equity Surge</span>
+          </button>
+          <button type="button" class="agent-mode-btn" id="btnAgentModeDefense" role="tab" aria-selected="false" onclick="window.setAgentStep2Mode('defense')">
+            <span>🛡️ Buyer Price-Chipping Defense (Objection Shield)</span>
+          </button>
         </div>
-        <div id="lbl-agent-equity-surge" class="equity-surge-digital">
-          +€24,500
+
+        <!-- Mode A: The Equity Surge Reveal -->
+        <div class="equity-surge-container" id="agentEquityContainer">
+          <div style="font-size: 0.78rem; font-weight: 800; color: #fde68a; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em;">
+            📈 Step 2: Property Equity Surge Unlocked (Target: A Rating)
+          </div>
+          <div id="lbl-agent-equity-surge" class="equity-surge-digital">
+            +€24,500
+          </div>
+          <div id="lbl-agent-surge-sub" style="font-size: 0.85rem; font-weight: 700; color: #fde68a; font-family: 'IBM Plex Mono', monospace;">
+            Post-Retrofit Value: <strong>€374,500</strong> · Adds <strong>+€368</strong> to sales commission
+          </div>
         </div>
-        <div id="lbl-agent-surge-sub" style="font-size: 0.85rem; font-weight: 700; color: #fde68a; font-family: 'IBM Plex Mono', monospace;">
-          Post-Retrofit Value: <strong>€374,500</strong> · Adds <strong>+€368</strong> to sales commission
+
+        <!-- Mode B: The Vendor Objection Shield / Price-Chipping Defense Matrix -->
+        <div class="agent-defense-card" id="agentDefenseContainer" style="display: none;">
+          <div class="agent-defense-header">
+            <div class="agent-defense-badge">
+              <span>🛡️ VENDOR OBJECTION SHIELD</span>
+              <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 4px; padding: 1px 6px; font-size: 0.65rem;">PRICE-CHIPPING DEFENSE</span>
+            </div>
+            <span style="font-size: 0.72rem; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; font-weight: 700;">
+              ● 2026 SEAI OSS &amp; 3.45% Green Mortgage Verified
+            </span>
+          </div>
+
+          <!-- 4-Metric Breakdown -->
+          <div class="agent-defense-telemetry-grid">
+            <div class="agent-defense-metric highlight-danger">
+              <span class="agent-metric-title">🔴 Buyer Claimed Cost</span>
+              <div class="agent-metric-val text-white" id="defenseBuyerClaimVal">-€32,000</div>
+              <span class="agent-metric-hint" id="defenseBuyerClaimSub">Low-ball bid discount</span>
+            </div>
+
+            <div class="agent-defense-metric highlight-mint">
+              <span class="agent-metric-title">💶 Direct SEAI Grant</span>
+              <div class="agent-metric-val" style="color: #34f5c5;" id="defenseGrantVal">+€31,500</div>
+              <span class="agent-metric-hint">Deducted at source</span>
+            </div>
+
+            <div class="agent-defense-metric highlight-gold">
+              <span class="agent-metric-title">🏦 True Net Outlay</span>
+              <div class="agent-metric-val text-amber" id="defenseNetOutlayVal">€500</div>
+              <span class="agent-metric-hint">Real capital exposure</span>
+            </div>
+
+            <div class="agent-defense-metric highlight-cyan">
+              <span class="agent-metric-title">💎 25-Yr Mortgage Slash</span>
+              <div class="agent-metric-val" style="color: #38bdf8;" id="defenseMortgageSlashVal">+€36,400</div>
+              <span class="agent-metric-hint">3.45% Green APR cut</span>
+            </div>
+          </div>
+
+          <!-- The Agent's Armor Verdict Box -->
+          <div class="agent-verdict-box">
+            <div class="agent-verdict-title-row">
+              <span class="agent-verdict-title">
+                <span>⚔️</span>
+                <span>The Mathematical Armor Verdict</span>
+              </span>
+              <span class="agent-verdict-surplus" id="defenseNetSurplusVal">+€93,900 Total Buyer Surplus</span>
+            </div>
+            <p class="agent-verdict-text" id="defenseVerdictText">
+              The purchaser's claim of a €32,000 renovation penalty is mathematically disproven. With up to €31,500 in statutory SEAI One-Stop-Shop grants and €36,400 in Green Mortgage interest savings, the purchaser gains an enormous net surplus. Zero price concession is warranted.
+            </p>
+          </div>
+
+          <!-- Quick Action Row -->
+          <div class="agent-defense-actions">
+            <button type="button" class="btn-agent-whatsapp-rebuttal" id="btnAgentWhatsappRebuttal" onclick="window.copyAgentDefenseWhatsApp()">
+              <span>📲 Copy WhatsApp Rebuttal Script (Send to Buyer)</span>
+            </button>
+            <a href="/pricing/" class="btn-hero-secondary" style="display: flex; align-items: center; justify-content: center; padding: 12px 18px; font-size: 0.86rem; border-radius: 12px; text-decoration: none;">
+              ⭐ Vendor Proof Pack (€149) →
+            </a>
+          </div>
+        <!-- Quick Link: Buyer Borrowing Power Booster -->
+        <div style="margin-top: 8px; display: flex; justify-content: flex-end;">
+          <button type="button" class="tactile-preset-chip" style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; font-size: 0.74rem; padding: 5px 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" onclick="window.openAgentBorrowingBooster()">
+            <span>🏛️ Buyer Borrowing Power Booster (+€42.5k Mortgage Expander)</span>
+            <span style="font-size: 0.8rem;">→</span>
+          </button>
         </div>
       </div>
 
-      <!-- Step 3: Daft.ie Description Generator & Vendor Pack -->
-      <div style="margin-top: 20px;">
-        <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; margin-bottom: 8px;">
-          📋 Step 3: Instant Buyer Cheat-Sheet (Daft.ie / MyHome.ie Ready)
-        </div>
-        <div class="daft-copy-box">
-          <p id="lbl-daft-blurb-text" style="margin: 0;">
-            🏡 Prime Energy & Equity Upgrade Potential: Pre-assessed for SEAI grant funding with up to €35,000 in direct government grants available. Upgrading to an A-rating unlocks an estimated +€24,500 in property value and qualifies prospective purchasers for 3.45% Green Mortgage interest rates (~€214/month monthly mortgage reduction). Full independent engineering specification and grant breakdown available upon request.
-          </p>
+      <!-- Step 3: 1-Click Multi-Format Marketing Pack (Daft.ie, Window Display & Vendor Pitch) -->
+      <div class="agent-pack-wrapper">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+          <div style="font-size: 0.78rem; font-weight: 800; color: #34f5c5; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase;">
+            📋 Step 3: 1-Click Multi-Format Marketing Pack
+          </div>
+          <span style="font-size: 0.72rem; color: #94a3b8; font-family: 'IBM Plex Mono', monospace;">
+            3 Instant Formats · Zero Writing
+          </span>
         </div>
 
+        <!-- 3-Way Format Switcher Tabs -->
+        <div class="agent-pack-tabs" id="agentListingPackTabs" role="tablist" aria-label="Listing Marketing Formats">
+          <button type="button" class="agent-pack-tab-btn active" id="btnAgentPackDaft" role="tab" aria-selected="true" data-format="daft" onclick="window.setAgentListingFormat('daft')">
+            <span>📋 Daft / MyHome.ie Bullets</span>
+          </button>
+          <button type="button" class="agent-pack-tab-btn" id="btnAgentPackWindow" role="tab" aria-selected="false" data-format="window" onclick="window.setAgentListingFormat('window')">
+            <span>🪟 High-Street Window Teaser</span>
+          </button>
+          <button type="button" class="agent-pack-tab-btn" id="btnAgentPackPitch" role="tab" aria-selected="false" data-format="pitch" onclick="window.setAgentListingFormat('pitch')">
+            <span>🤝 Vendor Mandate Pitch</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Content Box (Scrollable, Fixed Footprint) -->
+        <div class="agent-pack-content-box" id="agentPackContentBox">
+          <div id="lbl-agent-pack-display">
+            <!-- Backward compatibility hook -->
+            <p id="lbl-daft-blurb-text" style="margin: 0; white-space: pre-line;">
+              🏡 Prime Energy &amp; Equity Upgrade Potential: Pre-assessed for SEAI grant funding with up to €35,000 in direct government grants available. Upgrading to an A-rating unlocks an estimated +€24,500 in property value and qualifies prospective purchasers for 3.45% Green Mortgage interest rates (~€202/month monthly mortgage reduction). Full independent engineering specification and grant breakdown available upon request.
+            </p>
+          </div>
+        </div>
+
+        <!-- Action Row -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
-          <button type="button" id="btn-copy-daft-action" class="btn-copy-daft" onclick="window.copyDaftListingBlurb()">
-            <span>📋 Copy Green Bulletpoints for Daft.ie Listing</span>
+          <button type="button" id="btn-copy-daft-action" class="btn-copy-daft" onclick="window.copyAgentListingPack()">
+            <span id="lbl-agent-pack-copy-btn">📋 Copy Green Bulletpoints for Daft.ie Listing</span>
           </button>
           <a href="/pricing/" class="btn-hero-primary-star" style="text-align: center; padding: 14px 20px; font-size: 0.95rem;">
-            ⭐ Book Survey  for Vendor Pack →
+            ⭐ Book Survey for Vendor Pack →
           </a>
         </div>
       </div>
@@ -1661,6 +1768,104 @@
               <div style="font-size: 0.8rem; color: #94a3b8;">Demonstrate retrofit upgrades visually to buyers with architectural cross-section.</div>
               <div style="margin-top: 12px; color: #f59e0b; font-weight: 800; font-size: 0.82rem;">Launch Digital Twin →</div>
             </a>
+            <div class="hero-card" style="border: 1px solid rgba(245, 158, 11, 0.4); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px; cursor: pointer;" onclick="window.setAgentStep2Mode('defense'); document.getElementById('btnAgentModeDefense')?.scrollIntoView({behavior: 'smooth', block: 'center'});">
+              <div style="font-size: 1.8rem; margin-bottom: 8px;">🛡️</div>
+              <div style="font-size: 0.72rem; font-weight: 800; color: #f59e0b; text-transform: uppercase;">Objection Shield</div>
+              <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">Buyer Price-Chipping Defense</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">Neutralize buyer low-ball bids using 2026 statutory SEAI OSS grants and Green Mortgage maths.</div>
+              <div style="margin-top: 12px; color: #34f5c5; font-weight: 800; font-size: 0.82rem;">Launch Defense Matrix in Wizard ⚔️ →</div>
+            </div>
+
+            <!-- Flagship Card: Buyer Borrowing Power Booster (The Mortgage Ceiling Expander) -->
+            <div class="agent-booster-card" id="agentBorrowingBoosterCard">
+              <div class="agent-booster-header">
+                <div>
+                  <div class="agent-booster-tag">
+                    <span>🏛️ CENTRAL BANK 4X LENDING RULES &amp; GREEN MORTGAGE ARBITRAGE</span>
+                  </div>
+                  <h3 class="agent-booster-title">
+                    Buyer Borrowing Power Booster
+                  </h3>
+                  <p class="agent-booster-subtitle">
+                    Turn hesitant or "capped-out" buyers into bank-approved bidders by proving A-rated green rate savings underwrite higher mortgage debt capacity.
+                  </p>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <span class="agent-booster-pool-pill" id="lbl-booster-pool-uplift">
+                    🔥 +22% Qualified Buyer Pool
+                  </span>
+                </div>
+              </div>
+
+              <!-- Interactive Household Income Controls -->
+              <div class="agent-booster-controls">
+                <div class="agent-booster-slider-row">
+                  <span style="font-size: 0.78rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace;">
+                    Joint Household Gross Income:
+                  </span>
+                  <span class="agent-booster-income-val" id="lbl-booster-income-val">
+                    €85,000 / yr
+                  </span>
+                </div>
+                <input type="range" id="booster-income-slider" class="agent-booster-slider" min="45000" max="175000" step="5000" value="85000" oninput="window.onBuyerIncomeSliderChange(this.value)" />
+                <div class="agent-booster-presets">
+                  <span style="font-size: 0.72rem; color: #64748b; align-self: center; font-family: 'IBM Plex Mono', monospace; margin-right: 4px;">Fast-Picks:</span>
+                  <button type="button" class="agent-booster-preset-btn" onclick="window.setBuyerIncomePreset(55000)">€55k Starter</button>
+                  <button type="button" class="agent-booster-preset-btn active" id="btnBoosterPreset85" onclick="window.setBuyerIncomePreset(85000)">€85k Average</button>
+                  <button type="button" class="agent-booster-preset-btn" onclick="window.setBuyerIncomePreset(115000)">€115k Dual Pro</button>
+                  <button type="button" class="agent-booster-preset-btn" onclick="window.setBuyerIncomePreset(145000)">€145k High-Cap</button>
+                </div>
+              </div>
+
+              <!-- 4-Item Telemetry Grid -->
+              <div class="agent-booster-telemetry-grid">
+                <div class="agent-booster-metric-box">
+                  <span class="agent-booster-metric-title">Standard Loan Limit (4x)</span>
+                  <span class="agent-booster-metric-val" id="lbl-booster-base-limit" style="color: #94a3b8;">€340,000</span>
+                  <span class="agent-booster-metric-sub">Standard Variable Rate (4.75%)</span>
+                </div>
+                <div class="agent-booster-metric-box accent-cyan">
+                  <span class="agent-booster-metric-title">Green Mortgage APR</span>
+                  <span class="agent-booster-metric-val" style="color: #38bdf8;">3.45% Fixed</span>
+                  <span class="agent-booster-metric-sub">Saves €258/mo Repayment</span>
+                </div>
+                <div class="agent-booster-metric-box accent-gold">
+                  <span class="agent-booster-metric-title">Monthly Energy &amp; Loan Surplus</span>
+                  <span class="agent-booster-metric-val" id="lbl-booster-monthly-surplus" style="color: #fbbf24;">+€533 / mo</span>
+                  <span class="agent-booster-metric-sub" id="lbl-booster-energy-sub">Includes €275/mo Fuel Slash</span>
+                </div>
+                <div class="agent-booster-metric-box accent-mint">
+                  <span class="agent-booster-metric-title">Boosted Borrowing Ceiling</span>
+                  <span class="agent-booster-metric-val" id="lbl-booster-expanded-limit" style="color: #34f5c5;">€382,500</span>
+                  <span class="agent-booster-metric-sub" id="lbl-booster-net-uplift" style="color: #34f5c5; font-weight: 800;">+€42,500 Buying Power</span>
+                </div>
+              </div>
+
+              <!-- Underwriter & Broker Qualification Verdict -->
+              <div class="agent-booster-verdict-card">
+                <div class="agent-booster-verdict-top">
+                  <span class="agent-booster-verdict-title">
+                    📋 Bank Underwriter &amp; Broker Debt-Service Assessment
+                  </span>
+                  <span style="font-size: 0.76rem; font-family: 'IBM Plex Mono', monospace; color: #34f5c5; font-weight: 800;">
+                    Stress-Test Status: Fully Approved ✓
+                  </span>
+                </div>
+                <p class="agent-booster-verdict-text" id="lbl-booster-verdict-text">
+                  With a joint income of €85,000, Central Bank rules normally cap borrowing at €340,000. However, qualifying this home for a 3.45% Green Mortgage unlocks €258/mo in lower bank interest, combined with €275/mo in displaced fossil fuel savings (net +€533/mo surplus). Under mortgage broker stress tests, this surplus safely supports up to <strong>+€42,500 in additional borrowing capacity</strong>, expanding purchasing power to <strong>€382,500</strong>.
+                </p>
+              </div>
+
+              <!-- Actions -->
+              <div class="agent-booster-actions">
+                <button type="button" class="btn-agent-booster-copy" id="btnAgentBoosterCopy" onclick="window.copyBorrowingBoosterPitch()">
+                  <span>📲 Copy Broker &amp; Buyer Pre-Approval Explainer Script</span>
+                </button>
+                <a href="/pricing/" class="btn-hero-secondary" style="display: flex; align-items: center; justify-content: center; padding: 14px 20px; font-size: 0.88rem; border-radius: 12px; text-decoration: none;">
+                  ⭐ Pre-Listing Engineering Pack (€149) →
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

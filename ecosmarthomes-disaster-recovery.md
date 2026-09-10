@@ -1,8 +1,8 @@
 # EcoSmartHome Disaster Recovery Runbook & Operations Standard
 
-**Version:** 3.9.2 (Aoife AI 30-Second Audio Briefing Player)  
+**Version:** 3.9.4 (1-Click Multi-Format Listing Pack - Daft.ie, Window Display & Vendor Pitch)  
 **Last Updated:** September 10, 2026  
-**Release Tag:** `v3.9.2-aoife-audio-briefing`  
+**Release Tag:** `v3.9.4-multi-format-listing-pack`  
 **Classification:** Internal Technical Operations, Disaster Recovery & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -58,7 +58,7 @@ git push origin main --force
 ### 1. Unified One-Page In-Place Persona System (`smart-nav.js` & `index.html`)
 - **Five Dedicated Real-Time Views (Zero Page Reload, Zero Scroll Hijacking):**
   1. 🏠 **Homeowner Portal (`#view-panel-homeowner`):** Day-1 Positive Cashflow Out-of-Pocket Decider (SBCI 3.55% green loan amortization vs. displaced fuel bills with zero-scroll dual-mode switcher), Carbon Tax Rescue, Heat Loss Indicator (HLI), 24c Solar CEG calculator, and up to €35,000 in SEAI One-Stop-Shop Deep Retrofit grants.
-  2. 💼 **Estate Agent Portal (`#view-panel-agent`):** ESRI-calibrated Property Equity Surge engine (+€38,500 vendor uplift), Daft.ie/MyHome.ie compliant copy generator, and green mortgage selling points.
+  2. 💼 **Estate Agent Portal (`#view-panel-agent`):** In-place double-engine with Vendor Equity Surge (+€38,500 vendor uplift) and Vendor Objection Shield / Price-Chipping Defense Matrix (2026 SEAI OSS statutory grants up to €35k + 3.45% Green Mortgage interest savings + 1-click WhatsApp rebuttal generator), Daft.ie/MyHome.ie compliant copy generator, and secondary due diligence drawer.
   3. ⚡ **Installer Portal (`#view-panel-installer`):** NSAI SR50-2:2024 low-flow radiator sizing matrix (45°C flow, Delta-T 30), tender RFP generator, and outsourced technical survey dispatch.
   4. 🛡️ **Audit & Review Command Center (`#view-panel-audit`):** 100% conflict-free contractor quote red-liner, multimodal AI Computer Vision Snap & Audit dropzone (`#snap-audit`), and buffer tank verification.
   5. 🔍 **View All Tools (`#view-panel-all`):** Complete catalogue of all 11+ independent Irish energy engines.
@@ -170,6 +170,26 @@ python scratch/test_implementation_checklist.py
 | **Telemetry Database** | Supabase Cloud Support | supabase.com/dashboard | < 4 hours |
 
 ---
+
+### Version 3.9.4 Release Notes (September 10, 2026)
+- **1-Click Multi-Format Listing Pack (Daft.ie, Window Display & Vendor Pitch)**:
+  - Upgraded Step 3 of the 3-Step Estate Agent Commission-Booster (`#agent-rescue-wizard`) into a dynamic 3-way multi-format tab switcher (`#agentListingPackTabs`), delivering instant medium-optimized marketing assets with zero layout shifts or vertical page bloat:
+    1. `📋 Daft.ie / MyHome.ie Feature Bullets`: Character-optimized, high-converting portal copy highlighting pre-assessed 2026 SEAI OSS grants (up to €35,000) and 3.45% Green Mortgage eligibility.
+    2. `🪟 High-Street Window Display Teaser`: High-contrast, punchy 2-line print teaser card tailored for agency front windows.
+    3. `🤝 Vendor Mandate Pitch`: Exact kitchen-table conversion script agents use to secure exclusive sole-agency instructions against rival agencies.
+  - Zero-Stacking Footprint: Fixed scrollable container (`max-height: 180px; overflow-y: auto;`) preserves exact single-fold geometry across all 3 formats without pushing down adjacent controls.
+  - Dynamic Contextual CTA Button: Copy button label and toast response update automatically based on selected format (`window.copyAgentListingPack()`). Full backward compatibility with `#lbl-daft-blurb-text` and `#btn-copy-daft-action`.
+  - Real-Time Recalibration: Seamlessly synchronizes with the official 8-bar BER scale standard (`G` to `A0`) and property asking price inputs.
+  - 100% byte-for-byte dual-directory parity between `site/` and `site/site/`.
+
+### Version 3.9.3 Release Notes (September 10, 2026)
+- **Vendor Objection Shield / Buyer Price-Chipping Defense Matrix**:
+  - Implemented in-place double-engine mode switcher in Step 2 of the 3-Step Estate Agent Commission-Booster (`#agent-rescue-wizard`), toggling seamlessly between `📈 Vendor Equity Surge` and `🛡️ Buyer Price-Chipping Defense (Objection Shield)` with 0 vertical page bloat.
+  - Mathematical rebuttal matrix calibrated to official 8-bar BER scale (`G` to `A0`): disarms buyer low-ball bids using 2026 statutory SEAI One-Stop-Shop grant caps (up to €35,000), real net renovation outlay, 25-year 3.45% Green Mortgage interest savings, and net lifetime purchaser surplus.
+  - The Agent's Mathematical Armor Verdict box provides instant authoritative confirmation that low-ball discounts are mathematically unjustified.
+  - 1-Tap WhatsApp Rebuttal Script Copier (`window.copyAgentDefenseWhatsApp()`) equips agents with instant, polite, and data-backed rebuttal messages ready to dispatch to bidding buyers.
+  - Integrated dedicated Objection Shield card in `#agent-secondary-drawer` and added direct launcher in the side drawer accordion (`#accordion-panel-agent`) with tool counter updated to 7 tools.
+  - 100% byte-for-byte dual-directory parity between `site/` and `site/site/`.
 
 ### Version 3.9.2 Release Notes (September 10, 2026)
 - **Aoife AI 30-Second Audio Briefing Player (Voice-First Trust Engine)**:

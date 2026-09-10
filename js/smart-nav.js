@@ -599,7 +599,7 @@
                 <span>Estate Agent Hub</span>
               </span>
               <span style="display:flex;align-items:center;gap:6px;">
-                <span class="drawer-badge-pill" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid #f59e0b;">6 Tools</span>
+                <span class="drawer-badge-pill" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid #f59e0b;">8 Tools</span>
                 <span class="accordion-arrow">▼</span>
               </span>
             </button>
@@ -632,11 +632,25 @@
                   <div style="font-size:0.72rem;color:#94a3b8;">A-Rating property value uplift</div>
                 </div>
               </a>
+              <a href="/?view=agent" class="drawer-tool-item" onclick="window.setPersona('agent'); window.closeToolsDrawer(); setTimeout(() => { window.setAgentStep2Mode('defense'); document.getElementById('btnAgentModeDefense')?.scrollIntoView({behavior:'smooth', block:'center'}); }, 150);">
+                <span class="tool-icon">🛡️</span>
+                <div>
+                  <div>Vendor Objection Shield</div>
+                  <div style="font-size:0.72rem;color:#34f5c5;font-weight:700;">Price-chipping defense matrix</div>
+                </div>
+              </a>
               <a href="/ber-matrix/" class="drawer-tool-item">
                 <span class="tool-icon">📊</span>
                 <div>
                   <div>Official Simplified BER Matrix</div>
                   <div style="font-size:0.72rem;color:#94a3b8;">8-Category Irish SEAI scale</div>
+                </div>
+              </a>
+              <a href="/?view=agent" class="drawer-tool-item" onclick="window.setPersona('agent'); window.closeToolsDrawer(); setTimeout(() => { window.openAgentBorrowingBooster(); }, 150);">
+                <span class="tool-icon">🏛️</span>
+                <div>
+                  <div>Buyer Borrowing Power Booster</div>
+                  <div style="font-size:0.72rem;color:#38bdf8;font-weight:700;">Mortgage ceiling expander (+€42k)</div>
                 </div>
               </a>
               <a href="/checkout/?role=agent" class="drawer-tool-item">
@@ -1073,12 +1087,13 @@
   }
 
   // ==========================================================================
-  // 3-STEP ESTATE AGENT COMMISSION-BOOSTER & DAFT.IE COPY ENGINE
+  // 3-STEP ESTATE AGENT COMMISSION-BOOSTER & VENDOR OBJECTION SHIELD ENGINE
   // ==========================================================================
   let agentCurrentBER = 'D';
   let agentPropertyVal = 350000;
+  let agentStep2Mode = 'equity'; // 'equity' | 'defense'
 
-  // Official Simplified 8-Category Scale Multipliers
+  // Official Simplified 8-Category Scale Multipliers (Equity Surge)
   const BER_SURGE_MULTIPLIERS = {
     G: 0.108,
     F: 0.095,
@@ -1090,21 +1105,247 @@
     A0: 0.005
   };
 
+  // Vendor Objection Shield Calibration Tables (2026 SEAI OSS & Irish Market Reality)
+  const BER_BUYER_CLAIMED_COST = {
+    G: 48000,
+    F: 44000,
+    E: 38000,
+    D: 32000,
+    C: 22000,
+    B: 12000,
+    A: 0,
+    A0: 0
+  };
+
+  const BER_SEAI_GRANT_OFFSET = {
+    G: 35000,
+    F: 33000,
+    E: 32000,
+    D: 31500,
+    C: 26000,
+    B: 14000,
+    A: 0,
+    A0: 0
+  };
+
+  const BER_ANNUAL_ENERGY_SAVINGS = {
+    G: 2850,
+    F: 2500,
+    E: 2150,
+    D: 1850,
+    C: 1200,
+    B: 550,
+    A: 0,
+    A0: 0
+  };
+
+  window.setAgentStep2Mode = function(mode) {
+    agentStep2Mode = mode;
+    const btnEquity = document.getElementById('btnAgentModeEquity');
+    const btnDefense = document.getElementById('btnAgentModeDefense');
+    const containerEquity = document.getElementById('agentEquityContainer');
+    const containerDefense = document.getElementById('agentDefenseContainer');
+
+    if (btnEquity && btnDefense) {
+      btnEquity.classList.toggle('active', mode === 'equity');
+      btnEquity.setAttribute('aria-selected', mode === 'equity' ? 'true' : 'false');
+      btnDefense.classList.toggle('active', mode === 'defense');
+      btnDefense.setAttribute('aria-selected', mode === 'defense' ? 'true' : 'false');
+    }
+
+    if (containerEquity) containerEquity.style.display = mode === 'equity' ? 'block' : 'none';
+    if (containerDefense) containerDefense.style.display = mode === 'defense' ? 'block' : 'none';
+
+    if (mode === 'defense') {
+      updateAgentDefenseCalculations();
+    } else {
+      updateAgentSurgeCalculations();
+    }
+  };
+
+  function updateAgentDefenseCalculations() {
+    const claimedCost = BER_BUYER_CLAIMED_COST[agentCurrentBER] ?? 32000;
+    const grantOffset = BER_SEAI_GRANT_OFFSET[agentCurrentBER] ?? 31500;
+    const netOutlay = Math.max(0, claimedCost - grantOffset);
+
+    // 25-Year Green Mortgage Calculation (3.45% Green APR vs 4.75% Standard Variable on 80% LTV)
+    const loan = agentPropertyVal * 0.8;
+    const r_std = 0.0475 / 12;
+    const r_grn = 0.0345 / 12;
+    const m_std = loan * (r_std * Math.pow(1 + r_std, 300)) / (Math.pow(1 + r_std, 300) - 1);
+    const m_grn = loan * (r_grn * Math.pow(1 + r_grn, 300)) / (Math.pow(1 + r_grn, 300) - 1);
+    const monthlyDiff = Math.max(0, m_std - m_grn);
+
+    let mortgageSavings = 0;
+    if (['G', 'F', 'E', 'D', 'C'].includes(agentCurrentBER)) {
+      mortgageSavings = Math.round(monthlyDiff * 300);
+    } else if (agentCurrentBER === 'B') {
+      mortgageSavings = Math.round(monthlyDiff * 300 * 0.4);
+    }
+
+    const annualFuelSave = BER_ANNUAL_ENERGY_SAVINGS[agentCurrentBER] || 0;
+    const fuelSavings25Yr = annualFuelSave * 25;
+    const totalBuyerSurplus = Math.max(0, (grantOffset + mortgageSavings + fuelSavings25Yr) - claimedCost);
+
+    // Update DOM Readouts
+    const elBuyerClaim = document.getElementById('defenseBuyerClaimVal');
+    const elBuyerClaimSub = document.getElementById('defenseBuyerClaimSub');
+    const elGrant = document.getElementById('defenseGrantVal');
+    const elNetOutlay = document.getElementById('defenseNetOutlayVal');
+    const elMortgageSlash = document.getElementById('defenseMortgageSlashVal');
+    const elNetSurplus = document.getElementById('defenseNetSurplusVal');
+    const elVerdict = document.getElementById('defenseVerdictText');
+
+    if (elBuyerClaim) elBuyerClaim.innerText = claimedCost > 0 ? `-€${claimedCost.toLocaleString()}` : '€0';
+    if (elBuyerClaimSub) elBuyerClaimSub.innerText = claimedCost > 0 ? `Buyer low-ball discount (BER ${agentCurrentBER})` : `No upgrade works needed (BER ${agentCurrentBER})`;
+    if (elGrant) elGrant.innerText = grantOffset > 0 ? `+€${grantOffset.toLocaleString()}` : '€0';
+    if (elNetOutlay) elNetOutlay.innerText = `€${netOutlay.toLocaleString()}`;
+    if (elMortgageSlash) elMortgageSlash.innerText = mortgageSavings > 0 ? `+€${mortgageSavings.toLocaleString()}` : '€0 (Already Eligible)';
+    if (elNetSurplus) elNetSurplus.innerText = `+€${totalBuyerSurplus.toLocaleString()} Total Buyer Surplus`;
+
+    if (elVerdict) {
+      if (['G', 'F', 'E', 'D', 'C'].includes(agentCurrentBER)) {
+        elVerdict.innerText = `The purchaser's claim of a €${claimedCost.toLocaleString()} renovation penalty is mathematically disproven. With up to €${grantOffset.toLocaleString()} in statutory SEAI One-Stop-Shop grants and €${mortgageSavings.toLocaleString()} in Green Mortgage interest savings, the purchaser gains an enormous net surplus of +€${totalBuyerSurplus.toLocaleString()}. Zero price concession is warranted.`;
+      } else if (agentCurrentBER === 'B') {
+        elVerdict.innerText = `Property operates at high B-Rating efficiency. Minor heat pump or PV optimization unlocks A-Class status with €${grantOffset.toLocaleString()} in grants completely wiping out the €${claimedCost.toLocaleString()} outlay. Full asking price is 100% fortified.`;
+      } else {
+        elVerdict.innerText = `Elite A-Class Asset (BER ${agentCurrentBER}). Zero retrofit liability exists. The purchaser qualifies immediately for 3.45% Green Mortgage financing without spending a single euro on capital works. Full asking price stands.`;
+      }
+    }
+  }
+
+  // ==========================================================================
+  // MULTI-FORMAT LISTING PACK GENERATOR (DAFT, WINDOW, VENDOR PITCH)
+  // ==========================================================================
+  let agentListingFormat = 'daft'; // 'daft' | 'window' | 'pitch'
+
   function generateDaftListingCopy(ber, equitySurge, propertyVal) {
     const surgeFormatted = equitySurge.toLocaleString();
     const valFormatted = propertyVal.toLocaleString();
+    const grantCap = BER_SEAI_GRANT_OFFSET[ber] || 35000;
 
     if (['D', 'E', 'F', 'G'].includes(ber)) {
       // Category 1: The "High-Potential Fixer"
-      return `🏡 Green Energy & Retrofitting Potential – Capital Appreciation Opportunity\n\nFor the forward-thinking buyer, this property represents an exceptional opportunity to significantly increase both its energy efficiency and market value, backed by substantial state funding.\n\nA preliminary independent diagnostic assessment via EcoSmartHomes indicates that upgrading this property from its current BER ${ber} rating to a highly efficient A-Rating can unlock an estimated +€${surgeFormatted} in immediate capital equity.\n\n• Grant Funding Available: Up to €35,000 in direct, non-means-tested SEAI cash grants are fully accessible for this specific property archetype to cover heat pump installation, solar PV integration, and advanced insulation upgrades.\n• Purchasing Advantage: Achieving an A-Class rating instantly qualifies this property for a premium Green Mortgage rate (currently averaging 3.45%), potentially saving the incoming buyer over €200 per month in mortgage interest repayments.\n• Independent Verification: A complete independent engineering validation pack and retrofitting roadmap are available upon request to serious bidders to streamline your mortgage approval process.`;
+      return `🏡 Prime Energy & Retrofitting Potential – Capital Appreciation Opportunity\n\nFor the forward-thinking buyer, this property represents an exceptional opportunity to significantly increase both its energy efficiency and market value, backed by substantial state funding.\n\nA preliminary independent diagnostic assessment via EcoSmartHomes indicates that upgrading this property from its current BER ${ber} rating to a highly efficient A-Rating can unlock an estimated +€${surgeFormatted} in immediate capital equity.\n\n• Grant Funding Available: Up to €${grantCap.toLocaleString()} in direct, non-means-tested SEAI cash grants are fully accessible for this specific property archetype to cover heat pump installation, solar PV integration, and advanced insulation upgrades.\n• Purchasing Advantage: Achieving an A-Class rating instantly qualifies this property for a premium Green Mortgage rate (currently averaging 3.45%), potentially saving the incoming buyer over €200 per month in mortgage interest repayments.\n• Independent Verification: A complete independent engineering validation pack and retrofitting roadmap are available upon request to serious bidders to streamline your mortgage approval process.`;
     } else if (['B', 'C'].includes(ber)) {
       // Category 2: The "Mid-Tier Optimizer"
-      return `🏡 A-Rated Green Mortgage Potential & Energy Optimization\n\nMaintained to an excellent standard, this modern home currently holds a comfortable BER ${ber} rating. However, it sits right on the threshold of maximum efficiency, offering a seamless path to complete carbon protection.\n\n• The Green Premium: Minor, targeted upgrades via available SEAI grants can comfortably push this home into the coveted A-Rated bracket. This transition instantly qualifies the property for discounted Green Mortgage financing (3.45%), significantly increasing its appeal and affordability to top-tier buyers.\n• Shield Against Rising Costs: Fully optimizing the thermal envelope will drop annual space heating and hot water costs down to a projected €650 a year, acting as a permanent shield against future Irish fuel tax escalators.\n• Next Steps for Bidders: The vendors have sub-contracted an independent engineering pre-survey through EcoSmartHomes. Bidders can access the complete NSAI low-flow radiator compatibility matrix and tailored grant application framework directly from the selling agent.`;
+      return `🏡 A-Rated Green Mortgage Potential & Energy Optimization\n\nMaintained to an excellent standard, this modern home currently holds a comfortable BER ${ber} rating. However, it sits right on the threshold of maximum efficiency, offering a seamless path to complete carbon protection.\n\n• The Green Premium: Minor, targeted upgrades via available SEAI grants (up to €${grantCap.toLocaleString()}) can comfortably push this home into the coveted A-Rated bracket. This transition instantly qualifies the property for discounted Green Mortgage financing (3.45%), significantly increasing its appeal and affordability to top-tier buyers.\n• Shield Against Rising Costs: Fully optimizing the thermal envelope will drop annual space heating and hot water costs down to a projected €650 a year, acting as a permanent shield against future Irish fuel tax escalators.\n• Next Steps for Bidders: The vendors have sub-contracted an independent engineering pre-survey through EcoSmartHomes. Bidders can access the complete NSAI low-flow radiator compatibility matrix and tailored grant application framework directly from the selling agent.`;
     } else {
       // Category 3: The "Gold Standard" (A, A0)
       return `🏡 Elite A-Class Energy Rating & Low-Carbon Luxury\n\nThis property represents the absolute pinnacle of sustainable Irish housing, boasting an exceptional BER ${ber} rating.\n\n• Maximum Mortgage Discount: This elite rating guarantees immediate access to the lowest 3.45% Green Mortgage interest rates on the Irish market, drastically reducing long-term borrowing costs for the successful purchaser.\n• Absolute Carbon Shielding: Built with advanced thermal envelope technology, this home operates at maximum efficiency with heating bills slashed to an estimated €650 per annum, completely immune to compounding carbon tax penalties.\n• Verified Engineering: Full SEAI compliance documentation and NSAI SR50-2 verification certs on file with the selling agent.`;
     }
   }
+
+  function generateWindowDisplayCopy(ber, equitySurge, propertyVal) {
+    const surgeFormatted = equitySurge.toLocaleString();
+    const valFormatted = propertyVal.toLocaleString();
+    const grantCap = BER_SEAI_GRANT_OFFSET[ber] || 35000;
+
+    if (['A', 'A0'].includes(ber)) {
+      return `“ELITE A-CLASS ENERGY HOMES · INSTANT 3.45% GREEN MORTGAGE”\n\nAsking: €${valFormatted} · Certified BER ${ber}\n• Zero Retrofit Liability: Immaculate thermal envelope with projected annual heating under €650.\n• Financing Advantage: Qualifies purchasers immediately for Ireland’s lowest 3.45% Green Mortgage rates.\n• Full Independent Compliance Dossier & NSAI SR50-2 Verification Certs Available From This Office.`;
+    } else if (['B', 'C'].includes(ber)) {
+      return `“PRE-QUALIFIED FOR IRELAND'S 3.45% GREEN MORTGAGE”\n\nAsking: €${valFormatted} · Current BER ${ber} (A-Rating Ready)\n• State Funding Accessible: Pre-assessed for up to €${grantCap.toLocaleString()} in direct SEAI grant support.\n• Capital Growth Upside: Unlocks an estimated +€${surgeFormatted} in equity uplift post-upgrade.\n• Full Independent Engineering Roadmap & Radiator Sizing Dossier Available From This Office.`;
+    } else {
+      return `“UNLOCK IRELAND’S LOWEST 3.45% GREEN MORTGAGE”\n\nAsking: €${valFormatted} · Current BER ${ber} (Target: A0)\n• Up to €${grantCap.toLocaleString()} in Direct SEAI One-Stop-Shop Grants Deducted at Source.\n• Adds +€${surgeFormatted} Estimated Capital Equity Surge Upon Transition to A-Class.\n• Full Independent Engineering Grant Pack & Specification Available From This Office.`;
+    }
+  }
+
+  function generateVendorPitchCopy(ber, equitySurge, propertyVal) {
+    const surgeFormatted = equitySurge.toLocaleString();
+    const valFormatted = propertyVal.toLocaleString();
+    const grantCap = BER_SEAI_GRANT_OFFSET[ber] || 35000;
+
+    if (['A', 'A0'].includes(ber)) {
+      return `“Mr. & Mrs. Vendor, your home represents the top 5% of energy assets in Ireland. While other estate agents will list this as just another property, our agency actively markets it as a certified net-zero asset with immediate access to 3.45% Green Mortgage financing and zero retrofit liability.\n\nWe target rate-conscious buyers and downsizers willing to pay a verified premium for guaranteed low running costs. That is how we defend and maximize your €${valFormatted} asking price.”`;
+    } else if (['B', 'C'].includes(ber)) {
+      return `“Mr. & Mrs. Vendor, your home is in prime condition. At BER ${ber}, it sits right on the edge of the highest green tier. Other agents will let buyers negotiate without context; our agency equips buyers with an independent roadmap showing how up to €${grantCap.toLocaleString()} in SEAI grants bridges them to an A-Rating and unlocks 3.45% Green Mortgage rates.\n\nWe turn your energy rating into a competitive bidding catalyst, unlocking up to +€${surgeFormatted} in equity rather than accepting discounts.”`;
+    } else {
+      return `“Mr. & Mrs. Vendor, here is exactly how our agency will protect your €${valFormatted} asking price:\n\nMost agents simply put a sign in your lawn and upload photos. When buyers view a BER ${ber} home, their standard tactic is to chip €30,000 to €45,000 off their offer claiming 'renovation costs'.\n\nUnlike other agencies, we provide an Independent Engineering Grant Roadmap powered by EcoSmartHomes. We prove to bidders that up to €${grantCap.toLocaleString()} in statutory SEAI One-Stop-Shop grants is deducted at source, and upgrading unlocks over €60,000 in 25-year Green Mortgage savings. We insulate your asking price with mathematics, proving a +€${surgeFormatted} equity gain. That is why instructed vendors choose our agency.”`;
+    }
+  }
+
+  function updateAgentListingPack() {
+    const surgePct = BER_SURGE_MULTIPLIERS[agentCurrentBER] || 0.070;
+    const equitySurge = Math.round(agentPropertyVal * surgePct);
+    const container = document.getElementById('agentPackContentBox');
+    const daftText = generateDaftListingCopy(agentCurrentBER, equitySurge, agentPropertyVal);
+    const windowText = generateWindowDisplayCopy(agentCurrentBER, equitySurge, agentPropertyVal);
+    const pitchText = generateVendorPitchCopy(agentCurrentBER, equitySurge, agentPropertyVal);
+    const grantCap = BER_SEAI_GRANT_OFFSET[agentCurrentBER] || 35000;
+
+    if (!container) return;
+
+    if (agentListingFormat === 'window') {
+      container.className = 'agent-pack-content-box format-window';
+      container.innerHTML = `
+        <div class="window-card-display">
+          <div class="window-headline-main">“UNLOCK IRELAND’S LOWEST 3.45% GREEN MORTGAGE”</div>
+          <div class="window-headline-sub">Pre-Assessed for Up to €${grantCap.toLocaleString()} in Direct SEAI Grants</div>
+          <div class="window-badge-bar">
+            <span class="window-badge-pill">📍 Certified Listing</span>
+            <span class="window-badge-pill">€${agentPropertyVal.toLocaleString()} Asking</span>
+            <span class="window-badge-pill">BER ${agentCurrentBER} ➔ A0 Target</span>
+            <span class="window-badge-pill" style="color: #f59e0b; border-color: rgba(245, 158, 11, 0.4);">+€${equitySurge.toLocaleString()} Equity Upside</span>
+          </div>
+          <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 8px;">
+            Full Independent Engineering Roadmap &amp; Grant Breakdown Available From This Office
+          </div>
+        </div>
+        <p id="lbl-daft-blurb-text" style="display: none;">${daftText}</p>
+      `;
+    } else if (agentListingFormat === 'pitch') {
+      container.className = 'agent-pack-content-box format-pitch';
+      container.innerHTML = `
+        <div style="font-size: 0.74rem; font-weight: 800; color: #fbbf24; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; margin-bottom: 6px;">
+          🤝 Sole-Agency Kitchen Table Script (Win the Instruction)
+        </div>
+        <p style="margin: 0; font-style: italic; color: #fef08a; line-height: 1.55;">
+          ${pitchText.replace(/\n\n/g, '<br><br>')}
+        </p>
+        <p id="lbl-daft-blurb-text" style="display: none;">${daftText}</p>
+      `;
+    } else {
+      container.className = 'agent-pack-content-box';
+      container.innerHTML = `
+        <p id="lbl-daft-blurb-text" style="margin: 0; white-space: pre-line;">
+          ${daftText}
+        </p>
+      `;
+    }
+  }
+
+  window.setAgentListingFormat = function(format) {
+    agentListingFormat = format;
+    const btnDaft = document.getElementById('btnAgentPackDaft');
+    const btnWindow = document.getElementById('btnAgentPackWindow');
+    const btnPitch = document.getElementById('btnAgentPackPitch');
+    const copyBtnLabel = document.getElementById('lbl-agent-pack-copy-btn');
+
+    if (btnDaft) {
+      btnDaft.classList.toggle('active', format === 'daft');
+      btnDaft.setAttribute('aria-selected', format === 'daft' ? 'true' : 'false');
+    }
+    if (btnWindow) {
+      btnWindow.classList.toggle('active', format === 'window');
+      btnWindow.setAttribute('aria-selected', format === 'window' ? 'true' : 'false');
+    }
+    if (btnPitch) {
+      btnPitch.classList.toggle('active', format === 'pitch');
+      btnPitch.setAttribute('aria-selected', format === 'pitch' ? 'true' : 'false');
+    }
+
+    if (copyBtnLabel) {
+      if (format === 'window') {
+        copyBtnLabel.innerText = '🪟 Copy High-Street Window Display Teaser';
+      } else if (format === 'pitch') {
+        copyBtnLabel.innerText = '🤝 Copy Kitchen-Table Vendor Pitch Script';
+      } else {
+        copyBtnLabel.innerText = '📋 Copy Green Bulletpoints for Daft.ie Listing';
+      }
+    }
+
+    updateAgentListingPack();
+  };
 
   function updateAgentSurgeCalculations() {
     const surgePct = BER_SURGE_MULTIPLIERS[agentCurrentBER] || 0.070;
@@ -1128,11 +1369,8 @@
     const priceDisp = document.getElementById('lbl-agent-price-val');
     if (priceDisp) priceDisp.innerText = `€${agentPropertyVal.toLocaleString()}`;
 
-    // Update Daft.ie Blurb Preview with Category Templates
-    const daftBox = document.getElementById('lbl-daft-blurb-text');
-    if (daftBox) {
-      daftBox.innerText = generateDaftListingCopy(agentCurrentBER, equitySurge, agentPropertyVal);
-    }
+    // Update Multi-Format Listing Pack
+    updateAgentListingPack();
   }
 
   window.setAgentBER = function(ber) {
@@ -1141,16 +1379,20 @@
       pill.classList.toggle('active', pill.getAttribute('data-ber') === ber);
     });
     updateAgentSurgeCalculations();
+    updateAgentDefenseCalculations();
+    if (typeof updateBorrowingBoosterCalculations === 'function') updateBorrowingBoosterCalculations();
   };
 
   window.onAgentPriceSliderChange = function(val) {
     agentPropertyVal = Number(val);
     updateAgentSurgeCalculations();
+    updateAgentDefenseCalculations();
   };
 
   window.onAgentPriceChange = function(priceVal) {
     agentPropertyVal = Number(priceVal);
     updateAgentSurgeCalculations();
+    updateAgentDefenseCalculations();
   };
 
   window.setAgentPricePreset = function(val) {
@@ -1158,18 +1400,75 @@
     const slider = document.getElementById('agent-price-slider') || document.getElementById('agent-price-range');
     if (slider) slider.value = val;
     updateAgentSurgeCalculations();
+    updateAgentDefenseCalculations();
   };
 
-  window.copyDaftListingBlurb = function() {
+  window.copyAgentDefenseWhatsApp = function() {
     window.requireFreemiumPass(() => {
-      const textEl = document.getElementById('lbl-daft-blurb-text');
-      if (!textEl) return;
-      const text = textEl.innerText;
-      window.copyTextToClipboard(text, 'Copied Daft.ie Listing Blurb to Clipboard!');
+      const claimedCost = BER_BUYER_CLAIMED_COST[agentCurrentBER] ?? 32000;
+      const grantOffset = BER_SEAI_GRANT_OFFSET[agentCurrentBER] ?? 31500;
+      const netOutlay = Math.max(0, claimedCost - grantOffset);
+
+      const loan = agentPropertyVal * 0.8;
+      const r_std = 0.0475 / 12;
+      const r_grn = 0.0345 / 12;
+      const m_std = loan * (r_std * Math.pow(1 + r_std, 300)) / (Math.pow(1 + r_std, 300) - 1);
+      const m_grn = loan * (r_grn * Math.pow(1 + r_grn, 300)) / (Math.pow(1 + r_grn, 300) - 1);
+      const monthlyDiff = Math.max(0, m_std - m_grn);
+      const monthlySave = Math.round(monthlyDiff);
+      const mortgageSavings = ['G', 'F', 'E', 'D', 'C'].includes(agentCurrentBER) ? Math.round(monthlyDiff * 300) : (agentCurrentBER === 'B' ? Math.round(monthlyDiff * 300 * 0.4) : 0);
+      const fuelSavings = (BER_ANNUAL_ENERGY_SAVINGS[agentCurrentBER] || 0) * 25;
+      const totalSurplus = Math.max(0, (grantOffset + mortgageSavings + fuelSavings) - claimedCost);
+
+      let text = '';
+      if (['G', 'F', 'E', 'D', 'C', 'B'].includes(agentCurrentBER)) {
+        text = `Hi [Buyer Name],\n\nRegarding your offer and mention of a €${claimedCost.toLocaleString()} deduction for BER upgrade works on the property:\n\nWe have run this property archetype through our certified EcoSmartHomes engineering diagnostic:\n\n1️⃣ Direct SEAI Grant: Up to €${grantOffset.toLocaleString()} is deducted upfront at source via the One-Stop-Shop scheme.\n2️⃣ True Net Outlay: Your actual capital exposure is only ~€${netOutlay.toLocaleString()}.\n3️⃣ Green Mortgage Rate: Upgrading to an A-rating unlocks 3.45% Green Mortgage APR, saving ~€${monthlySave}/month (€${mortgageSavings.toLocaleString()} over 25-yr loan term).\n4️⃣ Net Financial Impact: You will achieve a verified +€${totalSurplus.toLocaleString()} lifetime surplus.\n\nBecause the statutory grant structure and green mortgage benefits fully absorb and exceed these upgrade costs, the vendor cannot accept a price-chipping discount. Full asking price of €${agentPropertyVal.toLocaleString()} stands.\n\nHappy to share the full EcoSmartHomes independent validation cert upon request.`;
+      } else {
+        text = `Hi [Buyer Name],\n\nRegarding your offer on the property:\n\nThis home holds an elite BER ${agentCurrentBER} rating, which carries zero retrofit liability. It qualifies you immediately for 3.45% Green Mortgage rates without any capital expenditure. The full asking price of €${agentPropertyVal.toLocaleString()} is verified by independent engineering certs.\n\nBest regards,`;
+      }
+
+      window.copyTextToClipboard(text, 'WhatsApp Defense Script Copied!');
+      const btn = document.getElementById('btnAgentWhatsappRebuttal');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<span>✅ WhatsApp Script Copied! Ready to Send</span>';
+        btn.style.background = '#059669';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '';
+        }, 2500);
+      }
+    });
+  };
+
+  window.copyAgentListingPack = function() {
+    window.requireFreemiumPass(() => {
+      const surgePct = BER_SURGE_MULTIPLIERS[agentCurrentBER] || 0.070;
+      const equitySurge = Math.round(agentPropertyVal * surgePct);
+
+      let textToCopy = '';
+      let successMsg = '';
+      let btnSuccessText = '';
+
+      if (agentListingFormat === 'window') {
+        textToCopy = generateWindowDisplayCopy(agentCurrentBER, equitySurge, agentPropertyVal);
+        successMsg = 'Copied Window Display Teaser Card to Clipboard!';
+        btnSuccessText = '✅ Copied Window Display Teaser!';
+      } else if (agentListingFormat === 'pitch') {
+        textToCopy = generateVendorPitchCopy(agentCurrentBER, equitySurge, agentPropertyVal);
+        successMsg = 'Copied Kitchen-Table Vendor Pitch Script!';
+        btnSuccessText = '✅ Copied Vendor Pitch Script!';
+      } else {
+        textToCopy = generateDaftListingCopy(agentCurrentBER, equitySurge, agentPropertyVal);
+        successMsg = 'Copied Daft.ie Listing Blurb to Clipboard!';
+        btnSuccessText = '✅ Copied to Clipboard! Ready for Daft.ie';
+      }
+
+      window.copyTextToClipboard(textToCopy, successMsg);
       const btn = document.getElementById('btn-copy-daft-action');
       if (btn) {
         const orig = btn.innerHTML;
-        btn.innerHTML = '✅ Copied to Clipboard! Ready for Daft.ie';
+        btn.innerHTML = `<span>${btnSuccessText}</span>`;
         btn.style.background = '#10b981';
         btn.style.color = '#001711';
         setTimeout(() => {
@@ -1180,6 +1479,20 @@
       }
     });
   };
+
+  // Backwards-compatible alias
+  window.copyDaftListingBlurb = window.copyAgentListingPack;
+
+  // Bootstrap initial Agent calculations
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      updateAgentSurgeCalculations();
+      updateAgentDefenseCalculations();
+    });
+  } else {
+    updateAgentSurgeCalculations();
+    updateAgentDefenseCalculations();
+  }
 
   // ==========================================================================
   // 3-STEP INSTALLER "VAN-TO-VERDICT" ENGINE

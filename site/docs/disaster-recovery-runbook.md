@@ -1,7 +1,8 @@
 # EcoSmartHome Disaster Recovery Runbook
 
-**Version:** 3.9.2  
+**Version:** 3.9.4  
 **Last Updated:** September 10, 2026  
+**Release Tag:** `v3.9.4-multi-format-listing-pack`  
 **Classification:** Internal Technical Operations & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -49,10 +50,11 @@ git push origin main --force
   - Fuel selector (`🔥 Oil`, `💨 Gas`, `⚡ Electric`) + winter spend slider.
   - Live ticking Carbon Tax Penalty Clock calculating statutory 2026–2030 compounding liability.
   - Shield Deployment animation: shatters penalty clock down to `€0.00` and displays customized grant breakdown (up to €35,000 SEAI One-Stop-Shop grants, -€180/mo Green Mortgage, €54/mo net bill).
-- **💼 Estate Agent Commission Booster (`#view-panel-agent`):**
+- **💼 Estate Agent Commission Booster & Objection Shield (`#view-panel-agent`):**
   - Modernized 8-category BER rating selector (G to A0) + property asking price presets.
-  - Live ESRI-calibrated Property Equity Surge engine (e.g. `+€38,500` equity, `+€577` extra commission).
-  - 1-Click Daft.ie / MyHome.ie Listing Copy tool with animated clipboard toast.
+  - Step 2 Double-Engine Mode Switcher: `📈 Vendor Equity Surge` (ESRI-calibrated equity uplift) ⇄ `🛡️ Buyer Price-Chipping Defense (Objection Shield)`.
+  - Vendor Objection Shield disarms buyer low-ball bids with 2026 SEAI OSS statutory grants (up to €35,000), net renovation outlay, 25-yr 3.45% Green Mortgage interest savings, and net lifetime purchaser surplus.
+  - 1-Click WhatsApp Rebuttal Script Copier + 1-Click Daft.ie / MyHome.ie Listing Copy tool.
 - **⚡ Installer / Retrofitter Van-to-Verdict Portal (`#view-panel-installer`):**
   - Rapid archetype intake (`3-Bed Semi`, `4-Bed Detached`, `3-Bed Bungalow`, `2-Bed Apt`).
   - NSAI SR50-2:2024 low-flow radiator matrix with live `🟢 Compliant OK` and `⚠️ Oversizing Required` badges.
@@ -102,6 +104,18 @@ git push origin main --force
   - 4-Topic Audio Studio in the Homeowner Secondary Toolbox Drawer (`#drawer-aoife-audio-studio`): 2026 SEAI Grants (€35k OSS), Day-1 Cashflow (SBCI 3.55%), Carbon Tax Shield (€100/tonne escalator), and NSAI SR50-2 Heat Pump Sizing.
   - Animated acoustic equalizer waveform, live timer, scrubbing progress bar, pulsing orb, and live subtitle ticker.
   - Integrated direct launch item in `esh-side-drawer` under Homeowner Tools.
+
+### 7. Vendor Objection Shield & Price-Chipping Defense Matrix (v3.9.3)
+- **Zero-Stack Double-Engine Mode Switcher (`#agent-rescue-wizard`):** Step 2 allows instantaneous toggle between `📈 Vendor Equity Surge` and `🛡️ Buyer Price-Chipping Defense (Objection Shield)` maintaining strict single-page zero-scroll geometry.
+- **Calibrated Objection Math:** Neutralizes buyer low-ball bids using 2026 statutory SEAI One-Stop-Shop grant caps (up to €35,000), real net renovation outlay, and 25-year 3.45% Green Mortgage interest savings to demonstrate massive net buyer surplus.
+- **The Agent's Mathematical Armor Verdict:** Authoritative verdict box with 1-tap WhatsApp Rebuttal Script Copier (`window.copyAgentDefenseWhatsApp()`).
+- **Collapsible Suite & Drawer Integration:** Added dedicated Objection Shield card to `#agent-secondary-drawer` and direct quick launcher to `esh-side-drawer` with tool count incremented to 7 tools.
+
+### 8. 1-Click Multi-Format Listing Pack (v3.9.4)
+- **Zero-Stack 3-Way Format Switcher (`#agentListingPackTabs`):** Upgrades Step 3 of the Estate Agent Commission-Booster to toggle between Daft.ie / MyHome.ie Feature Bullets, High-Street Window Display Teaser, and Kitchen-Table Vendor Mandate Pitch.
+- **Medium-Optimized Dynamic Copy:** Generates tailored copy addressing specific buyer & vendor psychology for each medium, factoring in 2026 statutory SEAI One-Stop-Shop grants (up to €35,000) and 3.45% Green Mortgage eligibility.
+- **Scrollable Constrained Container:** Fixed `max-height: 180px` prevents any vertical elongation or single-fold layout shift.
+- **Contextual Copy Engine (`window.copyAgentListingPack()`):** 1-tap copy action dynamically formats clipboard payload and updates toast button feedback according to the active tab.
 
 ---
 
