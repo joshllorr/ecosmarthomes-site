@@ -1,23 +1,23 @@
 @echo off
 cd /d "%~dp0"
 echo ==============================================
-echo EcoSmartHomes - Git Push to GitHub
+echo EcoSmartHomes - Git Push to GitHub (v3.9.8)
 echo ==============================================
 git status
 echo.
-echo Staging modified files...
-git add .
+echo Staging all modified and mirrored files...
+git add -A
 echo.
-echo Committing Wallet Rescue Wizard and smart-nav syntax fixes...
-git commit -m "fix(wizard): resolve syntax error in smart-nav.js, restore live carbon tax penalty clock, fuel selectors, range slider and shield deployment"
+echo Committing v3.9.8 release...
+git commit -m "feat: deploy Day-1 Cashflow Decider, Cowboy Quote Defroster, and Van-to-Tender BoQ Locker (v3.9.8)"
 echo.
-echo Pulling latest changes from remote (rebase)...
-git pull --rebase origin main
+echo Creating release tag v3.9.8-installer-boq-margin-locker...
+git tag -a v3.9.8-installer-boq-margin-locker -m "Release v3.9.8: 90-Second Van-to-Tender BoQ & Margin Locker"
 echo.
-echo Pushing to GitHub (origin main)...
-git push origin main
+echo Pushing commits and tags to GitHub (origin main)...
+git push origin main --tags
 echo.
 echo ==============================================
-echo Push Complete!
+echo Push Complete! Production Deployed.
 echo ==============================================
 pause
