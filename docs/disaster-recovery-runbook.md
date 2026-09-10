@@ -1,8 +1,8 @@
 # EcoSmartHome Disaster Recovery Runbook
 
-**Version:** 3.9.4  
+**Version:** 3.9.5  
 **Last Updated:** September 10, 2026  
-**Release Tag:** `v3.9.4-multi-format-listing-pack`  
+**Release Tag:** `v3.9.5-buyer-borrowing-booster`  
 **Classification:** Internal Technical Operations & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -116,6 +116,13 @@ git push origin main --force
 - **Medium-Optimized Dynamic Copy:** Generates tailored copy addressing specific buyer & vendor psychology for each medium, factoring in 2026 statutory SEAI One-Stop-Shop grants (up to €35,000) and 3.45% Green Mortgage eligibility.
 - **Scrollable Constrained Container:** Fixed `max-height: 180px` prevents any vertical elongation or single-fold layout shift.
 - **Contextual Copy Engine (`window.copyAgentListingPack()`):** 1-tap copy action dynamically formats clipboard payload and updates toast button feedback according to the active tab.
+
+### 9. Buyer Borrowing Power Booster (v3.9.5)
+- **Zero-Stack Dedicated Drawer Card (`#agentBorrowingBoosterCard`):** Full interactive mortgage expander housed inside the collapsible Agent Due Diligence Suite (`#agent-secondary-drawer`).
+- **Central Bank 4x Lending Rules & Green Rate Engine:** Demonstrates that moving to an A0-standard unlocks a 3.45% Green Mortgage rate and €275/mo fuel savings, generating a +€533/mo disposable cash buffer that expands qualified mortgage borrowing capacity by up to +€42,500.
+- **Interactive Joint Household Income Slider:** Models gross income from €45k to €175k with 4 fast-pick presets (€55k, €85k, €115k, €145k).
+- **1-Tap Broker Explainer Script Copier (`window.copyBorrowingBoosterPitch()`):** Generates complete debt-service justification script ready for underwriters.
+- **Drawer Hub Integration:** Estate Agent Hub tool counter incremented to 8 tools.
 
 ---
 

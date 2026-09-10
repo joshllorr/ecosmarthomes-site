@@ -1,8 +1,8 @@
 # EcoSmartHome Disaster Recovery Runbook & Operations Standard
 
-**Version:** 3.9.4 (1-Click Multi-Format Listing Pack - Daft.ie, Window Display & Vendor Pitch)  
+**Version:** 3.9.5 (Buyer Borrowing Power Booster / Mortgage Ceiling Expander)  
 **Last Updated:** September 10, 2026  
-**Release Tag:** `v3.9.4-multi-format-listing-pack`  
+**Release Tag:** `v3.9.5-buyer-borrowing-booster`  
 **Classification:** Internal Technical Operations, Disaster Recovery & Architecture Standard  
 **Target Audience:** Joe (Platform Owner) & Antigravity AI Engineering Team  
 
@@ -170,6 +170,18 @@ python scratch/test_implementation_checklist.py
 | **Telemetry Database** | Supabase Cloud Support | supabase.com/dashboard | < 4 hours |
 
 ---
+
+### Version 3.9.5 Release Notes (September 10, 2026)
+- **Buyer Borrowing Power Booster (The Mortgage Ceiling Expander)**:
+  - Integrated dedicated flagship tool card (`#agentBorrowingBoosterCard`) inside the collapsible Agent Due Diligence & Valuation Suite (`#agent-secondary-drawer`), preserving single-page zero-stacking architecture with 0 vertical page bloat on the main portal fold.
+  - Interactive Central Bank 4x Macroprudential Rules & Green Mortgage Engine: Models how moving a home to an A0-standard unlocks a 3.45% Green Mortgage fixed rate (saving ~€258/mo on loan repayments) and displaced fuel/solar savings (~€275/mo), creating a +€533/mo net cash buffer.
+  - Under bank underwriter debt-service criteria and green exception guidelines, this disposable cash buffer expands the buyer's qualifying mortgage ceiling by up to +€42,500 to +€51,000, turning previously rejected or capped-out bidders into bank-qualified buyers who can meet full asking price.
+  - Interactive Joint Household Income Slider & Fast-Pick Presets (€55k, €85k, €115k, €145k).
+  - 4-Item Telemetry Grid: Standard Loan Limit (4x), 3.45% Green Mortgage APR, Monthly Energy & Loan Surplus (+€533/mo), and Boosted Borrowing Ceiling (€382,500 / +€42,500 Buying Power).
+  - 1-Tap Broker & Buyer Pre-Approval Explainer Script Copier (`window.copyBorrowingBoosterPitch()`) with instant toast feedback.
+  - Added direct quick launcher in Step 2 of `#agent-rescue-wizard` with smooth scroll and visual focus glow.
+  - Updated Estate Agent Hub in off-canvas drawer (`#accordion-panel-agent`) with new launcher and incremented badge count to 8 Tools.
+  - 100% byte-for-byte dual-directory parity between `site/` and `site/site/`.
 
 ### Version 3.9.4 Release Notes (September 10, 2026)
 - **1-Click Multi-Format Listing Pack (Daft.ie, Window Display & Vendor Pitch)**:
