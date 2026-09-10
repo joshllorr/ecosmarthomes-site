@@ -542,8 +542,18 @@
           </div>
         </div>
 
-        <!-- Real-Time Computed Telemetry Cards -->
-        <div class="simulator-telemetry-grid">
+        <!-- Mode Toggle Bar: Telemetry vs Day-1 Cashflow Decider -->
+        <div class="sim-mode-toggle-bar" role="tablist" aria-label="Simulator Analysis Mode">
+          <button type="button" class="sim-mode-btn active" id="btnModeTelemetry" role="tab" aria-selected="true" onclick="window.setSimViewMode('telemetry')">
+            <span>🛡️ Grant & Shield Telemetry</span>
+          </button>
+          <button type="button" class="sim-mode-btn" id="btnModeCashflow" role="tab" aria-selected="false" onclick="window.setSimViewMode('cashflow')">
+            <span>💶 Day-1 Cashflow Decider (Out-of-Pocket)</span>
+          </button>
+        </div>
+
+        <!-- Real-Time Computed Telemetry Cards (Mode A) -->
+        <div class="simulator-telemetry-grid" id="simTelemetryContainer">
           <div class="sim-telemetry-card">
             <span class="sim-metric-label">💶 Max SEAI Grant Lock</span>
             <div class="sim-metric-value text-mint" id="simGrantVal">€31,500</div>
@@ -569,15 +579,77 @@
           </div>
         </div>
 
+        <!-- Real-Time Computed Day-1 Cashflow Decider (Mode B) -->
+        <div class="cashflow-decider-container" id="simCashflowContainer" style="display: none;">
+          <!-- 4 Financial Line Items -->
+          <div class="simulator-telemetry-grid" style="margin-bottom: 0;">
+            <div class="sim-telemetry-card">
+              <span class="sim-metric-label">🏗️ Turnkey Retrofit</span>
+              <div class="sim-metric-value text-white" id="cashflowGrossVal">€48,000</div>
+              <span class="sim-metric-sub">Deep Fabric + Heat Pump + PV</span>
+            </div>
+
+            <div class="sim-telemetry-card">
+              <span class="sim-metric-label">💶 Upfront SEAI Grant</span>
+              <div class="sim-metric-value text-mint" id="cashflowGrantVal">-€31,500</div>
+              <span class="sim-metric-sub">Direct OSS deduction</span>
+            </div>
+
+            <div class="sim-telemetry-card">
+              <span class="sim-metric-label">🏦 Net Financed (SBCI)</span>
+              <div class="sim-metric-value text-cyan" id="cashflowNetVal">€16,500</div>
+              <span class="sim-metric-sub">Low-cost green loan</span>
+            </div>
+
+            <div class="sim-telemetry-card">
+              <span class="sim-metric-label">📅 Monthly Loan Payment</span>
+              <div class="sim-metric-value text-amber" id="cashflowLoanPayVal">€164 / mo</div>
+              <span class="sim-metric-sub" id="cashflowLoanTermSub">3.55% APR · 10 Yrs</span>
+            </div>
+          </div>
+
+          <!-- Monthly Cashflow Equation & Pocket Profit -->
+          <div class="cashflow-equation-card">
+            <div class="cashflow-controls-row">
+              <span class="cashflow-term-label">Low-Cost SBCI 3.55% Green Loan Term:</span>
+              <div class="cashflow-term-group" id="simLoanTermGroup">
+                <button type="button" class="term-pill" data-term="5" onclick="window.setSimLoanTerm(5)">5 Yrs</button>
+                <button type="button" class="term-pill" data-term="7" onclick="window.setSimLoanTerm(7)">7 Yrs</button>
+                <button type="button" class="term-pill active" data-term="10" onclick="window.setSimLoanTerm(10)">10 Yrs (Recommended)</button>
+              </div>
+            </div>
+
+            <div class="cashflow-equation-row">
+              <span>⚡ Displaced Fossil Fuel & Electricity Bill Cut (G ➔ A0):</span>
+              <strong class="text-mint" id="cashflowFuelSavingVal">+€221 / month saved</strong>
+            </div>
+            <div class="cashflow-equation-row">
+              <span>🏦 Low-Cost SBCI 3.55% Green Loan Repayment:</span>
+              <strong class="text-amber" id="cashflowLoanCostVal">-€164 / month</strong>
+            </div>
+
+            <div class="cashflow-divider"></div>
+
+            <div class="cashflow-profit-callout">
+              <div class="cashflow-profit-label">
+                <span>👉 Net In-Pocket Cashflow (Month 1):</span>
+              </div>
+              <div class="cashflow-profit-value" id="cashflowPocketProfitVal">
+                +€57 / mo in your pocket
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Voice AI Bridge Action Bar (Symmetrical 2-Column Grid) -->
         <div class="simulator-action-bar">
           <button type="button" class="btn-sim-voice-ai" id="simVoiceCtaBtn" onclick="window.askVoiceAiSimResults()">
             <span class="pulse-dot"></span>
             <span id="simVoiceCtaText">🎙️ Ask Aoife to Explain My €31,500 Grant Roadmap →</span>
           </button>
-          <a href="/checkout/?tier=survey&price=149" class="btn-sim-book-survey" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(52, 245, 197, 0.12); border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 12px; padding: 12px 18px; color: #34f5c5; font-weight: 800; font-size: 0.92rem; transition: all 0.2s ease;">
+          <a href="/checkout/?tier=survey&price=149" class="btn-sim-book-survey" id="simBookSurveyBtn" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; background: rgba(52, 245, 197, 0.12); border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 12px; padding: 12px 18px; color: #34f5c5; font-weight: 800; font-size: 0.92rem; transition: all 0.2s ease;">
             <span>💳</span>
-            <span>Book Independent Survey (€149) →</span>
+            <span id="simBookSurveyText">Book Independent Survey (€149) →</span>
           </a>
         </div>
       </div>
@@ -1167,7 +1239,7 @@
           <div style="font-size: 0.8rem; color: #94a3b8;">Interactive architectural cross-section. Watch your BER jump to A0 & stack €35,000 grants.</div>
           <div style="margin-top: 12px; color: #34f5c5; font-weight: 800; font-size: 0.82rem;">Launch Digital Twin →</div>
         </a>
-        <a href="/retrofit-loan/" class="hero-card" style="border: 1px solid rgba(52, 245, 197, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
+        <a href="/retrofit-loan/" class="hero-card" onclick="if(typeof window.activateCashflowDecider === 'function'){ window.activateCashflowDecider(); return false; }" style="border: 1px solid rgba(52, 245, 197, 0.3); text-decoration: none; padding: 20px; background: rgba(0, 24, 18, 0.85); border-radius: 14px;">
           <div style="font-size: 1.8rem; margin-bottom: 8px;">💶</div>
           <div style="font-size: 0.72rem; font-weight: 800; color: #34f5c5; text-transform: uppercase;">0% Out-of-Pocket</div>
           <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin: 4px 0;">SBCI Low-Cost Loan Stacker</div>
@@ -2300,11 +2372,14 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
   <div class="dock-clearance-spacer" aria-hidden="true"></div>
 </div>
 
-  <!-- Interactive 3-Second Simulator Engine -->
+  <!-- Interactive 3-Second Simulator & Day-1 Cashflow Engine -->
   <script>
     (function() {
       let currentHouse = 'semi';
       let currentFuel = 'oil';
+      let currentSimMode = 'telemetry';
+      let currentSimLoanTerm = 10;
+      const SBCI_INTEREST_RATE = 0.0355; // 3.55% APR
 
       const houseLabels = {
         semi: '3-Bed Semi-Detached',
@@ -2321,38 +2396,148 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
 
       const simMatrix = {
         semi: {
-          oil: { grant: '€31,500', tax: '€4,180', bill: '-€2,650/yr', mortgage: '-1.30% APR' },
-          gas: { grant: '€31,500', tax: '€3,200', bill: '-€1,950/yr', mortgage: '-1.30% APR' },
-          electric: { grant: '€31,500', tax: '€2,400', bill: '-€2,950/yr', mortgage: '-1.30% APR' }
+          gross: 48000,
+          grantNum: 31500,
+          oil: { grant: '€31,500', tax: '€4,180', bill: '-€2,650/yr', mortgage: '-1.30% APR', fuelSaveMo: 221 },
+          gas: { grant: '€31,500', tax: '€3,200', bill: '-€1,950/yr', mortgage: '-1.30% APR', fuelSaveMo: 163 },
+          electric: { grant: '€31,500', tax: '€2,400', bill: '-€2,950/yr', mortgage: '-1.30% APR', fuelSaveMo: 246 }
         },
         detached: {
-          oil: { grant: '€35,000', tax: '€5,450', bill: '-€3,400/yr', mortgage: '-1.30% APR' },
-          gas: { grant: '€35,000', tax: '€4,100', bill: '-€2,600/yr', mortgage: '-1.30% APR' },
-          electric: { grant: '€35,000', tax: '€3,150', bill: '-€3,800/yr', mortgage: '-1.30% APR' }
+          gross: 54000,
+          grantNum: 35000,
+          oil: { grant: '€35,000', tax: '€5,450', bill: '-€3,400/yr', mortgage: '-1.30% APR', fuelSaveMo: 283 },
+          gas: { grant: '€35,000', tax: '€4,100', bill: '-€2,600/yr', mortgage: '-1.30% APR', fuelSaveMo: 217 },
+          electric: { grant: '€35,000', tax: '€3,150', bill: '-€3,800/yr', mortgage: '-1.30% APR', fuelSaveMo: 317 }
         },
         bungalow: {
-          oil: { grant: '€33,500', tax: '€4,800', bill: '-€2,850/yr', mortgage: '-1.30% APR' },
-          gas: { grant: '€33,500', tax: '€3,650', bill: '-€2,200/yr', mortgage: '-1.30% APR' },
-          electric: { grant: '€33,500', tax: '€2,800', bill: '-€3,250/yr', mortgage: '-1.30% APR' }
+          gross: 46000,
+          grantNum: 33500,
+          oil: { grant: '€33,500', tax: '€4,800', bill: '-€2,850/yr', mortgage: '-1.30% APR', fuelSaveMo: 238 },
+          gas: { grant: '€33,500', tax: '€3,650', bill: '-€2,200/yr', mortgage: '-1.30% APR', fuelSaveMo: 183 },
+          electric: { grant: '€33,500', tax: '€2,800', bill: '-€3,250/yr', mortgage: '-1.30% APR', fuelSaveMo: 271 }
         },
         terraced: {
-          oil: { grant: '€26,500', tax: '€3,100', bill: '-€1,850/yr', mortgage: '-1.30% APR' },
-          gas: { grant: '€26,500', tax: '€2,400', bill: '-€1,450/yr', mortgage: '-1.30% APR' },
-          electric: { grant: '€26,500', tax: '€1,950', bill: '-€2,100/yr', mortgage: '-1.30% APR' }
+          gross: 36000,
+          grantNum: 26500,
+          oil: { grant: '€26,500', tax: '€3,100', bill: '-€1,850/yr', mortgage: '-1.30% APR', fuelSaveMo: 154 },
+          gas: { grant: '€26,500', tax: '€2,400', bill: '-€1,450/yr', mortgage: '-1.30% APR', fuelSaveMo: 121 },
+          electric: { grant: '€26,500', tax: '€1,950', bill: '-€2,100/yr', mortgage: '-1.30% APR', fuelSaveMo: 175 }
         }
       };
 
-      function renderSim() {
-        const data = simMatrix[currentHouse][currentFuel];
-        document.getElementById('simGrantVal').innerText = data.grant;
-        document.getElementById('simTaxVal').innerText = data.tax;
-        document.getElementById('simBillVal').innerText = data.bill;
-        document.getElementById('simMortgageVal').innerText = data.mortgage;
-        
-        const ctaText = `🎙️ Ask Aoife to Explain My ${data.grant} Grant Roadmap →`;
-        const ctaEl = document.getElementById('simVoiceCtaText');
-        if (ctaEl) ctaEl.innerText = ctaText;
+      function calculatePMT(ratePerPeriod, totalPeriods, presentValue) {
+        if (ratePerPeriod === 0) return presentValue / totalPeriods;
+        const q = Math.pow(1 + ratePerPeriod, totalPeriods);
+        return (presentValue * ratePerPeriod * q) / (q - 1);
       }
+
+      function renderSim() {
+        const hData = simMatrix[currentHouse];
+        const data = hData[currentFuel];
+
+        // 1. Render Telemetry Cards (Mode A)
+        const grantEl = document.getElementById('simGrantVal');
+        const taxEl = document.getElementById('simTaxVal');
+        const billEl = document.getElementById('simBillVal');
+        const mortEl = document.getElementById('simMortgageVal');
+        if (grantEl) grantEl.innerText = data.grant;
+        if (taxEl) taxEl.innerText = data.tax;
+        if (billEl) billEl.innerText = data.bill;
+        if (mortEl) mortEl.innerText = data.mortgage;
+
+        // 2. Render Day-1 Cashflow Decider (Mode B)
+        const gross = hData.gross;
+        const grant = hData.grantNum;
+        const netLoan = Math.max(0, gross - grant);
+        const months = currentSimLoanTerm * 12;
+        const monthlyRate = SBCI_INTEREST_RATE / 12;
+        const monthlyLoanPayment = Math.round(calculatePMT(monthlyRate, months, netLoan));
+        const monthlyFuelSaving = data.fuelSaveMo;
+        const netPocketProfit = monthlyFuelSaving - monthlyLoanPayment;
+
+        const cfGross = document.getElementById('cashflowGrossVal');
+        const cfGrant = document.getElementById('cashflowGrantVal');
+        const cfNet = document.getElementById('cashflowNetVal');
+        const cfLoanPay = document.getElementById('cashflowLoanPayVal');
+        const cfTermSub = document.getElementById('cashflowLoanTermSub');
+        const cfFuelSave = document.getElementById('cashflowFuelSavingVal');
+        const cfLoanCost = document.getElementById('cashflowLoanCostVal');
+        const cfProfit = document.getElementById('cashflowPocketProfitVal');
+
+        if (cfGross) cfGross.innerText = `€${gross.toLocaleString()}`;
+        if (cfGrant) cfGrant.innerText = `-€${grant.toLocaleString()}`;
+        if (cfNet) cfNet.innerText = `€${netLoan.toLocaleString()}`;
+        if (cfLoanPay) cfLoanPay.innerText = `€${monthlyLoanPayment} / mo`;
+        if (cfTermSub) cfTermSub.innerText = `3.55% APR · ${currentSimLoanTerm} Yrs`;
+        if (cfFuelSave) cfFuelSave.innerText = `+€${monthlyFuelSaving} / month saved`;
+        if (cfLoanCost) cfLoanCost.innerText = `-€${monthlyLoanPayment} / month`;
+
+        if (cfProfit) {
+          if (netPocketProfit >= 0) {
+            cfProfit.style.color = '#34f5c5';
+            cfProfit.innerText = `+€${netPocketProfit} / mo in your pocket`;
+          } else {
+            cfProfit.style.color = '#f59e0b';
+            cfProfit.innerText = `€${Math.abs(netPocketProfit)} / mo net balance`;
+          }
+        }
+
+        // 3. Dynamic Action Bar Text & CTAs
+        const ctaEl = document.getElementById('simVoiceCtaText');
+        const bookEl = document.getElementById('simBookSurveyText');
+        if (currentSimMode === 'cashflow') {
+          if (ctaEl) {
+            ctaEl.innerText = `🎙️ Ask Aoife: Explain My ${netPocketProfit >= 0 ? '+€' + netPocketProfit : '€' + netPocketProfit}/mo Day-1 Cashflow →`;
+          }
+          if (bookEl) {
+            bookEl.innerText = `Lock Positive Cashflow (€149 Survey) →`;
+          }
+        } else {
+          if (ctaEl) {
+            ctaEl.innerText = `🎙️ Ask Aoife to Explain My ${data.grant} Grant Roadmap →`;
+          }
+          if (bookEl) {
+            bookEl.innerText = `Book Independent Survey (€149) →`;
+          }
+        }
+      }
+
+      window.setSimViewMode = function(mode) {
+        currentSimMode = mode === 'cashflow' ? 'cashflow' : 'telemetry';
+        if (typeof window.triggerHaptic === 'function') window.triggerHaptic(8);
+        const btnTel = document.getElementById('btnModeTelemetry');
+        const btnCash = document.getElementById('btnModeCashflow');
+        const telContainer = document.getElementById('simTelemetryContainer');
+        const cashContainer = document.getElementById('simCashflowContainer');
+
+        if (btnTel && btnCash && telContainer && cashContainer) {
+          if (currentSimMode === 'cashflow') {
+            btnCash.classList.add('active');
+            btnCash.setAttribute('aria-selected', 'true');
+            btnTel.classList.remove('active');
+            btnTel.setAttribute('aria-selected', 'false');
+            telContainer.style.display = 'none';
+            cashContainer.style.display = 'flex';
+          } else {
+            btnTel.classList.add('active');
+            btnTel.setAttribute('aria-selected', 'true');
+            btnCash.classList.remove('active');
+            btnCash.setAttribute('aria-selected', 'false');
+            cashContainer.style.display = 'none';
+            telContainer.style.display = 'grid';
+          }
+        }
+        renderSim();
+      };
+
+      window.setSimLoanTerm = function(years) {
+        currentSimLoanTerm = parseInt(years, 10) || 10;
+        if (typeof window.triggerHaptic === 'function') window.triggerHaptic(6);
+        document.querySelectorAll('#simLoanTermGroup .term-pill').forEach(btn => {
+          btn.classList.toggle('active', parseInt(btn.dataset.term, 10) === currentSimLoanTerm);
+        });
+        renderSim();
+      };
 
       window.updateSimHouse = function(house) {
         currentHouse = house;
@@ -2370,12 +2555,35 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
         renderSim();
       };
 
+      window.activateCashflowDecider = function() {
+        window.setSimViewMode('cashflow');
+        const simEl = document.getElementById('heroGrantSimulator');
+        if (simEl) {
+          simEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      };
+
       window.askVoiceAiSimResults = function() {
-        const data = simMatrix[currentHouse][currentFuel];
+        const hData = simMatrix[currentHouse];
+        const data = hData[currentFuel];
         const hLabel = houseLabels[currentHouse];
         const fLabel = fuelLabels[currentFuel];
 
-        const query = `Hi Aoife! I have a ${hLabel} heated by ${fLabel}. Can you explain my ${data.grant} SEAI grant breakdown and how I avoid the ${data.tax} 2026-2030 carbon tax penalty?`;
+        let query = '';
+        if (currentSimMode === 'cashflow') {
+          const gross = hData.gross;
+          const grant = hData.grantNum;
+          const netLoan = Math.max(0, gross - grant);
+          const months = currentSimLoanTerm * 12;
+          const monthlyRate = SBCI_INTEREST_RATE / 12;
+          const monthlyLoanPayment = Math.round(calculatePMT(monthlyRate, months, netLoan));
+          const monthlyFuelSaving = data.fuelSaveMo;
+          const netPocketProfit = monthlyFuelSaving - monthlyLoanPayment;
+
+          query = `Hi Aoife! I have a ${hLabel} heated by ${fLabel}. Can you explain how the €${grant.toLocaleString()} upfront SEAI grant and the 3.55% SBCI loan at €${monthlyLoanPayment}/month leave me with a positive cashflow of +€${netPocketProfit}/month compared to my current heating bills?`;
+        } else {
+          query = `Hi Aoife! I have a ${hLabel} heated by ${fLabel}. Can you explain my ${data.grant} SEAI grant breakdown and how I avoid the ${data.tax} 2026-2030 carbon tax penalty?`;
+        }
 
         if (window.AG && typeof window.AG.setVoicePersona === 'function') {
           window.AG.setVoicePersona('aoife', false);
@@ -2398,6 +2606,9 @@ Milestone Terms: 10% Deposit · 40% Delivery · 50% SEAI Inspection Pass
           }
         }, 600);
       };
+
+      // Initial render on boot
+      renderSim();
     })();
   </script>
 

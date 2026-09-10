@@ -44,6 +44,8 @@ git push origin main --force
 
 ### 1. Five-Audience One-Page Persona Portal System (`index.html`)
 - **🏠 Homeowner Carbon Tax Rescue (`#view-panel-homeowner`):**
+  - Instant Roadmap Simulator with zero-scroll dual-mode view switcher: `Grant & Shield Telemetry` ⇄ `Day-1 Cashflow Decider (Out-of-Pocket)`.
+  - Dynamic SBCI 3.55% low-cost green loan amortization vs. displaced kerosene/gas bills (+€57 to +€114/mo in-pocket profit).
   - Fuel selector (`🔥 Oil`, `💨 Gas`, `⚡ Electric`) + winter spend slider.
   - Live ticking Carbon Tax Penalty Clock calculating statutory 2026–2030 compounding liability.
   - Shield Deployment animation: shatters penalty clock down to `€0.00` and displays customized grant breakdown (up to €35,000 SEAI One-Stop-Shop grants, -€180/mo Green Mortgage, €54/mo net bill).

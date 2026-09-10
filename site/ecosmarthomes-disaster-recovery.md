@@ -57,7 +57,7 @@ git push origin main --force
 
 ### 1. Unified One-Page In-Place Persona System (`smart-nav.js` & `index.html`)
 - **Five Dedicated Real-Time Views (Zero Page Reload, Zero Scroll Hijacking):**
-  1. 🏠 **Homeowner Portal (`#view-panel-homeowner`):** Carbon Tax Rescue, Heat Loss Indicator (HLI), 24c Solar CEG calculator, and up to €35,000 in SEAI One-Stop-Shop Deep Retrofit grants.
+  1. 🏠 **Homeowner Portal (`#view-panel-homeowner`):** Day-1 Positive Cashflow Out-of-Pocket Decider (SBCI 3.55% green loan amortization vs. displaced fuel bills with zero-scroll dual-mode switcher), Carbon Tax Rescue, Heat Loss Indicator (HLI), 24c Solar CEG calculator, and up to €35,000 in SEAI One-Stop-Shop Deep Retrofit grants.
   2. 💼 **Estate Agent Portal (`#view-panel-agent`):** ESRI-calibrated Property Equity Surge engine (+€38,500 vendor uplift), Daft.ie/MyHome.ie compliant copy generator, and green mortgage selling points.
   3. ⚡ **Installer Portal (`#view-panel-installer`):** NSAI SR50-2:2024 low-flow radiator sizing matrix (45°C flow, Delta-T 30), tender RFP generator, and outsourced technical survey dispatch.
   4. 🛡️ **Audit & Review Command Center (`#view-panel-audit`):** 100% conflict-free contractor quote red-liner, multimodal AI Computer Vision Snap & Audit dropzone (`#snap-audit`), and buffer tank verification.
