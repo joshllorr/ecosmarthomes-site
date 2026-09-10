@@ -599,7 +599,7 @@
                 <span>Estate Agent Hub</span>
               </span>
               <span style="display:flex;align-items:center;gap:6px;">
-                <span class="drawer-badge-pill" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid #f59e0b;">7 Tools</span>
+                <span class="drawer-badge-pill" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid #f59e0b;">8 Tools</span>
                 <span class="accordion-arrow">▼</span>
               </span>
             </button>
@@ -644,6 +644,13 @@
                 <div>
                   <div>Official Simplified BER Matrix</div>
                   <div style="font-size:0.72rem;color:#94a3b8;">8-Category Irish SEAI scale</div>
+                </div>
+              </a>
+              <a href="/?view=agent" class="drawer-tool-item" onclick="window.setPersona('agent'); window.closeToolsDrawer(); setTimeout(() => { window.openAgentBorrowingBooster(); }, 150);">
+                <span class="tool-icon">🏛️</span>
+                <div>
+                  <div>Buyer Borrowing Power Booster</div>
+                  <div style="font-size:0.72rem;color:#38bdf8;font-weight:700;">Mortgage ceiling expander (+€42k)</div>
                 </div>
               </a>
               <a href="/checkout/?role=agent" class="drawer-tool-item">
@@ -1373,6 +1380,7 @@
     });
     updateAgentSurgeCalculations();
     updateAgentDefenseCalculations();
+    if (typeof updateBorrowingBoosterCalculations === 'function') updateBorrowingBoosterCalculations();
   };
 
   window.onAgentPriceSliderChange = function(val) {
