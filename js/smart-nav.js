@@ -500,8 +500,11 @@
           </div>
           <button type="button" class="drawer-close-btn" onclick="window.closeToolsDrawer()" aria-label="Close Drawer">✕</button>
         </div>
-        <div style="padding: 10px 16px 0 16px;">
-          <button type="button" onclick="window.closeToolsDrawer(); window.openPersonaPickerModal();" style="width: 100%; background: rgba(52, 245, 197, 0.12); border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 12px; color: #34f5c5; font-size: 0.78rem; font-weight: 800; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
+        <div style="padding: 10px 16px 0 16px; display: flex; flex-direction: column; gap: 8px;">
+          <button type="button" onclick="window.closeToolsDrawer(); if(window.openHomeownerGuide) window.openHomeownerGuide();" style="width: 100%; background: linear-gradient(135deg, #003d2e 0%, #00241b 100%); border: 1.5px solid #34f5c5; border-radius: 12px; color: #ffffff; font-size: 0.8rem; font-weight: 800; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 14px rgba(52, 245, 197, 0.25);">
+            <span>💡 Homeowner Guide ("What Am I Looking At?")</span>
+          </button>
+          <button type="button" onclick="window.closeToolsDrawer(); window.openPersonaPickerModal();" style="width: 100%; background: rgba(52, 245, 197, 0.12); border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 12px; color: #34f5c5; font-size: 0.78rem; font-weight: 800; padding: 9px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
             <span>✨ Switch Advisory Role (Open Switchboard)</span>
           </button>
         </div>
@@ -521,6 +524,13 @@
               </span>
             </button>
             <div id="accordion-panel-homeowner" class="drawer-accordion-panel active">
+              <a href="javascript:void(0)" class="drawer-tool-item" onclick="window.closeToolsDrawer(); if(window.openHomeownerGuide) window.openHomeownerGuide();" style="background: rgba(52, 245, 197, 0.08); border: 1px solid rgba(52, 245, 197, 0.3);">
+                <span class="tool-icon">💡</span>
+                <div>
+                  <div style="color: #34f5c5; font-weight: 800;">Homeowner Explainer Guide</div>
+                  <div style="font-size:0.72rem;color:#cbd5e1;">What am I looking at? Jargon buster &amp; triage</div>
+                </div>
+              </a>
               <a href="#heroGrantSimulator" class="drawer-tool-item" onclick="window.selectArchetypeFastPick('bungalow'); window.closeToolsDrawer();">
                 <span class="tool-icon">⚡</span>
                 <div>
@@ -3457,6 +3467,22 @@ Please reply to confirm and lock in your installation date!
       osScript.src = '/js/esh-os.js?v=1';
       osScript.defer = true;
       document.head.appendChild(osScript);
+    }
+  } catch (e) {}
+
+  // Auto-bootstrap Homeowner Field Guide ("What Am I Looking At?") across entire site
+  try {
+    if (!document.querySelector('link[href*="homeowner-guide.css"]')) {
+      const guideCss = document.createElement('link');
+      guideCss.rel = 'stylesheet';
+      guideCss.href = '/css/homeowner-guide.css?v=1';
+      document.head.appendChild(guideCss);
+    }
+    if (!document.querySelector('script[src*="homeowner-guide.js"]')) {
+      const guideScript = document.createElement('script');
+      guideScript.src = '/js/homeowner-guide.js?v=1';
+      guideScript.defer = true;
+      document.head.appendChild(guideScript);
     }
   } catch (e) {}
 

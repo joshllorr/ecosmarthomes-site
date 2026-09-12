@@ -296,7 +296,9 @@
   <script src="js/aoife-audio-briefing.js?v=1" defer></script>
   <script src="js/smart-nav.js?v=16" defer></script>
   <script src="js/esh-os.js?v=1" defer></script>
+  <script src="js/homeowner-guide.js?v=1" defer></script>
   <link rel="stylesheet" href="css/smart-nav.css?v=16">
+  <link rel="stylesheet" href="css/homeowner-guide.css?v=1">
 </head>
 <body>
 <div id="mobile-app-container" class="mobile-app-wrapper">
@@ -388,6 +390,9 @@
         <button type="button" class="btn-tools-drawer-toggle" onclick="if(window.ESH_OS) window.ESH_OS.openCommandPalette();" aria-label="Quick Command Search (Ctrl+K)" style="border: 1px solid rgba(52, 245, 197, 0.4); color: #34f5c5; background: rgba(52, 245, 197, 0.08); display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
           <span>🔍</span> <span style="font-size: 0.72rem; opacity: 0.85; font-family: 'IBM Plex Mono', monospace;">⌘K</span>
         </button>
+        <button type="button" onclick="if(window.openHomeownerGuide) window.openHomeownerGuide();" aria-label="Homeowner Guide: What am I looking at?" style="border: 1px solid #34f5c5; color: #ffffff; background: rgba(52, 245, 197, 0.15); display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;">
+          <span>💡 Guide</span>
+        </button>
         <a href="/pricing/" class="desktop-pricing-link" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 700;">🏷️ Pricing</a>
         <button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer">☰ Tools</button>
         <a href="/checkout/?tier=survey&price=149" class="btn-book-nav">
@@ -404,6 +409,7 @@
       </button>
     </div>
     <nav class="mobile-top-menu-slider" id="mobileTopMenuSlider" aria-label="Mobile Quick Tools Navigation">
+      <button type="button" onclick="if(window.openHomeownerGuide) window.openHomeownerGuide();" class="mobile-nav-slider-chip" style="background: rgba(52, 245, 197, 0.18); border: 1px solid #34f5c5; color: #34f5c5; font-weight: 800; cursor: pointer;">💡 Guide: What is this?</button>
       <a href="/digital-twin/" class="mobile-nav-slider-chip" data-tool="digital-twin">🏡 Digital Twin</a>
       <a href="/quote-auditor/" class="mobile-nav-slider-chip" data-tool="quote-auditor">🛡️ Quote Auditor</a>
       <a href="/solar/" class="mobile-nav-slider-chip" data-tool="solar">☀️ Solar PV</a>

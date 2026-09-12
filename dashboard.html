@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="/css/smart-nav.css?v=7">
+  <link rel="stylesheet" href="css/homeowner-guide.css">
   <script src="js/energy-metrics.js"></script>
 </head>
 <body>
@@ -38,6 +39,7 @@
         <li><a href="ai/" style="color: #10b981; font-weight: 700;">🤖 AI Manifest</a></li>
         <li><a href="agent-skills.html" style="color: #10b981; font-weight: 600;">Endpoints</a></li>
         <li><a href="index.html#contact">Contact</a></li>
+        <li><button type="button" onclick="if(window.openHomeownerGuide) window.openHomeownerGuide();" aria-label="Homeowner Guide: What am I looking at?" style="background: rgba(52, 245, 197, 0.15); border: 1px solid #34f5c5; color: #34f5c5; border-radius: 6px; padding: 4px 10px; font-weight: 700; cursor: pointer; margin-left: 6px;">💡 Guide</button></li>
         <li><button type="button" class="btn-tools-drawer-toggle" onclick="window.openToolsDrawer()" aria-label="Open Tools Drawer" style="margin-left: 10px;">☰ Tools</button></li>
       </ul>
     </nav>
@@ -365,5 +367,6 @@ document.addEventListener('click', () => {
 </script>
 
   <script src="/js/smart-nav.js" defer></script>
+  <script src="/js/homeowner-guide.js" defer></script>
 </body>
 </html>
