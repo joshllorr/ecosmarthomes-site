@@ -2624,7 +2624,9 @@ Please reply to confirm and lock in your installation date!
 
     // Automatically highlight active tool chip based on current path
     slider.querySelectorAll('.mobile-nav-slider-chip').forEach(chip => {
-      const href = chip.getAttribute('href').toLowerCase();
+      const rawHref = chip.getAttribute('href');
+      if (!rawHref) return;
+      const href = rawHref.toLowerCase();
       if (!href.startsWith('#') && href !== '/' && path.startsWith(href)) {
         chip.classList.add('active');
         setTimeout(() => {
