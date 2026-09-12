@@ -1,12 +1,12 @@
 /**
- * EcoSmartHomes Homeowner Help Menu & Explainer Guide ("What Am I Looking At?")
- * Interactive, plain-English explainer for Irish homeowners navigating retrofit data.
+ * EcoSmartHomes Universal Field Guide & Help Menu
+ * Dual-Persona Engine: Homeowners ("What Am I Looking At?") & Estate Agents ("Win Listings & Defend Prices")
  */
 (function() {
   'use strict';
 
-  // Section definitions for contextual decoding
-  const SECTION_GUIDES = {
+  // 1. HOMEOWNER DATA TREE
+  const HOMEOWNER_SECTIONS = {
     'grants': {
       title: 'SEAI Grants: One-Stop-Shop vs Individual',
       badge: 'Funding & Subsidies',
@@ -96,8 +96,7 @@
     }
   };
 
-  // Jargon Glossary
-  const JARGON_TERMS = [
+  const HOMEOWNER_JARGON = [
     {
       term: 'BER (Building Energy Rating)',
       badge: 'Core Metric',
@@ -172,8 +171,7 @@
     }
   ];
 
-  // 5 Costly Traps
-  const RETROFIT_TRAPS = [
+  const HOMEOWNER_TRAPS = [
     {
       title: '1. The "Heat Pump First" Trap',
       desc: 'Installing a heat pump into an uninsulated house (BER E, F, or G). The heat pump will run 24/7 at maximum capacity, consume massive amounts of electricity, and the house will still feel cold. Always insulate first!'
@@ -196,67 +194,374 @@
     }
   ];
 
-  // State
+  // 2. ESTATE AGENT DATA TREE
+  const AGENT_SECTIONS = {
+    'equity-surge': {
+      title: 'Vendor Equity Surge (+€24.5k to +€38.5k)',
+      badge: 'Capital Uplift',
+      summary: 'Demonstrates the hidden capital value unlocked by upgrading a listing from a poor BER (D/E/F/G) to an A or B rating.',
+      metrics: [
+        { name: 'CSO Statistical Basis', desc: 'Irish Central Statistics Office (CSO) and Daft.ie property indices establish a 1.0% to 1.5% capital value increase per BER letter jump.' },
+        { name: 'Typical Uplift', desc: 'A €350,000 home jumping from BER E to A rating unlocks approximately +€24,500 to +€38,500 in added market equity.' },
+        { name: 'Agency Commission Boost', desc: 'Adds between +€368 and +€580 in extra sales commission on typical 1.5% fee structures.' }
+      ],
+      advice: 'Use this in your kitchen-table listing pitch to show vendors why an energy-planned home sells for top asking price.',
+      targetSelector: '#agent-rescue-wizard, #agentEquityContainer, #btnAgentModeEquity'
+    },
+    'objection-shield': {
+      title: 'Vendor Objection Shield (Price-Chipping Defense)',
+      badge: 'Negotiation Armor',
+      summary: 'Mathematical counter-argument proving why buyer lowball bids citing retrofit costs are completely unwarranted.',
+      metrics: [
+        { name: '🔴 Buyer Claimed Cost', desc: 'The gross discount the buyer demands (e.g., "-€32,000 for heating renovations").' },
+        { name: '💶 Direct SEAI Grant', desc: 'Up to €31,500 in statutory SEAI One-Stop-Shop grants deducted directly off the contractor invoice.' },
+        { name: '🏦 True Net Outlay', desc: 'The real capital exposure for the purchaser (often under €1,000).' },
+        { name: '💎 25-Yr Mortgage Slash', desc: 'The 3.45% Green Mortgage interest savings (+€36,400) created by reaching a B2/A rating.' },
+        { name: '⚔️ Verdict', desc: 'The purchaser achieves an overwhelming net surplus (+€93,900) — proving zero price discount is justified.' }
+      ],
+      advice: 'Send the 1-click WhatsApp rebuttal script directly to the buyer or selling surveyor when they submit an offer discount.',
+      targetSelector: '#agentDefenseContainer, #btnAgentModeDefense'
+    },
+    'marketing-pack': {
+      title: '1-Click Multi-Format Marketing Pack',
+      badge: 'Listing Copy Generator',
+      summary: 'Instant, professional, SEAI-compliant marketing copy tailored for 3 distinct real estate channels.',
+      metrics: [
+        { name: '📋 Daft / MyHome.ie Bullets', desc: 'Online portal feature bullets highlighting SEAI grants, Green Mortgage savings, and A-rating potential.' },
+        { name: '🪟 High-Street Window Teaser', desc: 'Punchy 2-sentence teaser for window card displays to stop street pedestrian traffic.' },
+        { name: '🤝 Vendor Mandate Pitch', desc: 'Structured talking points for winning sole-agency representation against rival auctioneers.' }
+      ],
+      advice: 'Copy the bullets straight into your Daft.ie dashboard to boost viewing inquiry rates by up to 40%.',
+      targetSelector: '#agentListingPackTabs, #agentPackContentBox'
+    },
+    'borrowing-booster': {
+      title: 'Buyer Borrowing Power Booster (+€42.5k Expander)',
+      badge: 'Buyer Pool Expander',
+      summary: 'Explains how Green Mortgages expand buyer budgets under Central Bank macro-prudential lending rules.',
+      metrics: [
+        { name: 'LTI Stress-Testing', desc: 'Because energy bills in an A/B home are near-zero, lenders stress-test disposable income at lower thresholds.' },
+        { name: 'Purchasing Power Surge', desc: 'Qualified first-time buyers can borrow up to +€42,500 more on a B2+ home compared to a cold G-rated home.' },
+        { name: 'Bidding Competition', desc: 'Expands your viewing pool to include buyers who are maxed out on standard mortgage rates.' }
+      ],
+      advice: 'Inform bidding purchasers who are near their borrowing cap that this home qualifies for green mortgage expansion.',
+      targetSelector: '#agent-price-slider, #agent-rescue-wizard'
+    }
+  };
+
+  const AGENT_JARGON = [
+    {
+      term: 'BER Discount Penalty (8% to 10%)',
+      badge: 'Market Reality',
+      definition: 'The statistical price discount buyers attempt to extract on cold D, E, F, or G rated listings.',
+      analogy: 'Like buying a second-hand car with an expired NCT — buyers immediately try to knock thousands off the price.'
+    },
+    {
+      term: 'Price-Chipping',
+      badge: 'Buyer Tactic',
+      definition: 'The negotiation tactic where purchasers use surveyor reports on old boilers or draughty windows to demand aggressive discounts off the agreed asking price.',
+      analogy: 'Using a €30k gross quote to try to knock €30k off an offer, ignoring that grants pay for 80% of it.'
+    },
+    {
+      term: 'Deducted at Source (OSS)',
+      badge: 'Grant Delivery',
+      definition: 'The official SEAI One-Stop-Shop mechanism where the registered provider deducts the grant directly from the invoice. The buyer never pays the gross amount.',
+      analogy: 'Like receiving a subsidy directly at the checkout register instead of having to wait months for a tax rebate.'
+    },
+    {
+      term: 'Green Mortgage APR Spread (35 to 50 bps)',
+      badge: 'Lending Advantage',
+      definition: 'The interest rate difference between standard mortgages (4.1%+) and Green Mortgages (~3.45%) from AIB, Bank of Ireland, Haven, and PTSB.',
+      analogy: 'A permanent discount on the cost of borrowing money that saves €1,200+ every single year.'
+    },
+    {
+      term: 'Central Bank LTI Stress-Testing',
+      badge: 'Underwriting',
+      definition: 'The bank affordability stress test on Loan-To-Income. Energy-efficient homes have documented lower running costs, improving debt-service-to-income ratios.',
+      analogy: 'Proving lower utility bills so the bank allows the borrower to qualify for a larger mortgage.'
+    },
+    {
+      term: 'Daft.ie Energy Badge CTR (+42%)',
+      badge: 'Marketing Reach',
+      definition: 'The verified boost in property viewings and click-through rates on Daft.ie and MyHome.ie when listings showcase green credentials and grant readiness.',
+      analogy: 'A gold star on the listing thumbnail that instantly draws more buyer eyeballs.'
+    },
+    {
+      term: 'Sole-Agency Vendor Mandate',
+      badge: 'Listing Acquisition',
+      definition: 'Winning exclusive representation rights from the property seller by proving your agency can defend their equity better than competing auctioneers.',
+      analogy: 'Winning the client\'s signature because you brought data and a defense shield rather than just a valuation guess.'
+    }
+  ];
+
+  const AGENT_REBUTTALS = [
+    {
+      target: '🔴 Buyer Bid Chipping: "Heating system needs a €30k overhaul"',
+      script: 'Hi [Buyer Name], regarding your offer deduction for energy upgrades: our engineering audit confirms this home qualifies for up to €31,500 in statutory SEAI One-Stop-Shop grants, which are deducted directly at source by registered providers. Furthermore, upgrading unlocks a 3.45% Green Mortgage rate saving over €36,000 in interest. Your net capital outlay is under €1,000 against a massive lifetime surplus. The vendor\'s asking price is firm and fully justified.'
+    },
+    {
+      target: '🔴 Surveyor Flag: "Old oil boiler & single glazing noted in report"',
+      script: 'Dear [Surveyor / Buyer Solicitor], thank you for the survey report. The vendor has already obtained an independent EcoSmart pre-assessment. The property meets the Heat Loss Indicator criteria for an immediate €8,000 SEAI heat pump grant plus €1,500 attic insulation under the National Retrofit Plan. The vendor will provide the engineering grant roadmap upon signing of contracts.'
+    },
+    {
+      target: '🔴 Buyer Objection: "We are at our borrowing limit and cannot afford upgrades"',
+      script: 'Hi [Buyer], good news regarding your mortgage approval: because this property qualifies for a post-upgrade B2 rating, you can access the Strategic Banking Corporation of Ireland (SBCI) low-interest Home Energy Loan Scheme (subsidized interest rates from 3.55% over 10 years). This covers the net cost with zero strain on your primary mortgage facility.'
+    }
+  ];
+
+  const AGENT_MANDATE_PITCH = [
+    {
+      step: 'Step 1: The Problem Competing Agents Ignore',
+      body: '"Mr. & Mrs. Vendor, other estate agents will simply list your home with its current BER rating and leave you vulnerable. In today\'s market, mortgage-approved buyers will immediately chip €25,000 to €40,000 off your asking price, claiming the house is cold."'
+    },
+    {
+      step: 'Step 2: The EcoSmart Defense Strategy',
+      body: '"Our agency does something entirely different. We partner with EcoSmartHomes to pre-assess your property with a certified SEAI Grant & Equity Dossier. We show prospective buyers that up to €35,000 in grants is paid by the state and that they qualify for a 3.45% Green Mortgage."'
+    },
+    {
+      step: 'Step 3: The Closing Mandate Ask',
+      body: '"By marketing the future A-rated potential rather than a cold house, we defend your asking price, attract higher-budget green mortgage buyers, and achieve top market value. Let\'s list with sole agency and protect your equity."'
+    }
+  ];
+
+  // Active state
+  let currentGuideRole = 'homeowner'; // 'homeowner' | 'agent'
   let currentActiveTab = 'decode';
   let triageState = { era: '', goal: '' };
 
-  // DOM Ingestion & Setup
-  function initHomeownerGuide() {
+  // Helper to determine initial role
+  function determineInitialRole() {
+    const saved = sessionStorage.getItem('ESH_guide_role');
+    if (saved === 'agent' || saved === 'homeowner') return saved;
+    const bodyPersona = document.body.getAttribute('data-persona');
+    const rootPersona = document.documentElement.getAttribute('data-persona');
+    if (bodyPersona === 'agent' || rootPersona === 'agent') return 'agent';
+    const agentPanel = document.getElementById('view-panel-agent');
+    if (agentPanel && window.getComputedStyle(agentPanel).display !== 'none') return 'agent';
+    return 'homeowner';
+  }
+
+  // Initialize UI DOM
+  function initUniversalGuide() {
     if (document.getElementById('esh-help-drawer')) return;
 
-    // 1. Inject Floating Trigger Button (Bottom-Right)
+    currentGuideRole = determineInitialRole();
+
+    // 1. Inject Floating Button
     if (!document.getElementById('esh-help-floating-btn')) {
       const floatBtn = document.createElement('button');
       floatBtn.id = 'esh-help-floating-btn';
       floatBtn.type = 'button';
-      floatBtn.setAttribute('aria-label', 'Open Homeowner Guide & Explainer');
+      floatBtn.setAttribute('aria-label', 'Open Explainer Guide');
       floatBtn.innerHTML = `
-        <span class="esh-guide-pulse-dot"></span>
-        <span>💡 Guide: What Am I Looking At?</span>
+        <span class="esh-guide-pulse-dot" id="esh-floating-pulse"></span>
+        <span id="esh-floating-btn-text">💡 Guide: What Am I Looking At?</span>
       `;
-      floatBtn.onclick = () => window.openHomeownerGuide();
+      floatBtn.onclick = () => window.openUniversalGuide();
       document.body.appendChild(floatBtn);
     }
 
     // 2. Inject Backdrop
     const backdrop = document.createElement('div');
     backdrop.id = 'esh-help-backdrop';
-    backdrop.onclick = () => window.closeHomeownerGuide();
+    backdrop.onclick = () => window.closeUniversalGuide();
     document.body.appendChild(backdrop);
 
-    // 3. Inject Drawer DOM
+    // 3. Inject Slide-Over Drawer
     const drawer = document.createElement('aside');
     drawer.id = 'esh-help-drawer';
-    drawer.setAttribute('aria-label', 'Homeowner Explainer and Field Guide');
+    drawer.setAttribute('aria-label', 'EcoSmart Universal Field Guide');
     drawer.innerHTML = `
       <div class="esh-help-header">
         <div class="esh-help-title-group">
-          <div class="esh-help-icon-box">💡</div>
+          <div class="esh-help-icon-box" id="esh-header-icon-box">💡</div>
           <div>
-            <h3 class="esh-help-title">Homeowner Field Guide</h3>
-            <div class="esh-help-subtitle">What Am I Looking At? (Irish Retrofit Decoder)</div>
+            <h3 class="esh-help-title" id="esh-header-title">Homeowner Field Guide</h3>
+            <div class="esh-help-subtitle" id="esh-header-subtitle">What Am I Looking At? (Irish Retrofit Decoder)</div>
+            <div class="esh-guide-role-switch" role="group" aria-label="Select Advisory Perspective">
+              <button type="button" class="esh-role-btn ${currentGuideRole === 'homeowner' ? 'active' : ''}" id="btnRoleHomeowner" onclick="window.setGuideRole('homeowner')">🏠 Homeowner</button>
+              <button type="button" class="esh-role-btn ${currentGuideRole === 'agent' ? 'active' : ''}" id="btnRoleAgent" onclick="window.setGuideRole('agent')">💼 Estate Agent</button>
+            </div>
           </div>
         </div>
-        <button type="button" class="esh-help-close-btn" onclick="window.closeHomeownerGuide()" aria-label="Close Guide">✕</button>
+        <button type="button" class="esh-help-close-btn" onclick="window.closeUniversalGuide()" aria-label="Close Guide">✕</button>
       </div>
 
       <div class="esh-help-search-wrap">
         <div class="esh-help-search-box">
-          <span style="color:#34f5c5; font-size: 0.95rem;">🔍</span>
-          <input type="text" id="esh-help-search-input" placeholder="Search terms (e.g., BER, HLI, Heat Pump, Grant, B2, Solar...)" oninput="window.filterHomeownerJargon(this.value)">
+          <span style="color:#34f5c5; font-size: 0.95rem;" id="esh-search-icon">🔍</span>
+          <input type="text" id="esh-help-search-input" placeholder="Search terms (e.g., BER, HLI, Heat Pump, Grant, B2, Solar...)" oninput="window.filterUniversalJargon(this.value)">
         </div>
       </div>
 
-      <nav class="esh-help-tabs" aria-label="Guide Sections">
-        <button type="button" class="esh-help-tab-btn active" data-tab="decode" onclick="window.switchHomeownerGuideTab('decode')">📍 Decode This View</button>
-        <button type="button" class="esh-help-tab-btn" data-tab="jargon" onclick="window.switchHomeownerGuideTab('jargon')">📖 Jargon Buster</button>
-        <button type="button" class="esh-help-tab-btn" data-tab="triage" onclick="window.switchHomeownerGuideTab('triage')">🧭 Where Do I Start?</button>
-        <button type="button" class="esh-help-tab-btn" data-tab="traps" onclick="window.switchHomeownerGuideTab('traps')">⚠️ 5 Traps</button>
-        <button type="button" class="esh-help-tab-btn" data-tab="voice" onclick="window.switchHomeownerGuideTab('voice')">🎙️ Ask Aoife</button>
-      </nav>
+      <nav class="esh-help-tabs" id="esh-tabs-container" aria-label="Guide Sections"></nav>
 
       <div class="esh-help-body" id="esh-help-body-content">
-        
+        <!-- Dynamic Panel Containers will be injected here -->
+      </div>
+    `;
+
+    document.body.appendChild(drawer);
+
+    // Initial render based on role
+    applyRoleConfiguration(currentGuideRole);
+    bindKeyboardShortcuts();
+    injectContextualBadges();
+  }
+
+  // Switch Role
+  window.setGuideRole = function(role) {
+    currentGuideRole = role === 'agent' ? 'agent' : 'homeowner';
+    sessionStorage.setItem('ESH_guide_role', currentGuideRole);
+    applyRoleConfiguration(currentGuideRole);
+  };
+
+  // Apply Role Configuration
+  function applyRoleConfiguration(role) {
+    const drawer = document.getElementById('esh-help-drawer');
+    const headerTitle = document.getElementById('esh-header-title');
+    const headerSubtitle = document.getElementById('esh-header-subtitle');
+    const headerIconBox = document.getElementById('esh-header-icon-box');
+    const btnHomeowner = document.getElementById('btnRoleHomeowner');
+    const btnAgent = document.getElementById('btnRoleAgent');
+    const searchInput = document.getElementById('esh-help-search-input');
+    const floatBtnText = document.getElementById('esh-floating-btn-text');
+    const searchIcon = document.getElementById('esh-search-icon');
+
+    if (!drawer) return;
+
+    if (role === 'agent') {
+      drawer.classList.add('esh-theme-agent');
+      if (headerTitle) headerTitle.textContent = 'Estate Agent Field Guide';
+      if (headerSubtitle) headerSubtitle.textContent = 'Win Listings & Defend Asking Prices';
+      if (headerIconBox) headerIconBox.textContent = '💼';
+      if (btnHomeowner) btnHomeowner.classList.remove('active');
+      if (btnAgent) btnAgent.classList.add('active');
+      if (searchInput) searchInput.placeholder = 'Search agent terms (e.g., Equity Surge, Price-Chipping, Daft bullets, LTI...)';
+      if (floatBtnText) floatBtnText.textContent = '💼 Agent Guide: Win Listings & Defend Prices';
+      if (searchIcon) searchIcon.style.color = '#fbbf24';
+    } else {
+      drawer.classList.remove('esh-theme-agent');
+      if (headerTitle) headerTitle.textContent = 'Homeowner Field Guide';
+      if (headerSubtitle) headerSubtitle.textContent = 'What Am I Looking At? (Irish Retrofit Decoder)';
+      if (headerIconBox) headerIconBox.textContent = '💡';
+      if (btnHomeowner) btnHomeowner.classList.add('active');
+      if (btnAgent) btnAgent.classList.remove('active');
+      if (searchInput) searchInput.placeholder = 'Search terms (e.g., BER, HLI, Heat Pump, Grant, B2, Solar...)';
+      if (floatBtnText) floatBtnText.textContent = '💡 Guide: What Am I Looking At?';
+      if (searchIcon) searchIcon.style.color = '#34f5c5';
+    }
+
+    renderTabsForRole(role);
+    renderContentPanelsForRole(role);
+    window.switchUniversalGuideTab('decode');
+  }
+
+  // Render Tab Buttons
+  function renderTabsForRole(role) {
+    const tabsContainer = document.getElementById('esh-tabs-container');
+    if (!tabsContainer) return;
+
+    if (role === 'agent') {
+      tabsContainer.innerHTML = `
+        <button type="button" class="esh-help-tab-btn active" data-tab="decode" onclick="window.switchUniversalGuideTab('decode')">📍 Tool Decoder</button>
+        <button type="button" class="esh-help-tab-btn" data-tab="jargon" onclick="window.switchUniversalGuideTab('jargon')">📖 Agent Jargon</button>
+        <button type="button" class="esh-help-tab-btn" data-tab="pitch" onclick="window.switchUniversalGuideTab('pitch')">🤝 Mandate Pitch</button>
+        <button type="button" class="esh-help-tab-btn" data-tab="defense" onclick="window.switchUniversalGuideTab('defense')">🛡️ Objection Defense</button>
+        <button type="button" class="esh-help-tab-btn" data-tab="voice" onclick="window.switchUniversalGuideTab('voice')">🎙️ Ask Eimear</button>
+      `;
+    } else {
+      tabsContainer.innerHTML = `
+        <button type="button" class="esh-help-tab-btn active" data-tab="decode" onclick="window.switchUniversalGuideTab('decode')">📍 Decode This View</button>
+        <button type="button" class="esh-help-tab-btn" data-tab="jargon" onclick="window.switchUniversalGuideTab('jargon')">📖 Jargon Buster</button>
+        <button type="button" class="esh-help-tab-btn" data-tab="triage" onclick="window.switchUniversalGuideTab('triage')">🧭 Where Do I Start?</button>
+        <button type="button" class="esh-help-tab-btn" data-tab="traps" onclick="window.switchUniversalGuideTab('traps')">⚠️ 5 Traps</button>
+        <button type="button" class="esh-help-tab-btn" data-tab="voice" onclick="window.switchUniversalGuideTab('voice')">🎙️ Ask Aoife</button>
+      `;
+    }
+  }
+
+  // Render Content Panels
+  function renderContentPanelsForRole(role) {
+    const body = document.getElementById('esh-help-body-content');
+    if (!body) return;
+
+    if (role === 'agent') {
+      body.innerHTML = `
+        <!-- TAB 1: TOOL DECODER -->
+        <div class="esh-tab-panel active" id="tab-panel-decode">
+          <div style="margin-bottom: 14px; font-size: 0.8rem; color: #94a3b8; display: flex; align-items: center; justify-content: space-between;">
+            <span>Select an estate agent engine to decode:</span>
+            <span id="esh-active-view-tag" style="color: #fbbf24; font-weight: 700; font-family: monospace;">Valuation Suite</span>
+          </div>
+          <div id="esh-section-cards-container"></div>
+        </div>
+
+        <!-- TAB 2: AGENT JARGON BUSTER -->
+        <div class="esh-tab-panel" id="tab-panel-jargon">
+          <div style="margin-bottom: 12px; font-size: 0.8rem; color: #94a3b8;">
+            Commercial property valuation terms, borrowing expanders & Irish real estate metrics:
+          </div>
+          <div id="esh-jargon-list-container"></div>
+        </div>
+
+        <!-- TAB 3: KITCHEN TABLE MANDATE PITCH -->
+        <div class="esh-tab-panel" id="tab-panel-pitch">
+          <div style="margin-bottom: 14px; font-size: 0.82rem; color: #cbd5e1; line-height: 1.55;">
+            Use this proven 3-minute conversational framework at the kitchen table to win sole-agency mandates over competing auctioneers:
+          </div>
+          <div id="esh-pitch-container"></div>
+          <div style="margin-top: 14px;">
+            <button type="button" class="esh-jump-btn" onclick="window.copyMandatePitchText()">
+              📋 Copy Complete Vendor Mandate Pitch
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 4: OBJECTION DEFENSE & WHATSAPP REBUTTALS -->
+        <div class="esh-tab-panel" id="tab-panel-defense">
+          <div style="margin-bottom: 14px; font-size: 0.8rem; color: #fbbf24; font-weight: 700;">
+            1-Click WhatsApp & Email Rebuttal Scripts (Send directly to buyers & surveyors):
+          </div>
+          <div id="esh-rebuttals-container"></div>
+        </div>
+
+        <!-- TAB 5: ASK EIMEAR -->
+        <div class="esh-tab-panel" id="tab-panel-voice">
+          <div style="margin-bottom: 14px; font-size: 0.82rem; color: #cbd5e1; line-height: 1.55;">
+            Need quick auctioneer talking points or live valuation coaching? Ask <strong>Eimear</strong>, the EcoSmartHomes Estate Agent AI Advisor:
+          </div>
+          <div class="esh-aoife-prompt-chip" onclick="window.askEimearPrompt('Give me a kitchen table pitch for a 1980s semi-D with BER E1')">
+            <span>💼 "Give me a kitchen table pitch for a 1980s semi-D"</span>
+            <span>➜</span>
+          </div>
+          <div class="esh-aoife-prompt-chip" onclick="window.askEimearPrompt('How do I defend a 350k asking price against a buyer claiming a 30k heating penalty?')">
+            <span>🛡️ "How do I defend an asking price against a lowball bid?"</span>
+            <span>➜</span>
+          </div>
+          <div class="esh-aoife-prompt-chip" onclick="window.askEimearPrompt('Explain how SEAI One-Stop-Shop grants expand buyer purchasing power by 42k')">
+            <span>🏛️ "Explain how Green Mortgages expand buyer purchasing power"</span>
+            <span>➜</span>
+          </div>
+          <div class="esh-aoife-prompt-chip" onclick="window.askEimearPrompt('What makes our Daft.ie property descriptions compliant and high-converting?')">
+            <span>📋 "What makes our Daft.ie descriptions high-converting?"</span>
+            <span>➜</span>
+          </div>
+          <div style="margin-top: 20px; text-align: center;">
+            <button type="button" onclick="window.launchEimearAdvisorFull()" style="background: #f59e0b; color: #00241b; border: none; border-radius: 12px; font-weight: 900; font-size: 0.85rem; padding: 12px 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);">
+              <span>🎙️ Start Audio Voice Session with Eimear</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      renderSectionCards(AGENT_SECTIONS);
+      renderJargonList(AGENT_JARGON);
+      renderPitchList();
+      renderRebuttalsList();
+
+    } else {
+      // Homeowner Panel
+      body.innerHTML = `
         <!-- TAB 1: DECODE THIS VIEW -->
         <div class="esh-tab-panel active" id="tab-panel-decode">
           <div style="margin-bottom: 14px; font-size: 0.8rem; color: #94a3b8; display: flex; align-items: center; justify-content: space-between;">
@@ -307,7 +612,7 @@
               <strong style="color: #34f5c5; font-size: 0.95rem;">Your Recommended First Step:</strong>
             </div>
             <div id="esh-triage-result-text" style="font-size: 0.82rem; color: #f8fafc; line-height: 1.55;"></div>
-            <a href="#heroGrantSimulator" id="esh-triage-jump-btn" class="esh-jump-btn" onclick="window.closeHomeownerGuide()">Open Recommended Tool ➜</a>
+            <a href="#heroGrantSimulator" id="esh-triage-jump-btn" class="esh-jump-btn" onclick="window.closeUniversalGuide()">Open Recommended Tool ➜</a>
           </div>
         </div>
 
@@ -324,7 +629,6 @@
           <div style="margin-bottom: 14px; font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
             Have a question in plain English? Speak directly with <strong>Aoife</strong>, our independent AI Homeowner Energy Advisor, or tap any question below:
           </div>
-
           <div class="esh-aoife-prompt-chip" onclick="window.askAoifePrompt('What grants are available for my home in 2026?')">
             <span>💶 "What grants are available for my home in 2026?"</span>
             <span>➜</span>
@@ -345,40 +649,33 @@
             <span>☀️ "How does the solar Clean Export Guarantee (CEG) work?"</span>
             <span>➜</span>
           </div>
-
           <div style="margin-top: 20px; text-align: center;">
             <button type="button" onclick="window.launchAoifeAdvisorFull()" style="background: #10b981; color: #00241b; border: none; border-radius: 12px; font-weight: 900; font-size: 0.85rem; padding: 12px 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
               <span>🎙️ Start Audio Voice Chat with Aoife</span>
             </button>
           </div>
         </div>
+      `;
 
-      </div>
-    `;
-
-    document.body.appendChild(drawer);
-
-    // Populate Dynamic Content
-    renderSectionCards();
-    renderJargonList(JARGON_TERMS);
-    renderTrapsList();
-    bindKeyboardShortcuts();
-    injectContextualBadges();
+      renderSectionCards(HOMEOWNER_SECTIONS);
+      renderJargonList(HOMEOWNER_JARGON);
+      renderTrapsList();
+    }
   }
 
-  // Render Section Cards in Tab 1
-  function renderSectionCards(highlightKey) {
+  // Render Section Cards
+  function renderSectionCards(sectionsMap, highlightKey) {
     const container = document.getElementById('esh-section-cards-container');
     if (!container) return;
 
     let html = '';
-    for (const [key, sec] of Object.entries(SECTION_GUIDES)) {
+    for (const [key, sec] of Object.entries(sectionsMap)) {
       const isHigh = key === highlightKey;
       html += `
         <div class="esh-guide-card ${isHigh ? 'highlight' : ''}" id="esh-card-${key}">
           <div class="esh-card-header">
             <span class="esh-card-badge">${sec.badge}</span>
-            <span style="font-size: 0.72rem; color: #34f5c5; font-family: monospace;">#${key}</span>
+            <span style="font-size: 0.72rem; color: ${currentGuideRole === 'agent' ? '#fbbf24' : '#34f5c5'}; font-family: monospace;">#${key}</span>
           </div>
           <h4 class="esh-card-title">${sec.title}</h4>
           <p class="esh-card-p">${sec.summary}</p>
@@ -390,12 +687,12 @@
               </li>
             `).join('')}
           </ul>
-          <div class="esh-homeowner-takeaway">
+          <div class="esh-homeowner-takeaway" style="${currentGuideRole === 'agent' ? 'border-color: rgba(245,158,11,0.35); background: rgba(245,158,11,0.12); color: #fbbf24;' : ''}">
             <span>💡</span>
-            <span><strong>Homeowner Takeaway:</strong> ${sec.advice}</span>
+            <span><strong>${currentGuideRole === 'agent' ? 'Commercial Takeaway:' : 'Homeowner Takeaway:'}</strong> ${sec.advice}</span>
           </div>
           <button type="button" class="esh-jump-btn" onclick="window.jumpToPageSection('${sec.targetSelector}')">
-            View This Tool On Page ➜
+            View This Engine On Page ➜
           </button>
         </div>
       `;
@@ -403,13 +700,13 @@
     container.innerHTML = html;
   }
 
-  // Render Jargon Terms in Tab 2
+  // Render Jargon List
   function renderJargonList(terms) {
     const container = document.getElementById('esh-jargon-list-container');
     if (!container) return;
 
     if (terms.length === 0) {
-      container.innerHTML = `<div style="color: #94a3b8; font-size: 0.85rem; padding: 20px; text-align: center;">No terms matched your search. Try searching "BER", "Grant", "Solar", or "Heat Pump".</div>`;
+      container.innerHTML = `<div style="color: #94a3b8; font-size: 0.85rem; padding: 20px; text-align: center;">No matching terms found. Try searching another keyword.</div>`;
       return;
     }
 
@@ -420,17 +717,46 @@
           <span class="esh-card-badge" style="font-size:0.62rem;">${item.badge}</span>
         </div>
         <div style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.5;">${item.definition}</div>
-        <div class="esh-jargon-analogy">💡 Plain-English: "${item.analogy}"</div>
+        <div class="esh-jargon-analogy">💡 Context: "${item.analogy}"</div>
       </div>
     `).join('');
   }
 
-  // Render Traps in Tab 4
+  // Render Pitch List (Agent)
+  function renderPitchList() {
+    const container = document.getElementById('esh-pitch-container');
+    if (!container) return;
+
+    container.innerHTML = AGENT_MANDATE_PITCH.map(p => `
+      <div class="esh-pitch-step">
+        <div class="esh-pitch-step-title">${p.step}</div>
+        <div class="esh-pitch-step-body">${p.body}</div>
+      </div>
+    `).join('');
+  }
+
+  // Render Rebuttals List (Agent)
+  function renderRebuttalsList() {
+    const container = document.getElementById('esh-rebuttals-container');
+    if (!container) return;
+
+    container.innerHTML = AGENT_REBUTTALS.map((r, i) => `
+      <div class="esh-rebuttal-card">
+        <div class="esh-rebuttal-target">${r.target}</div>
+        <div class="esh-rebuttal-script" id="rebuttal-script-${i}">${r.script}</div>
+        <button type="button" class="esh-rebuttal-copy-btn" onclick="window.copyRebuttalScript(${i})">
+          <span>📲 Copy WhatsApp / Email Script</span>
+        </button>
+      </div>
+    `).join('');
+  }
+
+  // Render Traps (Homeowner)
   function renderTrapsList() {
     const container = document.getElementById('esh-traps-list-container');
     if (!container) return;
 
-    container.innerHTML = RETROFIT_TRAPS.map(t => `
+    container.innerHTML = HOMEOWNER_TRAPS.map(t => `
       <div class="esh-trap-card">
         <h4>⚠️ ${t.title}</h4>
         <p>${t.desc}</p>
@@ -438,12 +764,13 @@
     `).join('');
   }
 
-  // Detect which section is currently on screen
+  // Detect section in view
   function detectCurrentSection() {
-    const scrollPos = window.scrollY + 200;
-    let closestKey = 'grants';
+    const scrollPos = window.scrollY + 220;
+    const activeMap = currentGuideRole === 'agent' ? AGENT_SECTIONS : HOMEOWNER_SECTIONS;
+    let closestKey = Object.keys(activeMap)[0];
 
-    for (const [key, sec] of Object.entries(SECTION_GUIDES)) {
+    for (const [key, sec] of Object.entries(activeMap)) {
       const el = document.querySelector(sec.targetSelector);
       if (el) {
         const top = el.offsetTop;
@@ -457,33 +784,8 @@
     return closestKey;
   }
 
-  // Inject Contextual Badges ("ℹ️ What is this?") into existing sections
-  function injectContextualBadges() {
-    for (const [key, sec] of Object.entries(SECTION_GUIDES)) {
-      const selectors = sec.targetSelector.split(', ');
-      for (const sel of selectors) {
-        const target = document.querySelector(sel);
-        if (target && !target.querySelector(`.esh-badge-${key}`)) {
-          const header = target.querySelector('h2, h3, .section-title-wrapper') || target;
-          const badge = document.createElement('a');
-          badge.className = `esh-context-help-trigger esh-badge-${key}`;
-          badge.href = 'javascript:void(0)';
-          badge.setAttribute('title', `Explain: ${sec.title}`);
-          badge.innerHTML = `<span>ℹ️ Explain</span>`;
-          badge.onclick = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            window.openHomeownerGuide(key, 'decode');
-          };
-          header.appendChild(badge);
-          break;
-        }
-      }
-    }
-  }
-
   // Switch Tab
-  window.switchHomeownerGuideTab = function(tabKey) {
+  window.switchUniversalGuideTab = function(tabKey) {
     currentActiveTab = tabKey;
     const tabBtns = document.querySelectorAll('.esh-help-tab-btn');
     const panels = document.querySelectorAll('.esh-tab-panel');
@@ -498,30 +800,36 @@
   };
 
   // Open Guide
-  window.openHomeownerGuide = function(targetSectionKey, initialTab) {
+  window.openUniversalGuide = function(targetSectionKey, initialTab) {
     const backdrop = document.getElementById('esh-help-backdrop');
     const drawer = document.getElementById('esh-help-drawer');
     if (!backdrop || !drawer) return;
+
+    // If on agent portal and current role is still homeowner, switch to agent
+    const bodyPersona = document.body.getAttribute('data-persona');
+    if (bodyPersona === 'agent' && currentGuideRole !== 'agent') {
+      window.setGuideRole('agent');
+    }
 
     backdrop.classList.add('active');
     drawer.classList.add('open');
     document.body.style.overflow = 'hidden';
 
+    const activeMap = currentGuideRole === 'agent' ? AGENT_SECTIONS : HOMEOWNER_SECTIONS;
     const activeKey = targetSectionKey || detectCurrentSection();
-    renderSectionCards(activeKey);
+    renderSectionCards(activeMap, activeKey);
 
     const tag = document.getElementById('esh-active-view-tag');
-    if (tag && SECTION_GUIDES[activeKey]) {
-      tag.textContent = SECTION_GUIDES[activeKey].title;
+    if (tag && activeMap[activeKey]) {
+      tag.textContent = activeMap[activeKey].title;
     }
 
     if (initialTab) {
-      window.switchHomeownerGuideTab(initialTab);
+      window.switchUniversalGuideTab(initialTab);
     } else {
-      window.switchHomeownerGuideTab('decode');
+      window.switchUniversalGuideTab('decode');
     }
 
-    // Scroll to highlighted card if in decode tab
     if (targetSectionKey) {
       setTimeout(() => {
         const card = document.getElementById(`esh-card-${targetSectionKey}`);
@@ -532,8 +840,19 @@
     }
   };
 
+  // Dedicated Openers
+  window.openHomeownerGuide = function(targetSectionKey, initialTab) {
+    window.setGuideRole('homeowner');
+    window.openUniversalGuide(targetSectionKey, initialTab);
+  };
+
+  window.openAgentGuide = function(targetSectionKey, initialTab) {
+    window.setGuideRole('agent');
+    window.openUniversalGuide(targetSectionKey, initialTab);
+  };
+
   // Close Guide
-  window.closeHomeownerGuide = function() {
+  window.closeUniversalGuide = function() {
     const backdrop = document.getElementById('esh-help-backdrop');
     const drawer = document.getElementById('esh-help-drawer');
     if (backdrop && drawer) {
@@ -542,10 +861,11 @@
       document.body.style.overflow = '';
     }
   };
+  window.closeHomeownerGuide = window.closeUniversalGuide;
 
-  // Jump to specific tool on page and close guide
+  // Jump to specific tool on page
   window.jumpToPageSection = function(selectorList) {
-    window.closeHomeownerGuide();
+    window.closeUniversalGuide();
     const selectors = selectorList.split(', ');
     let found = false;
     for (const sel of selectors) {
@@ -564,16 +884,17 @@
     }
   };
 
-  // Filter Jargon Terms
-  window.filterHomeownerJargon = function(query) {
-    window.switchHomeownerGuideTab('jargon');
+  // Filter Jargon
+  window.filterUniversalJargon = function(query) {
+    window.switchUniversalGuideTab('jargon');
     const q = (query || '').toLowerCase().trim();
+    const list = currentGuideRole === 'agent' ? AGENT_JARGON : HOMEOWNER_JARGON;
     if (!q) {
-      renderJargonList(JARGON_TERMS);
+      renderJargonList(list);
       return;
     }
 
-    const filtered = JARGON_TERMS.filter(item => 
+    const filtered = list.filter(item => 
       item.term.toLowerCase().includes(q) ||
       item.definition.toLowerCase().includes(q) ||
       item.badge.toLowerCase().includes(q) ||
@@ -581,12 +902,35 @@
     );
     renderJargonList(filtered);
   };
+  window.filterHomeownerJargon = window.filterUniversalJargon;
 
-  // Triage Selection Logic
+  // Copy Rebuttal Script
+  window.copyRebuttalScript = function(index) {
+    const scriptEl = document.getElementById(`rebuttal-script-${index}`);
+    if (!scriptEl) return;
+    const text = scriptEl.textContent.trim();
+    if (window.copyTextToClipboard) {
+      window.copyTextToClipboard(text, 'Rebuttal script copied for WhatsApp / Email!');
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      if (window.showEshToast) window.showEshToast('Copied to Clipboard!', '📋');
+    }
+  };
+
+  // Copy Mandate Pitch
+  window.copyMandatePitchText = function() {
+    const pitchText = AGENT_MANDATE_PITCH.map(p => `${p.step}\n${p.body}`).join('\n\n');
+    if (window.copyTextToClipboard) {
+      window.copyTextToClipboard(pitchText, 'Complete Vendor Mandate Pitch Copied!');
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(pitchText);
+      if (window.showEshToast) window.showEshToast('Copied to Clipboard!', '📋');
+    }
+  };
+
+  // Triage Selection Logic (Homeowner)
   window.selectTriageOption = function(step, value) {
     triageState[step] = value;
-
-    // Toggle button style in DOM
     const container = document.getElementById(`triage-${step}-options`);
     if (container) {
       container.querySelectorAll('.esh-triage-opt-btn').forEach(btn => {
@@ -594,8 +938,6 @@
       });
       event.currentTarget.classList.add('selected');
     }
-
-    // Calculate recommendation if both selected
     if (triageState.era && triageState.goal) {
       evaluateTriage();
     }
@@ -661,12 +1003,10 @@
     resultBox.classList.add('active');
   }
 
-  // Ask Aoife voice prompt
+  // Voice AI Helpers
   window.askAoifePrompt = function(question) {
-    window.closeHomeownerGuide();
-    if (window.showEshToast) {
-      window.showEshToast(`Asking Aoife: "${question}"`, '🎙️');
-    }
+    window.closeUniversalGuide();
+    if (window.showEshToast) window.showEshToast(`Asking Aoife: "${question}"`, '🎙️');
     if (window.AoifeBriefing && typeof window.AoifeBriefing.ask === 'function') {
       window.AoifeBriefing.ask(question);
     } else if (typeof window.dismissPersonaModal === 'function') {
@@ -676,20 +1016,93 @@
     }
   };
 
+  window.askEimearPrompt = function(question) {
+    window.closeUniversalGuide();
+    if (window.showEshToast) window.showEshToast(`Asking Eimear: "${question}"`, '🎙️');
+    if (typeof window.dismissPersonaModal === 'function') {
+      window.dismissPersonaModal('agent');
+      if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+        window.AG.setVoicePersona('eimear', true);
+      }
+      const launcher = document.getElementById('eshVoiceAdvisorLauncher');
+      if (launcher) launcher.click();
+    }
+  };
+
   window.launchAoifeAdvisorFull = function() {
-    window.closeHomeownerGuide();
+    window.closeUniversalGuide();
     if (typeof window.dismissPersonaModal === 'function') {
       window.dismissPersonaModal('homeowner');
     }
     const launcher = document.getElementById('eshVoiceAdvisorLauncher');
-    if (launcher) {
-      launcher.click();
-    } else if (window.showEshToast) {
-      window.showEshToast('Connecting to Aoife, your Homeowner Energy Advisor...', '🎙️');
-    }
+    if (launcher) launcher.click();
   };
 
-  // Keyboard Shortcuts: Press "?" or "h" to toggle guide, "Escape" to close
+  window.launchEimearAdvisorFull = function() {
+    window.closeUniversalGuide();
+    if (typeof window.dismissPersonaModal === 'function') {
+      window.dismissPersonaModal('agent');
+      if (window.AG && typeof window.AG.setVoicePersona === 'function') {
+        window.AG.setVoicePersona('eimear', true);
+      }
+    }
+    const launcher = document.getElementById('eshVoiceAdvisorLauncher');
+    if (launcher) launcher.click();
+  };
+
+  // Contextual Badges Injection
+  function injectContextualBadges() {
+    // 1. Homeowner sections
+    for (const [key, sec] of Object.entries(HOMEOWNER_SECTIONS)) {
+      const selectors = sec.targetSelector.split(', ');
+      for (const sel of selectors) {
+        const target = document.querySelector(sel);
+        if (target && !target.querySelector(`.esh-badge-${key}`)) {
+          const header = target.querySelector('h2, h3, .section-title-wrapper') || target;
+          const badge = document.createElement('a');
+          badge.className = `esh-context-help-trigger esh-badge-${key}`;
+          badge.href = 'javascript:void(0)';
+          badge.setAttribute('title', `Explain: ${sec.title}`);
+          badge.innerHTML = `<span>ℹ️ Explain</span>`;
+          badge.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.openHomeownerGuide(key, 'decode');
+          };
+          header.appendChild(badge);
+          break;
+        }
+      }
+    }
+
+    // 2. Estate Agent sections
+    for (const [key, sec] of Object.entries(AGENT_SECTIONS)) {
+      const selectors = sec.targetSelector.split(', ');
+      for (const sel of selectors) {
+        const target = document.querySelector(sel);
+        if (target && !target.querySelector(`.esh-badge-${key}`)) {
+          const header = target.querySelector('h2, h3, .agent-defense-badge, .agent-step-badge, .agent-defense-header') || target;
+          const badge = document.createElement('a');
+          badge.className = `esh-context-help-trigger esh-badge-${key}`;
+          badge.style.background = 'rgba(245, 158, 11, 0.18)';
+          badge.style.borderColor = '#f59e0b';
+          badge.style.color = '#fbbf24';
+          badge.href = 'javascript:void(0)';
+          badge.setAttribute('title', `Agent Guide: ${sec.title}`);
+          badge.innerHTML = `<span>💼 Agent Tip</span>`;
+          badge.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.openAgentGuide(key, 'decode');
+          };
+          header.appendChild(badge);
+          break;
+        }
+      }
+    }
+  }
+
+  // Keyboard Shortcuts
   function bindKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
       const activeTag = document.activeElement ? document.activeElement.tagName : '';
@@ -700,21 +1113,21 @@
         e.preventDefault();
         const drawer = document.getElementById('esh-help-drawer');
         if (drawer && drawer.classList.contains('open')) {
-          window.closeHomeownerGuide();
+          window.closeUniversalGuide();
         } else {
-          window.openHomeownerGuide();
+          window.openUniversalGuide();
         }
       } else if (e.key === 'Escape') {
-        window.closeHomeownerGuide();
+        window.closeUniversalGuide();
       }
     });
   }
 
-  // Auto-init on DOM ready
+  // Init
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHomeownerGuide);
+    document.addEventListener('DOMContentLoaded', initUniversalGuide);
   } else {
-    initHomeownerGuide();
+    initUniversalGuide();
   }
 
 })();

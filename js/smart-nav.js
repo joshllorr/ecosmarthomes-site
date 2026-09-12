@@ -612,11 +612,18 @@
                 <span>Estate Agent Hub</span>
               </span>
               <span style="display:flex;align-items:center;gap:6px;">
-                <span class="drawer-badge-pill" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid #f59e0b;">8 Tools</span>
+                <span class="drawer-badge-pill" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid #f59e0b;">9 Tools</span>
                 <span class="accordion-arrow">▼</span>
               </span>
             </button>
             <div id="accordion-panel-agent" class="drawer-accordion-panel">
+              <a href="javascript:void(0)" class="drawer-tool-item" onclick="window.closeToolsDrawer(); if(window.openAgentGuide) window.openAgentGuide();" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4);">
+                <span class="tool-icon">💼</span>
+                <div>
+                  <div style="color: #fbbf24; font-weight: 800;">Estate Agent Field Guide</div>
+                  <div style="font-size:0.72rem;color:#cbd5e1;">Win listings, defense matrix &amp; scripts</div>
+                </div>
+              </a>
               <a href="/tools/voice-eimear.html" class="drawer-tool-item">
                 <span class="tool-icon">🎙️</span>
                 <div>

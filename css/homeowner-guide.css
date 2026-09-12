@@ -580,6 +580,189 @@
   transform: translateX(4px);
 }
 
+/* ==========================================================================
+   💼 ESTATE AGENT THEME & COMPONENT EXTENSIONS
+   ========================================================================== */
+
+/* Role Switcher in Drawer Header */
+.esh-guide-role-switch {
+  display: inline-flex;
+  background: rgba(0, 15, 11, 0.65);
+  padding: 3px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 6px;
+  gap: 4px;
+}
+
+.esh-role-btn {
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.esh-role-btn:hover {
+  color: #ffffff;
+}
+
+.esh-role-btn.active {
+  background: #34f5c5;
+  color: #00241b;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(52, 245, 197, 0.35);
+}
+
+/* Agent Theme Overrides */
+#esh-help-drawer.esh-theme-agent {
+  border-left: 1.5px solid rgba(245, 158, 11, 0.35);
+}
+
+.esh-theme-agent .esh-help-icon-box {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+
+.esh-theme-agent .esh-role-btn.active {
+  background: #f59e0b;
+  color: #001711;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+.esh-theme-agent .esh-help-search-box:focus-within {
+  border-color: #f59e0b;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+}
+
+.esh-theme-agent .esh-help-tab-btn:hover {
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+}
+
+.esh-theme-agent .esh-help-tab-btn.active {
+  background: #f59e0b;
+  color: #001711;
+  border-color: #f59e0b;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+}
+
+.esh-theme-agent .esh-card-badge {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.esh-theme-agent .esh-guide-card.highlight {
+  border-color: #f59e0b;
+  background: #002d20;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.18);
+}
+
+.esh-theme-agent .esh-metric-name {
+  color: #fbbf24;
+}
+
+.esh-theme-agent .esh-jump-btn {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: #f59e0b;
+  color: #fbbf24;
+}
+
+.esh-theme-agent .esh-jump-btn:hover {
+  background: #f59e0b;
+  color: #001711;
+}
+
+.esh-theme-agent .esh-jargon-analogy {
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+/* Agent Rebuttal Cards & WhatsApp Scripts */
+.esh-rebuttal-card {
+  background: #00271d;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.esh-rebuttal-target {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #f87171;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.esh-rebuttal-script {
+  background: rgba(0, 15, 11, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  color: #e2e8f0;
+  line-height: 1.55;
+  margin-bottom: 10px;
+  white-space: pre-line;
+}
+
+.esh-rebuttal-copy-btn {
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid #f59e0b;
+  color: #fbbf24;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.esh-rebuttal-copy-btn:hover {
+  background: #f59e0b;
+  color: #001711;
+  transform: translateY(-1px);
+}
+
+/* Kitchen Table Pitch Card */
+.esh-pitch-step {
+  background: rgba(0, 20, 15, 0.6);
+  border-left: 3px solid #f59e0b;
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.esh-pitch-step-title {
+  color: #fbbf24;
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.esh-pitch-step-body {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
 /* Mobile Responsive Adaptation */
 @media (max-width: 768px) {
   #esh-help-floating-btn {
@@ -598,6 +781,10 @@
     border-top: 2px solid #34f5c5;
     border-radius: 20px 20px 0 0;
     transform: translateY(100%);
+  }
+
+  #esh-help-drawer.esh-theme-agent {
+    border-top-color: #f59e0b;
   }
 
   #esh-help-drawer.open {
