@@ -457,17 +457,23 @@
       const sideTab = document.createElement('button');
       sideTab.id = 'esh-side-tab-toggle';
       sideTab.type = 'button';
-      sideTab.setAttribute('aria-label', 'Open Tools Navigation Drawer');
-      sideTab.title = 'Open Tools Directory';
+      sideTab.setAttribute('aria-label', 'Open Guide & Tools Drawer');
+      sideTab.title = 'Open Guide & Tools Directory';
       sideTab.innerHTML = `
-        <span style="font-size: 1.05rem; line-height: 1;">☰</span>
-        <span style="writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.1em; font-weight: 800;">TOOLS</span>
+        <span style="font-size: 1.1rem; line-height: 1;">☰</span>
+        <span class="esh-side-tab-label" style="writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.12em; font-weight: 800; font-size: 0.65rem;">GUIDE &amp; TOOLS</span>
       `;
       sideTab.onclick = () => window.openToolsDrawer();
       sideTab.addEventListener('click', () => window.openToolsDrawer());
       document.body.appendChild(sideTab);
     } else {
       const existingTab = document.getElementById('esh-side-tab-toggle');
+      existingTab.setAttribute('aria-label', 'Open Guide & Tools Drawer');
+      existingTab.title = 'Open Guide & Tools Directory';
+      existingTab.innerHTML = `
+        <span style="font-size: 1.1rem; line-height: 1;">☰</span>
+        <span class="esh-side-tab-label" style="writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: 0.12em; font-weight: 800; font-size: 0.65rem;">GUIDE &amp; TOOLS</span>
+      `;
       existingTab.onclick = () => window.openToolsDrawer();
       existingTab.addEventListener('click', () => window.openToolsDrawer());
     }
@@ -490,6 +496,7 @@
       drawer.id = 'esh-side-drawer';
       drawer.setAttribute('aria-label', 'Tools and Resources Directory Sidebar');
       drawer.innerHTML = `
+        <div class="mobile-sheet-drag-handle" style="width: 44px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 9999px; margin: 0 auto 12px auto; display: block;"></div>
         <div class="drawer-header">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 1.4rem;">🏡</span>

@@ -2059,19 +2059,41 @@ input[type="range"].mobile-spend-slider::-moz-range-track {
    ========================================================================== */
 
 @media (max-width: 768px) {
-  /* 1. Hide intrusive static right-side tab toggle on mobile */
+  /* 1. Mobile Vertical Floating Toggle: Follows page on scroll on left edge */
   #esh-side-tab-toggle {
-    display: none !important;
+    display: flex !important;
+    position: fixed !important;
+    left: 0 !important;
+    right: auto !important;
+    top: 48% !important;
+    transform: translateY(-50%) !important;
+    background: rgba(0, 36, 27, 0.96) !important;
+    border: 1.5px solid #34f5c5 !important;
+    border-left: none !important;
+    border-radius: 0 10px 10px 0 !important;
+    color: #34f5c5 !important;
+    padding: 12px 5px !important;
+    cursor: pointer !important;
+    z-index: 10000002 !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.65), 0 0 12px rgba(52, 245, 197, 0.3) !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s, box-shadow 0.2s !important;
   }
 
-  /* 2. Hide redundant linear persona filter bar on mobile (handled by top-right dropdown) */
+  #esh-side-tab-toggle:active {
+    transform: translateY(-50%) scale(0.96) !important;
+  }
+
+  /* 2. Hide redundant linear persona filter bar on mobile */
   .persona-filter-bar {
     display: none !important;
   }
 
-  /* 3. Ensure top-right adaptive dropdown is visible on mobile */
+  /* 3. Hide top-right adaptive dropdown on mobile (now integrated into Guide & Tools) */
   .mobile-persona-dropdown-wrapper {
-    display: inline-block !important;
+    display: none !important;
   }
 }
 
@@ -3220,62 +3242,40 @@ a, a:visited {
 }
 
 @media (max-width: 768px) {
-  /* 1. Show dedicated left toggle button */
+  /* 1. Hide in-header toggle button (replaced by vertical floating toggle) */
   .mobile-left-tools-toggle {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 4px !important;
-    background: linear-gradient(135deg, rgba(52, 245, 197, 0.16) 0%, rgba(0, 36, 27, 0.6) 100%) !important;
-    border: 1.5px solid #34f5c5 !important;
-    color: #ffffff !important;
-    padding: 5px 8px !important;
-    border-radius: 8px !important;
-    font-size: 0.70rem !important;
-    font-weight: 800 !important;
-    font-family: 'Inter', sans-serif !important;
-    cursor: pointer !important;
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-    box-shadow: 0 0 10px rgba(52, 245, 197, 0.25) !important;
-    text-decoration: none !important;
+    display: none !important;
   }
 
-  .mobile-left-tools-toggle:active {
-    transform: scale(0.96) !important;
-  }
-
-  /* 2. Header Container and Brand Logo */
+  /* 2. Header Container and Brand Logo - Completely Centered & Spacious */
   .nav-inner {
-    padding: 5px 8px !important;
+    padding: 8px 16px !important;
     display: flex !important;
-    justify-content: space-between !important;
+    justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
-    gap: 4px !important;
   }
 
   .nav-inner .brand-logo {
     display: flex !important;
     align-items: center !important;
-    gap: 4px !important;
-    margin: 0 !important;
+    gap: 7px !important;
+    margin: 0 auto !important;
     text-decoration: none !important;
-    flex-shrink: 1 !important;
-    min-width: 0 !important;
   }
 
   .nav-inner .brand-logo span:last-child {
-    font-size: 0.95rem !important;
+    font-size: 1.1rem !important;
     letter-spacing: -0.02em !important;
   }
 
   .nav-inner .brand-logo-icon {
-    font-size: 1.15rem !important;
+    font-size: 1.3rem !important;
   }
 
-  /* 3. Hide cramped dropdowns & non-essential desktop buttons on mobile header */
+  /* 3. Hide all cramped dropdowns & non-essential desktop buttons on mobile header */
   .mobile-persona-dropdown-wrapper,
   .persona-filter-bar,
   .persona-scroll-track,
@@ -3283,7 +3283,8 @@ a, a:visited {
   .nav-inner a.btn-book-nav,
   .nav-inner a[href*="/checkout/"],
   .nav-inner a[href*="/pricing/"],
-  .nav-inner .desktop-pricing-link {
+  .nav-inner .desktop-pricing-link,
+  .nav-inner > div:last-child {
     display: none !important;
     visibility: hidden !important;
     width: 0 !important;
@@ -3294,40 +3295,37 @@ a, a:visited {
     pointer-events: none !important;
   }
 
-  /* In the right button container, hide everything EXCEPT the prominent Guide button */
-  .nav-inner > div:last-child {
+  /* 4. Smooth Mobile Slide-Up Bottom Sheet for Guide & Tools */
+  #esh-side-drawer {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 84vh !important;
+    height: 84dvh !important;
+    background: #00241b !important;
+    border-top: 2.5px solid #34f5c5 !important;
+    border-right: none !important;
+    border-left: none !important;
+    border-bottom: none !important;
+    border-radius: 22px 22px 0 0 !important;
+    box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(52, 245, 197, 0.25) !important;
+    z-index: 10000005 !important;
+    transform: translateY(100%) !important;
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1) !important;
     display: flex !important;
-    align-items: center !important;
-    gap: 0 !important;
-    flex-shrink: 0 !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+    padding: 14px 16px 30px 16px !important;
+    box-sizing: border-box !important;
+    color: #f8fafc !important;
   }
 
-  .nav-inner > div:last-child > button:not(.nav-guide-btn),
-  .nav-inner > div:last-child > a:not(.nav-guide-btn) {
-    display: none !important;
-    visibility: hidden !important;
-    width: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-  }
-
-  /* 4. Prominent Right Guide Button on Mobile */
-  .nav-inner .nav-guide-btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 3px !important;
-    padding: 5px 9px !important;
-    font-size: 0.72rem !important;
-    font-weight: 800 !important;
-    border-radius: 8px !important;
-    background: rgba(52, 245, 197, 0.16) !important;
-    border: 1.5px solid #34f5c5 !important;
-    color: #34f5c5 !important;
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-    box-shadow: 0 0 10px rgba(52, 245, 197, 0.2) !important;
-    cursor: pointer !important;
+  #esh-side-drawer.open {
+    transform: translateY(0) !important;
   }
 }
 
