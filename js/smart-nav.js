@@ -3495,5 +3495,118 @@ Please reply to confirm and lock in your installation date!
     }
   } catch (e) {}
 
+  // ----------------------------------------------------
+  // Top Announcement Multi-Article Looping Carousel
+  // ----------------------------------------------------
+  function initTopNotificationCarousel() {
+    const carousel = document.getElementById('topNotificationCarousel');
+    if (!carousel) return;
+
+    const slides = Array.from(carousel.querySelectorAll('.top-bar-slide'));
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    let timer = null;
+    const intervalMs = 5500;
+    let isPaused = false;
+
+    function showSlide(index) {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      currentIndex = index;
+
+      slides.forEach((slide, idx) => {
+        if (idx === currentIndex) {
+          slide.classList.add('active');
+          slide.setAttribute('aria-hidden', 'false');
+        } else {
+          slide.classList.remove('active');
+          slide.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }
+
+    function nextSlide() {
+      showSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      showSlide(currentIndex - 1);
+    }
+
+    function startTimer() {
+      stopTimer();
+      timer = setInterval(() => {
+        if (!isPaused) {
+          nextSlide();
+        }
+      }, intervalMs);
+    }
+
+    function stopTimer() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    // Manual Nav Controls
+    const prevBtn = document.getElementById('topCarouselPrev');
+    const nextBtn = document.getElementById('topCarouselNext');
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        prevSlide();
+        startTimer();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        nextSlide();
+        startTimer();
+      });
+    }
+
+    // Pause on hover
+    carousel.addEventListener('mouseenter', function() { isPaused = true; });
+    carousel.addEventListener('mouseleave', function() { isPaused = false; });
+
+    // Touch Swipe Support for Mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carousel.addEventListener('touchstart', function(e) {
+      isPaused = true;
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', function(e) {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 40) {
+        if (diff < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+      setTimeout(function() { isPaused = false; }, 2000);
+    }, { passive: true });
+
+    // Initial Start
+    showSlide(0);
+    startTimer();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTopNotificationCarousel);
+  } else {
+    initTopNotificationCarousel();
+  }
+
 })();
+
 

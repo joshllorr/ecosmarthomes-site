@@ -3732,23 +3732,175 @@ a, a:visited {
   100% { transform: scale(0.85); opacity: 0.8; }
 }
 
-/* 6. Hero Secondary Badges Horizontal Swipe Row & Consolidated Top Bar */
+/* 6. Consolidated Top Announcement Banner Carousel */
 .top-bar-custom {
-  padding: 6px 14px !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
+  background: #00120d;
+  color: #94a3b8;
+  padding: 5px 12px !important;
+  font-size: 0.75rem;
+  border-bottom: 1px solid rgba(52, 245, 197, 0.15);
+  position: relative;
+  z-index: 1000000;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.top-bar-single-line {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
-  font-size: 0.74rem !important;
-  width: 100% !important;
-  white-space: nowrap !important;
-  text-overflow: ellipsis !important;
+.top-bar-carousel {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 26px;
+  width: 100%;
+  box-sizing: border-box;
 }
+
+.top-bar-slides-track {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-bar-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
+  pointer-events: none;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 1px 4px;
+}
+
+.top-bar-slide.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.top-slide-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(52, 245, 197, 0.12);
+  color: #34f5c5;
+  border: 1px solid rgba(52, 245, 197, 0.3);
+  flex-shrink: 0;
+}
+
+.top-slide-text {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.top-slide-text strong {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.top-slide-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #34f5c5;
+  font-weight: 800;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.top-slide-link:hover {
+  color: #6ee7b7;
+  transform: translateX(2px);
+}
+
+.top-bar-nav-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  font-size: 0.85rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.top-bar-nav-btn:hover {
+  color: #34f5c5;
+  border-color: #34f5c5;
+  background: rgba(52, 245, 197, 0.12);
+}
+
+@media (max-width: 768px) {
+  .top-bar-custom {
+    padding: 6px 8px !important;
+  }
+  .top-bar-carousel {
+    min-height: 38px;
+    gap: 4px;
+  }
+  .top-bar-slides-track {
+    min-height: 36px;
+  }
+  .top-bar-slide {
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    justify-content: center;
+  }
+  .top-slide-badge {
+    font-size: 0.62rem;
+    padding: 1px 5px;
+  }
+  .top-slide-text {
+    font-size: 0.70rem;
+    line-height: 1.25;
+  }
+  .top-slide-link {
+    font-size: 0.70rem;
+  }
+  .top-bar-nav-btn {
+    width: 20px;
+    height: 20px;
+    font-size: 0.75rem;
+  }
+}
+
 
 .top-alert-link {
   color: #cbd5e1 !important;

@@ -303,16 +303,68 @@
 <body>
 <div id="mobile-app-container" class="mobile-app-wrapper">
 
-  <!-- Top Notification Telemetry (Single-Line Compact Mobile Bar) -->
-  <aside class="top-bar-custom" aria-label="Regulatory live updates">
-    <div class="top-bar-inner top-bar-single-line">
-      <span style="color: #34f5c5;">🚀</span>
-      <span class="ticker-text" style="color: #ffffff; font-weight: 700;">
-        NEW 2026 REGS LIVE: Simplified <strong>A0 to G Irish BER Matrix</strong> & <strong>€38,000 Property Value Uplift</strong> Calculator
-      </span>
-      <a href="/ber-matrix/" class="top-bar-link" style="color: #34f5c5; text-decoration: underline; font-weight: 800;">
-        Open BER Matrix →
-      </a>
+  <!-- Top Notification Telemetry (Multi-Article Alternating Carousel) -->
+  <aside class="top-bar-custom" aria-label="Regulatory and research updates">
+    <div class="top-bar-carousel" id="topNotificationCarousel" role="region" aria-roledescription="carousel" aria-label="EcoSmartHomes Live Advisory Bulletins">
+      <button type="button" class="top-bar-nav-btn" id="topCarouselPrev" aria-label="Previous announcement">‹</button>
+      
+      <div class="top-bar-slides-track" id="topCarouselTrack">
+        <!-- Slide 1: BER Scale G to A0 -->
+        <div class="top-bar-slide active" role="group" aria-roledescription="slide" aria-label="1 of 6" data-slide-index="0">
+          <span class="top-slide-badge">BER Scale</span>
+          <span class="top-slide-text">
+            Irish Scale: <strong>G (Worst / High Bills) → A0 (Zero Carbon / Best)</strong>
+          </span>
+          <a href="/ber-matrix/" class="top-slide-link">Open G to A0 Matrix →</a>
+        </div>
+
+        <!-- Slide 2: SEAI Grants 2026 -->
+        <div class="top-bar-slide" role="group" aria-roledescription="slide" aria-label="2 of 6" data-slide-index="1">
+          <span class="top-slide-badge" style="color: #60a5fa; border-color: rgba(96, 165, 250, 0.3); background: rgba(96, 165, 250, 0.12);">SEAI Grants</span>
+          <span class="top-slide-text">
+            2026 Homeowner Matrix: <strong>Up to €35,000 in Direct Grants</strong>
+          </span>
+          <a href="/articles/seai-grants-2026-guide.html" class="top-slide-link" style="color: #60a5fa;">Read Grant Guide →</a>
+        </div>
+
+        <!-- Slide 3: Carbon Tax Shield -->
+        <div class="top-bar-slide" role="group" aria-roledescription="slide" aria-label="3 of 6" data-slide-index="2">
+          <span class="top-slide-badge" style="color: #f87171; border-color: rgba(248, 113, 113, 0.3); background: rgba(248, 113, 113, 0.12);">Fuel Tax</span>
+          <span class="top-slide-text">
+            Carbon Tax 2026: <strong>Protect Your Home from Rising Fuel Levies</strong>
+          </span>
+          <a href="/carbon-tax/" class="top-slide-link" style="color: #f87171;">Calculate Tax Penalty →</a>
+        </div>
+
+        <!-- Slide 4: Green Mortgage -->
+        <div class="top-bar-slide" role="group" aria-roledescription="slide" aria-label="4 of 6" data-slide-index="3">
+          <span class="top-slide-badge" style="color: #fbbf24; border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.12);">Mortgage</span>
+          <span class="top-slide-text">
+            3.45% Green Mortgage: <strong>Slash Repayments with A/B Rating</strong>
+          </span>
+          <a href="/green-mortgage/" class="top-slide-link" style="color: #fbbf24;">Check Rate Savings →</a>
+        </div>
+
+        <!-- Slide 5: Heat Pump Readiness -->
+        <div class="top-bar-slide" role="group" aria-roledescription="slide" aria-label="5 of 6" data-slide-index="4">
+          <span class="top-slide-badge" style="color: #c084fc; border-color: rgba(192, 132, 252, 0.3); background: rgba(192, 132, 252, 0.12);">Heat Pump</span>
+          <span class="top-slide-text">
+            Technical Audit: <strong>Verify Heat Loss Indicator HLI ≤ 2.0 First</strong>
+          </span>
+          <a href="/articles/heat-pump-suitability.html" class="top-slide-link" style="color: #c084fc;">Check Suitability →</a>
+        </div>
+
+        <!-- Slide 6: AI Quote Auditor -->
+        <div class="top-bar-slide" role="group" aria-roledescription="slide" aria-label="6 of 6" data-slide-index="5">
+          <span class="top-slide-badge" style="color: #34d399; border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.12);">Quote Audit</span>
+          <span class="top-slide-text">
+            Contractor Red-Liner: <strong>Defrost Hidden Cowboy Markups in 60s</strong>
+          </span>
+          <a href="/quote-auditor/" class="top-slide-link" style="color: #34d399;">Audit Quote Free →</a>
+        </div>
+      </div>
+
+      <button type="button" class="top-bar-nav-btn" id="topCarouselNext" aria-label="Next announcement">›</button>
     </div>
   </aside>
 
