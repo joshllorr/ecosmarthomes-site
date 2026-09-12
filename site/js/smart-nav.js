@@ -500,13 +500,37 @@
           </div>
           <button type="button" class="drawer-close-btn" onclick="window.closeToolsDrawer()" aria-label="Close Drawer">✕</button>
         </div>
-        <div style="padding: 10px 16px 0 16px; display: flex; flex-direction: column; gap: 8px;">
-          <button type="button" onclick="window.closeToolsDrawer(); if(window.openHomeownerGuide) window.openHomeownerGuide();" style="width: 100%; background: linear-gradient(135deg, #003d2e 0%, #00241b 100%); border: 1.5px solid #34f5c5; border-radius: 12px; color: #ffffff; font-size: 0.8rem; font-weight: 800; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 14px rgba(52, 245, 197, 0.25);">
-            <span>💡 Homeowner Guide ("What Am I Looking At?")</span>
-          </button>
-          <button type="button" onclick="window.closeToolsDrawer(); window.openPersonaPickerModal();" style="width: 100%; background: rgba(52, 245, 197, 0.12); border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 12px; color: #34f5c5; font-size: 0.78rem; font-weight: 800; padding: 9px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
-            <span>✨ Switch Advisory Role (Open Switchboard)</span>
-          </button>
+        <div style="padding: 12px 16px 6px 16px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 8px;">
+          <div style="font-size: 0.68rem; font-weight: 800; color: #34f5c5; text-transform: uppercase; letter-spacing: 0.08em;">Interactive Guides</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+            <button type="button" onclick="window.closeToolsDrawer(); if(window.openHomeownerGuide) window.openHomeownerGuide();" style="background: linear-gradient(135deg, #003d2e 0%, #00241b 100%); border: 1.5px solid #34f5c5; border-radius: 10px; color: #ffffff; font-size: 0.76rem; font-weight: 800; padding: 8px 6px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; cursor: pointer; box-shadow: 0 4px 12px rgba(52, 245, 197, 0.2);">
+              <span style="font-size: 1.1rem;">💡</span>
+              <span>Homeowner Guide</span>
+            </button>
+            <button type="button" onclick="window.closeToolsDrawer(); if(window.openAgentGuide) window.openAgentGuide();" style="background: linear-gradient(135deg, #3d2600 0%, #241600 100%); border: 1.5px solid #fbbf24; border-radius: 10px; color: #ffffff; font-size: 0.76rem; font-weight: 800; padding: 8px 6px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; cursor: pointer; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);">
+              <span style="font-size: 1.1rem;">💼</span>
+              <span>Agent Field Guide</span>
+            </button>
+          </div>
+
+          <div style="font-size: 0.68rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px;">Choose Advisory View</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+            <button type="button" onclick="window.setPersona('homeowner'); window.closeToolsDrawer();" style="flex: 1 1 calc(50% - 5px); background: rgba(52, 245, 197, 0.1); border: 1px solid rgba(52, 245, 197, 0.35); border-radius: 8px; color: #34f5c5; font-size: 0.75rem; font-weight: 700; padding: 7px 4px; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer;">
+              <span>🏠</span> <span>Homeowner</span>
+            </button>
+            <button type="button" onclick="window.setPersona('agent'); window.closeToolsDrawer();" style="flex: 1 1 calc(50% - 5px); background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; color: #fbbf24; font-size: 0.75rem; font-weight: 700; padding: 7px 4px; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer;">
+              <span>💼</span> <span>Estate Agent</span>
+            </button>
+            <button type="button" onclick="window.setPersona('installer'); window.closeToolsDrawer();" style="flex: 1 1 calc(50% - 5px); background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 8px; color: #38bdf8; font-size: 0.75rem; font-weight: 700; padding: 7px 4px; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer;">
+              <span>⚡</span> <span>Installer</span>
+            </button>
+            <button type="button" onclick="window.setPersona('audit'); window.closeToolsDrawer();" style="flex: 1 1 calc(50% - 5px); background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 8px; color: #c084fc; font-size: 0.75rem; font-weight: 700; padding: 7px 4px; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer;">
+              <span>🛡️</span> <span>Audit &amp; Review</span>
+            </button>
+            <button type="button" onclick="window.setPersona('all'); window.closeToolsDrawer();" style="flex: 1 1 100%; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #e2e8f0; font-size: 0.75rem; font-weight: 700; padding: 7px 4px; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer;">
+              <span>🔍</span> <span>View All Calculators &amp; Features</span>
+            </button>
+          </div>
         </div>
 
         <div style="flex: 1; overflow-y: auto; padding-bottom: 20px;">
@@ -890,8 +914,9 @@
         </div>
       `;
       drawer.addEventListener('click', function(e) {
-        const link = e.target.closest('.drawer-tool-item');
-        if (link) {
+        if (e.target.closest('.drawer-accordion-btn')) return;
+        const interactive = e.target.closest('a, button');
+        if (interactive) {
           window.closeToolsDrawer();
         }
       });

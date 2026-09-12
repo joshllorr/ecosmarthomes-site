@@ -294,10 +294,10 @@
   <script src="js/calculator-data-core.js" defer></script>
   <script src="js/property-auditor.js?v=14" defer></script>
   <script src="js/aoife-audio-briefing.js?v=1" defer></script>
-  <script src="js/smart-nav.js?v=16" defer></script>
+  <script src="js/smart-nav.js?v=17" defer></script>
   <script src="js/esh-os.js?v=1" defer></script>
   <script src="js/homeowner-guide.js?v=1" defer></script>
-  <link rel="stylesheet" href="css/smart-nav.css?v=16">
+  <link rel="stylesheet" href="css/smart-nav.css?v=17">
   <link rel="stylesheet" href="css/homeowner-guide.css?v=1">
 </head>
 <body>
@@ -371,6 +371,11 @@
   <!-- Command Center Header Navigation -->
   <header class="main-nav-bar" id="appHeader" role="banner">
     <div class="nav-inner">
+      <!-- 📱 Left-Hand Side Toggle Capsule (< 768px) -->
+      <button type="button" class="mobile-left-tools-toggle" onclick="window.openToolsDrawer()" aria-label="Open Guide & Tools Menu">
+        <span>☰</span> <span class="mobile-toggle-label">Guide &amp; Tools</span>
+      </button>
+
       <a href="/" class="brand-logo" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
         <span class="brand-logo-icon" style="font-size: 1.4rem;">🏡</span>
         <span style="font-size: 1.2rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">EcoSmart<strong style="color: #34f5c5;">Homes</strong></span>
@@ -442,7 +447,7 @@
         <button type="button" class="btn-tools-drawer-toggle" onclick="if(window.ESH_OS) window.ESH_OS.openCommandPalette();" aria-label="Quick Command Search (Ctrl+K)" style="border: 1px solid rgba(52, 245, 197, 0.4); color: #34f5c5; background: rgba(52, 245, 197, 0.08); display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
           <span>🔍</span> <span style="font-size: 0.72rem; opacity: 0.85; font-family: 'IBM Plex Mono', monospace;">⌘K</span>
         </button>
-        <button type="button" onclick="if(window.openHomeownerGuide) window.openHomeownerGuide();" aria-label="Homeowner Guide: What am I looking at?" style="border: 1px solid #34f5c5; color: #ffffff; background: rgba(52, 245, 197, 0.15); display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;">
+        <button type="button" class="btn-tools-drawer-toggle nav-guide-btn" onclick="if(window.openUniversalGuide) window.openUniversalGuide(); else if(window.openHomeownerGuide) window.openHomeownerGuide();" aria-label="Open Explainer Guide: What am I looking at?" style="border: 1px solid #34f5c5; color: #ffffff; background: rgba(52, 245, 197, 0.15); display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;">
           <span>💡 Guide</span>
         </button>
         <a href="/pricing/" class="desktop-pricing-link" style="color: #cbd5e1; text-decoration: none; font-size: 0.85rem; font-weight: 700;">🏷️ Pricing</a>
