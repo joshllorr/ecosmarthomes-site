@@ -550,11 +550,18 @@
                 <span>Homeowner Tools</span>
               </span>
               <span style="display:flex;align-items:center;gap:6px;">
-                <span class="drawer-badge-pill" style="background:rgba(16,185,129,0.15);color:#34f5c5;border:1px solid #10b981;">10 Tools</span>
+                <span class="drawer-badge-pill" style="background:rgba(16,185,129,0.15);color:#34f5c5;border:1px solid #10b981;">11 Tools</span>
                 <span class="accordion-arrow">▼</span>
               </span>
             </button>
             <div id="accordion-panel-homeowner" class="drawer-accordion-panel active">
+              <a href="/warmer-homes/" class="drawer-tool-item" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 245, 197, 0.45);">
+                <span class="tool-icon">❤️</span>
+                <div>
+                  <div style="color: #34f5c5; font-weight: 800;">100% Free Warmer Homes Scheme</div>
+                  <div style="font-size:0.72rem;color:#cbd5e1;">€0 Energy upgrades for fuel allowance &amp; pensions</div>
+                </div>
+              </a>
               <a href="javascript:void(0)" class="drawer-tool-item" onclick="window.closeToolsDrawer(); if(window.openHomeownerGuide) window.openHomeownerGuide();" style="background: rgba(52, 245, 197, 0.08); border: 1px solid rgba(52, 245, 197, 0.3);">
                 <span class="tool-icon">💡</span>
                 <div>
