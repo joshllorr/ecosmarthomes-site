@@ -348,7 +348,7 @@ async function loadArticles(page = 1) {
 
     container.innerHTML = articles.map(a => {
       let tagsList = Array.isArray(a.tags) ? a.tags : ['Retrofit', 'BER'];
-      const articleLink = `/${a.slug}.html`;
+      const articleLink = a.url ? a.url : (a.slug.startsWith('/') ? a.slug : (a.slug.endsWith('.html') ? `/${a.slug}` : `/${a.slug}.html`));
 
       return `
         <div class="article-card">

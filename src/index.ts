@@ -318,6 +318,30 @@ export default {
           try {
             await kv.put(`article:${cleanSlug}`, JSON.stringify(articleData));
             await kv.put(cleanSlug, JSON.stringify(articleData));
+
+            // Also maintain dynamic articles feed index in KV
+            let feedIndex: any[] = [];
+            const existingFeed = await kv.get("articles_feed_index");
+            if (existingFeed) {
+              try { feedIndex = JSON.parse(existingFeed); } catch (e) {}
+            }
+            if (!Array.isArray(feedIndex)) feedIndex = [];
+            
+            // Remove previous entry with same slug if re-publishing
+            feedIndex = feedIndex.filter((item: any) => item && item.slug !== cleanSlug && item.slug !== `articles/${cleanSlug}`);
+            
+            // Insert newest article summary at the very top of the feed
+            feedIndex.unshift({
+              slug: cleanSlug.startsWith("articles/") ? cleanSlug : `articles/${cleanSlug}`,
+              title: articleData.title,
+              summary: articleData.description || (typeof content === 'string' ? content.replace(/<[^>]*>?/gm, '').slice(0, 180) + '...' : ''),
+              date: new Date().toLocaleDateString('en-IE', { month: 'long', year: 'numeric' }),
+              tags: articleData.tags,
+              category: (articleData.tags && articleData.tags[0]) || "Retrofit",
+              hero: "/imgs/logo.svg"
+            });
+
+            await kv.put("articles_feed_index", JSON.stringify(feedIndex.slice(0, 200)));
           } catch (kvErr) {
             console.error("KV store article publish notice:", kvErr);
           }
@@ -452,6 +476,152 @@ export default {
         status: "Crawl ready",
         count: 0,
         items: []
+      }, null, 2), {
+        headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
+      });
+    }
+
+    // ---------------------------------------------------------
+    // 📰 ARTICLES FEED & SEARCH API — /api/articles-feed & /api/articles-search
+    // Connects SEO Hub dynamic webhook publications + verified static seed articles
+    // ---------------------------------------------------------
+    if ((url.pathname === "/api/articles-feed" || url.pathname === "/api/articles-search") && method === "GET") {
+      const page = parseInt(url.searchParams.get("page") || "1", 10) || 1;
+      const pageSize = parseInt(url.searchParams.get("pageSize") || "6", 10) || 6;
+      const q = (url.searchParams.get("q") || "").toLowerCase().trim();
+      const tag = (url.searchParams.get("tag") || "").toLowerCase().trim();
+
+      // 1. Gather dynamic articles published from SEO Hub into Cloudflare KV
+      const kv = env.ARTICLES || env.KV_BINDING || env.ARTICLES_FEED || env.ARTICLES_FEED_KV || null;
+      let dynamicArticles: any[] = [];
+      if (kv && typeof kv.get === 'function') {
+        try {
+          const feedIndexRaw = await kv.get("articles_feed_index");
+          if (feedIndexRaw) {
+            const parsed = JSON.parse(feedIndexRaw);
+            if (Array.isArray(parsed)) dynamicArticles = parsed;
+          }
+        } catch (e) {}
+      }
+
+      // 2. Canonical seed articles
+      const seedArticles = [
+        {
+          slug: "articles/heat-pump-suitability",
+          title: "Air-to-Water Heat Pump Suitability: Passing the HLI ≤ 2.0 Test",
+          summary: "What Irish homeowners must check before applying for the €12,500 SEAI heat pump grant: Heat Loss Indicator (HLI) thresholds, radiator sizing, and fabric-first rules.",
+          date: "June 28, 2026",
+          category: "Heat Pump",
+          tags: ["Heat Pump", "SEAI Grants", "BER Rating"],
+          hero: "/imgs/logo.svg",
+          author: "Joe H. (B.Sc. Energy Engineering)"
+        },
+        {
+          slug: "articles/seai-grants-2026-guide",
+          title: "May 2026 SEAI Grants Complete Master Guide (€50,000 Total Funding)",
+          summary: "Comprehensive breakdown of all individual and One-Stop-Shop SEAI cash grants, 0% VAT rules, and grant stacking strategies for Irish residential retrofits.",
+          date: "May 30, 2026",
+          category: "SEAI Grants",
+          tags: ["SEAI Grants", "Retrofit Roadmap", "BER Rating"],
+          hero: "/imgs/logo.svg",
+          author: "Joe H. (B.Sc. Energy Engineering)"
+        },
+        {
+          slug: "articles/raising-ber-g-to-a",
+          title: "Raising BER G to A0: The Definitive Irish Deep Retrofit Guide",
+          summary: "Step-by-step master roadmap to transform cold, draughty G-rated Irish properties into zero-carbon A0 sanctuaries while unlocking €35,000 in SEAI grants.",
+          date: "July 15, 2026",
+          category: "BER Rating",
+          tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"],
+          hero: "/imgs/logo.svg",
+          author: "Joe H. (B.Sc. Energy Engineering)"
+        },
+        {
+          slug: "articles/retrofit-roadmap",
+          title: "Complete Irish Home Retrofit Roadmap 2026: Order of Works",
+          summary: "The critical sequence of works to avoid trapped condensation, guarantee ventilation standards, and maximize indoor warmth from attic to heat pump.",
+          date: "May 12, 2026",
+          category: "Retrofit Roadmap",
+          tags: ["Retrofit Roadmap", "BER Rating", "Heat Pump"],
+          hero: "/imgs/logo.svg",
+          author: "Joe H. (B.Sc. Energy Engineering)"
+        },
+        {
+          slug: "articles/solar-pv-clean-export",
+          title: "Solar PV & Clean Export Guarantee: Monetising Microgeneration in Ireland",
+          summary: "How to size your residential rooftop solar PV system, secure the €2,100 SEAI grant, and earn up to 24c/kWh exporting excess electricity back to the grid.",
+          date: "April 20, 2026",
+          category: "Solar PV",
+          tags: ["Solar PV", "SEAI Grants", "BER Rating"],
+          hero: "/imgs/logo.svg",
+          author: "Joe H. (B.Sc. Energy Engineering)"
+        },
+        {
+          slug: "articles/carbon-tax-2026",
+          title: "Carbon Tax 2026: Protect Your Home from Rising Fuel Levies",
+          summary: "Irish carbon tax climbs toward €100/tonne by 2030. Calculate your cumulative heating oil/gas penalties and discover how deep retrofitting shields your family budget.",
+          date: "March 15, 2026",
+          category: "Carbon Tax",
+          tags: ["Carbon Tax", "BER Rating", "SEAI Grants"],
+          hero: "/imgs/logo.svg",
+          author: "Joe H. (B.Sc. Energy Engineering)"
+        },
+        {
+          slug: "warmer-homes",
+          url: "/warmer-homes/",
+          title: "SEAI Warmer Homes Scheme: 100% Free Upgrades for Pensions & Social Welfare",
+          summary: "Qualifying criteria, free insulation, heat pump, and solar PV upgrades (€0 homeowner cost) for Fuel Allowance, Working Family, Carer, and Disability recipients.",
+          date: "September 2026",
+          category: "SEAI Grants",
+          tags: ["SEAI Grants", "Retrofit Roadmap", "BER Rating"],
+          hero: "/imgs/logo.svg",
+          author: "Joe H. (B.Sc. Energy Engineering)"
+        }
+      ];
+
+      // Merge dynamic (top priority) + seed articles without duplicates
+      const seenSlugs = new Set();
+      let merged: any[] = [];
+      for (const a of dynamicArticles) {
+        if (a && a.slug && !seenSlugs.has(a.slug)) {
+          seenSlugs.add(a.slug);
+          merged.push(a);
+        }
+      }
+      for (const a of seedArticles) {
+        if (!seenSlugs.has(a.slug)) {
+          seenSlugs.add(a.slug);
+          merged.push(a);
+        }
+      }
+
+      // Filter by search query
+      if (q) {
+        merged = merged.filter(a =>
+          (a.title || "").toLowerCase().includes(q) ||
+          (a.summary || "").toLowerCase().includes(q) ||
+          (Array.isArray(a.tags) && a.tags.some((t: string) => t.toLowerCase().includes(q)))
+        );
+      }
+
+      // Filter by tag
+      if (tag) {
+        merged = merged.filter(a =>
+          Array.isArray(a.tags) && a.tags.some((t: string) => t.toLowerCase() === tag)
+        );
+      }
+
+      const total = merged.length;
+      const totalPages = Math.ceil(total / pageSize) || 1;
+      const start = (page - 1) * pageSize;
+      const items = merged.slice(start, start + pageSize);
+
+      return new Response(JSON.stringify({
+        items,
+        total,
+        page,
+        pageSize,
+        totalPages
       }, null, 2), {
         headers: { "Content-Type": "application/json; charset=utf-8", ...corsHeaders }
       });
