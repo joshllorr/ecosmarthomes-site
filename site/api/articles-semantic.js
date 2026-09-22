@@ -3,7 +3,7 @@
  * Vercel Serverless Function: Articles Autocomplete & Semantic Suggestions
  */
 
-import articlesData from '../site/data/articles-feed.json' assert { type: 'json' };
+import { getAllArticles } from './_articles.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -14,21 +14,27 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const { q = '' } = req.query || {};
-  const query = q.toLowerCase().trim();
+  try {
+    const { q = '' } = req.query || {};
+    const query = q.toLowerCase().trim();
 
-  if (!query) {
+    if (!query) {
+      return res.status(200).json([]);
+    }
+
+    const items = getAllArticles();
+    const matches = items
+      .filter(a => (a.title || '').toLowerCase().includes(query) || (a.tags || []).some(t => t.toLowerCase().includes(query)))
+      .slice(0, 5)
+      .map(a => ({
+        title: a.title,
+        slug: a.slug,
+        tags: a.tags
+      }));
+
+    return res.status(200).json(matches);
+  } catch (err) {
+    console.error('articles-semantic error:', err);
     return res.status(200).json([]);
   }
-
-  const matches = articlesData
-    .filter(a => (a.title || '').toLowerCase().includes(query) || (a.tags || []).some(t => t.toLowerCase().includes(query)))
-    .slice(0, 5)
-    .map(a => ({
-      title: a.title,
-      slug: a.slug,
-      tags: a.tags
-    }));
-
-  return res.status(200).json(matches);
 }

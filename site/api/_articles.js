@@ -1,0 +1,113 @@
+/**
+ * api/_articles.js
+ * Canonical and Dynamic Articles Data Store for EcoSmartHomes Ireland
+ * Works across all Node.js and Serverless runtimes (Vercel & local)
+ */
+
+export const SEED_ARTICLES = [
+  {
+    slug: "articles/heat-pump-suitability",
+    title: "Air-to-Water Heat Pump Suitability: Passing the HLI ≤ 2.0 Test",
+    summary: "What Irish homeowners must check before applying for the €12,500 SEAI heat pump grant: Heat Loss Indicator (HLI) thresholds, radiator sizing, and fabric-first rules.",
+    date: "June 28, 2026",
+    category: "Heat Pump",
+    tags: ["Heat Pump", "SEAI Grants", "BER Rating"],
+    hero: "/imgs/logo.svg",
+    author: "Joe H. (B.Sc. Energy Engineering)"
+  },
+  {
+    slug: "articles/seai-grants-2026-guide",
+    title: "May 2026 SEAI Grants Complete Master Guide (€50,000 Total Funding)",
+    summary: "Comprehensive breakdown of all individual and One-Stop-Shop SEAI cash grants, 0% VAT rules, and grant stacking strategies for Irish residential retrofits.",
+    date: "May 30, 2026",
+    category: "SEAI Grants",
+    tags: ["SEAI Grants", "Retrofit Roadmap", "BER Rating"],
+    hero: "/imgs/logo.svg",
+    author: "Joe H. (B.Sc. Energy Engineering)"
+  },
+  {
+    slug: "articles/raising-ber-g-to-a",
+    title: "Raising BER G to A0: The Definitive Irish Deep Retrofit Guide",
+    summary: "Step-by-step master roadmap to transform cold, draughty G-rated Irish properties into zero-carbon A0 sanctuaries while unlocking €35,000 in SEAI grants.",
+    date: "July 15, 2026",
+    category: "BER Rating",
+    tags: ["BER Rating", "Retrofit Roadmap", "SEAI Grants"],
+    hero: "/imgs/logo.svg",
+    author: "Joe H. (B.Sc. Energy Engineering)"
+  },
+  {
+    slug: "articles/retrofit-roadmap",
+    title: "Complete Irish Home Retrofit Roadmap 2026: Order of Works",
+    summary: "The critical sequence of works to avoid trapped condensation, guarantee ventilation standards, and maximize indoor warmth from attic to heat pump.",
+    date: "May 12, 2026",
+    category: "Retrofit Roadmap",
+    tags: ["Retrofit Roadmap", "BER Rating", "Heat Pump"],
+    hero: "/imgs/logo.svg",
+    author: "Joe H. (B.Sc. Energy Engineering)"
+  },
+  {
+    slug: "articles/solar-pv-clean-export",
+    title: "Solar PV & Clean Export Guarantee: Monetising Microgeneration in Ireland",
+    summary: "How to size your residential rooftop solar PV system, secure the €2,100 SEAI grant, and earn up to 24c/kWh exporting excess electricity back to the grid.",
+    date: "April 20, 2026",
+    category: "Solar PV",
+    tags: ["Solar PV", "SEAI Grants", "BER Rating"],
+    hero: "/imgs/logo.svg",
+    author: "Joe H. (B.Sc. Energy Engineering)"
+  },
+  {
+    slug: "articles/carbon-tax-2026",
+    title: "Carbon Tax 2026: Protect Your Home from Rising Fuel Levies",
+    summary: "Irish carbon tax climbs toward €100/tonne by 2030. Calculate your cumulative heating oil/gas penalties and discover how deep retrofitting shields your family budget.",
+    date: "March 15, 2026",
+    category: "Carbon Tax",
+    tags: ["Carbon Tax", "BER Rating", "SEAI Grants"],
+    hero: "/imgs/logo.svg",
+    author: "Joe H. (B.Sc. Energy Engineering)"
+  },
+  {
+    slug: "warmer-homes",
+    url: "/warmer-homes/",
+    title: "SEAI Warmer Homes Scheme: 100% Free Upgrades for Pensions & Social Welfare",
+    summary: "Qualifying criteria, free insulation, heat pump, and solar PV upgrades (€0 homeowner cost) for Fuel Allowance, Working Family, Carer, and Disability recipients.",
+    date: "September 2026",
+    category: "SEAI Grants",
+    tags: ["SEAI Grants", "Retrofit Roadmap", "BER Rating"],
+    hero: "/imgs/logo.svg",
+    author: "Joe H. (B.Sc. Energy Engineering)"
+  }
+];
+
+// In-memory published articles cache (populated via /api/publish from SEO Hub)
+const dynamicArticles = [];
+
+export function getDynamicArticles() {
+  return dynamicArticles;
+}
+
+export function addDynamicArticle(article) {
+  if (!article || !article.title) return;
+  const existingIndex = dynamicArticles.findIndex(
+    a => a.slug === article.slug || a.title.toLowerCase() === article.title.toLowerCase()
+  );
+  if (existingIndex >= 0) {
+    dynamicArticles[existingIndex] = { ...dynamicArticles[existingIndex], ...article };
+  } else {
+    dynamicArticles.unshift(article);
+  }
+}
+
+export function getAllArticles() {
+  const map = new Map();
+  // Add dynamic articles first (newer articles have priority)
+  for (const item of dynamicArticles) {
+    map.set(item.slug, item);
+  }
+  // Add seed articles
+  for (const item of SEED_ARTICLES) {
+    if (!map.has(item.slug)) {
+      map.set(item.slug, item);
+    }
+  }
+  return Array.from(map.values());
+}

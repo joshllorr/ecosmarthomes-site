@@ -3,7 +3,7 @@
  * Vercel Serverless Function: Articles Search Endpoint
  */
 
-import articlesData from '../site/data/articles-feed.json' assert { type: 'json' };
+import { getAllArticles } from './_articles.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -14,35 +14,53 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const { q = '', tag, page = 1, pageSize = 6 } = req.query || {};
-  const query = q.toLowerCase().trim();
+  try {
+    const { q = '', tag, category, page = 1, pageSize = 6 } = req.query || {};
+    const query = q.toLowerCase().trim();
 
-  let results = articlesData.filter(a => {
-    let matchesQuery = true;
-    if (query) {
-      matchesQuery = (a.title || '').toLowerCase().includes(query) ||
-                     (a.summary || '').toLowerCase().includes(query) ||
-                     (a.tags || []).some(t => t.toLowerCase().includes(query));
-    }
-    let matchesTag = true;
-    if (tag) {
-      matchesTag = (a.tags || []).some(t => t.toLowerCase() === tag.toLowerCase().trim());
-    }
-    return matchesQuery && matchesTag;
-  });
+    let items = getAllArticles();
 
-  const total = results.length;
-  const p = parseInt(page, 10) || 1;
-  const ps = parseInt(pageSize, 10) || 6;
-  const totalPages = Math.ceil(total / ps) || 1;
-  const start = (p - 1) * ps;
-  const paginated = results.slice(start, start + ps);
+    let results = items.filter(a => {
+      let matchesQuery = true;
+      if (query) {
+        matchesQuery = (a.title || '').toLowerCase().includes(query) ||
+                       (a.summary || '').toLowerCase().includes(query) ||
+                       (a.tags || []).some(t => t.toLowerCase().includes(query));
+      }
+      let matchesTag = true;
+      if (tag) {
+        matchesTag = (a.tags || []).some(t => t.toLowerCase() === tag.toLowerCase().trim());
+      }
+      let matchesCategory = true;
+      if (category) {
+        matchesCategory = (a.category || '').toLowerCase() === category.toLowerCase().trim();
+      }
+      return matchesQuery && matchesTag && matchesCategory;
+    });
 
-  return res.status(200).json({
-    items: paginated,
-    total,
-    page: p,
-    pageSize: ps,
-    totalPages
-  });
+    const total = results.length;
+    const p = parseInt(page, 10) || 1;
+    const ps = parseInt(pageSize, 10) || 6;
+    const totalPages = Math.ceil(total / ps) || 1;
+    const start = (p - 1) * ps;
+    const paginated = results.slice(start, start + ps);
+
+    return res.status(200).json({
+      items: paginated,
+      total,
+      page: p,
+      pageSize: ps,
+      totalPages
+    });
+  } catch (err) {
+    console.error('articles-search error:', err);
+    return res.status(200).json({
+      items: [],
+      total: 0,
+      page: 1,
+      pageSize: 6,
+      totalPages: 1,
+      error: err.message
+    });
+  }
 }
