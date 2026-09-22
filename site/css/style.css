@@ -367,6 +367,14 @@ body {
 .footer a:hover {
   text-decoration: underline;
 }
+
+/* Suppress legacy floating guide trigger pill (merged into Guide & Tools drawer) */
+#esh-help-floating-btn {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 /* Contact Section Styles */
 .contact-section {
   padding: 80px 0;

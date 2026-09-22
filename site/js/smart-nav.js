@@ -3520,15 +3520,19 @@ Please reply to confirm and lock in your installation date!
 
   // Auto-bootstrap Homeowner Field Guide ("What Am I Looking At?") across entire site
   try {
+    // Proactively remove legacy floating guide button to eliminate overlap with EcoOS Live
+    const staleHelpBtn = document.getElementById('esh-help-floating-btn');
+    if (staleHelpBtn) staleHelpBtn.remove();
+
     if (!document.querySelector('link[href*="homeowner-guide.css"]')) {
       const guideCss = document.createElement('link');
       guideCss.rel = 'stylesheet';
-      guideCss.href = '/css/homeowner-guide.css?v=1';
+      guideCss.href = '/css/homeowner-guide.css?v=2';
       document.head.appendChild(guideCss);
     }
     if (!document.querySelector('script[src*="homeowner-guide.js"]')) {
       const guideScript = document.createElement('script');
-      guideScript.src = '/js/homeowner-guide.js?v=1';
+      guideScript.src = '/js/homeowner-guide.js?v=2';
       guideScript.defer = true;
       document.head.appendChild(guideScript);
     }

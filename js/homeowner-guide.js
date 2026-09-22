@@ -346,18 +346,10 @@
 
     currentGuideRole = determineInitialRole();
 
-    // 1. Inject Floating Button
-    if (!document.getElementById('esh-help-floating-btn')) {
-      const floatBtn = document.createElement('button');
-      floatBtn.id = 'esh-help-floating-btn';
-      floatBtn.type = 'button';
-      floatBtn.setAttribute('aria-label', 'Open Explainer Guide');
-      floatBtn.innerHTML = `
-        <span class="esh-guide-pulse-dot" id="esh-floating-pulse"></span>
-        <span id="esh-floating-btn-text">💡 Guide: What Am I Looking At?</span>
-      `;
-      floatBtn.onclick = () => window.openUniversalGuide();
-      document.body.appendChild(floatBtn);
+    // 1. Floating Button (Merged into Guide & Tools drawer; remove any legacy instance to prevent overlap)
+    const legacyFloatBtn = document.getElementById('esh-help-floating-btn');
+    if (legacyFloatBtn) {
+      legacyFloatBtn.remove();
     }
 
     // 2. Inject Backdrop

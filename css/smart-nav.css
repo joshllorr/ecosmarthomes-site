@@ -5165,4 +5165,11 @@ body[data-embedded="true"] {
   background: #001711 !important;
 }
 
+/* 5. Legacy floating guide trigger suppressed globally to prevent overlap with EcoOS Live */
+#esh-help-floating-btn {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 
